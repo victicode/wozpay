@@ -16,7 +16,10 @@
         </style>
     </head>
     <body class="antialiased">
+    <!-- <body class="antialiased mobile touch"> -->
+
         <div id="app">
         </div>
+        @vite('resources/js/app.js')
     </body>
 </html>
