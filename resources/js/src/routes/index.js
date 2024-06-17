@@ -1,6 +1,8 @@
 import { createMemoryHistory, createWebHistory, createRouter } from 'vue-router'
-
+import guest from './middlewares/guest'
+import auth from './middlewares/auth'
 import defaultComponent from '@/layouts/dashboardLayout.vue';
+import authLayout from '@/layouts/authLayout.vue';
 import bankPage from '@/pages/bank.vue';
 import lastOperationPage from '@/pages/lastOperations.vue';
 import notificationsPage from '@/pages/notifications.vue';
@@ -11,13 +13,14 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: '/dashboard' },
     {
-      path: "/",
+      path: "",
       name:"home",
       component: defaultComponent,
+      beforeEnter: auth,
       children: [
         {
           name: "dashboard",
-          path: 'dashboard',
+          path: '/dashboard',
           component: () => import('@/pages/dashboard.vue'),
           meta: {
             // middleware: [
@@ -69,13 +72,30 @@ const router = createRouter({
       ]
     },
     {
-      path: "/login",
-      name: "Login",
-      component: () => import('@/pages/login.vue'),
-      meta: {
-        title: 'Bienvenido'
-      },
-    },
+      path: "/",
+      name:"auth",
+      component: authLayout,
+      beforeEnter:guest,
+      children: [
+        {
+          path: "/login",
+          name: "Login",
+          component: () => import('@/pages/login.vue'),
+          meta: {
+            title: 'Bienvenido'
+          },
+        },
+        {
+          path: "/register",
+          name: "register",
+          component: () => import('@/pages/register.vue'),
+          meta: {
+            title: 'Crea tu cuenta'
+          },
+        },
+      ]
+    }
+    
   ]
 })
 
