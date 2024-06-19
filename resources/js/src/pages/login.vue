@@ -22,7 +22,7 @@
               label="Número de cédula"
               mask="###.###.###"
               reverse-fill-mask
-              
+              autocomplete="off"
             />
           </div>
           <div class="col-12 q-mt-lg">
@@ -55,10 +55,15 @@
               label="Inicia sesión" 
               unelevated
               no-caps 
-              @click="sendDataForm" 
               color="terciary" 
               class="full-width" 
-            />
+              :loading="loading"
+              @click="login" 
+            >
+            <template v-slot:loading>
+              <q-spinner-facebook />
+            </template>
+            </q-btn>
           </div>
         </div>
         </q-form>
@@ -75,19 +80,62 @@
 <script>
   import { ref } from 'vue';
   import { inject } from 'vue'
+  import { useAuthStore } from '@/services/store/auth.store'
+  import { useQuasar } from 'quasar'
+  import { useRouter } from 'vue-router';
+  import storage from "@/services/storage";
 
   export default {
     setup () {
-      const dni = ref('')
-      const password = ref('')
-      const isPwd = ref('true')
-      const remember = ref(false)
+      //vue provider
       const icons = inject('ionIcons')
-      const sendDataForm = () =>{
-        console.log(`
-          dni: ${dni.value}
-          contraseña: ${password.value}
-        `)
+      const $q = useQuasar()
+      const store = useAuthStore()
+      const router = useRouter()
+      
+      // data
+      const dni = ref(storage.getItem('rememberUser') ?? '')
+      const password = ref(storage.getItem('rememberPassword') ?? '')
+      const isPwd = ref('true')
+      const remember = ref(storage.getItem('isRemember') === 'true' ?? false)
+      const loading = ref(false)
+
+      // methods
+      const login = () =>{
+        loadingShow(true)
+        const data = {
+          dni: dni.value.replace(/\./g, ''),
+          password: password.value,
+          remember: remember.value
+        }
+
+        store.login(data).then((data)=>{
+          if(!data.code){
+            showNotify('negative', data.message)
+            loadingShow(false);
+            return;
+          }
+          showNotify('positive', 'Inicio de sesión exitoso, seras redigido al dashboard')
+          setTimeout(() => {
+            router.push('/dashboard')
+            loadingShow(false);
+          }, 2000);
+        }).catch((e) => { 
+          console.log(e)
+          showNotify('negative', e.message)
+        })
+      }
+      const showNotify = (type, message) => {
+        $q.notify({
+          message: message,
+          color: type,
+          actions: [
+            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
+      }
+      const loadingShow = (state) => {
+        loading.value = state;
       }
       return {
         icons,
@@ -95,7 +143,8 @@
         password,
         remember,
         isPwd,
-        sendDataForm,
+        loading,
+        login,
       }
     }
   };
@@ -109,7 +158,6 @@
   padding-top: 2.2rem;
 }
 #login-form-button{
-  border-radius: 8px;
   padding: 15px;
 }
 

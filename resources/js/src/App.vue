@@ -1,36 +1,41 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-page-container class="body">
-      <RouterView />
+      <router-view v-slot="{ Component }">
+        <transition name="fades">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
 <script>
   import { useQuasar } from 'quasar'
-export default {
-  setup () {
-    const q = useQuasar()
-    console.log(q)
-    return {
-      q,
+  export default {
+    setup () {
+      const q = useQuasar()
+      console.log(q)
+      return {
+        q,
+      }
     }
-  }
-
-
-};
+  };
 
 </script>
 <style scss scoped>
- .body{
-    width: 50%;
-    margin: auto;
- }
- @media screen and (max-width: 780px){
+  .body{
+      width: 50%;
+      margin: auto;
+      overflow: hidden;
+      position: relative;
+  }
+
+  @media screen and (max-width: 780px){
     .body{
       width: 100%;
       margin: auto;
+    }
   }
- }
 </style>
 <style>
 .animate__animated {/* referring directly to the animation's @keyframe declaration */

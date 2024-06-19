@@ -20,14 +20,17 @@ use App\Http\Controllers\Api\UserController;
 //     return $request->user();
 // });
 
+Route::prefix('auth')->name('user.')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [UserController::class, 'store']);
+    Route::middleware('jwt.verify')->get('/logout', [AuthController::class, 'logout']);
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('jwt.verify')->post('/logout', [AuthController::class, 'logout']);
+});
 
-Route::post('/create-user', [UserController::class, 'store']);
+
 
 Route::get('/get-users', [UserController::class, 'index']);
 
-Route::middleware('jwt.auth')->prefix('user')->name('user.')->group(function () {
+Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
 });

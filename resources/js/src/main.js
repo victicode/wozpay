@@ -2,7 +2,7 @@
 import App from '@/App.vue'
 import { createApp } from 'vue'
 import { createPinia } from "pinia";
-import { Quasar } from 'quasar'
+import { Quasar, Notify } from 'quasar'
 import quasarLang from 'quasar/lang/es'
 import router from "@/routes/index.js";
 
@@ -41,7 +41,9 @@ app.config.globalProperties.emitter = emitter
 app.use(createPinia())
 app.use(router)
 app.use(Quasar, {
-  plugins: {}, // import Quasar plugins and add here
+  plugins: {
+    Notify
+  }, // import Quasar plugins and add here
   lang: quasarLang,
   /*
   config: {

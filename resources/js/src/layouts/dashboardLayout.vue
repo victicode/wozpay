@@ -2,13 +2,10 @@
   <div class="layout-dasboard__content">
     <div id="content-page" >
       <router-view v-slot="{ Component }">
-        <transition
-          enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOut"
-        >
-          <component :is="Component" />
-        </transition>
-      </router-view>
+          <transition name="fades" >
+            <component :is="Component" />
+          </transition>
+        </router-view>
     </div>
     <div id="navbar-buttom">
       <navbarVue />

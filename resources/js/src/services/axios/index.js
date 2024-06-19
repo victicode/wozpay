@@ -1,5 +1,5 @@
 import axios from "axios";
-import JwtService from "@/core/services/jwt.service";
+import JwtService from "@/services/jwt";
 
 /**
  * Service to call HTTP request via Axios

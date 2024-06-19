@@ -2,7 +2,8 @@
   <q-tabs
     no-caps
     active-color="terciary"
-    class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-xs justify-center flex" 
+    align="justify"
+    class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex" 
   >
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'"  exact replace icon='eva-home-outline' label="Inicio" />
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/last-operations'" :icon="'eva-flip-2-outline'" exact replace label="Ult. Trans." />
