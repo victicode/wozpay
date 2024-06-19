@@ -21,6 +21,8 @@
               name="name_user"
               label="Nombre completo"
               autocomplete="off"
+              :rules="nameRules"
+              ref="fullNameRef"
             />
           </div>
           <div class="col-12 q-mt-md">
@@ -36,6 +38,9 @@
               mask="###.###.###"
               reverse-fill-mask
               autocomplete="off"
+              :rules="dniRules"
+              ref="dniRef"
+              
             />
           </div>
           <div class="col-12 q-mt-md">
@@ -49,6 +54,8 @@
               :type="isPwd ? 'password' : 'text'" 
               v-model="password"
               label="Escribe tu contraseña"
+              :rules="passwordRules"
+              ref="passwordRef"
             >
               <template v-slot:append>
                 <q-icon
@@ -111,11 +118,29 @@
       const dni      = ref('')
       const password = ref('')
       const isPwd    = ref('true')
-      // const remember = ref(false)
       const loading  = ref(false)
-
+      
+      //ref
+      const fullNameRef = ref(null)
+      const dniRef = ref(null)
+      const passwordRef = ref(null)
+      
+      // rules
+      const nameRules = [
+        val => (val !== null && val !== '') || 'El nombre es requerido.',
+      ]
+      const dniRules = [
+        val => (val !== null && val !== '') || 'El número de cedula es requerido.',
+        val => (val.length > 8 ) || 'Formato no valido',
+      ]
+      const passwordRules = [
+        val => (val !== null && val !== '') || 'La contraseña es requerida',
+        val => (val.length >= 8 ) || 'Debe contener 8 caracteres',
+      ]
+      
       // methods
       const register = () =>{
+        if(!validateForm()) return
         loadingShow(true)
         const data = {
           fullName: fullName.value,
@@ -131,9 +156,9 @@
             loadingShow(false);
             return;
           }
-          showNotify('positive', 'Inicio de sesión exitoso, seras redigido al dashboard')
+          showNotify('positive', 'Registro exitoso, seras redirigido.')
           setTimeout(() => {
-            // router.push('/dashboard')
+            router.push('/dashboard')
             loadingShow(false);
           }, 2000);
         }).catch((e) => { 
@@ -153,12 +178,32 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
+      const validateForm = () => {
+        fullNameRef.value.validate()
+        dniRef.value.validate()
+        passwordRef.value.validate()
+
+        if (
+          fullNameRef.value.hasError 
+          || dniRef.value.hasError 
+          || passwordRef.value.hasError
+        ) return false
+
+        return true
+      }
+      
       return {
         icons,
         dni,
         password,
         fullName,
         isPwd,
+        nameRules,
+        dniRules,
+        passwordRules,
+        fullNameRef,
+        dniRef,
+        passwordRef,
         loading,
         register,
       }

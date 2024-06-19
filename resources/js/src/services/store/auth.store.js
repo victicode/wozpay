@@ -98,10 +98,14 @@ export const useAuthStore = defineStore("auth", {
       return await new Promise((resolve) => {
         ApiService.post("api/auth/register", credentials)
           .then(({ data }) => {
+            console.log(data)
             if(!data.code){
               throw data;
             }
-            resolve(data);
+            this.login(credentials).then((dataUser) => {
+              resolve(dataUser)
+            })
+            
           })
           .catch(({ response }) => {
             console.log(response.data)
