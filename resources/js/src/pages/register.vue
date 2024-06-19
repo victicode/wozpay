@@ -272,7 +272,6 @@
 @media screen and (max-width: 780px){
   .login-progress {
     width: 45%;
-
   }
 }
 

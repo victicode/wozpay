@@ -60,9 +60,9 @@
               :loading="loading"
               @click="login" 
             >
-            <template v-slot:loading>
-              <q-spinner-facebook />
-            </template>
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
             </q-btn>
           </div>
         </div>
@@ -136,6 +136,9 @@
       }
       const loadingShow = (state) => {
         loading.value = state;
+      }
+      const validateForm = () => {
+
       }
       return {
         icons,
