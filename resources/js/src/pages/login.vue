@@ -22,7 +22,9 @@
               label="Número de cédula"
               mask="###.###.###"
               reverse-fill-mask
+              :rules="dniRules"
               autocomplete="off"
+              ref="dniRef"
             />
           </div>
           <div class="col-12 q-mt-lg">
@@ -36,6 +38,8 @@
               :type="isPwd ? 'password' : 'text'" 
               v-model="password"
               label="Escribe tu contraseña"
+              :rules="passwordRules"
+              ref="passwordRef"
             >
               <template v-slot:append>
                 <q-icon
@@ -100,8 +104,24 @@
       const remember = ref(storage.getItem('isRemember') === 'true' ?? false)
       const loading = ref(false)
 
+      //ref
+      const dniRef = ref(null)
+      const passwordRef = ref(null)
+      
+      // rules
+      const dniRules = [
+        val => (val !== null && val !== '') || 'El número de cedula es requerido.',
+        val => (val.length > 8 ) || 'Formato no valido',
+      ]
+      const passwordRules = [
+        val => (val !== null && val !== '') || 'La contraseña es requerida',
+        val => (val.length >= 8 ) || 'Debe contener 8 caracteres',
+        val => (/[,%" '();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+
+      ]
       // methods
       const login = () =>{
+        if(!validateForm()) return
         loadingShow(true)
         const data = {
           dni: dni.value.replace(/\./g, ''),
@@ -138,12 +158,25 @@
         loading.value = state;
       }
       const validateForm = () => {
+        dniRef.value.validate()
+        passwordRef.value.validate()
 
+        if (
+          dniRef.value.hasError 
+          || passwordRef.value.hasError
+        ) return false
+
+        return true
       }
+    
       return {
         icons,
         dni,
         password,
+        dniRef,
+        passwordRef,
+        dniRules,
+        passwordRules,
         remember,
         isPwd,
         loading,

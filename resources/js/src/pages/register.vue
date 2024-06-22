@@ -103,7 +103,6 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
-  import storage from "@/services/storage";
 
   export default {
     setup () {
@@ -128,6 +127,7 @@
       // rules
       const nameRules = [
         val => (val !== null && val !== '') || 'El nombre es requerido.',
+        val => (/[$,%"';&|<>()#]/.test(val) == false ) || 'Formato no valido',
       ]
       const dniRules = [
         val => (val !== null && val !== '') || 'El número de cedula es requerido.',
@@ -136,12 +136,14 @@
       const passwordRules = [
         val => (val !== null && val !== '') || 'La contraseña es requerida',
         val => (val.length >= 8 ) || 'Debe contener 8 caracteres',
+        val => (/[,%" '();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+
       ]
       
       // methods
       const register = () =>{
         if(!validateForm()) return
-        loadingShow(true)
+        loadingState(true)
         const data = {
           fullName: fullName.value,
           dni: dni.value.replace(/\./g, ''),
@@ -153,13 +155,13 @@
 
           if(data.code !== 200 ){
             showNotify('negative', data.error ?? 'Error de servicio')
-            loadingShow(false);
+            loadingState(false);
             return;
           }
           showNotify('positive', 'Registro exitoso, seras redirigido.')
           setTimeout(() => {
             router.push('/dashboard')
-            loadingShow(false);
+            loadingState(false);
           }, 2000);
         }).catch((e) => { 
           console.log(e)
@@ -175,7 +177,7 @@
           ]
         })
       }
-      const loadingShow = (state) => {
+      const loadingState = (state) => {
         loading.value = state;
       }
       const validateForm = () => {

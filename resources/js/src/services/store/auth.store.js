@@ -84,7 +84,6 @@ export const useAuthStore = defineStore("auth", {
                 throw data;
               }
               this.logoutAction()
-              // console.log(data)
               resolve(data)
             })
         }
