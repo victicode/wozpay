@@ -16,7 +16,7 @@
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               v-model="dni"
               name="id_user"
               label="Número de cédula"
@@ -27,13 +27,13 @@
               ref="dniRef"
             />
           </div>
-          <div class="col-12 q-mt-lg">
+          <div class="col-12 q-mt-sm">
             <q-input
               class="login-input"
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               name="password_user"
               :type="isPwd ? 'password' : 'text'" 
               v-model="password"
@@ -50,10 +50,10 @@
               </template>
             </q-input>
           </div>
-          <div class="col-12 q-mt-md">
+          <div class="col-12 ">
             <q-checkbox v-model="remember"  label="Recuérdame" color="terciary" />
           </div>
-          <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-pt-md-md">
+          <div class="col-12 q-mt-sm q-mb-md q-px-md-xl q-pt-md-sm">
             <q-btn 
               id="login-form-button" 
               label="Inicia sesión" 
@@ -73,7 +73,7 @@
         </q-form>
       </div>
       <div>
-        <div class="full-width text-center q-mt-lg text-subtitle2">
+        <div class="full-width text-center q-mt-md text-subtitle2">
           ¿No tienes cuenta? 
           <RouterLink to="/register"><span class="text-primary text-decoration-underline cursor-pointer ">Registrate aquí</span></RouterLink>🙌🏻
         </div>
@@ -111,7 +111,7 @@
       // rules
       const dniRules = [
         val => (val !== null && val !== '') || 'El número de cedula es requerido.',
-        val => (val.length > 8 ) || 'Formato no valido',
+        val => (val.length >= 8 ) || 'Formato no valido',
       ]
       const passwordRules = [
         val => (val !== null && val !== '') || 'La contraseña es requerida',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="auth-section">
+    <div id="auth-section" style="position: relative;">
       <div class="bg-terciary row justify-center q-px-lg  column" style="height:20%" >
         <h3 class="text-white text-md-h3 woz-logo">Woz Pay</h3>
         <q-linear-progress rounded size="8px" track-color="white"  :value="0.55" color="backLinear" reverse class="q-mt-sm auth-progress" />
@@ -11,6 +11,11 @@
             <component :is="Component" />
           </transition>
         </router-view>
+      </div>
+      <div class="text-center w-100 d-flex flex-center q-px-xl q-mt-md">
+        <div class="text-subtitle2 text-secodary text-weight-medium cursor-pointer" style="opacity: 0.6; ">
+          Politica de privacidad - Términos y condiciones
+        </div>
       </div>
     </div>
   </div>

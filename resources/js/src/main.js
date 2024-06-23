@@ -12,6 +12,8 @@ import router from "@/routes/index.js";
 import '@quasar/extras/roboto-font/roboto-font.css'
 import '@quasar/extras/eva-icons/eva-icons.css'
 import * as materialIcons from '@quasar/extras/material-icons-outlined'
+import * as materialIcons2 from '@quasar/extras/material-icons-sharp'
+
 import * as ionIcons from '@quasar/extras/ionicons-v7'
 import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 
@@ -58,6 +60,6 @@ app.use(Quasar, {
   }
   */
 })
-app.provide('ionIcons', {...ionIcons, ...materialIcons})
+app.provide('ionIcons', {...ionIcons, ...materialIcons, ...materialIcons2})
 
 app.mount('#app')

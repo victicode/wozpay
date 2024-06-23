@@ -16,7 +16,7 @@
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               v-model="fullName"
               name="name_user"
               label="Nombre completo"
@@ -25,13 +25,13 @@
               ref="fullNameRef"
             />
           </div>
-          <div class="col-12 q-mt-md">
+          <div class="col-12 ">
             <q-input
               class="register-input"
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               v-model="dni"
               name="id_user"
               label="Número de cédula"
@@ -43,13 +43,13 @@
               
             />
           </div>
-          <div class="col-12 q-mt-md">
+          <div class="col-12 ">
             <q-input
               class="register-input"
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               name="password_user"
               :type="isPwd ? 'password' : 'text'" 
               v-model="password"
@@ -69,7 +69,7 @@
           <!-- <div class="col-12 q-mt-md">
             <q-checkbox v-model="remember"  label="Recuérdame" color="terciary" />
           </div> -->
-          <div class="col-12 q-mt-lg q-px-md-xl q-pt-md-md" >
+          <div class="col-12 q-mt-sm q-px-md-xl q-pt-md-md" >
             <q-btn 
               id="register-form-button" 
               label="Crear cuenta" 
@@ -89,7 +89,7 @@
         </q-form>
       </div>
       <div>
-        <div class="full-width text-center q-pt-lg text-subtitle2">
+        <div class="full-width text-center q-pt-md text-subtitle2">
           ¿Ya tienes una cuenta en Woz Pay? <br>
           <RouterLink to="/login"><span class="text-primary text-decoration-underline cursor-pointer ">Inicia sesión aqui</span></RouterLink>✌🏻
         </div>

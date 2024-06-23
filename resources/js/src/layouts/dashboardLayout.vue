@@ -3,7 +3,7 @@
     <div id="content-page" >
       <router-view v-slot="{ Component }">
           <transition name="fades" >
-            <component :is="Component" />
+            <component :is="Component" v-if="readyState" />
           </transition>
         </router-view>
     </div>
@@ -14,10 +14,11 @@
 </template>
 <script >
   import navbarVue from "@/components/layouts/navbar.vue";
-  import { ref } from 'vue';
-  import { inject } from 'vue'
+  import { inject, onMounted, ref } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
+  import { useRouter } from 'vue-router';
+  import utils from '@/util/httpUtil';
 
   export default {
     components:{
@@ -27,40 +28,22 @@
       //vue provider
       const icons = inject('ionIcons')
       const $q = useQuasar()
-      
-      // data
-      const fullName = ref('')
-      const dni      = ref('')
-      const password = ref('')
-      const isPwd    = ref('true')
-      const loading  = ref(false)
-      
+      const store = useAuthStore();
+      const router = useRouter();
+
+      const readyState = ref(false)
       // methods
-      const register = () =>{
-        if(!validateForm()) return
-        loadingState(true)
-        const data = {
-          fullName: fullName.value,
-          dni: dni.value.replace(/\./g, ''),
-          password: password.value,
-        }
-
-        store.register(data).then((data)=>{
-          console.log(data)
-
+      const getCurrentUser = () =>{
+        store.currentUser().then((data)=>{
           if(data.code !== 200 ){
             showNotify('negative', data.error ?? 'Error de servicio')
-            loadingState(false);
+            utils.errorLogout( () => router.push('/login'))
             return;
           }
-          showNotify('positive', 'Registro exitoso, seras redirigido.')
-          setTimeout(() => {
-            router.push('/dashboard')
-            loadingState(false);
-          }, 2000);
+          readyState.value = true
         }).catch((e) => { 
-          console.log(e)
           showNotify('negative', 'Error de servicio')
+          utils.errorLogout( () => router.push('/login'))
         })
       }
       const showNotify = (type, message) => {
@@ -72,37 +55,15 @@
           ]
         })
       }
-      const loadingState = (state) => {
-        loading.value = state;
-      }
-      const validateForm = () => {
-        fullNameRef.value.validate()
-        dniRef.value.validate()
-        passwordRef.value.validate()
 
-        if (
-          fullNameRef.value.hasError 
-          || dniRef.value.hasError 
-          || passwordRef.value.hasError
-        ) return false
-
-        return true
-      }
+      // Mounted
+      onMounted(() =>{
+        getCurrentUser()
+      })
       
       return {
         icons,
-        dni,
-        password,
-        fullName,
-        isPwd,
-        nameRules,
-        dniRules,
-        passwordRules,
-        fullNameRef,
-        dniRef,
-        passwordRef,
-        loading,
-        register,
+        readyState
       }
     }
   };
