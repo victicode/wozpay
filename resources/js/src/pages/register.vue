@@ -247,7 +247,7 @@
 }
 .register-input{
   & .q-field__control{
-    border-radius: 10px;
+    border-radius: 10px!important;
     
   }
   & .q-field__label{

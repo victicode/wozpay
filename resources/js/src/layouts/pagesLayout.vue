@@ -1,14 +1,7 @@
 <template>
   <div class="layout-dasboard__content" style="">
-    <div id="content-page" >
-      <router-view v-slot="{ Component }">
-          <transition name="fades" >
-            <component :is="Component" v-if="readyState" />
-          </transition>
-        </router-view>
-    </div>
-    <div id="navbar-buttom">
-      <navbarVue />
+    <div class="container_page" >
+      <router-view />
     </div>
   </div>
 </template>
@@ -69,14 +62,12 @@
   };
 </script>
 <style lang="scss" scoped>
-#content-page{
+.container_page{
   height: 90%;
   overflow: hidden;
 
 }
-#navbar-buttom{
-  height: 10%;
-}
+
 .layout-dasboard__content{
   height: 100vh;
   max-height: 100vh;
@@ -84,14 +75,5 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-@media screen and (max-width: 780px){
-  #content-page{
-  height: 92%;
-  overflow: hidden;
-  }
-  #navbar-buttom{
-    height: 8%;
-  }
 }
 </style>

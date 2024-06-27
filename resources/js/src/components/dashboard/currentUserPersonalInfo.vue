@@ -2,9 +2,9 @@
   <div class="bg-primary q-pt-md q-px-lg" style="height: 100%; overflow: hidden;">
     <div style="">
       <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
-      <h5 class="text-white q-mt-xs text-weight-bold ">Gs.{{ user.account ?? 0 }}</h5>
+      <h5 class="text-white q-mt-xs text-weight-bold ">Gs.{{ user.account ? ` ${user.account}` : 0 }}</h5>
     </div>
-    <div class="q-mt-md">
+    <div class="q-mt-md  q-mt-md-sm">
       <div class="w-100 user-info q-pa-md">
         <div class="flex items-center"> 
           <h6 class=" text-subtitle1 text-weight-medium text-white q-mr-xs">
@@ -49,7 +49,6 @@
     </div>
   </div>
 </template>
-
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
   import util from '@/util/numberUtil'
@@ -63,17 +62,16 @@
       const icons = inject('ionIcons')
 
       // Data
-      const showing = ref('false')
+      const showing = ref(false)
       
       // Methods
       const showToltip = () => {
         showing.value = true
         setTimeout(() => {
           showing.value = false
-          
         }, 3500);
       }
-      // Data
+      
       return{
         icons,
         user,
@@ -86,6 +84,9 @@
 
 </script>
 <style lang="scss" scoped>
+  h5{
+    font-size: 1.9rem!important;
+  }
   .user-info{
     background: #0185ff;
     border-radius: 5px;

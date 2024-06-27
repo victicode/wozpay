@@ -223,7 +223,7 @@
 }
 .login-input{
   & .q-field__control{
-    border-radius: 10px;
+    border-radius: 10px!important;
     height: 59px
   }
   & .q-field__label{

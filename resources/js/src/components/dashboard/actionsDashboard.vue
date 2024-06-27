@@ -1,9 +1,9 @@
 <template>
-  <div class="q-py-xs q-px-md" style="height: 100%; overflow: hidden;">
+  <div class="q-py-xs q-px-md q-mt-m" style="height: 100%; overflow: hidden;">
     <div>
-      <div class="text-subtitle1 text-weight-medium">¿Qué puedes hacer?</div>
+      <div class="text-subtitle1 text-weight-medium q-mt-sm text-dark">¿Qué puedes hacer?</div>
     </div>
-    <div class="q-mt-md">
+    <div class="q-mt-md-md q-mt-xs-md">
       <div class="row">
         <div class="col-3 q-px-xs">
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-xs actions-button w-100">
@@ -13,7 +13,7 @@
               color="dark"
               class="user-verify-user"
             />
-            <span class="q-mt-xs">Solicitar</span>
+            <span class="q-mt-xs text-dark">Solicitar</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
@@ -24,7 +24,7 @@
               color="dark"
               class="user-verify-user"
             />
-            <span class="q-mt-xs">Transfer.</span>
+            <span class="q-mt-xs text-dark">Transfer.</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
@@ -35,7 +35,7 @@
               color="dark"
               class="user-verify-user"
             />
-            <span class="q-mt-xs">Cargar</span>
+            <span class="q-mt-xs text-dark">Cargar</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">   
@@ -76,10 +76,10 @@
 </script>
 <style lang="scss">
   .actions-button{
-    border: 1.3px solid #c7c7c7;
-    border-radius: 15px;
-    height: 65px;
-    width: 100%;
+    border: 1.3px solid #c7c7c7!important;
+    border-radius: 15px!important;
+    height: 65px!important;
+    width: 100%!important;
     
     & .q-btn__content{
       display: flex!important;

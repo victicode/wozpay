@@ -1,16 +1,18 @@
 <template>
-  <div style="height: 91vh;">
+  <div style="height: 100%;">
     <div style="height: 100%;">
       <div style="height: 28%;">
         <currentUserPersonalInfo />
       </div>
-      <div style="height: 18%;">
+      <div style="">
         <actionsDashboard />
       </div>
-      <div>
+      <div style="">
         <linkedCard />
       </div>
-      <div></div>
+      <div style="height: 40%;">
+        <LastTrasanction />
+      </div>
     </div>
 
   </div>
@@ -24,12 +26,14 @@
   import currentUserPersonalInfo from '@/components/dashboard/currentUserPersonalInfo.vue';
   import actionsDashboard from '@/components/dashboard/actionsDashboard.vue';
   import linkedCard from '@/components/dashboard/linkedCard.vue';
-  
+  import LastTrasanction from '@/components/dashboard/lastTrasanction.vue';
+
   export default {
     components: {
       currentUserPersonalInfo,
       actionsDashboard,
-      linkedCard
+      linkedCard,
+      LastTrasanction,
     },
     setup() {
       //vue provider
