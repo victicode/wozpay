@@ -9,7 +9,7 @@
           id="LoginForm"
           class="q-gutter-md"
         >
-        <div class="row ">
+        <div class="row">
           <div class="col-12 q-mt-md">
             <q-input
               class="register-input"
@@ -25,7 +25,7 @@
               ref="fullNameRef"
             />
           </div>
-          <div class="col-12 ">
+          <div class="col-12 q-mt-md-lg q-mt-sm">
             <q-input
               class="register-input"
               outlined
@@ -43,7 +43,7 @@
               
             />
           </div>
-          <div class="col-12 ">
+          <div class="col-12 q-mt-md-lg q-mt-sm">
             <q-input
               class="register-input"
               outlined
@@ -232,20 +232,7 @@
 .bg-backLinear{
   background: #e5b301!important;
 }
-.login-progress {
-  border: 1px solid white;
-  width: 30%;
-  border-radius: 90px;
-  & .q-linear-progress__track{
-    opacity: 1;
-  }
-  & .q-linear-progress__model {
-    border-top-right-radius: 90px;
-    border-bottom-right-radius: 90px;
-
-  }
-}
-.register-input{
+.register-input {
   & .q-field__control{
     border-radius: 10px!important;
     
@@ -269,11 +256,15 @@
   & .q-field__append{
     transform: translateY(2%)
   }
-
+  & .q-field--error {
+    transform: translateY(15px);
+  }
 }
 @media screen and (max-width: 780px){
-  .login-progress {
-    width: 45%;
+  .register-input {
+    & .q-field__bottom{
+      transform: translateY(15px);
+    }
   }
 }
 

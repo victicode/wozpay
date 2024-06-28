@@ -27,7 +27,7 @@
               ref="dniRef"
             />
           </div>
-          <div class="col-12 q-mt-sm">
+          <div class="col-12 q-mt-md-lg q-mt-sm">
             <q-input
               class="login-input"
               outlined
@@ -221,7 +221,7 @@
 
   }
 }
-.login-input{
+.login-input {
   & .q-field__control{
     border-radius: 10px!important;
     height: 59px
@@ -245,12 +245,17 @@
   & .q-field__append{
     transform: translateY(5%)
   }
+  
 
 }
 @media screen and (max-width: 780px){
   .login-progress {
     width: 45%;
-
+  }
+  .login-input {
+    & .q-field__bottom{
+      transform: translateY(15px);
+    }
   }
 }
 
