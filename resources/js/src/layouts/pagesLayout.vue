@@ -1,21 +1,21 @@
 <template>
   <div class="layout-dasboard__content" style="">
+    <topbar/>
     <div class="container_page" >
       <router-view />
     </div>
   </div>
 </template>
 <script >
-  import navbarVue from "@/components/layouts/navbar.vue";
   import { inject, onMounted, ref } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
   import utils from '@/util/httpUtil';
-
+  import topbar from '@/components/layouts/topbar.vue';
   export default {
     components:{
-      navbarVue,
+      topbar
     },
     setup () {
       //vue provider
@@ -61,6 +61,7 @@
     }
   };
 </script>
+
 <style lang="scss" scoped>
 .container_page{
   height: 90%;

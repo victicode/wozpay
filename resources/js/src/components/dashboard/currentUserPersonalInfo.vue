@@ -5,7 +5,7 @@
       <h5 class="text-white q-mt-xs text-weight-bold ">Gs.{{ user.account ? ` ${user.account}` : 0 }}</h5>
     </div>
     <div class="q-mt-md  q-mt-md-sm">
-      <div class="w-100 user-info q-pa-md">
+      <div class="w-100 user-info">
         <div class="flex items-center"> 
           <h6 class=" text-subtitle1 text-weight-medium text-white q-mr-xs">
             {{ user.name }} 
@@ -90,6 +90,7 @@
   .user-info{
     background: #0185ff;
     border-radius: 5px;
+    padding: 13px 10px;
   }
   .dashboard-progress {
     width: 50%;
