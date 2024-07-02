@@ -40,10 +40,10 @@
   width: 100%;
 }
 .fades-enter-active{
-  transform: scale(1);
+  transform: scale(0.85);
 }
 .fades-leave-active{
-  transform: scale(1);
+  transform: scale(0.85);
 }
 .fades-enter-from,
 .fades-leave-to {

@@ -76,6 +76,7 @@
 }
 #navbar-buttom{
   height: 10%;
+  width: 100%;
 }
 .layout-dasboard__content{
   height: 100vh;

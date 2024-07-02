@@ -1,6 +1,7 @@
 <template>
   <q-tabs
     no-caps
+    right-icon="-"
     active-color="terciary"
     align="justify"
     class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex" 

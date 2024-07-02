@@ -13,7 +13,6 @@
               <q-icon
                 name="eva-arrow-ios-forward-outline"
                 size="sm"
-                @click="showToltip"
                 color="lightgdark"
               />
             </div>
