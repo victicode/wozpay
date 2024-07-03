@@ -9,14 +9,14 @@
           id="LoginForm"
           class="q-gutter-md"
         >
-        <div class="row ">
+        <div class="row">
           <div class="col-12 q-mt-md">
             <q-input
               class="register-input"
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               v-model="fullName"
               name="name_user"
               label="Nombre completo"
@@ -25,13 +25,13 @@
               ref="fullNameRef"
             />
           </div>
-          <div class="col-12 q-mt-md">
+          <div class="col-12 q-mt-md-lg q-mt-sm">
             <q-input
               class="register-input"
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               v-model="dni"
               name="id_user"
               label="Número de cédula"
@@ -43,13 +43,13 @@
               
             />
           </div>
-          <div class="col-12 q-mt-md">
+          <div class="col-12 q-mt-md-lg q-mt-sm">
             <q-input
               class="register-input"
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               name="password_user"
               :type="isPwd ? 'password' : 'text'" 
               v-model="password"
@@ -69,7 +69,7 @@
           <!-- <div class="col-12 q-mt-md">
             <q-checkbox v-model="remember"  label="Recuérdame" color="terciary" />
           </div> -->
-          <div class="col-12 q-mt-lg q-px-md-xl q-pt-md-md" >
+          <div class="col-12 q-mt-sm q-px-md-xl q-pt-md-md" >
             <q-btn 
               id="register-form-button" 
               label="Crear cuenta" 
@@ -89,7 +89,7 @@
         </q-form>
       </div>
       <div>
-        <div class="full-width text-center q-pt-lg text-subtitle2">
+        <div class="full-width text-center q-pt-md text-subtitle2">
           ¿Ya tienes una cuenta en Woz Pay? <br>
           <RouterLink to="/login"><span class="text-primary text-decoration-underline cursor-pointer ">Inicia sesión aqui</span></RouterLink>✌🏻
         </div>
@@ -103,7 +103,6 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
-  import storage from "@/services/storage";
 
   export default {
     setup () {
@@ -128,6 +127,7 @@
       // rules
       const nameRules = [
         val => (val !== null && val !== '') || 'El nombre es requerido.',
+        val => (/[$,%"';&|<>()#]/.test(val) == false ) || 'Formato no valido',
       ]
       const dniRules = [
         val => (val !== null && val !== '') || 'El número de cedula es requerido.',
@@ -136,12 +136,14 @@
       const passwordRules = [
         val => (val !== null && val !== '') || 'La contraseña es requerida',
         val => (val.length >= 8 ) || 'Debe contener 8 caracteres',
+        val => (/[,%" '();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+
       ]
       
       // methods
       const register = () =>{
         if(!validateForm()) return
-        loadingShow(true)
+        loadingState(true)
         const data = {
           fullName: fullName.value,
           dni: dni.value.replace(/\./g, ''),
@@ -153,13 +155,13 @@
 
           if(data.code !== 200 ){
             showNotify('negative', data.error ?? 'Error de servicio')
-            loadingShow(false);
+            loadingState(false);
             return;
           }
           showNotify('positive', 'Registro exitoso, seras redirigido.')
           setTimeout(() => {
             router.push('/dashboard')
-            loadingShow(false);
+            loadingState(false);
           }, 2000);
         }).catch((e) => { 
           console.log(e)
@@ -175,7 +177,7 @@
           ]
         })
       }
-      const loadingShow = (state) => {
+      const loadingState = (state) => {
         loading.value = state;
       }
       const validateForm = () => {
@@ -230,22 +232,9 @@
 .bg-backLinear{
   background: #e5b301!important;
 }
-.login-progress {
-  border: 1px solid white;
-  width: 30%;
-  border-radius: 90px;
-  & .q-linear-progress__track{
-    opacity: 1;
-  }
-  & .q-linear-progress__model {
-    border-top-right-radius: 90px;
-    border-bottom-right-radius: 90px;
-
-  }
-}
-.register-input{
+.register-input {
   & .q-field__control{
-    border-radius: 10px;
+    border-radius: 10px!important;
     
   }
   & .q-field__label{
@@ -267,11 +256,15 @@
   & .q-field__append{
     transform: translateY(2%)
   }
-
+  & .q-field--error {
+    transform: translateY(15px);
+  }
 }
 @media screen and (max-width: 780px){
-  .login-progress {
-    width: 45%;
+  .register-input {
+    & .q-field__bottom{
+      transform: translateY(15px);
+    }
   }
 }
 

@@ -16,26 +16,30 @@
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               v-model="dni"
               name="id_user"
               label="Número de cédula"
               mask="###.###.###"
               reverse-fill-mask
+              :rules="dniRules"
               autocomplete="off"
+              ref="dniRef"
             />
           </div>
-          <div class="col-12 q-mt-lg">
+          <div class="col-12 q-mt-md-lg q-mt-sm">
             <q-input
               class="login-input"
               outlined
               clearable
               :clear-icon="'eva-close-outline'"
-              color="terciary"
+              color="positive"
               name="password_user"
               :type="isPwd ? 'password' : 'text'" 
               v-model="password"
               label="Escribe tu contraseña"
+              :rules="passwordRules"
+              ref="passwordRef"
             >
               <template v-slot:append>
                 <q-icon
@@ -46,10 +50,10 @@
               </template>
             </q-input>
           </div>
-          <div class="col-12 q-mt-md">
+          <div class="col-12 ">
             <q-checkbox v-model="remember"  label="Recuérdame" color="terciary" />
           </div>
-          <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-pt-md-md">
+          <div class="col-12 q-mt-sm q-mb-md q-px-md-xl q-pt-md-sm">
             <q-btn 
               id="login-form-button" 
               label="Inicia sesión" 
@@ -69,7 +73,7 @@
         </q-form>
       </div>
       <div>
-        <div class="full-width text-center q-mt-lg text-subtitle2">
+        <div class="full-width text-center q-mt-md text-subtitle2">
           ¿No tienes cuenta? 
           <RouterLink to="/register"><span class="text-primary text-decoration-underline cursor-pointer ">Registrate aquí</span></RouterLink>🙌🏻
         </div>
@@ -100,8 +104,24 @@
       const remember = ref(storage.getItem('isRemember') === 'true' ?? false)
       const loading = ref(false)
 
+      //ref
+      const dniRef = ref(null)
+      const passwordRef = ref(null)
+      
+      // rules
+      const dniRules = [
+        val => (val !== null && val !== '') || 'El número de cedula es requerido.',
+        val => (val.length >= 8 ) || 'Formato no valido',
+      ]
+      const passwordRules = [
+        val => (val !== null && val !== '') || 'La contraseña es requerida',
+        val => (val.length >= 8 ) || 'Debe contener 8 caracteres',
+        val => (/[,%" '();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+
+      ]
       // methods
       const login = () =>{
+        if(!validateForm()) return
         loadingShow(true)
         const data = {
           dni: dni.value.replace(/\./g, ''),
@@ -140,12 +160,25 @@
         loading.value = state;
       }
       const validateForm = () => {
+        dniRef.value.validate()
+        passwordRef.value.validate()
 
+        if (
+          dniRef.value.hasError 
+          || passwordRef.value.hasError
+        ) return false
+
+        return true
       }
+    
       return {
         icons,
         dni,
         password,
+        dniRef,
+        passwordRef,
+        dniRules,
+        passwordRules,
         remember,
         isPwd,
         loading,
@@ -190,9 +223,9 @@
 
   }
 }
-.login-input{
+.login-input {
   & .q-field__control{
-    border-radius: 10px;
+    border-radius: 10px!important;
     height: 59px
   }
   & .q-field__label{
@@ -214,12 +247,17 @@
   & .q-field__append{
     transform: translateY(5%)
   }
+  
 
 }
 @media screen and (max-width: 780px){
   .login-progress {
     width: 45%;
-
+  }
+  .login-input {
+    & .q-field__bottom{
+      transform: translateY(15px);
+    }
   }
 }
 

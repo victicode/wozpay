@@ -4,25 +4,20 @@ import JwtService from "@/services/jwt/";
 import storage from "@/services/storage";
 
 export const useAuthStore = defineStore("auth", {
-  state: () => {
-    return { 
-      count: 0,
-      errors: [],
-      isAuthenticated: !!JwtService.getToken(),
-      user: {},
-    };
-  },
+  state: () => ({
+    count: 0,
+    errors: [],
+    isAuthenticated: !!JwtService.getToken(),
+    user: {},
+  }),
   actions: {
-    increment(value = 1) {
-      this.count += value;
-    },
     setAuth(user){
       this.isAuthenticated = true;
       this.user = user;
       this.errors = {};
-      this.setIsAdmin()
+      this.setIsAdmin(user)
     },
-    setIsAdmin(){
+    setIsAdmin(user){
       storage.setItem("is_admin", user.rol_id !== 3 ? true : false);
       storage.setItem("user_unique_id",user.id);
     },
@@ -31,13 +26,11 @@ export const useAuthStore = defineStore("auth", {
       storage.setItem("rememberPassword", password);
       storage.setItem("isRemember", remember);
     },
-
     clearRememberAccount(){
       storage.deleteItem("rememberUser");
       storage.deleteItem("rememberPassword");
       storage.deleteItem("isRemember");
     },
-    
     preLogin(credentials){
       this.clearRememberAccount()
       if(credentials.remember == true) this.setRememberAccount(credentials)
@@ -59,11 +52,11 @@ export const useAuthStore = defineStore("auth", {
               throw data;
             }
             JwtService.saveToken(data.data.access_token);
-
             if (JwtService.getToken()) {
               ApiService.setHeader();
               ApiService.get("api/user")
                 .then( ( dataUser ) => {
+                  this.setAuth(dataUser.data)
                   resolve(dataUser.data);
                 })
             }
@@ -84,7 +77,6 @@ export const useAuthStore = defineStore("auth", {
                 throw data;
               }
               this.logoutAction()
-              // console.log(data)
               resolve(data)
             })
         }
@@ -113,7 +105,29 @@ export const useAuthStore = defineStore("auth", {
           });
       })
     },
-
+    async currentUser() {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("api/auth/current_user")
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              console.log(data.data)
+              this.setAuth(data.data)
+              resolve(data)
+            }).catch(( response ) => {
+              console.log(response)
+              resolve('Error al cerrar sesión');
+            });
+        }
+      })
+      .catch(( response ) => {
+        console.log(response)
+        resolve('Error al cerrar sesión');
+      });
+    }
   },
   getters: {
     doubleCount: (state) => {

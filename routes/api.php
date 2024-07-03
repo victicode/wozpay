@@ -24,6 +24,7 @@ Route::prefix('auth')->name('user.')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [UserController::class, 'store']);
     Route::middleware('jwt.verify')->get('/logout', [AuthController::class, 'logout']);
+    Route::middleware('jwt.verify')->get('/current_user', [AuthController::class, 'getUser']);
 
 });
 
