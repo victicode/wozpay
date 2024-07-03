@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host 10.10.10.69 --port 8021 --force",
-        "dev-home": "vite --host 192.168.31.20 --port 8021",
+        "dev-home": "vite --host 192.168.31.20 --port 8021 --force",
         "build": "vite build"
     },
     "devDependencies": {

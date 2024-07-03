@@ -117,12 +117,14 @@
           }
           showNotify('positive', 'Inicio de sesión exitoso, seras redigido al dashboard')
           setTimeout(() => {
+            $q.fullscreen.toggle()
             router.push('/dashboard')
             loadingShow(false);
           }, 2000);
         }).catch((e) => { 
           console.log(e)
-          showNotify('negative', e.message)
+          loadingShow(false);
+          showNotify('negative', 'Error en al iniciar sesión')
         })
       }
       const showNotify = (type, message) => {

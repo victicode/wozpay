@@ -10,11 +10,16 @@
   </q-layout>
 </template>
 <script>
+  import { onMounted } from 'vue';
   import { useQuasar } from 'quasar'
   export default {
     setup () {
       const q = useQuasar()
-      console.log(q)
+      onMounted(() =>{
+        console.log('kkk')
+        q.addressbarColor.set('#ffc701')
+
+      })
       return {
         q,
       }
