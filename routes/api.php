@@ -34,4 +34,6 @@ Route::get('/get-users', [UserController::class, 'index']);
 
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
+    Route::post('/', [UserController::class, 'updateUser']);
+
 });

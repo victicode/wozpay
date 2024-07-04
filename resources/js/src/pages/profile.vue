@@ -1,37 +1,212 @@
 
 <template>
-  <div style="height: 91vh;">
-    <div class="" v-if="Object.values(user).length > 0">
-      <div class="w-100 mx-0" >
+  <div class="profile_section" >
+    <div class="" v-if="Object.values(user).length > 0" >
+      <div class="w-100 q-mx-none" >
+        <!-- info -->
         <q-toolbar class="bg-grey-5 text-black ">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
               <span class="text-subtitle2 text-weight-bold">Datos personales</span>
               <span>
-                <q-icon name="eva-edit-2-outline" />
+                <!-- <q-icon name="eva-edit-2-outline" /> -->
+                <q-btn unelevated flat round color="bg-grey-5" style="color: black"  to="/user_info" icon="eva-edit-2-outline" />
               </span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
-    
         <q-list >
-          <q-item class="q-my-sm" clickable v-ripple>
-            <q-item-section avatar>
-              <q-avatar color="primary" text-color="black">
-                {{ user.name }}
-              </q-avatar>
-            </q-item-section>
-    
+          <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <q-item-label>{{ user.name }}</q-item-label>
-              <q-item-label caption lines="1">{{ user.email }}</q-item-label>
-            </q-item-section>
-    
-            <q-item-section side>
-              <q-icon name="chat_bubble" color="green" />
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Nombre completo
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.name }}</q-item-label>
+              </div>
             </q-item-section>
           </q-item>
-    
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  N° de documento
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ numberFormat(user.dni) }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Número de teléfono
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.name ?? 'No asignado'  }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                  <div>
+                    <span class="text-caption text-weight-bold">
+                      Verificar identidad
+                    </span>
+                    <q-icon
+                      :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                      size="sm"
+                      :color=" user.verify_status == 1 ? 'terciary' :'white'"
+                      class="user-verify-user"
+                      :class="{'verify-user':user.verify_status == 2, }"
+                      @click="showToltip"
+                    >
+                      <q-tooltip 
+                        anchor="top middle" 
+                        self="bottom middle" 
+                        :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
+                        :offset="[10, 10]" 
+                        v-model="showing"
+                      >
+                        {{
+                          user.verify_status == 1
+                          ? 'Verificación en proceso'
+                          : user.verify_status == 2 
+                          ? 'Usuario verificado'
+                          : 'Sin verificación'
+                        }}
+                      </q-tooltip>
+                    </q-icon>
+                  </div>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">
+                  {{ 
+                    user.verify_status == 2 
+                    ? 'Aprobado'
+                    : user.verify_status == 1
+                    ? 'Pendiente'
+                    : 'Subir documentos'
+                  }}
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+        </q-list>
+        <!-- address -->
+        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+          <q-toolbar-title> 
+            <div class="w-100 flex items-center justify-between">
+              <span class="text-subtitle2 text-weight-bold">Dirección particular</span>
+              <span>
+                <!-- <q-icon name="eva-edit-2-outline" /> -->
+                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_info" icon="eva-edit-2-outline" />
+              </span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Ciudad
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.city ?? 'Agregar' }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Barrio o localidad
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.locality ?? 'Agregar' }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Calle y N° de casa
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.address ?? 'Agregar'  }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+        </q-list>
+        <!-- professional -->
+        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+          <q-toolbar-title> 
+            <div class="w-100 flex items-center justify-between">
+              <span class="text-subtitle2 text-weight-bold">Información profesional</span>
+              <span>
+                <!-- <q-icon name="eva-edit-2-outline" /> -->
+                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_info" icon="eva-edit-2-outline" />
+              </span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Privado - Funcionario público
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.is_public ?? 'Agregar' }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Cargo
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.office ?? 'Agregar' }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Salario
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.salary ?? 'Agregar'  }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
           <q-separator />
         </q-list>
       </div>
@@ -62,7 +237,7 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
-
+  import util from '@/util/numberUtil'
   export default {
     setup () {
       //vue provider
@@ -74,8 +249,18 @@
       
       // data
       const loading = ref(false)
-
+      // Data
+      const showing = ref(false)
+      
+      // Methods
+      const showToltip = () => {
+        showing.value = true
+        setTimeout(() => {
+          showing.value = false
+        }, 3500);
+      }
       // methods
+      const numberFormat = util.numberFormat
       const prompt = () => {
         $q.dialog({
           title: 'Prompt',
@@ -109,7 +294,6 @@
           showNotify('negative', 'Error al cerrar sesión')
         })
       }
-    
       const showNotify = (type, message) => {
         $q.notify({
           message: message,
@@ -122,15 +306,16 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
-      setTimeout(()=>{
 
-        console.log(user)
-      },2000)
       return {
         icons,
         loading,
         user,
+        numberFormat,
+        showing,
         logout,
+        showToltip,
+
       }
     }
   };
@@ -139,5 +324,11 @@
 #logout-button{
   padding: 10px;
 }
-
+.profile_section{
+  height: 100%; 
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+}
+}
 </style>

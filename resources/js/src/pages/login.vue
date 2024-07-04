@@ -82,8 +82,7 @@
   </div>
 </template>
 <script>
-  import { ref } from 'vue';
-  import { inject } from 'vue'
+  import { ref, inject } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
@@ -138,6 +137,7 @@
           showNotify('positive', 'Inicio de sesión exitoso, seras redigido al dashboard')
           setTimeout(() => {
             // $q.fullscreen.toggle()
+            
             router.push('/dashboard')
             loadingShow(false);
           }, 2000);
@@ -170,7 +170,6 @@
 
         return true
       }
-    
       return {
         icons,
         dni,

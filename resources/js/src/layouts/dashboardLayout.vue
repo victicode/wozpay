@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-dasboard__content" style="">
+  <div class="layout-dasboard__content" v-if="readyState" style="">
     <div id="content-page" >
       <router-view v-slot="{ Component }">
         <transition name="fades" >
@@ -59,6 +59,7 @@
       // Mounted
       onMounted(() =>{
         getCurrentUser()
+        $q.addressbarColor.set('#0449fb')
       })
       
       return {

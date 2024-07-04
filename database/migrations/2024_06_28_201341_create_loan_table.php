@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('loan', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('quotas');
+            $table->integer('type');
+            $table->date('due_date');
             $table->timestamps();
         });
     }

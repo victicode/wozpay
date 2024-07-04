@@ -19,21 +19,21 @@
               :class="{'verify-user':user.verify_status == 2, }"
               @click="showToltip"
             >
-            <q-tooltip 
-              anchor="top middle" 
-              self="bottom middle" 
-              :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
-              :offset="[10, 10]" 
-              v-model="showing"
-            >
-              {{
-                user.verify_status == 1
-                ? 'Verificación en proceso'
-                : user.verify_status == 2 
-                ? 'Usuario verificado'
-                : 'Sin verificación'
-              }}
-            </q-tooltip>
+              <q-tooltip 
+                anchor="top middle" 
+                self="bottom middle" 
+                :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
+                :offset="[10, 10]" 
+                v-model="showing"
+              >
+                {{
+                  user.verify_status == 1
+                  ? 'Verificación en proceso'
+                  : user.verify_status == 2 
+                  ? 'Usuario verificado'
+                  : 'Sin verificación'
+                }}
+              </q-tooltip>
             </q-icon>
           </div>
         </div>
@@ -94,15 +94,6 @@
   }
   .dashboard-progress {
     width: 50%;
-  }
-  .user-verify-user{
-    opacity: 0.5;
-  }
-  .verify-user{
-    opacity: 1!important;
-  }
-  .verify-user-tooltip{
-    background: red!important;
   }
   @media screen and (max-width: 780px){
     .dashboard-progress {
