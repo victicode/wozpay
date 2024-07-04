@@ -16,7 +16,7 @@
     setup () {
       const q = useQuasar()
       onMounted(() =>{
-        console.log('kkk')
+        // console.log('kkk')
         q.addressbarColor.set('#ffc701')
 
       })

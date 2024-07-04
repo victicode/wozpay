@@ -2,10 +2,10 @@
   <div class="layout-dasboard__content" style="">
     <div id="content-page" >
       <router-view v-slot="{ Component }">
-          <transition name="fades" >
-            <component :is="Component" v-if="readyState" />
-          </transition>
-        </router-view>
+        <transition name="fades" >
+          <component :is="Component" v-if="readyState" />
+        </transition>
+      </router-view>
     </div>
     <div id="navbar-buttom">
       <navbarVue />
@@ -68,6 +68,7 @@
     }
   };
 </script>
+
 <style lang="scss" scoped>
 #content-page{
   height: 90%;

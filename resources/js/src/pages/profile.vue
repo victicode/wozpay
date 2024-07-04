@@ -1,103 +1,40 @@
 
 <template>
   <div style="height: 91vh;">
-    <div class="q-pa-md q-gutter-md">
-    <q-list bordered padding class="rounded-borders" >
-      <q-item-label header>Configuración de usuario</q-item-label>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar top>
-          <q-avatar icon="eva-folder-outline" color="primary" text-color="white" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">Photos</q-item-label>
-          <q-item-label caption>February 22nd, 2019</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="eva-info-outline" color="green" />
-        </q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar top>
-          <q-avatar icon="eva-folder-outline" color="orange" text-color="white" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">Movies</q-item-label>
-          <q-item-label caption>March 1st, 2019</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="eva-info-outline" />
-        </q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar top>
-          <q-avatar icon="eva-folder-outline" color="teal" text-color="white" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">Photos</q-item-label>
-          <q-item-label caption>January 15th, 2019</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="eva-info-outline" />
-        </q-item-section>
-      </q-item>
-
-      <q-separator spaced />
-      <q-item-label header>Files</q-item-label>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar top>
-          <q-avatar icon="eva-inbox-outline" color="grey" text-color="white" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">Expenses spreadsheet</q-item-label>
-          <q-item-label caption>March 2nd, 2019</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="eva-info-outline" />
-        </q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar top>
-          <q-avatar icon="eva-navigation-2-outline" color="grey" text-color="white" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">Places to visit</q-item-label>
-          <q-item-label caption>February 22, 2019</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="eva-info-outline" color="amber" />
-        </q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-        <q-item-section avatar top>
-          <q-avatar icon="eva-music-outline" color="grey" text-color="white" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">My favorite song</q-item-label>
-          <q-item-label caption>Singing it all day</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="eva-info-outline" />
-        </q-item-section>
-      </q-item>
-    </q-list>
+    <div class="" v-if="Object.values(user).length > 0">
+      <div class="w-100 mx-0" >
+        <q-toolbar class="bg-grey-5 text-black ">
+          <q-toolbar-title> 
+            <div class="w-100 flex items-center justify-between">
+              <span class="text-subtitle2 text-weight-bold">Datos personales</span>
+              <span>
+                <q-icon name="eva-edit-2-outline" />
+              </span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+    
+        <q-list >
+          <q-item class="q-my-sm" clickable v-ripple>
+            <q-item-section avatar>
+              <q-avatar color="primary" text-color="black">
+                {{ user.name }}
+              </q-avatar>
+            </q-item-section>
+    
+            <q-item-section>
+              <q-item-label>{{ user.name }}</q-item-label>
+              <q-item-label caption lines="1">{{ user.email }}</q-item-label>
+            </q-item-section>
+    
+            <q-item-section side>
+              <q-icon name="chat_bubble" color="green" />
+            </q-item-section>
+          </q-item>
+    
+          <q-separator />
+        </q-list>
+      </div>
     </div>
     <div class="row">
       <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-px-xs-lg q-pt-md">
@@ -133,11 +70,27 @@
       const $q = useQuasar()
       const store = useAuthStore()
       const router = useRouter()
+      const user = useAuthStore().user;
       
       // data
       const loading = ref(false)
 
       // methods
+      const prompt = () => {
+        $q.dialog({
+          title: 'Prompt',
+          message: 'What is your name? (Minimum 3 characters)',
+          prompt: {
+            model: '',
+            isValid: val => val.length > 2, // << here is the magic
+            type: 'text' // optional
+          },
+          cancel: true,
+          persistent: true
+        }).onOk(data => {
+          // console.log('>>>> OK, received', data)
+        })
+      }
       const logout = () =>{
         loadingShow(true)
         store.logout().then((data)=>{
@@ -169,9 +122,14 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
+      setTimeout(()=>{
+
+        console.log(user)
+      },2000)
       return {
         icons,
         loading,
+        user,
         logout,
       }
     }

@@ -1,8 +1,8 @@
 import { createMemoryHistory, createWebHistory, createRouter } from 'vue-router'
 import guest from './middlewares/guest'
 import auth from './middlewares/auth'
-import defaultComponent from '@/layouts/dashboardLayout.vue';
-import pageComponent from '@/layouts/pagesLayout.vue';
+import dashboardLayout from '@/layouts/dashboardLayout.vue';
+import pageLayout from '@/layouts/pagesLayout.vue';
 import authLayout from '@/layouts/authLayout.vue';
 import bankPage from '@/pages/bank.vue';
 import lastOperationPage from '@/pages/lastOperations.vue';
@@ -16,7 +16,7 @@ const router = createRouter({
     {
       path: "/",
       name:"home",
-      component: defaultComponent,
+      component: dashboardLayout,
       beforeEnter: auth,
       children: [
         {
@@ -35,7 +35,7 @@ const router = createRouter({
     {
       path: "/",
       name:"pages",
-      component: pageComponent,
+      component: pageLayout,
       beforeEnter: auth,
       children: [
         {

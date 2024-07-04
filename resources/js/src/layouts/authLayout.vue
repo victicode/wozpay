@@ -21,30 +21,8 @@
   </div>
 </template>
 <script>
-  import { ref } from 'vue';
-  import { inject } from 'vue'
-
   export default {
     setup () {
-      const dni = ref('')
-      const password = ref('')
-      const isPwd = ref('true')
-      const remember = ref(false)
-      const icons = inject('ionIcons')
-      const sendDataForm = () =>{
-        console.log(`
-          dni: ${dni.value}
-          contraseña: ${password.value}
-        `)
-      }
-      return {
-        icons,
-        dni,
-        password,
-        remember,
-        isPwd,
-        sendDataForm,
-      }
     }
   };
 </script>

@@ -2,7 +2,7 @@
 import App from '@/App.vue'
 import { createApp } from 'vue'
 import { createPinia } from "pinia";
-import { Quasar, Notify, AppFullscreen, AddressbarColor } from 'quasar'
+import { Quasar, Notify, AddressbarColor, Dialog } from 'quasar'
 import quasarLang from 'quasar/lang/es'
 import router from "@/routes/index.js";
 
@@ -45,8 +45,8 @@ app.use(router)
 app.use(Quasar, {
   plugins: {
     Notify,
-    AppFullscreen,
-    AddressbarColor
+    AddressbarColor,
+    Dialog,
   }, // import Quasar plugins and add here
   lang: quasarLang,
   /*

@@ -2,7 +2,7 @@
   <div class="layout-dasboard__content" style="">
     <topbar/>
     <div class="container_page" >
-      <router-view />
+      <router-view v-if="readyState" />
     </div>
   </div>
 </template>
@@ -64,7 +64,7 @@
 
 <style lang="scss" scoped>
 .container_page{
-  height: 90%;
+  height: 91%;
   overflow: hidden;
 
 }
