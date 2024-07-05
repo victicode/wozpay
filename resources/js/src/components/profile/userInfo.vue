@@ -24,7 +24,7 @@
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  :icon="icons.outlinedAddAPhoto" />
+                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" />
 
                 </q-item-label>
               </div>
@@ -43,7 +43,7 @@
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  :icon="icons.outlinedAddAPhoto" />
+                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" />
                 </q-item-label>
               </div>
             </q-item-section>
@@ -89,7 +89,7 @@
                           self="bottom middle" 
                           :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
                           :offset="[10, 10]" 
-                          v-model="showing"
+                          v-model="toltip"
                         >
                           {{
                             user.verify_status == 1
@@ -134,7 +134,7 @@
                           self="bottom middle" 
                           :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
                           :offset="[10, 10]" 
-                          v-model="showing2"
+                          v-model="toltip2"
                         >
                           {{
                             user.verify_status == 1
@@ -176,7 +176,7 @@
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-edit-2-outline"  @click="prompt"/>
+                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-edit-2-outline"  @click="showDialog('updatePhone')"/>
                 </q-item-label>
               </div>
             </q-item-section>
@@ -203,78 +203,64 @@
         </q-btn>
       </div>
     </div>
+    <div v-if="dialog=='updatePhone'">
+      <updatePhoneNumberVue  :dialog="(dialog =='updatePhone')" @hideModal="hideModal" />
+    </div>
+    
   </div>
 </template>
 <script>
   import { ref } from 'vue';
   import { inject } from 'vue'
+  import { useUserStore } from '@/services/store/user.store'
   import { useAuthStore } from '@/services/store/auth.store'
+
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
-
+  import updatePhoneNumberVue from '@/components/profile/modals/updatePhoneNumber.vue';
   export default {
+    components:{
+      updatePhoneNumberVue
+    },
+    
     setup () {
       //vue provider
       const icons = inject('ionIcons')
       const $q = useQuasar()
-      const store = useAuthStore()
+      const store = useUserStore()
       const router = useRouter()
       const user = useAuthStore().user;
-      
+      const dialog = ref('')
       // data
       const loading = ref(false)
+
       // Data
-      const showing = ref(false)
-      const showing2 = ref(false)
+      const toltip = ref(false)
+      const toltip2 = ref(false)
 
       // Methods
       const showToltip = (id) => {
         if(id==1){
-
-          showing.value = true
+          toltip.value = true
           setTimeout(() => {
-            showing.value = false
+            toltip.value = false
           }, 3500);
           return
         }
-        showing2.value = true
+        toltip2.value = true
           setTimeout(() => {
-            showing2.value = false
+            toltip2.value = false
           }, 3500);
       }
       // methods
-      const prompt = () => {
-        $q.dialog({
-          title: 'Ingresa tu número de teléfono',
-          message: '',
-          prompt: {
-            model: '',
-            isValid: val => val.length > 2, // << here is the magic
-            mask:'(###) ###-####',
-            hint:'Formato: (###) ###-####'
-          },
-          cancel: true,
-          persistent: true
-        }).onOk(data => {
-          user.phone = data
-        })
+
+      const showDialog = (dialogToShow) => {
+        dialog.value = dialogToShow
       }
-      const uptadteInfo = () =>{
-        loadingShow(true)
-        store.logout().then((data)=>{
-          if(!data.code){
-            showNotify('negative', data)
-            loadingShow(false);
-            return;
-          }
-          setTimeout(() => {
-            showNotify('positive', 'Datos actualizados')
-            loadingShow(false);
-          }, 2000);
-        }).catch((e) => { 
-          console.log(e)
-          showNotify('negative', 'Error al cerrar sesión')
-        })
+      const hideModal = () => {
+        
+        dialog.value = '';
+        // user.phone = data
       }
       const showNotify = (type, message) => {
         $q.notify({
@@ -288,21 +274,48 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
+      
+      const uptadteInfo = () =>{
+        loadingShow(true)
 
+        console.log('masetandooo...')
+        setTimeout(() => {
+          showNotify('positive', 'Datos actualizados')
+          loadingShow(false);
+        }, 2000);
+        // store.sendMobileCode().then((data)=>{
+        //   if(!data.code){
+        //     showNotify('negative', data)
+        //     loadingShow(false);
+        //     return;
+        //   }
+        //   setTimeout(() => {
+        //     showNotify('positive', 'Datos actualizados')
+        //     loadingShow(false);
+        //   }, 2000);
+        // }).catch((e) => { 
+        //   console.log(e)
+        //   showNotify('negative', 'Error al enviar codigo')
+        // })
+      }
       return {
         icons,
         loading,
         user,
-        showing,
-        showing2,
-        prompt,
-        uptadteInfo,
+        dialog,
+        toltip,
+        toltip2,
+        showDialog,
         showToltip,
+        uptadteInfo,
+        hideModal,
 
       }
     }
   };
 </script>
+
+
 <style lang="scss">
 #logout-button{
   padding: 10px;

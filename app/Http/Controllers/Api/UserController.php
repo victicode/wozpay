@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\User;
+use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -43,21 +45,15 @@ class UserController extends Controller
 
     }
     public function updateUser(Request $request, $id){
-        $validated = $this->validateFieldsFromInput($request->all()) ;
+        // $validated = $this->validateFieldsFromInput($request->all()) ;
 
-        if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
+        // if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
        
         $user = User::find($id);
         if (!$user) return $this->returnFail(400, 'Usuario no encontrado');
         
         try {
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->user_address = $request->user_address;
-            $user->password = !empty($request->password) 
-            ? Hash::make($request->password)
-            : $user->password;
-
+            $user->phone = $request->phone;
 
             $user->save();
             
@@ -122,6 +118,46 @@ class UserController extends Controller
     
             return $validator->all() ;
 
+    }
+    public function sendMobileVerifyCode(Request $request){
+
+        try {
+            
+            $sid = config('twilio.sid');
+            $token = config('twilio.token');
+            $services = config('twilio.services');
+            $twilio = new Client($sid, $token);
+            $verification_check = $twilio->verify->v2
+            ->services($services)
+            ->verifications->create(
+                '+58'.$request->phone,
+                'sms'
+            );
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+        
+        return $this->returnSuccess(200, $verification_check->status);
+    }
+    public function verifyPhoneNumber(Request $request){
+        try {
+
+            $sid = config('twilio.sid');
+            $token = config('twilio.token');
+            $services = config('twilio.services');
+            $twilio = new Client($sid, $token);
+
+            $verification_check = $twilio->verify->v2
+            ->services($services)
+            ->verificationChecks->create([
+                'to' => '+58'.$request->phone,
+                'code' => $request->code,
+            ]);
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+        
+        return $this->returnSuccess(200, $verification_check->status);
     }
 
 }
