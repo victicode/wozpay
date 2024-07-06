@@ -114,7 +114,6 @@ export const useAuthStore = defineStore("auth", {
               if(data.code !== 200){
                 throw data;
               }
-              console.log(data.data)
               this.setAuth(data.data)
               resolve(data)
             }).catch(( response ) => {

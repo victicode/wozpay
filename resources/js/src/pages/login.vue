@@ -135,9 +135,7 @@
             return;
           }
           showNotify('positive', 'Inicio de sesión exitoso, seras redigido al dashboard')
-          setTimeout(() => {
-            // $q.fullscreen.toggle()
-            
+          setTimeout(() => {            
             router.push('/dashboard')
             loadingShow(false);
           }, 2000);

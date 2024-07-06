@@ -50,7 +50,7 @@
                   Número de teléfono
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.name ?? 'No asignado'  }}</q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.phone ?? 'No asignado'  }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -110,7 +110,7 @@
               <span class="text-subtitle2 text-weight-bold">Dirección particular</span>
               <span>
                 <!-- <q-icon name="eva-edit-2-outline" /> -->
-                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_info" icon="eva-edit-2-outline" />
+                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_address" icon="eva-edit-2-outline" />
               </span>
             </div>
           </q-toolbar-title>

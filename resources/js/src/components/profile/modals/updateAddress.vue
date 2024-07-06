@@ -193,32 +193,4 @@
     }
   };
 </script>
-<style>
-
-.step-enter-active,
-.step-leave-active {
-  transition: all 0.5s ease;
-  opacity: 1;
-}
-.step-enter-active{
-  transform: scale(1);
-}
-.step-leave-active{
-  transform: scale(1);
-}
-.step-enter-from,
-.step-leave-to {
-  transition: all 0.5s ease;
-  position: absolute!important;
-  transform: scale(0.5);
-  opacity: 0;
-}
-.step-enter-from{
-  transform: scale(0.5);
-}
-.step-leave-to {
-  transform: scale(0.5);
-}
-
-</style>
 

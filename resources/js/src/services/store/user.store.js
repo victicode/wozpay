@@ -8,22 +8,21 @@ export const useUserStore = defineStore("user", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("api/user", data)
+          ApiService.post("api/user/u/"+data.id, data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
               }
-              console.log(data.data)
               resolve(data)
-            }).catch(( response ) => {
+            }).catch((response) => {
               console.log(response)
-              resolve('Error al cerrar sesión');
+              resolve('Error al actualizar datos');
             });
         }
       })
-      .catch(( response ) => {
+      .catch((response) => {
         console.log(response)
-        resolve('Error al cerrar sesión');
+        return 'Error al actualizar datos';
       });
     },
     async sendMobileCode(data) {
@@ -32,15 +31,17 @@ export const useUserStore = defineStore("user", {
           ApiService.setHeader();
           ApiService.post("api/user/sendPhoneCode", data)
             .then(({ data }) => {
-              console.log(data)
+              if(data.code !== 200){
+                throw data;
+              }
               resolve(data)
-            }).catch(( response ) => {
+            }).catch(({response}) => {
               console.log(response)
               resolve('Error al enviar codigo');
             });
         }
       })
-      .catch(( response ) => {
+      .catch(({response}) => {
         console.log(response)
         resolve('Error al enviar codigo');
       });
@@ -51,15 +52,18 @@ export const useUserStore = defineStore("user", {
           ApiService.setHeader();
           ApiService.post("api/user/verifyPhoneCode", data)
             .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
               console.log(data)
               resolve(data)
-            }).catch(( response ) => {
+            }).catch(({response}) => {
               console.log(response)
               resolve('Error al validar codigo');
             });
         }
       })
-      .catch(( response ) => {
+      .catch(({response}) => {
         console.log(response)
         resolve('Error al validar codigo');
       });

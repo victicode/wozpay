@@ -9,6 +9,8 @@ import lastOperationPage from '@/pages/lastOperations.vue';
 import notificationsPage from '@/pages/notifications.vue';
 import profilePage from '@/pages/profile.vue';
 import userInfo from '@/components/profile/userInfo.vue'
+import userAddress from '@/components/profile/userAddress.vue'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -81,6 +83,17 @@ const router = createRouter({
         {
           path: "/user_info",
           component: userInfo,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Perfil'
+          },
+        },
+        {
+          path: "/user_address",
+          component: userAddress,
           meta: {
             // middleware: [
             //   auth,

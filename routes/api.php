@@ -28,13 +28,11 @@ Route::prefix('auth')->name('user.')->group(function () {
 
 });
 
-
-
 Route::get('/get-users', [UserController::class, 'index']);
 
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
-    Route::post('/', [UserController::class, 'updateUser']);
+    Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
 

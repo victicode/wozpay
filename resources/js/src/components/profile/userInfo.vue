@@ -257,10 +257,10 @@
       const showDialog = (dialogToShow) => {
         dialog.value = dialogToShow
       }
-      const hideModal = () => {
+      const hideModal = (data) => {
         
         dialog.value = '';
-        // user.phone = data
+        user.phone = data ?? user.phone
       }
       const showNotify = (type, message) => {
         $q.notify({
@@ -277,26 +277,23 @@
       
       const uptadteInfo = () =>{
         loadingShow(true)
-
-        console.log('masetandooo...')
-        setTimeout(() => {
-          showNotify('positive', 'Datos actualizados')
+        store.updateUser(user)
+        .then((data)=> {
+          if(!data.code){
+              showNotify('negative', data)
+              loadingShow(false);
+              return;
+            }
+            setTimeout(() => {
+              showNotify('positive', 'Datos actualizados')
+              loadingShow(false);
+            }, 2000);
+        })
+        .catch((e) => { 
+          console.log(e)
           loadingShow(false);
-        }, 2000);
-        // store.sendMobileCode().then((data)=>{
-        //   if(!data.code){
-        //     showNotify('negative', data)
-        //     loadingShow(false);
-        //     return;
-        //   }
-        //   setTimeout(() => {
-        //     showNotify('positive', 'Datos actualizados')
-        //     loadingShow(false);
-        //   }, 2000);
-        // }).catch((e) => { 
-        //   console.log(e)
-        //   showNotify('negative', 'Error al enviar codigo')
-        // })
+          showNotify('negative', 'Error al enviar codigo')
+        })
       }
       return {
         icons,
