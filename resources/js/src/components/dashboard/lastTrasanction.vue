@@ -1,12 +1,12 @@
 <template>
   <div class="q-py-sm q-px-md" style="height: 100%; overflow: hidden;">
-    <div class=" q-pb-sm" :class="{'loan_container':ll}">
+    <div class=" q-pb-sm" :class="{'loan_container':isReady}">
       <div class="row">
         <div class="col-12 flex items-center justify-between">
           <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold">Tú préstamo</div>
           <div class="flex items-center q-mt-sm justify-between">
 
-            <div class="text-subtitle1 text-weight-bold text-dark " v-if="ll" >
+            <div class="text-subtitle1 text-weight-bold text-dark " v-if="isReady" >
               Gs.{{ numberFormat(5035000) }}
             </div>
             <div>
@@ -21,11 +21,11 @@
       </div>
     </div>
     <div style="height: 80%; ">
-      <div class="q-mt-md quote-section" style="height: 100%; overflow-y: scroll;" v-if="ll">
+      <div class="col-12 q-mt-md " v-if="isReady" >
+        <div class="text-subtitle1 text-center text-dark text-weight-medium">Cuotas</div>
+      </div>
+      <div class="quote-section" style="height: 100%; overflow-y: scroll;" v-if="isReady">
         <div class="row q-pb-md">
-          <div class="col-12">
-            <div class="text-subtitle1 text-center text-dark text-weight-medium">Cuotas</div>
-          </div>
           <div class="col-12" >
             <div class="row" >
               <div class="col-12 flex items-center justify-between quote_container q-py-xs q-my-xs" v-for="n in 4" :key="n">
@@ -45,21 +45,20 @@
               </div>
             </div>
           </div>
-          <div class="col-12 q-mt-md q-mb-sm" >
+          <div class="col-12 q-mt-md q-mb-xl" >
             <div class="text-subtitle1 text-center text-primary text-weight-medium text-decoration-underline">Ver todo</div>
           </div>
         </div>
       </div>
       <div v-else>
-        <div class="w-100 column items-center">
-          <div>
-            <q-icon
-              :name="icons.outlinedSentimentDissatisfied"
-              size="7rem"
-              color="primary"
-              class="user-verify-user"
+        <div class="w-100 column items-center q-pt-md">
+  
+            <q-img
+              :src="sadface"
+              height="80px"
+              width="80px"
             />
-          </div>
+      
           <div class="w-100 text-center text-h6 text-weight-medium">
             No tienes ningún préstamo <br>aprobado 
           </div>
@@ -72,19 +71,22 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import util from '@/util/numberUtil'
   import { inject, ref } from 'vue'
+  import sadFace from '@/assets/images/sadFace.svg'
   export default {
     setup() {
       //vue provider
       const user = useAuthStore().user;
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
-      const ll = true
+      const isReady = false
+      const sadface = sadFace
       // Data
       return{
         icons,
         user,
         numberFormat,
-        ll,
+        isReady,
+        sadface
       }
     },
   }

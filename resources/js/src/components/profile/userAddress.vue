@@ -92,7 +92,6 @@
       const icons = inject('ionIcons')
       const $q = useQuasar()
       const store = useAuthStore()
-      const router = useRouter();
       const user = useAuthStore().user;
       const dialog = ref(false)
       const dialogShow = ref('')
@@ -104,18 +103,6 @@
 
       
       // Methods
-      const showNotify = (type, message) => {
-        $q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
       const showDialog = (dialogToShow) => {
         dialog.value = true
         dialogShow.value = dialogToShow
@@ -125,27 +112,6 @@
         dialog.value = false;
         dialogShow.value = '';
       }
-      
-      const uptadteInfo = () =>{
-        loadingShow(true)
-        store.updateUser(user)
-        .then((data)=> {
-          if(!data.code){
-              showNotify('negative', data)
-              loadingShow(false);
-              return;
-            }
-            setTimeout(() => {
-              showNotify('positive', 'Datos actualizados')
-              loadingShow(false);
-            }, 2000);
-        })
-        .catch((e) => { 
-          console.log(e)
-          loadingShow(false);
-          showNotify('negative', 'Error al enviar codigo')
-        })
-      }
 
       return {
         icons,
@@ -153,7 +119,6 @@
         user,
         dialog,
         dialogShow,
-        uptadteInfo,
         showDialog,
         hideModal,
 

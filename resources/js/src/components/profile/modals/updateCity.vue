@@ -103,7 +103,7 @@
             }
             setTimeout(() => {
               authStore.$patch({ user: data.data })
-              console.log(data.data)
+              // console.log(data.data)
               showNotify('positive', 'Datos actualizados')
               loadingShow(false);
               hideModal()

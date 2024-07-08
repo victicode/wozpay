@@ -7,45 +7,25 @@
       <div class="row">
         <div class="col-3 q-px-xs">
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-xs actions-button w-100">
-            <q-icon
-              :name="icons.outlinedRequestQuote"
-              size="sm"
-              color="dark"
-              class="user-verify-user"
-            />
-            <span class="q-mt-xs text-dark">Solicitar</span>
+            <div v-html="icons.solicitar" />
+            <span class="q-mt-xs text-dark text-caption">Solicitar</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-xs actions-button w-100">
-            <q-icon
-              :name="'eva-flip-2-outline'"
-              size="sm"
-              color="dark"
-              class="user-verify-user"
-            />
-            <span class="q-mt-xs text-dark">Transfer.</span>
+            <div v-html="icons.transferir" />
+            <span class="q-mt-xs text-dark text-caption">Transfer.</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-xs actions-button w-100">
-            <q-icon
-              :name="icons.outlinedMonetizationOn"
-              size="sm"
-              color="dark"
-              class="user-verify-user"
-            />
-            <span class="q-mt-xs text-dark">Cargar</span>
+            <div v-html="icons.cargar" />
+            <span class="q-mt-xs text-dark text-caption">Cargar</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">   
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-xs actions-button w-100">
-            <q-icon
-              :name="icons.outlinedSavings"
-              size="sm"
-              color="dark"
-              class="user-verify-user"
-            />
+            <div v-html="icons.pagoYa" />
           </q-btn>
         </div>
       </div>
@@ -55,14 +35,14 @@
 
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
-  import util from '@/util/numberUtil'
-  import { inject, ref } from 'vue'
+  import { inject } from 'vue'
+  import wozIcons from '@/assets/icons/wozIcons'
 
   export default {
     setup() {
       //vue provider
       const user = useAuthStore().user;
-      const icons = inject('ionIcons')
+      const icons =  wozIcons
       // Data
 
       // Data
@@ -78,7 +58,7 @@
   .actions-button{
     border: 1.3px solid #c7c7c7!important;
     border-radius: 15px!important;
-    height: 65px!important;
+    height: 70px!important;
     width: 100%!important;
     
     & .q-btn__content{

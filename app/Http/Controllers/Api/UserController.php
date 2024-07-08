@@ -53,12 +53,13 @@ class UserController extends Controller
         if (!$user) return $this->returnFail(400, 'Usuario no encontrado');
         
         try {
-            $user->phone = $request->phone ?? $user->phone;
-            $user->city = $request->city ?? $user->city;
+            $user->phone    = $request->phone ?? $user->phone;
+            $user->city     = $request->city ?? $user->city;
             $user->locality = $request->locality ?? $user->locality;
-            $user->address = $request->address ?? $user->address;
-            $user->salary = $request->salary ?? $user->salary;
-            $user->office = $request->office ?? $user->office;
+            $user->address  = $request->address ?? $user->address;
+            $user->work     = $request->work ?? $user->work;
+            $user->office   = $request->office ?? $user->office;
+            $user->salary   = $request->salary ?? $user->salary;
 
             $user->save();
             

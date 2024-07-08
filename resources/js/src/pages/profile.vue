@@ -18,7 +18,7 @@
         <q-list >
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Nombre completo
@@ -31,7 +31,7 @@
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   N° de documento
@@ -44,7 +44,7 @@
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Número de teléfono
@@ -57,7 +57,7 @@
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
                     <span class="text-caption text-weight-bold">
@@ -118,7 +118,7 @@
         <q-list >
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Ciudad
@@ -131,7 +131,7 @@
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Barrio o localidad
@@ -144,7 +144,7 @@
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Calle y N° de casa
@@ -163,7 +163,7 @@
               <span class="text-subtitle2 text-weight-bold">Información profesional</span>
               <span>
                 <!-- <q-icon name="eva-edit-2-outline" /> -->
-                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_info" icon="eva-edit-2-outline" />
+                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_proffesion" icon="eva-edit-2-outline" />
               </span>
             </div>
           </q-toolbar-title>
@@ -171,20 +171,20 @@
         <q-list >
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Privado - Funcionario público
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.is_public ?? 'Agregar' }}</q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.work ?? 'Agregar' }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Cargo
@@ -197,7 +197,7 @@
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="flex align-center justify-between">
+              <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                 <span class="text-caption text-weight-bold">
                   Salario
