@@ -3,7 +3,7 @@
     <topbar/>
     <div class="container_page" >
       <router-view v-slot="{ Component }">
-        <transition name="horizontal" >
+        <transition name="horizontal">
           <component :is="Component" v-if="readyState" />
         </transition>
       </router-view>

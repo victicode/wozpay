@@ -165,5 +165,23 @@ class UserController extends Controller
         
         return $this->returnSuccess(200, $verification_check->status);
     }
+    public function addNumber(){
+        try {
+
+            $sid = config('twilio.sid');
+            $token = config('twilio.token');
+            $services = config('twilio.services');
+            $twilio = new Client($sid, $token);
+
+            $validation_request = $twilio->validationRequests->create(
+                "+584245391538", // phone_number
+                ["friendlyName" => "My Home Phone Number"]
+            );
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+        
+        return $this->returnSuccess(200, json_encode($validation_request));
+    }
 
 }

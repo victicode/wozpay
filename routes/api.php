@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\UserController;
 
 /*
@@ -29,12 +30,20 @@ Route::prefix('auth')->name('user.')->group(function () {
 });
 
 Route::get('/get-users', [UserController::class, 'index']);
+// Route::post('/add/phoneNumber', [UserController::class, 'addNumber']);
+
 
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
+});
 
+Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')->group(function () {
 
+    Route::get('/{id}', [NotificationController::class, 'getAllByUser']);
+    Route::get('/seeAll/{id}', [NotificationController::class, 'seeAllByUser']);
+
+    // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
 });

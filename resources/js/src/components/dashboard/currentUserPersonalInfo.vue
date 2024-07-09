@@ -51,8 +51,8 @@
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
-  import util from '@/util/numberUtil'
   import { inject, ref } from 'vue'
+  import util from '@/util/numberUtil'
 
   export default {
     setup() {
@@ -89,8 +89,8 @@
   }
   .user-info{
     background: #0185ff;
-    border-radius: 5px;
     padding: 13px 10px;
+    border-radius: 5px;
   }
   .dashboard-progress {
     width: 50%;

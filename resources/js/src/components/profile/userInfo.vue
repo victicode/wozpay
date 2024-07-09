@@ -25,7 +25,6 @@
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
                   <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" />
-
                 </q-item-label>
               </div>
             </q-item-section>
@@ -216,7 +215,6 @@
   import { useAuthStore } from '@/services/store/auth.store'
 
   import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router';
   import updatePhoneNumberVue from '@/components/profile/modals/updatePhoneNumber.vue';
   export default {
     components:{
@@ -228,7 +226,6 @@
       const icons = inject('ionIcons')
       const $q = useQuasar()
       const store = useUserStore()
-      const router = useRouter()
       const user = useAuthStore().user;
       const dialog = ref('')
       // data
@@ -258,7 +255,6 @@
         dialog.value = dialogToShow
       }
       const hideModal = (data) => {
-        
         dialog.value = '';
         user.phone = data ?? user.phone
       }
