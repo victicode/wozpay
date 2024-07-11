@@ -188,7 +188,7 @@
       <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-px-xs-lg q-pt-md">
         <q-btn 
           id="logout-button" 
-          label="Actualzar" 
+          label="Actualizar" 
           unelevated
           no-caps 
           color="terciary" 

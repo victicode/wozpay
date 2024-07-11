@@ -5,6 +5,7 @@ import dashboardLayout from '@/layouts/dashboardLayout.vue';
 import pageLayout from '@/layouts/pagesLayout.vue';
 import authLayout from '@/layouts/authLayout.vue';
 import bankPage from '@/pages/bank.vue';
+import bankAccountPage from '@/pages/accountBank.vue';
 import lastOperationPage from '@/pages/lastOperations.vue';
 import notificationsPage from '@/pages/notifications.vue';
 import profilePage from '@/pages/profile.vue';
@@ -45,6 +46,17 @@ const router = createRouter({
         {
           path: "/bank",
           component: bankPage,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Agregar cuenta bancaria'
+          },
+        },
+        {
+          path: "/account_bank",
+          component: bankAccountPage,
           meta: {
             // middleware: [
             //   auth,
@@ -115,6 +127,7 @@ const router = createRouter({
             title : 'Perfil'
           },
         },
+        
       ]
     },
     {

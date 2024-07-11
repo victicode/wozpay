@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="updateInfoDialog" persistent backdrop-filter="blur(8px)">
-      <q-card style="min-width: 350px">
+      <q-card style="min-width: 350px; transform:translateY(-25%)" >
         <q-card-section>
           <div class="text-subtitle1 text-weight-bold"> {{ setTitleByOperation() }}</div>
         </q-card-section>
@@ -19,6 +19,7 @@
               hint="Ej. Empleado, independiente, o empleador"
               dropdown-icon="eva-chevron-down-outline"
               class="selectedWorkType"
+              behavior="menu"
               @filter="filterWork"
             >
               <template v-slot:no-option>
@@ -99,7 +100,7 @@
       })
       const works = [
         'Trabajador/a independiente', 
-        'Trabajor/a publico', 
+        'Trabajador/a publico', 
         'Trabajador/a privado', 
         'Empleador/a', 
         'Jubilado/a' ,
@@ -136,8 +137,13 @@
         if(dialogType == 'work')   copyValue.value = user.work ;
         if(dialogType == 'office') copyValue.value = user.office;
         if(dialogType == 'salary') {
-          salaryRange.value.min = parseFloat(user.salary.split('-')[0].trim())*1000000
-          salaryRange.value.max = parseFloat(user.salary.split('-')[1].trim())*1000000
+          try{
+            salaryRange.value.min = parseFloat(user.salary.split('-')[0].trim())*1000000
+            salaryRange.value.max = parseFloat(user.salary.split('-')[1].trim())*1000000
+          }catch{
+
+          }
+            
         }
       }
       const setSendData = () => {

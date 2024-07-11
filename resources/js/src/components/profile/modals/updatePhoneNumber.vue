@@ -6,7 +6,18 @@
           <div class="text-h6">Coloca tú número telefónico</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="phone" clearable clear-icon="eva-close-outline" autofocus mask="(###) ###-####" hint="Formato: (###) ###-####"  />
+          <q-input 
+            dense 
+            v-model="phone" 
+            clearable 
+            clear-icon="eva-close-outline" 
+            autofocus mask="### ###-###" 
+            hint="Formato: (+595) ### ###-###"  
+          >
+            <template v-slot:prepend>
+              <div class="text-body2 text-black text-weight-bold" style="font-size: 0.85rem;">(+595)</div>
+            </template>
+          </q-input>
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Volver" @click="hideModal(null)"/>
@@ -23,7 +34,7 @@
       <q-card style="min-width: 350px" v-if="stepper == 2">
         <q-card-section>
           <div class="text-h6">Validar número</div>
-          <div class="text-subtitle2 q-mt-sm">Ingresa el codigo enviado a {{ phone }} por sms</div>
+          <div class="text-body1 q-mt-sm">Ingresa el codigo enviado a {{ phone }} por sms</div>
           <div class="text-body2 q-mt-xs">
             <span>
               El codigo expira en: {{ `${minutes}:${seconds < 10 ? '0'+seconds : seconds},` }}
@@ -128,7 +139,7 @@
         loading.value = state;
       }
       const validatePhone = () => {
-        if(!phone.value || phone.value.length < 14) {
+        if(!phone.value || phone.value.length < 11) {
           showNotify('negative', 'Número de teléfono no valido')
           return false
         }

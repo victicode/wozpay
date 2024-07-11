@@ -1,5 +1,5 @@
 <template>
-  <div style=" height: 91vh;">
+  <div style=" height: 91vh; position:relative">
     <Transition name="inFade">
       <div v-if="notifications.length > 0 && ready">
         <div class="text-subtitle1 q-my-sm text-weight-bold q-px-sm">
@@ -29,13 +29,25 @@
           </div>
         </div>
       </div>
-      <div v-else-if="notifications.length == 0 && ready">
-        <div>
-          <div>
+      <div v-else-if="notifications.length == 0 && ready" class="h-100">
+        <div style="z-index:1">
+          <div class="circle-bell__content">
+            <div class="circle-bell__container" v-html="wozIcons.notification" />
           </div>
-          <div v-html="wozIcons.notification" />
-          <div v-html="wozIcons.notification" />
-          <div v-html="wozIcons.notification" />
+          <div class="circle-bell__content">
+            <div class="circle-bell__container" v-html="wozIcons.notification" />
+          </div>
+          <div class="circle-bell__content">
+            <div class="circle-bell__container" v-html="wozIcons.notification" />
+          </div>
+        </div>
+        <div class="h-100 flex flex-center column" style="transform:translatey(-15%)">
+          <div>
+            <img :src="sadBell" alt="">
+          </div>
+          <div class="text-h6 text-weight-bold q-mt-md">
+            No tienes ninguna notificación
+          </div>
         </div>
       </div>
       <div v-else class="h-100">
@@ -63,7 +75,7 @@ import { useNotificationStore } from '@/services/store/notification.store'
 import { useAuthStore } from '@/services/store/auth.store'
 import moment from 'moment';
 import 'moment/locale/es';
-
+import sadBell from '@/assets/images/sadBell.svg'
 export default {
   setup () {
     const icons = inject('ionIcons')
@@ -106,22 +118,52 @@ export default {
         },
       });
     })
-    return { icons, wozIcons, notifications, user, moment, ready}
+    return { icons, wozIcons, notifications, user, moment, ready, sadBell}
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.inFade-enter-active,
-.inFade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.inFade-enter-from,
-.inFade-leave-to {
-  opacity: 0;
+.circle-bell__content {
+  height: 100px;
+  width:100px; 
+  border-radius:50%; 
+  padding:5px; 
+  display:flex; 
+  justify-content:center;
+  align-items:center; 
+  background:#b4c8fd;
   position: absolute;
 }
+
+.circle-bell__content:nth-child(1) {
+  bottom: 80%;
+  right: -3%;
+  transform: scale(1.8) rotate(30deg);
+}
+.circle-bell__content:nth-child(2) {
+  bottom: 35%;
+  left:-7%;
+  transform: scale(1.8) rotate(45deg);
+}
+.circle-bell__content:nth-child(3) {
+  bottom: 15%;
+  right: 0%;
+  transform: scale(1.2) ;
+}
+
+.circle-bell__container {
+  height: 80px;
+  width:80px; 
+  border-radius:50%; 
+  padding:5px; 
+  display:flex; 
+  justify-content:center;
+  align-items:center; 
+  background:#779dff;
+  filter: opacity(0.5);
+}
+
 .notification__content {
   width: 100%;
   border-bottom: 1px solid lightgray;

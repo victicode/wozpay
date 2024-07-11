@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\UserController;
 
@@ -40,10 +41,20 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
 });
 
-Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')->group(function () {
 
+Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')->group(function () {
     Route::get('/{id}', [NotificationController::class, 'getAllByUser']);
     Route::get('/seeAll/{id}', [NotificationController::class, 'seeAllByUser']);
+    // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
+});
+
+Route::middleware('jwt.verify')->prefix('banks')->name('bank.')->group(function () {
+    Route::get('/', [BankAccountController::class, 'getBanks']);
+
+    // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
+});
+Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')->group(function () {
+    Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
 
     // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
 });

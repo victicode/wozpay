@@ -66,11 +66,12 @@
   opacity: 1;
   width: 100%;
 }
+
 .horizontal-enter-active{
-  transform: translatex(1px);
+  transform: translatex(0px);
 }
 .horizontal-leave-active{
-  transform: translatex(1px);
+  transform: translatex(0px);
 }
 .horizontal-enter-from,
 .horizontal-leave-to {
@@ -86,6 +87,16 @@
 .horizontal-leave-to {
 
   transform: translatex(-1000px);
+}
+.inFade-enter-active,
+.inFade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.inFade-enter-from,
+.inFade-leave-to {
+  opacity: 0;
+  position: absolute;
 }
 
 .user-verify-user{

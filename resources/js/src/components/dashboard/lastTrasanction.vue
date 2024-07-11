@@ -1,58 +1,44 @@
 <template>
-  <div class="q-py-sm q-px-md" style="height: 100%; overflow: hidden;">
-    <div class=" q-pb-sm" :class="{'loan_container':isReady}">
+  <div class="q-py-sm q-px-md q-px-md-lg" >
+    <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold">Tú préstamo</div>
-          <div class="flex items-center q-mt-sm justify-between">
-
-            <div class="text-subtitle1 text-weight-bold text-dark " v-if="isReady" >
-              Gs.{{ numberFormat(5035000) }}
-            </div>
-            <div>
-              <q-icon
-                name="eva-arrow-ios-forward-outline"
-                size="sm"
-                color="lightgdark"
-              />
-            </div>
-          </div>
+          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold">Mis préstamos</div>
         </div>
       </div>
     </div>
-    <div style="height: 80%; ">
-      <div class="col-12 q-mt-md " v-if="isReady" >
-        <div class="text-subtitle1 text-center text-dark text-weight-medium">Cuotas</div>
-      </div>
-      <div class="quote-section" style="height: 100%; overflow-y: scroll;" v-if="isReady">
-        <div class="row q-pb-md">
-          <div class="col-12" >
-            <div class="row" >
-              <div class="col-12 flex items-center justify-between quote_container q-py-xs q-my-xs" v-for="n in 4" :key="n">
-                <div class="q-m">
-                  <div>
-                    Cuota {{n}} de 8
-                  </div>
-                  <div class="quote_description">
-                    Vencimiento 29/{{1+n}}/25
-                  </div>
-                </div>
-                <div>
-                  Gs.{{ numberFormat(250000) }}
-                </div>
+    <div style="">
+      <div class="quote-section" v-if="isReady">
+        <div class="row q-px-none">
+          <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
+            <div>
+              <div v-html="wozIcons.withdrawal" />
+            </div>
+            <div class="flex items-center justify-between  w-80 ">
+              <div class=" q-mr-md-none q-pl-md-md q-pl-xs w-50">
+                <div class="text-weight-medium">Préstamo</div>
+                <div class="text-weight-bold q-mt-xs">N° 619333455</div>
               </div>
-              <div class="q-mt-md">
+              <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
+                <div class="text-weight-medium text-right">Capital pendiente</div>
+                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(5000000)}}</div>
               </div>
             </div>
-          </div>
-          <div class="col-12 q-mt-md q-mb-xl" >
-            <div class="text-subtitle1 text-center text-primary text-weight-medium text-decoration-underline">Ver todo</div>
+            <div>
+              <q-btn round flat class="q-ml-md-md " > 
+                <q-icon
+                  name="eva-arrow-ios-forward-outline"
+                  size="xs"
+                  color="black"
+                />
+              </q-btn>
+            </div>
+            
           </div>
         </div>
       </div>
       <div v-else>
         <div class="w-100 column items-center q-pt-md">
-  
             <q-img
               :src="sadface"
               height="80px"
@@ -72,13 +58,15 @@
   import util from '@/util/numberUtil'
   import { inject, ref } from 'vue'
   import sadFace from '@/assets/images/sadFace.svg'
+  import wozIcons from '@/assets/icons/wozIcons';
+
   export default {
     setup() {
       //vue provider
       const user = useAuthStore().user;
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
-      const isReady = false
+      const isReady = true
       const sadface = sadFace
       // Data
       return{
@@ -86,13 +74,18 @@
         user,
         numberFormat,
         isReady,
-        sadface
+        sadface,
+        wozIcons
       }
     },
   }
 
 </script>
 <style lang="scss" scoped>
+.loan_card{
+  border-radius:23px;
+  box-shadow: 0px 5px 5px 0px #aaaaaa
+}
 .loan_container{
   border-bottom: 1px solid #d3d3d3;
 }
@@ -106,5 +99,19 @@
 .quote-section::-webkit-scrollbar {
     display: none;
 }
+.w-80 {
+  width: 85%;
+}
+.w-50 {
+  width: 50%;
+}
 
+@media screen and (max-width: 780px){
+  .w-80 {
+    width: auto;
+  }
+  .w-50 {
+    width: auto;
+  }
+}
 </style>

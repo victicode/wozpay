@@ -1,5 +1,5 @@
 <template>
-  <div class="q-py-xs q-px-md q-mt-m" style="height: 100%; overflow: hidden;">
+  <div class="q-py-xs q-px-md q-mt-m q-pb-md" style="height: 100%; overflow: hidden;">
     <div>
       <div class="text-subtitle1 text-weight-medium q-mt-sm text-dark">¿Qué puedes hacer?</div>
     </div>

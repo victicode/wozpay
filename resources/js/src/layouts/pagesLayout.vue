@@ -1,10 +1,10 @@
 <template>
-  <div class="layout-dasboard__content" v-if="readyState" style="">
+  <div class="layout-dasboard__content"  v-if="readyState"  style="">
     <topbar/>
     <div class="container_page" >
       <router-view v-slot="{ Component }">
         <transition name="horizontal">
-          <component :is="Component" v-if="readyState" />
+          <component :is="Component" />
         </transition>
       </router-view>
     </div>
@@ -56,7 +56,7 @@
       // Mounted
       onMounted(() =>{
         getCurrentUser()
-        $q.addressbarColor.set('#ffffff')
+        $q.addressbarColor.set('#565656')
       })
       
       return {

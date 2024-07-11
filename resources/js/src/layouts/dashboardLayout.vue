@@ -2,8 +2,8 @@
   <div class="layout-dasboard__content" v-if="readyState" style="">
     <div id="content-page" >
       <router-view v-slot="{ Component }">
-        <transition name="fades" >
-          <component :is="Component" v-if="readyState" />
+        <transition name="horizontal" >
+          <component :is="Component"  />
         </transition>
       </router-view>
     </div>
@@ -79,6 +79,7 @@
 #navbar-buttom{
   height: 10%;
   width: 100%;
+  background: #f1f0f0;
 }
 .layout-dasboard__content{
   height: 100vh;

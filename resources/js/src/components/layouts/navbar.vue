@@ -4,7 +4,7 @@
     right-icon="-"
     active-color="terciary"
     align="justify"
-    class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex" 
+    class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex q-py-xs" 
   >
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'"  exact replace  >
       <div class="flex flex-center column">
@@ -22,7 +22,7 @@
         <span class="q-mt-xs text-dark text-caption">Ult. Trans</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/bank'"  exact  replace  >
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'"  exact  replace  >
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"
