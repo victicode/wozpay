@@ -109,7 +109,7 @@ export const useAuthStore = defineStore("auth", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("api/auth/current_user")
+          ApiService.get("/api/auth/current_user")
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

@@ -12,6 +12,7 @@ import profilePage from '@/pages/profile.vue';
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
+import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
 
 
 const router = createRouter({
@@ -125,6 +126,17 @@ const router = createRouter({
               
             // ],
             title : 'Perfil'
+          },
+        },
+        {
+          path: "/add_account_bank/:id",
+          component: addAccountBank,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Agregar cuenta bancaria'
           },
         },
         

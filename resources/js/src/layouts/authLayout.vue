@@ -89,7 +89,7 @@
       height: 91vh; 
     }
     .auth-progress {
-      width: 45%;
+      width: 55%!important;
 
     }
   }

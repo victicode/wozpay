@@ -15,7 +15,7 @@
               <div v-html="wozIcons.withdrawal" />
             </div>
             <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mr-md-none q-pl-md-md q-pl-xs w-50">
+              <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-50">
                 <div class="text-weight-medium">Préstamo</div>
                 <div class="text-weight-bold q-mt-xs">N° 619333455</div>
               </div>
@@ -33,7 +33,6 @@
                 />
               </q-btn>
             </div>
-            
           </div>
         </div>
       </div>
@@ -113,5 +112,9 @@
   .w-50 {
     width: auto;
   }
+  .loan_card > div:nth-child(1){ width: 10%; }
+  .loan_card > div:nth-child(2){ width: 82%; }
+  .loan_card > div:nth-child(3){ width: 8%; }
+
 }
 </style>

@@ -111,12 +111,12 @@
       const dniRules = [
         val => (val !== null && val !== '') || 'El número de cedula es requerido.',
         val => (val.length >= 8 ) || 'Formato no valido',
+        val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener "[](),%|&;\'" ',
       ]
       const passwordRules = [
         val => (val !== null && val !== '') || 'La contraseña es requerida',
         val => (val.length >= 8 ) || 'Debe contener 8 caracteres',
         val => (/[,%" '();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
-
       ]
       // methods
       const login = () =>{
@@ -201,25 +201,6 @@
 .text-decoration-underline{
   text-decoration: underline;
 }
-.text-backLinear{
-  color:#e5b301!important
-}
-.bg-backLinear{
-  background: #e5b301!important;
-}
-.login-progress {
-  border: 1px solid white;
-  width: 30%;
-  border-radius: 90px;
-  & .q-linear-progress__track{
-    opacity: 1;
-  }
-  & .q-linear-progress__model {
-    border-top-right-radius: 90px;
-    border-bottom-right-radius: 90px;
-
-  }
-}
 .login-input {
   & .q-field__control{
     border-radius: 10px!important;
@@ -248,9 +229,6 @@
 
 }
 @media screen and (max-width: 780px){
-  .login-progress {
-    width: 45%;
-  }
   .login-input {
     & .q-field__bottom{
       transform: translateY(15px);

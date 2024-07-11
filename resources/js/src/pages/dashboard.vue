@@ -18,10 +18,7 @@
   </div>
 </template>
 <script>
-  import { inject, onMounted } from 'vue'
   import { useAuthStore } from '@/services/store/auth.store'
-  import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router';
   import util from '@/util/numberUtil'
   import currentUserPersonalInfo from '@/components/dashboard/currentUserPersonalInfo.vue';
   import actionsDashboard from '@/components/dashboard/actionsDashboard.vue';
@@ -37,10 +34,7 @@
     },
     setup() {
       //vue provider
-      const icons = inject('ionIcons')
-      const $q = useQuasar()
       const user = useAuthStore().user;
-      const router = useRouter();
       const numberFormat = util.numberFormat
       // Data
 
