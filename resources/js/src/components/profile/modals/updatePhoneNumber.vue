@@ -31,11 +31,11 @@
       </q-card>
     </transition>
     <transition name="step">
-      <q-card style="min-width: 350px" v-if="stepper == 2">
+      <q-card style="min-width: 350px" v-if="stepper == 2" class="">
         <q-card-section>
-          <div class="text-h6">Validar número</div>
-          <div class="text-body1 q-mt-sm">Ingresa el codigo enviado a {{ phone }} por sms</div>
-          <div class="text-body2 q-mt-xs">
+          <div class="text-h6 q">Validar número</div>
+          <div class="text-weight-medium q-mt-sm" style="font-size: 0.83rem;" >Ingresa el codigo enviado a +595 {{phone}} por sms</div>
+          <div class="text-caption q-mt-sm">
             <span>
               El codigo expira en: {{ `${minutes}:${seconds < 10 ? '0'+seconds : seconds},` }}
             </span>
@@ -44,7 +44,7 @@
 
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="code" autofocus  />
+          <q-input dense  v-model="code" autofocus  />
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Volver" @click="stepper = 1" />
@@ -85,6 +85,9 @@
       const seconds = ref('00');
       const timer = ref('');
       const phone = ref(user.phone)
+
+      
+
       // Methods
       const sendMobileCode = () =>{
         if(!validatePhone()) return;
@@ -165,7 +168,7 @@
         emit('hideModal', data)
       }
       const reSendCode = () => {
-        sendMobileCode();
+        // sendMobileCode();
         setTimeout(() => {
           seconds.value = 0
           minutes.value = 10

@@ -10,17 +10,19 @@
             <q-form
               id="LoginForm"
               class="q-gutter-md"
+              @submit="addAccountBank()"
             >
             <div class="row ">
               <div class="col-12 q-my-md">
                 <q-input
-                  class="account_bankForm no-display-value"
+                  class="account_bankForm no-display-value q-pb-none"
                   outlined
                   color="positive"
                   v-model="selectedBank.name"
                   disabled
                   label="Entidad Bancaria"
                   autocomplete="off"
+                  disable
                 > 
                 <template v-slot:prepend>
                   <div class="input-logo-container">
@@ -54,6 +56,7 @@
                   :clear-icon="'eva-close-outline'"
                   color="positive"
                   v-model="user.name"
+                  disable
                   name="id_user"
                   label="Titular de la cuenta"
                   :rules="rulesForm('owner')"
@@ -63,7 +66,7 @@
               <div class="col-12 q-my-md">
                 <q-select 
                   outlined
-                  class="account_bankForm" 
+                  class="account_bankForm q-pb-none" 
                   v-model="newBankAccount.type" 
                   :options="['Ahorro', 'Corriente']" 
                   label="Tipo de cuenta" 
@@ -71,11 +74,13 @@
                   :rules="rulesForm('type')"
                   :clear-icon="'eva-close-outline'"
                   dropdown-icon="eva-chevron-down-outline"
+                  behavior="menu"
+
                 />
               </div>
               <div class="col-12 q-my-md">
                 <q-input
-                  class="account_bankForm"
+                  class="account_bankForm q-pb-none"
                   outlined
                   clearable
                   :clear-icon="'eva-close-outline'"
@@ -87,6 +92,7 @@
                   reverse-fill-mask
                   :rules="rulesForm('ownerDni')"
                   autocomplete="off"
+                  disable
                 />
               </div>
               
@@ -96,10 +102,10 @@
                   label="Agrega cuenta bancaria" 
                   unelevated
                   no-caps 
+                  type="submit" 
                   color="primary q-py-md" 
                   class="full-width" 
-                  :loading="loading"
-                  @click="addAccountBank()" 
+                  :loading="loading" 
                 >
                   <template v-slot:loading>
                     <q-spinner-facebook />
@@ -129,19 +135,23 @@
   </div>
 </template>
 <script>
-  import { inject, onMounted, ref } from 'vue'
+  import {  onMounted, ref } from 'vue'
   import wozIcons from '@/assets/icons/wozIcons'
   import { useBankAccountStore } from '@/services/store/bankAccount.store'
   import { useAuthStore } from '@/services/store/auth.store'
   import { useRoute } from 'vue-router'
   import { useRouter } from 'vue-router'
+  import { useQuasar } from 'quasar'
+  
 
   export default {
     setup () {
       const store = useBankAccountStore()
+      const q = useQuasar()
       const selectedBank = ref({})
       const ready = ref(false)
       const route = useRoute()
+      const router = useRouter()
       const loading = ref(false)
       const user = useAuthStore().user;
       const newBankAccount = ref({
@@ -151,7 +161,6 @@
         type:'',
 
       })
-      // const user = useAuthStore().user;
 
       const getSelectedBank = () =>{
         store.getAllBanks().then((data) =>{
@@ -167,14 +176,31 @@
         })
       }
       const addAccountBank = () => {
-        
+        if(!validate()) return
+
+        loadingShow(true)
+        store.addBankAccount(newBankAccount.value).then((data) => {
+          if(data.code !== 200){
+            throw data
+          }  
+          setTimeout(() => {
+            loadingShow(false)
+            showNotify('positive', 'Cuenta bancaria registrada')
+            router.push('/account_bank')
+            // router.push('/bank')
+
+          }, 1000)
+        }).catch((e) => {
+          loadingShow(false)
+          showNotify('negative', 'Error al intentar registrar')
+        })
       }
       const rulesForm = (id) => {
         const iRules = {
           number:[
             val => (val !== null && val !== '') || 'El número de cuenta es requerido.',
-            val => (val.length >= 8 ) || 'Formato no valido',
-            val => (/[,%"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+            val => (val.length > 20 ) || 'Debe contener 20 digitos',
+            val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
           owner:[
             val => (val !== null && val !== '') || 'Nombre del propietario es requerido.',
@@ -187,12 +213,29 @@
             val => (/[,%"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
           ],
           type:[
-            val => (val !== null && val !== '') || 'El número de cedula es requerido.',
+            val => (val !== null && val !== '') || 'El tipo de cuenta.',
             val => (/[,%"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
           ],
         }
         
         return iRules[id]
+      }
+      const validate = () => {
+        let isOk = true
+        Object.entries(newBankAccount.value).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+        return isOk
+      }
+      const showNotify = (type, message) => {
+        q.notify({
+          message: message,
+          color: type,
+          actions: [
+            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
+      }
+      const loadingShow = (state) => {
+        loading.value = state;
       }
       onMounted(() => {
         getSelectedBank()
@@ -202,12 +245,13 @@
   }
 </script>
 <style lang="scss" >
-  .no-display-value{
+  .no-display-value.q-field--disabled{
     
     & .q-field__native{
-      opacity: 0;
+      opacity: 0!important;
     }
   }
+  
   .account_bankForm.q-field--auto-height.q-field--labeled{
      & .q-field__control-container{
       padding-top: 0px!important;
@@ -222,7 +266,7 @@
     }
     &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
       z-index: 100;
-      background: white!important;
+      background: white;
       font-weight: 600;
       max-width: 133%;
       transform: translateY(-122%) translateX(4%) scale(0.75)!important;
@@ -235,6 +279,22 @@
     & .q-field__append{
       transform: translateY(3%)
     }
+  }
+
+  .input-logo-container{
+    height: 50px; overflow: hidden; width: max-content;  position: absolute
+  }
+  @media screen and (max-width: 780px){
+  .account_bankForm {
+      & .q-field__bottom{
+        transform: translateY(15px);
+      }
+    }
+  }
+</style>
+<style lang="scss" scoped>
+  .w-100{
+    width: 100%;
   }
   .bancoBasa{
     transform: translateX(5%) translateY(30%)
@@ -260,20 +320,5 @@
   }
   .wally{
     transform: translateY(30%) translateX(5%);
-  }
-  .input-logo-container{
-    height: 50px; overflow: hidden; width: max-content;  position: absolute
-  }
-  @media screen and (max-width: 780px){
-  .account_bankForm {
-      & .q-field__bottom{
-        transform: translateY(15px);
-      }
-    }
-  }
-</style>
-<style lang="scss" scoped>
-.w-100{
-    width: 100%;
   }
 </style>

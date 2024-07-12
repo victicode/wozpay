@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\AccountBank;
 use App\Models\Bank;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -27,8 +28,7 @@ class BankAccountController extends Controller
     public function getAccountsBanksByUser($userId)
     {
         try {
-            //code...
-            $accountsBank = AccountBank::where('user_id', $userId)->get();
+            $accountsBank = AccountBank::with(['bank','user'])->where('user_id', $userId)->get();
         } catch (Exception $th) {
             return $this->returnFail(400, $th);
         }
@@ -37,19 +37,29 @@ class BankAccountController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeAccountBank(Request $request)
     {
         //
+        $user = User::find($request->user);
+
+        try {
+            $newAccountBank = AccountBank::create([
+                'account_number' => $request->number,
+                'account_type' => $request->type,
+                'account_owner' => $user->name,
+                'account_owner_dni' => $user->dni,
+                'user_id' => $user->id,
+                'bank_id' => $request->bank,
+            ]);
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+
+       return $this->returnSuccess(200, $newAccountBank);
+
+        
     }
 
     /**

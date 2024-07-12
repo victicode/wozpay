@@ -46,6 +46,27 @@ export const useBankAccountStore = defineStore("bankAccount", {
         return 'Error al actualizar datos';
       });
     },
+    async addBankAccount(data) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/accounts_bank/", data)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al actualizar datos');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    }
   },
   getters: {
   },
