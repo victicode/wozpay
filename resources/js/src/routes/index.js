@@ -13,7 +13,7 @@ import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
 import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
-
+import deposit from '@/pages/deposit.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -53,6 +53,17 @@ const router = createRouter({
               
             // ],
             title : 'Agregar cuenta bancaria'
+          },
+        },
+        {
+          path: "/deposit",
+          component:deposit,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Cargar dinero a tu billetera'
           },
         },
         {

@@ -12,7 +12,7 @@
             clearable 
             clear-icon="eva-close-outline" 
             autofocus mask="### ###-###" 
-            hint="Formato: (+595) ### ###-###"  
+            hint="Formato: (+595) ### ###-##"  
           >
             <template v-slot:prepend>
               <div class="text-body2 text-black text-weight-bold" style="font-size: 0.85rem;">(+595)</div>
@@ -41,13 +41,13 @@
             </span>
             <span class="text-decoration-underline q-ml-xs" @click="reSendCode()">reenviar</span>
           </div>
-
         </q-card-section>
         <q-card-section class="q-pt-none">
           <q-input dense  v-model="code" autofocus  />
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Volver" @click="stepper = 1" />
+            
+          <q-btn flat label="Volver" @click="stepper = 1 ; clearTimer()" />
           <q-btn flat label="Confirmar" :loading="loading"  @click="verifyPhoneNumber()" >
 
             <template v-slot:loading>
@@ -124,9 +124,9 @@
             return;
           }
           if(data.data =="approved"){
+            clearInterval(timer.value)
             loadingShow(false);
             hideModal(phone)
-            clearInterval(timer.value)
             showNotify('positive', 'Número de teléfono validado con exito')
             return;
           }
@@ -175,13 +175,14 @@
         }, 1000);
       }
       const initTimer = () => {
-				timer.value = setInterval(function () {
+        timer.value = setInterval(function () {
+          console.log(timer.value)
 					if ((seconds.value === '00' || seconds.value === 0) &&  minutes.value !== 0) {
 						seconds.value = 59
 						minutes.value -= 1
 					} else if (minutes.value === 0 && seconds.value === 0) {
 						seconds.value = 0
-						clearInterval(timer.value)
+						clearTimer()
             showNotify('negative', 'Se agotó el tiempo!')
             return
 						
@@ -190,6 +191,9 @@
 					}
 				}, 1000);
 			}
+      const clearTimer = () =>{
+        clearInterval(timer.value)
+      }
       return {
         loading,
         user,
@@ -199,10 +203,12 @@
         minutes,
         updatePhoneDialog,
         phone,
+        timer,
         sendMobileCode,
         verifyPhoneNumber,
         hideModal,
         reSendCode,
+        clearTimer,
       }
     }
   };

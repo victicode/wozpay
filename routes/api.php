@@ -55,6 +55,8 @@ Route::middleware('jwt.verify')->prefix('banks')->name('bank.')->group(function 
 Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')->group(function () {
     Route::post('/', [BankAccountController::class, 'storeAccountBank']);
     Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
+    Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);
+    Route::get('/delete/{id}', [BankAccountController::class, 'destroyAccountBank']);
 
 
     // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);

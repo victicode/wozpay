@@ -1,7 +1,7 @@
 <template>
   <div id="topbarLayout">
     <div class="w-100 flex justify-center items-end h-100 q-pb-sm">
-      <h6 class="text-weight-bold">{{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title}}</h6>
+      <div class="text-weight-bold text-subtitle1">{{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title}}</div>
     </div>
   </div>
 </template>

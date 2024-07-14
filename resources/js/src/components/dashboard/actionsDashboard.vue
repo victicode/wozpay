@@ -18,7 +18,7 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-xs actions-button w-100">
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-xs actions-button w-100" to="/deposit" >
             <div v-html="icons.cargar" />
             <span class="q-mt-xs text-dark text-caption">Cargar</span>
           </q-btn>

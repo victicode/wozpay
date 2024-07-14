@@ -81,16 +81,36 @@ class BankAccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateAccountBank(Request $request, string $id)
     {
-        //
+        $bankAccount = AccountBank::find($id);
+
+        if(!$bankAccount) return $this->returnFail(400, 'Cuenta no existe');
+        try {
+            $bankAccount->account_number = $request->account_number ?? $bankAccount->account_number ;
+            $bankAccount->account_type = $request->account_type ?? $bankAccount->account_type ;
+            $bankAccount->save();
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+
+       return $this->returnSuccess(200, $bankAccount);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroyAccountBank( string $id)
     {
-        //
+        $bankAccount = AccountBank::find($id);
+
+        if(!$bankAccount) return $this->returnFail(400, 'Cuenta no existe');
+        try {
+            $bankAccount->delete();
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+
+       return $this->returnSuccess(200, $bankAccount);
     }
 }

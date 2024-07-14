@@ -34,7 +34,7 @@
       //vue provider
       const store = useUserStore();
       const authStore = useAuthStore();
-      let user = useAuthStore().user;
+      const user = useAuthStore().user;
       const $q = useQuasar();
 
       // Data
@@ -92,7 +92,12 @@
       const hideModal = (data) => {
         emit('hideModal', data)
       }
-      const uptadteInfo = () =>{
+      const uptadteInfo = () => {
+        if(!validate()){
+          showNotify('negative', 'El formulario no se puede enviar vacío')
+          return
+        }
+
         loadingShow(true)
         store.updateUser(setSendData())
         .then((data)=> {
@@ -115,7 +120,11 @@
           showNotify('negative', 'Error al enviar codigo')
         })
       }
-
+      const validate = () => {
+        console.log(copy.value)
+        if(copy.value == null || copy.value.length == 0) return false;
+        return true;
+      }
       onMounted(() => {
         setModelInput()
       })

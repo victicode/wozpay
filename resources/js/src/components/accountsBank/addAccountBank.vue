@@ -8,7 +8,7 @@
           </div>
           <div>
             <q-form
-              id="LoginForm"
+              id="addAccountForm"
               class="q-gutter-md"
               @submit="addAccountBank()"
             >
@@ -26,7 +26,6 @@
                 > 
                 <template v-slot:prepend>
                   <div class="input-logo-container">
-
                     <div style="height: 100%; width: 100%;" :class="selectedBank.logo">
                       <div v-html="wozIcons[selectedBank.logo]" />
                     </div>
@@ -159,7 +158,6 @@
         user: user.id,
         number:'',
         type:'',
-
       })
 
       const getSelectedBank = () =>{
