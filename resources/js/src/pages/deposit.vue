@@ -1,10 +1,10 @@
 <template>
-  <div style="height: 91vh; overflow: scroll;">
+  <div style="height: 91vh; overflow-y: auto;">
     <div class="q-pa-md-md q-pa-sm q-px-md q-mb-xl" >
       <Transition name="inFade">
         <div v-if="ready">
           <div>
-            <div class="text-body2 text-weight-bold q-mb-sm q-pt-sm ">¿Por qué pedimos que cargues tu billetera?
+            <div class="text-body2 text-weight-bold q-mb-md q-pt-sm ">¿Por qué pedimos que cargues tu billetera?
             </div>
             <div class="benefict-options__container q-pa-md">
               <div class="text-weight-medium q-mb-xs">• Debito de los préstamos</div>
@@ -14,7 +14,7 @@
           </div>
           <div class="q-mt-md">
             <div>
-              <div class="text-body1 text-weight-bold q-mb-xs q-pt-sm ">
+              <div class="text-body1 text-weight-bold q-mb-none q-pt-sm ">
                 Escoge cuánto cargar
               </div>
               <div class="text-caption text-weight-medium q-mb-sm " style="font-size: 0.73rem!important;">
@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="q-mt-md">
-              <div v-for="n in amountList" :key="n" class=" q-mb-md amount__container q-pl-md">
+              <div v-for="(n, key) in amountList" :key="key" class=" q-mb-md amount__container q-pl-md" @click="selectAmount(key)">
                 <div class="text-weight-medium">Gs {{ numberFormat(n) }}</div>
                 <div></div>
               </div>
@@ -37,38 +37,58 @@
                 Indica cuánto quieres cargar en tu billetera
               </div>
             </div>
-            <div class="q-mt-lg">
+            <div class="q-mt-lg q-px-sm">
               <div>
-                <q-input v-model="mount" placeholder="GS. 0" class="amount_diff"  />
+                <q-input 
+                  v-model="amount" 
+                  placeholder="GS. 0" 
+                  class="amount_diff" 
+                  mask="###.###.###.###"
+                  reverse-fill-mask 
+                />
               </div>
             </div>
-            <div>
+            <div class="q-pt-xs q-mx-md-xl q-px-md-sm">
               <q-btn 
-                  label="Pagar con Tigo Money" 
-                  unelevated
-                  no-caps 
-                  type="submit" 
-                  color="tigo" 
-                  class="full-width q-mt-lg rounded_button" 
-                  :loading="loading" 
-                >
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-                <q-btn 
-                  label="Pagar con Personal Pay" 
-                  unelevated
-                  no-caps 
-                  type="submit" 
-                  color="personal" 
-                  class="full-width q-mt-sm rounded_button" 
-                  :loading="loading" 
-                >
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
+                label="Pagar con Tigo Money" 
+                unelevated
+                no-caps 
+                type="submit" 
+                color="tigo" 
+                class="full-width q-mt-lg rounded_button" 
+                :loading="loading=='tigo'" 
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+              <q-btn 
+                label="Pagar con Personal Pay" 
+                unelevated
+                no-caps 
+                type="submit" 
+                color="personal" 
+                class="full-width q-mt-md rounded_button" 
+                :loading="loading=='personal'" 
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+              <q-btn 
+                label="Pagar con Tpago" 
+                unelevated
+                no-caps 
+                type="submit" 
+                color="primary" 
+                class="full-width q-mt-lg rounded_button" 
+                :loading="loading=='tpago'"
+                @click="getUrlPay()" 
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
             </div>
           </div>
         </div>
@@ -78,36 +98,98 @@
             <q-skeleton type="QBtn" width="20%" height="15px" />
           </div>
         </div>
-      </Transition>      
+      </Transition> 
+      <q-dialog v-model="dialog" persistent transition-show="scale" transition-hide="scale">
+        <q-card class="bg-white text-white flex flex-center q-py-md" style="width: 300px">
+          <q-card-section class="q-py-none">
+            <q-spinner-hourglass
+              color="grey-5"
+              size="5em"
+            />
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
 <script>
   import { onMounted, ref } from 'vue'
   import wozIcons from '@/assets/icons/wozIcons'
-  import { useBankAccountStore } from '@/services/store/bankAccount.store'
   import { useRouter } from 'vue-router';
   import util from '@/util/numberUtil'
+  import { usePayStore } from '@/services/store/pay.store'
+  import { useQuasar } from 'quasar';
+
   export default {
     setup () {
       const ready = ref(true)
       const router = useRouter()
       const numberFormat = util.numberFormat
-      const loading = ref(false)
+      const loading = ref('')
+      const payStore = usePayStore()
+      const q = useQuasar()
+      const dialog = ref(false)
       const amountList = [
         30000,
         60000,
         100000,
         150000
       ]
-      const mount = ref('')
+      const amount = ref('')
+      const payForm = ref('')
 
       const loadingShow = (state) => {
         loading.value = state;
       }
+      const selectAmount = (index) => {
+        amount.value = amountList[index]
+      }
+      const getUrlPay = () => {
+        loadingShow('tpago')
+        dialog.value = true
+        const data = {
+          amount: formatAmount(),
+          type: 1,
+          debitDay: new Date().getDate()
+        }
+        payStore.payRequest(data)
+        .then((response) => {
+          if(response.code !== 200) throw response
+          console.log(response.data)
+          payForm.value = response.data.link_url
+          setTimeout(() => {
+            loadingShow('')
+            dialog.value = false
+            openTpagoWindow()
+          }, 1000);
+        }).catch(() =>{
+          showNotify.apply('negative', 'Error para procesar el pago')
+        })
+
+      }
+      const formatAmount = () => {
+        return parseInt(amount.value.replace(/\./g, ''))
+      }
+      const showNotify = (type, message) => {
+        q.notify({
+          message: message,
+          color: type,
+          actions: [
+            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
+      }
+      const openTpagoWindow = () => {
+        var ventana = window.open(payForm.value, 'pago', `height=${q.screen.height},width=${q.screen.width}`);
+        setTimeout(() => {
+          ventana.document.close();
+          ventana.focus();
+          return true;
+        }, 1000);
+      }
       onMounted(() => {
       })
-      return { ready, wozIcons, numberFormat, amountList, mount, loading }
+      return { ready, wozIcons, numberFormat, amountList, amount, loading, payForm, dialog, getUrlPay, selectAmount, }
     },
   }
 </script>
@@ -118,7 +200,6 @@
 
 }
 .benefict-options__container{
-
   border: 1.5px solid $primary;
   border-radius: 15px;
 }
@@ -129,6 +210,8 @@
   display: flex;
   align-items: center;
   overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0px 2px 5px 0px lightgrey;
 }
 </style>
 <style>
@@ -148,10 +231,16 @@
   border-radius: 12px!important;
   padding: 0.8rem 0px!important;
 }
+.amount_diff input{
+  text-align: center;
+  color: rgb(71, 71, 71);
+  font-size: 35px;
+  transform: translateY(5px);
+
+}
 .amount_diff input::placeholder{
   color: rgb(165, 165, 165);
   text-align: center;
-  font-size: 35px;
-  transform: translateY(10px);
+
 }
 </style>

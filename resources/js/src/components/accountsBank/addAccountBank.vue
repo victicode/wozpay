@@ -184,9 +184,7 @@
           setTimeout(() => {
             loadingShow(false)
             showNotify('positive', 'Cuenta bancaria registrada')
-            router.push('/account_bank')
-            // router.push('/bank')
-
+            router.go(-2)
           }, 1000)
         }).catch((e) => {
           loadingShow(false)

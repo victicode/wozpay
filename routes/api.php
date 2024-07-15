@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\PayController;
 use App\Http\Controllers\Api\UserController;
 
 /*
@@ -60,4 +61,7 @@ Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')-
 
 
     // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
+});
+Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {
+    Route::post('/', [PayController::class, 'payRequest']);
 });
