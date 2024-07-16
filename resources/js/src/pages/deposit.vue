@@ -156,7 +156,7 @@
         .then((response) => {
           if(response.code !== 200) throw response
           console.log(response.data)
-          payForm.value = response.data.link_url
+          payForm.value = response.data.payment_link.link_url ?? response.data.subscription_link
           setTimeout(() => {
             loadingShow('')
             dialog.value = false
