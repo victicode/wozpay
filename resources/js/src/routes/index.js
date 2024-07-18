@@ -4,16 +4,19 @@ import auth from './middlewares/auth'
 import dashboardLayout from '@/layouts/dashboardLayout.vue';
 import pageLayout from '@/layouts/pagesLayout.vue';
 import authLayout from '@/layouts/authLayout.vue';
+import paysLayout from '@/layouts/paysLayout.vue';
 import bankPage from '@/pages/bank.vue';
 import bankAccountPage from '@/pages/accountBank.vue';
 import lastOperationPage from '@/pages/lastOperations.vue';
 import notificationsPage from '@/pages/notifications.vue';
 import profilePage from '@/pages/profile.vue';
+import deposit from '@/pages/deposit.vue'
+import creditApply from '@/pages/creditApply.vue'
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
 import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
-import deposit from '@/pages/deposit.vue'
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -107,6 +110,17 @@ const router = createRouter({
           },
         },
         {
+          path: "/apply",
+          component: creditApply,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Solicitar'
+          },
+        },
+        {
           path: "/user_info",
           component: userInfo,
           meta: {
@@ -116,7 +130,7 @@ const router = createRouter({
             // ],
             title : 'Perfil'
           },
-        },
+        }, 
         {
           path: "/user_address",
           component: userAddress,

@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%; background:#f1f0f0">
     <div style="height: 100%;">
-      <div style="height: 28%;">
+      <div style="height: 28.3%;">
         <currentUserPersonalInfo />
       </div>
       <div class="bg-white">

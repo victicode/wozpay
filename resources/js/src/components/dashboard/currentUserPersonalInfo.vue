@@ -1,20 +1,20 @@
 <template>
-  <div class="bg-primary q-pt-md q-px-lg" style="height: 100%; overflow: hidden;">
+  <div class="userInfoContent q-pt-md q-px-lg" >
     <div style="">
       <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
       <h5 class="text-white q-mt-xs text-weight-bold ">Gs.{{ user.account ? ` ${user.account}` : 0 }}</h5>
     </div>
-    <div class="q-mt-md  q-mt-md-sm">
-      <div class="w-100 user-info">
+    <div class="  ">
+      <div class="w-100 user-info q-mt-md-sm">
         <div class="flex items-center"> 
-          <h6 class=" text-subtitle1 text-weight-medium text-white q-mr-xs">
+          <h6 class=" text-subtitle1 text-weight-medium  q-mr-xs  q-mt-xs q-mb-none">
             {{ user.name }} 
           </h6>
           <div>
             <q-icon
               :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
               size="sm"
-              :color=" user.verify_status == 1 ? 'terciary' :'white'"
+              :color=" user.verify_status == 1 ? 'terciary' :'grey-5'"
               class="user-verify-user"
               :class="{'verify-user':user.verify_status == 2, }"
               @click="showToltip"
@@ -38,10 +38,10 @@
           </div>
         </div>
         <div>
-          <q-linear-progress rounded size="4px" track-color="primary"  :value="0.55" color="white"  class="q-mt-sm dashboard-progress" />
+          <q-linear-progress rounded size="4px" track-color="grey-5"  :value="0.55" color="terciary"  class="q-mb-sm dashboard-progress" />
         </div>
         <div class="q-mt-sm">
-          <span class="text-caption text-weight-bold text-white">
+          <span class="text-body2 text-weight-bold">
             CI N°: {{ numberFormat(user.dni) }} 
           </span>
         </div>
@@ -84,13 +84,25 @@
 
 </script>
 <style lang="scss" scoped>
+  .userInfoContent{
+    height: 100%; 
+    overflow: hidden;
+    background: linear-gradient(180deg, #0449fb 65%, #fff 60%);
+  }
   h5{
     font-size: 1.9rem!important;
   }
+  // .user-info{
+  //   background: #0185ff;
+  //   padding: 13px 10px;
+  //   border-radius: 5px;
+  // }
   .user-info{
-    background: #0185ff;
+    margin-top: 14px;
+    background: white;
     padding: 13px 10px;
     border-radius: 5px;
+    box-shadow: 0px 3px 5px 0px rgba(168, 168, 168, 0.651);
   }
   .dashboard-progress {
     width: 50%;

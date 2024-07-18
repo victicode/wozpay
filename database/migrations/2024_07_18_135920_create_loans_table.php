@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loan', function (Blueprint $table) {
+        Schema::create('loans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('quotas');
-            $table->integer('type');
             $table->date('due_date');
+            $table->integer('type');
+            $table->double('amount');
+            $table->double('amount_to_pay');
+            $table->integer('quaotas');
+            $table->enum('status', [0, 1, 2, 3, 4])->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loan');
+        Schema::dropIfExists('loans');
     }
 };

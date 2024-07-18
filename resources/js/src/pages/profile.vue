@@ -7,7 +7,7 @@
         <q-toolbar class="bg-grey-5 text-black ">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold">Datos personales</span>
+              <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos personales</span>
               <span>
                 <!-- <q-icon name="eva-edit-2-outline" /> -->
                 <q-btn unelevated flat round color="bg-grey-5" style="color: black"  to="/user_info" icon="eva-edit-2-outline" />
@@ -107,7 +107,7 @@
         <q-toolbar class="bg-grey-5 text-black q-mt-sm">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold">Dirección particular</span>
+              <span class="text-subtitle2 text-weight-bold q-mt-sm">Dirección particular</span>
               <span>
                 <!-- <q-icon name="eva-edit-2-outline" /> -->
                 <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_address" icon="eva-edit-2-outline" />
@@ -160,7 +160,7 @@
         <q-toolbar class="bg-grey-5 text-black q-mt-sm">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold">Información profesional</span>
+              <span class="text-subtitle2 text-weight-bold q-mt-sm">Información profesional</span>
               <span>
                 <!-- <q-icon name="eva-edit-2-outline" /> -->
                 <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_proffesion" icon="eva-edit-2-outline" />
