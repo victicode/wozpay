@@ -5,19 +5,19 @@ import { createPinia } from "pinia";
 import { Quasar, Notify, AddressbarColor, Dialog } from 'quasar'
 import quasarLang from 'quasar/lang/es'
 import router from "@/routes/index.js";
-
+import { Picker } from 'vant';
 // import { func } from '@/core/services/utils/utils.js'
 
 // Import icon libraries
-import '@quasar/extras/roboto-font/roboto-font.css'
-import '@quasar/extras/eva-icons/eva-icons.css'
+
 import * as materialIcons from '@quasar/extras/material-icons-outlined'
 import * as materialIcons2 from '@quasar/extras/material-icons-sharp'
 
-import * as ionIcons from '@quasar/extras/ionicons-v7'
-import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
+// import * as ionIcons from '@quasar/extras/ionicons-v7'
+// import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 
-
+import iconSet from 'quasar/icon-set/svg-eva-icons'
+import '@quasar/extras/eva-icons/eva-icons.css'
 // A few examples for animations from Animate.css:
 import '@quasar/extras/animate/fadeIn.css'
 import '@quasar/extras/animate/fadeOut.css'
@@ -49,19 +49,9 @@ app.use(Quasar, {
     Dialog,
   }, // import Quasar plugins and add here
   lang: quasarLang,
-  /*
-  config: {
-    brand: {
-      // primary: '#e46262',
-      // ... or all other brand colors
-    },
-    notify: {...}, // default set of options for Notify Quasar plugin
-    loading: {...}, // default set of options for Loading Quasar plugin
-    loadingBar: { ... }, // settings for LoadingBar Quasar plugin
-    // ..and many more (check Installation card on each Quasar component/directive/plugin)
-  }
-  */
+  iconSet: iconSet,
 })
-app.provide('ionIcons', {...ionIcons, ...materialIcons, ...materialIcons2})
+app.use(Picker);
+app.provide('ionIcons', { ...materialIcons, ...materialIcons2})
 
 app.mount('#app')

@@ -14,7 +14,7 @@
           </div>
           <div class="q-mt-md">
             <div>
-              <div class="text-body1 text-weight-bold q-mb-none q-pt-sm ">
+              <div class="text-body1 text-weight-bold q-mb-none q-pt-sm "  >
                 Escoge cuánto cargar
               </div>
               <div class="text-caption text-weight-medium q-mb-sm " style="font-size: 0.73rem!important;">

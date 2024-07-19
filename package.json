@@ -21,6 +21,7 @@
         "pinia": "^2.1.7",
         "quasar": "^2.16.4",
         "unplugin-auto-import": "^0.17.1",
+        "vant": "^4.9.2",
         "vue": "^3.4.29",
         "vue-router": "^4.3.3"
     }

@@ -35,7 +35,6 @@
 
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
-  import { inject } from 'vue'
   import wozIcons from '@/assets/icons/wozIcons'
 
   export default {

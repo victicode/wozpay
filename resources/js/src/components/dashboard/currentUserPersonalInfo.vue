@@ -14,7 +14,7 @@
             <q-icon
               :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
               size="sm"
-              :color=" user.verify_status == 1 ? 'terciary' :'grey-5'"
+              :color=" user.verify_status > 0 ? 'terciary' :'grey-5'"
               class="user-verify-user"
               :class="{'verify-user':user.verify_status == 2, }"
               @click="showToltip"
