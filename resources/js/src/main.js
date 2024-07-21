@@ -28,6 +28,7 @@ import '@quasar/extras/animate/fadeOutDown.css'
 import 'quasar/src/css/index.sass'
 import "quasar/src/css/flex-addon.sass";
 import '@/plugins/quasar/scss/template.scss'
+import 'vant/lib/index.css';
 
 import mitt from 'mitt'
 const emitter = mitt()

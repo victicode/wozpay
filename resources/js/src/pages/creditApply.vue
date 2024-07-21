@@ -26,7 +26,7 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'business')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -39,7 +39,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'business_address')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -52,7 +52,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'business_phone')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -90,7 +90,7 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'boss_name')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -103,7 +103,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'boss_phone')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -115,7 +115,6 @@
                 </q-item-section>
               </q-item>
               <q-separator />
-              
             </q-list>
             <q-toolbar class="bg-grey-5 text-black q-mt-sm">
               <q-toolbar-title> 
@@ -126,7 +125,7 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'reference_name')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -139,7 +138,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'reference_relationship')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -152,7 +151,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(1, 'reference_phone')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -183,14 +182,14 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(3, 'informconf')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Certificado - reporte de Informconf
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.informconf ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.informconf ? readTapes.informconf.name : 'Agregar' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -205,27 +204,27 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(3, 'work_certificate')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Certificado laboral firmado
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_name ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.work_certificate ? readTapes.work_certificate.name : 'Agregar' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(3, 'last_ips')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Tres ultimos IPS
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_phone ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.last_ips ? readTapes.last_ips.name : 'Agregar' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -241,40 +240,40 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(2, 'amount')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Primer préstamo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_name ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.amount ? 'Gs.' + numberFormat(loan.amount) : 'Agregar' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section @click="showInputModal(2, 'due_date')">
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Plazo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_relationship ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + 'días' : 'Agregar' }} </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showModal('setValue')">
+                <q-item-section>
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Total a devolver
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_phone ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">Gs. {{ numberFormat(loan.amountToPay) }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -296,7 +295,7 @@
         <template v-slot:navigation>
           <q-stepper-navigation class="q-mt-md flex justify-end">
             <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
-            <q-btn @click="$refs.stepper.next()" color="primary" class="w-100 q-pa-sm q-mb-lg" :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" />
+            <q-btn @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" color="primary" class="w-100 q-pa-sm q-mb-lg" :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" />
           </q-stepper-navigation>
         </template>
       </q-stepper>
@@ -318,10 +317,10 @@
       </div>
     </div>
     <div v-if="dialog == 'redirect'">
-      <redirectModal :dialog="(dialog == 'redirect')" :type="redirectType" />
+      <redirectModal :dialog="(dialog == 'redirect')" :input="input" />
     </div>
     <div v-if="dialog == 'setValue'">
-      <setValueModal  :dialog="(dialog == 'setValue')" :type="valueType"  @hiddeModal="hiddeModal"/>
+      <setValueModal  :dialog="(dialog == 'setValue')" :input="input"  @hiddeModal="hiddeModal"/>
     </div>
   </div>
 </template>
@@ -329,10 +328,12 @@
 <script>
   import { ref, inject, onMounted } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
+  import { useLoanStore } from '@/services/store/loan.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
   import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
   import setValueModal from '@/components/creditApply/modals/setValueModal.vue';
+  import util from '@/util/numberUtil'
 
   export default {
     components: {
@@ -342,16 +343,24 @@
     setup () {
       //vue provider
       const icons = inject('ionIcons')
-      const $q = useQuasar()
+      const q = useQuasar()
       const router = useRouter()
       const user = useAuthStore().user;
-      const isUserApply = ref(true)
+      const loanStore = useLoanStore();
+      const numberFormat = util.numberFormat
+      
+      
+      // Data
       const dialog = ref('')
       const redirectType = ref(0);
+      const loading = ref(false)
       const step = ref(1)
-      const valueType = ref(0);
-
-      // Data
+      const isUserApply = ref(true)
+      const input = {
+        title: '',
+        type: 1,
+        index:'',
+      }
       const readTapes = ref({
         business: null,
         business_address: null,
@@ -367,8 +376,29 @@
         last_ips: null,
         
       })
-      const loading = ref(false)
-      
+      const loan = ref({
+        amount: null,
+        amountToPay: 0,
+        due_date:null,
+      })
+
+      const titleText = {
+        business: 'Empresa',
+        business_address: 'Dirección de empresa',
+        business_phone: 'Teléfono de empresa',
+        boss_name: 'Nombre de jefe',
+        boss_phone: 'WhatsApp de jefe',
+        reference_name: 'Nombre completo de referencia',
+        reference_phone: 'WhatsApp de referencia',
+        reference_relationship: 'Parentesco de referencia',
+        informconf: 'Informconf',
+        work_certificate: 'Certificado Laboral',
+        last_ips: 'Ultimos tres ultimos Ips',
+        amount: 'Monto de prestamo',
+        due_date: 'Plazo',
+      }
+
+
       // Methods
       const validateUser = () => {
         if(user.verify_status != 2 ) {
@@ -381,14 +411,14 @@
 
         Object.entries(user).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
-
           if(!value) isUserApply.value = false
         });
+
         redirectType.value = 1
         return isUserApply.value
       }
       const showNotify = (type, message) => {
-        $q.notify({
+        q.notify({
           message: message,
           color: type,
           actions: [
@@ -403,14 +433,64 @@
       const showModal = (data) => {
         dialog.value = data
       }
-      const hiddeModal = () => {
+      const showInputModal = (type, index) => {
+        input.type = type;
+        input.index = index;
+        input.title = titleText[index];
+        input.value = type != 2 ? readTapes.value[input.index] : [loan.value[input.index]]
+
+        showModal('setValue')
+      }
+      const setInput = (data) => {
+        input.type != 2 
+        ? readTapes.value[input.index] = data
+        : loan.value[input.index] = data
+        calulateTotalAmount(data)
+      }
+
+      const calulateTotalAmount = (data) => {
+        if(input.index == 'amount') 
+          loan.value['amountToPay'] = (parseInt(data) * 0.70) + parseInt(data) 
+      }
+      const hiddeModal = (data) => {
         dialog.value = ''
+        if(!data) return
+        setInput(data)
+      }
+      const createApplyLoan = () => {
+        if(!validateForm()){
+          showNotify('negative', 'Tienes que llenar todo el formulario')
+          return
+        }
+
+        const formData = new FormData()
+        formData.append('work', readTapes.value.work_certificate)
+
+        loanStore.createLoan(formData)
+        .then((data) => {
+          showNotify('positive', 'Bien hecho!')
+        })
+        
+      }
+      const validateForm = () => {
+        let isValid = true 
+        const dontValidate = ['ips','amountToPay']
+        const formInputs = Object.assign({}, readTapes.value, loan.value);
+
+        Object.entries(formInputs).forEach( ([key, value]) => {
+          if(dontValidate.includes(key)) return
+          if(!value) isValid = false
+          // console.log([key, value])
+        });
+        
+        return isValid
       }
       onMounted(() => {
         if(!validateUser()){
           showModal('redirect')
         }
       })
+
       return {
         icons,
         loading,
@@ -420,9 +500,13 @@
         readTapes,
         step,
         redirectType,
-        valueType,
+        loan,
+        input,
+        numberFormat,
         showModal,
         hiddeModal,
+        showInputModal,
+        createApplyLoan,
       }
     }
   };

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BankAccountController;
+use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PayController;
 use App\Http\Controllers\Api\UserController;
@@ -46,22 +47,27 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
 Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')->group(function () {
     Route::get('/{id}', [NotificationController::class, 'getAllByUser']);
     Route::get('/seeAll/{id}', [NotificationController::class, 'seeAllByUser']);
-    // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
 });
 
 Route::middleware('jwt.verify')->prefix('banks')->name('bank.')->group(function () {
     Route::get('/', [BankAccountController::class, 'getBanks']);
-    // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
 });
+
 Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')->group(function () {
     Route::post('/', [BankAccountController::class, 'storeAccountBank']);
     Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
     Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);
     Route::get('/delete/{id}', [BankAccountController::class, 'destroyAccountBank']);
-
-
-    // Route::post('/verifyPhoneCode', [NotificationController::class, 'verifyPhoneNumber']);
 });
+
+Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function () {
+    Route::post('/', [LoanController::class, 'storeLoan']);
+
+    // Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
+    // Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);
+    // Route::get('/delete/{id}', [BankAccountController::class, 'destroyAccountBank']);
+});
+
 Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {
     Route::post('/', [PayController::class, 'payRequest']);
 });

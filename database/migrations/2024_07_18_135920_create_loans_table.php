@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('type');
             $table->double('amount');
             $table->double('amount_to_pay');
-            $table->integer('quaotas');
+            $table->integer('quotas');
             $table->enum('status', [0, 1, 2, 3, 4])->default(1);
             $table->softDeletes();
             $table->timestamps();

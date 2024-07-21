@@ -4,7 +4,7 @@
       <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
       <h5 class="text-white q-mt-xs text-weight-bold ">Gs.{{ user.account ? ` ${user.account}` : 0 }}</h5>
     </div>
-    <div class="  ">
+    <div class="">
       <div class="w-100 user-info q-mt-md-sm">
         <div class="flex items-center"> 
           <h6 class=" text-subtitle1 text-weight-medium  q-mr-xs  q-mt-xs q-mb-none">
