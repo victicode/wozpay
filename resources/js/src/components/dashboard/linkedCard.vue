@@ -34,7 +34,7 @@
           <q-icon
             name="eva-arrow-ios-forward-outline"
             size="sm"
-            @click="showToltip"
+            @click="router.push('link_card')"
             color="lightgdark"
           />
         </div>
@@ -97,6 +97,7 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { inject, ref } from 'vue'
   import util from '@/util/numberUtil'
+  import { useRouter } from 'vue-router'
 
   export default {
     setup() {
@@ -106,6 +107,7 @@
       const showing = ref(false)
       const ready = true
       const numberFormat = util.numberFormat
+      const router = useRouter()
 
       // Methods
       const showToltip = () => {
@@ -120,9 +122,10 @@
         icons,
         user,
         showing,
+        router,
         ready,
-        showToltip,
         numberFormat,
+        showToltip,
       }
     },
   }

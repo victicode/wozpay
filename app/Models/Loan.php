@@ -9,5 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Loan extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['user_id', 'due_date', 'type', 'amount', 'amount_to_pay', 'quotas'];
+    protected $fillable = ['loan_number', 'user_id', 'due_date', 'type', 'amount', 'amount_to_pay', 'quotas'];
+
+    public function redTapes(){
+        return $this->hasOne(RedTape::class,'loan_id', 'id');
+    }
 }

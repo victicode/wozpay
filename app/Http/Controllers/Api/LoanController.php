@@ -10,22 +10,30 @@ use App\Http\Controllers\Controller;
 class LoanController extends Controller
 {
     //
+    public function getActiveLoan($id) {
+        $loan = Loan::query()->where('user_id', $id)->with('redTapes.user')->first();
+
+        return $this->returnSuccess(200, $loan);
+
+    }
     public function storeLoan(Request $request) {
 
         $loan = Loan::create([
-            'due_date' => '20/8/2024',
+            'due_date' => '2024-08-20',
             'type' => 1,
             'amount' => $request->amount,
             'amount_to_pay' => $request->amountToPay,
             'quotas' => 2,
             'status' => 1,
+            'loan_number' => '619'+ rand(100000, 999999),
             'user_id' => $request->user()->id,
         ]);
 
-        $this->storeRedTapes($request, $loan->id);
+       $redTape =  $this->storeRedTapes($request, $loan->id);
 
+        return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
-    private function storeRedTapes(Request $request, $loanId) {
+    private function storeRedTapes($request, $loanId) {
         $informconf = '-';
         $workCertificate = '-';
         $lastIps = '-';
@@ -34,7 +42,7 @@ class LoanController extends Controller
             'business' => $request->business,
             'business_address' => $request->business_address,
             'business_phone' => $request->business_phone,
-            'ips' => $request->ips,
+            'ips' => $request->ips ? 1 : 0 ,
             'boss_name' => $request->boss_name,
             'boss_phone' => $request->boss_phone,
             'reference_name' => $request->reference_name,

@@ -16,7 +16,7 @@ import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
 import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
-
+import link_card from '@/pages/link_card.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -157,10 +157,6 @@ const router = createRouter({
           path: "/add_account_bank/:id",
           component: addAccountBank,
           meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
             title : 'Agregar cuenta bancaria'
           },
         },
@@ -190,7 +186,40 @@ const router = createRouter({
           },
         },
       ]
-    }
+    },
+    {
+      path: "/link_card",
+      name:"link_card",
+      component: link_card,
+      meta: {
+        title : 'Vincular tarjeta'
+      },
+      beforeEnter: auth,
+    },
+    // {
+    //   path: "/",
+    //   name:"operations",
+    //   component: authLayout,
+    //   beforeEnter:auth,
+    //   children: [
+    //     {
+    //       path: "/login",
+    //       name: "Login",
+    //       component: () => import('@/pages/login.vue'),
+    //       meta: {
+    //         title: 'Bienvenido'
+    //       },
+    //     },
+    //     {
+    //       path: "/register",
+    //       name: "register",
+    //       component: () => import('@/pages/register.vue'),
+    //       meta: {
+    //         title: 'Crea tu cuenta'
+    //       },
+    //     },
+    //   ]
+    // }
     
   ]
 })

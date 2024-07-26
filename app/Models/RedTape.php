@@ -12,16 +12,25 @@ class RedTape extends Model
 
     protected $table = 'red_tapes';
     protected $fillable = [
+        'business',
+        'business_address',
+        'business_phone',
         'ips',
         'boss_name',
         'boss_phone',
-        'references_name',
-        'references_phone',
-        'references_relationshp',
+        'reference_name',
+        'reference_phone',
+        'reference_relationship',
         'informconf',
         'work_certificate',
         'last_ips',
         'loan_id',
         'user_id',
     ];
+    public function loan(){
+        return $this->belongsTo(RedTape::class,'loan_id', 'id');
+    }
+    public function user(){
+        return $this->belongsTo(user::class,'user_id', 'id');
+    }
 }

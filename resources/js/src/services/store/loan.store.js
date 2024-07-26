@@ -5,6 +5,27 @@ import JwtService from "@/services/jwt/";
 export const useLoanStore = defineStore("loan", {
   actions: {
 
+    async getLoan(userId) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/loan/"+userId,)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al solicitar prestamo.');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async createLoan(data) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {

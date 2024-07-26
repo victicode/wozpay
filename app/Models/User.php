@@ -55,4 +55,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function redTape(){
+        return $this->hasMany(RedTape::class)->orderBy('created_at', 'desc');
+    }
 }

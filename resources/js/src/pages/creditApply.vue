@@ -295,7 +295,16 @@
         <template v-slot:navigation>
           <q-stepper-navigation class="q-mt-md flex justify-end">
             <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
-            <q-btn @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" color="primary" class="w-100 q-pa-sm q-mb-lg" :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" />
+            <q-btn 
+              @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" 
+              color="primary" class="w-100 q-pa-sm q-mb-lg" 
+              :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" 
+              :loading="loading"
+            >
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
+            </q-btn>
           </q-stepper-navigation>
         </template>
       </q-stepper>
@@ -316,6 +325,17 @@
         </q-btn>
       </div>
     </div>
+    <q-dialog v-model="sendLoading" persistent transition-show="scale" transition-hide="scale" class="doneLoan"> 
+        <q-card class="bg-white text-white flex flex-center q-py-md" style="width: 100%; height: 100%">
+          <q-card-section class="q-py-none flex column flex-center">
+
+            <q-icon name="eva-checkmark-circle-outline" size="10rem" color="grey-6" />
+            <div class="text-positive text-h4 text-weight-medium q-mt-md">Solicitud enviada</div>
+            <div class="text-grey-6 text-h6 text-weight-medium q-mt-md">Serás redirigido...</div>
+            
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     <div v-if="dialog == 'redirect'">
       <redirectModal :dialog="(dialog == 'redirect')" :input="input" />
     </div>
@@ -342,7 +362,7 @@
     },
     setup () {
       //vue provider
-      const icons = inject('ionIcons')
+      // const icons = inject('ionIcons')
       const q = useQuasar()
       const router = useRouter()
       const user = useAuthStore().user;
@@ -351,6 +371,7 @@
       
       
       // Data
+      const sendLoading = ref(false);
       const dialog = ref('')
       const redirectType = ref(0);
       const loading = ref(false)
@@ -429,6 +450,9 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
+      const loadingDone = (state) => {
+        sendLoading.value = state;
+      }
 
       const showModal = (data) => {
         dialog.value = data
@@ -463,12 +487,39 @@
           return
         }
 
+        loadingShow(true)
         const formData = new FormData()
+        formData.append('business', readTapes.value.business)
+        formData.append('business_address', readTapes.value.business_address)
+        formData.append('business_phone', readTapes.value.business_phone)
+        formData.append('ips', readTapes.value.ips)
+        formData.append('boss_name', readTapes.value.boss_name)
+        formData.append('boss_phone', readTapes.value.boss_phone)
+        formData.append('reference_name', readTapes.value.reference_name)
+        formData.append('reference_phone', readTapes.value.reference_phone)
+        formData.append('reference_relationship', readTapes.value.reference_relationship)
+        formData.append('informconf', readTapes.value.informconf)
+        formData.append('last_ips', readTapes.value.last_ips)
         formData.append('work', readTapes.value.work_certificate)
+
+
+        formData.append('amount', loan.value.amount)
+        formData.append('amountToPay', loan.value.amountToPay)
+        formData.append('due_date', loan.value.due_date)
+
+
 
         loanStore.createLoan(formData)
         .then((data) => {
-          showNotify('positive', 'Bien hecho!')
+          if(!data.code) throw data
+          loadingDone(true)
+          loadingShow(false)
+          setTimeout(() => {
+            router.push('/')
+          }, 3500);
+        }).catch((e) => {
+          console.log(e)
+          showNotify('negative', 'Error al enviar la solicitud')
         })
         
       }
@@ -492,11 +543,10 @@
       })
 
       return {
-        icons,
         loading,
+        sendLoading,
         user,
         dialog,
-        router,
         readTapes,
         step,
         redirectType,
@@ -512,6 +562,12 @@
   };
 </script>
 <style lang="scss">
+.doneLoan .q-dialog__inner {
+  padding:0px
+}
+.doneLoan .q-card {
+  max-height: 100%!important;
+}
 #logout-button {
   padding: 10px;
 }

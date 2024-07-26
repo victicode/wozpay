@@ -62,6 +62,7 @@ Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')-
 
 Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function () {
     Route::post('/', [LoanController::class, 'storeLoan']);
+    Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
 
     // Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
     // Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);

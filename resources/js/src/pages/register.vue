@@ -66,9 +66,12 @@
               </template>
             </q-input>
           </div>
-          <!-- <div class="col-12 q-mt-md">
+          <div class="col-12 q-mt-none">
             <q-checkbox v-model="remember"  label="Recuérdame" color="terciary" />
-          </div> -->
+          </div>
+          <div class="col-12 q-mt-sm">
+            <q-checkbox v-model="accept_terms"  label="Acepto que he leído los términos y condiciones de Woz Pay" color="terciary" />
+          </div>
           <div class="col-12 q-mt-sm q-px-md-xl q-pt-md-md" >
             <q-btn 
               id="register-form-button" 
@@ -118,7 +121,8 @@
       const password = ref('')
       const isPwd    = ref('true')
       const loading  = ref(false)
-      
+      const accept_terms = ref(false)
+      const remember = ref(false)
       //ref
       const fullNameRef = ref(null)
       const dniRef = ref(null)
@@ -207,6 +211,8 @@
         dniRef,
         passwordRef,
         loading,
+        accept_terms,
+        remember,
         register,
       }
     }
