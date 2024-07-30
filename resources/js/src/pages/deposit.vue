@@ -123,7 +123,7 @@
   export default {
     setup () {
       const ready = ref(true)
-      const router = useRouter()
+      // const router = useRouter()
       const numberFormat = util.numberFormat
       const loading = ref('')
       const payStore = usePayStore()
@@ -155,8 +155,10 @@
         payStore.payRequest(data)
         .then((response) => {
           if(response.code !== 200) throw response
+
           console.log(response.data)
           payForm.value = response.data.payment_link.link_url ?? response.data.subscription_link
+
           setTimeout(() => {
             loadingShow('')
             dialog.value = false

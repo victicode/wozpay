@@ -196,30 +196,30 @@ const router = createRouter({
       },
       beforeEnter: auth,
     },
-    // {
-    //   path: "/",
-    //   name:"operations",
-    //   component: authLayout,
-    //   beforeEnter:auth,
-    //   children: [
-    //     {
-    //       path: "/login",
-    //       name: "Login",
-    //       component: () => import('@/pages/login.vue'),
-    //       meta: {
-    //         title: 'Bienvenido'
-    //       },
-    //     },
-    //     {
-    //       path: "/register",
-    //       name: "register",
-    //       component: () => import('@/pages/register.vue'),
-    //       meta: {
-    //         title: 'Crea tu cuenta'
-    //       },
-    //     },
-    //   ]
-    // }
+    {
+      path: "/",
+      name:"link",
+      component: paysLayout,
+      beforeEnter:auth,
+      children: [
+        {
+          path: "/link_card_form",
+          name: "link_card_form",
+          component: () => import('@/pages/creditForDebit.vue'),
+          meta: {
+            title: 'Credito por debito'
+          },
+        },
+        {
+          path: "/linked_cardx",
+          name: "linki",
+          component: () => import('@/pages/register.vue'),
+          meta: {
+            title: 'Vincular tarjeta'
+          },
+        },
+      ]
+    }
     
   ]
 })
