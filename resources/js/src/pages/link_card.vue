@@ -1,20 +1,22 @@
 <template>
   <div style="height: 100vh;" class=" bg-primary">
     <div  class="bg-white hero-section" >
-
+      <div class="flex flex-center">
+        <img :src="heroImg" class="q-mt-xl q-mt-md-md hero__img" >
+      </div>
     </div>
     <div class=" terms-section">
       <div class="q-pt-lg">
-        <div class="text-center" > 
+        <div class="text-center q-pt-md" > 
           <div class="text-white text-h4 text-weight-bold ">Woz Payments</div>
           <div class="text-white text-subtitle1 text-weight-medium">CRÉDITOS POR DÉBITO</div>
         </div>
-        <div class="text-center q-mt-md q-mx-md q-px-md text-subtitle3 text-white text-weight-medium" >
+        <div class="text-center q-mt-md q-mx-md q-px-md-lg text-subtitle3 text-white text-weight-medium" >
           Accede a una <span class="text-weight-bold">línea</span> de crédito con débito 
           automatico con cualquier tarjeta de 
-          crédito o débito
+          crédito o débito.
         </div>
-        <div class="q-px-lg flex q-mt-lg items-center">
+        <div class="q-px-lg q-mx-md-xl flex q-mt-lg q-pt-md items-center">
           <q-checkbox 
             class="terms-checkbox"
             v-model="accept_terms"
@@ -45,6 +47,7 @@
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
+  import heroImg from '@/assets/images/woz.png'
   import { inject, ref } from 'vue'
   import util from '@/util/numberUtil'
   import { useRouter } from 'vue-router'
@@ -98,6 +101,7 @@
         numberFormat,
         accept_terms,
         loading,
+        heroImg,
         showToltip,
         goTo,
       }
@@ -133,9 +137,16 @@
   z-index: 2;
   box-shadow: 0px 4px 14px 0px #00000040;
 }
+.hero__img {
+  height: 20rem;
+}
 .terms-section {
   height: 55%; 
   background: linear-gradient(130deg, $primary 60%, #0449fb 70%, rgba(0,32,163,1) 80%, rgba(0,16,83,1) 90%, rgba(0,0,0,1) 100%);
 }
-
+@media screen and (max-width: 780px) { 
+  .hero__img {
+    height: 15rem;
+  }
+}
 </style>

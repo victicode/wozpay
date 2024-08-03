@@ -50,32 +50,6 @@
             </div>
             <div class="q-pt-xs q-mx-md-xl q-px-md-sm">
               <q-btn 
-                label="Pagar con Tigo Money" 
-                unelevated
-                no-caps 
-                type="submit" 
-                color="tigo" 
-                class="full-width q-mt-lg rounded_button" 
-                :loading="loading=='tigo'" 
-              >
-                <template v-slot:loading>
-                  <q-spinner-facebook />
-                </template>
-              </q-btn>
-              <q-btn 
-                label="Pagar con Personal Pay" 
-                unelevated
-                no-caps 
-                type="submit" 
-                color="personal" 
-                class="full-width q-mt-md rounded_button" 
-                :loading="loading=='personal'" 
-              >
-                <template v-slot:loading>
-                  <q-spinner-facebook />
-                </template>
-              </q-btn>
-              <q-btn 
                 label="Pagar con Tpago" 
                 unelevated
                 no-caps 
@@ -85,6 +59,39 @@
                 :loading="loading=='tpago'"
                 @click="getUrlPay()" 
               >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+              <q-btn 
+                label="Pagar con Tigo Money" 
+                unelevated
+                no-caps 
+                type="submit" 
+                color="tigo" disabled
+                class="full-width q-mt-lg rounded_button position-relative" 
+                :loading="loading=='tigo'" 
+              >
+                <div class="flex flex-center unavailable-button">
+                  <q-icon name="eva-lock-outline"></q-icon>
+                </div>
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+              <q-btn 
+                label="Pagar con Personal Pay" 
+                unelevated
+                no-caps 
+                type="submit" 
+                color="personal" disabled
+                class="full-width q-mt-md rounded_button position-relative" 
+                :loading="loading=='personal'" 
+                
+              >
+                <div class="flex flex-center unavailable-button">
+                  <q-icon name="eva-lock-outline"></q-icon>
+                </div>
                 <template v-slot:loading>
                   <q-spinner-facebook />
                 </template>
@@ -196,6 +203,9 @@
   }
 </script>
 <style lang="scss" scoped>
+.unavailable-button {
+  position: absolute; bottom: 0; top: 0; left: 0; right: 0; background: rgba(12, 12, 12, 0.397); 
+}
 .bank__section_skeleton{
   padding-top: 1.2rem;
   padding-bottom: 1.2rem;

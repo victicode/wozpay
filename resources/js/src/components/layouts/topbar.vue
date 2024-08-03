@@ -9,7 +9,6 @@
   import { inject } from 'vue';
 
   import { useRoute, useRouter } from 'vue-router';
-  import utils from '@/util/httpUtil';
   export default {
     setup () {
       //vue provider

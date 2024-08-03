@@ -211,9 +211,9 @@ const router = createRouter({
           },
         },
         {
-          path: "/linked_cardx",
+          path: "/linked_card/:id_card",
           name: "linki",
-          component: () => import('@/pages/register.vue'),
+          component: () => import('@/pages/linked_card.vue'),
           meta: {
             title: 'Vincular tarjeta'
           },

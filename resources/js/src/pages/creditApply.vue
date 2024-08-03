@@ -260,7 +260,7 @@
                       Plazo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + 'días' : 'Agregar' }} </q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + ' días' : 'Agregar' }} </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>

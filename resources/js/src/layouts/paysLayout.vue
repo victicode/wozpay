@@ -1,6 +1,6 @@
 <template>
   <div class="layout-dasboard__content"  v-if="readyState"  style="">
-    <topbar/>
+    <topbarPay />
     <div class="container_page" >
       <router-view v-slot="{ Component }">
         <transition name="horizontal">
@@ -16,10 +16,11 @@
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
   import utils from '@/util/httpUtil';
-  import topbar from '@/components/layouts/topbar.vue';
+  import topbarPay from '@/components/layouts/topbarPay.vue';
+  
   export default {
     components:{
-      topbar
+      topbarPay
     },
     setup () {
       //vue provider
@@ -56,7 +57,7 @@
       // Mounted
       onMounted(() =>{
         getCurrentUser()
-        $q.addressbarColor.set('#565656')
+        $q.addressbarColor.set('#0449fb')
       })
       
       return {
@@ -71,7 +72,7 @@
 .container_page{
   height: 91%;
   overflow: hidden;
-
+  background: $primary;
 }
 
 .layout-dasboard__content{

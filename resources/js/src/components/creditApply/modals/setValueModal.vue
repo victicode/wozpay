@@ -72,26 +72,29 @@
         { text: '15 días', value: 15 },
         { text: '30 días', value: 30 },
         { text: '60 días', value: 60 },
+        { text: '75 días', value: 75 },
+        { text: '90 días', value: 90 },
+
       ];
 
       const amounts = [
-        { text: 'Gs. '+numberFormat(50000), value: 50000 },
-        { text: 'Gs. '+numberFormat(70000), value: 70000 },
         { text: 'Gs. '+numberFormat(100000), value: 100000 },
-        { text: 'Gs. '+numberFormat(200000), value: 200000 },
-        { text: 'Gs. '+numberFormat(300000), value: 300000 },
-        { text: 'Gs. '+numberFormat(400000), value: 400000 },
-        { text: 'Gs. '+numberFormat(500000), value: 500000},
-        { text: 'Gs. '+numberFormat(600000), value: 600000 },
-        { text: 'Gs. '+numberFormat(700000), value: 700000 },
-        { text: 'Gs. '+numberFormat(800000), value: 800000 },
-        { text: 'Gs. '+numberFormat(900000), value: 900000 },
+        { text: 'Gs. '+numberFormat(250000), value: 250000 },
+        { text: 'Gs. '+numberFormat(500000), value: 500000 },
+        { text: 'Gs. '+numberFormat(750000), value: 750000 },
         { text: 'Gs. '+numberFormat(1000000), value: 1000000 },
-        { text: 'Gs. '+numberFormat(1100000), value: 1100000 },
-        { text: 'Gs. '+numberFormat(1200000), value: 1200000 },
         { text: 'Gs. '+numberFormat(1300000), value: 1300000 },
-        { text: 'Gs. '+numberFormat(1400000), value: 1400000 },
-
+        { text: 'Gs. '+numberFormat(1500000), value: 1500000 },
+        { text: 'Gs. '+numberFormat(2000000), value: 2000000 },
+        { text: 'Gs. '+numberFormat(2500000), value: 2500000 },
+        { text: 'Gs. '+numberFormat(3000000), value: 3000000 },
+        { text: 'Gs. '+numberFormat(3500000), value: 3500000 },
+        { text: 'Gs. '+numberFormat(3750000), value: 3750000 },
+        { text: 'Gs. '+numberFormat(4000000), value: 4000000 },
+        { text: 'Gs. '+numberFormat(4250000), value: 4250000 },
+        { text: 'Gs. '+numberFormat(4500000), value: 4500000 },
+        { text: 'Gs. '+numberFormat(4750000), value: 4750000 },
+        { text: 'Gs. '+numberFormat(5000000), value: 5000000 },
       ]
       // Methods
       const hiddeModal = () => {
