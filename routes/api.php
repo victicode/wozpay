@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BankAccountController;
+use App\Http\Controllers\Api\CardController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PayController;
@@ -63,6 +64,14 @@ Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')-
 Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function () {
     Route::post('/', [LoanController::class, 'storeLoan']);
     Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
+
+    // Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
+    // Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);
+    // Route::get('/delete/{id}', [BankAccountController::class, 'destroyAccountBank']);
+});
+Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
+    Route::post('/', [CardController::class, 'linkCard']);
+    Route::get('/{id}', [CardController::class, 'getLinkCard']);
 
     // Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
     // Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);

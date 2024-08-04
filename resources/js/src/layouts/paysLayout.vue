@@ -3,7 +3,7 @@
     <topbarPay />
     <div class="container_page" >
       <router-view v-slot="{ Component }">
-        <transition name="horizontal">
+        <transition name="vertical">
           <component :is="Component" />
         </transition>
       </router-view>

@@ -325,17 +325,9 @@
         </q-btn>
       </div>
     </div>
-    <q-dialog v-model="sendLoading" persistent transition-show="scale" transition-hide="scale" class="doneLoan"> 
-        <q-card class="bg-white text-white flex flex-center q-py-md" style="width: 100%; height: 100%">
-          <q-card-section class="q-py-none flex column flex-center">
-
-            <q-icon name="eva-checkmark-circle-outline" size="10rem" color="grey-6" />
-            <div class="text-positive text-h4 text-weight-medium q-mt-md">Solicitud enviada</div>
-            <div class="text-grey-6 text-h6 text-weight-medium q-mt-md">Serás redirigido...</div>
-            
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+    <div v-if="sendLoading">
+      <doneModal :dialog="sendLoading" :text="'Solicitud enviada'" />
+    </div>
     <div v-if="dialog == 'redirect'">
       <redirectModal :dialog="(dialog == 'redirect')" :input="input" />
     </div>
@@ -353,12 +345,15 @@
   import { useRouter } from 'vue-router';
   import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
   import setValueModal from '@/components/creditApply/modals/setValueModal.vue';
+  import doneModal from '@/components/layouts/modals/doneModal.vue';
+
   import util from '@/util/numberUtil'
 
   export default {
     components: {
       redirectModal,
       setValueModal,
+      doneModal
     },
     setup () {
       //vue provider
@@ -562,12 +557,6 @@
   };
 </script>
 <style lang="scss">
-.doneLoan .q-dialog__inner {
-  padding:0px
-}
-.doneLoan .q-card {
-  max-height: 100%!important;
-}
 #logout-button {
   padding: 10px;
 }

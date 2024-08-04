@@ -89,15 +89,40 @@ p, div, span, section, .text-subtitle1, .text-subtitle2, .text-caption, .text-bo
   position: absolute;
   transform: translatex(-1000px);
   opacity: 0;
-
 }
 .horizontal-enter-from{
   transform: translatex(-1000px);
 }
 .horizontal-leave-to {
-
   transform: translatex(-1000px);
 }
+.vertical-enter-active,
+.vertical-leave-active {
+  transition: all 0.5s ease;
+  opacity: 1;
+  width: 100%;
+}
+
+.vertical-enter-active{
+  transform: translatey(0px);
+}
+.vertical-leave-active{
+  transform: translatey(0px);
+}
+.vertical-enter-from,
+.vertical-leave-to {
+  transition: all 0.5s ease;
+  position: absolute;
+  transform: translatey(1000px);
+  opacity: 0;
+}
+.vertical-enter-from{
+  transform: translatey(1000px);
+}
+.vertical-leave-to {
+  transform: translatey(1000px);
+}
+
 .inFade-enter-active,
 .inFade-leave-active {
   transition: opacity 0.5s ease;
