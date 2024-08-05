@@ -186,8 +186,8 @@
             showDialog.value = true
           }, 2000)
           setTimeout(()=>{
-            router.go(-2)
-            loadingState(false)
+            router.go(-3)
+            // loadingState(false)
           },5000)
         }).catch((response) => {
           showNotify('negative', response)

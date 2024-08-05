@@ -12,7 +12,7 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100">
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/transfer">
             <div class="q-mt-xs" v-html="icons.transferir" />
             <span class="q-mt-none text-dark text-body2">Transfer.</span>
           </q-btn>

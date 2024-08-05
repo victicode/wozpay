@@ -17,6 +17,8 @@ import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
 import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
 import link_card from '@/pages/link_card.vue'
+import cardPage from '@/pages/card.vue'
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -160,6 +162,13 @@ const router = createRouter({
             title : 'Agregar cuenta bancaria'
           },
         },
+        {
+          path: "/card",
+          component: cardPage,
+          meta: {
+            title : 'Vincular tarjeta de crédito'
+          },
+        },
         
       ]
     },
@@ -197,6 +206,15 @@ const router = createRouter({
       beforeEnter: auth,
     },
     {
+      path: "/transfer",
+      name:"transfer",
+      component: () => import('@/pages/transfer.vue'),
+      meta: {
+        title : 'Transferir'
+      },
+      beforeEnter: auth,
+    },
+    {
       path: "/",
       name:"link",
       component: paysLayout,
@@ -216,6 +234,14 @@ const router = createRouter({
           component: () => import('@/pages/linked_card.vue'),
           meta: {
             title: 'Vincular tarjeta'
+          },
+        },
+        {
+          path: "/transfer_send",
+          name: "send_transfer",
+          component: () => import('@/components/transfer/sendTransfer.vue'),
+          meta: {
+            title: 'Enviar dinero'
           },
         },
       ]

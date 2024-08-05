@@ -17,7 +17,28 @@ export const useCardStore = defineStore("card", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al solicitar prestamo.');
+              resolve('Error al obtener tarjeta vinculada');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
+    async deleteCard(cardId) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/card/delete/"+cardId,)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al eliminar tarjeta vinculada');
             });
         }
       })

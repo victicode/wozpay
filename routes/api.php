@@ -72,6 +72,9 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [CardController::class, 'getLinkCard']);
+    Route::post('/delete/{id}', [CardController::class, 'deleteCard']);
+
+    
 
     // Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
     // Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);

@@ -11,9 +11,10 @@ class CardController extends Controller
 {
     //
     public function getLinkCard($id) {
-        $loan = Card::query()->where('user_id', $id)->with('redTapes.user')->first();
 
-        return $this->returnSuccess(200, $loan);
+        $card = Card::query()->where('user_id', $id)->first();
+
+        return $this->returnSuccess(200, $card);
 
     }
     public function linkCard(Request $request) {
@@ -33,5 +34,15 @@ class CardController extends Controller
         }
         
         return $this->returnSuccess(200, $card);
+    }
+    public function deleteCard($id) {
+        $card = Card::find($id);
+
+        if(!$card) return $this->returnFail(404, 'No se encontro la tarjeta');
+
+        $card->delete();
+
+        return $this->returnSuccess(200, $card);
+        
     }
 }

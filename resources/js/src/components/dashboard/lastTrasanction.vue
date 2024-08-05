@@ -52,7 +52,7 @@
       <div class="quote-section" v-else>
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
-            <div style="">
+            <div style="" class="w-10">
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
             </div>
@@ -66,7 +66,7 @@
                 <div class="text-weight-medium q-mt-xs text-right"><q-skeleton type="rect" /></div>
               </div>
             </div>
-            <div>
+            <div class="w-10">
               <q-skeleton type="rect"  />
             </div>
           </div>
@@ -168,9 +168,11 @@
   width: 85%;
 }
 .w-50 {
-  width: 50%;
+  width: 46%;
 }
-
+.w-10 {
+  width: 7%;
+}
 @media screen and (max-width: 780px){
   .w-80 {
     width: 40%;
@@ -178,9 +180,9 @@
   .w-50 {
     width: 40%;
   }
-  .loan_card > div:nth-child(1){ width: 10%; }
-  .loan_card > div:nth-child(2){ width: 82%; }
-  .loan_card > div:nth-child(3){ width: 8%; }
+  .loan_card > div:nth-child(1){ width: 10%!important; }
+  .loan_card > div:nth-child(2){ width: 82%!important; }
+  .loan_card > div:nth-child(3){ width: 8%!important; }
 
 }
 </style>
