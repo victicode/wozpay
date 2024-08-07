@@ -43,6 +43,7 @@ export default {
     // const user = useAuthStore().user;
     const router = useRouter()
     const $q = useQuasar()
+    
     onMounted(()=>{
       $q.addressbarColor.set('#0449fb')
     })

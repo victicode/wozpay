@@ -13,8 +13,8 @@
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
               <div class="w-100 flex items-center justify-between q-pb-md" style="border-bottom: 1px solid lightgrey" @click="router.push('/card')">
-                <div class="flex items-center justify-between  w-80 ">
-                  <div class="q-mr-md q-mt-xs">
+                <div class="flex items-center w-80 ">
+                  <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.outlinedAddCard" class="" size="sm" />
                   </div>
                   <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
@@ -29,18 +29,18 @@
                 </div>
               </div>
               <div class="w-100 flex items-center justify-between q-mt-md ">
-                <div class="flex items-center justify-between  w-80 ">
-                  <div class="q-mr-md q-mt-xs">
+                <div class="flex items-center   w-80 ">
+                  <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.outlinedAccountBalance" class="" size="sm" />
                   </div>
                   <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
                     <div class="text-weight-medium">Caja de ahorro</div>
-                    <div class="text-weight-bold ">N° 916{{ user.dni }} </div>
+                    <div class="text-weight-bold ">N° {{ user.wallet.number }} </div>
                   </div>
                 </div>
                 <div class="q-mr-sm text-end">
                   <div class="text-weight-medium text-right">Disponible</div>
-                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(5000000)}}</div>
+                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(user.wallet.balance)}}</div>
                 </div>
                 
               </div>
@@ -198,7 +198,7 @@
     display: none;
 }
 .w-80 {
-  width: 90%;
+  width: 80%;
 }
 .w-50 {
   width: 50%;

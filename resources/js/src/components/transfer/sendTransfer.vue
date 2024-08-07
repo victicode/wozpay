@@ -1,52 +1,49 @@
 <template>
-  <div class="section_page q-mt-lg q-pt-lg">
-    <div class="">
+  <div class="section_page q-mt-md q-pt-lg">
+    <div class="" style="max-height: 100%; overflow: scroll;">
       <div class="text-subtitle1 text-weight-bold text-center">Escoge una cuenta a debitar</div>
       <div class="q-px-md-xl q-px-md">
-        <div class="q-pa-md select_card q-mt-md">
-          <div class="flex" >
+        <div class="q-pa-md select_card q-mt-sm">
+          <div class="flex" v-if="Object.values(linkCard).length > 0 ">
             <div style="width: 10%;" class="q-mr-sm text-center">
-              <q-radio v-model="selectCard" checked-icon="eva-checkmark-circle-outline"  val="1" />
+              <q-radio v-model="selectPayMethod" checked-icon="eva-checkmark-circle-outline"  val="1" />
             </div>
             <div class="flex justify-between card_detail q-pb-sm" >
               <div>
                 <div class="text-left text-body1">
-                  Tarjeta de crédito
+                  {{ linkCard.type == 1 ? 'Tarjeta de crédito' : 'Tarjeta de dédito' }}
                 </div>
-                <div class="text-left text-body2 text-grey-6">
-                  Hasta 24 meses
+                <div class="text-left text-body2  text-bold">
+                  N° **************** {{ linkCard.number.substring(linkCard.number.length - 4) }}
                 </div>
               </div>
               <div>
-                <div class="text-right text-weight-medium text-caption">
-                  Préstamos hasta
-                </div>
-                <div class="text-right text-weight-bold text-body2">
-                  {{ numberFormat(25000000) }}
-                </div>
+                <q-chip :color="linkCard.status == 1 ? 'positive' : 'warning'" text-color="white" >
+                  Vinculada
+                </q-chip>
               </div>
             </div>
 
           </div>
           <div class="flex q-mt-md" >
             <div style="width: 10%;" class="q-mr-sm text-center">
-              <q-radio v-model="selectCard" checked-icon="eva-checkmark-circle-outline"  val="2" />
+              <q-radio v-model="selectPayMethod" checked-icon="eva-checkmark-circle-outline"  val="2" />
             </div>
             <div class="flex justify-between card_detail q-pb-sm" >
               <div>
                 <div class="text-left text-body1">
-                  Tarjeta de débito
+                  Caja de ahorro
                 </div>
-                <div class="text-left text-body2 text-grey-6">
-                  Hasta 15 días
+                <div class="text-left text-body2  text-bold">
+                  N° 9164920791
                 </div>
               </div>
               <div>
                 <div class="text-right text-weight-medium text-caption">
-                  Préstamos hasta
+                  Disponible
                 </div>
                 <div class="text-right text-weight-bold text-body2">
-                  {{ numberFormat(500000) }}
+                  Gs. {{ numberFormat(500000) }}
                 </div>
               </div>
             </div>
@@ -54,13 +51,13 @@
           </div>
         </div>
       </div>
-      <div class="text-subtitle1 text-weight-bold q-mt-md q-pt-md text-center">Datos de envío</div>
+      <div class="text-subtitle1 text-weight-bold q-mt-sm q-pt-md text-center">Datos de envío</div>
       <div class="q-px-md-xl q-px-md">
         <div class="">
           <q-form
             id="linked_form"
             class=""
-            @submit="linkCard()"
+            @submit="storeTransfer()"
           >
             <div class="q-px-md-xl">
               <div class="q-pb-xs  q-px-md-lg card_form ">
@@ -71,12 +68,13 @@
                     clearable
                     :clear-icon="'eva-close-outline'"
                     color="positive"
-                    v-model="formCardData.card"
-                    label="N° de tarjeta de débito o crédito"
-                    :rules="rulesForm('card')"
+                    v-model="formCardData.amount"
+                    label="Monto a enviar"
+                    :rules="rulesForm('amount')"
                     autocomplete="off"
                     maxlength="24"
-                    mask="#### #### #### #### ####"
+                    mask="###.###.###"
+                    reverse-fill-mask
                   />
                 </div>
                 <div class="q-my-lg">
@@ -86,12 +84,38 @@
                     clearable
                     :clear-icon="'eva-close-outline'"
                     color="positive"
-                    v-model="formCardData.card"
-                    label="N° de tarjeta de débito o crédito"
-                    :rules="rulesForm('card')"
+                    v-model="formCardData.recept"
+                    label="Número de cuenta Woz Pay"
+                    :rules="rulesForm('recept')"
                     autocomplete="off"
-                    maxlength="24"
-                    mask="#### #### #### #### ####"
+                  />
+                </div>
+                <div class="q-my-lg">
+                  <q-input
+                    class="transferForm q-pb-none"
+                    outlined
+                    clearable
+                    :clear-icon="'eva-close-outline'"
+                    color="positive"
+                    v-model="formCardData.recept_owner"
+                    name="id_user"
+                    label="Titular "
+                    autocomplete="off"
+                    disable
+                  />
+                </div>
+                <div class="q-my-lg">
+                  <q-input
+                    class="transferForm q-pb-none"
+                    outlined
+                    clearable
+                    :clear-icon="'eva-close-outline'"
+                    color="positive"
+                    v-model="formCardData.recept_dni"
+                    name="id_user"
+                    label="Número de cédula"
+                    disable
+                    autocomplete="off"
                   />
                 </div>
                 <div class="q-my-lg">
@@ -100,29 +124,12 @@
                     clearable
                     :clear-icon="'eva-close-outline'"
                     color="positive"
-                    v-model="formCardData.due_date"
-                    label="Fecha de vencimiento"
-                    :rules="rulesForm('card_date')"
+                    v-model="formCardData.text"
+                    label="Concepto"
+                    :rules="rulesForm('text')"
                     autocomplete="off"
-                    hint="Formato EJ.: 01/2024 "
-                    mask="##/####"
                   >
                   </q-input>
-                </div>
-                <div class="q-my-lg">
-                  <q-input
-                    class="transferForm q-pb-none"
-                    outlined
-                    clearable
-                    :clear-icon="'eva-close-outline'"
-                    color="positive"
-                    v-model="formCardData.cvc"
-                    name="id_user"
-                    label="Código de seguridad"
-                    :rules="rulesForm('cvc')"
-                    autocomplete="off"
-                    maxlength="3"
-                  />
                 </div>
               </div>
             </div>
@@ -131,13 +138,13 @@
                 color="primary" class="w-100 q-pa-sm q-mb-sm  link_button" 
                 no-caps
                 :loading="loading"
-                @click="goTo()"
+                type="submit"
               >
                 <div class="text-white q-mt-sm text-subtitle1 text-weight-medium"  >
                   Enviar
                 </div> 
               </q-btn>
-              <div class="q-px-sm q-mt-sm text-primary">
+              <div class="q-px-sm q-mt-sm text-primary q-pb-xl">
                 Transacción segura con Woz Security Services
               </div>
             </div>
@@ -154,58 +161,72 @@
   import util from '@/util/numberUtil'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router'
+  import { useCardStore } from '@/services/store/card.store'
 
   export default {
     setup() {
       //vue provider
       const user = useAuthStore().user;
+      const cardStore = useCardStore()
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
       const q = useQuasar()
       const router = useRouter()
       const loading = ref(false)
       // Data
-      const selectCard = ref(0)
+      const selectPayMethod = ref(0)
+      const linkCard = ref({})
 
       const formCardData = ref({
-        card:'',
-        due_date:'',
-        cvc:'',
+        amount:'',
+        recept:'',
+        text:'',
+        recept_owner: '',
+        recept_dni: '',
       })
 
       const rulesForm = (id) => {
         const iRules = {
-          card:[
-            val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
+          amount:[
+            val => (val !== null && val !== '') || 'El monto es requerido.',
             // val => (val.length > 20 ) || 'Debe contener 20 digitos',
             val => (/[a-zA-z,%"'();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
-          card_type:[
-            val => (val !== null && val !== '') || 'El tipo de tarjeta es requerido.',
+          recept:[
+            val => (val !== null && val !== '') || 'El receptor es requerido.',
+            val => (/[a-zA-z,%"'();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+
           ],
-          card_date:[
-            val => (val !== null && val !== '') || 'La fecha de vencimiento es requerida.',
-            // val => (/[,%"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
-          ],
-          cvc:[
-            val => (val !== null && val !== '') || 'El CVC es obligatorio.',
-            val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+          text:[
+            val => (val !== null && val !== '') || 'El concepto es requerido.',
+            val => (/[,%$#"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
           ],
         }
         
         return iRules[id]
       }
+      const validate = () => {
+        let isOk  = true
+        let msg   = ''
+        const dontValidate = ['recept_owner','recept_dni'];
 
-      const goTo = () => {
-        if(!verify()){
-          showNotify('negative', 'Debe seleccionar el tipo de tarjeta')
-          return
+        Object.entries(formCardData.value).forEach( ([key, value]) => {
+          if(dontValidate.includes(key)) return
+          if(value == '') { 
+            isOk = false 
+            msg = 'Debes completar el formulario'
+          }
+        });
+
+        if(selectPayMethod.value == 0) {
+          isOk = false 
+          msg = 'Debes seleccionar la cuenta a debitar'
         }
-        router.push('/linked_card/'+selectCard.value)
-      }
-      const verify = () => {
+
+        !isOk ? showNotify('negative', msg) : ''
+        return isOk
+
         
-        return selectCard.value !== 0
       }
       const showNotify = (type, message) => {
         q.notify({
@@ -216,19 +237,33 @@
           ]
         })
       }
-       const linkCard = () => {
-          console.log('hola')
-       }
+      const storeTransfer = () => {
+        if(!validate()) return
+
+        console.log('hola')
+      }
+      const getLinkCard = () => {
+        cardStore.getCard(user.id).then((data) => {
+          if(data.code !== 200) throw data
+          linkCard.value = data.data ? Object.assign(data.data) : {}
+        }).catch((response) => {
+          // showNotify('negative', response)
+        })
+      }
+
+      onMounted(() => {
+        getLinkCard()
+      })
       return{
         icons,
         user,
         numberFormat,
-        selectCard,
+        selectPayMethod,
         loading,
         formCardData,
-        goTo,
-        rulesForm,
         linkCard,
+        rulesForm,
+        storeTransfer,
       }
     },
   }

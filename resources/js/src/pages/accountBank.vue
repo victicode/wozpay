@@ -112,6 +112,7 @@ export default {
     const router = useRouter()
     const selectedAccountBank = ref({})
     const dialog = ref('');
+    
     const getAccountsBankbyUser = () =>{
       ready.value = false
       store.getAllAccountBankByUser(user.id).then((data) =>{

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CardController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PayController;
+use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\UserController;
 
 /*
@@ -34,6 +35,9 @@ Route::prefix('auth')->name('user.')->group(function () {
 });
 
 Route::get('/get-users', [UserController::class, 'index']);
+
+Route::post('/create_wallet', [UserController::class, 'storeWallet']);
+
 // Route::post('/add/phoneNumber', [UserController::class, 'addNumber']);
 
 
@@ -64,21 +68,18 @@ Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')-
 Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function () {
     Route::post('/', [LoanController::class, 'storeLoan']);
     Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
-
-    // Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
-    // Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);
-    // Route::get('/delete/{id}', [BankAccountController::class, 'destroyAccountBank']);
 });
+
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [CardController::class, 'getLinkCard']);
     Route::post('/delete/{id}', [CardController::class, 'deleteCard']);
+});
 
-    
-
-    // Route::get('/{id}', [BankAccountController::class, 'getAccountsBanksByUser']);
-    // Route::post('/{id}', [BankAccountController::class, 'updateAccountBank']);
-    // Route::get('/delete/{id}', [BankAccountController::class, 'destroyAccountBank']);
+Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(function () {
+    // Route::post('/', [CardController::class, 'linkCard']);
+    Route::get('/{id}', [TransferController::class, 'getTransferById']);
+    // Route::post('/delete/{id}', [CardController::class, 'deleteCard']);
 });
 
 Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {

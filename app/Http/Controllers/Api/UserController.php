@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\User;
+use App\Models\Wallet;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,9 +41,14 @@ class UserController extends Controller
             return $this->returnSuccess(400, $th->getMessage());
         }
 
-        return $this->returnSuccess(200, $newUser);
-        
+        $requestWallet = new Request([
+            'user_id'   => $newUser->id,
+            'user_dni'       => $newUser->dni,
+            'type'      => 1,
+        ]);
+        $this->storeWallet($requestWallet);
 
+        return $this->returnSuccess(200, $newUser);
     }
     public function updateUser(Request $request, $id){
         // $validated = $this->validateFieldsFromInput($request->all()) ;
@@ -99,31 +105,6 @@ class UserController extends Controller
        $usersByRol = User::with('rol')->where('rol',$request->rol)->get();
 
         return $this->returnSuccess(200, $usersByRol);
-    }
-    private function validateFieldsFromInput($inputs){
-            $rules=[
-                'fullName'      => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
-                'dni'           => ['required', 'unique:users', 'regex:/^[0-9 .]+$/i'],
-                // 'email'         => ['required', 'email',],
-                'password'      => ['min:8'],
-            ];
-            $messages = [
-                'fullName.required'     => 'El nombre es requerido.',
-                'fullName.regex'        => 'Nombre no valido',
-                'dni.required'          => 'El DNI es requerido.',
-                'dni.regex'             => 'DNI no valido',
-                'dni.unique'            => 'DNI ya se encuentra registrado',
-                // 'email.required'        => 'El email es requerido.',
-                // 'email.email'           => 'El Email no es valido',
-                'password.required'     => 'La contraseña es requerida',
-                'password.min'          => 'La contraseña debe tener un minimo de 8 caracteres'
-            ];
-    
-    
-             $validator = Validator::make($inputs, $rules, $messages)->errors();
-    
-            return $validator->all() ;
-
     }
     public function sendMobileVerifyCode(Request $request){
 
@@ -182,6 +163,44 @@ class UserController extends Controller
         }
         
         return $this->returnSuccess(200, json_encode($validation_request));
+    }
+    private function validateFieldsFromInput($inputs){
+        $rules=[
+            'fullName'      => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
+            'dni'           => ['required', 'unique:users', 'regex:/^[0-9 .]+$/i'],
+            // 'email'         => ['required', 'email',],
+            'password'      => ['min:8'],
+        ];
+        $messages = [
+            'fullName.required'     => 'El nombre es requerido.',
+            'fullName.regex'        => 'Nombre no valido',
+            'dni.required'          => 'El DNI es requerido.',
+            'dni.regex'             => 'DNI no valido',
+            'dni.unique'            => 'DNI ya se encuentra registrado',
+            // 'email.required'        => 'El email es requerido.',
+            // 'email.email'           => 'El Email no es valido',
+            'password.required'     => 'La contraseña es requerida',
+            'password.min'          => 'La contraseña debe tener un minimo de 8 caracteres'
+        ];
+
+
+         $validator = Validator::make($inputs, $rules, $messages)->errors();
+
+        return $validator->all() ;
+
+    }
+
+    private function storeWallet(Request $request){
+
+        $wallet = Wallet::create([
+            'number'    => '916' + $request->user_dni,
+            'balance'   => 0,
+            'type'      => $request->type,
+            'status'    => 1,
+            'user_id'   => $request->user_id,
+        ]);
+
+        return $wallet;
     }
 
 }

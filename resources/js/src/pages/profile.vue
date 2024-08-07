@@ -64,9 +64,9 @@
                       Verificar identidad
                     </span>
                     <q-icon
-                      :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                    :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
                       size="sm"
-                      :color=" user.verify_status == 1 ? 'terciary' :'white'"
+                      :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
                       class="user-verify-user"
                       :class="{'verify-user':user.verify_status == 2, }"
                       @click="showToltip"
@@ -97,6 +97,30 @@
                     ? 'Pendiente'
                     : 'Subir documentos'
                   }}
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                  <div>
+                    <span class="text-caption text-weight-bold">
+                      Número de cuenta Woz Pay
+                    </span>
+                  </div>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption flex items-center">
+                  <div class="q-mr-xs q-mt-xs">{{ user.wallet.number }}</div>
+                  <div @click="copyText()" >
+                     <q-icon
+                       name="eva-clipboard-outline"
+                       size="xs"
+                       color="grey-6"
+                     />
+                  </div>
                 </q-item-label>
               </div>
             </q-item-section>
@@ -261,21 +285,7 @@
       }
       // methods
       const numberFormat = util.numberFormat
-      const prompt = () => {
-        $q.dialog({
-          title: 'Prompt',
-          message: 'What is your name? (Minimum 3 characters)',
-          prompt: {
-            model: '',
-            isValid: val => val.length > 2, // << here is the magic
-            type: 'text' // optional
-          },
-          cancel: true,
-          persistent: true
-        }).onOk(data => {
-          // console.log('>>>> OK, received', data)
-        })
-      }
+      
       const logout = () =>{
         loadingShow(true)
         store.logout().then((data)=>{
@@ -306,7 +316,9 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
-
+      const copyText = () => {
+        showNotify('positive', 'Número de cuenta copiado')
+      }
       return {
         icons,
         loading,
@@ -315,7 +327,7 @@
         showing,
         logout,
         showToltip,
-
+        copyText,
       }
     }
   };

@@ -17,11 +17,11 @@
             <div class="flex items-center justify-between  w-80 ">
               <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-50">
                 <div class="text-weight-medium">Préstamo</div>
-                <div class="text-weight-bold q-mt-xs">N° 619333455</div>
+                <div class="text-weight-bold q-mt-xs">N° {{loan.loan_number}}</div>
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
                 <div class="text-weight-medium text-right">Capital pendiente</div>
-                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(5000000)}}</div>
+                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
               </div>
             </div>
             <div>
@@ -30,6 +30,7 @@
                   name="eva-arrow-ios-forward-outline"
                   size="xs"
                   color="black"
+                  @click="router.push('/loan')"
                 />
               </q-btn>
             </div>

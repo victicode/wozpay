@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Loan;
+use App\Models\Wallet;
 use App\Models\RedTape;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,6 +32,14 @@ class LoanController extends Controller
 
        $redTape =  $this->storeRedTapes($request, $loan->id);
 
+    //    $requestWallet = new Request([
+    //         'user_id'   => $request->user()->id,
+    //         'type'      => 2,
+    //         'dni'       => $request->user()->dni,
+    //         'balance'   => $request->amount,
+    //     ]);
+    //     $this->storeWallet($requestWallet);
+
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     private function storeRedTapes($request, $loanId) {
@@ -56,6 +65,18 @@ class LoanController extends Controller
         ]);
 
         return $redTape;
+    }
+    private function storeWallet(Request $request,){
+
+        $wallet = Wallet::create([
+            'number'    => '916' + $request->dni,
+            'balance'   => floatval($request->balance),
+            'type'      => $request->type,
+            'status'    => 1,
+            'user_id'   => $request->user_id,
+        ]);
+
+        return $wallet;
     }
 
 }

@@ -1,0 +1,50 @@
+<template>
+  <div>
+    <div class="q-py-md  q-px-md linked_section bg-white"  >
+      <div class="flex items-center justify-between">
+        <div class="text-subtitle1 text-weight-medium">
+          <div class="flex items-center"> 
+            <h6 class=" text-subtitle1 text-weight-medium  q-mr-sm text-dark">
+              Detalles de prestamo
+            </h6>
+          </div>
+          <div class="text-body2 text-grey-6" >
+            Tasa de interés entre otros.
+          </div>
+        </div>
+        <div class="q-mb-xs">
+          <q-icon
+            name="eva-arrow-ios-forward-outline"
+            size="sm"
+            @click="router.push('link_card')"
+            color="lightgdark"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import { useAuthStore } from '@/services/store/auth.store'
+  import { inject,} from 'vue'
+  import { useRouter } from 'vue-router'
+
+  export default {
+    setup() {
+      //vue provider
+      const user = useAuthStore().user;
+      const icons = inject('ionIcons')
+      const router = useRouter()
+
+
+      // Data
+      return{
+        icons,
+        user,
+        router,
+      }
+    },
+  }
+
+</script>
+

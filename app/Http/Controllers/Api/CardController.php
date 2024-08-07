@@ -43,6 +43,5 @@ class CardController extends Controller
         $card->delete();
 
         return $this->returnSuccess(200, $card);
-        
     }
 }

@@ -12,6 +12,7 @@ import notificationsPage from '@/pages/notifications.vue';
 import profilePage from '@/pages/profile.vue';
 import deposit from '@/pages/deposit.vue'
 import creditApply from '@/pages/creditApply.vue'
+import loanPage from '@/pages/loan.vue'
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
@@ -169,6 +170,13 @@ const router = createRouter({
             title : 'Vincular tarjeta de crédito'
           },
         },
+        {
+          path:'/loan',
+          component: loanPage,
+          meta: {
+            title: 'Mi préstamo'
+          }
+        }
         
       ]
     },
@@ -211,6 +219,15 @@ const router = createRouter({
       component: () => import('@/pages/transfer.vue'),
       meta: {
         title : 'Transferir'
+      },
+      beforeEnter: auth,
+    },
+    {
+      path: "/finish_transfer/:id",
+      name:"finish_transfer",
+      component: () => import('@/components/transfer/finishTransfer.vue'),
+      meta: {
+        title : '¡Envío exitoso!'
       },
       beforeEnter: auth,
     },

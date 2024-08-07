@@ -2,7 +2,7 @@
   <div class="userInfoContent q-pt-md q-px-lg" >
     <div style="">
       <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
-      <h5 class="text-white q-mt-xs text-weight-bold ">Gs.{{ user.account ? ` ${user.account}` : 0 }}</h5>
+      <h5 class="text-white q-mt-xs text-weight-bold ">Gs. {{numberFormat(user.wallet.balance)}}</h5>
     </div>
     <div class="">
       <div class="w-100 user-info q-mt-md-sm">

@@ -66,7 +66,7 @@ class AuthController extends Controller
 			]);
 	}
 	public function getUser(Request $request){
-		return $this->returnSuccess(200, User::find($request->user()->id));
+		return $this->returnSuccess(200, User::with('wallet')->find($request->user()->id));
 
 	}
 	public function refresh(){
