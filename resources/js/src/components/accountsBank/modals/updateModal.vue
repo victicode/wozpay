@@ -1,115 +1,114 @@
 <template>
   <q-dialog v-model="dialog"  :auto-close="true" backdrop-filter="blur(8px)">
-      <q-card style="min-width: 350px">
-        <q-card-section class="q-py-sm q-pa-md-md">
-          <div class="q-pa-none q-pa-md-md">
-            <div class="text-subtitle1 text-weight-medium">
-              Datos bancarios
-            </div>
-            <div>
-              <q-form
-                id="addAccountForm"
-                class="q-gutter-md"
-                @submit="updateAccount()"
-              >
-              <div class="row ">
-                <div class="col-12 q-my-md">
-                  <q-input
-                    class="account_bankForm no-display-value q-pb-none"
-                    outlined
-                    color="positive"
-                    v-model="account.bank.name"
-                    disabled
-                    label="Entidad Bancaria"
-                    autocomplete="off"
-                    disable
-                  > 
-                  <template v-slot:prepend>
-                    <div class="input-logo-container">
-
-                      <div style="height: 100%; width: 100%;" :class="account.bank.logo">
-                        <div v-html="wozIcons[account.bank.logo]" />
-                      </div>
-                    </div>
-                  </template> 
-                  </q-input>
-                </div>
-                <div class="col-12 q-my-md">
-                  <q-input
-                    class="account_bankForm q-pb-none"
-                    outlined
-                    clearable
-                    :clear-icon="'eva-close-outline'"
-                    color="positive"
-                    v-model="account.account_number"
-                    name="id_user"
-                    label="Número de cuenta"
-                    autocomplete="off"
-                    :rules="rulesForm('number')"
-                  />
-                </div>
-                <div class="col-12 q-my-md">
-                  <q-input
-                    class="account_bankForm q-pb-none"
-                    outlined
-                    clearable
-                    :clear-icon="'eva-close-outline'"
-                    color="positive"
-                    v-model="account.account_owner"
-                    disable
-                    name="id_user"
-                    label="Titular de la cuenta"
-                    :rules="rulesForm('owner')"
-                    autocomplete="off"
-                  />
-                </div>
-                <div class="col-12 q-my-md">
-                  <q-select 
-                    outlined
-                    class="account_bankForm q-pb-none" 
-                    v-model="account.account_type" 
-                    :options="['Ahorro', 'Corriente']" 
-                    label="Tipo de cuenta" 
-                    clearable
-                    :rules="rulesForm('type')"
-                    :clear-icon="'eva-close-outline'"
-                    dropdown-icon="eva-chevron-down-outline"
-                    behavior="menu"
-
-                  />
-                </div>
-                <div class="col-12 q-my-md">
-                  <q-input
-                    class="account_bankForm q-pb-none"
-                    outlined
-                    clearable
-                    :clear-icon="'eva-close-outline'"
-                    color="positive"
-                    v-model="account.account_owner_dni"
-                    name="id_user"
-                    label="Número de cédula"
-                    mask="###.###.###"
-                    reverse-fill-mask
-                    :rules="rulesForm('ownerDni')"
-                    autocomplete="off"
-                    disable
-                  />
-                </div>
-              </div>
-              <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Volver" @click="hideModal(null)"/>
-                <q-btn flat label="Confirmar" :loading="loading" type="submit" > 
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-              </q-card-actions>
-              </q-form>
-            </div>
+    <q-card style="min-width: 350px">
+      <q-card-section class="q-py-sm q-pa-md-md">
+        <div class="q-pa-none q-pa-md-md">
+          <div class="text-subtitle1 text-weight-medium">
+            Datos bancarios
           </div>
-        </q-card-section>
-        
-      </q-card>
+          <div>
+            <q-form
+              id="addAccountForm"
+              class="q-gutter-md"
+              @submit="updateAccount()"
+            >
+            <div class="row ">
+              <div class="col-12 q-my-md">
+                <q-input
+                  class="account_bankForm no-display-value q-pb-none"
+                  outlined
+                  color="positive"
+                  v-model="account.bank.name"
+                  disabled
+                  label="Entidad Bancaria"
+                  autocomplete="off"
+                  disable
+                > 
+                <template v-slot:prepend>
+                  <div class="input-logo-container">
+
+                    <div style="height: 100%; width: 100%;" :class="account.bank.logo">
+                      <div v-html="wozIcons[account.bank.logo]" />
+                    </div>
+                  </div>
+                </template> 
+                </q-input>
+              </div>
+              <div class="col-12 q-my-md">
+                <q-input
+                  class="account_bankForm q-pb-none"
+                  outlined
+                  clearable
+                  :clear-icon="'eva-close-outline'"
+                  color="positive"
+                  v-model="account.account_number"
+                  name="id_user"
+                  label="Número de cuenta"
+                  autocomplete="off"
+                  :rules="rulesForm('number')"
+                />
+              </div>
+              <div class="col-12 q-my-md">
+                <q-input
+                  class="account_bankForm q-pb-none"
+                  outlined
+                  clearable
+                  :clear-icon="'eva-close-outline'"
+                  color="positive"
+                  v-model="account.account_owner"
+                  disable
+                  name="id_user"
+                  label="Titular de la cuenta"
+                  :rules="rulesForm('owner')"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="col-12 q-my-md">
+                <q-select 
+                  outlined
+                  class="account_bankForm q-pb-none" 
+                  v-model="account.account_type" 
+                  :options="['Ahorro', 'Corriente']" 
+                  label="Tipo de cuenta" 
+                  clearable
+                  :rules="rulesForm('type')"
+                  :clear-icon="'eva-close-outline'"
+                  dropdown-icon="eva-chevron-down-outline"
+                  behavior="menu"
+
+                />
+              </div>
+              <div class="col-12 q-my-md">
+                <q-input
+                  class="account_bankForm q-pb-none"
+                  outlined
+                  clearable
+                  :clear-icon="'eva-close-outline'"
+                  color="positive"
+                  v-model="account.account_owner_dni"
+                  name="id_user"
+                  label="Número de cédula"
+                  mask="###.###.###"
+                  reverse-fill-mask
+                  :rules="rulesForm('ownerDni')"
+                  autocomplete="off"
+                  disable
+                />
+              </div>
+            </div>
+            <q-card-actions align="right" class="text-primary">
+              <q-btn flat label="Volver" @click="hideModal(null)"/>
+              <q-btn flat label="Confirmar" :loading="loading" type="submit" > 
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+            </q-card-actions>
+            </q-form>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
   </q-dialog>
 </template>
 <script>

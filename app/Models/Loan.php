@@ -14,6 +14,9 @@ class Loan extends Model
     public function redTapes(){
         return $this->hasOne(RedTape::class,'loan_id', 'id');
     }
+    public function pays(){
+        return $this->hasMany(Pay::class,'loan_id', 'id');
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id', 'id');
     }

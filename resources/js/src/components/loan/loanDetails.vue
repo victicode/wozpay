@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-py-md  q-px-md linked_section bg-white"  >
+    <div class="q-py-xs  q-px-md linked_section bg-white"  >
       <div class="flex items-center justify-between">
         <div class="text-subtitle1 text-weight-medium">
           <div class="flex items-center"> 
@@ -47,4 +47,14 @@
   }
 
 </script>
+<style>
+.linked_section {
+
+  height: 100%; 
+  overflow: hidden; 
+  border-top:10px solid lightgray; 
+  border-bottom:10px solid lightgray;
+ 
+}
+</style>
 

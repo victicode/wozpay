@@ -35,6 +35,7 @@ class UserController extends Controller
                 'dni'           => $request->dni,
                 'password'      => bcrypt($request->password),
                 'rol_id'        => 3,
+                'is_first_loan' => 1,
 
             ]);
         } catch (Exception $th) {

@@ -24,7 +24,8 @@ class User extends Authenticatable implements JWTSubject
         'dni',
         'password',
         'rol_id',
-        'verify_status'
+        'verify_status',
+        'is_first_loan'
     ];
 
     /**

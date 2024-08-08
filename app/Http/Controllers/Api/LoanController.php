@@ -12,7 +12,7 @@ class LoanController extends Controller
 {
     //
     public function getActiveLoan($id) {
-        $loan = Loan::query()->where('user_id', $id)->with('redTapes.user')->first();
+        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays')->first();
 
         return $this->returnSuccess(200, $loan);
 

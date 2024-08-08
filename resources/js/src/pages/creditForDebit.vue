@@ -14,7 +14,7 @@
                   Tarjeta de crédito
                 </div>
                 <div class="text-left text-body2 text-grey-6">
-                  Hasta 24 meses
+                  Plazo a 24 meses 
                 </div>
               </div>
               <div>
@@ -38,7 +38,7 @@
                   Tarjeta de débito
                 </div>
                 <div class="text-left text-body2 text-grey-6">
-                  Hasta 15 días
+                  Hasta 18 cuotas
                 </div>
               </div>
               <div>
@@ -46,7 +46,7 @@
                   Préstamos hasta
                 </div>
                 <div class="text-right text-weight-bold text-body2">
-                  {{ numberFormat(500000) }}
+                  {{ numberFormat(5000000) }}
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 
 <template>
   <div class="apply_section" >
-    <div class="" v-if="Object.values(user).length > 0" >
+    <div class="q-pb-lg" v-if="Object.values(user).length > 0 && !isCurrentLoan" >
       <q-stepper
         v-model="step"
         ref="stepper"
@@ -244,10 +244,10 @@
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
-                      Primer préstamo
+                     {{ user.is_first_loan ? 'Primer préstamo' : 'Préstamo' }} 
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.amount ? 'Gs.' + numberFormat(loan.amount) : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.amount ? 'Gs.' + numberFormat(loan.amount) : 'Seleccionar' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -260,7 +260,7 @@
                       Plazo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + ' días' : 'Agregar' }} </q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + ' días' : 'Seleccionar' }} </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -293,11 +293,11 @@
           </div>
         </q-step>
         <template v-slot:navigation>
-          <q-stepper-navigation class="q-mt-md flex justify-end">
+          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-xl">
             <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
             <q-btn 
               @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" 
-              color="primary" class="w-100 q-pa-sm q-mb-lg" 
+              color="primary" class="w-100 q-pa-sm q-mb-xl" 
               :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" 
               :loading="loading"
             >
@@ -309,31 +309,27 @@
         </template>
       </q-stepper>
     </div>
-    <div class="row">
-      <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-px-xs-lg q-pt-md">
-        <q-btn  
-          label="Siguiente" 
-          unelevated
-          no-caps 
-          color="promary" 
-          class="full-width" 
-          :loading="loading"
-        >
-        <template v-slot:loading>
-          <q-spinner-facebook />
-        </template>
-        </q-btn>
+    <div class="q-mt-xl q-px-md" v-else>
+      <div>
+        <div class="text-h6 text-center text-weight-bold">
+          Ya tienes un préstamo activo, termina de pagarlo para obtar por otro.
+        </div>
+
+        <div class="flex justify-center q-mt-lg ">
+          <q-btn color="primary" label="volver" class="q-px-md" size="md"  @click="router.push('/')"  style="width: 50%;" />
+        </div>
       </div>
     </div>
     <div v-if="sendLoading">
       <doneModal :dialog="sendLoading" :text="'Solicitud enviada'" />
     </div>
     <div v-if="dialog == 'redirect'">
-      <redirectModal :dialog="(dialog == 'redirect')" :input="input" />
+      <redirectModal :dialog="(dialog == 'redirect')" :type="redirectType" />
     </div>
     <div v-if="dialog == 'setValue'">
       <setValueModal  :dialog="(dialog == 'setValue')" :input="input"  @hiddeModal="hiddeModal"/>
     </div>
+    
   </div>
 </template>
 
@@ -356,8 +352,6 @@
       doneModal
     },
     setup () {
-      //vue provider
-      // const icons = inject('ionIcons')
       const q = useQuasar()
       const router = useRouter()
       const user = useAuthStore().user;
@@ -366,6 +360,7 @@
       
       
       // Data
+      const isCurrentLoan = ref(true)
       const sendLoading = ref(false);
       const dialog = ref('')
       const redirectType = ref(0);
@@ -423,7 +418,7 @@
           return isUserApply.value
         }
 
-        const dontValidate = ['is_public','email_verified_at','created_at', 'updated_at', 'deleted_at']
+        const dontValidate = ['is_public','email_verified_at','is_first_loan','created_at', 'updated_at', 'deleted_at',]
 
         Object.entries(user).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
@@ -433,6 +428,9 @@
         redirectType.value = 1
         return isUserApply.value
       }
+
+
+
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -531,10 +529,22 @@
         
         return isValid
       }
+
+      const activeLoan = () => {
+        loanStore.getLoan(user.id).then((data) => {
+          if(!data.code)  throw data
+          isCurrentLoan.value = data.data ? true : false 
+            
+        }).catch((e) => {
+          showNotify('negative', 'error al obtener prestamo activo')
+        })
+      }
+
       onMounted(() => {
         if(!validateUser()){
           showModal('redirect')
         }
+        activeLoan()
       })
 
       return {
@@ -548,6 +558,8 @@
         loan,
         input,
         numberFormat,
+        isCurrentLoan,
+        router,
         showModal,
         hiddeModal,
         showInputModal,

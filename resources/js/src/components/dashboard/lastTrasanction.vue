@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div style="">
+    <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady && Object.values(loan).length > 0">
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
@@ -17,7 +17,7 @@
             <div class="flex items-center justify-between  w-80 ">
               <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-50">
                 <div class="text-weight-medium">Préstamo</div>
-                <div class="text-weight-bold q-mt-xs">N° {{loan.loan_number}}</div>
+                <div class="text-weight-bold q-mt-xs">N° 619{{loan.loan_number}}</div>
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
                 <div class="text-weight-medium text-right">Capital pendiente</div>
@@ -154,16 +154,6 @@
 }
 .loan_container{
   border-bottom: 1px solid #d3d3d3;
-}
-.quote_description {
-  font-size: 12px; 
-  color:lightgray ; 
-}
-.quote_container{
-  border-bottom: 1px solid #d3d3d3;
-}
-.quote-section::-webkit-scrollbar {
-    display: none;
 }
 .w-80 {
   width: 85%;
