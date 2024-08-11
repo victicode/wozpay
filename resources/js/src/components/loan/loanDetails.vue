@@ -13,12 +13,7 @@
           </div>
         </div>
         <div class="q-mb-xs">
-          <q-icon
-            name="eva-arrow-ios-forward-outline"
-            size="sm"
-            @click="router.push('link_card')"
-            color="lightgdark"
-          />
+          <q-btn flat  color="lightgdark" icon="eva-arrow-ios-forward-outline"  @click="router.push('loan_view')" />
         </div>
       </div>
     </div>
@@ -47,6 +42,7 @@
   }
 
 </script>
+
 <style>
 .linked_section {
 

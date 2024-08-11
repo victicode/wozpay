@@ -1,8 +1,14 @@
 <template>
   <div class="q-pt-md q-px-md q-pb-sm">
-    <div>
-      <div class="text-subtitle1 text-weight-medium">Préstamo</div>
-      <div class="text-subtitle1 text-weight-bold">N° 619{{ loan.loan_number }}</div>
+    <div class="flex justify-between items-center">
+      <div>
+        <div class="text-subtitle1 text-weight-medium">Préstamo</div>
+        <div class="text-subtitle1 text-weight-bold">N° 619{{ loan.loan_number }}</div>
+      </div>
+      <div class="">
+        <div class="text-subtitle1 text-weight-medium">Total a pagar</div>
+        <div class="text-subtitle1 text-weight-bold">Gs. {{ numberFormat(loan.amount_to_pay) }}</div>
+      </div>
     </div>
     <div class="row q-px-none q-mt-sm">
       <div class="col-12 bg-white q-pa-7 flex items-center justify-between  loan_card" style="" >
@@ -23,8 +29,6 @@
   </div>
 </template>
 <script>
-  import { useAuthStore } from '@/services/store/auth.store'
-  import { useQuasar } from 'quasar'
   import wozIcons from '@/assets/icons/wozIcons'
   import util from '@/util/numberUtil'
 
@@ -34,7 +38,7 @@
     },
     setup (props) {
       //vue provider
-      const $q = useQuasar();
+      // const $q = useQuasar();
       const numberFormat  = util.numberFormat
 
       // Data
@@ -43,18 +47,8 @@
       
 
       // Methods
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
-      const showNotify = (type, message) => {
-        $q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
+
+      
       const forPay = () => {
         let amount = 0
 
@@ -62,10 +56,7 @@
           amount += pay.amount
         });
 
-        // return loan.amount_to_pay - amount
-        return loan.amount - amount
-
-
+        return loan.amount_to_pay - amount
       }
       return {
         loan,

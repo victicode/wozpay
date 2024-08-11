@@ -1,77 +1,42 @@
 <template>
   <q-dialog v-model="dialog"  :auto-close="true" backdrop-filter="blur(8px)">
-    <q-card style="min-width: 350px" class="q-pb-md-none">
+    <q-card style="min-width: 350px">
       <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm">
         <div class="q-pa-none q-px-md-md q-pt-md-md q-pb-md-none">
           <div class="text-subtitle1 text-weight-medium">
-            Datos bancarios
+            Datos de la operación
           </div>
           <div>
             <q-form
-              id="addAccountForm"
+              id="addTransferPay"
               class="q-gutter-md"
               @submit="updateAccount()"
             >
             <div class="row ">
               <div class="col-12 q-my-md">
                 <q-input
-                  class="account_bankForm no-display-value q-pb-none"
-                  outlined
-                  color="positive"
-                  v-model="account.bank.name"
-                  disabled
-                  label="Entidad Bancaria"
-                  autocomplete="off"
-                  disable
-                > 
-                <template v-slot:prepend>
-                  <div class="input-logo-container">
-
-                    <div style="height: 100%; width: 100%;" :class="account.bank.logo">
-                      <div v-html="wozIcons[account.bank.logo]" />
-                    </div>
-                  </div>
-                </template> 
-                </q-input>
-              </div>
-              <div class="col-12 q-my-md">
-                <q-input
                   class="account_bankForm q-pb-none"
                   outlined
                   clearable
                   :clear-icon="'eva-close-outline'"
                   color="positive"
-                  v-model="account.account_number"
-                  name="id_user"
-                  label="Número de cuenta"
+                  v-model="operationData.operationId"
+                  label="Ingresa el numero de operación"
                   autocomplete="off"
                   :rules="rulesForm('number')"
-                />
-              </div>
-              <div class="col-12 q-my-md">
-                <q-input
-                  class="account_bankForm q-pb-none"
-                  outlined
-                  clearable
-                  :clear-icon="'eva-close-outline'"
-                  color="positive"
-                  v-model="account.account_owner"
-                  disable
-                  name="id_user"
-                  label="Titular de la cuenta"
-                  :rules="rulesForm('owner')"
-                  autocomplete="off"
                 />
               </div>
               <div class="col-12 q-my-md">
                 <q-select 
                   outlined
                   class="account_bankForm q-pb-none" 
-                  v-model="account.account_type" 
-                  :options="['Ahorro', 'Corriente']" 
-                  label="Tipo de cuenta" 
+                  v-model="operationData.bank" 
+                  :options="banks" 
+                  option-value="id"
+                  option-label="name"
+                  label="Banco emisor" 
                   clearable
-                  :rules="rulesForm('type')"
+                  :rules="rulesForm('bank')"
                   :clear-icon="'eva-close-outline'"
                   dropdown-icon="eva-chevron-down-outline"
                   behavior="menu"
@@ -79,21 +44,31 @@
                 />
               </div>
               <div class="col-12 q-my-md">
-                <q-input
-                  class="account_bankForm q-pb-none"
-                  outlined
-                  clearable
-                  :clear-icon="'eva-close-outline'"
-                  color="positive"
-                  v-model="account.account_owner_dni"
-                  name="id_user"
-                  label="Número de cédula"
-                  mask="###.###.###"
-                  reverse-fill-mask
-                  :rules="rulesForm('ownerDni')"
-                  autocomplete="off"
-                  disable
-                />
+                <q-input label="Fecha de pago" outlined v-model="operationData.date" mask="date" class="account_bankForm q-pb-none" :rules="rulesForm('number')">
+                  <template v-slot:append>
+                    <q-icon name="eva-calendar-outline" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-date v-model="operationData.date">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Close" color="primary" flat />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-12 q-my-md">
+                <div class="">
+                  <div class="text-subtitle2 text-weight-medium">
+                    Pagaste:
+                  </div>
+                  <div class="q-px-md ">
+                    <div class="text-h5 text-center text-weight-medium amount_container">
+                      Gs. {{ numberFormat(operationData.amount) }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <q-card-actions align="right" class="text-primary">
@@ -113,29 +88,37 @@
 </template>
 <script>
   import { ref, onMounted } from 'vue';
-  import { useUserStore } from '@/services/store/user.store'
   import { useAuthStore } from '@/services/store/auth.store'
-  import { useBankAccountStore } from '@/services/store/bankAccount.store'
   import { useQuasar } from 'quasar'
+  import { useBankAccountStore } from '@/services/store/bankAccount.store'
   import wozIcons from '@/assets/icons/wozIcons'
+  import util from '@/util/numberUtil'
 
   export default {
     props: {
       dialog: Boolean,
-      account: Object,
+      amountToPay: Number
     },
     emits: ['hideModal'],
     setup (props, { emit }) {
       //vue provider
-      const userStore = useUserStore();
-      const bankAccountStore = useBankAccountStore();
+      const bankStore = useBankAccountStore()
       const user = useAuthStore().user;
       const $q = useQuasar();
-
+      const banks = ref([])
+      const numberFormat  = util.numberFormat
+      
       // Data
+      const step = ref(1);
+      const operationData = ref({
+        operationId: '',
+        amount: props.amountToPay,
+        bank: '',
+        date:'',
+        vaucher:'',
+      })
       const loading = ref(false);
       const dialog = props.dialog;
-      const account = props.account
       
 
       // Methods
@@ -154,33 +137,26 @@
       const hideModal = (data) => {
         emit('hideModal', data)
       }
+      const getAllBanks = () =>{
+        bankStore.getAllBanks().then((data) =>{
+          if(data.code !== 200) return
+          banks.value = data.data
+        })
+      }
       const updateAccount = () => {
         if(!validate) return 
-        loadingShow(true)
-        bankAccountStore.updateBankAccount(account)
-        .then((data) => {
-          if(data.code !== 200) throw data
-          showNotify('positive', 'Cuenta de banco actualizada con exito.')
-          loadingShow(false)
-          setTimeout(() => {
-            hideModal(null)
-
-          }, 1000)
-        }).catch((e) => {
-          showNotify('negative', 'Error al actualizar la cuenta de banco')
-          loadingShow(false)
-        })
+        console.log('cebollllaaa')
       }
       
       const rulesForm = (id) => {
         const iRules = {
           number:[
-            val => (val !== null && val !== '') || 'El número de cuenta es requerido.',
+            val => (val !== null && val !== '') || 'En número de operación es requerido.',
             val => (val.length > 20 ) || 'Debe contener 20 digitos',
             val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
-          owner:[
-            val => (val !== null && val !== '') || 'Nombre del propietario es requerido.',
+          amount:[
+            val => (val !== null && val !== '') || 'Selecciona un banco.',
             val => (val.length >= 8 ) || 'Formato no valido',
             val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener "[](),%|&;\'" ',
           ],
@@ -189,9 +165,9 @@
             val => (val.length >= 8 ) || 'Formato no valido',
             val => (/[,%"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
           ],
-          type:[
-            val => (val !== null && val !== '') || 'El tipo de cuenta.',
-            val => (/[,%"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          bank:[
+            val => (val !== null && val !== '') || 'Selecciona un banco.',
+            val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
           ],
         }
         
@@ -205,46 +181,30 @@
 
         return isOk
       }
+
+      onMounted(() =>{
+        getAllBanks()
+      })
       return {
         wozIcons,
         loading,
         dialog,
-        account,
+        operationData,
+        banks,
         hideModal,
         rulesForm,
         updateAccount,
+        numberFormat,
       }
     }
   };
 </script>
 
 <style lang="scss" scoped>
+  .amount_container{
+    border-bottom: 1px solid $grey-6;
+  }
   .w-100{
     width: 100%;
-  }
-  .bancoBasa{
-    transform: translateX(5%) translateY(30%)
-  }
-  .bancoRio{
-    transform: translateY(35%) translateX(10%);
-  }
-  .continental{
-    transform: translateY(35%) translateX(20%) scale(1.2);
-  }
-  .eko{
-    transform: translateY(30%) translateX(10%);
-  }
-  .itau{
-    transform: translateY(36%) translateX(25%);
-  }
-  .sudameris{
-    transform: translateY(35%) translateX(23%) scale(1.2);
-  }
-  .ueno{
-    width: 144% !important;
-    transform: translateY(30%) translateX(5%);
-  }
-  .wally{
-    transform: translateY(30%) translateX(5%);
   }
 </style>

@@ -106,28 +106,24 @@
           </div>
         </div>
       </Transition> 
-      <q-dialog v-model="dialog" persistent transition-show="scale" transition-hide="scale">
-        <q-card class="bg-white text-white flex flex-center q-py-md" style="width: 300px">
-          <q-card-section class="q-py-none">
-            <q-spinner-hourglass
-              color="grey-5"
-              size="5em"
-            />
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+      <div>
+        <waitModal :dialog="dialog" />
+      </div>
     </div>
   </div>
 </template>
 <script>
   import { onMounted, ref } from 'vue'
   import wozIcons from '@/assets/icons/wozIcons'
-  import { useRouter } from 'vue-router';
   import util from '@/util/numberUtil'
   import { usePayStore } from '@/services/store/pay.store'
   import { useQuasar } from 'quasar';
+  import waitModal from '@/components/layouts/modals/waitModal.vue';
 
   export default {
+    components: {
+      waitModal,
+    },
     setup () {
       const ready = ref(true)
       // const router = useRouter()
@@ -163,7 +159,6 @@
         .then((response) => {
           if(response.code !== 200) throw response
 
-          console.log(response.data)
           payForm.value = response.data.payment_link.link_url ?? response.data.subscription_link
 
           setTimeout(() => {

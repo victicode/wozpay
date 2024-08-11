@@ -15,15 +15,19 @@
         </div>
         <div class="flex items-center">
           <div class="text-weight-medium text-body1 q-mt-xs">
-            Gs. {{ numberFormat(loan.amount/loan.quotas) }}
+            Gs. {{ numberFormat(loan.amount_to_pay/loan.quotas) }}
           </div>
           <div>
-
-            <q-icon class="q-ml-xs" name="eva-checkmark-circle-2-outline" size="sm" color="green-5"  v-if="loan.pays[index-1]"/>
+            <q-icon 
+              v-if="loan.pays[index-1]"
+              class="q-ml-xs" 
+              :name=" loan.pays[index-1].status == 2 ? 'eva-checkmark-circle-2-outline' : 'eva-clock-outline' " 
+              :color="loan.pays[index-1].status == 2 ? 'green-5' : 'yellow-8' "  
+              size="sm" 
+              @click="showNotify('yellow-9', 'Tú pago esta siendo verificado.')"
+            />
           </div>
-
         </div>
-        
       </div>
     </div>
   </div>
@@ -40,17 +44,22 @@
     },
     setup (props) {
       //vue provider
-      const $q = useQuasar();
       const numberFormat  = util.numberFormat
-
+      const $q = useQuasar();
       // Data
-      const loading = ref(false);
       const loan = props.loan
       
 
       // Methods
-      const loadingShow = (state) => {
-        loading.value = state;
+      const forPay = () => {
+        let amount = 0
+
+        loan.pays.forEach(pay => {
+          amount += pay.amount
+        });
+
+        // return loan.amount_to_pay - amount
+        return loan.amount - amount
       }
       const showNotify = (type, message) => {
         $q.notify({
@@ -61,23 +70,12 @@
           ]
         })
       }
-      const forPay = () => {
-        let amount = 0
-
-        loan.pays.forEach(pay => {
-          amount += pay.amount
-        });
-
-        // return loan.amount_to_pay - amount
-        return loan.amount - amount
-
-
-      }
       return {
         loan,
         numberFormat,
         wozIcons,
         forPay,
+        showNotify,
       }
     }
   };

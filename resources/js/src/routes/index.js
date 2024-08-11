@@ -17,6 +17,8 @@ import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
 import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
+import loanPay from '@/components/loan/loanPay.vue'
+import loanView from '@/components/loan/loanView.vue'
 import link_card from '@/pages/link_card.vue'
 import cardPage from '@/pages/card.vue'
 
@@ -173,6 +175,20 @@ const router = createRouter({
         {
           path:'/loan',
           component: loanPage,
+          meta: {
+            title: 'Mi préstamo'
+          }
+        },
+        {
+          path: '/loan_pay',
+          component: loanPay,
+          meta: {
+            title: 'Paga tu préstamo'
+          }
+        },
+        {
+          path: '/loan_view',
+          component: loanView,
           meta: {
             title: 'Mi préstamo'
           }
