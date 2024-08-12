@@ -234,6 +234,7 @@
   opacity: 0;
 }
 .step-enter-from{
+  
   transform: scale(0.5);
 }
 .step-leave-to {

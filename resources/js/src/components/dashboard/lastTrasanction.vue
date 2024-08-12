@@ -103,10 +103,8 @@
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
-          console.log(data)
           loan.value = data.data ? Object.assign(data.data) : {} 
-            
-
+          
           loadingShow(false)
           setTimeout(() => {
             isReady.value = true

@@ -7,7 +7,7 @@
     <div class="q-px-md-xl q-px-lg q-mt-md" >
       <div class="q-px-md-xl">
           <q-input 
-            v-model="amouToPay" 
+            v-model="myLoan.amounToPay" 
             prefix="Gs." 
             disable
             dense  class="amount_input" mask="#.###.###" maxlength="9" reverse-fill-mask
@@ -21,7 +21,7 @@
         <q-btn  
           color="primary" class="w-100 q-pa-sm q-pt-md" 
           label="Pagar con Tpago" 
-          @click="getUrlPay()"
+          @click="getPayUrl()"
           :loading="(loading == 'tpago')"
         >
           <template v-slot:loading>
@@ -45,7 +45,7 @@
         <q-btn  
           color="positive" class="w-100 q-pa-sm q-pt-md" 
           label="Pagar con tarjeta vinculada" 
-          @click="payLoan('card')"
+          @click="payWithCard()"
           :loading="(loading == 'card')"
         >
           <template v-slot:loading>
@@ -89,7 +89,7 @@
       <waitModal :dialog="showDialog == 'tpago' " text="Préstamo pagado" />
     </div>
     <div v-if="showDialog == 'transfer'">
-      <transferModal :dialog="showDialog == 'transfer'" :amountToPay="amouToPay" />
+      <transferModal :dialog="showDialog == 'transfer'" :loan="myLoan" @hideModal="hideModal" @donePay="doneModal()" />
     </div>
   </div>
 </template>
@@ -121,7 +121,6 @@
       const cardStore = useCardStore()
       const payStore = usePayStore()
       const myLoan = ref({})
-      const amouToPay = ref(0)
       const card = ref({})
       const showDialog = ref(false)
       const loading = ref(false)
@@ -138,10 +137,6 @@
           showNotify('negative', 'error al obtener prestamo activo')
         })
       }
-
-      const quotaAmount = () => {
-        amouToPay.value = parseFloat(myLoan.value.amount_to_pay)/parseFloat(myLoan.value.quotas)
-      }
       
       const getLinkCard = () => {
         cardStore.getCard(user.id).then((data) => {
@@ -154,23 +149,35 @@
         })
       }
 
-      const payLoan = (modal) => {
-        // alert('cebollaaa')
-        loading.value = modal
-        setTimeout(() => {
-          showModal(modal)
-        }, 4000);
-        setTimeout(() => {
-          router.go(-1)
-        }, 8000);
+      const payWithCard = () => {
+        loadingShow('card')
+
+        const data = new FormData
+        data.append('loan_id', myLoan.value.id)
+        data.append('amount', myLoan.value.amounToPay)
+        data.append('type', 1)
+        data.append('status', 1)
+        data.append('concept', createConceptPay())
+
+        payStore.createPay(data)
+        .then((response) => {
+          if(response.code !== 200) throw response
+          
+          setTimeout(() => {
+            doneModal()
+          }, 4000);
+
+        }).catch((response) => {
+          showNotify('negative', response.data.error)
+          loadingShow('')
+        })
       } 
 
-
-      const getUrlPay = () => {
+      const getPayUrl = () => {
         loadingShow('tpago')
         showModal('tpago')
         const data = {
-          amount: amouToPay.value,
+          amount: myLoan.value.amounToPay,
           type: 1,
           debitDay: new Date().getDate()
         }
@@ -186,7 +193,7 @@
             openTpagoWindow()
           }, 1000);
         }).catch(() =>{
-          showNotify.apply('negative', 'Error para procesar el pago')
+          showNotify('negative', 'Error para procesar el pago')
         })
 
       }
@@ -206,8 +213,31 @@
       const hideModal = () => {
         showDialog.value = ''
       }
+      const doneModal = () => {
+        showModal('card')
+        setTimeout(() => {
+          router.go(-1)
+        }, 4000);
+      }
       const loadingShow = (show) => {
         loading.value = show
+      }
+
+      const quotaAmount = () => {
+        myLoan.value.amounToPay = parseFloat(myLoan.value.amount_to_pay)/parseFloat(myLoan.value.quotas)
+      }
+
+      const showNotify = (type, message) => {
+        q.notify({
+          message: message,
+          color: type,
+          actions: [
+            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
+      }
+      const createConceptPay = () => {
+        return `Pago de cuota ${myLoan.value.pays.length + 1 }/ ${myLoan.value.quotas}`
       }
 
       onMounted(() => {
@@ -221,14 +251,15 @@
         user,
         router,
         myLoan,
-        amouToPay,
         card,
         showDialog,
         loading,
-        payLoan,
+        payWithCard,
         quotaAmount,
-        getUrlPay,
+        getPayUrl,
         showModal,
+        hideModal,
+        doneModal,
       }
     },
   }

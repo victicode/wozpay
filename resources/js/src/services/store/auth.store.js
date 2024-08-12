@@ -13,12 +13,16 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     setAuth(user){
       this.isAuthenticated = true;
-      this.user = user;
       this.errors = {};
-      this.setIsAdmin(user)
+      this.setUser(user.data.user)
+      this.setIsAdmin(user.data.user)
+    },
+    setUser(user){
+      this.user = user;
     },
     setIsAdmin(user){
-      storage.setItem("is_admin", user.rol_id !== 3 ? true : false);
+      console.log(user.rol_id)
+      storage.setItem("is_admin",  user.rol_id !== '3' ? true : false);
       storage.setItem("user_unique_id",user.id);
     },
     setRememberAccount({dni, password, remember}){
@@ -90,7 +94,6 @@ export const useAuthStore = defineStore("auth", {
       return await new Promise((resolve) => {
         ApiService.post("api/auth/register", credentials)
           .then(({ data }) => {
-            console.log(data)
             if(!data.code){
               throw data;
             }
@@ -114,7 +117,7 @@ export const useAuthStore = defineStore("auth", {
               if(data.code !== 200){
                 throw data;
               }
-              this.setAuth(data.data)
+              this.setUser(data.data)
               resolve(data)
             }).catch(( response ) => {
               console.log(response)

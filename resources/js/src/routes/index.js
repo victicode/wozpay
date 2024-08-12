@@ -1,6 +1,8 @@
 import { createMemoryHistory, createWebHistory, createRouter } from 'vue-router'
 import guest from './middlewares/guest'
 import auth from './middlewares/auth'
+import admin from './middlewares/admin'
+
 import dashboardLayout from '@/layouts/dashboardLayout.vue';
 import pageLayout from '@/layouts/pagesLayout.vue';
 import authLayout from '@/layouts/authLayout.vue';
@@ -31,12 +33,25 @@ const router = createRouter({
       path: "/",
       name:"home",
       component: dashboardLayout,
-      beforeEnter: auth,
+      
       children: [
         {
           name: "dashboard",
           path: '/dashboard',
           component: () => import('@/pages/dashboard.vue'),
+          beforeEnter: auth,
+          meta: {
+            // middleware: [
+            //   auth
+            // ],
+            title : 'Dashboard'
+          },
+        },
+        {
+          name: "dashboard_admin",
+          path: '/admin/dashboard',
+          component: () => import('@/pages/admin/dashboard.vue'),
+          beforeEnter: admin,
           meta: {
             // middleware: [
             //   auth
@@ -196,6 +211,7 @@ const router = createRouter({
         
       ]
     },
+    
     {
       path: "/",
       name:"auth",

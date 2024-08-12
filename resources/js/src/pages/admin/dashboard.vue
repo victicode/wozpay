@@ -31,7 +31,6 @@
       LastTrasanction,
     },
     setup() {
-
     },
   }
 </script>

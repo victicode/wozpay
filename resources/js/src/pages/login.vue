@@ -129,6 +129,7 @@
         }
 
         store.login(data).then((data)=>{
+          console.log(data)
           if(!data.code){
             showNotify('negative', data.message)
             loadingShow(false);
@@ -136,7 +137,11 @@
           }
           showNotify('positive', 'Inicio de sesión exitoso, seras redigido al dashboard')
           setTimeout(() => {            
-            router.push('/dashboard')
+    
+            data.data.user.rol_id == 1 
+            ? router.push('/admin/dashboard')
+            : router.push('/dashboard')
+            
             loadingShow(false);
           }, 2000);
         }).catch((e) => { 

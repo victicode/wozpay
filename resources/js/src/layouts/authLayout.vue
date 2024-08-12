@@ -1,11 +1,11 @@
 <template>
   <div>
     <div id="auth-section" style="position: relative;">
-      <div class="bg-terciary row justify-center q-px-lg  column" style="height:20%" >
+      <div class="bg-terciary row justify-center q-px-lg  column" style="height:17%" >
         <h3 class="text-white text-md-h3 woz-logo">Woz Pay</h3>
         <q-linear-progress rounded size="8px" track-color="white"  :value="0.55" color="backLinear" reverse class="q-mt-sm auth-progress" />
       </div>
-      <div style="height:70%; position: relative;" class="">
+      <div style="height:73%; position: relative; " class="">
         <router-view v-slot="{ Component }">
           <transition >
             <component :is="Component" />
@@ -86,7 +86,7 @@
   }
   @media screen and (max-width: 780px){
     #auth-section{
-      height: 91vh; 
+      height: 100vh; 
     }
     .auth-progress {
       width: 55%!important;

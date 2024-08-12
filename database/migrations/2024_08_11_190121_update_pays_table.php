@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('loans', function (Blueprint $table) {
-            $table->string('loan_number')->after('id');
+        Schema::table('pays', function (Blueprint $table) {
+            $table->string('operation_id')->after('amount')->nullable();
+            $table->string('bank')->after('operation_id')->nullable();
+            $table->date('pay_date')->after('bank')->nullable();
+            $table->longText('vaucher')->after('pay_date')->nullable();
         });
     }
 
@@ -21,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        
     }
 };

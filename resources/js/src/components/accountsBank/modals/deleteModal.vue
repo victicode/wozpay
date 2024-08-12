@@ -10,7 +10,6 @@
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Volver" @click="hideModal(null)"/>
-          <!-- <q-btn flat label="Confirmar" :loading="loading" @click="sendMobileCode()" >  -->
           <q-btn flat label="Confirmar" :loading="loading" @click="deleteAccount()" > 
             <template v-slot:loading>
               <q-spinner-facebook />

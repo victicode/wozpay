@@ -10,5 +10,5 @@ class Pay extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $fillable =  ['user_id', 'loan_id', 'amount', 'type', 'status', 'concept'];
+    protected $fillable =  ['user_id', 'loan_id', 'amount', 'operation_id', 'bank', 'pay_date', 'vaucher', 'type', 'status', 'concept'];
 }

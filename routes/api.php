@@ -83,5 +83,6 @@ Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(fu
 });
 
 Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {
-    Route::post('/', [PayController::class, 'payRequest']);
+    Route::post('/', [PayController::class, 'storePay']);
+    Route::post('/get_url', [PayController::class, 'payRequest']);
 });

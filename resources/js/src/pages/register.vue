@@ -70,7 +70,7 @@
             <q-checkbox v-model="remember"  label="Recuérdame" color="terciary" />
           </div>
           <div class="col-12 q-mt-sm">
-            <q-checkbox v-model="accept_terms"  label="Acepto que he leído los términos y condiciones de Woz Pay" color="terciary" />
+            <q-checkbox v-model="accept_terms" label="Acepto que he leído los términos y condiciones de Woz Pay" color="terciary" />
           </div>
           <div class="col-12 q-mt-sm q-px-md-xl q-pt-md-md" >
             <q-btn 
@@ -127,6 +127,7 @@
       const fullNameRef = ref(null)
       const dniRef = ref(null)
       const passwordRef = ref(null)
+
       
       // rules
       const nameRules = [
@@ -141,7 +142,9 @@
         val => (val !== null && val !== '') || 'La contraseña es requerida',
         val => (val.length >= 8 ) || 'Debe contener 8 caracteres',
         val => (/[,%" '();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
-
+      ]
+      const termsRules = [
+        val => (val !== null && val !== '') || 'Debes aceptar los términos y condiciones',
       ]
       
       // methods
@@ -152,11 +155,10 @@
           fullName: fullName.value,
           dni: dni.value.replace(/\./g, ''),
           password: password.value,
+          remember: remember.value
         }
 
         store.register(data).then((data)=>{
-          console.log(data)
-
           if(data.code !== 200 ){
             showNotify('negative', data.error ?? 'Error de servicio')
             loadingState(false);
@@ -168,7 +170,6 @@
             loadingState(false);
           }, 2000);
         }).catch((e) => { 
-          console.log(e)
           showNotify('negative', 'Error de servicio')
         })
       }
@@ -195,6 +196,11 @@
           || passwordRef.value.hasError
         ) return false
 
+        if(!accept_terms.value) {
+          showNotify('negative', 'Debes aceptar los términos y condiciones')
+          return false
+        }
+
         return true
       }
       
@@ -207,6 +213,7 @@
         nameRules,
         dniRules,
         passwordRules,
+        termsRules,
         fullNameRef,
         dniRef,
         passwordRef,
