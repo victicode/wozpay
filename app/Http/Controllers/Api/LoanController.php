@@ -27,6 +27,8 @@ class LoanController extends Controller
             'quotas' => 2,
             'status' => 1,
             'loan_number' => '619'+ rand(100000, 999999),
+            'interest' => 70,
+            'interest_for_delay' => 10,
             'user_id' => $request->user()->id,
         ]);
 
