@@ -23,6 +23,7 @@
         "unplugin-auto-import": "^0.17.1",
         "vant": "^4.9.2",
         "vue": "^3.4.29",
+        "vue-barcode-reader": "^1.0.3",
         "vue-router": "^4.3.3"
     }
 }
