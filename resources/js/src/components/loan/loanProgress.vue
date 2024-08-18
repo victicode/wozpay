@@ -37,8 +37,6 @@
       loan: Object,
     },
     setup (props) {
-      //vue provider
-      // const $q = useQuasar();
       const numberFormat  = util.numberFormat
 
       // Data
@@ -47,8 +45,6 @@
       
 
       // Methods
-
-      
       const forPay = () => {
         let amount = 0
 
@@ -57,6 +53,11 @@
         });
 
         return loan.amount_to_pay - amount
+      }
+      const isPendingPay = () => {
+        loan.pays.forEach(() => {
+          
+        })
       }
       return {
         loan,
