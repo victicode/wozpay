@@ -22,7 +22,7 @@ class PayController extends Controller
         $vaucher = ''; 
         
         if ($request->vaucher) {
-            $vaucher = 'public/images/vaucher/' . trim(str_replace(' ', '_', $request->title )) .'.'. $request->File('vaucher')->extension();
+            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
             $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
         }
         

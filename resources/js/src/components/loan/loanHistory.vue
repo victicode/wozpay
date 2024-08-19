@@ -21,10 +21,21 @@
             <q-icon 
               v-if="loan.pays[index-1]"
               class="q-ml-xs" 
-              :name=" loan.pays[index-1].status == 2 ? 'eva-checkmark-circle-2-outline' : 'eva-clock-outline' " 
-              :color="loan.pays[index-1].status == 2 ? 'green-5' : 'yellow-8' "  
+              :name=" loan.pays[index-1].status == 0 ? 'eva-alert-circle-outline' : loan.pays[index-1].status == 1 ? 'eva-clock-outline'  : 'eva-checkmark-circle-2-outline'" 
+              :color=" loan.pays[index-1].status == 0 ? 'negative' : loan.pays[index-1].status == 1 ? 'yellow-8'  : 'green-5'"  
               size="sm" 
-              @click="showNotify('yellow-9', 'Tú pago esta siendo verificado.')"
+              @click="showNotify(
+                loan.pays[index-1].status == 0 
+                ? 'negative'
+                : loan.pays[index-1].status == 1 
+                ? 'yellow-9'
+                : 'positive'
+                , 
+                loan.pays[index-1].status == 0 
+                  ? 'Tu pago fue rechazado, vuelve a intentar.' 
+                  : loan.pays[index-1].status == 1 
+                  ? 'Tú pago esta siendo verificado.' 
+                  : 'Tú pago fue exitoso.')"
             />
           </div>
         </div>

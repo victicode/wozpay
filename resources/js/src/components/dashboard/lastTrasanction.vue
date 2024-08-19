@@ -25,12 +25,12 @@
               </div>
             </div>
             <div>
-              <q-btn round flat class="q-ml-md-md"> 
+              <q-btn round flat class="q-ml-md-md" @click="router.push('/loan')"> 
                 <q-icon
                   name="eva-arrow-ios-forward-outline"
                   size="xs"
                   color="black"
-                  @click="router.push('/loan')"
+                  
                 />
               </q-btn>
             </div>

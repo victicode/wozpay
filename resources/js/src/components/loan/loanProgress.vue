@@ -23,15 +23,24 @@
       </div>
     </div>
     <div class="q-mt-sm q-pt-xs">
-      <q-linear-progress rounded size="15px"  :value="loan.pays_count/loan.quotas" color="positive" track-color="white" class="q-mt-sm w-100 loan_progress" />
-      <div class="q-mt-sm text-body2">Pagado: {{loan.pays_count}}/{{ loan.quotas }} </div>
+      <q-linear-progress 
+        class="q-mt-sm w-100"
+        :class="isPendingPay().pending ? 'loan_progress_pending' : 'loan_progress'" 
+        rounded size="15px"  
+        :value="progressByStatus().linear" 
+        :color="isPendingPay().pending ? 'terciary' : 'positive'" 
+        track-color="white" 
+      />
+      <div class="q-mt-sm text-body2">
+        Pagado: {{progressByStatus().count}}/{{ loan.quotas }} {{ isPendingPay().pending ? `(${isPendingPay().count} pago pendiente)` : ''}} 
+      </div>
     </div>
   </div>
 </template>
 <script>
   import wozIcons from '@/assets/icons/wozIcons'
   import util from '@/util/numberUtil'
-
+  
   export default {
     props: {
       loan: Object,
@@ -55,15 +64,41 @@
         return loan.amount_to_pay - amount
       }
       const isPendingPay = () => {
-        loan.pays.forEach(() => {
-          
+        let isPending = {
+          count: 0,
+          pending: false
+        };
+
+        loan.pays.forEach((pay) => {
+          if(pay.status == 1) {
+            isPending.pending = true
+            isPending.count++;
+          }
         })
+
+        return isPending
       }
+      const progressByStatus = () => {
+        let goodPays = 0;
+
+        loan.pays.forEach((pay) => {
+          if(pay.status != 0) {
+            goodPays++
+          }
+        })
+        return {
+          linear: goodPays/loan.quotas,
+          count: goodPays,
+        }
+      }
+
       return {
         loan,
         numberFormat,
         wozIcons,
         forPay,
+        isPendingPay,
+        progressByStatus,
       }
     }
   };
@@ -79,11 +114,24 @@
 .loan_container{
   border-bottom: 1px solid #d3d3d3;
 }
+
 </style>
 <style lang="scss">
 .loan_progress {
   border-radius: 155px!important;
   border: 1px solid $positive;
+
+  & .q-linear-progress__track{
+    opacity: 1;
+    border-radius: 155px!important;
+  }
+  & .q-linear-progress__model {
+    border-radius: 155px!important;
+  }
+}
+.loan_progress_pending {
+  border-radius: 155px!important;
+  border: 1px solid #ffc701;
 
   & .q-linear-progress__track{
     opacity: 1;
