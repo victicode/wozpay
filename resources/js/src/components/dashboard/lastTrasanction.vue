@@ -3,12 +3,13 @@
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold">Mis préstamos</div>
+          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold" v-if="Object.values(loan).length > 0"> 
+            {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}</div>
         </div>
       </div>
     </div>
     <div style="" class="q-mb-sm">
-      <div class="quote-section" v-if="isReady && Object.values(loan).length > 0">
+      <div class="quote-section" v-if="isReady && Object.values(loan).length > 0" >
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
             <div>
@@ -20,7 +21,11 @@
                 <div class="text-weight-bold q-mt-xs">N° 619{{loan.loan_number}}</div>
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
-                <div class="text-weight-medium text-right">Capital pendiente</div>
+                <div class="text-weight-medium text-right">
+                  <q-chip class="q-ma-none" :color="loanStatus(loan.status).color" text-color="white" >
+                    {{ loanStatus(loan.status).text }}
+                  </q-chip>
+                </div>
                 <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
               </div>
             </div>
@@ -127,6 +132,15 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
+      const loanStatus = (state) => {
+        const status = [
+          {text:'Cancelado', color:'negative'},
+          {text:'Pendiente', color:'warning'},
+          {text:'Aprobando', color:'positive'},
+          {text:'No pagado', color:'warning'},
+        ]
+        return status[state]
+      }
       onMounted(() => {
         activeLoan()
       })
@@ -140,6 +154,7 @@
         wozIcons,
         loan,
         router,
+        loanStatus,
       }
     },
   }
@@ -160,7 +175,7 @@
   width: 46%;
 }
 .w-10 {
-  width: 7%;
+  width: 6%;
 }
 @media screen and (max-width: 780px){
   .w-80 {

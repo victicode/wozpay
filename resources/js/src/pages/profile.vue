@@ -1,6 +1,6 @@
 
 <template>
-  <div class="profile_section" >
+  <div class="profile_section section_page q-mt-md q-pt-lg" >
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- info -->
@@ -24,7 +24,7 @@
                   Nombre completo
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.name }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.name }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -37,7 +37,7 @@
                   N° de documento
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ numberFormat(user.dni) }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ numberFormat(user.dni) }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -50,7 +50,7 @@
                   Número de teléfono
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.phone ?? 'No asignado'  }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.phone ?? 'No asignado'  }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -89,7 +89,7 @@
                     </q-icon>
                   </div>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">
+                <q-item-label caption lines="1" class=" text-caption">
                   {{ 
                     user.verify_status == 2 
                     ? 'Aprobado'
@@ -148,7 +148,7 @@
                   Ciudad
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.city ?? 'Agregar' }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.city ?? 'Agregar' }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -161,7 +161,7 @@
                   Barrio o localidad
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.locality ?? 'Agregar' }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.locality ?? 'Agregar' }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -174,7 +174,7 @@
                   Calle y N° de casa
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.address ?? 'Agregar'  }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.address ?? 'Agregar'  }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -201,7 +201,7 @@
                   Privado - Funcionario público
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.work ?? 'Agregar' }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.work ?? 'Agregar' }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -214,7 +214,7 @@
                   Cargo
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.office ?? 'Agregar' }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.office ?? 'Agregar' }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -227,7 +227,7 @@
                   Salario
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.salary ?? 'Agregar'  }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.salary ?? 'Agregar'  }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
@@ -333,14 +333,23 @@
   };
 </script>
 <style lang="scss">
-#logout-button{
-  padding: 10px;
-}
-.profile_section{
-  height: 100%; 
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-}
+  #logout-button{
+    padding: 10px;
+  }
+  .profile_section{
+    height: 100%; 
+    overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+    }
+  }
+</style>
+<style lang="scss" scoped>
+.section_page {
+  background: white;
+  height: 100%;
+  width: 100%;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
 }
 </style>

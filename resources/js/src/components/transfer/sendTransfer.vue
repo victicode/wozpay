@@ -287,6 +287,8 @@
     box-shadow: 0px 4px 8px 0px rgba(134, 134, 134, 0.397);
     border-radius: 20px;
   }
+</style>
+<style lang="scss">
   .section_page {
     background: white;
     height: 100%;
@@ -294,8 +296,6 @@
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
   }
-</style>
-<style lang="scss">
   .transferForm.q-field--auto-height.q-field--labeled{
      & .q-field__control-container{
       padding-top: 0px!important;

@@ -118,17 +118,7 @@ const router = createRouter({
             title : 'Notificaciones'
           },
         },
-        {
-          path: "/profile",
-          component: profilePage,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Perfil'
-          },
-        },
+        
         {
           path: "/apply",
           component: creditApply,
@@ -291,6 +281,28 @@ const router = createRouter({
           component: () => import('@/components/transfer/sendTransfer.vue'),
           meta: {
             title: 'Enviar dinero'
+          },
+        },
+        {
+          path: "/bank",
+          component: bankPage,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Agregar cuenta bancaria'
+          },
+        },
+        {
+          path: "/profile",
+          component: profilePage,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Perfil'
           },
         },
       ]
