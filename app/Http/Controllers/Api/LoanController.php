@@ -48,7 +48,21 @@ class LoanController extends Controller
         $informconf = '-';
         $workCertificate = '-';
         $lastIps = '-';
-
+        $vaucher = ''; 
+        
+        if ($request->vaucher) {
+            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
+            $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        }
+        if ($request->vaucher) {
+            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
+            $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        }
+        if ($request->vaucher) {
+            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
+            $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        }
+        
         $redTape = RedTape::create([
             'business' => $request->business,
             'business_address' => $request->business_address,

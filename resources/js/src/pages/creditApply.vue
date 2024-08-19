@@ -533,7 +533,9 @@
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
-          isCurrentLoan.value = data.data ? true : false 
+          isCurrentLoan.value = data.data.status == 1 || data.data.status == 2
+            ? true 
+            : false 
             
         }).catch((e) => {
           showNotify('negative', 'error al obtener prestamo activo')

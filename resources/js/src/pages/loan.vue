@@ -9,13 +9,14 @@
     <div>
       <loanHistory :loan="myLoan" />
     </div>
-    <div class="q-mt-xl q-pt-xl q-mx-md q-mx-md-xl q-px-md-xl">
+    <div class="q-mt-xl q-pt-xl q-mx-md q-mx-md-xl q-px-md-xl" >
       <div class="q-mt-xl q-pt-md-md">
         <q-btn 
-          @click="goTo()" 
+          @click="goTo(loanComplete() ? 1 : 0)" 
           no-caps
-          color="primary" class="w-100 q-pa-sm " 
-          label="Pagar préstamo" 
+          :color=" loanComplete() ? 'positive' : 'primary'" 
+          class="w-100 q-pa-sm " 
+          :label=" loanComplete() ? 'Prestamo pagado con exito!' : 'Pagar préstamo'" 
         />
       </div>
     </div>
@@ -53,10 +54,24 @@
           showNotify('negative', 'error al obtener prestamo activo')
         })
       }
-      const goTo = () => {
+      const goTo = (status) => {
+        if(status){
+          router.go(-1)
+          return
+        }
         router.push('/loan_pay')
+        
       } 
+      const loanComplete = () => {
+        let goodPays = 0;
 
+        myLoan.value.pays.forEach((pay) => {
+          if(pay.status != 0) {
+            goodPays++
+          }
+        })
+        return goodPays == myLoan.value.quotas
+      }
       onMounted(() => {
         activeLoan()
       })
@@ -68,6 +83,7 @@
         router,
         myLoan,
         goTo,
+        loanComplete,
       }
     },
   }
