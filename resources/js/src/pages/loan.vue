@@ -1,5 +1,5 @@
 <template>
-  <div v-if="Object.values(myLoan).length > 0">
+  <div v-if="Object.values(myLoan).length > 0" class="q-pt-sm">
     <div>
       <loanProgress :loan="myLoan" />
     </div>

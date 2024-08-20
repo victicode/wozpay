@@ -429,8 +429,6 @@
         return isUserApply.value
       }
 
-
-
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -495,12 +493,9 @@
         formData.append('last_ips', readTapes.value.last_ips)
         formData.append('work', readTapes.value.work_certificate)
 
-
         formData.append('amount', loan.value.amount)
         formData.append('amountToPay', loan.value.amountToPay)
         formData.append('due_date', loan.value.due_date)
-
-
 
         loanStore.createLoan(formData)
         .then((data) => {

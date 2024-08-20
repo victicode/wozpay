@@ -70,6 +70,10 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
     Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
 });
 
+Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {
+    Route::post('/{id}', [UserController::class, 'getWalletByNumber']);
+});
+
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [CardController::class, 'getLinkCard']);

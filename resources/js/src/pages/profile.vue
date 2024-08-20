@@ -1,6 +1,6 @@
 
 <template>
-  <div class="profile_section section_page q-mt-md q-pt-lg" >
+  <div class="profile_section section_pagex q-mt-md q-pt-lg" >
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- info -->
@@ -236,7 +236,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-px-xs-lg q-pt-md">
+      <div class="col-12 q-mt-md q-mb-xl q-px-md-xl q-px-xs-lg q-pt-md">
         <q-btn 
           id="logout-button" 
           label="Cerrar sesión" 
@@ -339,17 +339,15 @@
   .profile_section{
     height: 100%; 
     overflow-y: scroll;
-      &::-webkit-scrollbar {
-        display: none;
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 </style>
 <style lang="scss" scoped>
-.section_page {
+.section_pagex {
   background: white;
   height: 100%;
   width: 100%;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
 }
 </style>

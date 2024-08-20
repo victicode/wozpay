@@ -8,12 +8,14 @@
       </router-view>
     </div>
     <div id="navbar-buttom">
-      <navbarVue />
+      <navbarVue  v-if="user.rol_id != 1" />
+      <navbarAdminVue v-else />
     </div>
   </div>
 </template>
 <script >
   import navbarVue from "@/components/layouts/navbar.vue";
+  import navbarAdminVue from '@/components/layouts/navbarAdmin.vue';
   import { inject, onMounted, ref } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
@@ -23,6 +25,7 @@
   export default {
     components:{
       navbarVue,
+      navbarAdminVue,
     },
     setup () {
       //vue provider
@@ -30,7 +33,7 @@
       const $q = useQuasar()
       const store = useAuthStore();
       const router = useRouter();
-
+      const user = ref({})
       const readyState = ref(false)
       // methods
       const getCurrentUser = () =>{
@@ -40,6 +43,7 @@
             utils.errorLogout( () => router.push('/login'))
             return;
           }
+          user.value = data.data
           readyState.value = true
         }).catch((e) => { 
           showNotify('negative', 'Error de servicio')
@@ -64,7 +68,8 @@
       
       return {
         icons,
-        readyState
+        readyState,
+        user
       }
     }
   };

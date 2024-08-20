@@ -68,6 +68,26 @@ export const useUserStore = defineStore("user", {
         resolve('Error al validar codigo');
       });
     },
+    async getUserByWallet(wallet) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("api/wallet/"+ wallet)
+            .then(({ data }) => {
+              if(data.code !== 200) throw data; 
+              
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al conseguir wallet.');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
   },
   getters: {
   },

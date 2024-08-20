@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 91vh;">
+  <div style="height: 91vh;" class="q-pt-md">
     <Transition name="inFade">
       <div v-if="bankAccounts.length > 0 && ready" class="h-100 w-100">
         <div class="q-pt-md q-px-lg account__container" >
@@ -162,6 +162,12 @@ export default {
 .redirect_button{
   width: 50%;
 }
+.account__container::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  border-radius: 15px;
+  background-color: #aaa; /* or add it to the track */
+}
 @media screen and (max-width: 780px){
   .redirect_button{
     width: 100%;
@@ -174,7 +180,6 @@ export default {
   cursor: pointer;
 }
 .account__info{
-  
   background: #ccdafe;
   border-radius: 10px;
   &--bank{

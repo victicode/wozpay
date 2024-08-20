@@ -127,9 +127,8 @@
           password: password.value,
           remember: remember.value
         }
-
-        store.login(data).then((data)=>{
-          console.log(data)
+        store.login(data)
+        .then((data)=>{
           if(!data.code){
             showNotify('negative', data.message)
             loadingShow(false);
@@ -144,8 +143,8 @@
             
             loadingShow(false);
           }, 2000);
-        }).catch((e) => { 
-          console.log(e)
+        })
+        .catch((e) => { 
           loadingShow(false);
           showNotify('negative', 'Error en al iniciar sesión')
         })

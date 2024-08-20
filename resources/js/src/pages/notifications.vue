@@ -1,8 +1,8 @@
 <template>
   <div style=" height: 91vh; position:relative">
     <Transition name="inFade">
-      <div v-if="notifications.length > 0 && ready">
-        <div class="text-subtitle1 q-my-sm text-weight-bold q-px-sm">
+      <div v-if="notifications.length > 0 && ready" class="q-pt-lg">
+        <div class="text-subtitle1 q-mb-sm q-pt-md text-weight-bold q-px-sm">
           Nuevas notificaciones
         </div>
         <div>
@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <div v-else-if="notifications.length == 0 && ready" class="h-100">
+      <div v-else-if="notifications.length == 0 && ready" class="h-100" style="overflow: hidden;">
         <div style="z-index:1">
           <div class="circle-bell__content">
             <div class="circle-bell__container" v-html="wozIcons.notification" />
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div v-else class="h-100">
-        <div class=" w-100 q-pt-md q-px-sm">
+        <div class=" w-100 q-pt-xl q-px-sm">
           <q-skeleton width="150px" class="q-mb-md" />
           <div class="w-100 q-my-xs notification__content flex items-center q-py-sm q-px-sm" v-for="n in 4" :key="n">
             <div class="w-50">
@@ -137,7 +137,7 @@ export default {
 }
 
 .circle-bell__content:nth-child(1) {
-  bottom: 80%;
+  bottom: 75%;
   right: -3%;
   transform: scale(1.8) rotate(30deg);
 }

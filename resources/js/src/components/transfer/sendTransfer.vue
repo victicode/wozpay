@@ -1,6 +1,6 @@
 <template>
   <div class="section_page q-mt-md q-pt-lg">
-    <div class="" style="max-height: 100%; overflow: scroll;">
+    <div class="section__page" style="max-height: 100%; overflow: scroll;">
       <div class="text-subtitle1 text-weight-bold text-center">Escoge una cuenta a debitar</div>
       <div class="q-px-md-xl q-px-md">
         <div class="q-pa-md select_card q-mt-sm">
@@ -88,6 +88,7 @@
                     label="Número de cuenta Woz Pay"
                     :rules="rulesForm('recept')"
                     autocomplete="off"
+                    @change="getWalletToTransfer()"
                   />
                 </div>
                 <div class="q-my-lg">
@@ -157,26 +158,26 @@
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
-  import { inject, ref } from 'vue'
-  import util from '@/util/numberUtil'
-  import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router'
+  import { useUserStore } from '@/services/store/user.store'
   import { useCardStore } from '@/services/store/card.store'
+  import { inject, ref } from 'vue'
+  import { useQuasar } from 'quasar'
+  import util from '@/util/numberUtil'
 
   export default {
     setup() {
       //vue provider
       const user = useAuthStore().user;
+      const userStore = useUserStore();
       const cardStore = useCardStore()
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
       const q = useQuasar()
-      const router = useRouter()
+      // const router = useRouter()
       const loading = ref(false)
       // Data
       const selectPayMethod = ref(0)
       const linkCard = ref({})
-
       const formCardData = ref({
         amount:'',
         recept:'',
@@ -239,8 +240,6 @@
       }
       const storeTransfer = () => {
         if(!validate()) return
-
-        console.log('hola')
       }
       const getLinkCard = () => {
         cardStore.getCard(user.id).then((data) => {
@@ -250,7 +249,28 @@
           // showNotify('negative', response)
         })
       }
+      const getWalletToTransfer = () => {
+        loadingWallet(true)
+        userStore.getUserByWallet(formCardData.value.recept)
+        .then((data) =>{
+          if(!data.code) throw data
 
+          setTimeout(() => {
+            formCardData.value.recept_owner = data.data.user.name
+            formCardData.value.recept_dni = numberFormat(data.data.user.dni)
+          }, 2000)
+        }).catch((response) => {
+          console.log(response)
+          setTimeout(() => {
+            loadingWallet(false)
+            showNotify('negative', response)
+          }, 2000)
+        })
+      }
+      const loadingWallet = (status) => {
+        formCardData.value.recept_owner = status ? 'Cargando...' : '';
+        formCardData.value.recept_dni = status ? 'Cargando...' : '';
+      }
       onMounted(() => {
         getLinkCard()
       })
@@ -264,6 +284,7 @@
         linkCard,
         rulesForm,
         storeTransfer,
+        getWalletToTransfer,
       }
     },
   }
@@ -295,6 +316,13 @@
     width: 100%;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
+    
+  }
+  .section__page::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    border-radius: 15px;
+    background-color: #aaa; /* or add it to the track */
   }
   .transferForm.q-field--auto-height.q-field--labeled{
      & .q-field__control-container{

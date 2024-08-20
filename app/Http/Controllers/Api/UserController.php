@@ -165,6 +165,13 @@ class UserController extends Controller
         
         return $this->returnSuccess(200, json_encode($validation_request));
     }
+    public function getWalletByNumber($wallet){
+        $wallet = Wallet::with('user')->where('number', $wallet)->first();
+        
+        if(!$wallet) return $this->returnFail(400, 'Cuenta no existe.');
+
+        return $this->returnSuccess(200, $wallet);
+    }
     private function validateFieldsFromInput($inputs){
         $rules=[
             'fullName'      => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
@@ -192,7 +199,6 @@ class UserController extends Controller
     }
 
     private function storeWallet(Request $request){
-
         $wallet = Wallet::create([
             'number'    => '916' + $request->user_dni,
             'balance'   => 0,
