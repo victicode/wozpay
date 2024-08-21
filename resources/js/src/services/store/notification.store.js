@@ -8,7 +8,7 @@ export const useNotificationStore = defineStore("notification", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("api/notifications/"+userId)
+          ApiService.get("/api/notifications/"+userId)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -29,7 +29,7 @@ export const useNotificationStore = defineStore("notification", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("api/notifications/seeAll/"+userId)
+          ApiService.get("/api/notifications/seeAll/"+userId)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 91vh; overflow-y: auto;">
+  <div class="deposit_section q-pt-md" style="height: 91vh; overflow-y: auto;">
     <div class="q-pa-md-md q-pa-sm q-px-md q-mb-xl" >
       <Transition name="inFade">
         <div v-if="ready">
@@ -198,56 +198,61 @@
   }
 </script>
 <style lang="scss" scoped>
-.unavailable-button {
-  position: absolute; bottom: 0; top: 0; left: 0; right: 0; background: rgba(12, 12, 12, 0.397); 
-}
-.bank__section_skeleton{
-  padding-top: 1.2rem;
-  padding-bottom: 1.2rem;
+  .unavailable-button {
+    position: absolute; bottom: 0; top: 0; left: 0; right: 0; background: rgba(12, 12, 12, 0.397); 
+  }
+  .bank__section_skeleton{
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
 
-}
-.benefict-options__container{
-  border: 1.5px solid $primary;
-  border-radius: 15px;
-}
-.amount__container{
-  border: 1px solid $grey-5;
-  border-radius: 10px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0px 2px 5px 0px lightgrey;
-}
+  }
+  .benefict-options__container{
+    border: 1.5px solid $primary;
+    border-radius: 15px;
+  }
+  .amount__container{
+    border: 1px solid $grey-5;
+    border-radius: 10px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px 0px lightgrey;
+  }
 </style>
 <style>
-.bg-tigo {
-  background: #fab32a!important;
-}
-.text-tigo {
-  color: #fab32a!important;
-}
-.bg-personal{
-  background: #6128be!important;
-}
-.text-personal{
-  color: #6128be!important;
-}
-.rounded_button{
-  border-radius: 12px!important;
-  padding: 0.8rem 0px!important;
-}
-.amount_diff input{
-  text-align: center;
-  color: rgb(71, 71, 71);
-  font-size: 35px;
-  transform: translateY(5px);
+  .deposit_section::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    border-radius: 15px;
+    background-color: #aaa; /* or add it to the track */
+  }
+  .bg-tigo {
+    background: #fab32a!important;
+  }
+  .text-tigo {
+    color: #fab32a!important;
+  }
+  .bg-personal{
+    background: #6128be!important;
+  }
+  .text-personal{
+    color: #6128be!important;
+  }
+  .rounded_button{
+    border-radius: 12px!important;
+    padding: 0.8rem 0px!important;
+  }
+  .amount_diff input{
+    text-align: center;
+    color: rgb(71, 71, 71);
+    font-size: 35px;
+    transform: translateY(5px);
 
-}
-.amount_diff input::placeholder{
-  color: rgb(165, 165, 165);
-  text-align: center;
-
-}
+  }
+  .amount_diff input::placeholder{
+    color: rgb(165, 165, 165);
+    text-align: center;
+  }
 </style>

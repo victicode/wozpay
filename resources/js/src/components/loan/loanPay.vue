@@ -1,5 +1,5 @@
 <template>
-  <div v-if="Object.values(myLoan).length > 0">
+  <div v-if="Object.values(myLoan).length > 0" class="q-pt-md">
     <div class="q-pa-md">
       <div class="text-h6 text-bold">Paga tu préstamo y pedí un rekutu  </div>
       <div class="text-subtitle2 text-weight-medium">Total a pagar</div>

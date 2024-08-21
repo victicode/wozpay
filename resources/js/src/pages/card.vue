@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-pt-md">
     <div class="q-mt-sm" v-if="Object.values(linkCard).length > 0 && ready">
       <q-list class="q-px-sm">
         <q-item class="q-px-sm" >

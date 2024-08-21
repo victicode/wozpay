@@ -50,17 +50,17 @@ class LoanController extends Controller
         $lastIps = '-';
         $vaucher = ''; 
         
-        if ($request->vaucher) {
-            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
-            $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        if ($request->informconf) {
+            $informconf = 'public/images/informconf/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('informconf')->extension();
+            $request->file('informconf')->move(public_path() . '/images/informconf/', $informconf);
         }
-        if ($request->vaucher) {
-            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
-            $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        if ($request->work) {
+            $workCertificate = 'public/images/work_certificate/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('work')->extension();
+            $request->file('work')->move(public_path() . '/images/workCertificate/', $workCertificate);
         }
-        if ($request->vaucher) {
-            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
-            $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        if ($request->last_ips) {
+            $lastIps = 'public/images/last_ips/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('last_ips')->extension();
+            $request->file('last_ips')->move(public_path() . '/images/last_ips/', $lastIps);
         }
         
         $redTape = RedTape::create([

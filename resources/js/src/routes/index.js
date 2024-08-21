@@ -67,137 +67,6 @@ const router = createRouter({
       component: pageLayout,
       beforeEnter: auth,
       children: [
-        {
-          path: "/bank",
-          component: bankPage,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Agregar cuenta bancaria'
-          },
-        },
-        {
-          path: "/deposit",
-          component:deposit,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Cargar dinero a tu billetera'
-          },
-        },
-        {
-          path: "/account_bank",
-          component: bankAccountPage,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Banco'
-          },
-        },
-        {
-          path: "/last-operations",
-          component: lastOperationPage,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Ult. Trans.'
-          },
-        },
-        {
-          path: "/notifications",
-          component: notificationsPage,
-          meta: {
-            title : 'Notificaciones'
-          },
-        },
-        
-        {
-          path: "/apply",
-          component: creditApply,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Solicitar'
-          },
-        },
-        {
-          path: "/user_info",
-          component: userInfo,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Perfil'
-          },
-        }, 
-        {
-          path: "/user_address",
-          component: userAddress,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Perfil'
-          },
-        },
-        {
-          path: "/user_proffesion",
-          component: userProffesion,
-          meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
-            title : 'Perfil'
-          },
-        },
-        {
-          path: "/add_account_bank/:id",
-          component: addAccountBank,
-          meta: {
-            title : 'Agregar cuenta bancaria'
-          },
-        },
-        {
-          path: "/card",
-          component: cardPage,
-          meta: {
-            title : 'Vincular tarjeta de crédito'
-          },
-        },
-        {
-          path:'/loan',
-          component: loanPage,
-          meta: {
-            title: 'Mi préstamo'
-          }
-        },
-        {
-          path: '/loan_pay',
-          component: loanPay,
-          meta: {
-            title: 'Paga tu préstamo'
-          }
-        },
-        {
-          path: '/loan_view',
-          component: loanView,
-          meta: {
-            title: 'Mi préstamo'
-          }
-        }
         
       ]
     },
@@ -283,20 +152,87 @@ const router = createRouter({
             title: 'Enviar dinero'
           },
         },
+        //test
         {
           path: "/bank",
           component: bankPage,
           meta: {
             // middleware: [
             //   auth,
-              
-            // ],
-            title : 'Agregar cuenta bancaria'
           },
         },
         {
           path: "/profile",
           component: profilePage,
+          meta: {
+            title : 'Perfil'
+          },
+        },
+        {
+          path: "/notifications",
+          component: notificationsPage,
+          meta: {
+            title : 'Notificaciones'
+          },
+        },
+        {
+          path: "/deposit",
+          component:deposit,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Cargar dinero a tu billetera'
+          },
+        },
+        {
+          path: "/account_bank",
+          component: bankAccountPage,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Banco'
+          },
+        },
+        {
+          path: "/last-operations",
+          component: lastOperationPage,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Ult. Trans.'
+          },
+        },
+        {
+          path: "/apply",
+          component: creditApply,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Solicitar'
+          },
+        },
+        {
+          path: "/user_info",
+          component: userInfo,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Perfil'
+          },
+        }, 
+        {
+          path: "/user_address",
+          component: userAddress,
           meta: {
             // middleware: [
             //   auth,
@@ -305,6 +241,52 @@ const router = createRouter({
             title : 'Perfil'
           },
         },
+        {
+          path: "/user_proffesion",
+          component: userProffesion,
+          meta: {
+            // middleware: [
+            //   auth,
+              
+            // ],
+            title : 'Perfil'
+          },
+        },
+        {
+          path: "/add_account_bank/:id",
+          component: addAccountBank,
+          meta: {
+            title : 'Agregar cuenta bancaria'
+          },
+        },
+        {
+          path: "/card",
+          component: cardPage,
+          meta: {
+            title : 'Vincular tarjeta de crédito'
+          },
+        },
+        {
+          path:'/loan',
+          component: loanPage,
+          meta: {
+            title: 'Mi préstamo'
+          }
+        },
+        {
+          path: '/loan_pay',
+          component: loanPay,
+          meta: {
+            title: 'Paga tu préstamo'
+          }
+        },
+        {
+          path: '/loan_view',
+          component: loanView,
+          meta: {
+            title: 'Mi préstamo'
+          }
+        }
       ]
     }
     

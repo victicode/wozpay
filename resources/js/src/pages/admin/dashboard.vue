@@ -1,34 +1,41 @@
 <template>
   <div  class="dashboard_container">
-    <div style="height: 100%;">
-      <div style="height: 28.3%;">
+    <div style="" class="dashboard_container--details">
+      <div style="height: 28%;">
         <currentUserPersonalInfo />
       </div>
-      <div class="bg-white">
-        <actionsDashboard />
-      </div>
-      <div style="">
-        <linkedCard />
-      </div>
-      <div style="height: 27%;">
-        <LastTrasanction />
+      <div class="dashi"> 
+        <div>
+          <capital />
+        </div>
+        <div>
+          <balance />
+        </div>
+        <div>
+          <profit />
+        </div>
+        <div class="q-pb-xl">
+          <another_profit />
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
   import currentUserPersonalInfo from '@/components/dashboard/currentUserPersonalInfo.vue';
-  import actionsDashboard from '@/components/dashboard/actionsDashboard.vue';
-  import linkedCard from '@/components/dashboard/linkedCard.vue';
-  import LastTrasanction from '@/components/dashboard/lastTrasanction.vue';
+  import another_profit from '@/components/admin/dashboard/another_profit.vue';
+  import balance from '@/components/admin/dashboard/balance.vue';
+  import capital from '@/components/admin/dashboard/capital.vue';
+  import profit from '@/components/admin/dashboard/profit.vue';
+
 
   export default {
     components: {
       currentUserPersonalInfo,
-      actionsDashboard,
-      linkedCard,
-      LastTrasanction,
+      another_profit,
+      balance,
+      capital,
+      profit
     },
     setup() {
     },
@@ -36,9 +43,23 @@
 </script>
 <style lang="scss" scoped>
 .dashboard_container{
-  height: 100%; 
+  height: 90%; 
   background:#f1f0f0; 
-  
+  overflow: hidden;
+}
+.dashboard_container--details {
+  height: 100%;
+  overflow: hidden;
+
+}
+
+.dashi {
+  max-height: 77%;
+  height: max-content; overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
 }
 @media screen and (max-width: 780px){
   .dashboard_container{

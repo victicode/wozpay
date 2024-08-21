@@ -2,11 +2,14 @@
   <div class="layout-dasboard__content"  v-if="readyState"  style="">
     <topbarPay />
     <div class="container_page" >
-      <router-view v-slot="{ Component }">
-        <transition name="vertical">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+      <div class="section_page q-mt-md">
+        
+        <router-view v-slot="{ Component }">
+          <transition name="vertical">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -70,7 +73,7 @@
 
 <style lang="scss" scoped>
 .container_page{
-  height: 91%;
+  height: 92%;
   overflow: hidden;
   background: $primary;
 }
@@ -82,5 +85,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+</style>
+<style lang="scss" scoped>
+.section_page {
+  background: white;
+  height: 100%;
+  width: 100%;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
 }
 </style>

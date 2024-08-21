@@ -1,5 +1,5 @@
 <template>
-  <div id="topbarLayout" class="bg-primary q-pt-md">
+  <div id="topbarLayout" class="bg-primary q-pt-sm">
     <div class="w-100 flex justify-between items-center h-100 q-pb-sm">
       <div class="">
         <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="router.go(-1)" />
@@ -39,7 +39,7 @@
   height: 100%;
 }
 #topbarLayout{
-  height: 9%;
+  height: 8%;
   width: 100%;
   // border-bottom: 1px solid lightgray;
 }

@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-12 flex items-center justify-between">
           <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold" v-if="Object.values(loan).length > 0"> 
-            {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}</div>
+            Saldos
+          </div>
         </div>
       </div>
     </div>
@@ -17,41 +18,16 @@
             </div>
             <div class="flex items-center justify-between  w-80 ">
               <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-50">
-                <div class="text-weight-medium">Préstamo</div>
-                <div class="text-weight-bold q-mt-xs">N° 619{{loan.loan_number}}</div>
+                <div class="text-weight-medium">Capital restante</div>
+                <div class="text-weight-medium text-grey-8 q-mt-xs ">Saldo restante</div>
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
                 <div class="text-weight-medium text-right">
-                  <q-chip class="q-ma-none" :color="loanStatus(loan.status).color" text-color="white" >
-                    {{ loanStatus(loan.status).text }}
-                  </q-chip>
+                  Disponible
                 </div>
-                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
+                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(user.wallet.balance)}}</div>
               </div>
             </div>
-            <div>
-              <q-btn round flat class="q-ml-md-md" @click="router.push('/loan')"> 
-                <q-icon
-                  name="eva-arrow-ios-forward-outline"
-                  size="xs"
-                  color="black"
-                  
-                />
-              </q-btn>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-else-if="isReady && Object.values(loan).length == 0" >
-        <div class="w-100 column items-center q-pt-md">
-            <q-img
-              :src="sadface"
-              height="80px"
-              width="80px"
-            />
-      
-          <div class="w-100 text-center text-h6 text-weight-medium">
-            No tienes ningún préstamo <br>aprobado 
           </div>
         </div>
       </div>
@@ -72,9 +48,6 @@
                 <div class="text-weight-medium q-mt-xs text-right"><q-skeleton type="rect" /></div>
               </div>
             </div>
-            <div class="w-10">
-              <q-skeleton type="rect"  />
-            </div>
           </div>
         </div>
       </div>
@@ -90,6 +63,7 @@
   import { useLoanStore } from '@/services/store/loan.store';
   import { useQuasar } from 'quasar';
   import { useRouter } from 'vue-router'
+import balance from '@/components/admin/dashboard/balance.vue';
 
   export default {
     setup() {
@@ -113,7 +87,7 @@
           loadingShow(false)
           setTimeout(() => {
             isReady.value = true
-          }, 2000)
+          },1000)
         }).catch((e) => {
           isReady.value = true
 
@@ -137,10 +111,7 @@
           {text:'Cancelado', color:'negative'},
           {text:'Pendiente', color:'warning'},
           {text:'Aprobando', color:'positive'},
-<<<<<<< HEAD
-=======
           {text:'Pagado',    color:'positive'},
->>>>>>> bf9005d2cba2cd3ae0b4432494a0dcf8adc7626c
           {text:'No pagado', color:'warning'},
         ]
         return status[state]
@@ -173,7 +144,7 @@
   border-bottom: 1px solid #d3d3d3;
 }
 .w-80 {
-  width: 85%;
+  width: 94%;
 }
 .w-50 {
   width: 46%;
@@ -189,8 +160,7 @@
     width: 40%;
   }
   .loan_card > div:nth-child(1){ width: 10%!important; }
-  .loan_card > div:nth-child(2){ width: 82%!important; }
-  .loan_card > div:nth-child(3){ width: 8%!important; }
+  .loan_card > div:nth-child(2){ width: 90%!important; }
 
 }
 </style>
