@@ -3,14 +3,14 @@
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold" v-if="Object.values(loan).length > 0"> 
+          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold" v-if="isReady"> 
             Saldos
           </div>
         </div>
       </div>
     </div>
     <div style="" class="q-mb-sm">
-      <div class="quote-section" v-if="isReady && Object.values(loan).length > 0" >
+      <div class="quote-section" v-if="isReady " >
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
             <div>

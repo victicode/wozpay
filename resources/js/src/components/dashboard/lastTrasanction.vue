@@ -137,10 +137,7 @@
           {text:'Cancelado', color:'negative'},
           {text:'Pendiente', color:'warning'},
           {text:'Aprobando', color:'positive'},
-<<<<<<< HEAD
-=======
           {text:'Pagado',    color:'positive'},
->>>>>>> bf9005d2cba2cd3ae0b4432494a0dcf8adc7626c
           {text:'No pagado', color:'warning'},
         ]
         return status[state]

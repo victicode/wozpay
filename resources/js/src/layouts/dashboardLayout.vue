@@ -84,6 +84,7 @@
 #navbar-buttom{
   height: 10%;
   width: 100%;
+  z-index: 10;
   background: #f1f0f0;
 }
 .layout-dasboard__content{

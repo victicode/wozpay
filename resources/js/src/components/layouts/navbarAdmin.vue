@@ -20,26 +20,22 @@
     </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" exact replace >
       <div class="flex flex-center column">
-        <q-icon
-          :size="'sm'"
-          :name="'eva-flip-2-outline'"
-        />
+        <div v-html="wozIcons.loans" />
+
         <span class="q-mt-xs text-dark text-caption">Prestamo</span>
       </div>
     </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'"  exact  replace  >
       <div class="flex flex-center column">
-        <q-icon
-          :size="'sm'"
-          :name="icons.outlinedAccountBalance"
-        />
+        <div v-html="wozIcons.notf" />
+
         <span class="q-mt-xs text-dark text-caption">Notif. push</span>
       </div>
     </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'"  exact replace >
       <div class="flex flex-center column">
         <section class="flex flex-center column relative">
-          <div v-html="wozIcons.notification" />
+          <div v-html="wozIcons.calculator" />
           <q-badge v-if="notificationsCount > 0" color="red" rounded floating class="notificationBadge" :label="notificationsCount >= 10 ? '+'+notificationsCount : notificationsCount " />
         </section>
         <span class="q-mt-xs text-dark text-caption">Calculadora</span>
