@@ -28,6 +28,9 @@
   import capital from '@/components/admin/dashboard/capital.vue';
   import profit from '@/components/admin/dashboard/profit.vue';
 
+  import { useAuthStore } from '@/services/store/auth.store'
+  import { useWalletStore } from '@/services/store/wallet.store'
+  import { inject, onMounted, ref } from 'vue'
 
   export default {
     components: {
@@ -38,12 +41,27 @@
       profit
     },
     setup() {
+      const user = useAuthStore().user;
+      const walletStore = useWalletStore()
+      const capitalBalances = () => {
+
+        walletStore.getBalancesByUser(user.id)
+        .then((data) => {
+          console.log(data)
+          if(!data.code) throw data
+        }).catch((response) => {
+          console.log(response)
+        })
+      }
+      onMounted(() => {
+        capitalBalances()
+      })
     },
   }
 </script>
 <style lang="scss" scoped>
 .dashboard_container{
-  height: 90%; 
+  height: 100%; 
   background:#f1f0f0; 
   overflow: hidden;
 }

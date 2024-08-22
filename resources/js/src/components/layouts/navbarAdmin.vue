@@ -15,7 +15,7 @@
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/profile'"  exact replace > 
       <div class="flex flex-center column">
         <div v-html="wozIcons.profile" />
-        <span class="q-mt-xs text-dark text-caption">Perfil</span>
+        <span class="q-mt-xs text-dark text-caption">Clientes</span>
       </div>
     </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" exact replace >

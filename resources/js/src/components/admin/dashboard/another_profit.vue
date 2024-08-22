@@ -3,14 +3,14 @@
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold" v-if="isReady"> 
+          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold" v-if="balances"> 
             Otras gananicas
           </div>
         </div>
       </div>
     </div>
     <div style="" class="q-mb-sm">
-      <div class="quote-section" v-if="isReady" >
+      <div class="quote-section" v-if="balances" >
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
             <div>
@@ -25,7 +25,7 @@
                 <div class="text-weight-medium text-right">
                   Recibiste
                 </div>
-                <div class="text-weight-medium q-mt-xs text-right text-light-green-14">Gs. {{numberFormat(user.wallet.balance)}}</div>
+                <div class="text-weight-medium q-mt-xs text-right text-light-green-14">Gs. {{numberFormat(balances.subscriptions)}}</div>
               </div>
             </div>
           </div>
@@ -58,12 +58,10 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import util from '@/util/numberUtil'
   import { inject, ref, onMounted } from 'vue'
-  import sadFace from '@/assets/images/sadFace.svg'
   import wozIcons from '@/assets/icons/wozIcons';
-  import { useLoanStore } from '@/services/store/loan.store';
   import { useQuasar } from 'quasar';
-  import { useRouter } from 'vue-router'
-import balance from '@/components/admin/dashboard/balance.vue';
+  import { useWalletStore } from '@/services/store/wallet.store'
+  import { storeToRefs } from 'pinia'
 
   export default {
     setup() {
@@ -72,28 +70,8 @@ import balance from '@/components/admin/dashboard/balance.vue';
       const user = useAuthStore().user;
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
-      const isReady = ref(false)
-      const sadface = sadFace
-      const loanStore = useLoanStore() 
-      const loan = ref({}) 
-      const loading = ref(true);
-      const router = useRouter()
+      const { balances } = storeToRefs(useWalletStore())
 
-      const activeLoan = () => {
-        loanStore.getLoan(user.id).then((data) => {
-          if(!data.code)  throw data
-          loan.value = data.data ? Object.assign(data.data) : {} 
-          
-          loadingShow(false)
-          setTimeout(() => {
-            isReady.value = true
-          },1000)
-        }).catch((e) => {
-          isReady.value = true
-
-          showNotify('negative', 'error al obtener prestamo activo')
-        })
-      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -103,33 +81,14 @@ import balance from '@/components/admin/dashboard/balance.vue';
           ]
         })
       }
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
-      const loanStatus = (state) => {
-        const status = [
-          {text:'Cancelado', color:'negative'},
-          {text:'Pendiente', color:'warning'},
-          {text:'Aprobando', color:'positive'},
-          {text:'Pagado',    color:'positive'},
-          {text:'No pagado', color:'warning'},
-        ]
-        return status[state]
-      }
-      onMounted(() => {
-        activeLoan()
-      })
       // Data
       return{
         icons,
         user,
         numberFormat,
-        isReady,
-        sadface,
         wozIcons,
-        loan,
-        router,
-        loanStatus,
+        balances,
+
       }
     },
   }

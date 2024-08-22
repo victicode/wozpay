@@ -21,7 +21,6 @@ export const useAuthStore = defineStore("auth", {
       this.user = user;
     },
     setIsAdmin(user){
-      console.log(user.rol_id)
       storage.setItem("is_admin",  user.rol_id !== '3' ? true : false);
       storage.setItem("user_unique_id",user.id);
     },

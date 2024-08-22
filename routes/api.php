@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PayController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,7 +72,7 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
 });
 
 Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {
-    Route::post('/{id}', [UserController::class, 'getWalletByNumber']);
+    Route::post('/{id}', [WalletController::class, 'getWalletByNumber']);
 });
 
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
@@ -89,4 +90,7 @@ Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(fu
 Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {
     Route::post('/', [PayController::class, 'storePay']);
     Route::post('/get_url', [PayController::class, 'payRequest']);
+});
+Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( function () {
+    Route::get('/{id}', [WalletController::class, 'allBalances']);
 });

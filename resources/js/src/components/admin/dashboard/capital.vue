@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-py-sm q-px-md q-px-md-lg" v-if="Object.values(linkCard).length > 0 && ready" >
+    <div class="q-py-sm q-px-md q-px-md-lg" v-if="balances" >
       <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
@@ -24,7 +24,7 @@
                 </div>             
                 <div class="q-mr-sm text-end">
                   <div class="text-weight-medium text-right">Disponible</div>
-                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(user.wallet.balance)}}</div>
+                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(balances.wallet)}}</div>
                 </div>
               </div>
               <div class="w-100 flex items-center justify-between q-mt-sm q-pt-xs q-pb-sm" style="border-bottom: 1px solid lightgrey" >
@@ -39,7 +39,7 @@
                 </div>
                 <div class="q-mr-sm text-end">
                   <div class="text-weight-medium text-right">Monto</div>
-                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(user.wallet.balance)}}</div>
+                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(balances.loans)}}</div>
                 </div>
                 
               </div>
@@ -55,7 +55,7 @@
                 </div>             
                 <div class="q-mr-sm text-end">
                   <div class="text-weight-medium text-right">Recibirás</div>
-                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(user.wallet.balance)}}</div>
+                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(balances.toRecieve)}}</div>
                 </div>
               </div>
             </div>
@@ -72,8 +72,8 @@
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
             </div>
-            <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mx-sm  w-50">
+            <div class="flex items-center justify-between  w-80-load">
+              <div class=" q-mx-sm  w-50-load">
                 <div class="text-weight-medium"><q-skeleton type="rect" /></div>
                 <div class="text-weight-bold q-mt-xs"><q-skeleton type="rect" /></div>
               </div>
@@ -88,8 +88,8 @@
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
             </div>
-            <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mx-sm  w-50">
+            <div class="flex items-center justify-between  w-80-load ">
+              <div class=" q-mx-sm  w-50-load">
                 <div class="text-weight-medium"><q-skeleton type="rect" /></div>
                 <div class="text-weight-bold q-mt-xs"><q-skeleton type="rect" /></div>
               </div>
@@ -104,8 +104,8 @@
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
             </div>
-            <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mx-sm  w-50">
+            <div class="flex items-center justify-between  w-80-load">
+              <div class=" q-mx-sm  w-50-load">
                 <div class="text-weight-medium"><q-skeleton type="rect" /></div>
                 <div class="text-weight-bold q-mt-xs"><q-skeleton type="rect" /></div>
               </div>
@@ -123,33 +123,25 @@
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
-  import { useCardStore } from '@/services/store/card.store'
-  import { inject, onMounted, ref } from 'vue'
+  import { useWalletStore } from '@/services/store/wallet.store'
+  import { storeToRefs } from 'pinia'
+  import { inject, ref } from 'vue'
+  import { useQuasar } from 'quasar';
   import util from '@/util/numberUtil'
-  import { useRouter } from 'vue-router'
-  import { useQuasar } from 'quasar'
 
   export default {
     setup() {
       //vue provider
       const user = useAuthStore().user;
-      const cardStore = useCardStore()
       const icons = inject('ionIcons')
-      const showing = ref(false)
+      const q = useQuasar();
+      const numberFormat = util.numberFormat 
       const ready = ref(false)
-      const numberFormat = util.numberFormat
-      const router = useRouter()
-      const q = useQuasar()
-      const linkCard = ref({})
 
-      // Methods
-      const showToltip = () => {
-        showing.value = true
-        setTimeout(() => {
-          showing.value = false
-          
-        }, 3500);
-      }
+      const { balances } = storeToRefs(useWalletStore())
+      // const balances = useWalletStore().balances;
+
+
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -159,32 +151,14 @@
           ]
         })
       }
-      const getLinkCard = () => {
-        cardStore.getCard(user.id).then((data) => {
-          if(data.code !== 200) throw data
-          // console.log(data)
-          setTimeout(() => {
-            
-            linkCard.value = Object.assign(data.data)
-            ready.value = true
-          }, 1000);
-        }).catch((response) => {
-          // showNotify('negative', response)
-        })
-      }
-      onMounted(() => {
-        getLinkCard()
-      })
+      
       // Data
       return{
         icons,
         user,
-        showing,
-        router,
         ready,
         numberFormat,
-        linkCard,
-        showToltip,
+        balances,
       }
     },
   }
@@ -237,7 +211,19 @@
 .w-10 {
   width: 10%;
 }
+.w-80-load {
+  width: 80%;
+}
+.w-50-load {
+  width: 50%;
+}
 @media screen and (max-width: 780px){
+  .w-50-load {
+    width: 50%;
+  }
+  .w-80-load {
+    width: 80%;
+  }
   .w-80 {
     width: auto;
   }
