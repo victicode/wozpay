@@ -23,6 +23,15 @@ class UserController extends Controller
 		return  $this->returnSuccess(200,  [ 'user' => $user ] );
 
     }
+    public function allUsers(Request $request){
+        $users = User::query();
+
+        if(!empty($request->search)){
+            $users->where('dni', 'like', '%'.$request->search.'%');
+        }
+
+		return  $this->returnSuccess(200,   $users->paginate(100));
+    }
     public function store(Request $request){
         $validated = $this->validateFieldsFromInput($request->all()) ;
 

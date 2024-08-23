@@ -1,6 +1,6 @@
 
 <template>
-  <div class="profile_section section_pagex q-mt-md q-pt-lg" >
+  <div class="profile_section q-mt-md q-pt-lg" >
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- info -->
@@ -345,9 +345,5 @@
   }
 </style>
 <style lang="scss" scoped>
-.section_page {
-  background: white;
-  height: 100%;
-  width: 100%;
-}
+
 </style>

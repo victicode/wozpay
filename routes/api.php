@@ -47,6 +47,7 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
+    Route::get('/all', [UserController::class, 'allUsers']);
 });
 
 

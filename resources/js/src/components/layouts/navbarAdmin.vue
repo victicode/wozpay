@@ -12,7 +12,7 @@
         <span class="q-mt-xs text-dark text-caption">Inicio</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/profile'"  exact replace > 
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/users'"  exact replace > 
       <div class="flex flex-center column">
         <div v-html="wozIcons.profile" />
         <span class="q-mt-xs text-dark text-caption">Clientes</span>

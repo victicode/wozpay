@@ -88,6 +88,23 @@ export const useUserStore = defineStore("user", {
         return 'Error al actualizar datos';
       });
     },
+    async getAllUser(query) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("api/user/all?page="+query.page+"&search="+query.search+"&")
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    }
   },
   getters: {
   },

@@ -15,6 +15,7 @@ import profilePage from '@/pages/profile.vue';
 import deposit from '@/pages/deposit.vue'
 import creditApply from '@/pages/creditApply.vue'
 import loanPage from '@/pages/loan.vue'
+import allUsers from '@/pages/admin/users.vue'
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
@@ -28,7 +29,7 @@ import cardPage from '@/pages/card.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', redirect: '/dashboard' },
+    { path: '/', redirect: window.localStorage.getItem('is_admin') == 'true' ? '/admin/dashboard' :'/dashboard' },
     {
       path: "/",
       name:"home",
@@ -61,15 +62,15 @@ const router = createRouter({
         }
       ]
     },
-    {
-      path: "/",
-      name:"pages",
-      component: pageLayout,
-      beforeEnter: auth,
-      children: [
+    // {
+    //   path: "/",
+    //   name:"pages",
+    //   component: pageLayout,
+    //   beforeEnter: auth,
+    //   children: [
         
-      ]
-    },
+    //   ]
+    // },
     
     {
       path: "/",
@@ -121,6 +122,22 @@ const router = createRouter({
         title : '¡Envío exitoso!'
       },
       beforeEnter: auth,
+    },
+    {
+      path: "/",
+      name:"admin",
+      component: paysLayout,
+      beforeEnter: admin,
+      children: [
+        {
+          path: "/users",
+          name: "users",
+          component: allUsers,
+          meta: {
+            title: 'Clientes'
+          },
+        },
+      ]
     },
     {
       path: "/",
