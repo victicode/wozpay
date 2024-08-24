@@ -3,96 +3,7 @@
     <div class="h-100">
       <div class="h-20 q-pt-none q-pt-md-lg  search__container">
         <div>
-          <div
-            id="SearchUser"
-            class="q-pt-sm q-px-lg q-px-md-xl"
-          >
-            <div class="row ">
-              <div class="col-12 q-mt-md ">
-                <q-input
-                  class="search_users q-pb-md"
-                  outlined
-                  clearable
-                  :clear-icon="'eva-close-outline'"
-                  color="positive"
-                  v-model="search"
-                  name="id_user"
-                  label="Escribe un número de documento"
-                  mask="###.###.###"
-                  reverse-fill-mask
-                  :rules="searchRules"
-                  autocomplete="off"
-                  ref="searchRef"
-                  bg-color="white"
-                  @change="getUsers"
-                  
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="eva-search-outline" />
-                  </template>
-                </q-input>
-              </div>
-            </div>
-          </div>
-          <div class="q-px-xs q-px-md-xl justify-start flex">
-            <q-chip 
-              clickable 
-              @click="filters($event)" 
-              color="filters" 
-              text-color="#e7ffe1" 
-              class="q-px-sm q-py-md"
-            >
-              <div class="flex flex-center">
-                <div v-html="wozIcons.profile"  class="buttons-chip " />
-                <div class="q-mt-xs">
-                  Clientes
-                </div>
-              </div>
-            </q-chip>
-            <q-chip 
-              clickable 
-              @click="filters($event)" 
-              color="filters" 
-              text-color="#e7ffe1" 
-              class="q-px-sm q-py-md"
-            >
-              <div class="flex flex-center">
-                <div v-html="wozIcons.profile"  class="buttons-chip " />
-                <div class="q-mt-xs">
-                  Solicitudes
-                </div>
-              </div>
-            </q-chip>
-            <q-chip 
-              clickable 
-              @click="filters($event)" 
-              color="filters" 
-              text-color="#e7ffe1" 
-              class="q-px-sm q-py-md"
-            >
-              <div class="flex flex-center">
-                <div v-html="wozIcons.profile"  class="buttons-chip " />
-                <div class="q-mt-xs">
-                  Clientes al día
-                </div>
-              </div>
-            </q-chip>
-            <q-chip 
-              clickable 
-              @click="filters($event)" 
-              color="filters" 
-              text-color="#e7ffe1" 
-              class="q-px-sm q-py-md q-mt-sm q-mt-md-xs"
-            >
-              <div class="flex flex-center">
-                <div v-html="wozIcons.profile"  class="buttons-chip " />
-                <div class="q-mt-xs">
-                  Clientes en mora
-                </div>
-              </div>
-            </q-chip>
-          </div>
-
+          <searchUser :filter="filter" @getUsers="getUsersBySearch" @filters="setFilters"/>
         </div>
       </div>
       <div>
@@ -190,8 +101,12 @@
   import { useRouter } from 'vue-router';
   import wozIcons from '@/assets/icons/wozIcons';
   import util from '@/util/numberUtil';
+  import searchUser from '@/components/admin/users/searchUser.vue';
 
   export default {
+    components: {
+      searchUser,
+    },  
     setup () {
       //vue provider
       const icons = inject('ionIcons')
@@ -201,17 +116,9 @@
       const { numberFormat } = util;
       const loading = ref(false)
       const ready = ref(false)
-
-      // data
-      const search = ref('')
+      const filter = ref(1);
       const currentPage = ref(1)
       const users = ref([])
-      //ref
-      const searchRef = ref(null)
-      // rules
-      const searchRules = [
-        val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener "[](),%|&;\'" ',
-      ]
 
       // methods
       const showNotify = (type, message) => {
@@ -226,11 +133,11 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
-      const getUsers = () => {
+      const getUsers = (search) => {
         ready.value = false
         const query = {
           page: currentPage.value,
-          search: search.value ? search.value.replace(/\./g, '') : '',
+          search: search? search.replace(/\./g, '') : '',
         }
         userStore.getAllUser(query)
         .then((response) => {
@@ -247,14 +154,24 @@
           showNotify('negative', response)
         })
       }
-      const filters = (e) => {
-        console.log(e)
-      } 
-
+      
       const setPage = (page) => {
         currentPage.value = page
-        getUsers()
+        getUsers('')
       }
+
+      const setFilter = (e) => {
+        console.log(e)
+      } 
+      const getUsersBySearch = (search) => {
+        console.log(search)
+        currentPage.value = 1
+        getUsers(search)
+      }
+      const setFilters = (newFilter) => {
+        console.log(newFilter)
+        filter.value = newFilter
+      } 
 
       onMounted(() => {
         getUsers()
@@ -264,15 +181,14 @@
         wozIcons,
         loading,
         ready,
-        search,
-        searchRef,
-        searchRules,
         numberFormat,
         currentPage,
         users,
-        filters,
+        filter,
+        setFilters,
         setPage,
         getUsers,
+        getUsersBySearch,
       }
     }
   };
@@ -357,10 +273,15 @@
   height: 100%;
 }
 .h-20 {
-  height: 26%;
+  height: 20%;
 }
 .search__container {
   background: #d9d9d9;
   overflow: hidden;
+}
+@media screen and (max-width: 780px){
+  .h-20 {
+    height: 25%;
+  }
 }
 </style>
