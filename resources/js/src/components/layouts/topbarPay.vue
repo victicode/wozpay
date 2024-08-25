@@ -7,7 +7,8 @@
       <div class="text-weight-bold text-h6 text-white">
         {{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title}}
       </div>
-      <div class="boxNoVisible">
+        <div :class=" route.name == 'userById' ? '' :'boxNoVisible'">
+        <q-btn flat round color="white" size="lg" icon="eva-menu-outline" @click="showSideMenu" />
       </div>
     </div>
   </div>
@@ -19,12 +20,18 @@
     setup () {
       //vue provider
       const icons = inject('ionIcons')
+      const emitter = inject('emitter');
       const route = useRoute();
       const router = useRouter();
+      
+      const showSideMenu = () => {
+        emitter.emit('showSideMenu', true);
+      }
       return {
         icons,
         router,
-        route
+        route,
+        showSideMenu
       }
     }
   };

@@ -84,6 +84,7 @@
   import util from '@/util/numberUtil';
   import searchUser from '@/components/admin/users/searchUser.vue';
 
+
   export default {
     components: {
       searchUser,

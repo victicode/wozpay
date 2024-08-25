@@ -143,7 +143,7 @@ const router = createRouter({
         },
         {
           path: "/admin/user/:id",
-          name: "usersByid",
+          name: "userById",
           component: userById,
           beforeEnter: admin,
           meta: {

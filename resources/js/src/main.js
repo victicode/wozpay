@@ -54,5 +54,6 @@ app.use(Quasar, {
 })
 app.use(Picker);
 app.provide('ionIcons', { ...materialIcons, ...materialIcons2})
+app.provide('emitter', emitter)
 
 app.mount('#app')

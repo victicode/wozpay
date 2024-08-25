@@ -1,273 +1,276 @@
 
 <template>
   <div class="profile_section " >
-    <div class="" v-if="Object.values(user).length > 0" >
-      <div class="w-100 q-mx-none" >
-        <!-- info -->
-        <q-toolbar class="bg-grey-5 text-black ">
-          <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos personales</span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
-        <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Nombre completo
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.name }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  N° de documento
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ numberFormat(user.dni) }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Número de teléfono
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.phone ?? 'No asignado'  }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                  <div>
-                    <span class="text-caption text-weight-bold">
-                      Verificar identidad
-                    </span>
-                    <q-icon
-                      :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
-                      size="sm"
-                      :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
-                      class="user-verify-user"
-                      :class="{'verify-user':user.verify_status == 2, }"
-                      @click="showToltip"
-                    >
-                      <q-tooltip 
-                        anchor="top middle" 
-                        self="bottom middle" 
-                        :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
-                        :offset="[10, 10]" 
-                        v-model="showing"
-                      >
-                        {{
-                          user.verify_status == 1
-                          ? 'Verificación en proceso'
-                          : user.verify_status == 2 
-                          ? 'Usuario verificado'
-                          : 'Sin verificación'
-                        }}
-                      </q-tooltip>
-                    </q-icon>
-                  </div>
-                </q-item-label>
-                <div class="flex items-center cursor-pointer" @click="goTo(user.id)"  >
-                  <q-item-label caption lines="1" class="text-caption q-mt-xs">
-                    {{ 
-                      user.verify_status == 2 
-                      ? 'Aprobado'
-                      : user.verify_status == 1
-                      ? 'Pendiente'
-                      : 'Subir documentos'
-                    }}
-                  </q-item-label>
-                  <q-btn 
-                    flat 
-                    round 
-                    size="xs"
-                    class="q-pb-none q-ml-xs"
-                    
-                  >
-                    <q-icon name="eva-chevron-right-outline" color="grey-5" size="sm" />
-                  </q-btn>
-                </div>
-                
-
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                  <div>
-                    <span class="text-caption text-weight-bold">
-                      Número de cuenta Woz Pay
-                    </span>
-                  </div>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption flex items-center">
-                  <div class="q-mr-xs q-mt-xs">{{ user.wallet.number }}</div>
-                  <div @click="copyText(user.wallet.number)" >
-                     <q-icon
-                       name="eva-clipboard-outline"
-                       size="xs"
-                       color="grey-6"
-                     />
-                  </div>
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-        </q-list>
-        <!-- address -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
-          <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Dirección particular</span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
-        <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Ciudad
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.city ?? 'Agregar' }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Barrio o localidad
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.locality ?? 'Agregar' }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Calle y N° de casa
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.address ?? 'Agregar'  }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-        </q-list>
-        <!-- professional -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
-          <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Información profesional</span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
-        <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Privado - Funcionario público
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.work ?? 'Agregar' }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Cargo
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.office ?? 'Agregar' }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
-                  Salario
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.salary ?? 'Agregar'  }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-        </q-list>
-      </div>
-    </div>
-    <div v-else>
-      <div class="w-100 q-mx-none" >
-        <div v-for="n in 3" :key="n" class="q-mb-md">
+    <div>
+      <div class="" v-if="Object.values(user).length > 0" >
+        <div class="w-100 q-mx-none" >
+          <!-- info -->
           <q-toolbar class="bg-grey-5 text-black ">
-              <q-toolbar-title> 
-                <div class="w-100  ">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm"> <q-skeleton type="text" class="w-30" /> </span>
-                </div>
-              </q-toolbar-title>
+            <q-toolbar-title> 
+              <div class="w-100 flex items-center justify-between">
+                <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos personales</span>
+              </div>
+            </q-toolbar-title>
           </q-toolbar>
           <q-list >
-            <template v-for="n in 3" :key="n">
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section>
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold w-50" >
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Nombre completo
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.name }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    N° de documento
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ numberFormat(user.dni) }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Número de teléfono
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.phone ?? 'No asignado'  }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                    <div>
                       <span class="text-caption text-weight-bold">
-                        <q-skeleton type="text" class="w-30" />
+                        Verificar identidad
                       </span>
+                      <q-icon
+                        :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                        size="sm"
+                        :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
+                        class="user-verify-user"
+                        :class="{'verify-user':user.verify_status == 2, }"
+                        @click="showToltip"
+                      >
+                        <q-tooltip 
+                          anchor="top middle" 
+                          self="bottom middle" 
+                          :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
+                          :offset="[10, 10]" 
+                          v-model="showing"
+                        >
+                          {{
+                            user.verify_status == 1
+                            ? 'Verificación en proceso'
+                            : user.verify_status == 2 
+                            ? 'Usuario verificado'
+                            : 'Sin verificación'
+                          }}
+                        </q-tooltip>
+                      </q-icon>
+                    </div>
+                  </q-item-label>
+                  <div class="flex items-center cursor-pointer" @click="goTo(user.id)"  >
+                    <q-item-label caption lines="1" class="text-caption q-mt-xs">
+                      {{ 
+                        user.verify_status == 2 
+                        ? 'Aprobado'
+                        : user.verify_status == 1
+                        ? 'Pendiente'
+                        : 'Subir documentos'
+                      }}
                     </q-item-label>
-                    <q-item-label caption lines="1" class="w-50 flex justify-end">
-                      <q-skeleton type="text" class="w-15" />
-                    </q-item-label>
+                    <q-btn 
+                      flat 
+                      round 
+                      size="xs"
+                      class="q-pb-none q-ml-xs"
+                      
+                    >
+                      <q-icon name="eva-chevron-right-outline" color="grey-5" size="sm" />
+                    </q-btn>
                   </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </template>
+                  
+  
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                    <div>
+                      <span class="text-caption text-weight-bold">
+                        Número de cuenta Woz Pay
+                      </span>
+                    </div>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-caption flex items-center">
+                    <div class="q-mr-xs q-mt-xs">{{ user.wallet.number }}</div>
+                    <div @click="copyText(user.wallet.number)" >
+                       <q-icon
+                         name="eva-clipboard-outline"
+                         size="xs"
+                         color="grey-6"
+                       />
+                    </div>
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </q-list>
+          <!-- address -->
+          <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar-title> 
+              <div class="w-100 flex items-center justify-between">
+                <span class="text-subtitle2 text-weight-bold q-mt-sm">Dirección particular</span>
+              </div>
+            </q-toolbar-title>
+          </q-toolbar>
+          <q-list >
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Ciudad
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.city ?? 'Agregar' }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Barrio o localidad
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.locality ?? 'Agregar' }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Calle y N° de casa
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.address ?? 'Agregar'  }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </q-list>
+          <!-- professional -->
+          <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar-title> 
+              <div class="w-100 flex items-center justify-between">
+                <span class="text-subtitle2 text-weight-bold q-mt-sm">Información profesional</span>
+              </div>
+            </q-toolbar-title>
+          </q-toolbar>
+          <q-list >
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Privado - Funcionario público
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.work ?? 'Agregar' }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Cargo
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.office ?? 'Agregar' }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-caption text-weight-bold">
+                    Salario
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">{{ user.salary ?? 'Agregar'  }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
           </q-list>
         </div>
       </div>
+      <div v-else>
+        <div class="w-100 q-mx-none" >
+          <div v-for="n in 3" :key="n" class="q-mb-md">
+            <q-toolbar class="bg-grey-5 text-black ">
+                <q-toolbar-title> 
+                  <div class="w-100  ">
+                    <span class="text-subtitle2 text-weight-bold q-mt-sm"> <q-skeleton type="text" class="w-30" /> </span>
+                  </div>
+                </q-toolbar-title>
+            </q-toolbar>
+            <q-list >
+              <template v-for="n in 3" :key="n">
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section>
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold w-50" >
+                        <span class="text-caption text-weight-bold">
+                          <q-skeleton type="text" class="w-30" />
+                        </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="w-50 flex justify-end">
+                        <q-skeleton type="text" class="w-15" />
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+              </template>
+            </q-list>
+          </div>
+        </div>
+      </div>
     </div>
+    <sideMenu />
   </div>
 </template>
 <script>
@@ -276,10 +279,14 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useRoute, useRouter } from 'vue-router';
-  import util from '@/util/numberUtil'
   import { useUserStore } from '@/services/store/user.store'
+  import util from '@/util/numberUtil'
+  import sideMenu from '@/components/admin/users/sideMenu.vue';
 
   export default {
+    components: { 
+      sideMenu,
+    },
     setup () {
       //vue provider
       const icons = inject('ionIcons');
@@ -288,12 +295,14 @@
       const router = useRouter();
       const route = useRoute();
       const userStore = useUserStore();
+      const numberFormat = util.numberFormat
+      // Data
+      const dialog = ref(false)
       const user = ref([]);
       const ready = ref(false)
-      // data
       const loading = ref(false)
-      // Data
       const showing = ref(false)
+
       // Methods
       const showToltip = () => {
         showing.value = true
@@ -301,8 +310,6 @@
           showing.value = false
         }, 3500);
       }
-      // methods
-      const numberFormat = util.numberFormat
       const getUser = () => {
         ready.value = false
         const userId = route.params.id;
@@ -353,12 +360,13 @@
         showNotify('positive', 'Número de cuenta copiado')
       }
       const goTo = (id) => {
-        // console.log(router)
         router.push('/admin/user/verification/'+id)
       }
+
       onMounted(() => {
         getUser()
       })
+
       return {
         icons,
         loading,
@@ -368,6 +376,7 @@
         showToltip,
         copyText,
         goTo,
+        
       }
     }
   };
