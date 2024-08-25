@@ -35,6 +35,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'remember_token',
+        'password',
     ];
 
     /**
@@ -59,8 +60,14 @@ class User extends Authenticatable implements JWTSubject
     public function redTape(){
         return $this->hasMany(RedTape::class)->orderBy('created_at', 'desc');
     }
-    public function cards(){
-        return $this->hasMany(Card::class)->orderBy('created_at', 'desc');
+    public function loans(){
+        return $this->hasMany(Loan::class)->orderBy('created_at', 'desc');
+    }
+    public function pays(){
+        return $this->hasMany(Pay::class)->orderBy('created_at', 'desc');
+    }
+    public function card(){
+        return $this->hasOne(Card::class)->orderBy('created_at', 'desc');
     }
     public function wallet(){
         return $this->hasOne(Wallet::class)->where('type', 1);

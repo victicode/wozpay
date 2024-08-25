@@ -20,6 +20,10 @@ import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
 import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
+import userById from '@/components/admin/users/userById.vue'
+import userVerification from '@/components/admin/users/userVerification.vue'
+
+
 import loanPay from '@/components/loan/loanPay.vue'
 import loanView from '@/components/loan/loanView.vue'
 import link_card from '@/pages/link_card.vue'
@@ -66,7 +70,7 @@ const router = createRouter({
     //   path: "/",
     //   name:"pages",
     //   component: pageLayout,
-    //   beforeEnter: auth,
+    //   // beforeEnter: auth,
     //   children: [
         
     //   ]
@@ -135,6 +139,24 @@ const router = createRouter({
           component: allUsers,
           meta: {
             title: 'Clientes'
+          },
+        },
+        {
+          path: "/admin/user/:id",
+          name: "usersByid",
+          component: userById,
+          beforeEnter: admin,
+          meta: {
+            title: 'Perfil'
+          },
+        },
+        {
+          path: "/admin/user/verification/:id",
+          name: "userVerificationId",
+          component: userVerification,
+          beforeEnter: admin,
+          meta: {
+            title: 'Perfil'
           },
         },
       ]

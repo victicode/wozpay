@@ -296,7 +296,6 @@
       }
 
       const copyData = (index, type) => {
-
         const texto = dataToPay[index].value;
         const textArea = document.createElement('textarea');
         textArea.value = texto;

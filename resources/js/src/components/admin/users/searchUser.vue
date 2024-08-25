@@ -37,11 +37,12 @@
         @click="filters(1)" 
         color="filters" 
         text-color="#e7ffe1" 
-        class="q-px-sm q-py-md"
+        class="q-px-sm q-py-md chip__container"
+        :class="{'active': filter == 1}"
       >
         <div class="flex flex-center">
-          <div v-html="wozIcons.profile"  class="buttons-chip " />
-          <div class="q-mt-xs">
+          <div v-html="wozIcons.profile"  class="buttons-chip" />
+          <div class="q-mt-xs filters__text">
             Clientes
           </div>
         </div>
@@ -51,11 +52,12 @@
         @click="filters(2)" 
         color="filters" 
         text-color="#e7ffe1" 
-        class="q-px-sm q-py-md"
+        class="q-px-sm q-py-md chip__container"
+        :class="{'active': filter == 2}"
       >
         <div class="flex flex-center">
-          <div v-html="wozIcons.profile"  class="buttons-chip " />
-          <div class="q-mt-xs">
+          <div v-html="wozIcons.solicitar"  class="buttons-chip" />
+          <div class="q-mt-xs filters__text">
             Solicitudes
           </div>
         </div>
@@ -65,11 +67,12 @@
         @click="filters(3)" 
         color="filters" 
         text-color="#e7ffe1" 
-        class="q-px-sm q-py-md"
+        class="q-px-sm q-py-md chip__container"
+        :class="{'active': filter == 3}"
       >
         <div class="flex flex-center">
           <div v-html="wozIcons.profile"  class="buttons-chip success" />
-          <div class="q-mt-xs">
+          <div class="q-mt-xs filters__text">
             Clientes al día
           </div>
         </div>
@@ -79,11 +82,12 @@
         @click="filters(4)" 
         color="filters" 
         text-color="#e7ffe1" 
-        class="q-px-sm q-py-md q-mt-sm q-mt-md-xs"
+        class="q-px-sm q-py-md q-mt-sm q-mt-md-xs chip__container"
+        :class="{'active': filter == 4}"
       >
         <div class="flex flex-center">
           <div v-html="wozIcons.profile"  class="buttons-chip danger" />
-          <div class="q-mt-xs">
+          <div class="q-mt-xs filters__text">
             Clientes en mora
           </div>
         </div>
@@ -92,11 +96,8 @@
   </div>
 </template>
 <script>
-  import { ref, inject, onMounted, watch } from 'vue';
-  import { useAuthStore } from '@/services/store/auth.store'
-  import { useUserStore } from '@/services/store/user.store'
+  import { ref, inject} from 'vue';
   import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router';
   import wozIcons from '@/assets/icons/wozIcons';
   import util from '@/util/numberUtil';
 
@@ -116,16 +117,22 @@
       //ref
       const searchRef = ref(null)
       // rules
+      const filter = ref(props.filter)
       const searchRules = [
         val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener "[](),%|&;\'" ',
       ]
 
       const filters = (e) => {
+
+        filter.value = e
         emit('filters', e)
       } 
       const getUsers = (e) => {
         emit('getUsers', e)
       } 
+      // watch(props, () => {
+        
+      // })
 
       return {
         icons,
@@ -134,6 +141,7 @@
         searchRef,
         searchRules,
         numberFormat,
+        filter,
         filters,
         getUsers,
       }
@@ -177,19 +185,38 @@
       }
     }
   }
+  // #547fed;
+  .chip__container {
+    transition: all 0.5s ease;
+    border: 1px solid transparent;
+
+    &.active {
+      background: #aebcdf!important;
+      border: 1px solid #0449fb;
+      & .filters__text {
+        color: #0449fb;
+      }
+      & path {
+        stroke: #0449fb!important;
+      }
+    }
+  }
   .buttons-chip{
     transform: scale(.7);
-    &.danger{
+    &.active {
+      background: red;
+    }
+    &.danger {
       & path {
-        stroke: red!important;
+        stroke: red;
       }
     }&.success{
       & path {
-        stroke: green!important;
+        stroke: green;
       }
     }&.active{
       & path {
-        stroke: red!important;
+        stroke: red;
       }
     }
   }
@@ -205,12 +232,6 @@
 
 .user_section{
   height: 100%;
-}
-.h-100 {
-  height: 100%;
-}
-.h-20 {
-  height: 26%;
 }
 .search__container {
   background: #d9d9d9;

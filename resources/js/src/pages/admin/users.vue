@@ -1,7 +1,7 @@
 <template>
   <div class="user_section " >
     <div class="h-100">
-      <div class="h-20 q-pt-none q-pt-md-lg  search__container">
+      <div class="h-20 q-pt-none q-pt-md-sm  search__container">
         <div>
           <searchUser :filter="filter" @getUsers="getUsersBySearch" @filters="setFilters"/>
         </div>
@@ -23,7 +23,7 @@
                     round 
                     size="xs"
                     class="q-pb-none"
-                    @click="router.push('')" 
+                    @click="goTo(user.id)"  
                   >
                     <q-icon name="eva-chevron-right-outline" color="grey-6" size="md" />
                   </q-btn>
@@ -50,26 +50,8 @@
         </transition>
         <transition name="slide-fade">
           <div class="" v-if=" ready && users.data.length == 0">
-            <div>
-              <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-pa-sm userlist">
-                <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-                  {{ user.name }}
-                </div>
-                <div class="flex items-center">
-                  <div class="text-subtitle2 text-weight-light q-mt-xs q-mr-xs text-grey-7">
-                    {{ numberFormat(user.dni) }}
-                  </div>
-                  <q-btn 
-                    flat 
-                    round 
-                    size="xs"
-                    class="q-pb-none"
-                    @click="router.push('')" 
-                  >
-                    <q-icon name="eva-chevron-right-outline" color="grey-6" size="md" />
-                  </q-btn>
-                </div>
-              </div>
+            <div class="flex flex-center">
+              <h4>No hay usuarios registrados</h4>
             </div>
           </div>
         </transition>
@@ -95,7 +77,6 @@
 </template>
 <script>
   import { ref, inject, onMounted } from 'vue';
-  import { useAuthStore } from '@/services/store/auth.store'
   import { useUserStore } from '@/services/store/user.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
@@ -164,14 +145,16 @@
         console.log(e)
       } 
       const getUsersBySearch = (search) => {
-        console.log(search)
         currentPage.value = 1
         getUsers(search)
       }
       const setFilters = (newFilter) => {
-        console.log(newFilter)
         filter.value = newFilter
       } 
+      const goTo = (id) => {
+        // console.log(router)
+        router.push('/admin/user/'+id)
+      }
 
       onMounted(() => {
         getUsers()
@@ -189,6 +172,7 @@
         setPage,
         getUsers,
         getUsersBySearch,
+        goTo,
       }
     }
   };

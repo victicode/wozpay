@@ -44,6 +44,7 @@ Route::post('/create_wallet', [UserController::class, 'storeWallet']);
 
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
+    Route::get('/get/{id}', [UserController::class, 'getUserById']);
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
@@ -92,6 +93,7 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
     Route::post('/', [PayController::class, 'storePay']);
     Route::post('/get_url', [PayController::class, 'payRequest']);
 });
+
 Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( function () {
     Route::get('/{id}', [WalletController::class, 'allBalances']);
 });
