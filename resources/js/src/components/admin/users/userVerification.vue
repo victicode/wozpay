@@ -28,7 +28,7 @@
                         ? 'Aprobado'
                         : user.verify_status == 1
                         ? 'Pendiente'
-                        : 'Subir documentos'
+                        : 'No subidos'
                       }}
                     </div>
                     <q-icon
@@ -75,7 +75,15 @@
                     Verificación facial
                   </span>
                   </q-item-label>
-                  <q-item-label caption lines="1" class="text-weight-medium text-caption">Pendiente</q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-caption">
+                    {{ 
+                      user.facial_verify == 2 
+                      ? 'Aprobado'
+                      : user.facial_verify == 1
+                      ? 'Pendiente'
+                      : 'No subidos'
+                    }}
+                  </q-item-label>
                 </div>
                 <div>
                   <div class="q-pr-md text-caption text-grey-6 text-decoration-underline cursor-pointer">
@@ -223,10 +231,10 @@
       const userStore = useUserStore();
       const user = ref([]);
       const ready = ref(false)
-      // data
-      const loading = ref(false)
-      // Data
       const showing = ref(false)
+      // Data
+      const loading = ref(false)
+
       // Methods
       const showToltip = () => {
         showing.value = true
@@ -251,40 +259,11 @@
           showNotify('negative', response)
         })
       }
-      const showNotify = (type, message) => {
-        $q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
-      const copyText = (text) => {
-  
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.opacity = 0;
-        document.body.appendChild(textArea);
-        textArea.select();
 
-        try {
-          const success = document.execCommand('copy');
-        } catch (err) {
-          console.error(err.name, err.message);
-        }
-
-        document.body.removeChild(textArea);
-
-        showNotify('positive', 'Número de cuenta copiado')
-      }
-      const goTo = (id) => {
-        // console.log(router)
-        router.push('/admin/user/verification/'+id)
-      }
+      // const goTo = (id) => {
+      //   // console.log(router)
+      //   router.push('/admin/user/verification/'+id)
+      // }
       onMounted(() => {
         getUser()
       })
@@ -295,8 +274,6 @@
         numberFormat,
         showing,
         showToltip,
-        copyText,
-        goTo,
       }
     }
   };

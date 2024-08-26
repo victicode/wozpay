@@ -25,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'rol_id',
         'verify_status',
+        'facial_verify',
         'is_first_loan'
     ];
 
@@ -72,7 +73,10 @@ class User extends Authenticatable implements JWTSubject
     public function wallet(){
         return $this->hasOne(Wallet::class)->where('type', 1);
     }
-    public function wallet_found(){
+    public function walletFound(){
         return $this->hasOne(Wallet::class)->where('type', 2);
+    }
+    public function accountbank(){
+        return $this->hasOne(AccountBank::class);
     }
 }   

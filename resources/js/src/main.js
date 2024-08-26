@@ -6,6 +6,7 @@ import { Quasar, Notify, AddressbarColor, Dialog } from 'quasar'
 import quasarLang from 'quasar/lang/es'
 import router from "@/routes/index.js";
 import { Picker } from 'vant';
+import { Switch } from 'vant';
 // import { func } from '@/core/services/utils/utils.js'
 
 // Import icon libraries
@@ -53,6 +54,7 @@ app.use(Quasar, {
   iconSet: iconSet,
 })
 app.use(Picker);
+app.use(Switch);
 app.provide('ionIcons', { ...materialIcons, ...materialIcons2})
 app.provide('emitter', emitter)
 

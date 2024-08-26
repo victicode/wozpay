@@ -94,7 +94,7 @@
                           ? 'Aprobado'
                           : user.verify_status == 1
                           ? 'Pendiente'
-                          : 'Subir documentos'
+                          : 'No subidos'
                         }}
                       </q-item-label>
                       <q-btn 
@@ -155,7 +155,7 @@
                       Ciudad
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class=" text-caption">{{ user.city ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ user.city ?? 'No agregado' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -168,7 +168,7 @@
                       Barrio o localidad
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class=" text-caption">{{ user.locality ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ user.locality ?? 'No agregado' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -181,7 +181,7 @@
                       Calle y N° de casa
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class=" text-caption">{{ user.address ?? 'Agregar'  }}</q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ user.address ?? 'No agregado'  }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -204,7 +204,7 @@
                       Privado - Funcionario público
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class=" text-caption">{{ user.work ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ user.work ?? 'No agregado' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -217,7 +217,7 @@
                       Cargo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class=" text-caption">{{ user.office ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ user.office ?? 'No agregado' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -230,7 +230,7 @@
                       Salario
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class=" text-caption">{{ user.salary ?? 'Agregar'  }}</q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ user.salary ?? 'No agregado'  }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>

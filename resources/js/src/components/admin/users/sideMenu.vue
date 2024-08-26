@@ -42,24 +42,7 @@
           </q-toolbar-title>
         </q-toolbar>
         <q-list >
-          <q-item class="q-py-none q-px-none" >
-            <q-item-section>
-              <div class="flex items-center justify-between w-100">
-                <q-item-label class="q-mt-xs w-100" >
-                  <q-expansion-item>
-                    <template v-slot:header>
-                      <q-item-section class="text-subtitle2 text-weight-medium ">
-                        Datos de transferencia
-                      </q-item-section>
-                    </template>
-                    <div>
-                      
-                    </div>
-                  </q-expansion-item>
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
+          <userBankInfo :user="user"/>
         </q-list>
         <!-- user actions -->
         <q-toolbar class="bg-white text-black q-mt-none header-form">
@@ -70,39 +53,7 @@
           </q-toolbar-title>
         </q-toolbar>
         <q-list >
-          <q-item class="q-py-none q-px-md" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                  <span class="text-subtitle2 text-weight-medium">
-                    Suspender - Activar
-                  </span>
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-item class="q-py-none q-px-md" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                  <span class="text-subtitle2 text-weight-medium">
-                    Bloquear perfil
-                  </span>
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-item class="q-py-none q-px-md" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                  <span class="text-subtitle2 text-weight-medium">
-                    Eliminar perfil
-                  </span>
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
+          <userActions :user="user"/>
         </q-list>
       </div>
     </q-card>
@@ -111,12 +62,15 @@
 <script >
   import { inject, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import util from '@/util/numberUtil';
   import walletActions from './sideMenu/walletActions.vue';
+  import userBankInfo from './sideMenu/userBankInfo.vue';
+  import userActions from './sideMenu/userActions.vue';
   
   export default {
     components: {
-      walletActions
+      walletActions,
+      userActions,
+      userBankInfo,
     },
     props: {
       user: Object,
@@ -129,9 +83,7 @@
       const router = useRouter();
       const dialog = ref(false)
       const user = props.user
-      const numberFormat = util.numberFormat
-      const loading = ref(false)
-      const plusAmount = ref('')
+
       const showSideMenu = (state) => {
         dialog.value = !dialog.value //state
       }
@@ -144,11 +96,8 @@
         icons,
         router,
         route,
-        loading,
         dialog,
         user,
-        numberFormat,
-        plusAmount,
         showSideMenu,
       }
     }
@@ -163,7 +112,7 @@
   }
 
   .header-form {
-    border-bottom: 5px solid $grey-5;
+    border-bottom: 10px solid $grey-5;
   }
   .side-menu {
     transform: translateY( 9.9%);
