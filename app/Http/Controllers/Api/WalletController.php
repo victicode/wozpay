@@ -32,6 +32,16 @@ class WalletController extends Controller
 
         ]);
     }
+    public function incrementsWallet($id, Request $request) {
+        $wallet = Wallet::where('user_id', $id)->first();
+        
+        if(!$wallet) return $this->returnFail(404, 'Wallet no encontrada');
+
+        $wallet->balance +=  $request->amount;
+        $wallet->save();
+
+        return $this->returnSuccess(200, $wallet);
+    }
     private function allLoansAmount() {
         $amount = 0;
         $amounToRecive = 0 ;

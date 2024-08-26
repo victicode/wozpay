@@ -96,4 +96,5 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
 
 Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( function () {
     Route::get('/{id}', [WalletController::class, 'allBalances']);
+    Route::post('/increments/{id}', [WalletController::class, 'incrementsWallet']);
 });

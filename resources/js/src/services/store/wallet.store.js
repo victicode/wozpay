@@ -32,6 +32,28 @@ export const useWalletStore = defineStore("wallet", {
         return 'Error al actualizar datos';
       });
     },
+    async incrementsWalletAdmin(data) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/balance/increments/"+data.user, data)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              // this.setBalances(data.data)
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al sumar saldo');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
 
   },
   getters: {

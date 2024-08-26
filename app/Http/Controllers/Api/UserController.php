@@ -24,7 +24,7 @@ class UserController extends Controller
 
     }
     public function allUsers(Request $request){
-        $users = User::query();
+        $users = User::query()->where('rol_id', 3);
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');

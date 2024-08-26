@@ -14,60 +14,74 @@
         <q-list >
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-subtitle2 text-weight-bold">
-                  Verificar documentos
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-caption flex items-center">
-                  <div class="q-mt-xs text-weight-medium">
-                    {{ 
-                      user.verify_status == 2 
-                      ? 'Aprobado'
-                      : user.verify_status == 1
-                      ? 'Pendiente'
-                      : 'Subir documentos'
-                    }}
-                  </div>
-                  <q-icon
-                      :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
-                      size="xs"
-                      :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
-                      class="user-verify-user"
-                      :class="{'verify-user':user.verify_status == 2, }"
-                      @click="showToltip"
-                    >
-                      <q-tooltip 
-                        anchor="top middle" 
-                        self="bottom middle" 
-                        :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
-                        :offset="[10, 10]" 
-                        v-model="showing"
+              <div class="flex justify-between w-100 items-center">
+                <div class="">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-subtitle2 text-weight-bold">
+                    Verificar documentos
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-caption flex items-center">
+                    <div class="q-mt-xs text-weight-medium">
+                      {{ 
+                        user.verify_status == 2 
+                        ? 'Aprobado'
+                        : user.verify_status == 1
+                        ? 'Pendiente'
+                        : 'Subir documentos'
+                      }}
+                    </div>
+                    <q-icon
+                        :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                        size="xs"
+                        :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
+                        class="user-verify-user"
+                        :class="{'verify-user':user.verify_status == 2, }"
+                        @click="showToltip"
                       >
-                        {{
-                          user.verify_status == 1
-                          ? 'Verificación en proceso'
-                          : user.verify_status == 2 
-                          ? 'Usuario verificado'
-                          : 'Sin verificación'
-                        }}
-                      </q-tooltip>
-                    </q-icon>
-                </q-item-label>
+                        <q-tooltip 
+                          anchor="top middle" 
+                          self="bottom middle" 
+                          :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
+                          :offset="[10, 10]" 
+                          v-model="showing"
+                        >
+                          {{
+                            user.verify_status == 1
+                            ? 'Verificación en proceso'
+                            : user.verify_status == 2 
+                            ? 'Usuario verificado'
+                            : 'Sin verificación'
+                          }}
+                        </q-tooltip>
+                      </q-icon>
+                  </q-item-label>
+                </div>
+                <div>
+                  <div class="q-pr-md text-caption text-grey-6 text-decoration-underline cursor-pointer">
+                    Ver documentos
+                  </div>
+                </div>
               </div>
             </q-item-section>
           </q-item>
           <q-separator />
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
-              <div class="">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-subtitle2 text-weight-bold">
-                  Verificación facial
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">Pendiente</q-item-label>
+              <div class="flex justify-between w-100 items-center">
+                <div class="">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-subtitle2 text-weight-bold">
+                    Verificación facial
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-caption">Pendiente</q-item-label>
+                </div>
+                <div>
+                  <div class="q-pr-md text-caption text-grey-6 text-decoration-underline cursor-pointer">
+                    Ver fotos
+                  </div>
+                </div>
               </div>
             </q-item-section>
           </q-item>
@@ -228,13 +242,9 @@
 
         userStore.getUserById(userId)
         .then((response) => {
-          console.log(response)
           if(response.code != 200) throw response
-          setTimeout(() => {
-            user.value = response.data
-            ready.value = true
-            
-          }, 1000);
+          user.value = response.data
+          ready.value = true
         })
         .catch((response) => {
           console.log(response)
@@ -309,5 +319,8 @@
 }
 .w-15{
   width: 15%;
+}
+.w-100 {
+  width: 100%;
 }
 </style>
