@@ -25,7 +25,7 @@
                   round 
                   size="xs"
                   class="q-pb-none q-ml-xs"
-                  
+                  @click="router.push('/admin/notification/send/'+user.id)"
                 >
                   <q-icon name="eva-chevron-right-outline" color="grey-7" size="md" />
                 </q-btn>
@@ -60,7 +60,7 @@
   </q-dialog>
 </template>
 <script >
-  import { inject, ref } from 'vue';
+  import { inject, ref, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import walletActions from './sideMenu/walletActions.vue';
   import userBankInfo from './sideMenu/userBankInfo.vue';
@@ -79,10 +79,9 @@
       //vue provider
       const icons = inject('ionIcons')
       const emitter = inject('emitter');
-      const route = useRoute();
       const router = useRouter();
       const dialog = ref(false)
-      const user = props.user
+      const user = ref(props.user)
 
       const showSideMenu = (state) => {
         dialog.value = !dialog.value //state
@@ -92,11 +91,14 @@
         showSideMenu(state)
       })
 
+      watch(() => props.user, (newUser) => { 
+        user.value = newUser
+      })
       return {
         icons,
         router,
-        route,
         dialog,
+        router,
         user,
         showSideMenu,
       }

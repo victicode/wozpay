@@ -7,6 +7,8 @@ import dashboardLayout from '@/layouts/dashboardLayout.vue';
 import pageLayout from '@/layouts/pagesLayout.vue';
 import authLayout from '@/layouts/authLayout.vue';
 import paysLayout from '@/layouts/paysLayout.vue';
+import userAdminLayout from '@/layouts/userAdminLayout.vue';
+
 import bankPage from '@/pages/bank.vue';
 import bankAccountPage from '@/pages/accountBank.vue';
 import lastOperationPage from '@/pages/lastOperations.vue';
@@ -22,6 +24,7 @@ import userProffesion from '@/components/profile/userProffesion.vue'
 import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
 import userById from '@/components/admin/users/userById.vue'
 import userVerification from '@/components/admin/users/userVerification.vue'
+import userNotification from '@/components/admin/notification/notificationPush.vue'
 
 
 import loanPay from '@/components/loan/loanPay.vue'
@@ -134,14 +137,6 @@ const router = createRouter({
       beforeEnter: admin,
       children: [
         {
-          path: "/users",
-          name: "users",
-          component: allUsers,
-          meta: {
-            title: 'Clientes'
-          },
-        },
-        {
           path: "/admin/user/:id",
           name: "userById",
           component: userById,
@@ -157,6 +152,31 @@ const router = createRouter({
           beforeEnter: admin,
           meta: {
             title: 'Perfil'
+          },
+        },
+        {
+          path: "/admin/notification/send/:id",
+          name: "sendNotification",
+          component: userNotification,
+          beforeEnter: admin,
+          meta: {
+            title: 'Notificaciones push'
+          },
+        }
+      ]
+    },
+    {
+      path: "/",
+      name:"adminClient",
+      component: userAdminLayout,
+      beforeEnter: admin,
+      children: [
+        {
+          path: "/users",
+          name: "users",
+          component: allUsers,
+          meta: {
+            title: 'Clientes'
           },
         },
       ]

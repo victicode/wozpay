@@ -9,7 +9,7 @@
                 Datos de transferencia
               </q-item-section>
             </template>
-            <div class="q-px-md q-mb-md"> 
+            <div class="q-px-md q-mb-md" v-if="user.accountbank"> 
               <div class="flex justify-between items-center q-mt-sm">
                 <div class="text-subtitle3">Banco:</div>
                 <div class="text-subtitle3 text-grey-7"> {{ user.accountbank.bank.name }} </div>
@@ -21,6 +21,11 @@
               <div class="flex justify-between items-center q-mt-sm">
                 <div class="text-subtitle3">N° de cuenta</div>
                 <div class="text-subtitle3 text-grey-7"> {{ user.accountbank.account_number }} </div>
+              </div>
+            </div>
+            <div>
+              <div class="text-weight-medium text-body1 text-center q-mb-md">
+                No tiene cuenta de banco vinculada. 😞
               </div>
             </div>
           </q-expansion-item>

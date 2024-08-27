@@ -24,7 +24,7 @@ class UserController extends Controller
 
     }
     public function allUsers(Request $request){
-        $users = User::query()->where('rol_id', 3);
+        $users = User::query()->withTrashed()->where('rol_id', 3);
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');
@@ -96,8 +96,6 @@ class UserController extends Controller
         }
 
         $user = User::find($userId);
-        // $dismantlingsOfProducts= Dismantling::where('piece_product_id', $userId)->delete();
-
 
         if (!$user) {
             return $this->returnFail(404, "Producto no encontrada.");
@@ -106,10 +104,48 @@ class UserController extends Controller
         $user->delete();
 
 
-        return $this->returnSuccess(200, ['id' => $userId, 'deleted_at' => $user->deleted_at]);
+        return $this->returnSuccess(200, $user->load('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank'));
     }
+    public function restoreUser($userId)
+    {
+        if (!$userId) {
+            return $this->returnFail(400, "El ID del producto es requerido.");
+        }
+
+        $user = User::withTrashed()->find($userId);
+        // $dismantlingsOfProducts= Dismantling::where('piece_product_id', $userId)->delete();
+
+
+        if (!$user) {
+            return $this->returnFail(404, "Producto no encontrada.");
+        }
+
+        $user->restore();
+
+
+        return $this->returnSuccess(200, $user->load('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank'));
+    }
+    public function setStatus($userId, Request $request)
+    {
+        if (!$userId) {
+            return $this->returnFail(400, "Usuario no encontrado.");
+        }
+
+        $user = User::find($userId);
+
+        if (!$user) {
+            return $this->returnFail(404, "Usuario no encontrado.");
+        }
+
+        $user->general_status = $request->status ??  $user->general_status;
+        $user->isBlock = $request->block ??  $user->isBlock;
+        $user->save();
+
+        return $this->returnSuccess(200, $user->load('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank'));
+    }
+    
     public function getUserById($userId){
-        $user = User::with('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank')->find($userId);
+        $user = User::with('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank')->withTrashed()->find($userId);
  
          return $this->returnSuccess(200, $user);
      }

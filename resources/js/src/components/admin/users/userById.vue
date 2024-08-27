@@ -1,6 +1,6 @@
 
 <template>
-  <div class="profile_section " >
+  <div class="profile_section q-mb-xl q-pb-lg" >
     <div>
       <div v-if="Object.values(user).length > 0">
         <div class=""  >
@@ -107,8 +107,6 @@
                         <q-icon name="eva-chevron-right-outline" color="grey-5" size="sm" />
                       </q-btn>
                     </div>
-                    
-    
                   </div>
                 </q-item-section>
               </q-item>
@@ -131,6 +129,39 @@
                            size="xs"
                            color="grey-6"
                          />
+                      </div>
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                      <div>
+                        <span class="text-caption text-weight-bold">
+                          Estado de cuenta
+                        </span>
+                      </div>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-caption flex items-center">
+                      <div class="q-mr-xs ">
+                        <q-chip :color="setChip(user.general_status == 1 ? 1 : 0).color" text-color="white" class="q-pt-sm" size="sm">
+                          <div class="">
+                            {{setChip(user.general_status == 1 ? 1 : 0).text}}
+                          </div>
+                        </q-chip>  
+                        <q-chip color="grey-6" text-color="white" class="q-pt-sm" size="sm" v-if="user.isBlock == 1">
+                          <div class="">
+                            Bloqueado
+                          </div>
+                        </q-chip> 
+                        <q-chip color="negative" text-color="white" class="q-pt-sm" size="sm" v-if="user.deleted_at">
+                          <div class="">
+                            Eliminado
+                          </div>
+                        </q-chip> 
                       </div>
                     </q-item-label>
                   </div>
@@ -273,11 +304,10 @@
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 <script>
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import { inject } from 'vue'
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
@@ -293,6 +323,7 @@
     setup () {
       //vue provider
       const icons = inject('ionIcons');
+      const emitter = inject('emitter');
       const $q = useQuasar();
       const store = useAuthStore();
       const router = useRouter();
@@ -361,6 +392,25 @@
       const goTo = (id) => {
         router.push('/admin/user/verification/'+id)
       }
+      const setChip = (type) => {
+
+        const chip = [ 
+          {
+            text: 'Suspendido',
+            color: 'terciary'
+          },
+          {
+            text: 'Activo',
+            color: 'positive'
+          },
+
+        ]
+        return chip[type]
+      }
+      emitter.on('setUser', (userUpdate) => {
+        console.log('sss')
+        user.value = userUpdate
+      })
 
       onMounted(() => {
         getUser()
@@ -375,6 +425,7 @@
         showToltip,
         copyText,
         goTo,
+        setChip,
         
       }
     }

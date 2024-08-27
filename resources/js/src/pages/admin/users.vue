@@ -1,11 +1,5 @@
 <template>
-  <div class="user_section " >
-    <div class="h-100">
-      <div class="h-20 q-pt-none q-pt-md-sm  search__container">
-        <div>
-          <searchUser :filter="filter" @getUsers="getUsersBySearch" @filters="setFilters"/>
-        </div>
-      </div>
+
       <div>
         <transition name="slide-fade">
           <div class="" v-if="ready && users.data.length > 0">
@@ -72,8 +66,6 @@
           </div>
         </transition>
       </div>
-    </div>
-  </div>
 </template>
 <script>
   import { ref, inject, onMounted } from 'vue';
@@ -92,13 +84,14 @@
     setup () {
       //vue provider
       const icons = inject('ionIcons')
+      const emitter = inject('emitter')
+
       const $q = useQuasar()
       const userStore = useUserStore()
       const router = useRouter()
       const { numberFormat } = util;
       const loading = ref(false)
       const ready = ref(false)
-      const filter = ref(1);
       const currentPage = ref(1)
       const users = ref([])
 
@@ -136,27 +129,21 @@
           showNotify('negative', response)
         })
       }
-      
       const setPage = (page) => {
         currentPage.value = page
         getUsers('')
       }
-
-      const setFilter = (e) => {
-        console.log(e)
-      } 
+      
       const getUsersBySearch = (search) => {
         currentPage.value = 1
         getUsers(search)
       }
-      const setFilters = (newFilter) => {
-        filter.value = newFilter
-      } 
       const goTo = (id) => {
-        // console.log(router)
         router.push('/admin/user/'+id)
       }
-
+      emitter.on('searchUser', (search) => {
+        getUsersBySearch(search)
+      })
       onMounted(() => {
         getUsers()
       })
@@ -168,11 +155,8 @@
         numberFormat,
         currentPage,
         users,
-        filter,
-        setFilters,
         setPage,
         getUsers,
-        getUsersBySearch,
         goTo,
       }
     }
@@ -180,41 +164,6 @@
 </script>
 
 <style lang="scss">
-  .search_users {
-    & .q-field__control{
-      border-radius: 15px!important;
-      height: 50px
-    }
-    & .q-field__label{
-      transform: translateY(0%)
-    }
-    &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
-      transition: all 0.3s ease-in;
-      z-index: 100;
-      background: white;
-      font-weight: 600;
-      max-width: 133%;
-      padding: 0px 10px;
-      transform: translateY(-65%) scale(0.75)!important;
-    }
-    
-    & .q-field__native{
-      padding-top: 15px!important;
-      font-weight: 600;
-    }
-    & .q-field__prepend{
-      transform: translateY(-4%)
-    }
-    
-
-  }
-  @media screen and (max-width: 780px){
-    .search_users {
-      & .q-field__bottom{
-        transform: translateY(15px);
-      }
-    }
-  }
   .slide-fade-enter-active {
     transition: all 0.3s ease-out;
     position: absolute;
@@ -248,9 +197,6 @@
 .w-30 {
   width: 30%;
 }
-.buttons-chip{
-  transform: scale(.7);
-}
 .user_section{
   height: 100%;
 }
@@ -259,10 +205,6 @@
 }
 .h-20 {
   height: 20%;
-}
-.search__container {
-  background: #d9d9d9;
-  overflow: hidden;
 }
 @media screen and (max-width: 780px){
   .h-20 {

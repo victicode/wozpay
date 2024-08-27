@@ -121,6 +121,57 @@ export const useUserStore = defineStore("user", {
             });
         }
       })
+    },
+    async setUserStatus(data) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/user/set-status/"+data.user, data)
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    },
+    async deleteUser(userID) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/user/delete/"+userID)
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    },
+    async restoreUser(userID) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/user/restore/"+userID)
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
     }
   },
   getters: {

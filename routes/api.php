@@ -45,10 +45,17 @@ Route::post('/create_wallet', [UserController::class, 'storeWallet']);
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/get/{id}', [UserController::class, 'getUserById']);
+    Route::get('/all', [UserController::class, 'allUsers']);
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
-    Route::get('/all', [UserController::class, 'allUsers']);
+    Route::post('/set-status/{id}', [UserController::class, 'setStatus']);
+    Route::post('/set-block/{id}', [UserController::class, 'setBlock']);
+
+    Route::post('/delete/{id}', [UserController::class, 'deleteUser']);
+    Route::post('/restore/{id}', [UserController::class, 'restoreUser']);
+
+
 });
 
 

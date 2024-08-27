@@ -21,7 +21,7 @@
             autocomplete="off"
             ref="searchRef"
             bg-color="white"
-            @change="getUsers"
+            @change="searchUser"
             
           >
             <template v-slot:prepend>
@@ -105,10 +105,11 @@
     props: {
       filter: Number,
     },
-    emits: ['getUsers', 'filters'],
+    emits: ['filters'],
     setup (props,{ emit }) {
       //vue provider
       const icons = inject('ionIcons')
+      const emitter = inject('emitter')
       const $q = useQuasar()
       const { numberFormat } = util;
 
@@ -127,8 +128,8 @@
         filter.value = e
         emit('filters', e)
       } 
-      const getUsers = (e) => {
-        emit('getUsers', e)
+      const searchUser = (value) => {
+        emitter.emit('searchUser', value);
       } 
       // watch(props, () => {
         
@@ -143,7 +144,7 @@
         numberFormat,
         filter,
         filters,
-        getUsers,
+        searchUser,
       }
     }
   };
