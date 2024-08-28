@@ -1,28 +1,21 @@
 <template>
-  <q-dialog v-model="updatePhoneDialog" persistent backdrop-filter="blur(8px)">
+  <q-dialog v-model="updateEmailDialog" persistent backdrop-filter="blur(8px)">
     <transition name="step">
       <q-card style="min-width: 350px" v-if="stepper == 1">
         <q-card-section>
-          <div class="text-h6">Coloca tú número telefónico</div>
+          <div class="text-h6">Ingresa tu correo electrónico </div>
         </q-card-section>
         <q-card-section class="q-pt-none">
           <q-input 
             dense 
-            v-model="phone" 
+            v-model="email" 
             clearable 
             clear-icon="eva-close-outline" 
-            autofocus mask="### ###-###" 
-            hint="Formato: (+595) ### ###-##"  
-          >
-            <template v-slot:prepend>
-              <div class="text-body2 text-black text-weight-bold q-pt-xs" style="font-size: 0.84rem;">(+595)</div>
-            </template>
-          </q-input>
+          />
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Volver" @click="hideModal(null)"/>
           <q-btn flat label="Verificar" :loading="loading" @click="sendMobileCode()" > 
-          <!-- <q-btn flat label="Verificar" :loading="loading" @click="stepper = 2" >  -->
             <template v-slot:loading>
               <q-spinner-facebook />
             </template>
@@ -34,7 +27,7 @@
       <q-card style="min-width: 350px" v-if="stepper == 2" class="">
         <q-card-section>
           <div class="text-h6 q">Validar número</div>
-          <div class="text-weight-medium q-mt-sm" style="font-size: 0.83rem;" >Ingresa el codigo enviado a +595 {{phone}} por sms</div>
+          <div class="text-weight-medium q-mt-sm" style="font-size: 0.83rem;" >Ingresa el codigo enviado a {{email}} </div>
           <div class="text-caption q-mt-sm">
             <span>
               El codigo expira en: {{ `${minutes}:${seconds < 10 ? '0'+seconds : seconds},` }}
@@ -79,25 +72,24 @@
       // Data
       const loading = ref(false);
       const stepper = ref(1);
-      const updatePhoneDialog = props.dialog;
+      const updateEmailDialog = props.dialog;
       const code = ref('');
       const minutes = ref(10);
       const seconds = ref('00');
       const timer = ref('');
-      const phone = ref(user.phone)
+      const email = ref(user.email)
 
       
 
       // Methods
       const sendMobileCode = () =>{
-        if(!validatePhone()) return;
         loadingShow(true);
         const data = {
-          phone: formatedPhoneNumber(),
+          email
         }
 
         loadingShow(false);
-        hideModal(phone)
+        hideModal(email)
         // showNotify('positive', 'Número de teléfono validado con exito')
         // store.sendMobileCode(data).then((data) => {
         //   if(!data.code){
@@ -119,7 +111,7 @@
         if(!validateCode()) return
         loadingShow(true);
         const data = {
-          phone: formatedPhoneNumber(),
+          email,
           code: code.value
         }
         store.verifyMobileCode(data).then((data) => {
@@ -131,7 +123,7 @@
           if(data.data =="approved"){
             clearInterval(timer.value)
             loadingShow(false);
-            hideModal(phone)
+            hideModal(email)
             showNotify('positive', 'Número de teléfono validado con exito')
             return;
           }
@@ -140,18 +132,8 @@
           
         })
       }
-      const formatedPhoneNumber = () =>{
-        return phone.value.replace(/\(/g, '').replace(/\)/g, '').replace(/\-/g, '').replace(/\s/g, '').trim()
-      }
       const loadingShow = (state) => {
         loading.value = state;
-      }
-      const validatePhone = () => {
-        if(!phone.value || phone.value.length < 11) {
-          showNotify('negative', 'Número de teléfono no valido')
-          return false
-        }
-        return true
       }
       const validateCode = () => {
         if(!code || code.value.length < 6) {
@@ -206,9 +188,9 @@
         stepper,
         seconds,
         minutes,
-        updatePhoneDialog,
-        phone,
         timer,
+        updateEmailDialog,
+        email,
         sendMobileCode,
         verifyPhoneNumber,
         hideModal,

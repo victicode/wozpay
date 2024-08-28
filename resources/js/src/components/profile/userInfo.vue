@@ -3,7 +3,7 @@
   <div class="profile_section" >
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
-        <!-- info -->
+        <!-- Verification -->
         <q-toolbar class="bg-grey-5 text-black ">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
@@ -49,7 +49,7 @@
           </q-item>
           <q-separator />
         </q-list>
-        <!-- address -->
+        <!-- Verification status -->
         <q-toolbar class="bg-grey-5 text-black q-mt-sm">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
@@ -152,7 +152,7 @@
           </q-item>
           <q-separator />
         </q-list>
-        <!-- professional -->
+        <!-- phone -->
         <q-toolbar class="bg-grey-5 text-black q-mt-sm">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
@@ -169,13 +169,43 @@
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
                     <div class="text-weight-bold text-caption">Número de teléfono actual</div>
-                    <div class="text-caption text-grey-5">
-                      {{user.phone ?? 'Agregar'}}
+                    <div class="text-caption text-grey-6 text-weight-medium">
+                      {{user.phone ? `(+595) ${user.phone}` : 'Agregar'}}
                     </div>
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-edit-2-outline"  @click="showDialog('updatePhone')"/>
+                  <q-btn unelevated flat round color="bg-grey-7" style="color: black"  icon="eva-edit-2-outline"  @click="showDialog('updatePhone')"/>
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+        </q-list>
+        <!-- Phone -->
+        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+          <q-toolbar-title> 
+            <div class="w-100 flex items-center justify-between">
+              <div class="text-subtitle2 text-weight-bold">Correo electrónico</div>
+              <span>
+              </span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <q-item class=" q-px-sm" >
+            <q-item-section>
+              <div class="flex align-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                  <div>
+                    <div class="text-weight-bold text-caption">Correo electrónico asociado</div>
+                    <div class="text-caption text-grey-6 text-weight-medium">
+                      {{user.email ?? 'Agregar'}}
+                    </div>
+                  </div>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-caption">
+                  <q-btn unelevated flat round color="bg-grey-7" style="color: black"  icon="eva-edit-2-outline"  @click="showDialog('updateEmail')"/>
                 </q-item-label>
               </div>
             </q-item-section>
@@ -203,7 +233,10 @@
       </div>
     </div>
     <div v-if="dialog=='updatePhone'">
-      <updatePhoneNumberVue  :dialog="(dialog =='updatePhone')" @hideModal="hideModal" />
+      <updatePhoneNumber  :dialog="(dialog =='updatePhone')" @hideModal="updatePhone" />
+    </div>
+    <div v-if="dialog=='updateEmail'">
+      <updateEmail :dialog="(dialog =='updateEmail')" @hideModal="updateEmail" />
     </div>
     
   </div>
@@ -213,12 +246,14 @@
   import { inject } from 'vue'
   import { useUserStore } from '@/services/store/user.store'
   import { useAuthStore } from '@/services/store/auth.store'
-
   import { useQuasar } from 'quasar'
-  import updatePhoneNumberVue from '@/components/profile/modals/updatePhoneNumber.vue';
+  import updatePhoneNumber from '@/components/profile/modals/updatePhoneNumber.vue';
+  import updateEmail from '@/components/profile/modals/updateEmail.vue';
+
   export default {
     components:{
-      updatePhoneNumberVue
+      updatePhoneNumber,
+      updateEmail,
     },
     
     setup () {
@@ -254,9 +289,13 @@
       const showDialog = (dialogToShow) => {
         dialog.value = dialogToShow
       }
-      const hideModal = (data) => {
+      const updatePhone = (data) => {
         dialog.value = '';
         user.phone = data ?? user.phone
+      }
+      const updateEmail = (data) => {
+        dialog.value = '';
+        user.email = data ?? user.email
       }
       const showNotify = (type, message) => {
         $q.notify({
@@ -301,7 +340,8 @@
         showDialog,
         showToltip,
         uptadteInfo,
-        hideModal,
+        updatePhone,
+        updateEmail
 
       }
     }

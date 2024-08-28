@@ -50,7 +50,20 @@
                   Número de teléfono
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">{{ user.phone ?? 'No asignado'  }}</q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.phone ? `(+595) ${user.phone}` :'No asignado'  }}</q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-caption text-weight-bold">
+                  Correo electrónico
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">{{ user.email ?? 'No asignado'  }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>

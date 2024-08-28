@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Loan;
+use App\Models\User;
 use App\Models\Wallet;
 use App\Models\RedTape;
 use Illuminate\Http\Request;
@@ -32,23 +33,20 @@ class LoanController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-       $redTape =  $this->storeRedTapes($request, $loan->id);
-
-    //    $requestWallet = new Request([
-    //         'user_id'   => $request->user()->id,
-    //         'type'      => 2,
-    //         'dni'       => $request->user()->dni,
-    //         'balance'   => $request->amount,
-    //     ]);
-    //     $this->storeWallet($requestWallet);
+        $redTape =  $this->storeRedTapes($request, $loan->id);
+        // $this->firstLoanDone($loan->user_id);
 
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
+    }
+    public function getLoanById($id) {
+        $loan = Loan::query()->with('redTapes', 'user')->find($id);
+
+        return $this->returnSuccess(200, $loan);
     }
     private function storeRedTapes($request, $loanId) {
         $informconf = '-';
         $workCertificate = '-';
         $lastIps = '-';
-        $vaucher = ''; 
         
         if ($request->informconf) {
             $informconf = 'public/images/informconf/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('informconf')->extension();
@@ -81,6 +79,12 @@ class LoanController extends Controller
         ]);
 
         return $redTape;
+    }
+    private function firstLoanDone($userId) {
+        $user = User::find($userId);
+        $user->is_first_loan = 0;
+        $user->save();
+        return $user;
     }
     private function storeWallet(Request $request,){
 

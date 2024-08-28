@@ -86,6 +86,7 @@
   import { useUserStore } from '@/services/store/user.store';
   import { useQuasar } from 'quasar';
   import moment from 'moment';
+  import 'moment/locale/es';
   moment.locale('es', {
     months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
     monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),

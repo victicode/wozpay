@@ -92,7 +92,7 @@ export const useUserStore = defineStore("user", {
       return await new Promise((resolve) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("api/user/all?page="+query.page+"&search="+query.search+"&")
+          ApiService.get("/api/user/all?page="+query.page+"&search="+query.search+"&")
             .then(( { data } ) => {
                 // console.log(data)
                 resolve(data);
@@ -172,7 +172,26 @@ export const useUserStore = defineStore("user", {
             });
         }
       })
-    }
+    },
+    async getUserWithLoan(query) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/user/loan/?page="+query.page+"&search="+query.search+"&")
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    },
+
+
   },
   getters: {
   },

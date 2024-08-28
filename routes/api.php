@@ -46,6 +46,7 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::get('/', [UserController::class, 'index']);
     Route::get('/get/{id}', [UserController::class, 'getUserById']);
     Route::get('/all', [UserController::class, 'allUsers']);
+    Route::get('/loan', [UserController::class, 'usersWithActiveLoan']);
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
@@ -78,6 +79,8 @@ Route::middleware('jwt.verify')->prefix('accounts_bank')->name('accountsBank.')-
 Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function () {
     Route::post('/', [LoanController::class, 'storeLoan']);
     Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
+    Route::get('/get/{id}', [LoanController::class, 'getLoanById']);
+
 });
 
 Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {

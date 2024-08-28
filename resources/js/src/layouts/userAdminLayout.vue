@@ -11,8 +11,8 @@
               </div>
             </div>
             <router-view v-slot="{ Component }">
-              <transition name="vertical">
-                <component :is="Component" />
+              <transition name="inFade">
+                <component :is="Component" class="w-100" />
               </transition>
             </router-view>
           </div>
@@ -102,6 +102,9 @@
 }
 </style>
 <style lang="scss" scoped>
+.w-100 {
+  width: 100%;
+}
 .search__container {
   background: #d9d9d9;
   overflow: hidden;

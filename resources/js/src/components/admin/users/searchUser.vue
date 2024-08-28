@@ -22,7 +22,6 @@
             ref="searchRef"
             bg-color="white"
             @change="searchUser"
-            
           >
             <template v-slot:prepend>
               <q-icon name="eva-search-outline" />
@@ -32,66 +31,88 @@
       </div>
     </div>
     <div class="q-px-xs q-px-md-xl justify-start flex">
-      <q-chip 
-        clickable 
-        @click="filters(1)" 
-        color="filters" 
-        text-color="#e7ffe1" 
-        class="q-px-sm q-py-md chip__container"
-        :class="{'active': filter == 1}"
+      <router-link
+        v-slot="{ isActive }"
+        to="/users"
+        @click="search = ''"
       >
-        <div class="flex flex-center">
-          <div v-html="wozIcons.profile"  class="buttons-chip" />
-          <div class="q-mt-xs filters__text">
-            Clientes
+    
+        <q-chip 
+          clickable 
+          color="filters" 
+          text-color="#e7ffe1" 
+          class="q-px-sm q-py-md chip__container"
+          :class="{'active': isActive}"
+        >
+          <div class="flex flex-center">
+            <div v-html="wozIcons.profile"  class="buttons-chip" />
+            <div class="q-mt-xs filters__text">
+              Clientes
+            </div>
           </div>
-        </div>
-      </q-chip>
-      <q-chip 
-        clickable 
-        @click="filters(2)" 
-        color="filters" 
-        text-color="#e7ffe1" 
-        class="q-px-sm q-py-md chip__container"
-        :class="{'active': filter == 2}"
+        </q-chip>
+      </router-link>
+      <router-link
+        v-slot="{ isActive }"
+        to="/users/loan"
+        @click="search = ''"
       >
-        <div class="flex flex-center">
-          <div v-html="wozIcons.solicitar"  class="buttons-chip" />
-          <div class="q-mt-xs filters__text">
-            Solicitudes
+        <q-chip 
+          clickable 
+          color="filters" 
+          text-color="#e7ffe1" 
+          class="q-px-sm q-py-md chip__container"
+          :class="{'active': isActive }"
+
+        >
+          <div class="flex flex-center">
+            <div v-html="wozIcons.solicitar"  class="buttons-chip" />
+            <div class="q-mt-xs filters__text">
+              Solicitudes
+            </div>
           </div>
-        </div>
-      </q-chip>
-      <q-chip 
-        clickable 
-        @click="filters(3)" 
-        color="filters" 
-        text-color="#e7ffe1" 
-        class="q-px-sm q-py-md chip__container"
-        :class="{'active': filter == 3}"
+        </q-chip>
+      </router-link>
+      <router-link
+        v-slot="{ isActive }"
+        to="/users/clean"
+        @click="search = ''"
       >
-        <div class="flex flex-center">
-          <div v-html="wozIcons.profile"  class="buttons-chip success" />
-          <div class="q-mt-xs filters__text">
-            Clientes al día
+        <q-chip 
+          clickable 
+          color="filters" 
+          text-color="#e7ffe1" 
+          class="q-px-sm q-py-md chip__container"
+          :class="{'active': isActive }"
+        >
+          <div class="flex flex-center">
+            <div v-html="wozIcons.profile"  class="buttons-chip success" />
+            <div class="q-mt-xs filters__text">
+              Clientes al día
+            </div>
           </div>
-        </div>
-      </q-chip>
-      <q-chip 
-        clickable 
-        @click="filters(4)" 
-        color="filters" 
-        text-color="#e7ffe1" 
-        class="q-px-sm q-py-md q-mt-sm q-mt-md-xs chip__container"
-        :class="{'active': filter == 4}"
+        </q-chip>
+      </router-link>
+      <router-link
+        v-slot="{ isActive }"
+        to="/users/slow_payer"
+        @click="search = ''"
       >
-        <div class="flex flex-center">
-          <div v-html="wozIcons.profile"  class="buttons-chip danger" />
-          <div class="q-mt-xs filters__text">
-            Clientes en mora
+        <q-chip 
+          clickable 
+          color="filters" 
+          text-color="#e7ffe1" 
+          class="q-px-sm q-py-md q-mt-sm q-mt-md-xs chip__container"
+          :class="{'active': isActive}"
+        >
+          <div class="flex flex-center">
+            <div v-html="wozIcons.profile"  class="buttons-chip danger" />
+            <div class="q-mt-xs filters__text">
+              Clientes en mora
+            </div>
           </div>
-        </div>
-      </q-chip>
+        </q-chip>
+      </router-link>
     </div>
   </div>
 </template>
@@ -100,6 +121,7 @@
   import { useQuasar } from 'quasar'
   import wozIcons from '@/assets/icons/wozIcons';
   import util from '@/util/numberUtil';
+  import { useRouter } from 'vue-router';
 
   export default {
     props: {
@@ -112,7 +134,7 @@
       const emitter = inject('emitter')
       const $q = useQuasar()
       const { numberFormat } = util;
-
+      const router = useRouter()
       // data
       const search = ref('')
       //ref
@@ -124,16 +146,12 @@
       ]
 
       const filters = (e) => {
-
         filter.value = e
-        emit('filters', e)
       } 
       const searchUser = (value) => {
         emitter.emit('searchUser', value);
       } 
-      // watch(props, () => {
-        
-      // })
+
 
       return {
         icons,
@@ -142,6 +160,7 @@
         searchRef,
         searchRules,
         numberFormat,
+        router,
         filter,
         filters,
         searchUser,

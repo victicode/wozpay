@@ -1,7 +1,7 @@
 
 <template>
-  <div class="apply_section" >
-    <div class="q-pb-lg" v-if="Object.values(user).length > 0 && !isCurrentLoan" >
+  <div class="apply_section q-pb-lg" >
+    <div class="q-pb-lg" v-if="Object.values(loan).length > 0" >
       <q-stepper
         v-model="step"
         ref="stepper"
@@ -20,6 +20,234 @@
             <q-toolbar class="bg-grey-5 text-black ">
               <q-toolbar-title> 
                 <div class="w-100 flex items-center justify-between">
+                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos personales</span>
+                </div>
+              </q-toolbar-title>
+            </q-toolbar>
+            <q-list >
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Nombre completo
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.name }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      N° de documento
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ numberFormat(loan.user.dni) }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Número de teléfono
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.phone }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                      <div>
+                        <span class="text-caption text-weight-bold">
+                          Verificar identidad
+                        </span>
+                        <q-icon
+                          :name="loan.user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                          size="sm"
+                          :color=" loan.user.verify_status > 0 ? 'terciary' :'grey-6'"
+                          class="user-verify-user"
+                          :class="{'verify-user':loan.user.verify_status == 2, }"
+                        />
+                      </div>
+                    </q-item-label>
+                    <div class="flex items-center cursor-pointer" @click="goTo(loan.user.id)"  >
+                      <q-item-label caption lines="1" class="text-caption q-mt-xs">
+                        {{ 
+                          loan.user.verify_status == 2 
+                          ? 'Aprobado'
+                          : loan.user.verify_status == 1
+                          ? 'Pendiente'
+                          : 'No subidos'
+                        }}
+                      </q-item-label>
+                      <q-btn 
+                        flat 
+                        round 
+                        size="xs"
+                        class="q-pb-none q-ml-xs"
+                      >
+                        <q-icon name="eva-chevron-right-outline" color="grey-5" size="sm" />
+                      </q-btn>
+                    </div>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                      <div>
+                        <span class="text-caption text-weight-bold">
+                          Estado de cuenta
+                        </span>
+                      </div>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-caption flex items-center">
+                      <div class="q-mr-xs ">
+                        <q-chip :color="setChip(loan.user.general_status == 1 ? 1 : 0).color" text-color="white" class="q-pt-sm" size="sm">
+                          <div class="">
+                            {{setChip(loan.user.general_status == 1 ? 1 : 0).text}}
+                          </div>
+                        </q-chip>  
+                        <q-chip color="grey-6" text-color="white" class="q-pt-sm" size="sm" v-if="loan.user.isBlock == 1">
+                          <div class="">
+                            Bloqueado
+                          </div>
+                        </q-chip> 
+                        <q-chip color="negative" text-color="white" class="q-pt-sm" size="sm" v-if="loan.user.deleted_at">
+                          <div class="">
+                            Eliminado
+                          </div>
+                        </q-chip> 
+                      </div>
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+            </q-list>
+            <!-- address -->
+            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+              <q-toolbar-title> 
+                <div class="w-100 flex items-center justify-between">
+                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Dirección particular</span>
+                </div>
+              </q-toolbar-title>
+            </q-toolbar>
+            <q-list >
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Ciudad
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.city }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Barrio o localidad
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.locality }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Calle y N° de casa
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.address }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+            </q-list>
+            <!-- professional -->
+            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+              <q-toolbar-title> 
+                <div class="w-100 flex items-center justify-between">
+                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Información profesional</span>
+                </div>
+              </q-toolbar-title>
+            </q-toolbar>
+            <q-list >
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Privado - Funcionario público
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.work }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Cargo
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.office }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-caption text-weight-bold">
+                      Salario
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption">{{ loan.user.salary }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+            </q-list>
+          </div>
+        </q-step>
+        <q-step
+          :name="2"
+          title="Select campaign settings"
+          icon="settings"
+          :done="step > 2"
+        >
+          <div class="w-100 q-mx-none" >
+            <q-toolbar class="bg-grey-5 text-black ">
+              <q-toolbar-title> 
+                <div class="w-100 flex items-center justify-between">
                   <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos laborales</span>
                 </div>
               </q-toolbar-title>
@@ -33,7 +261,7 @@
                       Empresa
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.business }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -46,7 +274,7 @@
                       Dirección
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business_address ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.business_address }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -59,7 +287,7 @@
                       Número de teléfono
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business_phone ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.business_phone }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -73,8 +301,7 @@
                     </span>
                     </q-item-label>
                     <q-item-label caption lines="1" class="q-mt-none">
-                      <q-toggle size="md" color="positive" v-model="readTapes.ips" :val="true"  />
-
+                      <q-toggle size="md" color="positive" v-model="loan.red_tapes.ips" :val="loan.red_tapes.ips"  />
                     </q-item-label>
                   </div>
                 </q-item-section>
@@ -97,7 +324,7 @@
                       Nombre de tu jefe directo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_name ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.boss_name }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -110,7 +337,7 @@
                       WhatsApp de tu jefe
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_phone ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.boss_phone }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -132,7 +359,7 @@
                       Nombre y apellido
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_name ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.reference_name }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -145,7 +372,7 @@
                       Parentesco
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_relationship ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.reference_relationship }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -158,7 +385,7 @@
                       WhatsApp
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_phone ?? 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.reference_phone }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -167,10 +394,10 @@
           </div>
         </q-step>
         <q-step
-          :name="2"
+          :name="3"
           title="Select campaign settings"
           icon="settings"
-          :done="step > 2"
+          :done="step > 3"
         >
           <div class="w-100 q-mx-none" >
             <q-toolbar class="bg-grey-5 text-black ">
@@ -189,7 +416,7 @@
                       Certificado - reporte de Informconf
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.informconf ? readTapes.informconf.name : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.informconf }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -211,7 +438,7 @@
                       Certificado laboral firmado
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.work_certificate ? readTapes.work_certificate.name : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.work_certificate }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -224,7 +451,7 @@
                       Tres ultimos IPS
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.last_ips ? readTapes.last_ips.name : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.last_ips }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -244,10 +471,10 @@
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
-                     {{ user.is_first_loan ? 'Primer préstamo' : 'Préstamo' }} 
+                     {{ loan.user.is_first_loan ? 'Primer préstamo' : 'Préstamo' }} 
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.amount ? 'Gs.' + numberFormat(loan.amount) : 'Seleccionar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="">{{ numberFormat(loan.amount) }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -260,7 +487,7 @@
                       Plazo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + ' días' : 'Seleccionar' }} </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.due_date }} </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -273,32 +500,21 @@
                       Total a devolver
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">Gs. {{ numberFormat(loan.amountToPay) }}</q-item-label>
+                    <q-item-label caption lines="1" class="">Gs. {{ numberFormat(loan.amount_to_pay) }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
               <q-separator />
             </q-list>
-            <div class="q-px-md">
-              <div class="q-mt-lg more_money_requiriments q-pa-sm">
-                <div class="text-body1 text-center text-weight-bold"> ¿Quieres una linea de crédito superior?</div>
-                <div class="q-mt-md q-pl-lg">
-                  <div class="q-mb-md text-weight-medium text-body2">• Carga y mantén un saldo de Gs. 500.000</div>
-                  <div class="q-mb-md text-weight-medium text-body2">• Paga tus facturas de Aqui Pago</div>
-                  <div class="q-mb-md text-weight-medium text-body2">• Adquiere una membresia de Woz Paraguay</div>
-                  <div class="q-mb-md text-weight-medium text-body2">• Compra un libro digital de Woz Dropshipping</div>
-                </div>
-              </div>
-            </div>
           </div>
         </q-step>
         <template v-slot:navigation>
           <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-xl">
             <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
             <q-btn 
-              @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" 
+              @click=" step < 3 ? $refs.stepper.next() : approveApplyLoan()" 
               color="primary" class="w-100 q-pa-sm q-mb-xl" 
-              :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" 
+              :label="step == 3 ? 'Presentar solicitiud' : 'Siguente'" 
               :loading="loading"
             >
               <template v-slot:loading>
@@ -309,17 +525,7 @@
         </template>
       </q-stepper>
     </div>
-    <div class="q-mt-xl q-px-md" v-else>
-      <div>
-        <div class="text-h6 text-center text-weight-bold">
-          Ya tienes un préstamo activo, termina de pagarlo para obtar por otro.
-        </div>
 
-        <div class="flex justify-center q-mt-lg ">
-          <q-btn color="primary" label="volver" class="q-px-md" size="md"  @click="router.push('/')"  style="width: 50%;" />
-        </div>
-      </div>
-    </div>
     <div v-if="sendLoading">
       <doneModal :dialog="sendLoading" :text="'Solicitud enviada'" />
     </div>
@@ -338,11 +544,10 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useLoanStore } from '@/services/store/loan.store'
   import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
   import setValueModal from '@/components/creditApply/modals/setValueModal.vue';
   import doneModal from '@/components/layouts/modals/doneModal.vue';
-
   import util from '@/util/numberUtil'
 
   export default {
@@ -354,81 +559,17 @@
     setup () {
       const q = useQuasar()
       const router = useRouter()
-      const user = useAuthStore().user;
       const loanStore = useLoanStore();
       const numberFormat = util.numberFormat
-      
-      
+      const icons = inject('ionIcons')
       // Data
-      const isCurrentLoan = ref(true)
       const sendLoading = ref(false);
       const dialog = ref('')
-      const redirectType = ref(0);
       const loading = ref(false)
       const step = ref(1)
-      const isUserApply = ref(true)
-      const input = {
-        title: '',
-        type: 1,
-        index:'',
-      }
-      const readTapes = ref({
-        business: null,
-        business_address: null,
-        business_phone: null,
-        ips:false,
-        boss_name: null,
-        boss_phone: null,
-        reference_name: null,
-        reference_phone: null,
-        reference_relationship: null,
-        informconf: null,
-        work_certificate: null,
-        last_ips: null,
-        
-      })
-      const loan = ref({
-        amount: null,
-        amountToPay: 0,
-        due_date:null,
-      })
-
-      const titleText = {
-        business: 'Empresa',
-        business_address: 'Dirección de empresa',
-        business_phone: 'Teléfono de empresa',
-        boss_name: 'Nombre de jefe',
-        boss_phone: 'WhatsApp de jefe',
-        reference_name: 'Nombre completo de referencia',
-        reference_phone: 'WhatsApp de referencia',
-        reference_relationship: 'Parentesco de referencia',
-        informconf: 'Informconf',
-        work_certificate: 'Certificado Laboral',
-        last_ips: 'Ultimos tres ultimos Ips',
-        amount: 'Monto de prestamo',
-        due_date: 'Plazo',
-      }
-
-
+      const loan = ref({})
+      const route = useRoute()
       // Methods
-      const validateUser = () => {
-        if(user.verify_status != 2   ) {
-          isUserApply.value = false
-          redirectType.value = 2
-          return isUserApply.value
-        }
-
-        const dontValidate = ['facial_verify','is_public','email_verified_at','is_first_loan','created_at', 'updated_at', 'deleted_at',]
-
-        Object.entries(user).forEach( ([key, value]) => {
-          if(dontValidate.includes(key)) return
-          if(!value) isUserApply.value = false
-        });
-
-        redirectType.value = 1
-        return isUserApply.value
-      }
-
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -448,122 +589,53 @@
       const showModal = (data) => {
         dialog.value = data
       }
-      const showInputModal = (type, index) => {
-        input.type = type;
-        input.index = index;
-        input.title = titleText[index];
-        input.value = type != 2 ? readTapes.value[input.index] : [loan.value[input.index]]
-
-        showModal('setValue')
-      }
-      const setInput = (data) => {
-        input.type != 2 
-        ? readTapes.value[input.index] = data
-        : loan.value[input.index] = data
-        calulateTotalAmount(data)
-      }
-
-      const calulateTotalAmount = (data) => {
-        if(input.index == 'amount') 
-          loan.value['amountToPay'] = (parseInt(data) * 0.70) + parseInt(data) 
-      }
       const hiddeModal = (data) => {
         dialog.value = ''
         if(!data) return
         setInput(data)
       }
-      const createApplyLoan = () => {
-        if(!validateForm()){
-          showNotify('negative', 'Tienes que llenar todo el formulario')
-          return
-        }
-
-        loadingShow(true)
-        const formData = new FormData()
-        formData.append('business', readTapes.value.business)
-        formData.append('business_address', readTapes.value.business_address)
-        formData.append('business_phone', readTapes.value.business_phone)
-        formData.append('ips', readTapes.value.ips)
-        formData.append('boss_name', readTapes.value.boss_name)
-        formData.append('boss_phone', readTapes.value.boss_phone)
-        formData.append('reference_name', readTapes.value.reference_name)
-        formData.append('reference_phone', readTapes.value.reference_phone)
-        formData.append('reference_relationship', readTapes.value.reference_relationship)
-        formData.append('informconf', readTapes.value.informconf)
-        formData.append('last_ips', readTapes.value.last_ips)
-        formData.append('work', readTapes.value.work_certificate)
-
-        formData.append('amount', loan.value.amount)
-        formData.append('amountToPay', loan.value.amountToPay)
-        formData.append('due_date', loan.value.due_date)
-
-        loanStore.createLoan(formData)
-        .then((data) => {
-          if(!data.code) throw data
-          loadingDone(true)
-          loadingShow(false)
-          setTimeout(() => {
-            router.push('/')
-          }, 3500);
-        }).catch((e) => {
-          console.log(e)
-          showNotify('negative', 'Error al enviar la solicitud')
-        })
-        
-      }
-      const validateForm = () => {
-        let isValid = true 
-        const dontValidate = ['ips','amountToPay']
-        const formInputs = Object.assign({}, readTapes.value, loan.value);
-
-        Object.entries(formInputs).forEach( ([key, value]) => {
-          if(dontValidate.includes(key)) return
-          if(!value) isValid = false
-          // console.log([key, value])
-        });
-        
-        return isValid
-      }
 
       const activeLoan = () => {
-        loanStore.getLoan(user.id).then((data) => {
+        loanStore.getLoanById(route.params.id).then((data) => {
           if(!data.code)  throw data
-          if(data.data){
-            isCurrentLoan.value = data.data.status == 1 || data.data.status == 2
-              ? true 
-              : false 
-              return
-          }
-          isCurrentLoan.value = false
+
+          loan.value = data.data
+          loan.value.red_tapes.ips = (loan.value.red_tapes.ips == 1)
         }).catch((e) => {
           showNotify('negative', 'error al obtener prestamo activo')
         })
       }
+      const setChip = (type) => {
+        const chip = [ 
+          {
+            text: 'Suspendido',
+            color: 'terciary'
+          },
+          {
+            text: 'Activo',
+            color: 'positive'
+          },
 
+        ]
+        return chip[type]
+      }
+      const approveApplyLoan = () => {
+        alert('biennn!')
+      }
       onMounted(() => {
-        if(!validateUser()){
-          showModal('redirect')
-        }
         activeLoan()
       })
 
       return {
+        icons,
         loading,
         sendLoading,
-        user,
-        dialog,
-        readTapes,
-        step,
-        redirectType,
         loan,
-        input,
+        dialog,
+        step,
         numberFormat,
-        isCurrentLoan,
-        router,
-        showModal,
-        hiddeModal,
-        showInputModal,
-        createApplyLoan,
+        setChip,
+        approveApplyLoan,
       }
     }
   };

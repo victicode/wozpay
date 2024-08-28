@@ -18,6 +18,10 @@ import deposit from '@/pages/deposit.vue'
 import creditApply from '@/pages/creditApply.vue'
 import loanPage from '@/pages/loan.vue'
 import allUsers from '@/pages/admin/users.vue'
+import usersWithLoan from '@/pages/admin/loanRequest.vue'
+import loanApplication from '@/pages/admin/loanApplication.vue'
+
+
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
@@ -26,12 +30,10 @@ import userById from '@/components/admin/users/userById.vue'
 import userVerification from '@/components/admin/users/userVerification.vue'
 import userNotification from '@/components/admin/notification/notificationPush.vue'
 
-
 import loanPay from '@/components/loan/loanPay.vue'
 import loanView from '@/components/loan/loanView.vue'
 import link_card from '@/pages/link_card.vue'
 import cardPage from '@/pages/card.vue'
-
 
 const router = createRouter({
   history: createWebHistory(),
@@ -162,6 +164,15 @@ const router = createRouter({
           meta: {
             title: 'Notificaciones push'
           },
+        },
+        {
+          path: "/admin/loan/:id",
+          name: "adminLoan",
+          component: loanApplication,
+          beforeEnter: admin,
+          meta: {
+            title: 'Solicitud'
+          },
         }
       ]
     },
@@ -175,6 +186,30 @@ const router = createRouter({
           path: "/users",
           name: "users",
           component: allUsers,
+          meta: {
+            title: 'Clientes'
+          },
+        },
+        {
+          path: "/users/loan",
+          name: "usersWithLoan",
+          component: usersWithLoan,
+          meta: {
+            title: 'Solicitudes'
+          },
+        },
+        {
+          path: "/users/clean",
+          name: "usersClean",
+          component: usersWithLoan,
+          meta: {
+            title: 'Clientes'
+          },
+        },
+        {
+          path: "/users/slow_payer",
+          name: "usersSlowPayer",
+          component: usersWithLoan,
           meta: {
             title: 'Clientes'
           },
@@ -211,7 +246,6 @@ const router = createRouter({
             title: 'Enviar dinero'
           },
         },
-        //test
         {
           path: "/bank",
           component: bankPage,

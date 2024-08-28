@@ -45,7 +45,7 @@
         <transition name="slide-fade">
           <div class="" v-if=" ready && users.data.length == 0">
             <div class="flex flex-center">
-              <h4>No hay usuarios registrados</h4>
+              <h6 class="q-mt-md">No hay usuarios registrados😥</h6>
             </div>
           </div>
         </transition>
@@ -68,7 +68,7 @@
       </div>
 </template>
 <script>
-  import { ref, inject, onMounted } from 'vue';
+  import { ref, inject, onMounted, onUnmounted } from 'vue';
   import { useUserStore } from '@/services/store/user.store'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
@@ -141,11 +141,15 @@
       const goTo = (id) => {
         router.push('/admin/user/'+id)
       }
-      emitter.on('searchUser', (search) => {
-        getUsersBySearch(search)
-      })
+      
       onMounted(() => {
+        emitter.on('searchUser', (search) => {
+          getUsersBySearch(search)
+        })
         getUsers()
+      })
+      onUnmounted(() => {
+        emitter.off('searchUser')
       })
       return {
         icons,

@@ -30,7 +30,22 @@ class UserController extends Controller
             $users->where('dni', 'like', '%'.$request->search.'%');
         }
 
-		return  $this->returnSuccess(200,   $users->paginate(100));
+		return  $this->returnSuccess(200,   $users->paginate(30));
+    }
+    public function usersWithActiveLoan(Request $request){
+        $users = User::query()
+            ->with(['loans'])
+            ->withTrashed()
+            ->where('rol_id', 3)
+            ->whereHas('loans', function($q){
+                $q->where('status', '1');
+            });
+
+        if(!empty($request->search)){
+            $users->where('dni', 'like', '%'.$request->search.'%');
+        }
+
+		return  $this->returnSuccess(200,   $users->paginate(30));
     }
     public function store(Request $request){
         $validated = $this->validateFieldsFromInput($request->all()) ;
@@ -72,6 +87,7 @@ class UserController extends Controller
         
         try {
             $user->phone    = $request->phone ?? $user->phone;
+            $user->email    = $request->email ?? $user->email;
             $user->city     = $request->city ?? $user->city;
             $user->locality = $request->locality ?? $user->locality;
             $user->address  = $request->address ?? $user->address;
@@ -193,24 +209,6 @@ class UserController extends Controller
         }
         
         return $this->returnSuccess(200, $verification_check->status);
-    }
-    public function addNumber(){
-        try {
-
-            $sid = config('twilio.sid');
-            $token = config('twilio.token');
-            $services = config('twilio.services');
-            $twilio = new Client($sid, $token);
-
-            $validation_request = $twilio->validationRequests->create(
-                "+584245391538", // phone_number
-                ["friendlyName" => "My Home Phone Number"]
-            );
-        } catch (Exception $th) {
-            return $this->returnFail(400, $th->getMessage());
-        }
-        
-        return $this->returnSuccess(200, json_encode($validation_request));
     }
    
     private function validateFieldsFromInput($inputs){
