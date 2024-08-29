@@ -23,7 +23,7 @@
         />
       </q-card-section>
       <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 3" >
-        <q-file  v-model="setterVal" clearable clear-icon="eva-close-outline"  autofocus dense >
+        <q-file  v-model="setterVal" clearable clear-icon="eva-close-outline"  autofocus dense max-files="3" multiple>
           <template v-slot:prepend>
             <q-icon name="eva-attach-2-outline" />
           </template>

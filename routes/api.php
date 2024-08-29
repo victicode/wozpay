@@ -80,6 +80,7 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
     Route::post('/', [LoanController::class, 'storeLoan']);
     Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
     Route::get('/get/{id}', [LoanController::class, 'getLoanById']);
+    Route::post('/changeStatus/{id}', [LoanController::class, 'changeStatus']);
 
 });
 

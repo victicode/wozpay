@@ -16,7 +16,6 @@ class LoanController extends Controller
         $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays')->first();
 
         return $this->returnSuccess(200, $loan);
-
     }
     public function storeLoan(Request $request) {
 
@@ -39,7 +38,17 @@ class LoanController extends Controller
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
-        $loan = Loan::query()->with('redTapes', 'user')->find($id);
+        $loan = Loan::query()->with('redTapes', 'user.card')->find($id);
+
+        return $this->returnSuccess(200, $loan);
+    }
+    public function changeStatus($loanId, Request $request) {
+        $loan = Loan::with('redTapes', 'user.card')->find($loanId);
+
+        if(!$loan) return $this->returnFail(400, 'Prestamo no encontrado');
+
+        $loan->status = $request->status;
+        $loan->save();
 
         return $this->returnSuccess(200, $loan);
     }
@@ -54,7 +63,7 @@ class LoanController extends Controller
         }
         if ($request->work) {
             $workCertificate = 'public/images/work_certificate/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('work')->extension();
-            $request->file('work')->move(public_path() . '/images/workCertificate/', $workCertificate);
+            $request->file('work')->move(public_path() . '/images/work_certificate/', $workCertificate);
         }
         if ($request->last_ips) {
             $lastIps = 'public/images/last_ips/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('last_ips')->extension();

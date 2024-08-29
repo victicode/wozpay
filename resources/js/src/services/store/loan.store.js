@@ -68,11 +68,11 @@ export const useLoanStore = defineStore("loan", {
         return 'Error al actualizar datos';
       });
     },
-    async updateBankAccount(data) {
+    async changeStatusLoan(data) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/accounts_bank/"+data.id, data)
+          ApiService.post("/api/loan/changeStatus/"+data.loan, data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -80,7 +80,7 @@ export const useLoanStore = defineStore("loan", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al actualizar datos');
+              resolve('Error al solicitar prestamo.');
             });
         }
       })
@@ -89,27 +89,7 @@ export const useLoanStore = defineStore("loan", {
         return 'Error al actualizar datos';
       });
     },
-    async deleteBankAccount(userId) {
-      return await new Promise((resolve) => {
-        if (JwtService.getToken()) {
-          ApiService.setHeader();
-          ApiService.get("/api/accounts_bank/delete/"+ userId)
-          .then(({ data }) => {
-            if(data.code !== 200){
-              throw data;
-            }
-            resolve(data)
-          }).catch((response) => {
-            console.log(response)
-            resolve('Error al actualizar datos');
-          });
-        }
-      })
-      .catch((response) => {
-        console.log(response)
-        return 'Error al actualizar datos';
-      });
-    }
+ 
   },
   getters: {
   },

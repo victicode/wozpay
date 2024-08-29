@@ -1,6 +1,7 @@
 
 <template>
   <div class="apply_section q-pb-lg" >
+
     <div class="q-pb-lg" v-if="Object.values(loan).length > 0" >
       <q-stepper
         v-model="step"
@@ -81,7 +82,7 @@
                         />
                       </div>
                     </q-item-label>
-                    <div class="flex items-center cursor-pointer" @click="goTo(loan.user.id)"  >
+                    <div class="flex items-center" >
                       <q-item-label caption lines="1" class="text-caption q-mt-xs">
                         {{ 
                           loan.user.verify_status == 2 
@@ -91,14 +92,6 @@
                           : 'No subidos'
                         }}
                       </q-item-label>
-                      <q-btn 
-                        flat 
-                        round 
-                        size="xs"
-                        class="q-pb-none q-ml-xs"
-                      >
-                        <q-icon name="eva-chevron-right-outline" color="grey-5" size="sm" />
-                      </q-btn>
                     </div>
                   </div>
                 </q-item-section>
@@ -254,7 +247,7 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'business')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -267,7 +260,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'business_address')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -280,7 +273,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'business_phone')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -317,7 +310,7 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'boss_name')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -330,7 +323,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'boss_phone')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -352,7 +345,7 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'reference_name')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -365,7 +358,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'reference_relationship')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -378,7 +371,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'reference_phone')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -409,14 +402,21 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(3, 'informconf')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Certificado - reporte de Informconf
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.informconf }}</q-item-label>
+                    <q-item-label 
+                      caption 
+                      lines="1" 
+                      @click="setDocument(loan.red_tapes.informconf)" 
+                      class="text-decoration-underline cursor-pointer"
+                    >
+                      {{ documentFormat(loan.red_tapes.informconf) }}
+                    </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -431,33 +431,112 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(3, 'work_certificate')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Certificado laboral firmado
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.work_certificate }}</q-item-label>
+                    <q-item-label 
+                      caption 
+                      lines="1" 
+                      @click="setDocument(loan.red_tapes.work_certificate)" 
+                      class="text-decoration-underline cursor-pointer"
+                    >
+                      {{ documentFormat(loan.red_tapes.work_certificate) }}
+                    </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(3, 'last_ips')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
                       Tres ultimos IPS
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="">{{ loan.red_tapes.last_ips }}</q-item-label>
+                    <q-item-label 
+                      caption 
+                      lines="1" 
+                      @click="setDocument(loan.red_tapes.last_ips)" 
+                      class="text-decoration-underline cursor-pointer"
+                    >
+                      {{ documentFormat(loan.red_tapes.last_ips) }}
+                    </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
               <q-separator />
-              
             </q-list>
+            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+              <q-toolbar-title> 
+                <div class="w-100 flex items-center justify-between">
+                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos para el débito automático</span>
+                </div>
+              </q-toolbar-title>
+            </q-toolbar>
+            <q-list v-if="loan.user.card">
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section >
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                     Tipo de tarjeta 
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.user.card.type == 1 ? 'Tajeta de crédito' : 'tarjeta de débito' }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section >
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Número de tarjeta
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.user.card.number }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Vencimiento
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.user.card.due_date }} </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      CVC
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.user.card.cvc }} </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+            </q-list>
+            <div v-else>
+              <h6 class="q-py-sm text-center">
+                No tiene tarjeta vinculada.🥺
+              </h6>
+            </div>
             <q-toolbar class="bg-grey-5 text-black q-mt-sm">
               <q-toolbar-title> 
                 <div class="w-100 flex items-center justify-between">
@@ -467,7 +546,7 @@
             </q-toolbar>
             <q-list >
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(2, 'amount')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -480,7 +559,7 @@
               </q-item>
               <q-separator />
               <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(2, 'due_date')">
+                <q-item-section >
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
@@ -509,12 +588,39 @@
           </div>
         </q-step>
         <template v-slot:navigation>
-          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-xl">
+          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-lg">
             <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
             <q-btn 
-              @click=" step < 3 ? $refs.stepper.next() : approveApplyLoan()" 
-              color="primary" class="w-100 q-pa-sm q-mb-xl" 
-              :label="step == 3 ? 'Presentar solicitiud' : 'Siguente'" 
+              @click=" step < 3 ? $refs.stepper.next() : changeStatusApplyLoan(2)" 
+              :color="step == 3 ? 'green-6' : 'primary'" 
+              class="w-100 q-pa-sm q-mb-sm" 
+              :label="step == 3 ? 'Aprobar solicitiud' : 'Siguente'" 
+              :loading="loading"
+              :class="step !== 3 ? 'q-mb-xl' : ''"
+            >
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
+            </q-btn>
+            <div v-if="step == 3" class=" w-100 q-pb-md text-weight-bold text-body2">
+              Enviarás una notificación push de confirmación
+            </div>
+            <q-btn 
+              v-if="step == 3"
+              @click="changeStatusApplyLoan(1)" 
+              color="primary" class="w-100 q-pa-sm q-mb-md" 
+              label="Marcar como pendiente" 
+              :loading="loading"
+            >
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
+            </q-btn>
+            <q-btn 
+              v-if="step == 3"
+              @click="changeStatusApplyLoan(0)" 
+              color="negative" class="w-100 q-pa-sm q-mb-xl" 
+              label="Rechazar solicitud" 
               :loading="loading"
             >
               <template v-slot:loading>
@@ -525,35 +631,25 @@
         </template>
       </q-stepper>
     </div>
-
     <div v-if="sendLoading">
-      <doneModal :dialog="sendLoading" :text="'Solicitud enviada'" />
+      <doneModal :dialog="sendLoading" :text="formatMessage(loan.status).text" />
     </div>
-    <div v-if="dialog == 'redirect'">
-      <redirectModal :dialog="(dialog == 'redirect')" :type="redirectType" />
-    </div>
-    <div v-if="dialog == 'setValue'">
-      <setValueModal  :dialog="(dialog == 'setValue')" :input="input"  @hiddeModal="hiddeModal"/>
-    </div>
-    
+    <documentModal :dialog="dialog" :document="document" @hiddeModal="hiddeModal" />
   </div>
 </template>
 
 <script>
   import { ref, inject, onMounted } from 'vue';
-  import { useAuthStore } from '@/services/store/auth.store'
   import { useLoanStore } from '@/services/store/loan.store'
   import { useQuasar } from 'quasar'
   import { useRoute, useRouter } from 'vue-router';
-  import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
-  import setValueModal from '@/components/creditApply/modals/setValueModal.vue';
   import doneModal from '@/components/layouts/modals/doneModal.vue';
+  import documentModal from '@/components/admin/loan/modals/documentModal.vue';
   import util from '@/util/numberUtil'
 
   export default {
     components: {
-      redirectModal,
-      setValueModal,
+      documentModal,
       doneModal
     },
     setup () {
@@ -564,11 +660,13 @@
       const icons = inject('ionIcons')
       // Data
       const sendLoading = ref(false);
-      const dialog = ref('')
+      const dialog = ref(false)
       const loading = ref(false)
       const step = ref(1)
       const loan = ref({})
       const route = useRoute()
+      const document = ref('');
+      const allAprove = ref(0);
       // Methods
       const showNotify = (type, message) => {
         q.notify({
@@ -579,22 +677,23 @@
           ]
         })
       }
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
-      const loadingDone = (state) => {
-        sendLoading.value = state;
-      }
+      // const loadingShow = (state) => {
+      //   loading.value = state;
+      // }
+      // const loadingDone = (state) => {
+      //   sendLoading.value = state;
+      // }
 
-      const showModal = (data) => {
-        dialog.value = data
+      const showModal = () => {
+        dialog.value = true
       }
-      const hiddeModal = (data) => {
-        dialog.value = ''
-        if(!data) return
-        setInput(data)
+      const hiddeModal = () => {
+        dialog.value = false
       }
-
+      const setDocument = (doc) => {
+        document.value = doc
+        showModal()
+      }
       const activeLoan = () => {
         loanStore.getLoanById(route.params.id).then((data) => {
           if(!data.code)  throw data
@@ -619,9 +718,49 @@
         ]
         return chip[type]
       }
-      const approveApplyLoan = () => {
-        alert('biennn!')
+      const documentFormat = (document) => {
+        let doc = document.split('/')
+        return doc[doc.length - 1]
       }
+      const changeStatusApplyLoan = (status) => {
+        loading.value = true
+        const data = {
+          status: status.toString(),
+          loan: loan.value.id
+        }
+        loanStore.changeStatusLoan(data)
+        .then((data) => {
+
+          if(data.code !== 200) throw data
+          const notify = formatMessage(status)
+          loan.value = data.data
+          showNotify(notify.color, notify.text)
+          loading.value = false
+          if(loan.value.status == 2 || loan.value.status == 0) {
+            sendLoading.value = true
+            setTimeout(() => {
+              router.go(-1)
+            }, 1000);
+          }
+            
+        })
+      }
+      const formatMessage = (status) => {
+        if(status == 1) return {
+          text:'Solicitud se mantiene en pendiente',
+          color:'terciary'
+        }
+        if(status == 2) return {
+          text:'Solicitud aprobada',
+          color:'positive'
+        }
+        if(status == 0) return {
+          text:'Solicitud rechazada',
+          color:'negative'
+        }
+
+      }
+
       onMounted(() => {
         activeLoan()
       })
@@ -634,8 +773,13 @@
         dialog,
         step,
         numberFormat,
+        document,
+        setDocument,
         setChip,
-        approveApplyLoan,
+        changeStatusApplyLoan,
+        documentFormat,
+        hiddeModal,
+        formatMessage,
       }
     }
   };

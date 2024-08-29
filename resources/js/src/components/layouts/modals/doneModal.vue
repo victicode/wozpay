@@ -18,8 +18,7 @@
     setup(props) {
       //vue provider
       const dialog = props.dialog;
-      
-    
+  
       return{
         dialog,
         text:props.text

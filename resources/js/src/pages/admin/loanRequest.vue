@@ -1,8 +1,16 @@
 <template>
 
   <div>
+    <div class="flex justify-between q-px-sm q-mt-md" v-if="ready">
+      <div class="text-subtitle2 text-weight-bold">Solicitudes completadas</div>
+      <div class="text-subtitle2 text-weight-light text-grey-6" >{{loansCount}} solicitudes</div>
+    </div>
+    <div v-else class="flex justify-between q-px-sm q-mt-md" >
+      <q-skeleton type="text" class="w-30" />
+      <q-skeleton type="text" class="w-30" />
+    </div>
     <transition name="slide-fade">
-      <div class="" v-if="ready && users.data.length > 0">
+      <div class="" v-if="ready && users.data.length > 0" >
         <div>
           <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-pa-sm userlist">
             <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
@@ -95,7 +103,7 @@ setup () {
   const ready = ref(false)
   const currentPage = ref(1)
   const users = ref([])
-
+  const loansCount = ref(0)
   // methods
   const showNotify = (type, message) => {
     $q.notify({
@@ -120,7 +128,8 @@ setup () {
       console.log(response)
       if(response.code != 200) throw response
       setTimeout(() => {
-        users.value = response.data
+        users.value = response.data.users
+        loansCount.value = response.data.loansComplete
         ready.value = true
         
       }, 1000);
@@ -159,6 +168,7 @@ setup () {
     numberFormat,
     currentPage,
     users,
+    loansCount,
     setPage,
     getUsers,
     goTo,
@@ -218,8 +228,8 @@ height: 100%;
 height: 20%;
 }
 @media screen and (max-width: 780px){
-.h-20 {
-height: 25%;
-}
+  .h-20 {
+  height: 25%;
+  }
 }
 </style>

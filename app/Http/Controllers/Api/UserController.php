@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\Loan;
 use App\Models\User;
 use App\Models\Wallet;
 use Twilio\Rest\Client;
@@ -33,6 +34,7 @@ class UserController extends Controller
 		return  $this->returnSuccess(200,   $users->paginate(30));
     }
     public function usersWithActiveLoan(Request $request){
+        $loanComplete = Loan::where('status','2')->count();
         $users = User::query()
             ->with(['loans'])
             ->withTrashed()
@@ -45,7 +47,8 @@ class UserController extends Controller
             $users->where('dni', 'like', '%'.$request->search.'%');
         }
 
-		return  $this->returnSuccess(200,   $users->paginate(30));
+
+		return  $this->returnSuccess(200,   ['users' => $users->paginate(30), 'loansComplete' => $loanComplete]);
     }
     public function store(Request $request){
         $validated = $this->validateFieldsFromInput($request->all()) ;
