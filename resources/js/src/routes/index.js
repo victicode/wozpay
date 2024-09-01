@@ -20,7 +20,10 @@ import loanPage from '@/pages/loan.vue'
 import allUsers from '@/pages/admin/users.vue'
 import usersWithLoan from '@/pages/admin/loanRequest.vue'
 import loanApplication from '@/pages/admin/loanApplication.vue'
-
+import cleanUsers from '@/components/admin/users/cleanUsers.vue'
+import slowPayer from '@/components/admin/users/slowPayerUsers.vue'
+import loanViewAdmin from '@/pages/admin/loanView.vue'
+import loansAdmin from '@/pages/admin/loans.vue'
 
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
@@ -173,6 +176,20 @@ const router = createRouter({
           meta: {
             title: 'Solicitud'
           },
+        },
+        {
+          path: '/admin/loan_view/:id',
+          component: loanViewAdmin,
+          meta: {
+            title: 'Préstamo'
+          }
+        },
+        {
+          path: '/admin/loans',
+          component: loansAdmin,
+          meta: {
+            title: 'Préstamo'
+          }
         }
       ]
     },
@@ -201,7 +218,7 @@ const router = createRouter({
         {
           path: "/users/clean",
           name: "usersClean",
-          component: usersWithLoan,
+          component: cleanUsers,
           meta: {
             title: 'Clientes'
           },
@@ -209,7 +226,7 @@ const router = createRouter({
         {
           path: "/users/slow_payer",
           name: "usersSlowPayer",
-          component: usersWithLoan,
+          component: slowPayer,
           meta: {
             title: 'Clientes'
           },
@@ -379,7 +396,7 @@ const router = createRouter({
           meta: {
             title: 'Mi préstamo'
           }
-        }
+        },
       ]
     }
     

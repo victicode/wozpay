@@ -89,7 +89,27 @@ export const useLoanStore = defineStore("loan", {
         return 'Error al actualizar datos';
       });
     },
- 
+    async getApproveLoan(query) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/loan/approve/get?page="+query.page+"&search="+query.search+"&")
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al solicitar prestamo.');
+          });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
   },
   getters: {
   },

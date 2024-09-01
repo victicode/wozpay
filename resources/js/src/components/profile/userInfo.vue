@@ -54,8 +54,6 @@
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
               <span class="text-subtitle2 text-weight-bold">Estado de verifiación</span>
-              <span>
-              </span>
             </div>
           </q-toolbar-title>
         </q-toolbar>

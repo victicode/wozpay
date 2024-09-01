@@ -190,6 +190,40 @@ export const useUserStore = defineStore("user", {
         }
       })
     },
+    async getCleanUser(query) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/user/cleanUser/?page="+query.page+"&search="+query.search+"&")
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    },
+    async getSlowPayerUser (query) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/user/slowPayer/?page="+query.page+"&search="+query.search+"&")
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    },
 
 
   },

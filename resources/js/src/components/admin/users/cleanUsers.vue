@@ -1,26 +1,23 @@
 <template>
 
   <div>
-    <div class="flex justify-between q-px-sm q-mt-md" v-if="ready">
-      <div class="text-subtitle2 text-weight-bold">Solicitudes completadas</div>
-      <div class="text-subtitle2 text-weight-light text-grey-6" >{{loansCount}} solicitudes</div>
-    </div>
-    <div v-else class="flex justify-between q-px-sm q-mt-md" >
-      <q-skeleton type="text" class="w-30" />
-      <q-skeleton type="text" class="w-30" />
-    </div>
     <transition name="slide-fade">
       <div class="" v-if="ready && users.data.length > 0" >
         <div>
+          <div class="flex justify-between items-center q-pa-sm q-mt-md">
+            <div class="text-subtitle1 text-weight-bold">Cliente</div>
+            <div class="text-subtitle1 text-weight-bold q-ml-xl q-pl-md">Fecha de ven.</div>
+            <div class="text-subtitle1 text-weight-bold">Pagado</div>
+
+          </div>
           <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-pa-sm userlist">
             <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-              {{ user.name }}
-            </div>
-            <div class="text-subtitle2 text-weight-light  text-grey-7">
               {{ numberFormat(user.dni) }}
             </div>
+            <div class="text-subtitle2 text-weight-light  text-grey-7">
+              {{ moment(user.loans[0].due_date).format('DD/MM/YYYY') }}
+            </div>
             <div class="flex items-center">
-              <div v-html="wozIcons.solicitar" class="solict_icon" />
               <q-btn 
                 flat 
                 round 
@@ -28,7 +25,11 @@
                 class="q-pb-none"
                 @click="goTo(user.loans[0].id)"  
               >
-                <q-icon name="eva-chevron-right-outline" color="grey-6" size="sm" />
+                <q-icon
+                  :name="icons.sharpVerified"
+                  size="sm"
+                  color="positive"
+                />
               </q-btn>
             </div>
           </div>
@@ -54,7 +55,7 @@
     <transition name="slide-fade">
       <div class="" v-if=" ready && users.data.length == 0">
         <div class="flex flex-center">
-          <h6 class="q-mt-md">No hay solicitudes pendiente por aprobar. 🧐</h6>
+          <h6 class="q-mt-md"> No hay clientes al día 😧</h6>
         </div>
       </div>
     </transition>
@@ -84,6 +85,7 @@ import { useRouter } from 'vue-router';
 import wozIcons from '@/assets/icons/wozIcons';
 import util from '@/util/numberUtil';
 import searchUser from '@/components/admin/users/searchUser.vue';
+import moment from 'moment';
 
 export default {
 components: {
@@ -122,7 +124,7 @@ setup () {
       page: currentPage.value,
       search: search? search.replace(/\./g, '') : '',
     }
-    userStore.getUserWithLoan(query)
+    userStore.getCleanUser(query)
     .then((response) => {
       console.log(response)
       if(response.code != 200) throw response
@@ -168,6 +170,7 @@ setup () {
     currentPage,
     users,
     loansCount,
+    moment,
     setPage,
     getUsers,
     goTo,

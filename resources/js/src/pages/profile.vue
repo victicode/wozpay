@@ -77,7 +77,7 @@
                       Verificar identidad
                     </span>
                     <q-icon
-                    :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                      :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
                       size="sm"
                       :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
                       class="user-verify-user"

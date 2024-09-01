@@ -18,7 +18,7 @@
         <span class="q-mt-xs text-dark text-caption">Clientes</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" exact replace >
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" to="/admin/loans" exact replace >
       <div class="flex flex-center column">
         <div v-html="wozIcons.loans" />
 

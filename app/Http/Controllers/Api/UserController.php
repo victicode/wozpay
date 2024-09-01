@@ -34,7 +34,7 @@ class UserController extends Controller
 		return  $this->returnSuccess(200,   $users->paginate(30));
     }
     public function usersWithActiveLoan(Request $request){
-        $loanComplete = Loan::where('status','2')->count();
+        $loanComplete = Loan::where('status','2')->OrWhere('status','3')->count();
         $users = User::query()
             ->with(['loans'])
             ->withTrashed()
@@ -49,6 +49,44 @@ class UserController extends Controller
 
 
 		return  $this->returnSuccess(200,   ['users' => $users->paginate(30), 'loansComplete' => $loanComplete]);
+    }
+    public function cleanUser(Request $request){
+        $users = User::query()
+            ->with(['loans'])
+            ->withTrashed()
+            ->where('rol_id', 3)
+            ->whereHas('loans', function($q){
+                $q->where('status', '3');
+            });
+
+        if(!empty($request->search)){
+            $users->where('dni', 'like', '%'.$request->search.'%');
+        }
+		return  $this->returnSuccess(200,   ['users' => $users->paginate(30)]);
+    }
+    public function slowPayerUser(Request $request){
+        $users = User::query()
+            ->with(['loans'])
+            ->withTrashed()
+            ->where('rol_id', 3)
+            ->whereHas('loans', function($q){
+                $q->where('status', '4');
+            });
+
+        if(!empty($request->search)){
+            $users->where('dni', 'like', '%'.$request->search.'%');
+        }
+		return  $this->returnSuccess(200,   ['users' => $users->paginate(30)]);
+    }
+    public function getUserById($userId){
+        $user = User::with('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank')->withTrashed()->find($userId);
+ 
+         return $this->returnSuccess(200, $user);
+     }
+    public function getAlluserByRol(Request $request){
+       $usersByRol = User::with('rol')->where('rol',$request->rol)->get();
+
+        return $this->returnSuccess(200, $usersByRol);
     }
     public function store(Request $request){
         $validated = $this->validateFieldsFromInput($request->all()) ;
@@ -161,17 +199,6 @@ class UserController extends Controller
         $user->save();
 
         return $this->returnSuccess(200, $user->load('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank'));
-    }
-    
-    public function getUserById($userId){
-        $user = User::with('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank')->withTrashed()->find($userId);
- 
-         return $this->returnSuccess(200, $user);
-     }
-    public function getAlluserByRol(Request $request){
-       $usersByRol = User::with('rol')->where('rol',$request->rol)->get();
-
-        return $this->returnSuccess(200, $usersByRol);
     }
     public function sendMobileVerifyCode(Request $request){
 

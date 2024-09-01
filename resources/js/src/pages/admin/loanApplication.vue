@@ -784,6 +784,7 @@
     }
   };
 </script>
+
 <style lang="scss">
 #logout-button {
   padding: 10px;

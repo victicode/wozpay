@@ -18,13 +18,12 @@ class LoanController extends Controller
         return $this->returnSuccess(200, $loan);
     }
     public function storeLoan(Request $request) {
-
         $loan = Loan::create([
             'due_date' => '2024-08-20',
             'type' => 1,
             'amount' => $request->amount,
             'amount_to_pay' => $request->amountToPay,
-            'quotas' => 2,
+            'quotas' => $request->user()->is_first_loan == 1 ? 1 : 4 ,
             'status' => 1,
             'loan_number' => '619'+ rand(100000, 999999),
             'interest' => 70,
@@ -38,7 +37,7 @@ class LoanController extends Controller
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
-        $loan = Loan::query()->with('redTapes', 'user.card')->find($id);
+        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card')->find($id);
 
         return $this->returnSuccess(200, $loan);
     }
@@ -51,6 +50,21 @@ class LoanController extends Controller
         $loan->save();
 
         return $this->returnSuccess(200, $loan);
+    }
+    public function getApproveLoan(Request $request) {
+        $users = User::query()
+            ->with(['loans'])
+            ->withTrashed()
+            ->where('rol_id', 3)
+            ->whereHas('loans', function($q){
+                $q->where('status', '2');
+            });
+
+        if(!empty($request->search)){
+            $users->where('dni', 'like', '%'.$request->search.'%');
+        }
+        return  $this->returnSuccess(200, $users->paginate(30));
+        
     }
     private function storeRedTapes($request, $loanId) {
         $informconf = '-';

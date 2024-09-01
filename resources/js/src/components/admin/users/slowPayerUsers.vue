@@ -1,17 +1,31 @@
 <template>
 
   <div>
-    <div class="flex justify-between q-px-sm q-mt-md" v-if="ready">
-      <div class="text-subtitle2 text-weight-bold">Solicitudes completadas</div>
-      <div class="text-subtitle2 text-weight-light text-grey-6" >{{loansCount}} solicitudes</div>
+    <div class=" q-px-sm q-mt-md" v-if="ready">
+      <div class="text-subtitle1 text-weight-bold">
+        Tipo de atrasos 
+       <span style="" class="text-caption">🔵🟡🔴</span> 
+      </div>
+      <div v-for="(legend, index) in slowPayerLegend" :key="index" class="flex justify-between items-center q-pa-sm userlist">
+        <div class=" text-subtitle2 text-weight-light  text-grey-7 ">
+          <q-icon name="eva-alert-triangle-outline" size="xs" class="q-mr-xs" :color="legend.color"/>
+          {{ legend.title }}
+        </div>
+        <div class="flex items-center text-grey-7">
+         {{ legend.days }} días
+        </div>
+      </div>
     </div>
     <div v-else class="flex justify-between q-px-sm q-mt-md" >
       <q-skeleton type="text" class="w-30" />
       <q-skeleton type="text" class="w-30" />
     </div>
     <transition name="slide-fade">
-      <div class="" v-if="ready && users.data.length > 0" >
+      <div class="q-mt-lg" v-if="ready && users.data.length > 0" >
         <div>
+          <div class=" text-subtitle1 text-weight-bold q-px-sm ">
+            Clientes morosos
+          </div>
           <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-pa-sm userlist">
             <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
               {{ user.name }}
@@ -19,16 +33,14 @@
             <div class="text-subtitle2 text-weight-light  text-grey-7">
               {{ numberFormat(user.dni) }}
             </div>
-            <div class="flex items-center">
-              <div v-html="wozIcons.solicitar" class="solict_icon" />
+            <div class="flex items-center cursor-pointer">
               <q-btn 
-                flat 
-                round 
-                size="xs"
-                class="q-pb-none"
-                @click="goTo(user.loans[0].id)"  
+                flat
+                size="xs" 
+                class="q-mr-xs" 
+                @click="goTo(user.loans[0].id)"
               >
-                <q-icon name="eva-chevron-right-outline" color="grey-6" size="sm" />
+                <q-icon name="eva-alert-triangle-outline" size="xs" class="q-mr-xs" :color="slowPayerLegend[setDueDaysCategorie(user.loans[0].days_due)].color" />
               </q-btn>
             </div>
           </div>
@@ -54,7 +66,7 @@
     <transition name="slide-fade">
       <div class="" v-if=" ready && users.data.length == 0">
         <div class="flex flex-center">
-          <h6 class="q-mt-md">No hay solicitudes pendiente por aprobar. 🧐</h6>
+          <h6 class="q-mt-md">No hay clientes morosos. 🤘🏻</h6>
         </div>
       </div>
     </transition>
@@ -85,6 +97,7 @@ import wozIcons from '@/assets/icons/wozIcons';
 import util from '@/util/numberUtil';
 import searchUser from '@/components/admin/users/searchUser.vue';
 
+
 export default {
 components: {
   searchUser,
@@ -103,6 +116,24 @@ setup () {
   const currentPage = ref(1)
   const users = ref([])
   const loansCount = ref(0)
+  const slowPayerLegend = [
+    {
+      title: 'Atraso leve',
+      color: 'primary',
+      days: '1-2'
+    },
+    {
+      title: 'Atraso moderado',
+      color: 'terciary',
+      days: '3-5'
+    },
+    {
+      title: 'Atraso extendido',
+      color: 'negative',
+      days: '6-8'
+    },
+
+  ]
   // methods
   const showNotify = (type, message) => {
     $q.notify({
@@ -122,7 +153,7 @@ setup () {
       page: currentPage.value,
       search: search? search.replace(/\./g, '') : '',
     }
-    userStore.getUserWithLoan(query)
+    userStore.getSlowPayerUser(query)
     .then((response) => {
       console.log(response)
       if(response.code != 200) throw response
@@ -142,13 +173,18 @@ setup () {
     currentPage.value = page
     getUsers('')
   }
-  
   const getUsersBySearch = (search) => {
     currentPage.value = 1
     getUsers(search)
   }
   const goTo = (id) => {
-    router.push('/admin/loan/'+id)
+    router.push('/admin/loan_view/'+id)
+  }
+  const setDueDaysCategorie = (days) => {
+    if(!days) return 0
+    if(days <= 2 ) return 0
+    if(days >= 3 && days <= 5) return 1
+    if(days >= 6) return 2
   }
   onMounted(() => {
     emitter.on('searchUser', (search) => {
@@ -164,6 +200,7 @@ setup () {
     wozIcons,
     loading,
     ready,
+    slowPayerLegend,
     numberFormat,
     currentPage,
     users,
@@ -171,6 +208,8 @@ setup () {
     setPage,
     getUsers,
     goTo,
+    setDueDaysCategorie,
+    
   }
 }
 };

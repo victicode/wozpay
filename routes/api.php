@@ -47,12 +47,14 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::get('/get/{id}', [UserController::class, 'getUserById']);
     Route::get('/all', [UserController::class, 'allUsers']);
     Route::get('/loan', [UserController::class, 'usersWithActiveLoan']);
+    Route::get('/cleanUser', [UserController::class, 'cleanUser']);
+    Route::get('/slowPayer', [UserController::class, 'slowPayerUser']);
+
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
     Route::post('/set-status/{id}', [UserController::class, 'setStatus']);
     Route::post('/set-block/{id}', [UserController::class, 'setBlock']);
-
     Route::post('/delete/{id}', [UserController::class, 'deleteUser']);
     Route::post('/restore/{id}', [UserController::class, 'restoreUser']);
 
@@ -80,6 +82,8 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
     Route::post('/', [LoanController::class, 'storeLoan']);
     Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
     Route::get('/get/{id}', [LoanController::class, 'getLoanById']);
+    Route::get('/approve/get', [LoanController::class, 'getApproveLoan']);
+
     Route::post('/changeStatus/{id}', [LoanController::class, 'changeStatus']);
 
 });
