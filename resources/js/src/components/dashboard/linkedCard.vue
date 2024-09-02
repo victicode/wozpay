@@ -22,7 +22,7 @@
                     <div class="text-weight-bold ">N° **************** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
                   </div>
                 </div>             
-                <div class="q-mr-none">
+                <div class="q-mr-none cursor-pointer">
                   <q-chip :color="linkCard.status == 1 ? 'positive' : 'warning'" text-color="white" >
                     Vinculada
                   </q-chip>

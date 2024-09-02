@@ -112,7 +112,7 @@ class UserController extends Controller
                 'rol_id'        => 3,
                 'is_first_loan' => 1,
                 'facial_verify' => 0,
-                'verify_status' => 0,
+                'verify_status' => '0',
 
             ]);
         } catch (Exception $th) {
@@ -279,7 +279,7 @@ class UserController extends Controller
 
     private function storeWallet(Request $request){
         $wallet = Wallet::create([
-            'number'    => '916' + $request->user_dni,
+            'number'    => '916' . $request->user_dni,
             'balance'   => 0,
             'type'      => $request->type,
             'status'    => 1,

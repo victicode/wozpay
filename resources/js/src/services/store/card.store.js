@@ -51,7 +51,7 @@ export const useCardStore = defineStore("card", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/card/", data)
+          ApiService.post("/api/card", data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

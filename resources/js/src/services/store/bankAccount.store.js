@@ -8,7 +8,7 @@ export const useBankAccountStore = defineStore("bankAccount", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/banks/")
+          ApiService.get("/api/banks")
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -50,7 +50,7 @@ export const useBankAccountStore = defineStore("bankAccount", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/accounts_bank/", data)
+          ApiService.post("/api/accounts_bank", data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

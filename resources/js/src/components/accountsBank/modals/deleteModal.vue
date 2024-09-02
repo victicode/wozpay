@@ -90,7 +90,7 @@
           }
           showNotify('positive', '¡Cuenta eliminada con exito!')
           loadingShow(false)
-          hideModal(null)
+          hideModal(true)
           
         }).catch((e) => {
           loadingShow(false)

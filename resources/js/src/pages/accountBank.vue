@@ -118,9 +118,7 @@ export default {
       store.getAllAccountBankByUser(user.id).then((data) =>{
         if(data.code !== 200) return
         bankAccounts.value = data.data
-        setTimeout(() => {
-          ready.value = true
-        }, 800);
+        ready.value = true
       })
     }
     const showModal = async (id, modal) => {
@@ -133,12 +131,13 @@ export default {
         selectedAccountBank.value = Object.assign(bankAccounts.value.find((account) => account.id == id ))
         setTimeout(()=>{
           resolve(selectedAccountBank.value)
-        }, 500)
+        }, 100)
       })
     }
-    const hideModal = () => {
+    const hideModal = (val = true) => {
       dialog.value = '';
-      getAccountsBankbyUser()
+      if (val) getAccountsBankbyUser()
+      
     }
     onMounted(() => {
       getAccountsBankbyUser()

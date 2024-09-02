@@ -46,6 +46,7 @@
                   label="Número de cuenta"
                   autocomplete="off"
                   :rules="rulesForm('number')"
+                  mask="#### #### #### #### ####"
                 />
               </div>
               <div class="col-12 q-my-md">
@@ -163,9 +164,8 @@
           showNotify('positive', 'Cuenta de banco actualizada con exito.')
           loadingShow(false)
           setTimeout(() => {
-            hideModal(null)
-
-          }, 1000)
+            hideModal(true)
+          }, 500)
         }).catch((e) => {
           showNotify('negative', 'Error al actualizar la cuenta de banco')
           loadingShow(false)
@@ -177,7 +177,7 @@
           number:[
             val => (val !== null && val !== '') || 'El número de cuenta es requerido.',
             val => (val.length > 20 ) || 'Debe contener 20 digitos',
-            val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+            val => (/[a-zA-z,%"'();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
           owner:[
             val => (val !== null && val !== '') || 'Nombre del propietario es requerido.',
