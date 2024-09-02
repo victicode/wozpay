@@ -224,6 +224,23 @@ export const useUserStore = defineStore("user", {
         }
       })
     },
+    async getUsersBySearch (query) {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/user/getBySearch?search="+query+"&")
+            .then(( { data } ) => {
+                // console.log(data)
+                resolve(data);
+                
+            })
+            .catch(( { response } ) => {
+                console.log(response )
+                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    },
 
 
   },

@@ -78,11 +78,21 @@ class UserController extends Controller
         }
 		return  $this->returnSuccess(200,   ['users' => $users->paginate(30)]);
     }
+    public function getUsersBySearch(Request $request){
+        $users = User::query()
+            ->withTrashed()
+            ->where('rol_id', 3);
+
+        if(!empty($request->search)){
+            $users->where('name', 'like', '%'.$request->search.'%');
+        }
+		return  $this->returnSuccess(200, $users->take(10)->get());
+    }
     public function getUserById($userId){
         $user = User::with('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank')->withTrashed()->find($userId);
  
          return $this->returnSuccess(200, $user);
-     }
+    }
     public function getAlluserByRol(Request $request){
        $usersByRol = User::with('rol')->where('rol',$request->rol)->get();
 

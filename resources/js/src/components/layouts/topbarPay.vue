@@ -1,6 +1,6 @@
 <template>
   <div id="topbarLayout" class="bg-primary q-pt-sm">
-    <div class="w-100 flex justify-between items-center h-100 q-pb-sm">
+    <div class="w-100 flex justify-between items-center h-100 q-pb-sm q-pt-md" style="flex-wrap: nowrap;">
       <div class="">
         <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="router.go(-1)" />
       </div>

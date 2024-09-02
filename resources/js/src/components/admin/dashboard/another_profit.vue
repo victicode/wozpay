@@ -17,11 +17,11 @@
               <div v-html="wozIcons.withdrawal" />
             </div>
             <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-50">
+              <div class=" q-mr-md-none q-pl-md-md q-pl-md w-50">
                 <div class="text-weight-medium">Suscripciones</div>
                 <div class="text-weight-medium text-grey-8 q-mt-xs ">Debito automático</div>
               </div>
-              <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
+              <div class="q-ml-md-none q-pl-md-md w-50 text-end">
                 <div class="text-weight-medium text-right">
                   Recibiste
                 </div>
@@ -106,7 +106,7 @@
   width: 94%;
 }
 .w-50 {
-  width: 46%;
+  width: 42%;
 }
 .w-10 {
   width: 6%;
@@ -116,7 +116,7 @@
     width: 40%;
   }
   .w-50 {
-    width: 44%;
+    width: 50%;
   }
   .loan_card > div:nth-child(1){ width: 10%!important; }
   .loan_card > div:nth-child(2){ width: 90%!important; }

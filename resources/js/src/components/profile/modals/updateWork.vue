@@ -237,12 +237,12 @@
         dialogType,
         model: ref(null),
         workOptions,
-        filterWork,
-        salaryRange,
-        updateForSlider,
         rangeSalaryMarkets,
         minPriceLabel: computed(() => `${moneyFormat(salaryRange.value.min)} Gs.`),
         maxPriceLabel: computed(() => `${moneyFormat(salaryRange.value.max)} Gs.`),
+        salaryRange,
+        filterWork,
+        updateForSlider,
       }
     }
   };

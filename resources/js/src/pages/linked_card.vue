@@ -39,7 +39,8 @@
                 :clear-icon="'eva-close-outline'"
                 dropdown-icon="eva-chevron-down-outline"
                 behavior="menu"
-                option-label="text" option-value="value"
+                option-label="text" 
+                option-value="value"
               />
             </div>
             <div class="q-my-lg">

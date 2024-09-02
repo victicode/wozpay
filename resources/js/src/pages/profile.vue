@@ -1,13 +1,13 @@
 
 <template>
-  <div class="profile_section q-mt-md q-pt-lg" >
+  <div class="profile_section" >
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- info -->
-        <q-toolbar class="bg-grey-5 text-black ">
+        <q-toolbar class="bg-grey-5 text-black q-py-sm">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos personales</span>
+              <span class="text-subtitle2 text-weight-bold q-mt-sm q-pt-xs">Datos personales</span>
               <span>
                 <!-- <q-icon name="eva-edit-2-outline" /> -->
                 <q-btn unelevated flat round color="bg-grey-5" style="color: black"  to="/user_info" icon="eva-edit-2-outline" />
@@ -20,7 +20,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Nombre completo
                 </span>
                 </q-item-label>
@@ -33,7 +33,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   N° de documento
                 </span>
                 </q-item-label>
@@ -46,7 +46,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Número de teléfono
                 </span>
                 </q-item-label>
@@ -59,7 +59,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Correo electrónico
                 </span>
                 </q-item-label>
@@ -73,7 +73,7 @@
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <span class="text-caption text-weight-bold">
+                    <span class="text-body2 text-weight-bold">
                       Verificar identidad
                     </span>
                     <q-icon
@@ -120,7 +120,7 @@
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <span class="text-caption text-weight-bold">
+                    <span class="text-body2 text-weight-bold">
                       Número de cuenta Woz Pay
                     </span>
                   </div>
@@ -157,7 +157,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Ciudad
                 </span>
                 </q-item-label>
@@ -170,7 +170,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Barrio o localidad
                 </span>
                 </q-item-label>
@@ -183,7 +183,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Calle y N° de casa
                 </span>
                 </q-item-label>
@@ -210,7 +210,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Privado - Funcionario público
                 </span>
                 </q-item-label>
@@ -223,7 +223,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Cargo
                 </span>
                 </q-item-label>
@@ -236,7 +236,7 @@
             <q-item-section>
               <div class="flex items-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-caption text-weight-bold">
+                <span class="text-body2 text-weight-bold">
                   Salario
                 </span>
                 </q-item-label>

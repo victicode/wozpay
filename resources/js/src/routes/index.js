@@ -24,7 +24,7 @@ import cleanUsers from '@/components/admin/users/cleanUsers.vue'
 import slowPayer from '@/components/admin/users/slowPayerUsers.vue'
 import loanViewAdmin from '@/pages/admin/loanView.vue'
 import loansAdmin from '@/pages/admin/loans.vue'
-
+import interestAdmin from '@/pages/admin/interest.vue'
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
@@ -160,7 +160,7 @@ const router = createRouter({
           },
         },
         {
-          path: "/admin/notification/send/:id",
+          path: "/admin/notification/send",
           name: "sendNotification",
           component: userNotification,
           beforeEnter: admin,
@@ -189,6 +189,13 @@ const router = createRouter({
           component: loansAdmin,
           meta: {
             title: 'Préstamo'
+          }
+        },
+        {
+          path: '/admin/interest',
+          component: interestAdmin,
+          meta: {
+            title: 'Calculadora de intereses'
           }
         }
       ]

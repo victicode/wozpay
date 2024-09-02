@@ -45,11 +45,11 @@ Route::post('/create_wallet', [UserController::class, 'storeWallet']);
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/get/{id}', [UserController::class, 'getUserById']);
+    Route::get('/getBySearch', [UserController::class, 'getUsersBySearch']);
     Route::get('/all', [UserController::class, 'allUsers']);
     Route::get('/loan', [UserController::class, 'usersWithActiveLoan']);
     Route::get('/cleanUser', [UserController::class, 'cleanUser']);
     Route::get('/slowPayer', [UserController::class, 'slowPayerUser']);
-
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
@@ -57,14 +57,14 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::post('/set-block/{id}', [UserController::class, 'setBlock']);
     Route::post('/delete/{id}', [UserController::class, 'deleteUser']);
     Route::post('/restore/{id}', [UserController::class, 'restoreUser']);
-
-
 });
 
 
 Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')->group(function () {
+    Route::post('/', [NotificationController::class, 'storeNotification']);
     Route::get('/{id}', [NotificationController::class, 'getAllByUser']);
     Route::get('/seeAll/{id}', [NotificationController::class, 'seeAllByUser']);
+
 });
 
 Route::middleware('jwt.verify')->prefix('banks')->name('bank.')->group(function () {
@@ -83,7 +83,6 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
     Route::get('/{id}', [LoanController::class, 'getActiveLoan']);
     Route::get('/get/{id}', [LoanController::class, 'getLoanById']);
     Route::get('/approve/get', [LoanController::class, 'getApproveLoan']);
-
     Route::post('/changeStatus/{id}', [LoanController::class, 'changeStatus']);
 
 });

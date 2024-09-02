@@ -25,7 +25,7 @@
                   round 
                   size="xs"
                   class="q-pb-none q-ml-xs"
-                  @click="router.push('/admin/notification/send/'+user.id)"
+                  @click="router.push('/admin/notification/send?id='+user.id)"
                 >
                   <q-icon name="eva-chevron-right-outline" color="grey-7" size="md" />
                 </q-btn>

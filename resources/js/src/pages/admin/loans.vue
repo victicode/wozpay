@@ -65,9 +65,9 @@
           <div v-if="ready && loans.data.length > 0">
             <div>
               <div v-for="(loan, index) in loans.data" :key="index" class="flex justify-between items-center q-mt-sm border-b-1 q-py-sm">
-                <div class="text-subtitle2 text-grey-7 text-weight-ligth">{{loan.name}}</div>
-                <div class="text-subtitle2 text-grey-7 text-weight-ligth">{{ numberFormat(loan.dni) }}</div>
-                <div class="text-subtitle2 text-grey-7 text-weight-ligth">Gs. {{ numberFormat(loan.loans[0].amount) }}</div>
+                <div class="text-subtitle2 text-grey-7 text-weight-ligth w-40 ellipsis">{{loan.name}}</div>
+                <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-center">{{ numberFormat(loan.dni) }}</div>
+                <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-right">Gs. {{ numberFormat(loan.loans[0].amount) }}</div>
               </div>
               <div class="pagination flex flex-center q-mt-md">
                 <q-pagination
@@ -95,9 +95,9 @@
           <div v-if="!ready">
             <div>
               <div v-for="n in 10" :key="n" class="flex justify-between items-center q-mt-sm border-b-1 q-py-sm">
-                <q-skeleton type="text" />
-                <q-skeleton type="text" />
-                <q-skeleton type="text" />
+                <q-skeleton type="text" class="w-40 "/>
+                <q-skeleton type="text" class="w-20 "/>
+                <q-skeleton type="text" class="w-20 "/>
               </div>
             </div>
           </div>
@@ -113,12 +113,11 @@
   import util from '@/util/numberUtil';
   import { useRouter } from 'vue-router';
   import { useLoanStore } from '@/services/store/loan.store';
+  import { useAuthStore } from '@/services/store/auth.store';
+
   export default {
-    props: {
-      filter: Number,
-    },
-    emits: ['filters'],
-    setup (props,{ emit }) {
+
+    setup () {
       //vue provider
       const icons = inject('ionIcons')
       const emitter = inject('emitter')
@@ -126,8 +125,10 @@
       const { numberFormat } = util;
       const router = useRouter()
       const loanStore = useLoanStore()
+      const user = useAuthStore().user;
+
       // data
-      const amount = ref('')
+      const amount = ref(user.wallet.balance)
       const search = ref('')
       const ready = ref(false)
       const currentPage = ref(1)
@@ -161,9 +162,9 @@
         })
         .catch((response) => {
           console.log(response)
-          // showNotify('negative', response)
         })
       } 
+
       const setPage = (page) => {
         currentPage.value = page
         getApproveLoan('')
@@ -276,11 +277,12 @@
 .border-b-1 {
   border-bottom: 1px solid $grey-5;
 }
-.w-70 {
-  width: 70%;
+
+.w-40 {
+  width: 40%;
 }
-.w-30 {
-  width: 30%;
+.w-20 {
+  width: 25%;
 }
 .w-100 {
   width: 100%;

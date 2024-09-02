@@ -24,6 +24,36 @@
       </div>
     </div>
     <div class="q-mt-md q-px-md-lg q-px-md q-pb-md message_area">
+      <div>
+        <div class="q-my-md">
+          <q-select
+              v-model="user"
+              clearable
+              use-input
+              outlined
+              clear-icon="eva-close-outline" 
+              transition-show="scale"
+              transition-hide="scale"
+              label="Selecciona el destinatario"
+              :options="users"
+              dropdown-icon="eva-chevron-down-outline"
+              class="selectedWorkType"
+              behavior="menu"
+              @filter="filterUser"
+              option-value="id"
+              option-label="name"
+              :readonly="!(!route.query.id)"
+            >
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    Sin resultados
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+        </div>
+      </div>
       <div class="q-mt-xs text-subtitle1 text-weight-bold">¿Qué notificación push quieres mandar?</div>
       <div>
         <q-input
@@ -39,8 +69,9 @@
         <q-btn 
             color="primary" class="w-100 q-px-md q-pb-sm q-pt-md q-mb-none sendNotify" 
             no-caps
-            :loading="loadingButton"
+            :loading="loading"
             label="Enviar notificación"
+            @click="sendNotification()"
           >
             <template v-slot:loading>
               <q-spinner-facebook />
@@ -82,44 +113,43 @@
   </div>
 </template>
 <script >
-  import { ref, inject } from 'vue';
+  import { ref, inject, onMounted } from 'vue';
   import { useUserStore } from '@/services/store/user.store';
+  import { useNotificationStore } from '@/services/store/notification.store';
   import { useQuasar } from 'quasar';
+  import { useRoute } from 'vue-router';
   import moment from 'moment';
   import 'moment/locale/es';
-  moment.locale('es', {
-    months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
-    monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
-    weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
-    weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
-    weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
-  }
+  moment.updateLocale('es', 
+    {
+      months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+      monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+      weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+      weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+      weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+    }
   );
 
   export default {
-    props: {
-      user: Object,
-    },
-
-    setup (props) {
+    setup () {
       //vue provider
       const icons = inject('ionIcons')
-      const user = props.user
+      const route = useRoute();
+      const users = ref([])
+      const user = ref(null)
       const emitter = inject('emitter');
       const loading = ref(false)
       const userStore = useUserStore()
       const q = useQuasar()
-      const loadingButton = ref(false)
-
+      const notificationStore = useNotificationStore()
       const checked = ref({
         wozPay: true,
         wozPry: false,
         wozDrp: false
       })
-      
       const sender = ref('Woz Pay informa')
       const notificationText = ref(null)
-      
+
       const setSender = (senderPosition) => {
         const dontValidate = [senderPosition]
 
@@ -132,11 +162,40 @@
         });
         
       }
-
       const setSenderName = (senderName) => {
         if(senderName == 'wozPay') sender.value = 'Woz Pay informa'
         if(senderName == 'wozPry') sender.value = 'Woz Paraguay'
         if(senderName == 'wozDrp') sender.value = 'Woz Dropshipping'
+      }
+      const getUsersBySearch = (search = '') => {
+        if(!route.query.id) {
+          userStore.getUsersBySearch(search)
+          .then((response) => {
+            if(response.code !== 200) throw response
+            users.value = response.data
+          })
+          .catch()
+        }
+      }
+      const filterUser = (val, update) => {
+        setTimeout(() => {
+          update(() => {
+            getUsersBySearch(val)
+          })
+        }, 500)
+      }
+      const getUser = () => {
+        const userId = route.query.id;
+
+        userStore.getUserById(userId)
+        .then((response) => {
+          if(response.code != 200) throw response
+          user.value = response.data
+        })
+        .catch((response) => {
+          console.log(response)
+          showNotify('negative', response)
+        })
       }
 
       const showNotify = (type, message) => {
@@ -148,17 +207,62 @@
           ]
         })
       }
-
+      const sendNotification = () => {
+        if(!validate()) return
+        loading.value = true
+        const data = {
+          user : user.value.id,
+          text: notificationText.value,
+          sender: sender.value
+        }
+        notificationStore.storeNotification(data)
+        .then((response) => {
+          if(response.code !== 200) throw response
+          loading.value = false
+          showNotify('positive', 'Notificación enviada')
+          cleanForm()
+        })
+        .catch((response) => {
+          loading.value = false
+          showNotify('negative',response)
+        })
+      }
+      const cleanForm = () => {
+        user.value = null;
+        notificationText.value = '';
+      }
+      const validate = () => {
+        if(!user.value) {
+          showNotify('negative', 'Debes seleccionar un destinatario')
+          return false
+        }
+        if(notificationText.value == '' || !notificationText.value) 
+        { 
+          showNotify('negative', 'El campo de texto no puede quedar vacio')
+          return false
+        }
+        return true
+      }
+      onMounted(() => {
+        if(route.query.id){
+          getUser()
+        }else{
+          getUsersBySearch()
+        }
+      })
       return {
         icons,
+        route,
         loading,
-        loadingButton,
-        user,
         checked,
         notificationText,
         sender,
         moment,
+        user,
+        users,
+        filterUser,
         setSender,
+        sendNotification,
       }
     }
   };
@@ -169,10 +273,10 @@
   width: 100%;
 }
 .w-78 {
-  width: 78%;
+  width: 75%;
 }
 .w-22 {
-  width: 22%;
+  width: 25%;
 }
 .notification__header {
   border: 1px solid $grey-5;

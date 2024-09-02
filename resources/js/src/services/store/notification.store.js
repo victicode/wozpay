@@ -46,26 +46,25 @@ export const useNotificationStore = defineStore("notification", {
         resolve('Error al enviar codigo');
       });
     },
-    async verifyMobileCode(data) {
+    async storeNotification(data) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("api/user/verifyPhoneCode", data)
-            .then(({ data }) => {
-              if(data.code !== 200){
-                throw data;
-              }
-              console.log(data)
-              resolve(data)
-            }).catch(({response}) => {
-              console.log(response)
-              resolve('Error al validar codigo');
-            });
+          ApiService.post("/api/notifications", data)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch(({response}) => {
+            console.log(response)
+            resolve('Error al crear y enviar la notificacion');
+          });
         }
       })
       .catch(({response}) => {
         console.log(response)
-        resolve('Error al validar codigo');
+        resolve('Error al crear y enviar la notificacion');
       });
     },
   },

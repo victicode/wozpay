@@ -40,19 +40,19 @@ class NotificationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeNotification(Request $request)
     {
-        //
+        $newNotification = Notification::create([
+            'text'      => $request->text,
+            'user_id'   => $request->user,
+            'sender_id' => $request->sender,
+            'read'      => 0,
+            'type'      => 1,
+        ]);
+
+        return $this->returnSuccess(200, $newNotification);
     }
 
     /**

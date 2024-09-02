@@ -4,10 +4,10 @@
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- Verification -->
-        <q-toolbar class="bg-grey-5 text-black ">
+        <q-toolbar class="bg-grey-5 text-black q-py-sm">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold">Verificar Identidad</span>
+              <span class="text-subtitle2 text-weight-bold q-mt-sm q-pt-xs">Verificar Identidad</span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
