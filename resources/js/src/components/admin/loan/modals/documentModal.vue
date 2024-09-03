@@ -1,12 +1,12 @@
-tem<template>
+<template>
   <q-dialog v-model="dialog" persistent backdrop-filter="blur(8px)">
       <q-card style="flex-wrap: nowrap; height: 100%;" class="flex column dialog_document">
         <q-card-section class="header_document q-pb-xs">
           <div class="text-subtitle1 text-weight-bold "> {{ setTitleByOperation() }}</div>
         </q-card-section>
         <q-card-section class="q-pt-md-md" style="height: 85%; overflow: hidden;">
-          <div class="flex justify-end">
-            <a :href="'/'+document" target="blank">
+          <div class="flex justify-end" v-if="typeof document != 'object'">
+            <a :href="'/'+document" target="blank" >
               <q-btn color="primary" label="Ver completo" class="q-pt-xs" :loading="loading" @click="hideModal()" > 
                 <template v-slot:loading>
                   <q-spinner-facebook />
@@ -14,11 +14,25 @@ tem<template>
               </q-btn>
             </a>
           </div>
-          <div v-if="document.slice(-3) == 'pdf'" class="q-mt-sm h-100">
-            <PDF :src="'/'+document"/>
+          <div v-if="typeof document == 'object'">
+            <div class="row">
+              <div v-for="(doc, index) in document" :key="index" class="col-12 col-md-4">
+                <div v-if="doc.slice(-3) == 'pdf'" class="q-mt-sm h-100">
+                  <PDF :src="'/'+doc"/>
+                </div>
+                <div v-else class="q-mt-md-sm h-100 w-100 flex justify-center q-pt-md">
+                  <img :src="'/'+doc" alt="" class="text-center document_img">
+                </div>
+              </div>
+            </div>
           </div>
-          <div v-else class="q-mt-md-sm h-100 w-100 flex justify-center q-pt-md">
-            <img :src="'/'+document" alt="" class="text-center document_img">
+          <div v-else>
+            <div v-if="document.slice(-3) == 'pdf'" class="q-mt-sm h-100">
+              <PDF :src="'/'+document"/>
+            </div>
+            <div v-else class="q-mt-md-sm h-100 w-100 flex justify-center q-pt-md">
+              <img :src="'/'+document" alt="" class="text-center document_img">
+            </div>
           </div>
         </q-card-section>
         <q-card-actions align="right" class="text-primary q-mt-sm">
@@ -38,7 +52,7 @@ tem<template>
   export default {
     props: {
       dialog: Boolean,
-      document: String,
+      document,
     },
     components: {
       PDF
@@ -57,11 +71,13 @@ tem<template>
       }
 
       const setTitleByOperation = () => {
+        console.log(document.value )
+        if(typeof document.value == 'object') return 'Ultimos 3 IPS';
+        
         const doc = document.value.split('/')[1];
-
         if(doc == 'work_certificate') return 'Certificado de trabajo';
-        if(doc == 'last_ips') return 'Ultimos 3 IPS';
         if(doc == 'informconf') return 'Certificado Informconf';
+        
       }
       const hideModal = () => {
         emit('hiddeModal')

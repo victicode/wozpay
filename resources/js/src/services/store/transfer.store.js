@@ -30,7 +30,7 @@ export const useTransferStore = defineStore("transfer", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/transfer/", data)
+          ApiService.post("/api/transfer", data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

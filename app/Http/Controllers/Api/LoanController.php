@@ -19,7 +19,7 @@ class LoanController extends Controller
     }
     public function storeLoan(Request $request) {
         $loan = Loan::create([
-            'due_date' => '2024-08-20',
+            'due_date' => date(('Y-m-d'), strtotime(date('Y-m-d')) + ($request->due_date  * 86400)),
             'type' => 1,
             'amount' => $request->amount,
             'amount_to_pay' => $request->amountToPay,
@@ -69,7 +69,7 @@ class LoanController extends Controller
     private function storeRedTapes($request, $loanId) {
         $informconf = '-';
         $workCertificate = '-';
-        $lastIps = '-';
+        $lastIps =  $this->lastIpsFormat($request, $loanId);
         
         if ($request->informconf) {
             $informconf = 'public/images/informconf/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('informconf')->extension();
@@ -79,10 +79,7 @@ class LoanController extends Controller
             $workCertificate = 'public/images/work_certificate/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('work')->extension();
             $request->file('work')->move(public_path() . '/images/work_certificate/', $workCertificate);
         }
-        if ($request->last_ips) {
-            $lastIps = 'public/images/last_ips/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('last_ips')->extension();
-            $request->file('last_ips')->move(public_path() . '/images/last_ips/', $lastIps);
-        }
+
         
         $redTape = RedTape::create([
             'business' => $request->business,
@@ -101,7 +98,7 @@ class LoanController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        return $redTape;
+        return [json_decode($request->last_ips, true), json_decode($request->work, true)];
     }
     private function firstLoanDone($userId) {
         $user = User::find($userId);
@@ -120,6 +117,15 @@ class LoanController extends Controller
         ]);
 
         return $wallet;
+    }
+    private function lastIpsFormat ($request, $loan){
+        $lastIps = [];
+        for ($i=0; $i < $request->last_ips ; $i++) { 
+            $ips = 'public/images/last_ips/'.rand(1000000, 9999999).'_'.$loan.'_'. $request->user()->id .'.'. $request->File('last_ips'.$i)->extension();
+            $request->file('last_ips'.$i)->move(public_path() . '/images/last_ips/', $ips);
+            array_push($lastIps , $ips);
+        }
+        return json_encode($lastIps);
     }
 
 }

@@ -51,7 +51,7 @@ export const useLoanStore = defineStore("loan", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/loan/", data)
+          ApiService.post("/api/loan", data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

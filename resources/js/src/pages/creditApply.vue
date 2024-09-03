@@ -224,7 +224,7 @@
                       Tres ultimos IPS
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.last_ips ? readTapes.last_ips.name : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.last_ips ? lastIpsMutipleNameFormat() : 'Agregar' }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -408,8 +408,6 @@
         amount: 'Monto de prestamo',
         due_date: 'Plazo',
       }
-
-
       // Methods
       const validateUser = () => {
         if(user.verify_status != 2   ) {
@@ -458,11 +456,15 @@
       }
       const setInput = (data) => {
         input.type != 2 
-        ? readTapes.value[input.index] = data
+        ? readTapes.value[input.index] = isFile(data) 
         : loan.value[input.index] = data
         calulateTotalAmount(data)
       }
 
+      const isFile = (data) => {
+        if(input.index == 'informconf' || input.index == 'work_certificate') return data[0]
+        return data
+      }
       const calulateTotalAmount = (data) => {
         if(input.index == 'amount') 
           loan.value['amountToPay'] = (parseInt(data) * 0.70) + parseInt(data) 
@@ -490,12 +492,15 @@
         formData.append('reference_phone', readTapes.value.reference_phone)
         formData.append('reference_relationship', readTapes.value.reference_relationship)
         formData.append('informconf', readTapes.value.informconf)
-        formData.append('last_ips', readTapes.value.last_ips)
+        formData.append('last_ips', readTapes.value.last_ips.length)
         formData.append('work', readTapes.value.work_certificate)
-
         formData.append('amount', loan.value.amount)
         formData.append('amountToPay', loan.value.amountToPay)
         formData.append('due_date', loan.value.due_date)
+
+        readTapes.value.last_ips.forEach((ips, index) => {
+          formData.append('last_ips'+index, ips)
+        });
 
         loanStore.createLoan(formData)
         .then((data) => {
@@ -507,6 +512,7 @@
           }, 3500);
         }).catch((e) => {
           console.log(e)
+          loadingShow(false)
           showNotify('negative', 'Error al enviar la solicitud')
         })
         
@@ -519,17 +525,15 @@
         Object.entries(formInputs).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
           if(!value) isValid = false
-          // console.log([key, value])
         });
         
         return isValid
       }
-
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
           if(data.data){
-            isCurrentLoan.value = data.data.status == 1 || data.data.status == 2
+            isCurrentLoan.value = data.data.status !=3
               ? true 
               : false 
               return
@@ -538,6 +542,14 @@
         }).catch((e) => {
           showNotify('negative', 'error al obtener prestamo activo')
         })
+      }
+      const lastIpsMutipleNameFormat = () => {
+        let finalName = ''
+        readTapes.value.last_ips.forEach((file, index) => {
+          finalName = finalName + file.name
+          finalName += (index + 1) == readTapes.value.last_ips.length ? '.' : ', '
+        });
+        return finalName
       }
 
       onMounted(() => {
@@ -564,6 +576,7 @@
         hiddeModal,
         showInputModal,
         createApplyLoan,
+        lastIpsMutipleNameFormat,
       }
     }
   };

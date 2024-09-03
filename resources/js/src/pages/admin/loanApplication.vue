@@ -632,7 +632,7 @@
       </q-stepper>
     </div>
     <div v-if="sendLoading">
-      <doneModal :dialog="sendLoading" :text="formatMessage(loan.status).text" />
+      <doneModal :dialog="sendLoading" :text="textModal" />
     </div>
     <documentModal :dialog="dialog" :document="document" @hiddeModal="hiddeModal" />
   </div>
@@ -667,6 +667,7 @@
       const route = useRoute()
       const document = ref('');
       const allAprove = ref(0);
+      const textModal = ref('');
       // Methods
       const showNotify = (type, message) => {
         q.notify({
@@ -700,6 +701,8 @@
 
           loan.value = data.data
           loan.value.red_tapes.ips = (loan.value.red_tapes.ips == 1)
+          loan.value.red_tapes.last_ips = JSON.parse(loan.value.red_tapes.last_ips)
+
         }).catch((e) => {
           showNotify('negative', 'error al obtener prestamo activo')
         })
@@ -719,8 +722,21 @@
         return chip[type]
       }
       const documentFormat = (document) => {
+        if(typeof document == 'object'){
+          return lastIpsFormat(document)
+        }
         let doc = document.split('/')
         return doc[doc.length - 1]
+
+      }
+      const lastIpsFormat = (documents) => {
+        let finalName = ''
+        documents.forEach((document, index) => {
+          const name = document.split('/')
+          finalName = finalName + name[name.length - 1]
+          finalName += (index + 1) == loan.value.red_tapes.last_ips.length ? '.' : ', '
+        });
+        return finalName
       }
       const changeStatusApplyLoan = (status) => {
         loading.value = true
@@ -737,6 +753,7 @@
           showNotify(notify.color, notify.text)
           loading.value = false
           if(loan.value.status == 2 || loan.value.status == 0) {
+            textModal.value = notify.text
             sendLoading.value = true
             setTimeout(() => {
               router.go(-1)
@@ -758,7 +775,6 @@
           text:'Solicitud rechazada',
           color:'negative'
         }
-
       }
 
       onMounted(() => {
@@ -774,6 +790,7 @@
         step,
         numberFormat,
         document,
+        textModal,
         setDocument,
         setChip,
         changeStatusApplyLoan,

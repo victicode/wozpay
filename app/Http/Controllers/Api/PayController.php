@@ -64,6 +64,32 @@ class PayController extends Controller
         }
         
         return $this->returnSuccess(200, $response->object());
+
+        //     try {
+        //         $ch = curl_init();
+        //         curl_setopt($ch, CURLOPT_URL, "https://comercios.bancard.com.py:8888/external-commerce/api/0.1/commerces/321473/branches/1/links/generate-payment-link");
+        //         // SSL important
+        //         curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        //             'Authorization: Basic YXBwcy91Q2dwaFFRMXNRUFk4dlFoRHZwc1V5R09BQU1MTTBiVDp5KW80UHJqLnpjV1VERmUuNHE2MDUrWVNMR3JCc2ozWk1lQXJPbnhl',
+        //             'Content-Type: application/json'
+        //             ]);
+
+        //         curl_setopt($ch, CURLOPT_POST, 1);
+        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
+        //             "amount" => $request->amount,
+        //             "description" => "cuotatest",
+        //             "periodicity" => 1,
+        //             "debit_day" => $request->debitDay,
+        //             "unlimited" => true
+        //         )));
+        //         $output = curl_exec($ch);
+        //         curl_close($ch);
+        //     } catch (Exception $th) {
+        //             //throw $th;
+        //         return $this->returnFail(400, $th->getMessage());
+        //     }
+        //     return $this->returnSuccess(200,  json_decode($output, true) );
     }
     private function validateFieldsFromInput($inputs){
         $rules=[
