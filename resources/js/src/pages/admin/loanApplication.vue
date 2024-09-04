@@ -18,10 +18,10 @@
           :done="step > 1"
         >
           <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-grey-5 text-black ">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos personales</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Datos personales</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -132,10 +132,10 @@
               <q-separator />
             </q-list>
             <!-- address -->
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Dirección particular</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Dirección particular</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -181,10 +181,10 @@
               <q-separator />
             </q-list>
             <!-- professional -->
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Información profesional</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Información profesional</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -238,10 +238,10 @@
           :done="step > 2"
         >
           <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-grey-5 text-black ">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos laborales</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Datos laborales</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -301,10 +301,10 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold ">Referencia laboral</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">peferencia laboral</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -336,10 +336,10 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Referencia personal</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Referencia personal</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -393,10 +393,10 @@
           :done="step > 3"
         >
           <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-grey-5 text-black ">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Informconf</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Informconf</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -422,10 +422,10 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold ">Comprobante de ingresos</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">pomprobante de ingresos</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -471,10 +471,10 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos para el débito automático</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Datos para el débito automático</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -537,10 +537,10 @@
                 No tiene tarjeta vinculada.🥺
               </h6>
             </div>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Linea de crédito disponible</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-sm">Linea de crédito disponible</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -588,9 +588,10 @@
           </div>
         </q-step>
         <template v-slot:navigation>
-          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-lg">
+          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-lg" >
             <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
             <q-btn 
+              v-if="step < 3  || loan.status == '1'"
               @click=" step < 3 ? $refs.stepper.next() : changeStatusApplyLoan(2)" 
               :color="step == 3 ? 'green-6' : 'primary'" 
               class="w-100 q-pa-sm q-mb-sm" 
@@ -602,11 +603,11 @@
                 <q-spinner-facebook />
               </template>
             </q-btn>
-            <div v-if="step == 3" class=" w-100 q-pb-md text-weight-bold text-body2">
+            <div v-if="step == 3 && loan.status == '1' " class=" w-100 q-pb-md text-weight-bold text-body2">
               Enviarás una notificación push de confirmación
             </div>
             <q-btn 
-              v-if="step == 3"
+              v-if="step == 3 && loan.status == '1'"
               @click="changeStatusApplyLoan(1)" 
               color="primary" class="w-100 q-pa-sm q-mb-md" 
               label="Marcar como pendiente" 
@@ -617,7 +618,7 @@
               </template>
             </q-btn>
             <q-btn 
-              v-if="step == 3"
+              v-if="step == 3 && loan.status == '1'"
               @click="changeStatusApplyLoan(0)" 
               color="negative" class="w-100 q-pa-sm q-mb-xl" 
               label="Rechazar solicitud" 
@@ -678,12 +679,6 @@
           ]
         })
       }
-      // const loadingShow = (state) => {
-      //   loading.value = state;
-      // }
-      // const loadingDone = (state) => {
-      //   sendLoading.value = state;
-      // }
 
       const showModal = () => {
         dialog.value = true

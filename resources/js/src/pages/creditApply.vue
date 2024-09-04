@@ -17,10 +17,10 @@
           :done="step > 1"
         >
           <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-grey-5 text-black ">
+            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm ">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos laborales</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">Datos laborales</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -81,10 +81,10 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold ">Referencia laboral</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">Referencia laboral</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -116,10 +116,10 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Referencia personal</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">Referencia personal</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -173,10 +173,10 @@
           :done="step > 2"
         >
           <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-grey-5 text-black ">
+            <q-toolbar class="bg-white text-black q-mt-md ">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Informconf</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">Informconf</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -195,10 +195,10 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold ">Comprobante de ingresos</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -231,10 +231,10 @@
               <q-separator />
               
             </q-list>
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Linea de crédito disponible</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">Linea de crédito disponible</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>

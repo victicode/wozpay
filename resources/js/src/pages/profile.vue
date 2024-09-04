@@ -1,16 +1,15 @@
 
 <template>
-  <div class="profile_section" >
+  <div class="profile_section q-pt-md" >
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- info -->
-        <q-toolbar class="bg-grey-5 text-black q-py-sm">
+        <q-toolbar class="bg-white text-black q-py-sm">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm q-pt-xs">Datos personales</span>
-              <span>
-                <!-- <q-icon name="eva-edit-2-outline" /> -->
-                <q-btn unelevated flat round color="bg-grey-5" style="color: black"  to="/user_info" icon="eva-edit-2-outline" />
+            <div class="flex items-center justify-between position-relative">
+              <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs text-center w-100">Datos personales</span>
+              <span style="position: absolute; right: 2%; " class="q-pt-xs">
+                <q-btn unelevated flat round  style="color: black"  to="/user_info" icon="eva-edit-2-outline" />
               </span>
             </div>
           </q-toolbar-title>
@@ -141,13 +140,12 @@
           <q-separator />
         </q-list>
         <!-- address -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+        <q-toolbar class="bg-white text-center text-black q-mt-md">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Dirección particular</span>
-              <span>
-                <!-- <q-icon name="eva-edit-2-outline" /> -->
-                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_address" icon="eva-edit-2-outline" />
+              <span class="text-subtitle1 text-weight-bold q-pt-sm w-100">Dirección particular</span>
+              <span style="position: absolute; right: 2%; " class="q-pt-xs">
+                <q-btn unelevated flat round  style="color: black"  to="/user_address" icon="eva-edit-2-outline" />
               </span>
             </div>
           </q-toolbar-title>
@@ -194,13 +192,12 @@
           <q-separator />
         </q-list>
         <!-- professional -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+        <q-toolbar class="bg-white text-center text-black q-mt-md">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Información profesional</span>
-              <span>
-                <!-- <q-icon name="eva-edit-2-outline" /> -->
-                <q-btn unelevated flat round color="bg-grey-5" style="color: black" to="/user_proffesion" icon="eva-edit-2-outline" />
+              <span class="text-subtitle1 text-weight-bold q-pt-sm w-100">Información profesional</span>
+              <span style="position: absolute; right: 2%; " class="q-pt-xs">
+                <q-btn unelevated flat round  style="color: black"  to="/user_proffesion" icon="eva-edit-2-outline" />
               </span>
             </div>
           </q-toolbar-title>
@@ -358,5 +355,7 @@
   }
 </style>
 <style lang="scss" scoped>
-
+.w-100 {
+  width: 100%;
+}
 </style>

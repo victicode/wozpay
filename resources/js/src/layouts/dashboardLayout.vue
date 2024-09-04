@@ -38,11 +38,7 @@
       // methods
       const getCurrentUser = () =>{
         store.currentUser().then((data)=>{
-          if(data.code !== 200 ){
-            showNotify('negative', data.error ?? 'Error de servicio')
-            utils.errorLogout( () => router.push('/login'))
-            return;
-          }
+          if(data.code !== 200 ) throw data
           user.value = data.data
           readyState.value = true
         }).catch((e) => { 

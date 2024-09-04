@@ -4,10 +4,10 @@
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- Verification state -->
-        <q-toolbar class="bg-grey-5 text-black ">
+        <q-toolbar class="bg-white text-black q-mt-sm">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Estado de verificación </span>
+            <div class="w-100 flex flex-center">
+              <span class="text-subtitle1 text-weight-bold q-pt-sm">Estado de verificación </span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
@@ -96,10 +96,10 @@
           <q-separator />
         </q-list>
         <!-- cards Debit -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+        <q-toolbar class="bg-white text-black q-mt-sm">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos para el débito automático</span>
+            <div class="w-100 flex flex-center">
+              <span class="text-subtitle1 text-weight-bold q-pt-sm">Datos para el débito automático</span>
             </div>
           </q-toolbar-title>
         </q-toolbar>

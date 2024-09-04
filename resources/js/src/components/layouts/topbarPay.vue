@@ -1,13 +1,13 @@
 <template>
   <div id="topbarLayout" class="bg-primary q-pt-sm">
-    <div class="w-100 flex justify-between items-center h-100 q-pb-sm q-pt-md" style="flex-wrap: nowrap;">
-      <div class="">
-        <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="router.go(-1)" />
+    <div class="w-100 flex flex-center h-100 q-pb-sm q-pt-md position-relative">
+      <div style="position: absolute; left: 0%;">
+        <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="redirectToHome()" />
       </div>
-      <div class="text-weight-bold text-h6 text-white">
+      <div class="text-weight-bold text-h6 text-white w-100 text-center" >
         {{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title}}
       </div>
-        <div :class=" route.name == 'userById' ? '' :'boxNoVisible'">
+        <div :class=" route.name == 'userById' ? '' :'boxNoVisible'" style="position: absolute; right: 0%;">
         <q-btn flat round color="white" size="lg" icon="eva-menu-outline" @click="showSideMenu" />
       </div>
     </div>
@@ -27,16 +27,29 @@
       const showSideMenu = () => {
         emitter.emit('showSideMenu', true);
       }
+      const redirectToHome = () => {
+        const dontValidate = ['/users','/users/loan', '/users/clean', '/users/slow_payer']
+   
+        if(dontValidate.includes(route.path)) {
+          router.push('/admin/dashboard')
+          return
+        }
+        router.go(-1)
+      }
+
       return {
         icons,
-        router,
         route,
+        redirectToHome,
         showSideMenu
       }
     }
   };
 </script>
 <style lang="scss" scoped>
+.w-100 {
+  width: 100%;
+}
 .boxNoVisible {
   width: 72px;
   height: 72px;

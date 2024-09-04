@@ -110,7 +110,7 @@
       // rules
       const dniRules = [
         val => (val !== null && val !== '') || 'El número de cedula es requerido.',
-        val => (val.length >= 8 ) || 'Formato no valido',
+        val => (val.length >= 6 ) || 'Formato no valido',
         val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener "[](),%|&;\'" ',
       ]
       const passwordRules = [

@@ -152,13 +152,11 @@
         }
         loanStore.getApproveLoan(query)
         .then((response) => {
-          console.log(response)
           if(response.code != 200) throw response
           setTimeout(() => {
             loans.value = response.data
-            console.log(response)
               ready.value = true
-            }, 1000);
+            }, 200);
         })
         .catch((response) => {
           console.log(response)
@@ -226,6 +224,7 @@
     & .q-field__label{
       transform: translateY(250%) translateX(-15%);
       font-size: 2rem;
+
       overflow: visible;
     }
     &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
@@ -242,7 +241,7 @@
     
     & .q-field__native{
       padding-top: 15px!important;
-      font-weight: 100!important;
+      font-weight: 400!important;
       font-size: 2rem;
       text-align: center;
       transform: translateY(28%) translateX(-0%);

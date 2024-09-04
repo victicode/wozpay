@@ -1,8 +1,8 @@
 <template>
   <div style=" height: 91vh; position:relative">
     <Transition name="inFade">
-      <div v-if="notifications.length > 0 && ready" class="q-pt-lg">
-        <div class="text-subtitle1 q-mb-sm q-pt-md text-weight-bold q-px-sm">
+      <div v-if="notifications.length > 0 && ready" class="q-pt-md">
+        <div class="text-subtitle1 q-mb-sm q-pt-md text-weight-bold q-px-md q-pb-sm ">
           Nuevas notificaciones
         </div>
         <div>

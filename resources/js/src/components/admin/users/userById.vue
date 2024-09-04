@@ -1,16 +1,16 @@
 
 <template>
-  <div class="profile_section q-mb-xl q-pb-lg" >
+  <div class="profile_section q-mb-xl q-pb-xl" >
     <div>
       <div v-if="Object.values(user).length > 0">
         <div class=""  >
           <div class="w-100 q-mx-none" >
             <!-- info -->
-            <q-toolbar class="bg-grey-5 text-black ">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Datos personales</span>
-                </div>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-md">Datos personales</span>
+                </div> 
               </q-toolbar-title>
             </q-toolbar>
             <q-list >
@@ -170,10 +170,10 @@
               <q-separator />
             </q-list>
             <!-- address -->
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Dirección particular</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-md">Dirección particular</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -219,10 +219,10 @@
               <q-separator />
             </q-list>
             <!-- professional -->
-            <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
-                <div class="w-100 flex items-center justify-between">
-                  <span class="text-subtitle2 text-weight-bold q-mt-sm">Información profesional</span>
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold q-pt-md">Información profesional</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -274,10 +274,10 @@
       <div v-else>
         <div class="w-100 q-mx-none" >
           <div v-for="n in 3" :key="n" class="q-mb-md">
-            <q-toolbar class="bg-grey-5 text-black ">
+            <q-toolbar class="bg-white text-black q-mt-md">
                 <q-toolbar-title> 
                   <div class="w-100  ">
-                    <span class="text-subtitle2 text-weight-bold q-mt-sm"> <q-skeleton type="text" class="w-30" /> </span>
+                    <span class="text-subtitle2 text-weight-bold p-mmdsm"> <q-skeleton type="text" class="w-30" /> </span>
                   </div>
                 </q-toolbar-title>
             </q-toolbar>

@@ -274,6 +274,7 @@ const router = createRouter({
           path: "/bank",
           component: bankPage,
           meta: {
+            title: 'Bancos',
             // middleware: [
             //   auth,
           },

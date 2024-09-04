@@ -134,7 +134,7 @@
       }
       & .q-field__prefix{
         color: $grey-7;
-        transform: translateY(-31%) translateX(300%)
+        transform: translateY(-35%) translateX(215%)
       }
     }
   }

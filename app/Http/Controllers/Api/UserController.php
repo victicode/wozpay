@@ -52,12 +52,10 @@ class UserController extends Controller
     }
     public function cleanUser(Request $request){
         $users = User::query()
-            ->with(['loans'])
+            ->with(['loansComplete'])
             ->withTrashed()
             ->where('rol_id', 3)
-            ->whereHas('loans', function($q){
-                $q->where('status', '3');
-            });
+            ->whereHas('loansComplete');
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');

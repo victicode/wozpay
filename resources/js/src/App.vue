@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf">
     <q-page-container class="body">
       <router-view v-slot="{ Component }">
-        <transition name="fades">
+        <transition name="vertical">
           <component :is="Component" />
         </transition>
       </router-view>

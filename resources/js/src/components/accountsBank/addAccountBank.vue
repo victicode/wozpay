@@ -3,7 +3,7 @@
     <Transition name="inFade">
       <div v-if="ready">
         <div class="q-pa-md">
-          <div class="text-subtitle1 text-weight-medium">
+          <div class="text-subtitle1 text-weight-medium q-px-sm q-mt-sm">
             Datos bancarios
           </div>
           <div>

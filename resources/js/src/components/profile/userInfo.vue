@@ -4,10 +4,10 @@
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- Verification -->
-        <q-toolbar class="bg-grey-5 text-black q-py-sm">
+        <q-toolbar class="bg-white text-black q-py-md q-mt-sm">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm q-pt-xs">Verificar Identidad</span>
+            <div class="w-100 flex items-center justify-center">
+              <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs">Verificar Identidad</span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
@@ -17,7 +17,7 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Verificar documentos</div>
+                    <div class="text-weight-bold text-body2">Verificar documentos</div>
                     <div class="text-caption text-grey-5">
                       Toma una foto de tu documento de identidad
                     </div>
@@ -35,7 +35,7 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Verifcación facial</div>
+                    <div class="text-weight-bold text-body2">Verifcación facial</div>
                     <div class="text-caption text-grey-5">
                       Toma una foto de tu documento de identidad
                     </div>
@@ -50,10 +50,10 @@
           <q-separator />
         </q-list>
         <!-- Verification status -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+        <q-toolbar class="bg-white text-black q-mt-md">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold">Estado de verifiación</span>
+            <div class="w-100 flex items-center justify-center">
+              <span class="text-subtitle1 text-weight-bold">Estado de verifiación</span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
@@ -63,7 +63,7 @@
               <div class="flex items-center ">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Verificación documentos</div>
+                    <div class="text-weight-bold text-body2">Verificación documentos</div>
                     <div class="text-caption text-grey-5 flex items-center">
 
                       {{ 
@@ -109,7 +109,7 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Verificación facial</div>
+                    <div class="text-weight-bold text-body2">Verificación facial</div>
                     <div class="text-caption text-grey-5 flex items-center">
                       {{ 
                         user.verify_status == 1
@@ -151,12 +151,10 @@
           <q-separator />
         </q-list>
         <!-- phone -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+        <q-toolbar class="bg-white text-black q-mt-md">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <div class="text-subtitle2 text-weight-bold">Número de teléfono</div>
-              <span>
-              </span>
+            <div class="w-100 flex items-center justify-center">
+              <span class="text-subtitle1 text-weight-bold">Número de teléfono</span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
@@ -166,8 +164,8 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Número de teléfono actual</div>
-                    <div class="text-caption text-grey-6 text-weight-medium">
+                    <div class="text-weight-bold text-body2">Número de teléfono actual</div>
+                    <div class="text-caption text-grey-5 text-weight-medium">
                       {{user.phone ? `(+595) ${user.phone}` : 'Agregar'}}
                     </div>
                   </div>
@@ -181,12 +179,10 @@
           <q-separator />
         </q-list>
         <!-- Phone -->
-        <q-toolbar class="bg-grey-5 text-black q-mt-sm">
+        <q-toolbar class="bg-white text-black q-mt-md">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <div class="text-subtitle2 text-weight-bold">Correo electrónico</div>
-              <span>
-              </span>
+            <div class="w-100 flex items-center justify-center">
+              <span class="text-subtitle1 text-weight-bold">Correo electrónico</span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
@@ -196,8 +192,8 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Correo electrónico asociado</div>
-                    <div class="text-caption text-grey-6 text-weight-medium">
+                    <div class="text-weight-bold text-body2">Correo electrónico asociado</div>
+                    <div class="text-caption text-grey-5 text-weight-medium">
                       {{user.email ?? 'Agregar'}}
                     </div>
                   </div>

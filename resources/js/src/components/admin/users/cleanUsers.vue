@@ -5,34 +5,35 @@
       <div class="" v-if="ready && users.data.length > 0" >
         <div>
           <div class="flex justify-between items-center q-pa-sm q-mt-md">
-            <div class="text-subtitle1 text-weight-bold">Cliente</div>
-            <div class="text-subtitle1 text-weight-bold q-ml-xl q-pl-md">Fecha de ven.</div>
-            <div class="text-subtitle1 text-weight-bold">Pagado</div>
-
+            <div class="text-subtitle1 text-weight-bold w-30  ">Cliente</div>
+            <div class="text-subtitle1 text-weight-bold w-30 text-center">Fecha de ven.</div>
+            <div class="text-subtitle1 text-weight-bold w-30 text-right">Pagado</div>
           </div>
-          <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-pa-sm userlist">
-            <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-              {{ numberFormat(user.dni) }}
+          <template v-for="(user, index) in users.data" :key="index" >
+            <div v-for="loan in user.loans_complete" :key="loan.id" class="flex justify-between items-center q-pa-sm userlist">
+              <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7 w-30 ">
+                {{ numberFormat(user.dni) }}
+              </div>
+              <div class="text-subtitle2 text-weight-light  text-grey-7 w-30 text-center" >
+                {{ moment(loan.due_date).format('DD/MM/YYYY') }}
+              </div>
+              <div class="flex items-center justify-end w-30 text-center" >
+                <q-btn 
+                  flat 
+                  round 
+                  size="xs"
+                  class="q-pb-none q-mr-xs"
+                  @click="goTo(loan.id)"  
+                >
+                  <q-icon
+                    :name="icons.sharpVerified"
+                    size="sm"
+                    color="positive"
+                  />
+                </q-btn>
+              </div>
             </div>
-            <div class="text-subtitle2 text-weight-light  text-grey-7">
-              {{ moment(user.loans[0].due_date).format('DD/MM/YYYY') }}
-            </div>
-            <div class="flex items-center">
-              <q-btn 
-                flat 
-                round 
-                size="xs"
-                class="q-pb-none"
-                @click="goTo(user.loans[0].id)"  
-              >
-                <q-icon
-                  :name="icons.sharpVerified"
-                  size="sm"
-                  color="positive"
-                />
-              </q-btn>
-            </div>
-          </div>
+          </template>
         </div>
         <div class="pagination flex flex-center q-mt-md">
           <q-pagination
@@ -104,7 +105,6 @@ setup () {
   const ready = ref(false)
   const currentPage = ref(1)
   const users = ref([])
-  const loansCount = ref(0)
   // methods
   const showNotify = (type, message) => {
     $q.notify({
@@ -130,7 +130,6 @@ setup () {
       if(response.code != 200) throw response
       setTimeout(() => {
         users.value = response.data.users
-        loansCount.value = response.data.loansComplete
         ready.value = true
         
       }, 1000);
@@ -169,7 +168,6 @@ setup () {
     numberFormat,
     currentPage,
     users,
-    loansCount,
     moment,
     setPage,
     getUsers,
@@ -211,6 +209,7 @@ position: absolute;
 }
 </style>
 <style lang="scss" scoped>
+
 .userlist {
 border-bottom: 1px solid $grey-4;
 }

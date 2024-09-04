@@ -4,10 +4,10 @@
     <div class="" v-if="Object.values(user).length > 0" >
       <div class="w-100 q-mx-none" >
         <!-- info -->
-        <q-toolbar class="bg-grey-5 text-black ">
+        <q-toolbar class="bg-white text-black q-mt-md">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold">Dirección particular</span>
+            <div class="w-100 flex items-center justify-center">
+              <span class="text-subtitle1 text-weight-bold">Dirección particular</span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
@@ -17,7 +17,7 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Ciudad</div>
+                    <div class="text-weight-bold text-body2">Ciudad</div>
                     <div class="text-caption text-grey-5">
                       {{user.city ?? 'Agregar'}}
                     </div>
@@ -35,7 +35,7 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Barrio o localidad</div>
+                    <div class="text-weight-bold text-body2">Barrio o localidad</div>
                     <div class="text-caption text-grey-5">
                       {{user.locality ?? 'Agregar'}}
                     </div>
@@ -53,7 +53,7 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-caption">Calle y N° de casa</div>
+                    <div class="text-weight-bold text-body2">Calle y N° de casa</div>
                     <div class="text-caption text-grey-5">
                       {{user.address ?? 'Agregar'}}
                     </div>

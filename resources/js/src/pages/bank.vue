@@ -4,7 +4,7 @@
       <Transition name="inFade">
         <div v-if="banks.length > 0 && ready">
           <div>
-            <div class="text-subtitle1 text-weight-bold q-mb-sm  ">Entidades</div>
+            <div class="text-subtitle1 text-weight-bold q-mb-md  q-px-sm q-pt-sm ">Entidades</div>
             <div>
               <div v-for="(bank,index) in banks" :key="index" class="q-pa-md q-mb-md bank__section" @click="selectBank(bank.id)">
                 <div v-html="wozIcons[bank.logo]" />
