@@ -163,6 +163,9 @@
         })
       } 
 
+      const newCapital = () => {
+        
+      }
       const setPage = (page) => {
         currentPage.value = page
         getApproveLoan('')

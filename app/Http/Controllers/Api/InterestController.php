@@ -16,4 +16,16 @@ class InterestController extends Controller
         
         return $this->returnSuccess(200, $interestRate);
     }
+    public function getInterestRate() {
+        $interestRate  = Interest::where('type', 1)->get();
+        $interestDelay = Interest::where('type', 2)->get();
+
+        return $this->returnSuccess(200, [ 'interestRate' => $interestRate, 'interestDelay' => $interestDelay ]);
+    }
+    public function updateInterestRate() {
+        $interestRate  = Interest::where('type', 1)->get();
+        $interestDelay = Interest::where('type', 2)->get();
+
+        return $this->returnSuccess(200, [ 'interestRate' => $interestRate, 'interestDelay' => $interestDelay ]);
+    }
 }

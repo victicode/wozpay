@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\CardController;
+use App\Http\Controllers\Api\InterestController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PayController;
@@ -101,6 +102,11 @@ Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(fu
     // Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [TransferController::class, 'getTransferById']);
     // Route::post('/delete/{id}', [CardController::class, 'deleteCard']);
+});
+Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(function () {
+    Route::get('/', [InterestController::class, 'getInterestRate']);
+    Route::post('/', [InterestController::class, 'storeInterestRate']);
+
 });
 
 Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {

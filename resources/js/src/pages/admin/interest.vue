@@ -1,152 +1,121 @@
 
 <template>
   <div class="profile_section  " >
-    <div class="" v-if="Object.values(user).length > 0" >
+    <div class="" v-if="Object.values(interestRate).length > 0" >
       <div class="w-100 q-mx-none" >
-
-        <q-toolbar class="bg-grey-5 text-black q-py-sm">
+        <q-toolbar class="bg-white text-black q-py-sm">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm q-pt-xs">Agrega la tasa de interes</span>
-              <span>
-                <!-- <q-icon name="eva-edit-2-outline" /> -->
-                <q-btn unelevated flat round color="bg-grey-5" style="color: black"  to="/user_info" icon="eva-edit-2-outline" />
+            <div class="flex items-center justify-between position-relative">
+              <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs text-center w-100">Agrega la tasa de interes</span>
+              <span style="position: absolute; right: 2%; " class="q-pt-xs">
+                <q-btn unelevated flat round  style="color: black" icon="eva-edit-2-outline" @click="setSelectedRates(interestRate.interestRate)"/>
               </span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
         <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 15 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">70%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 30 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">60%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 60 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">40%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 90 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">25%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
+          <template v-for="(rate, key) in interestRate.interestRate" :key="key">
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Préstamos a {{ rate.days }} días
+                    </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">
+                    {{ rate.interest }}%
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </template>
         </q-list>
-
-        <q-toolbar class="bg-grey-5 text-black ">
+        <q-toolbar class="bg-white text-black q-py-sm">
           <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Agrega la tasa de interes por mora</span>
-              <span>
-                <q-btn unelevated flat round color="bg-grey-5" style="color: black"  to="/user_info" icon="eva-edit-2-outline" />
+            <div class="flex items-center justify-between position-relative">
+              <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs text-center w-100">Agrega la tasa de interes por mora</span>
+              <span style="position: absolute; right: 2%; " class="q-pt-xs">
+                <q-btn unelevated flat round  style="color: black" icon="eva-edit-2-outline" @click="setSelectedRates(interestRate.interestDelay)"/>
               </span>
             </div>
           </q-toolbar-title>
         </q-toolbar>
         <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 15 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">3%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 30 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">7%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 60 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">15,5%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  Préstamos a 90 días
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">19,9%</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
+          <template v-for="(rate, key) in interestRate.interestDelay" :key="key">
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Préstamos a {{ rate.days }} días
+                    </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class=" text-caption">
+                    {{ rate.interest }}%
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </template>
         </q-list>
       </div>
     </div>
+    <div v-else>
+      <div class="w-100 q-mx-none" >
+        <template v-for="n in 2" :key="n">
+          <q-toolbar class="bg-white text-black q-py-sm">
+            <q-toolbar-title> 
+              <div class="flex flex-center position-relative w-100">
+                
+                <q-skeleton type="text" class="w-30" />
+      
+                <span style="position: absolute; right: 2%; width: 50px; " class="q-pt-xs">
+                  <q-skeleton type="text" class="w-100" />
+                </span>
+              </div>
+            </q-toolbar-title>
+          </q-toolbar>
+          <q-list >
+            <template v-for="k in 4" :key="k">
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between w-100 ">
+                    <q-item-label class="q-mt-xs text-weight-bold w-30" >
+                      <q-skeleton type="text"  class="w-100 "/>
+                    </q-item-label>
+                    <q-item-label class="w-30">
+                      <q-skeleton type="text" class="w-100 " />
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+            </template>
+          </q-list>
+        </template>
+      </div>
+    </div>
+    <updateInterest :dialog="dialog" :interestRates="selectedRates" @hiddeModal="hiddeModal" />
 
   </div>
 </template>
 <script>
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { inject } from 'vue'
   import { useAuthStore } from '@/services/store/auth.store'
+  import { useInterestStore } from '@/services/store/interest.store.js'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
   import util from '@/util/numberUtil'
+  import updateInterest from '@/components/admin/interest/modals/updateInterest.vue';
+
   export default {
+    components: {
+      updateInterest,
+    },
     setup () {
       //vue provider
       const icons = inject('ionIcons')
@@ -154,7 +123,10 @@
       const store = useAuthStore()
       const router = useRouter()
       const user = useAuthStore().user;
-      
+      const interestStore = useInterestStore()
+      const interestRate = ref({})
+      const dialog = ref(false);
+      const selectedRates = ref({})
       // Data
       const loading = ref(false)
       
@@ -180,12 +152,45 @@
       const loadingShow = (state) => {
         loading.value = state;
       }
-
+      const getInterestRate = () => {
+        interestStore.getInterestRate()
+        .then((response) => {
+          console.log(response)
+          if(response.code !== 200) throw response
+          setTimeout(() => {
+            
+            interestRate.value = response.data;
+          }, 1000);
+        })
+        .catch((respnse) => {
+          console.log(respnse)
+          showNotify('negative', 'Error al obtener las tasas de intereses.')
+        })
+      }
+      const setSelectedRates = (rate) => {
+        selectedRates.value = rate
+        showModal()
+      }
+      const showModal = () => {
+        dialog.value = true
+      }
+      const hiddeModal = () => {
+        dialog.value = false
+      }
+      onMounted(() => {
+        getInterestRate()
+      })
       return {
         icons,
         loading,
+        dialog,
         user,
         numberFormat,
+        interestRate,
+        hiddeModal,
+        showModal,
+        selectedRates,
+        setSelectedRates,
       }
     }
   };
@@ -203,5 +208,11 @@
   }
 </style>
 <style lang="scss" scoped>
+.w-30{
+  width: 30%!important;
+}
+.w-100{
+  width: 100%;
+}
 
 </style>
