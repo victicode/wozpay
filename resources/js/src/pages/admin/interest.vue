@@ -98,7 +98,7 @@
         </template>
       </div>
     </div>
-    <updateInterest :dialog="dialog" :interestRates="selectedRates" @hiddeModal="hiddeModal" />
+    <updateInterest :dialog="dialog" :interestRates="selectedRates" @hiddeModal="hiddeModal" @update="getInterestRate"/>
 
   </div>
 </template>
@@ -127,32 +127,14 @@
       const interestRate = ref({})
       const dialog = ref(false);
       const selectedRates = ref({})
-      // Data
-      const loading = ref(false)
       
       // Methods
-      const showToltip = () => {
-        showing.value = true
-        setTimeout(() => {
-          showing.value = false
-        }, 3500);
-      }
-      // methods
+
       const numberFormat = util.numberFormat
 
-      const showNotify = (type, message) => {
-        $q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
+
       const getInterestRate = () => {
+        interestRate.value = []
         interestStore.getInterestRate()
         .then((response) => {
           console.log(response)
@@ -176,21 +158,22 @@
       }
       const hiddeModal = () => {
         dialog.value = false
+
       }
       onMounted(() => {
         getInterestRate()
       })
       return {
         icons,
-        loading,
         dialog,
         user,
         numberFormat,
         interestRate,
+        selectedRates,
         hiddeModal,
         showModal,
-        selectedRates,
         setSelectedRates,
+        getInterestRate,
       }
     }
   };

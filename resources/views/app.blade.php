@@ -20,6 +20,11 @@
 
         <div id="app">
         </div>
+        <script type="text/javascript">
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/public/sw.js');
+            }
+        </script>
         @vite('resources/js/app.js')
     </body>
 </html>

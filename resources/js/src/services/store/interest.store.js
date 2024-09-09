@@ -56,7 +56,7 @@ export const useInterestStore = defineStore("interest", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/balance/increments/"+data.user, data)
+          ApiService.post("/api/interest/"+data.type, data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

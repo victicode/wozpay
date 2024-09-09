@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('facial_verify')->after('verify_status')->nullable();
+            $table->string('facial_verify')->after('verify_status')->default(0);
         });
     }
 

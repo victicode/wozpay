@@ -130,7 +130,7 @@
         store.login(data)
         .then((data)=>{
           if(!data.code){
-            showNotify('negative', data.message)
+            showNotify('negative', data.message ?? 'Error de conexión, no tienes acceso a internet')
             loadingShow(false);
             return;
           }

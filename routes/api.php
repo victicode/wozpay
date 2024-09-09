@@ -106,7 +106,7 @@ Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(fu
 Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(function () {
     Route::get('/', [InterestController::class, 'getInterestRate']);
     Route::post('/', [InterestController::class, 'storeInterestRate']);
-    Route::post('/{id}', [InterestController::class, 'updateInterestRate']);
+    Route::post('/{type}', [InterestController::class, 'updateInterestRate']);
 
 });
 

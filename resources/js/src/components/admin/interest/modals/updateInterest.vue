@@ -60,12 +60,9 @@
           </q-list>
         </q-card-section>
         <q-card-actions align="right" class="text-primary q-mt-sm button-area">
-          <q-btn color="grey-8" class="q-pa-lg" label="Cerrar" :loading="loading" @click="hideModal()" > 
-            <template v-slot:loading>
-              <q-spinner-facebook />
-            </template>
-          </q-btn>
-          <q-btn flat label="Confirmar" :loading="loading" @click="hideModal()" > 
+          <q-btn color="grey-8" class="q-pa-lg" label="Cerrar" @click="hideModal()" />
+
+          <q-btn flat label="Confirmar" :loading="loading" @click="updateInterestRates()" > 
             <template v-slot:loading>
               <q-spinner-facebook />
             </template>
@@ -76,6 +73,8 @@
 </template>
 <script>
   import { onMounted, ref, watch } from 'vue';
+  import { useInterestStore } from '@/services/store/interest.store.js'
+  import { useQuasar } from 'quasar';
 
   export default {
     props: {
@@ -83,13 +82,15 @@
       interestRates: Object,
     },
 
-    emits: ['hiddeModal'],
+    emits: ['hiddeModal', 'update'],
     setup (props, { emit }) {
 
       // Data
       const interestRates = ref([]);
       const loading = ref(false);
       const dialog = ref(props.dialog);
+      const interestStore = useInterestStore()
+      const $q = useQuasar(); 
 
       // Methods
       const loadingShow = (state) => {
@@ -101,6 +102,7 @@
         return 'Editar la tasa de interes por mora'
       }
       const hideModal = () => {
+        emit('update')
         emit('hiddeModal')
       }
       const setInterestInputFormat = (interests) => {
@@ -109,21 +111,45 @@
         Object.values(interests).forEach((interest) => {
           value.push({
             days: interest.days,
+            type: interest.type,
             interest: interest.interest
           })
-        }); 
-
-        
+        });         
         return value
       }
-      
+      const updateInterestRates = () => {
+        loadingShow(true)
+        const data = {
+          type:     interestRates.value[0].type,
+          interest: JSON.stringify(interestRates.value)
+        }
+        interestStore.updateInterestRate(data)
+        .then((data) => {
+          if(data.code !== 200 ) throw data
+          showNotify('positive', 'Tasa de intereses cambiadas con exito.')
+          loadingShow(false)
+          hideModal()
+        })
+        .catch((response) => {
+          showNotify('positive', 'Error al cambiar las tasa de intereses.')
+          loadingShow(false)
+        })
+      }
+      const showNotify = (type, message) => {
+        $q.notify({
+          message: message,
+          color: type,
+          actions: [
+            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
+      }
       watch(() => props.dialog, (newValue) => {
         dialog.value = newValue
       });
 
       watch(() => props.interestRates, (newValue) => {
         interestRates.value = setInterestInputFormat(newValue)
-        console.log(interestRates.value)
       });
 
       onMounted(() => {
@@ -135,7 +161,7 @@
         interestRates,
         hideModal,
         setTitleByOperation,
-        text:'',
+        updateInterestRates,
       }
     }
   };

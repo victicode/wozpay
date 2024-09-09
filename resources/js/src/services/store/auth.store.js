@@ -65,8 +65,8 @@ export const useAuthStore = defineStore("auth", {
             }
           })
           .catch(({ response }) => {
-            console.log(response.data.error)
-            resolve(response.data.error);
+            // console.log(response.data.error)
+            resolve(response ? response.data.error : {});
           });
       })
     },
