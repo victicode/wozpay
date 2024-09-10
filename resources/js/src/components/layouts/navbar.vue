@@ -6,14 +6,14 @@
     align="justify"
     class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex q-py-xs" 
   >
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'"  exact replace  >
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'" exact>
       <div class="flex flex-center column">
         <div v-html="wozIcons.home" />
         <span class="q-mt-xs text-dark text-caption">Inicio</span>
       </div>
     </q-route-tab>
     <!-- <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/last-operations'" :icon="'eva-flip-2-outline'" exact replace label="Ult. Trans." /> -->
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" exact replace style="opacity: 0.4;">
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" exact style="opacity: 0.4;">
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"
@@ -22,7 +22,7 @@
         <span class="q-mt-xs text-dark text-caption">Ult. Trans</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'"  exact  replace  >
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'" exact>
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"
@@ -31,16 +31,18 @@
         <span class="q-mt-xs text-dark text-caption">Banco</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'"  exact replace >
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'" exact>
       <div class="flex flex-center column">
         <section class="flex flex-center column relative">
           <div v-html="wozIcons.notification" />
-          <q-badge v-if="notificationsCount > 0" color="red" rounded floating class="notificationBadge" :label="notificationsCount >= 10 ? '+'+notificationsCount : notificationsCount " />
+          <div v-if="notificationsCount > 0"  rounded floating class="notificationBadge bg-negative"  >
+            {{ notificationsCount >= 10 ? '+'+notificationsCount : notificationsCount }}
+          </div>
         </section>
         <span class="q-mt-xs text-dark text-caption">Notificaciones</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/profile'"  exact replace > 
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/profile'" exact> 
       <div class="flex flex-center column">
         <div v-html="wozIcons.profile" />
         <span class="q-mt-xs text-dark text-caption">Perfil</span>
@@ -55,6 +57,7 @@ import { inject, onMounted, ref } from 'vue'
 import wozIcons from '@/assets/icons/wozIcons'
 import { useNotificationStore } from '@/services/store/notification.store'
 import { useAuthStore } from '@/services/store/auth.store'
+import notificationSound from '@/assets/audio/notification7.wav'
 
 export default {
   setup () {
@@ -62,6 +65,7 @@ export default {
     const store = useNotificationStore()
     const user = useAuthStore().user;
     const notificationsCount = ref(0)
+    const sound = new Audio(notificationSound)
 
     const getNotifications = () =>{
       store.getAllNotificationByUser(user.id).then((data) =>{
@@ -71,6 +75,13 @@ export default {
 
     onMounted(()=>{
       getNotifications()
+      window.Echo
+      .channel('notificationEvent'+user.id)
+      .listen('NotificationsEvent', async (data) => {
+        getNotifications()
+        sound.play()
+      })
+  
     })
     return { icons, wozIcons, notificationsCount}
   },
@@ -78,7 +89,18 @@ export default {
 </script>
 <style>
 .notificationBadge{
-  top: -3px!important; right: -7px!important;
+  top: -5px!important; 
+  right: -10px!important;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  font-size: .75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  
+  color: white;
 }
 .q-tab__label{
     font-size: 0.72rem!important;

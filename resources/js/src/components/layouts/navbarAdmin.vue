@@ -67,9 +67,6 @@ export default {
 }
 </script>
 <style>
-.notificationBadge{
-  top: -3px!important; right: -7px!important;
-}
 .q-tab__label{
     font-size: 0.72rem!important;
   }

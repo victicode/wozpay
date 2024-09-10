@@ -304,7 +304,7 @@
             <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
                 <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">peferencia laboral</span>
+                  <span class="text-subtitle1 text-weight-bold ">Referencia laboral</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -425,7 +425,7 @@
             <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
                 <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">pomprobante de ingresos</span>
+                  <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
@@ -741,12 +741,14 @@
         }
         loanStore.changeStatusLoan(data)
         .then((data) => {
-
           if(data.code !== 200) throw data
+
           const notify = formatMessage(status)
           loan.value = data.data
-          showNotify(notify.color, notify.text)
           loading.value = false
+
+          showNotify(notify.color, notify.text)
+
           if(loan.value.status == 2 || loan.value.status == 0) {
             textModal.value = notify.text
             sendLoading.value = true

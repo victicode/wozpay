@@ -23,7 +23,7 @@
         />
       </q-card-section>
       <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 3" >
-        <q-file  v-model="setterVal" clearable clear-icon="eva-close-outline"  autofocus dense max-files="3" multiple>
+        <q-file class="inputLoanField" v-model="setterVal" clearable clear-icon="eva-close-outline"  autofocus dense max-files="3" multiple label="Ver en carpeta 📂">
           <template v-slot:prepend>
             <q-icon name="eva-attach-2-outline" />
           </template>
@@ -154,6 +154,9 @@
   };
 </script>
 <style lang="scss">
+.inputLoanField.q-field--dense.q-field--float .q-field__label {
+    transform: translateY(-63%) translateX(-1%) scale(0.75);
+}
 .van_picker_up{
   transform: translateY(-10%); 
   height: 268px;

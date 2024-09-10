@@ -329,7 +329,6 @@
     <div v-if="dialog == 'setValue'">
       <setValueModal  :dialog="(dialog == 'setValue')" :input="input"  @hiddeModal="hiddeModal"/>
     </div>
-    
   </div>
 </template>
 

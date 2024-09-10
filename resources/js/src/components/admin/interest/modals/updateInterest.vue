@@ -1,10 +1,13 @@
 <template>
   <q-dialog v-model="dialog" persistent backdrop-filter="blur(8px)">
-      <q-card style="flex-wrap: nowrap;" class="flex column dialog_document h-65 position-relative">
+      <q-card style="flex-wrap: nowrap;" class="flex column dialog_document h-70 position-relative">
         <q-card-section class="header_document q-pb-xs">
           <div class="text-subtitle1 text-weight-bold "> {{ setTitleByOperation() }}</div>
         </q-card-section>
         <q-card-section>
+          <div class="flex justify-end">
+            <q-btn color="primary" class="q-px-md q-py-xs" label="Agregar tasa" @click="addInterestRate()" />
+          </div>
           <q-list >
             <q-item class="q-py-none q-px-sm" >
               <q-item-section>
@@ -59,9 +62,8 @@
             </template>
           </q-list>
         </q-card-section>
-        <q-card-actions align="right" class="text-primary q-mt-sm button-area">
+        <q-card-actions align="right" class="text-primary q-mt-sm q-py-md">
           <q-btn color="grey-8" class="q-pa-lg" label="Cerrar" @click="hideModal()" />
-
           <q-btn flat label="Confirmar" :loading="loading" @click="updateInterestRates()" > 
             <template v-slot:loading>
               <q-spinner-facebook />
@@ -102,7 +104,6 @@
         return 'Editar la tasa de interes por mora'
       }
       const hideModal = () => {
-        emit('update')
         emit('hiddeModal')
       }
       const setInterestInputFormat = (interests) => {
@@ -119,16 +120,19 @@
       }
       const updateInterestRates = () => {
         loadingShow(true)
+
         const data = {
           type:     interestRates.value[0].type,
-          interest: JSON.stringify(interestRates.value)
+          interest: JSON.stringify(filterEmptyValue(interestRates.value))
         }
+
         interestStore.updateInterestRate(data)
         .then((data) => {
           if(data.code !== 200 ) throw data
           showNotify('positive', 'Tasa de intereses cambiadas con exito.')
           loadingShow(false)
           hideModal()
+          emit('update')
         })
         .catch((response) => {
           showNotify('positive', 'Error al cambiar las tasa de intereses.')
@@ -144,8 +148,30 @@
           ]
         })
       }
+      const addInterestRate = () => {
+        const data = {
+          days:null,
+          interest:null,
+          type:1
+        }
+        interestRates.value.push(data)
+      }
+      const filterEmptyValue = (values) => {
+        let formatValues = []
+
+        values.forEach((value) => {
+
+          if(value.days && value.interest){
+            formatValues.push(value)
+          }
+        });         
+        return formatValues
+      }
+
       watch(() => props.dialog, (newValue) => {
         dialog.value = newValue
+        interestRates.value = setInterestInputFormat(props.interestRates)
+        
       });
 
       watch(() => props.interestRates, (newValue) => {
@@ -162,19 +188,18 @@
         hideModal,
         setTitleByOperation,
         updateInterestRates,
+        addInterestRate,
       }
     }
   };
 </script>
 <style lang="scss" scoped>
-.document_img{
-  height: 400px;
-}
+
 .w-100 {
   width: 100%;
 }
-.h-65 {
-  height: 65%;
+.h-70 {
+  height:  calc(fit-content + 52px);
 }
 .w-50 {
   width: 50%;
@@ -186,18 +211,12 @@
 .header_document{
   border-bottom: 2px solid $grey-4;
 }
-.button-area{
-  position: absolute; 
-  bottom: 1%;
-  right: 0%;
-}
+
 @media screen and (max-width: 780px){
   .dialog_document {
     min-width: 380px!important;
   }
-  .document_img{
-    height: fit-content;
-  }
+
 }
 </style>
 <style lang="scss">

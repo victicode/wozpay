@@ -32,7 +32,7 @@ class LoanController extends Controller
         ]);
 
         $redTape =  $this->storeRedTapes($request, $loan->id);
-        // $this->firstLoanDone($loan->user_id);
+        $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id);
 
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
@@ -43,12 +43,11 @@ class LoanController extends Controller
     }
     public function changeStatus($loanId, Request $request) {
         $loan = Loan::with('redTapes', 'user.card')->find($loanId);
-
         if(!$loan) return $this->returnFail(400, 'Prestamo no encontrado');
 
         $loan->status = $request->status;
         $loan->save();
-
+        $this->actionByStatuLoan($loan);
         return $this->returnSuccess(200, $loan);
     }
     public function getApproveLoan(Request $request) {
@@ -106,17 +105,26 @@ class LoanController extends Controller
         $user->save();
         return $user;
     }
-    private function storeWallet(Request $request,){
-
-        $wallet = Wallet::create([
-            'number'    => '916' + $request->dni,
-            'balance'   => floatval($request->balance),
-            'type'      => $request->type,
-            'status'    => 1,
-            'user_id'   => $request->user_id,
+    private function actionByStatuLoan($loan) {
+        if($loan->status == 2) $this->approveLoan($loan);
+        if($loan->status == 0) $this->rejectLoan($loan);
+    }
+    private function approveLoan($loan){
+        $this->firstLoanDone($loan->user_id);
+        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id);
+    } 
+    private function rejectLoan($loan){
+        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id);
+    } 
+    private function emitNotification($message, $user){
+        $notification = new NotificationController;
+        $requestNotification = new Request([
+            'text'      => $message,
+            'user'   => $user,
+            'sender' => 'Woz Pay informa',
         ]);
 
-        return $wallet;
+        $notification->storeNotification($requestNotification);
     }
     private function lastIpsFormat ($request, $loan){
         $lastIps = [];

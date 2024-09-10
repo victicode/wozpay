@@ -13,6 +13,8 @@ import { Switch } from 'vant';
 
 import * as materialIcons from '@quasar/extras/material-icons-outlined'
 import * as materialIcons2 from '@quasar/extras/material-icons-sharp'
+import * as materialIcons3 from '@quasar/extras/material-icons-round'
+
 
 // import * as ionIcons from '@quasar/extras/ionicons-v7'
 // import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
@@ -55,7 +57,7 @@ app.use(Quasar, {
 })
 app.use(Picker);
 app.use(Switch);
-app.provide('ionIcons', { ...materialIcons, ...materialIcons2})
+app.provide('ionIcons', { ...materialIcons, ...materialIcons2, circle: materialIcons3.roundCheckCircle})
 app.provide('emitter', emitter)
 
 app.mount('#app')

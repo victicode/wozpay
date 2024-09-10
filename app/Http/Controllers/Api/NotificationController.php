@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Notification;
 use Exception;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Events\NotificationsEvent;
+use App\Http\Controllers\Controller;
 
 class NotificationController extends Controller
 {
@@ -16,7 +17,7 @@ class NotificationController extends Controller
     {
         //
         try {
-            $notifications = Notification::query()->where('user_id', $id)->take(20)->get();
+            $notifications = Notification::query()->where('user_id', $id)->orderBy('created_at', 'desc')->take(20)->get();
             $unreadCount = Notification::query()->where('user_id', $id)->where('read', 0)->count();
         } catch (Exception $th) {
             return $this->returnFail(400, $th->getMessage());
@@ -51,7 +52,7 @@ class NotificationController extends Controller
             'read'      => 0,
             'type'      => 1,
         ]);
-
+        event(new NotificationsEvent($newNotification->user_id));
         return $this->returnSuccess(200, $newNotification);
     }
 

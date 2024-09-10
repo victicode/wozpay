@@ -1,11 +1,11 @@
 <template>
-  <div style=" height: 91vh; position:relative">
+  <div style=" height: 82vh; position:relative">
     <Transition name="inFade">
-      <div v-if="notifications.length > 0 && ready" class="q-pt-md">
+      <div v-if="notifications.length > 0 && ready" class="q-pt-md" style="height: 100%;">
         <div class="text-subtitle1 q-mb-sm q-pt-md text-weight-bold q-px-md q-pb-sm ">
           Nuevas notificaciones
         </div>
-        <div>
+        <div class="q-pb-lg notification__section" >
           <div v-for="(notification, index) in notifications" :key="index" class=" w-100  q-px-md" :class="{'unRead': !notification.read}">
             <div class="notification__content flex items-center q-py-sm">
               <div class="w-75">
@@ -76,6 +76,8 @@ import { useAuthStore } from '@/services/store/auth.store'
 import moment from 'moment';
 import 'moment/locale/es';
 import sadBell from '@/assets/images/sadBell.svg'
+import notificationSound from '@/assets/audio/notification7.wav'
+
 export default {
   setup () {
     const icons = inject('ionIcons')
@@ -83,6 +85,8 @@ export default {
     const user = useAuthStore().user;
     const notifications = ref([])
     const ready = ref(false)
+    const sound = new Audio(notificationSound)
+    
     const getNotifications = () =>{
       store.getAllNotificationByUser(user.id).then((data) =>{
         if(data.code !== 200) return
@@ -95,6 +99,12 @@ export default {
     }
     onMounted(()=>{
       getNotifications();
+      window.Echo
+      .channel('notificationEvent'+user.id)
+      .listen('NotificationsEvent', async (data) => {
+        getNotifications()
+        sound.play()
+      })
       moment.updateLocale('es-mx', {
         months : 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
         monthsShort : 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
@@ -124,6 +134,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.notification__section {
+  max-height: 100%; 
+  overflow-y: auto; 
+  height: max-content;
+}
 .circle-bell__content {
   height: 100px;
   width:100px; 
