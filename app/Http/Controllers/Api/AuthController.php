@@ -22,11 +22,10 @@ class AuthController extends Controller
 		} catch (Exception $e) {
 			return $this->returnFail(505,['message'=> 'Error en los datos.']);
 		}
+
 		if($validator->fails()){
 			return $this->returnFail(505,['message'=> 'Error en los datos.']);
 		}
-		
-
 
 		try{
 			$token = JWTAuth::attempt([
@@ -36,10 +35,13 @@ class AuthController extends Controller
 		}catch (Exception $e) {
 			return $this->returnFail(505,['message'=> $e->getMessage()]);
 		}
+
 		if(!$token){
 			return $this->returnFail(404,['message'=> 'Estas credenciales no coinciden con nuestros registros.']);
-			
 		}
+		
+		if($this->isBlockedUser()) return $this->returnFail(404,['message'=> 'Este usuario ha sido bloqueado.']);
+
 		return $this->returnSuccess(200,['access_token' => $token]);
 	}
 	public function logout(Request $request)
@@ -69,6 +71,10 @@ class AuthController extends Controller
 		return $this->returnSuccess(200, User::with('wallet')->find($request->user()->id));
 	}
 	public function refresh(){
-			return $this->createNewToken(JWTAuth::refresh());
+		return $this->createNewToken(JWTAuth::refresh());
+	}
+	private function isBlockedUser(){
+		$user = JWTAuth::user();
+		return $user->isBlock == 1;
 	}
 }

@@ -10,7 +10,7 @@
             <div class="notification__content flex items-center q-py-sm">
               <div class="w-75">
                 <div class="flex items-center q-mb-xs"> 
-                  <span class="text-body3 text-grey-7">Woz Pay informa</span> 
+                  <span class="text-body3 text-grey-7">{{ notification.sender_id }}</span> 
                   <q-icon
                     :name="icons.sharpVerified"
                     size="xs"
