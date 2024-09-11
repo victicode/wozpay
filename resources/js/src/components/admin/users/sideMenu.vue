@@ -1,6 +1,6 @@
 <template>
-  <q-dialog v-model="dialog" position="right" class="side-menu" full-height persistent>
-    <q-card style="width: 350px">
+  <q-dialog v-model="dialog" position="right" maximized>
+    <q-card >
       <div class="w-100 q-mx-none" >
         <!-- info -->
         <q-toolbar class="bg-white text-black header-form">
