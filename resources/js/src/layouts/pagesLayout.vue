@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-dasboard__content"  v-if="readyState"  style="">
+  <div class="layout-dasboard__content"  style="">
     <topbar/>
     <div class="container_page" >
       <router-view v-slot="{ Component }">
@@ -51,7 +51,7 @@
 
       // Mounted
       onMounted(() =>{
-        getCurrentUser()
+        // getCurrentUser()
         $q.addressbarColor.set('#565656')
       })
       

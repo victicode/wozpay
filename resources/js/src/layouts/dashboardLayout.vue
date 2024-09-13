@@ -1,9 +1,9 @@
 <template>
-  <div class="layout-dasboard__content" v-if="readyState" style="">
+  <div class="layout-dasboard__content" style="">
     <div id="content-page" >
       <router-view v-slot="{ Component }">
-        <transition name="horizontal" >
-          <component :is="Component"  />
+        <transition name="vertical" >
+          <component :is="Component"/>
         </transition>
       </router-view>
     </div>
@@ -33,8 +33,9 @@
       const $q = useQuasar()
       const store = useAuthStore();
       const router = useRouter();
-      const user = ref({})
+      const user = ref(useAuthStore().user)
       const readyState = ref(false)
+      
       // methods
       const getCurrentUser = () =>{
         store.currentUser().then((data)=>{
@@ -58,7 +59,7 @@
 
       // Mounted
       onMounted(() =>{
-        getCurrentUser()
+        // getCurrentUser()
         $q.addressbarColor.set('#0449fb')
       })
       

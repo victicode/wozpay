@@ -72,12 +72,9 @@
           { text: '15 días', value: 15 },
         ]
       : [
-          { text: '7 días', value: 7 },
-          { text: '10 días', value: 10 },
           { text: '15 días', value: 15 },
           { text: '30 días', value: 30 },
           { text: '60 días', value: 60 },
-          { text: '75 días', value: 75 },
           { text: '90 días', value: 90 },
 
         ];

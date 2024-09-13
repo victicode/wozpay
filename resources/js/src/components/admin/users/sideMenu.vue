@@ -1,7 +1,7 @@
 <template>
-  <q-dialog v-model="dialog" position="right" maximized>
-    <q-card >
-      <div class="w-100 q-mx-none" >
+  <q-dialog v-model="dialog" class="side-menu" position="right" maximized>
+    <q-card > 
+      <div class="w-100 q-mx-none q-pt-sm" >
         <!-- info -->
         <q-toolbar class="bg-white text-black header-form">
           <q-toolbar-title> 
@@ -107,10 +107,10 @@
 </script>
 <style lang="scss">
   .text-subtitle3 {
-      font-size: 0.84rem;
-      font-weight: 500;
-      line-height: 1.375rem;
-      letter-spacing: 0.00714em;
+    font-size: 0.84rem;
+    font-weight: 500;
+    line-height: 1.375rem;
+    letter-spacing: 0.00714em;
   }
 
   .header-form {
@@ -121,7 +121,8 @@
     overflow: hidden;
     & .q-dialog__inner { 
       padding: 0px;
-      
+      left: 25%;
+      right: 25%;
     }
     & .q-dialog__backdrop {
       width: 50%;

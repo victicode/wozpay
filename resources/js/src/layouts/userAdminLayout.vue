@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-dasboard__content"  v-if="readyState"  style="">
+  <div class="layout-dasboard__content"    style="">
     <topbarPay />
     <div class="container_page" >
       <div class="section_page q-mt-md">
@@ -71,7 +71,7 @@
       } 
       // Mounted
       onMounted(() =>{
-        getCurrentUser()
+        // getCurrentUser()
         $q.addressbarColor.set('#0449fb')
       })
       

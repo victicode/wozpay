@@ -8,8 +8,14 @@
         {{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title}}
       </div>
         <div :class=" route.name == 'userById' ? '' :'boxNoVisible'" style="position: absolute; right: 0%;">
-        <q-btn flat round color="white" size="lg" icon="eva-menu-outline" @click="showSideMenu" />
-      </div>
+          <transition name="inFade">
+            <q-btn v-if="!isShowSideMenu" flat round color="white" size="lg" icon="eva-menu-outline" @click="showSideMenu" />
+          </transition>
+          <transition name="inFade">
+
+            <q-btn v-if="isShowSideMenu" flat round color="white" size="lg" icon="eva-close-outline" @click="showSideMenu" />
+          </transition>
+        </div>
     </div>
   </div>
 </template>
@@ -23,8 +29,10 @@
       const emitter = inject('emitter');
       const route = useRoute();
       const router = useRouter();
+      const isShowSideMenu = ref(false)
       
       const showSideMenu = () => {
+        isShowSideMenu.value = !isShowSideMenu.value 
         emitter.emit('showSideMenu', true);
       }
       const redirectToHome = () => {
@@ -40,8 +48,9 @@
       return {
         icons,
         route,
+        isShowSideMenu,
         redirectToHome,
-        showSideMenu
+        showSideMenu,
       }
     }
   };

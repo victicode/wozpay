@@ -6,6 +6,7 @@ use App\Models\Loan;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\RedTape;
+use App\Models\Interest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,7 +14,8 @@ class LoanController extends Controller
 {
     //
     public function getActiveLoan($id) {
-        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays')->first();
+        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays')
+        ->orderBy('created_at', 'desc')->first();
 
         return $this->returnSuccess(200, $loan);
     }
@@ -23,11 +25,11 @@ class LoanController extends Controller
             'type' => 1,
             'amount' => $request->amount,
             'amount_to_pay' => $request->amountToPay,
-            'quotas' => $request->user()->is_first_loan == 1 ? 1 : 4 ,
+            'quotas' => $this->getQuaotasByDay($request->due_date) ,
             'status' => 1,
             'loan_number' => '619'+ rand(100000, 999999),
-            'interest' => 70,
-            'interest_for_delay' => 10,
+            'interest' => $this->getInterestPerDay($request->due_date, 1),
+            'interest_for_delay' => $this->getInterestPerDay($request->due_date, 2),
             'user_id' => $request->user()->id,
         ]);
 
@@ -98,6 +100,22 @@ class LoanController extends Controller
         ]);
 
         return [json_decode($request->last_ips, true), json_decode($request->work, true)];
+    }
+    public function getInterestPerDay($days, $type) {
+
+        $interest = Interest::where('days', $days)->where('type', $type)->first();
+
+        // if(!$interest) return 70;
+        return $interest->interest;
+    }
+    private function getQuaotasByDay($days) {
+        $quoatas = [
+            15 => 1,
+            30 => 1,
+            60 => 2,
+            90 => 3,
+        ];
+        return $quoatas[$days];
     }
     private function firstLoanDone($userId) {
         $user = User::find($userId);
