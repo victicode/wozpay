@@ -55,19 +55,15 @@
   </div>
 </template>
 <script>
-  import { useAuthStore } from '@/services/store/auth.store'
   import { useWalletStore } from '@/services/store/wallet.store'
   import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
   import { inject, ref } from 'vue'
   import wozIcons from '@/assets/icons/wozIcons';
-  import { useQuasar } from 'quasar';
 
   export default {
     setup() {
       //vue provider
-      const q = useQuasar()
-      const user = useAuthStore().user;
       const { balances } = storeToRefs(useWalletStore())
       // const balances = useWalletStore().balances;
       const icons = inject('ionIcons')
@@ -78,7 +74,6 @@
       // Data
       return{
         icons,
-        user,
         numberFormat,
         isReady,
         wozIcons,

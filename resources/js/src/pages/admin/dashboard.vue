@@ -1,6 +1,6 @@
 <template>
   <div  class="dashboard_container">
-    <div style="" class="dashboard_container--details">
+    <div style="" class="dashboard_container--details" v-if="ready">
       <div style="height: 28%;">
         <currentUserPersonalInfo />
       </div>
@@ -30,7 +30,7 @@
 
   import { useAuthStore } from '@/services/store/auth.store'
   import { useWalletStore } from '@/services/store/wallet.store'
-  import { inject, onMounted, ref } from 'vue'
+  import { onMounted, ref } from 'vue'
 
   export default {
     components: {
@@ -43,12 +43,13 @@
     setup() {
       const user = useAuthStore().user;
       const walletStore = useWalletStore()
+      const ready = ref(false)
       const capitalBalances = () => {
 
         walletStore.getBalancesByUser(user.id)
         .then((data) => {
-          console.log(data)
           if(!data.code) throw data
+          ready.value = true
         }).catch((response) => {
           console.log(response)
         })
@@ -56,6 +57,9 @@
       onMounted(() => {
         capitalBalances()
       })
+      return {
+        ready
+      }
     },
   }
 </script>

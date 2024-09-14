@@ -336,6 +336,7 @@
   import { ref, inject, onMounted } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useLoanStore } from '@/services/store/loan.store'
+  import { useInterestStore } from '@/services/store/interest.store.js'
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
   import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
@@ -355,8 +356,8 @@
       const router = useRouter()
       const user = useAuthStore().user;
       const loanStore = useLoanStore();
+      const interestStore = useInterestStore();
       const numberFormat = util.numberFormat
-      
       
       // Data
       const isCurrentLoan = ref(true)
@@ -366,6 +367,8 @@
       const loading = ref(false)
       const step = ref(1)
       const isUserApply = ref(true)
+      const interestRate = ref(1)
+
       const input = {
         title: '',
         type: 1,
@@ -457,17 +460,23 @@
         input.type != 2 
         ? readTapes.value[input.index] = isFile(data) 
         : loan.value[input.index] = data
-        calulateTotalAmount(data)
+        calulateTotalAmount()
       }
 
       const isFile = (data) => {
         if(input.index == 'informconf' || input.index == 'work_certificate') return data[0]
         return data
       }
-      const calulateTotalAmount = (data) => {
-        if(input.index == 'amount') 
-          loan.value['amountToPay'] = (parseInt(data) * 0.70) + parseInt(data) 
-      }
+      const calulateTotalAmount = () => {
+        if(input.index == 'due_date' || input.index == 'amount'){
+          let interestsRate =  interestRate.value.interestRate.find(interest => interest.days == loan.value.due_date)
+          if(!interestsRate) return 0
+          let interestToAmount = interestsRate.interest/100;
+          loan.value['amountToPay'] = isNaN((parseInt(loan.value.amount) * interestToAmount) + parseInt(loan.value.amount)) 
+          ? 0 
+          : (parseInt(loan.value.amount) * interestToAmount) + parseInt(loan.value.amount)
+        }
+      } 
       const hiddeModal = (data) => {
         dialog.value = ''
         if(!data) return
@@ -550,11 +559,26 @@
         });
         return finalName
       }
+      const getInterestRate = () => {
+        interestRate.value = []
+        interestStore.getInterestRate()
+        .then((response) => {
+          if(response.code !== 200) throw response
+          setTimeout(() => {
+            interestRate.value = response.data;
+          }, 500);
+        })
+        .catch((respnse) => {
+          console.log(respnse)
+          showNotify('negative', 'Error al obtener las tasas de intereses.')
+        })
+      }
 
       onMounted(() => {
         if(!validateUser()){
           showModal('redirect')
         }
+        getInterestRate()
         activeLoan()
       })
 

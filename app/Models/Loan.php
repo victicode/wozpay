@@ -10,7 +10,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Loan extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['loan_number', 'user_id', 'due_date', 'type', 'amount', 'amount_to_pay', 'quotas', 'interest', 'interest_for_delay'];
+    protected $fillable = [
+        'loan_number', 
+        'user_id', 
+        'due_date',
+        'days', 
+        'type', 
+        'amount', 
+        'amount_to_pay', 
+        'quotas', 
+        'interest', 
+        'interest_for_delay'
+    ];
     protected $appends = ['days_due'];
     
     public function getDaysDueAttribute()

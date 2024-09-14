@@ -33,11 +33,11 @@
         <div class="text-subtitle1 text-center text-weight-bold q-mt-lg">
           Cuotas
         </div>
-        <div class="q-mt-sm">
-          <div class="text-subtitle1">
-            Cuota {{ loan.pays_count + 1 }} de {{ loan.quotas }}
+        <div class="q-mt-sm q-mb-lg" v-for="n in loan.quotas " :key="n">
+          <div class="text-subtitle1 text-bold">
+            Cuota {{ n }} de {{ loan.quotas }}
           </div>
-          <div class="q-mt-sm">
+          <div class="q-mt-sm" >
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
               <div>
                 Vencimiento {{ moment(loan.due_date).format('DD/MM/YYYY') }}
@@ -67,7 +67,7 @@
                 Total a pagar
               </div>
               <div>
-                Gs. {{ numberFormat(amountWithDelayFee()) }}
+                Gs. {{ loan.status == '4' ? numberFormat(amountWithDelayFee()) : numberFormat(loan.amountQuota) }}
               </div>
             </div>
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
@@ -75,7 +75,7 @@
                 Estado de pago
               </div>
               <div>
-                {{ 'Atrasado' }}
+                {{ loan.status == '4' ? 'Atrasado' : 'Solvente' }}
               </div>
             </div>
           </div>
@@ -88,7 +88,7 @@
   import { ref, inject, onMounted } from 'vue';
   import { useLoanStore } from '@/services/store/loan.store'
   import { useQuasar } from 'quasar'
-  import { useRoute, useRouter } from 'vue-router';
+  import { useRoute } from 'vue-router';
   import util from '@/util/numberUtil'
   import moment from 'moment';
 
@@ -97,7 +97,6 @@
     },
     setup () {
       const q = useQuasar()
-      const router = useRouter()
       const loanStore = useLoanStore();
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
@@ -154,8 +153,9 @@
         return loan.value.amount_to_pay/parseInt(loan.value.quotas)
       }
       const amountWithDelayFee = () => {
-        return loan.value.amountQuota + ( (loan.value.interest_for_delay*loan.value.amountQuota) /100 ) 
+        return loan.value.amountQuota + ( (loan.value.interest_for_delay*loan.value.amountQuota)/100 ) 
       }
+
       onMounted(() => {
         activeLoan()
       })

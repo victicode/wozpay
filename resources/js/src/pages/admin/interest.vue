@@ -107,8 +107,6 @@
   import { inject } from 'vue'
   import { useAuthStore } from '@/services/store/auth.store'
   import { useInterestStore } from '@/services/store/interest.store.js'
-  import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router';
   import util from '@/util/numberUtil'
   import updateInterest from '@/components/admin/interest/modals/updateInterest.vue';
 
@@ -119,9 +117,6 @@
     setup () {
       //vue provider
       const icons = inject('ionIcons')
-      const $q = useQuasar()
-      const store = useAuthStore()
-      const router = useRouter()
       const user = useAuthStore().user;
       const interestStore = useInterestStore()
       const interestRate = ref({})
@@ -137,12 +132,10 @@
         interestRate.value = []
         interestStore.getInterestRate()
         .then((response) => {
-          console.log(response)
           if(response.code !== 200) throw response
           setTimeout(() => {
-            
             interestRate.value = response.data;
-          }, 1000);
+          }, 500);
         })
         .catch((respnse) => {
           console.log(respnse)

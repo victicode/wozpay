@@ -17,7 +17,21 @@
               mask="###.###.###.###"
               reverse-fill-mask
               prefix="Gs."
-              
+              maxlength="15"
+            />
+          </div>
+        </div>
+        <div class="q-pl-sm plus_balance q-py-xs q-mt-xs" >
+          <div class="text-subtitle3">Restar saldo</div>
+          <div class="text-subtitle3">
+            <q-input 
+              v-model="lessAmount" 
+              placeholder="Ingrese cantidad" 
+              class="plus_balance__input"
+              mask="###.###.###.###"
+              reverse-fill-mask
+              prefix="Gs."
+              maxlength="15"
             />
           </div>
         </div>
@@ -32,7 +46,7 @@
             color="primary" 
             class="w-100 q-pt-sm" 
             :loading="loading" 
-            @click="incrementsWallet()" 
+            @click="actionWallet()" 
           > 
             <template v-slot:loading>
               <q-spinner-facebook />
@@ -62,12 +76,14 @@
       const loading = ref(false)
       const numberFormat = util.numberFormat
       const plusAmount = ref('')
+      const lessAmount = ref('')
 
-      const incrementsWallet = () => {
+      const actionWallet = () => {
         loading.value = true
         const data = {
           user: user.id,
-          amount: parseInt(plusAmount.value.replace(/\./g, ''))
+          amount: parseInt(plusAmount.value.replace(/\./g, '')),
+          amountLess: parseInt(lessAmount.value.replace(/\./g, ''))
         }
         walletStore.incrementsWalletAdmin(data)
         .then((data) => {
@@ -76,6 +92,7 @@
             user.wallet.balance = data.data.balance
             loading.value = false
             plusAmount.value = ''
+            lessAmount .value = ''
             showNotify('positive', 'Saldo actualizado con exito.')
           },1000)
         })
@@ -100,7 +117,8 @@
         loading,
         numberFormat,
         plusAmount,
-        incrementsWallet,
+        lessAmount,
+        actionWallet,
       }
     }
   };

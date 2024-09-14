@@ -43,7 +43,6 @@
 
       // methods
       const getCurrentUser = () =>{
-        
         if(exceptionsToShow()) return
         store.currentUser().then((data)=>{
           if(data.code !== 200 ) throw data
@@ -59,8 +58,14 @@
       }
       const exceptionsToShow = () => {
         const user = useAuthStore().user;
-        if(route.name == 'Login' && route.name == 'register') return true
-        if(route.name !== 'dashboard' && Object.values(user).length > 0) return true
+        if(route.name == 'Login' && route.name == 'register') {
+          readyState2.value = true
+          return true
+        }
+        if(route.name !== 'dashboard' && route.name != 'dashboard_admin' && Object.values(user).length > 0) {
+          readyState2.value = true
+          return true
+        }
         return false
       }
       const showNotify = (type, message) => {

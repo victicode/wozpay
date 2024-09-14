@@ -64,11 +64,14 @@
         <div>
           <div v-if="ready && loans.data.length > 0">
             <div>
-              <div v-for="(loan, index) in loans.data" :key="index" class="flex justify-between items-center q-mt-sm border-b-1 q-py-sm">
-                <div class="text-subtitle2 text-grey-7 text-weight-ligth w-40 ellipsis">{{loan.name}}</div>
-                <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-center">{{ numberFormat(loan.dni) }}</div>
-                <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-right">Gs. {{ numberFormat(loan.loans[0].amount) }}</div>
-              </div>
+              <template v-for="(user, index) in loans.data" :key="index" >
+
+                <div v-for="loan in user.loans" :key="loan.id"  class="flex justify-between items-center q-mt-sm border-b-1 q-py-sm cursor-pointer" @click="goTo(loan.id)">
+                  <div class="text-subtitle2 text-grey-7 text-weight-ligth w-40 ellipsis">{{user.name}}</div>
+                  <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-center">{{ numberFormat(user.dni) }}</div>
+                  <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-right">Gs. {{ numberFormat(loan.amount) }}</div>
+                </div>
+              </template>
               <div class="pagination flex flex-center q-mt-md">
                 <q-pagination
                   v-model="currentPage"
@@ -163,12 +166,12 @@
         })
       } 
 
-      const newCapital = () => {
-        
-      }
       const setPage = (page) => {
         currentPage.value = page
         getApproveLoan('')
+      }
+      const goTo = (id) => {
+        router.push('/admin/loan_view/'+id)
       }
       onMounted(() => {
         getApproveLoan(null)
@@ -188,6 +191,7 @@
         currentPage,
         ready,
         setPage,
+        goTo,
       }
     }
   };

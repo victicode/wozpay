@@ -2,7 +2,7 @@
   <div class="userInfoContent q-pt-md q-px-lg" >
     <div style="">
       <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
-      <h5 class="text-white q-mt-xs text-weight-bold ">Gs. {{numberFormat(user.wallet.balance)}}</h5>
+      <h5 class="text-white q-mt-xs text-weight-bold ">Gs. {{capitalByUser()}}</h5>
     </div>
     <div class="">
       <div class="w-100 user-info q-mt-md-sm">
@@ -50,17 +50,18 @@
   </div>
 </template>
 <script>
-  import { useAuthStore } from '@/services/store/auth.store'
   import { inject, ref } from 'vue'
+  import { useWalletStore } from '@/services/store/wallet.store'
+  import { useAuthStore } from '@/services/store/auth.store'
+  import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
-
   export default {
     setup() {
       //vue provider
-      const user = useAuthStore().user;
+      const user = useAuthStore().user
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
-
+      const { balances } = storeToRefs(useWalletStore())
       // Data
       const showing = ref(false)
       
@@ -71,13 +72,21 @@
           showing.value = false
         }, 3500);
       }
+      const capitalByUser = () => {
+        console.log(balances)
+        if(user.rol_id !== 3){
+          return numberFormat((balances.value.wallet - balances.value.loans) + balances.value.paysRecieve)
+        }
+      }
       
       return{
-        icons,
         user,
+        icons,
+        balances,
         numberFormat,
         showing,
-        showToltip
+        showToltip,
+        capitalByUser,
       }
     },
   }

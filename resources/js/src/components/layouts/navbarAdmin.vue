@@ -6,7 +6,7 @@
     align="justify"
     class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex q-py-xs" 
   >
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'" exact >
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/admin/dashboard'" exact >
       <div class="flex flex-center column">
         <div v-html="wozIcons.home" />
         <span class="q-mt-xs text-dark text-caption">Inicio</span>

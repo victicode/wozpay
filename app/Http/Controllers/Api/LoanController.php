@@ -9,6 +9,7 @@ use App\Models\RedTape;
 use App\Models\Interest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Quota;
 
 class LoanController extends Controller
 {
@@ -21,7 +22,7 @@ class LoanController extends Controller
     }
     public function storeLoan(Request $request) {
         $loan = Loan::create([
-            'due_date' => date(('Y-m-d'), strtotime(date('Y-m-d')) + ($request->due_date  * 86400)),
+            'days' => $request->due_date,
             'type' => 1,
             'amount' => $request->amount,
             'amount_to_pay' => $request->amountToPay,
@@ -48,8 +49,9 @@ class LoanController extends Controller
         if(!$loan) return $this->returnFail(400, 'Prestamo no encontrado');
 
         $loan->status = $request->status;
+        $loan->due_date = $request->status == 2 ? $this->dueDateQuotas($loan)[$loan->quotas-1]: $loan->due_date;
         $loan->save();
-        $this->actionByStatuLoan($loan);
+        $this->actionByStatusLoan($loan);
         return $this->returnSuccess(200, $loan);
     }
     public function getApproveLoan(Request $request) {
@@ -123,13 +125,15 @@ class LoanController extends Controller
         $user->save();
         return $user;
     }
-    private function actionByStatuLoan($loan) {
+    private function actionByStatusLoan($loan) {
         if($loan->status == 2) $this->approveLoan($loan);
         if($loan->status == 0) $this->rejectLoan($loan);
     }
     private function approveLoan($loan){
         $this->firstLoanDone($loan->user_id);
+        $this->plusWallet($loan->user_id, $loan->amount);
         $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id);
+        $this->createQuatas($loan);
     } 
     private function rejectLoan($loan){
         $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id);
@@ -152,6 +156,37 @@ class LoanController extends Controller
             array_push($lastIps , $ips);
         }
         return json_encode($lastIps);
+    }
+    private function plusWallet($user, $amount){
+        $wallet = Wallet::where('user_id', $user)->first();
+        
+        if(!$wallet) return $this->returnFail(404, 'Wallet no encontrada');
+
+        $wallet->balance +=  $amount;
+        $wallet->save();
+    }
+    
+    private function createQuatas($loan){
+        for ($i=0; $i < $loan->quotas; $i++) { 
+            # code...
+            Quota::create([
+                'loan_id'   => $loan->id,
+                'amount'    => ($loan->amount_to_pay/$loan->quotas),
+                'due_date'  => $this->dueDateQuotas($loan)[$i],
+            ]);
+        }
+        
+    }
+    private function dueDateQuotas($loan){
+        $daysOfPayQouta = [];
+        $days = $loan->days/$loan->quotas;
+        $day = $days;
+
+        for ($i=0; $i < $loan->quotas; $i++) { 
+          array_push($daysOfPayQouta, date(('Y-m-d'), strtotime(date('Y-m-d')) + ($day  * 86400))) ; 
+          $day += $days;
+        }
+        return $daysOfPayQouta; 
     }
 
 }

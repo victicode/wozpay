@@ -566,7 +566,33 @@
                       Plazo
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="">{{ loan.due_date }} </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.days }} días</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section >
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Cuotas
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.quotas }} </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section >
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Cobrar cada
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="">{{ loan.days/loan.quotas }} días </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>

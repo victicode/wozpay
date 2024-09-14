@@ -25,7 +25,7 @@
                   round 
                   size="xs"
                   class="q-pb-none q-ml-xs"
-                  @click="router.push('/admin/notification/send?id='+user.id)"
+                  @click="goTo()"
                 >
                   <q-icon name="eva-chevron-right-outline" color="grey-7" size="md" />
                 </q-btn>
@@ -87,6 +87,11 @@
         dialog.value = !dialog.value //state
       }
 
+      const goTo = () => {
+        router.push('/admin/notification/send?id='+user.id)
+        emitter.emit('closeMenu');
+      }
+      
       emitter.on('showSideMenu', (state) => {
         showSideMenu(state)
       })
@@ -96,10 +101,9 @@
       })
       return {
         icons,
-        router,
         dialog,
-        router,
         user,
+        goTo,
         showSideMenu,
       }
     }

@@ -38,6 +38,8 @@ class WalletController extends Controller
         if(!$wallet) return $this->returnFail(404, 'Wallet no encontrada');
 
         $wallet->balance +=  $request->amount;
+        $wallet->balance -=  $request->amountLess;
+
         $wallet->save();
 
         return $this->returnSuccess(200, $wallet);

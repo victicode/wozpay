@@ -35,6 +35,7 @@
         isShowSideMenu.value = !isShowSideMenu.value 
         emitter.emit('showSideMenu', true);
       }
+      
       const redirectToHome = () => {
         const dontValidate = ['/users','/users/loan', '/users/clean', '/users/slow_payer']
    
@@ -44,6 +45,10 @@
         }
         router.go(-1)
       }
+
+      emitter.on('closeMenu', () => {
+        showSideMenu()
+      })
 
       return {
         icons,
