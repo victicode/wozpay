@@ -64,6 +64,9 @@
           <q-linear-progress :value="1" color="primary" />
           <div class="q-pa-xl">
             <canvas id="canvas"></canvas>
+            <div class="flex flex-center q-mt-lg">
+              <q-btn color="primary" text-color="white" label="Tomar foto" @click="takePicture()"/>
+            </div>
           </div>
         </q-card>
       </q-dialog>
@@ -127,9 +130,11 @@
         step3.value =  true        
         setTimeout(() => {
           const canvas = document.querySelector("#canvas");
-          canvas.width = width;
-          canvas.height = height;
-          canvas.getContext("2d").drawImage(videoFrame.value, 0, 0, width, height);
+
+          console.log(canvas)
+          canvas.width = 254;
+          canvas.height = 190;
+          canvas.getContext("2d").drawImage(videoFrame.value, 0, 0, 254, 190);
           var data = canvas.toDataURL("image/png");
           photo.setAttribute("src", data);
         },200)
@@ -142,6 +147,7 @@
       return {
         step1,
         step2,
+        step3,
         loading,
         hideModal,
         takePicture ,
