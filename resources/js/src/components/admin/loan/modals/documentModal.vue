@@ -71,9 +71,7 @@
       }
 
       const setTitleByOperation = () => {
-        console.log(document.value )
         if(typeof document.value == 'object') return 'Ultimos 3 IPS';
-        
         const doc = document.value.split('/')[1];
         if(doc == 'work_certificate') return 'Certificado de trabajo';
         if(doc == 'informconf') return 'Certificado Informconf';

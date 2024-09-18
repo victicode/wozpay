@@ -24,7 +24,7 @@
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" />
+                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" @click="showDialog('check')" />
                 </q-item-label>
               </div>
             </q-item-section>
@@ -42,7 +42,7 @@
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" />
+                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" @click="showDialog('check')" />
                 </q-item-label>
               </div>
             </q-item-section>
@@ -150,7 +150,7 @@
           </q-item>
           <q-separator />
         </q-list>
-        <!-- phone -->
+        <!-- Phone -->
         <q-toolbar class="bg-white text-black q-mt-md">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-center">
@@ -178,7 +178,7 @@
           </q-item>
           <q-separator />
         </q-list>
-        <!-- Phone -->
+        <!-- Email -->
         <q-toolbar class="bg-white text-black q-mt-md">
           <q-toolbar-title> 
             <div class="w-100 flex items-center justify-center">
@@ -232,6 +232,7 @@
     <div v-if="dialog=='updateEmail'">
       <updateEmail :dialog="(dialog =='updateEmail')" @hideModal="updateEmail" />
     </div>
+    <selectKycType :dialog="(dialog =='check')" @hideModal="kyc" />
     
   </div>
 </template>
@@ -243,11 +244,13 @@
   import { useQuasar } from 'quasar'
   import updatePhoneNumber from '@/components/profile/modals/updatePhoneNumber.vue';
   import updateEmail from '@/components/profile/modals/updateEmail.vue';
+  import selectKycType from '@/components/profile/modals/selectKycType.vue';
 
   export default {
     components:{
       updatePhoneNumber,
       updateEmail,
+      selectKycType,
     },
     
     setup () {
@@ -282,6 +285,10 @@
 
       const showDialog = (dialogToShow) => {
         dialog.value = dialogToShow
+      }
+      const kyc = () => {
+        dialog.value = '';
+        console.log( dialog.value)
       }
       const updatePhone = (data) => {
         dialog.value = '';
@@ -335,7 +342,8 @@
         showToltip,
         uptadteInfo,
         updatePhone,
-        updateEmail
+        updateEmail,
+        kyc,
 
       }
     }
