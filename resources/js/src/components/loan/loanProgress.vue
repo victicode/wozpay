@@ -17,7 +17,7 @@
           <div class="text-weight-medium text-body2">Gs. {{ numberFormat(loan.amount) }}</div>
         </div>
         <div class="">
-          <div class="text-weight-medium text-body2">Falta pagar</div>
+          <div class="text-weight-medium text-body2"> {{  loan.status != '1' && loan.status != '0' ? 'Falta pagar' : 'Pagarías' }} </div>
           <div class="text-weight-medium text-body2">Gs. {{ numberFormat(forPay()) }}</div>
         </div>
       </div>

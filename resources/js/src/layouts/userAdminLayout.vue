@@ -134,7 +134,7 @@
 }
 @media screen and (max-width: 780px){
   .h-20 {
-    height: 25%;
+    height: 27%;
   }
 }
 </style>

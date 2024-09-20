@@ -1,39 +1,39 @@
 <template>
   <div class="q-pt-md q-px-md q-pb-sm">
-    <div>
+    <div >
       <div class="text-subtitle1 text-weight-medium">Cuotas</div>
     </div>
-    <div class="row q-px-none q-mt-sm">
-      <div v-for="index in loan.quotas" :key="index" class="flex justify-between w-100 items-center q-mb-sm q-pb-xs quota_content">
+    <div class="row q-px-none q-mt-sm" >
+      <div v-for="(quota, n) in loan.quotas_desc " :key="n" class="flex justify-between w-100 items-center q-mb-sm q-pb-xs quota_content">
         <div>
           <div class="text-weight-medium">
-            Cuota {{ index }} de {{ loan.quotas }}
+            Cuota {{ n+1 }} de {{ loan.quotas }}
           </div>
           <div class="text-weight-medium text-grey-6">
-            Fecha de vencimiento
+            Vencimiento {{ moment(quota.due_date).format('DD/MM/YYYY') }}
           </div>
         </div>
         <div class="flex items-center">
           <div class="text-weight-medium text-body1 q-mt-xs">
-            Gs. {{ numberFormat(loan.amount_to_pay/loan.quotas) }}
+            Gs. {{ numberFormat(quota.amount) }}
           </div>
           <div>
             <q-icon 
-              v-if="loan.pays[index-1]"
+              v-if="loan.pays[n-1]"
               class="q-ml-xs" 
-              :name=" loan.pays[index-1].status == 0 ? 'eva-alert-circle-outline' : loan.pays[index-1].status == 1 ? 'eva-clock-outline'  : 'eva-checkmark-circle-2-outline'" 
-              :color=" loan.pays[index-1].status == 0 ? 'negative' : loan.pays[index-1].status == 1 ? 'yellow-8'  : 'green-5'"  
+              :name=" loan.pays[n-1].status == 0 ? 'eva-alert-circle-outline' : loan.pays[n-1].status == 1 ? 'eva-clock-outline'  : 'eva-checkmark-circle-2-outline'" 
+              :color=" loan.pays[n-1].status == 0 ? 'negative' : loan.pays[n-1].status == 1 ? 'yellow-8'  : 'green-5'"  
               size="sm" 
               @click="showNotify(
-                loan.pays[index-1].status == 0 
+                loan.pays[n-1].status == 0 
                 ? 'negative'
-                : loan.pays[index-1].status == 1 
+                : loan.pays[n-1].status == 1 
                 ? 'yellow-9'
                 : 'positive'
                 , 
-                loan.pays[index-1].status == 0 
+                loan.pays[n-1].status == 0 
                   ? 'Tu pago fue rechazado, vuelve a intentar.' 
-                  : loan.pays[index-1].status == 1 
+                  : loan.pays[n-1].status == 1 
                   ? 'Tú pago esta siendo verificado.' 
                   : 'Tú pago fue exitoso.')"
             />
@@ -44,10 +44,10 @@
   </div>
 </template>
 <script>
-  import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import wozIcons from '@/assets/icons/wozIcons'
   import util from '@/util/numberUtil'
+  import moment from 'moment';
 
   export default {
     props: {
@@ -59,8 +59,6 @@
       const $q = useQuasar();
       // Data
       const loan = props.loan
-      
-
       // Methods
       const forPay = () => {
         let amount = 0
@@ -85,6 +83,7 @@
         loan,
         numberFormat,
         wozIcons,
+        moment,
         forPay,
         showNotify,
       }

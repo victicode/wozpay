@@ -15,7 +15,7 @@ class LoanController extends Controller
 {
     //
     public function getActiveLoan($id) {
-        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays')
+        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'quotas_desc')
         ->orderBy('created_at', 'desc')->first();
 
         return $this->returnSuccess(200, $loan);
@@ -40,7 +40,7 @@ class LoanController extends Controller
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
-        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card')->find($id);
+        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card', 'quotas_desc', 'pays')->find($id);
 
         return $this->returnSuccess(200, $loan);
     }
@@ -68,6 +68,13 @@ class LoanController extends Controller
         }
         return  $this->returnSuccess(200, $users->paginate(30));
         
+    }
+    public function getInterestPerDay($days, $type) {
+
+        $interest = Interest::where('days', $days)->where('type', $type)->first();
+
+        // if(!$interest) return 70;
+        return $interest->interest;
     }
     private function storeRedTapes($request, $loanId) {
         $informconf = '-';
@@ -102,13 +109,6 @@ class LoanController extends Controller
         ]);
 
         return [json_decode($request->last_ips, true), json_decode($request->work, true)];
-    }
-    public function getInterestPerDay($days, $type) {
-
-        $interest = Interest::where('days', $days)->where('type', $type)->first();
-
-        // if(!$interest) return 70;
-        return $interest->interest;
     }
     private function getQuaotasByDay($days) {
         $quoatas = [

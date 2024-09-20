@@ -1,24 +1,24 @@
 <template>
-  <div class="">
-    <div v-if="Object.values(loan).length > 0 && ready" >
-      <div class="header_loan q-pb-md q-pt-lg q-px-md-lg q-px-md flex justify-between items-center">
-        <div class="">
-          <div class="text-subtitle1 text-weight-medium">
-            {{ loan.user.name }}
-          </div>
-          <div class="text-subtitle1 text-weight-medium">
-            {{ numberFormat(loan.user.dni) }}
-          </div>
+  <div v-if="Object.values(loan).length > 0 && ready"  class="h-100 o-hide">
+    <div class="header_loan q-pb-md q-pt-lg q-px-md-lg q-px-md flex justify-between items-center">
+      <div class="">
+        <div class="text-subtitle1 text-weight-medium">
+          {{ loan.user.name }}
         </div>
-        <div>
-          <q-icon 
-            name="eva-alert-triangle-outline" 
-            size="md" 
-            class="q-mr-xs" 
-            :color="slowPayerLegend[setDueDaysCategorie(loan.days_due)]" 
-          />
+        <div class="text-subtitle1 text-weight-medium">
+          {{ numberFormat(loan.user.dni) }}
         </div>
       </div>
+      <div>
+        <q-icon 
+          name="eva-alert-triangle-outline" 
+          size="md" 
+          class="q-mr-xs" 
+          :color="slowPayerLegend[setDueDaysCategorie(loan.days_due)]" 
+        />
+      </div>
+    </div>
+    <div class="quota">
       <div class="q-px-md-lg q-px-md q-mt-lg">
         <div class="amount_loan flex justify-between items-center q-pb-sm">
           <div class="text-subtitle1 text-weight-bold">
@@ -29,21 +29,21 @@
         </div>
         </div>
       </div>
-      <div class="q-px-md-lg q-px-md q-mt-lg">
+      <div class="q-px-md-lg q-px-md q-mt-md ">
         <div class="text-subtitle1 text-center text-weight-bold q-mt-lg">
           Cuotas
         </div>
-        <div class="q-mt-sm q-mb-lg" v-for="n in loan.quotas " :key="n">
+        <div class="q-mt-sm q-mb-lg" v-for="(quota, n) in loan.quotas_desc " :key="n">
           <div class="text-subtitle1 text-bold">
-            Cuota {{ n }} de {{ loan.quotas }}
+            Cuota {{ n+1 }} de {{ loan.quotas }}
           </div>
           <div class="q-mt-sm" >
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
               <div>
-                Vencimiento {{ moment(loan.due_date).format('DD/MM/YYYY') }}
+                Vencimiento {{ moment(quota.due_date).format('DD/MM/YYYY') }}
               </div>
               <div>
-                Gs. {{ numberFormat(loan.amountQuota) }}
+                Gs. {{ numberFormat(quota.amount) }}
               </div>
             </div>
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
@@ -51,7 +51,7 @@
                 Días atrasados
               </div>
               <div>
-                {{ loan.days_due }} días
+                {{ quota.days_due }} días
               </div>
             </div>
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
@@ -67,7 +67,7 @@
                 Total a pagar
               </div>
               <div>
-                Gs. {{ loan.status == '4' ? numberFormat(amountWithDelayFee()) : numberFormat(loan.amountQuota) }}
+                Gs. {{ loan.status == '4' ? numberFormat(amountWithDelayFee(quota.amount)) : numberFormat(quota.amount) }}
               </div>
             </div>
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
@@ -152,8 +152,8 @@
       const amountQuote = () => {
         return loan.value.amount_to_pay/parseInt(loan.value.quotas)
       }
-      const amountWithDelayFee = () => {
-        return loan.value.amountQuota + ( (loan.value.interest_for_delay*loan.value.amountQuota)/100 ) 
+      const amountWithDelayFee = (amount) => {
+        return amount + ( (loan.value.interest_for_delay*amount)/100 ) 
       }
 
       onMounted(() => {
@@ -178,6 +178,16 @@
   };
 </script>
 <style lang="scss" scoped>
+.quota{
+  height: 85%; 
+  overflow: auto;
+}
+.o-hide{
+  overflow: hidden;
+}
+.h-100 {
+  height: 100%;
+}
 .header_loan{
   background: $grey-4;
 }

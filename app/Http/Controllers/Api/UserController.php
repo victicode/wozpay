@@ -248,7 +248,44 @@ class UserController extends Controller
         
         return $this->returnSuccess(200, $verification_check->status);
     }
-   
+    public function setKyc(Request $request) {
+        $user = User::find($request->user()->id);
+        if (!$user) return $this->returnFail(400, 'Usuario no encontrado');
+
+        $facial = null;
+        $document_front = null;
+        $document_back = null;
+
+        
+        if ($request->facial) {
+            $facial = 'public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_facial_.'. $request->File('facial')->extension();
+            $request->file('facial')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $facial);
+        }
+        if ($request->document_front) {
+            $document_front = 'public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_front_.'. $request->File('document_front')->extension();
+            $request->file('document_front')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $document_front);
+        }
+        if ($request->document_back) {
+            $document_back = 'public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_back_.'. $request->File('document_back')->extension();
+            $request->file('document_back')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $document_back);
+        }
+
+    
+        
+        try {
+            $user->facial_verify = $request->facial ? 1 : $user->facial_verify;
+            $user->facial_photo = $facial;
+            $user->verify_status = $request->document_front && $request->document_back ?  1 : $user->verify_status;
+            $user->document_photo_front = $document_front;
+            $user->document_photo_back = $document_back;
+            $user->save();
+            
+        } catch (Exception $th) {
+            return $this->returnSuccess(400, $th->getMessage() );
+        }
+
+        return $this->returnSuccess(200, $user);
+    }
     private function validateFieldsFromInput($inputs){
         $rules=[
             'fullName'      => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],

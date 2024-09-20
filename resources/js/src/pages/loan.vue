@@ -3,13 +3,13 @@
     <div>
       <loanProgress :loan="myLoan" />
     </div>
-    <div>
+    <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
       <loanDetails />
     </div>
-    <div>
+    <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
       <loanHistory :loan="myLoan" />
     </div>
-    <div class="q-mt-xl q-pt-xl q-mx-md q-mx-md-xl q-px-md-xl" >
+    <div class="q-mt-xl q-pt-xl q-mx-md q-mx-md-xl q-px-md-xl"  v-if=" myLoan.status != '1' && myLoan.status != '0'">
       <div class="q-mt-xl q-pt-md-md">
         <q-btn 
           @click="goTo(loanComplete() ? 1 : 0)" 

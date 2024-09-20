@@ -293,9 +293,6 @@
 .w-100 {
   width: 100%;
 }
-.user_section{
-  height: 100%;
-}
 .search__container {
   background: #d9d9d9;
   overflow: hidden;

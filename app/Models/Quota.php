@@ -28,4 +28,7 @@ class Quota extends Model
         }
         return $daysDue;
     }
+    public function loan(){
+        return $this->belongsTo(Loan::class,'loan_id', 'id');
+    }
 }

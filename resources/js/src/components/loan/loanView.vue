@@ -1,10 +1,10 @@
 <template>
   <div v-if="Object.values(myLoan).length > 0">
     <div>
-      <q-toolbar class="bg-grey-5 text-black ">
+      <q-toolbar class="bg-white text-black q-py-sm">
         <q-toolbar-title> 
-          <div class="w-100 flex items-center justify-between">
-            <span class="text-subtitle2 text-weight-bold q-mt-sm">Detalle de préstamo</span>
+          <div class="flex items-center justify-between position-relative">
+            <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs text-center w-100">Detalle de préstamo</span>
           </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -100,13 +100,13 @@
         </q-item>
         <q-separator />
       </q-list>
-      <q-toolbar class="bg-grey-5 text-black q-mt-sm">
-          <q-toolbar-title> 
-            <div class="w-100 flex items-center justify-between">
-              <span class="text-subtitle2 text-weight-bold q-mt-sm">Intereses del préstamo</span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
+      <q-toolbar class="bg-white text-black q-py-sm">
+        <q-toolbar-title> 
+          <div class="flex items-center justify-between position-relative">
+            <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs text-center w-100">Intereses del préstamo</span>
+          </div>
+        </q-toolbar-title>
+      </q-toolbar>
         <q-list >
           <q-item class="q-py- q-px-sm" >
             <q-item-section>
