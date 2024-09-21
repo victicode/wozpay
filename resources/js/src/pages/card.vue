@@ -67,14 +67,14 @@
     </div>
     <div v-else-if="Object.values(linkCard).length == 0 && ready" >
       <div class="flex flex-center q-px-sm column" style="height: 100vh;">
-        <div class="text-weight-bold text-h5 q-mb-xl">
+        <div class="text-weight-bold text-h6 q-mb-md">
           No tienes tarjetas vinculadas.
         </div>
         <div class="q-mb-xl q-pb-xl">
           <q-btn 
-            color="primary" class="w-100 q-pa-md" 
+            color="primary" class="w-100 q-py-sm q-px-lg" 
             no-caps
-            label="Inicar vinculación"
+            label="Iniciar vinculación"
             @click="router.push('link_card')"
           >
           </q-btn>

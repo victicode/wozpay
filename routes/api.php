@@ -59,6 +59,7 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::post('/delete/{id}', [UserController::class, 'deleteUser']);
     Route::post('/restore/{id}', [UserController::class, 'restoreUser']);
     Route::post('/kyc', [UserController::class, 'setKyc']);
+    Route::post('/setNewVerifyStatus', [UserController::class, 'setNewVerifyStatus']);
 
 });
 

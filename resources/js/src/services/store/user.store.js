@@ -256,13 +256,27 @@ export const useUserStore = defineStore("user", {
                 
             })
             .catch(( { response } ) => {
-                console.log(response )
-                reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+              console.log(response )
+              reject('Ocurrió un error desconocido al intentar obtener los usuarios');
             });
         }
       })
     },
-
+    async setVerifyStatus(data){
+      return await new Promise((resolve, reject) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.post('/api/user/setNewVerifyStatus', data)
+          .then(({data}) => {
+            resolve(data)
+          })
+          .catch(( { response } ) => {
+            console.log(response )
+            reject('Ocurrió un error al actualizar el status de verificación');
+          });
+        }
+      })
+    }
 
   },
   getters: {

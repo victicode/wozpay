@@ -32,33 +32,33 @@
                       }}
                     </div>
                     <q-icon
-                        :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
-                        size="xs"
-                        :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
-                        class="user-verify-user"
-                        :class="{'verify-user':user.verify_status == 2, }"
-                        @click="showToltip"
+                      :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                      size="xs"
+                      :color=" user.verify_status > 0 ? 'terciary' :'grey-6'"
+                      class="user-verify-user q-mt-xs"
+                      :class="{'verify-user':user.verify_status == 2, }"
+                      @click="showToltip"
+                    >
+                      <q-tooltip 
+                        anchor="top middle" 
+                        self="bottom middle" 
+                        :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
+                        :offset="[10, 10]" 
+                        v-model="showing"
                       >
-                        <q-tooltip 
-                          anchor="top middle" 
-                          self="bottom middle" 
-                          :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
-                          :offset="[10, 10]" 
-                          v-model="showing"
-                        >
-                          {{
-                            user.verify_status == 1
-                            ? 'Verificación en proceso'
-                            : user.verify_status == 2 
-                            ? 'Usuario verificado'
-                            : 'Sin verificación'
-                          }}
-                        </q-tooltip>
-                      </q-icon>
+                        {{
+                          user.verify_status == 1
+                          ? 'Verificación en proceso'
+                          : user.verify_status == 2 
+                          ? 'Usuario verificado'
+                          : 'Sin verificación'
+                        }}
+                      </q-tooltip>
+                    </q-icon>
                   </q-item-label>
                 </div>
                 <div>
-                  <div class="q-pr-md text-caption text-grey-6 text-decoration-underline cursor-pointer">
+                  <div class="q-pr-md text-caption text-grey-6 text-decoration-underline cursor-pointer" @click="showModal(1)">
                     Ver documentos
                   </div>
                 </div>
@@ -75,19 +75,45 @@
                     Verificación facial
                   </span>
                   </q-item-label>
-                  <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                    {{ 
-                      user.facial_verify == 2 
-                      ? 'Aprobado'
-                      : user.facial_verify == 1
-                      ? 'Pendiente'
-                      : 'No subidos'
-                    }}
+                  <q-item-label caption lines="1" class="text-caption flex items-center">
+                    <div class="q-mt-xs text-weight-medium">
+                      {{ 
+                        user.facial_verify == 2 
+                        ? 'Aprobado'
+                        : user.facial_verify == 1
+                        ? 'Pendiente'
+                        : 'No subidos'
+                      }}
+                    </div>
+                    <q-icon
+                      :name="user.facial_verify == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                      size="xs"
+                      :color=" user.facial_verify > 0 ? 'terciary' :'grey-6'"
+                      class="user-verify-user q-mt-xs"
+                      :class="{'verify-user': user.facial_verify == 2, }"
+                      @click="showToltip"
+                    >
+                      <q-tooltip 
+                        anchor="top middle" 
+                        self="bottom middle" 
+                        :class=" user.facial_verify == 2 ? 'bg-positive': 'bg-terciary' " 
+                        :offset="[10, 10]" 
+                        v-model="showing"
+                      >
+                        {{
+                          user.facial_verify == 1
+                          ? 'Verificación en proceso'
+                          : user.facial_verify == 2 
+                          ? 'Usuario verificado'
+                          : 'Sin verificación'
+                        }}
+                      </q-tooltip>
+                    </q-icon>
                   </q-item-label>
                 </div>
                 <div>
-                  <div class="q-pr-md text-caption text-grey-6 text-decoration-underline cursor-pointer">
-                    Ver fotos
+                  <div class="q-pr-md text-caption text-grey-6 text-decoration-underline cursor-pointer"  @click="showModal(2)">
+                    Ver foto
                   </div>
                 </div>
               </div>
@@ -158,11 +184,13 @@
           <q-separator />
         </q-list>
         <div v-else>
-          <h5 class="text-center q-mt-lg text-weight-medium">
+          <h5 class="text-center q-mt-lg text-weight-medium q-px-md" >
             No hay tarjetas vinculadas para el débito automático.
           </h5>
         </div>
       </div>
+      <documentVerify :dialog="dialog" :type="type" :imagen="img" @hiddeModal="hideModal" :user="user" />
+
     </div>
     <div v-else>
       <div class="w-100 q-mx-none" >
@@ -214,24 +242,27 @@
 <script>
   import { onMounted, ref } from 'vue';
   import { inject } from 'vue'
-  import { useAuthStore } from '@/services/store/auth.store'
-  import { useQuasar } from 'quasar'
-  import { useRoute, useRouter } from 'vue-router';
-  import util from '@/util/numberUtil'
+  import { useRoute } from 'vue-router';
   import { useUserStore } from '@/services/store/user.store'
+  import util from '@/util/numberUtil'
+  import documentVerify from '@/components/admin/users/modal/documentVerify.vue';
 
   export default {
+    components: {
+      documentVerify,
+    },
     setup () {
       //vue provider
       const icons = inject('ionIcons');
-      const $q = useQuasar();
-      const store = useAuthStore();
-      const router = useRouter();
       const route = useRoute();
       const userStore = useUserStore();
       const user = ref([]);
       const ready = ref(false)
       const showing = ref(false)
+      const dialog = ref(false)
+      const type = ref(1)
+      const img = ref([])
+
       // Data
       const loading = ref(false)
 
@@ -259,11 +290,18 @@
           showNotify('negative', response)
         })
       }
+      const showModal = (typeVerify) => {
+        type.value = typeVerify
+        img.value = typeVerify == 1 
+        ? [user.value.document_photo_front, user.value.document_photo_back,]
+        : [user.value.facial_photo]
 
-      // const goTo = (id) => {
-      //   // console.log(router)
-      //   router.push('/admin/user/verification/'+id)
-      // }
+        dialog.value = true
+      }
+      const hideModal = () => {
+        dialog.value = false
+      }
+
       onMounted(() => {
         getUser()
       })
@@ -272,8 +310,13 @@
         loading,
         user,
         numberFormat,
+        dialog,
+        type,
+        img,
         showing,
         showToltip,
+        showModal,
+        hideModal,
       }
     }
   };

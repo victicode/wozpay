@@ -19,6 +19,8 @@
         "@quasar/extras": "^1.16.11",
         "@tato30/vue-pdf": "^1.11.0",
         "@vitejs/plugin-vue": "^5.0.5",
+        "cleave.js": "^1.6.0",
+        "creditcard.js": "^3.0.33",
         "mitt": "^3.0.1",
         "moment": "^2.30.1",
         "pdf-vue3": "^1.0.12",

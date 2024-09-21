@@ -110,7 +110,7 @@ class UserController extends Controller
                 'rol_id'        => 3,
                 'is_first_loan' => 1,
                 'facial_verify' => 0,
-                'verify_status' => '0',
+                'verify_status' => 0,
 
             ]);
         } catch (Exception $th) {
@@ -274,16 +274,28 @@ class UserController extends Controller
         
         try {
             $user->facial_verify = $request->facial ? 1 : $user->facial_verify;
-            $user->facial_photo = $facial;
+            $user->facial_photo = $facial ? $facial : $user->facial_photo ;
             $user->verify_status = $request->document_front && $request->document_back ?  1 : $user->verify_status;
-            $user->document_photo_front = $document_front;
-            $user->document_photo_back = $document_back;
+            $user->document_photo_front = $document_front ? $document_front : $user->document_photo_front;
+            $user->document_photo_back = $document_back ? $document_back : $user->document_photo_back;
             $user->save();
             
         } catch (Exception $th) {
             return $this->returnSuccess(400, $th->getMessage() );
         }
 
+        return $this->returnSuccess(200, $user);
+    }
+    public function setNewVerifyStatus(Request $request) {
+        $user = User::find($request->id);
+        if (!$user) return $this->returnFail(400, 'Usuario no encontrado');
+        try {
+            $user->verify_status = $request->verify_status ?? $user->verify_status;
+            $user->facial_verify = $request->facial_verify ?? $user->facial_verify;
+            $user->save();
+        } catch (Exception $th) {
+            return $this->returnSuccess(400, $th->getMessage() );
+        }
         return $this->returnSuccess(200, $user);
     }
     private function validateFieldsFromInput($inputs){

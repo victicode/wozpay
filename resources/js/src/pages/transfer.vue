@@ -17,10 +17,10 @@
           <div v-html="wozIcons.transferir" class="transfer-icon"/>
         </div>
       </div>
-      <div class="q-px-md q-mt-sm text-white text-subtitle1 text-weight-medium">
+      <div class="q-px-md q-mt-md text-white text-subtitle1 text-weight-medium">
         Ahora puedes enviar o hacer <br>transferencias de cuenta a cuenta con <br>Woz Pay.
       </div>
-      <div class="q-px-md q-mt-xl q-px-md-xl">
+      <div class="q-px-md q-mt-md-xl q-mt-md q-px-md-xl">
         <q-btn 
           color="positive" class="w-100 q-pa-md q-mb-none  link_button" 
           no-caps
@@ -61,6 +61,7 @@ export default {
    
 }
 .transfer-icon {
+  position:absolute;
   transform: rotate(-45deg) translatey(-30px) translatex(-95px) scale(0.9);
   filter: brightness(25);
 }
@@ -90,7 +91,7 @@ export default {
 }
 @media screen and (max-width: 780px){
   .transfer-icon {
-    transform: rotate(-45deg) translatey(130px) translatex(185px) scale(0.9);
+    transform: rotate(-45deg) translatey(130px) translatex(175px) scale(0.9);
   }
 }
 </style>
