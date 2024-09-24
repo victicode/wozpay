@@ -2,6 +2,9 @@
   <div class="section_page q-mt-lg q-pt-lg">
     <div class="">
       <div class="text-subtitle1 text-weight-bold text-center">Adjuntar tarjeta de crédito o débito</div>
+
+      <input class="creditcard-input" type="text" />
+      <input class="creditcard-type" type="text" />
       <q-form
         id="linked_form"
         class=""
@@ -23,9 +26,19 @@
                 label="N° de tarjeta de débito o crédito"
                 :rules="rulesForm('card')"
                 autocomplete="off"
-                maxlength="24"
-                mask="#### #### #### #### ####"
-              />
+                maxlength="19"
+                @keyup="cleaveCard($event)"
+                @change="validateCard($event)"
+                mask="#### #### #### ####"
+                bottom-slots
+                :error="cardError"
+              >
+                <template v-slot:append>
+                  <transition name="horizontal">
+                    <div v-html="wozIcons[cardType ?? 'general' ]" style="transform: scale(0.9)" />
+                  </transition>
+                </template>
+              </q-input>
             </div>
             <div class="q-my-lg">
               <q-select 
@@ -55,6 +68,9 @@
                 autocomplete="off"
                 hint="Formato EJ.: 01/2024 "
                 mask="##/####"
+                @keyup="cleaveVenc($event)"
+                @change="validateDate($event)"
+                :error="dateError"
               >
               </q-input>
             </div>
@@ -140,7 +156,13 @@
   import payMethod from '@/assets/images/pay_types3.png'
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import wozIcons from '@/assets/icons/wozIcons'
-
+  import { getCreditCardType } from 'cleave-zen'
+  import { 
+    isValid, 
+    isExpirationDateValid,
+    isSecurityCodeValid,
+    getCreditCardNameByNumber,
+  } from 'creditcard.js';
  
   export default {
     components: {
@@ -157,6 +179,11 @@
       const route = useRoute()
       const loading = ref(false)
       const showDialog = ref(false)
+      const cardType = ref('general')
+      const selectCard = ref(0)
+      const cardError = ref(false)
+      const dateError = ref(false)
+
 
       const options = [
         { value: '1', text: 'Crédito'},
@@ -171,8 +198,6 @@
       })
 
       // Data
-      
-      const selectCard = ref(0)
 
       const linkCard = () => {
         if(!validate()){
@@ -234,19 +259,73 @@
       const loadingState = (state) => {
         loading.value = state;
       }
+      const cleaveCard = (e) => {
+        const value = e.target.value
+        cardType.value = getCreditCardType(value)
+      }
+      const validateCard = (e) => {
+        if(!e) {
+          cardType.value = 'general'
+          return false
+        }
+        if(getCreditCardNameByNumber(e) == 'Credit card is invalid!'  && !isValid(e)){
+          alert('Tarjeta no valida.')
+          cardError.value = true
+          return cardError.value
+        }
+        cardError.value = false
+
+        return cardError.value
+      }
+      const cleaveVenc = (e) => {
+        const value = e.target.value.split('/')
+        if(parseInt(value[0]) > 12){
+          formCardData.value.due_date = '12'
+        }
+        if(value[0] == '00'){
+          formCardData.value.due_date = '01'
+        }
+        if(value[1] && value[1].length == 4){
+          const verifyDate = new Date();
+          if(parseInt(value[1]) > verifyDate.getFullYear() + 10){
+            formCardData.value.due_date = value[0] + '' + (verifyDate.getFullYear() + 10)
+          }
+        }
+      }
+      const validateDate = (e) => {
+        if(!e) {
+          return true
+        }
+        const value = e.split('/');
+      
+        if(!isExpirationDateValid(value[0], value[1])){
+          alert('Fecha no valida.')
+          dateError.value =  true
+          return
+        }
+        dateError.value = false
+      }    
+
       return{
         payMethod,
         icons,
         user,
         numberFormat,
+        cardError,
+        dateError,
         selectCard,
         formCardData,
         options,
         loading,
         showDialog,
+        cardType,
         wozIcons,
+        cleaveCard,
+        cleaveVenc,
         linkCard,
         rulesForm,
+        validateCard,
+        validateDate,
       }
     },
   }
