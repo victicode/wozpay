@@ -137,7 +137,6 @@
       const route = useRoute();
       const users = ref([])
       const user = ref(null)
-      const emitter = inject('emitter');
       const loading = ref(false)
       const userStore = useUserStore()
       const q = useQuasar()

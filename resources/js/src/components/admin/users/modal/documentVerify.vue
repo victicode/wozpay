@@ -1,34 +1,42 @@
 <template>
   <q-dialog v-model="dialog" persistent backdrop-filter="blur(8px)" class="q-px-md">
-      <q-card style="flex-wrap: nowrap; height: 90%;" class="flex column dialog_document">
-        <q-card-section class="header_document q-pb-xs">
-          <div class="text-subtitle1 text-weight-bold "> {{ setTitleByOperation() }}</div>
-        </q-card-section>
-        <q-card-section class="q-pt-md-md" style="height: 100%; overflow: auto;">
-          <div v-if="imagen.length > 0" class="row flex-center " style="height: 100%;" >
-            <div class="col flex flex-center" v-for="(image, n) in imagen" :key="n" >
-              <img :src="image" alt="">
-            </div>
+    <q-card style="flex-wrap: nowrap; height: 90%;" class="flex column dialog_document" v-if="imagen[0]">
+      <q-card-section class="header_document q-pb-xs">
+        <div class="text-subtitle1 text-weight-bold "> {{ setTitleByOperation() }}</div>
+      </q-card-section>
+      <q-card-section class="q-pt-md-md" style="height: 100%; overflow: auto;">
+        <div  class="row flex-center " style="height: 100%;" >
+          <div class="col flex flex-center" v-for="(image, n) in imagen" :key="n" >
+            <img :src="image" alt="">
           </div>
-        </q-card-section>
-        <q-card-actions align="right" class="text-primary q-mt-sm">
-          <q-btn color="grey-7" label="Cerrar" :loading="loading" @click="hideModal()" > 
-            <template v-slot:loading>
-              <q-spinner-facebook />
-            </template>
-          </q-btn>
-          <q-btn color="negative" label="Rechazar" :loading="loading" @click="setNewStatusVerify(0)" > 
-            <template v-slot:loading>
-              <q-spinner-facebook />
-            </template>
-          </q-btn>
-          <q-btn color="positive" label="Validar" :loading="loading" @click="setNewStatusVerify(2)" > 
-            <template v-slot:loading>
-              <q-spinner-facebook />
-            </template>
-          </q-btn>
-        </q-card-actions>
-      </q-card>
+        </div>
+      </q-card-section>
+      <q-card-actions align="right" class="text-primary q-mt-sm">
+        <q-btn color="grey-7" label="Cerrar" :loading="loading" @click="hideModal()" > 
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+        <q-btn color="negative" label="Rechazar" :loading="loading" @click="setNewStatusVerify(0)" > 
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+        <q-btn color="positive" label="Validar" :loading="loading" @click="setNewStatusVerify(2)" > 
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+      </q-card-actions>
+    </q-card>
+    <q-card style="flex-wrap: nowrap; height: 50%;"  v-else>
+      <div class="flex flex-center column  " style="height: 80%;">
+        <div class="text-h5 text-center text-weight-bold">No tienes documentos cargados</div>
+      </div>
+      <q-card-actions align="center" class="text-primary q-mt-sm">
+        <q-btn color="grey-7" label="Cerrar" style="width: 80%;" :loading="loading" @click="hideModal()" />
+      </q-card-actions>
+    </q-card>
   </q-dialog>
 </template>
 <script>
@@ -91,6 +99,7 @@
       }
       
       watch(() => props.dialog, (newValue) => {
+        console.log(imagen.value)
         dialog.value = newValue
       });
 

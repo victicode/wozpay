@@ -26,7 +26,7 @@
                     {{ loanStatus(loan.status).text }}
                   </q-chip>
                 </div>
-                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
+                <div class="text-weight-medium q-mt-xs q-mr-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
               </div>
             </div>
             <div>

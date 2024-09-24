@@ -35,7 +35,7 @@
               >
                 <template v-slot:append>
                   <transition name="horizontal">
-                    <div v-html="wozIcons[cardType ?? 'general' ]" style="transform: scale(0.9)" />
+                    <div v-html="wozIcons[cardType ?? 'general' ]" style="transform: scale(0.8)" />
                   </transition>
                 </template>
               </q-input>
@@ -57,7 +57,8 @@
               />
             </div>
             <div class="q-my-lg">
-              <q-input class="linkedCard q-pb-none"
+              <q-input 
+                class="linkedCard q-pb-none"
                 outlined
                 clearable
                 :clear-icon="'eva-close-outline'"
@@ -68,7 +69,7 @@
                 autocomplete="off"
                 hint="Formato EJ.: 01/2024 "
                 mask="##/####"
-                @keyup="cleaveVenc($event)"
+                @keyup="cleaveDate($event)"
                 @change="validateDate($event)"
                 :error="dateError"
               >
@@ -106,7 +107,7 @@
               <div class="q-mt-xs">
                 Adjuntar tarjeta
               </div>
-              <q-icon name="eva-lock-outline" size="sm" class="q-ml-xs" /> 
+              <q-icon name="eva-lock-outline" size="sm" class="q-ml-xs q-mt-xs" /> 
             </div> 
             <template v-slot:loading>
               <q-spinner-facebook />
@@ -208,13 +209,11 @@
         cardStore.linkCard(formCardData.value).then((data) => {
           if(data.code !== 200) throw data
           setTimeout(() => {
-
             showDialog.value = true
-          }, 2000)
+          }, 1000);
           setTimeout(()=>{
             router.go(-3)
-            // loadingState(false)
-          },5000)
+          },3000)
         }).catch((response) => {
           showNotify('negative', response)
           loadingState(false)
@@ -222,7 +221,19 @@
       }
       const validate = () => {
         let isOk = true
+
         Object.entries(formCardData.value).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+
+        if(validateCard(formCardData.value.card)) {
+          isOk = false
+          return isOk
+        }
+
+        if(validateDate(formCardData.value.due_date)) {
+          isOk = false
+          return isOk
+        }
+
         return isOk
       }
       const showNotify = (type, message) => {
@@ -261,23 +272,10 @@
       }
       const cleaveCard = (e) => {
         const value = e.target.value
+        console.log(getCreditCardType(value))
         cardType.value = getCreditCardType(value)
       }
-      const validateCard = (e) => {
-        if(!e) {
-          cardType.value = 'general'
-          return false
-        }
-        if(getCreditCardNameByNumber(e) == 'Credit card is invalid!'  && !isValid(e)){
-          alert('Tarjeta no valida.')
-          cardError.value = true
-          return cardError.value
-        }
-        cardError.value = false
-
-        return cardError.value
-      }
-      const cleaveVenc = (e) => {
+      const cleaveDate = (e) => {
         const value = e.target.value.split('/')
         if(parseInt(value[0]) > 12){
           formCardData.value.due_date = '12'
@@ -292,18 +290,35 @@
           }
         }
       }
+      const validateCard = (e) => {
+        if(!e) {
+          cardType.value = 'general'
+          return false
+        }
+        cardError.value = false
+        if(getCreditCardNameByNumber(e) == 'Credit card is invalid!'  && !isValid(e)){
+
+          console.log(getCreditCardNameByNumber(e))
+
+          alert('Tarjeta no valida.')
+          cardError.value = true
+        }
+
+        return cardError.value
+      }
+      
       const validateDate = (e) => {
         if(!e) {
           return true
         }
         const value = e.split('/');
-      
+        dateError.value = false
         if(!isExpirationDateValid(value[0], value[1])){
           alert('Fecha no valida.')
           dateError.value =  true
-          return
         }
-        dateError.value = false
+        
+        return dateError.value
       }    
 
       return{
@@ -321,7 +336,7 @@
         cardType,
         wozIcons,
         cleaveCard,
-        cleaveVenc,
+        cleaveDate,
         linkCard,
         rulesForm,
         validateCard,
@@ -420,6 +435,9 @@
     & .q-field__append{
       transform: translateY(-2%)
     }
+    & .q-field__messages {
+      transform: translateY(-25%) translateX(-1%)
+    }
   }
 
   .input-logo-container{
@@ -433,6 +451,9 @@
   .linkedCard {
       & .q-field__bottom{
         transform: translateY(15px);
+      }
+      & .q-field__messages {
+        transform: translateY(10%) translateX(-1%)
       }
     }
   }

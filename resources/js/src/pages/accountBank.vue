@@ -47,7 +47,7 @@
       </div>
       <div v-else-if="bankAccounts.length == 0 && ready" class="h-100">
         <div class="h-100 flex flex-center column q-px-md q-pb-xl">
-          <div class="text-weight-bold q-pb-md text-h6">
+          <div class="text-weight-bold q-pb-md text-h6 text-center">
             No tienes cuentas de banco asociadas
           </div>
           <div class="w-100 flex justify-center">
