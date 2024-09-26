@@ -6,7 +6,7 @@
           Nuevas notificaciones
         </div>
         <div class="q-pb-lg notification__section" >
-          <div v-for="(notification, index) in notifications" :key="index" class=" w-100  q-px-md" :class="{'unRead': !notification.read}">
+          <div v-for="(notification, index) in notifications" :key="index" class=" w-100  q-px-md cursor-pointer" :class="{'unRead': !notification.read}" @click="showNotification(notification)">
             <div class="notification__content flex items-center q-py-sm">
               <div class="w-75">
                 <div class="flex items-center q-mb-xs"> 
@@ -77,6 +77,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import sadBell from '@/assets/images/sadBell.svg'
 import notificationSound from '@/assets/audio/notification7.wav'
+import { useRouter } from 'vue-router'
 
 export default {
   setup () {
@@ -85,7 +86,9 @@ export default {
     const user = useAuthStore().user;
     const notifications = ref([])
     const ready = ref(false)
+    const emitter = inject('emitter');
     const sound = new Audio(notificationSound)
+    const router = useRouter()
     
     const getNotifications = () =>{
       store.getAllNotificationByUser(user.id).then((data) =>{
@@ -97,6 +100,17 @@ export default {
         }, 1000);
       })
     }
+    
+    const showNotification = (value) => {
+      const data = {
+        newColor: value.type == 1 ? 'terciary' : value.type == 2 ? 'negative' : 'terciary', 
+        newTitle: value.subject,
+        newText: value.text, 
+        newIcon: 'eva-bell-outline',
+        newCallback: () => emitter.emit('offModalNotification'),
+      }
+      emitter.emit('modalNotification', data);
+    } 
     onMounted(()=>{
       getNotifications();
       window.Echo
@@ -128,7 +142,7 @@ export default {
         },
       });
     })
-    return { icons, wozIcons, notifications, user, moment, ready, sadBell}
+    return { icons, wozIcons, notifications, user, moment, ready, sadBell, showNotification}
   },
 }
 </script>

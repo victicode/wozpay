@@ -258,15 +258,15 @@ class UserController extends Controller
 
         
         if ($request->facial) {
-            $facial = 'public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_facial_.'. $request->File('facial')->extension();
+            $facial = '/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_facial_.'. $request->File('facial')->extension();
             $request->file('facial')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $facial);
         }
         if ($request->document_front) {
-            $document_front = 'public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_front_.'. $request->File('document_front')->extension();
+            $document_front = '/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_front_.'. $request->File('document_front')->extension();
             $request->file('document_front')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $document_front);
         }
         if ($request->document_back) {
-            $document_back = 'public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_back_.'. $request->File('document_back')->extension();
+            $document_back = '/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_back_.'. $request->File('document_back')->extension();
             $request->file('document_back')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $document_back);
         }
 
@@ -296,6 +296,10 @@ class UserController extends Controller
         } catch (Exception $th) {
             return $this->returnSuccess(400, $th->getMessage() );
         }
+        if($user->verify_status == 0) $this->resendVerify($user);
+        
+        if($user->facial_verify == 0) $this->resendVerify($user);
+
         return $this->returnSuccess(200, $user);
     }
     private function validateFieldsFromInput($inputs){
@@ -323,7 +327,12 @@ class UserController extends Controller
         return $validator->all() ;
 
     }
-
+    private function resendVerify($user){
+        $user->facial_photo = $user->facial_verify == 0 ? null : $user->facial_photo ;
+        $user->document_photo_front = $user->verify_status == 0 ? null : $user->document_photo_front;
+        $user->document_photo_back = $user->verify_status == 0 ? null : $user->document_photo_back;
+        $user->save();
+    }
     private function storeWallet(Request $request){
         $wallet = Wallet::create([
             'number'    => '916' . $request->user_dni,
@@ -334,6 +343,25 @@ class UserController extends Controller
         ]);
 
         return $wallet;
+    }
+    private function verifyAction($user){
+        if($user->status == 0){
+            $this->sendNotification('Tu tarjeta fue rechazada, por que no cumple con las medidas de seguridad de Woz Pay', $user->id, 'Tarjeta Rechazada', 2);
+            return;
+        }
+        $this->sendNotification('Tu tarjeta fue vinculada con exito!', $user->id, 'Tarjeta vinculada✅', 1);
+        return;
+    }
+    private function sendNotification($message, $user, $subject, $type){
+        $notification = new NotificationController;
+        $requestNotification = new Request([
+            'text'      => $message,
+            'subject'   => $subject,
+            'user'   => $user,
+            'sender' => 'Woz Pay informa',
+            'type' => $type,
+        ]);
+        $notification->storeNotification($requestNotification);
     }
 
 }

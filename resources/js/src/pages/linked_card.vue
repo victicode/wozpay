@@ -72,6 +72,7 @@
                 @keyup="cleaveDate($event)"
                 @change="validateDate($event)"
                 :error="dateError"
+                error-message="Formato de fecha no valido o vencido"
               >
               </q-input>
             </div>
@@ -261,6 +262,8 @@
           ],
           cvc:[
             val => (val !== null && val !== '') || 'El CVC es obligatorio.',
+            val => val.length >= 3 || "Minimo 3 digitos.",
+
             val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
         }
@@ -283,10 +286,15 @@
         if(value[0] == '00'){
           formCardData.value.due_date = '01'
         }
+        if(value[1] && value[1].length < 4){
+          dateError.value = true
+        }
         if(value[1] && value[1].length == 4){
           const verifyDate = new Date();
           if(parseInt(value[1]) > verifyDate.getFullYear() + 10){
             formCardData.value.due_date = value[0] + '' + (verifyDate.getFullYear() + 10)
+            dateError.value = false
+
           }
         }
       }
@@ -297,9 +305,6 @@
         }
         cardError.value = false
         if(getCreditCardNameByNumber(e) == 'Credit card is invalid!'  && !isValid(e)){
-
-          console.log(getCreditCardNameByNumber(e))
-
           alert('Tarjeta no valida.')
           cardError.value = true
         }
@@ -313,8 +318,13 @@
         }
         const value = e.split('/');
         dateError.value = false
-        if(!isExpirationDateValid(value[0], value[1])){
+        if(value[1] && value[1].length < 4){
           alert('Fecha no valida.')
+
+          dateError.value = true
+        }
+        if(!isExpirationDateValid(value[0], value[1])){
+          alert('Fecha no vencida.')
           dateError.value =  true
         }
         

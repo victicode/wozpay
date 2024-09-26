@@ -42,10 +42,8 @@
                   <div class="text-weight-medium text-right">Disponible</div>
                   <div class="text-weight-medium  text-right">Gs. {{numberFormat(user.wallet.balance)}}</div>
                 </div>
-                
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -143,6 +141,11 @@
       }
       onMounted(() => {
         getLinkCard()
+        window.Echo
+        .channel('cardUpdateEvent'+user.id)
+        .listen('CardUpdateEvent', async () => {
+          getLinkCard()
+        })
       })
       // Data
       return{

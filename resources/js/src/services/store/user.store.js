@@ -5,7 +5,7 @@ import JwtService from "@/services/jwt/";
 export const useUserStore = defineStore("user", {
   actions: {
     async updateUser(data) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("api/user/u/"+data.id, data)
@@ -22,11 +22,11 @@ export const useUserStore = defineStore("user", {
       })
       .catch((response) => {
         console.log(response)
-        return 'Error al actualizar datos';
+        reject('Error al actualizar datos');
       });
     },
     async setKyc(data) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("/api/user/kyc", data)
@@ -43,7 +43,7 @@ export const useUserStore = defineStore("user", {
       })
       .catch((response) => {
         console.log(response)
-        return 'Error al actualizar datos';
+        reject('Error al actualizar datos');
       });
     },
     async sendMobileCode(data) {
@@ -68,7 +68,7 @@ export const useUserStore = defineStore("user", {
       });
     },
     async verifyMobileCode(data) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("api/user/verifyPhoneCode", data)
@@ -90,7 +90,7 @@ export const useUserStore = defineStore("user", {
       });
     },
     async getUserByWallet(wallet) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("api/wallet/"+ wallet)
@@ -110,7 +110,7 @@ export const useUserStore = defineStore("user", {
       });
     },
     async getAllUser(query) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.get("/api/user/all?page="+query.page+"&search="+query.search+"&")
@@ -127,7 +127,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async getUserById(userID) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.get("/api/user/get/"+userID)
@@ -144,7 +144,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async setUserStatus(data) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("/api/user/set-status/"+data.user, data)
@@ -161,7 +161,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async deleteUser(userID) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("/api/user/delete/"+userID)
@@ -178,7 +178,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async restoreUser(userID) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("/api/user/restore/"+userID)
@@ -195,7 +195,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async getUserWithLoan(query) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.get("/api/user/loan/?page="+query.page+"&search="+query.search+"&")
@@ -212,7 +212,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async getCleanUser(query) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.get("/api/user/cleanUser/?page="+query.page+"&search="+query.search+"&")
@@ -229,7 +229,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async getSlowPayerUser (query) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.get("/api/user/slowPayer/?page="+query.page+"&search="+query.search+"&")
@@ -246,7 +246,7 @@ export const useUserStore = defineStore("user", {
       })
     },
     async getUsersBySearch (query) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.get("/api/user/getBySearch?search="+query+"&")

@@ -1,8 +1,9 @@
 <template>
   <div>
     <q-dialog v-model="dialog"  persistent class="notification__modal">
-      <q-card style="width: 350px; overflow: visible; borde" class="position-relative" >
-        <q-card-section class="flex">
+      <q-card style="width: 350px; overflow: visible; border-radius: 20px;" class="position-relative" >
+        <q-card-section class="flex q-pb-sm w-100 items-center justify-between">
+          <div class="flex items-center">
             <div class="text-terciary">
               Woz Pay informa
             </div>
@@ -12,14 +13,35 @@
               color="terciary"
               class="q-mx-xs "
             />
-        </q-card-section>
-        <q-linear-progress :value="1" :color="color" size="0.15rem"/>
-        <q-card-section class="row items-center no-wrap justify-center">
+          </div>
           <div>
-            Hola
+            <q-icon :name="icon" size="sm" :color="color == 'negative' ? color : 'black'" />
           </div>
         </q-card-section>
-        <q-card-section class="row items-center no-wrap justify-center">
+        <q-linear-progress :value="1" :color="color ?? 'terciary' " size="0.125rem"/>
+        <q-card-section class=" text-center">
+          <div :class=" color ? 'text-'+color : 'text-terciary'" class="text-weight-bold text-subtitle1">
+           {{ title ?? 'Pago de cuotas'}}
+          </div>
+          <div class="text-subtitle2 q-mt-sm q-px-md q-py-sm"   :class="{'negative-back ': color == 'negative'}"> 
+            <div v-if="color == 'negative'" class="text-weight-bold">
+              Motivo
+            </div>
+            <div class="text-weight-medium">
+              {{ text }}
+            </div>
+          </div>
+
+
+        </q-card-section>
+        <q-card-section 
+          class="row items-center no-wrap justify-center" 
+          :class=" color ? 'bg-'+color : 'bg-terciary'" 
+          @click="action.callback()"
+        >
+          <div class="text-white text-subtitle2 cursor-pointer" >
+            {{ action.title ?? 'Aceptar' }}
+          </div>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -27,7 +49,6 @@
 </template>
 <script>
   import { inject, onMounted, ref, } from 'vue';
-  import { useUserStore } from '@/services/store/user.store';
  
   export default {
     props: {
@@ -35,31 +56,36 @@
     },
   
     setup () {
-
       // Data
-      const userStore = useUserStore();
-      const loading = ref(false);
-      const dialog = ref(true);
+      const dialog = ref(false);
       const mitt = inject('emitter');
       const icons = inject('ionIcons')
-      const color = ref('primary');
-      const text = ref('hola');
-      const callback = ref(()=>{});
-
-
+      const color = ref('terciary');
+      const text = ref('');
+      const title = ref('');
+      const icon = ref('');
+      const action = ref({
+        title: null,
+        callback: () => {
+          hideModal()
+        }
+      });
 
       const hideModal = (data = null) => {
         dialog.value = false
-      }
-
-      
-      
+      }    
       onMounted(() => {
-        mitt.on('modalNotification', (newColor, newText, newCallback) => {
+        mitt.on('modalNotification', ({newIcon, newColor, newText, newTitle, newCallback, newActiontitle}) => {
           dialog.value = true
           color.value = newColor
           text.value = newText
-          callback.value = newCallback
+          title.value = newTitle
+          icon.value = newIcon
+          action.value.callback = newCallback
+          action.value.title = newActiontitle
+        })
+        mitt.on('offModalNotification', () => {
+          dialog.value = false
         })
       })
       
@@ -67,8 +93,10 @@
         dialog,
         color,
         text,
-        callback,
+        title,
+        action,
         icons,
+        icon,
         hideModal,
 
       }
@@ -76,6 +104,12 @@
   };
 </script>
 <style lang="scss" scoped>
+.w-100 {
+  width: 100%;
+}
+.negative-back {
+  background-color: #ff00001a;border-radius: 20px;
+}
 .notification__modal{
   width: 100%;
 }

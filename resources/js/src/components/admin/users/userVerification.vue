@@ -122,72 +122,7 @@
           <q-separator />
         </q-list>
         <!-- cards Debit -->
-        <q-toolbar class="bg-white text-black q-mt-sm">
-          <q-toolbar-title> 
-            <div class="w-100 flex flex-center">
-              <span class="text-subtitle1 text-weight-bold q-pt-sm">Datos para el débito automático</span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
-        <q-list v-if="user.card">
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-subtitle2 text-weight-bold">
-                  Tipo de tarjeta
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.card.type == 1 ? 'Crédito' : 'Débito' }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-subtitle2 text-weight-bold">
-                  Número de tarjeta 
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.card.number }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-subtitle2 text-weight-bold">
-                  Vencimiento
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.card.due_date }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-subtitle2 text-weight-bold">
-                  CVC
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-caption">{{ user.card.cvc }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-        </q-list>
-        <div v-else>
-          <h5 class="text-center q-mt-lg text-weight-medium q-px-md" >
-            No hay tarjetas vinculadas para el débito automático.
-          </h5>
-        </div>
+        <userVerificationCard :user="user" @updateUserCard="getUser"/>
       </div>
       <documentVerify :dialog="dialog" :type="type" :imagen="img" @hiddeModal="hideModal" :user="user" />
 
@@ -246,10 +181,11 @@
   import { useUserStore } from '@/services/store/user.store'
   import util from '@/util/numberUtil'
   import documentVerify from '@/components/admin/users/modal/documentVerify.vue';
-
+  import userVerificationCard from '@/components/admin/users/userVerificationCard.vue';
   export default {
     components: {
       documentVerify,
+      userVerificationCard,
     },
     setup () {
       //vue provider
@@ -278,7 +214,6 @@
       const getUser = () => {
         ready.value = false
         const userId = route.params.id;
-
         userStore.getUserById(userId)
         .then((response) => {
           if(response.code != 200) throw response
@@ -298,8 +233,9 @@
 
         dialog.value = true
       }
-      const hideModal = () => {
+      const hideModal = (action) => {
         dialog.value = false
+        if(action) getUser()
       }
 
       onMounted(() => {
@@ -317,6 +253,7 @@
         showToltip,
         showModal,
         hideModal,
+        getUser,
       }
     }
   };

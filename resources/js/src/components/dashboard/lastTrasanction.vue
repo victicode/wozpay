@@ -138,7 +138,7 @@
           {text:'Pendiente', color:'warning'},
           {text:'Aprobando', color:'positive'},
           {text:'Pagado',    color:'positive'},
-          {text:'No pagado', color:'warning'},
+          {text:'No pagado', color:'deep-orange-13'},
         ]
         return status[state]
       }

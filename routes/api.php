@@ -68,7 +68,6 @@ Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')-
     Route::post('/', [NotificationController::class, 'storeNotification']);
     Route::get('/{id}', [NotificationController::class, 'getAllByUser']);
     Route::get('/seeAll/{id}', [NotificationController::class, 'seeAllByUser']);
-
 });
 
 Route::middleware('jwt.verify')->prefix('banks')->name('bank.')->group(function () {
@@ -88,7 +87,6 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
     Route::get('/get/{id}', [LoanController::class, 'getLoanById']);
     Route::get('/approve/get', [LoanController::class, 'getApproveLoan']);
     Route::post('/changeStatus/{id}', [LoanController::class, 'changeStatus']);
-
 });
 
 Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {
@@ -99,6 +97,7 @@ Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function (
     Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [CardController::class, 'getLinkCard']);
     Route::post('/delete/{id}', [CardController::class, 'deleteCard']);
+    Route::post('/changeStatus/{id}', [CardController::class, 'changeStatus']);
 });
 
 Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(function () {

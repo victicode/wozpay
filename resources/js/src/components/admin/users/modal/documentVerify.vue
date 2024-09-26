@@ -12,7 +12,7 @@
         </div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary q-mt-sm">
-        <q-btn color="grey-7" label="Cerrar" :loading="loading" @click="hideModal()" > 
+        <q-btn color="grey-7" label="Cerrar"  @click="hideModal()" > 
           <template v-slot:loading>
             <q-spinner-facebook />
           </template>
@@ -30,17 +30,17 @@
       </q-card-actions>
     </q-card>
     <q-card style="flex-wrap: nowrap; height: 50%;"  v-else>
-      <div class="flex flex-center column  " style="height: 80%;">
-        <div class="text-h5 text-center text-weight-bold">No tienes documentos cargados</div>
+      <div class=" flex-center column  " style="height: 80%;">
+        <div class="text-h5 text-center text-weight-bold q-px-md">No tienes documentos cargados</div>
       </div>
       <q-card-actions align="center" class="text-primary q-mt-sm">
-        <q-btn color="grey-7" label="Cerrar" style="width: 80%;" :loading="loading" @click="hideModal()" />
+        <q-btn color="grey-7" label="Cerrar" style="width: 80%;"  @click="hideModal()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 <script>
-  import { ref, watch } from 'vue';
+  import { inject, ref, watch } from 'vue';
   import PDF from "pdf-vue3";
   import { useUserStore } from '@/services/store/user.store'
 
@@ -63,6 +63,7 @@
       const dialog = ref(props.dialog);
       const user = ref(props.user);
       const userStore = useUserStore();
+      const emitter = inject('emitter')
 
 
       // Methods
@@ -71,35 +72,44 @@
       }
 
       const setTitleByOperation = () => {
-    
         if(props.type == 1) return 'Verificar documentos';
         return 'Verificacion facial';
-        
       }
-      const hideModal = () => {
-        emit('hiddeModal')
+      const hideModal = (action = null) => {
+        emit('hiddeModal', action)
       }
       const setNewStatusVerify = (newStatus) => {
+        loading.value = true;
         const data = {
           id: user.value.id,
         }
         props.type == 1 
         ? data['verify_status'] = newStatus 
         : data['facial_verify'] = newStatus 
-
-        console.log(data)
         userStore.setVerifyStatus(data)
         .then((response) => {
-          console.log(response)
-          hideModal()
+          if(response.code !== 200) throw response
+          showNotification('Bien!', 'Estado de verificación actualizado con exito', 'positive')
+          loading.value = false;
+          hideModal(true)
         })
         .catch((response) => {
-
+          hideModal()
+          loading.value = false;
+          showNotification('Error al actualizar', response, 'negative')
         })
       }
-      
+      const showNotification = (title, text, type) => {
+        const data = {
+          newColor: type, 
+          newTitle: title,
+          newText: text, 
+          newIcon: type == 'positive' ? 'eva-checkmark-circle-2-outline' : 'eva-alert-circle-outline',
+          newCallback: () => emitter.emit('offModalNotification'),
+        }
+        emitter.emit('modalNotification', data);
+      } 
       watch(() => props.dialog, (newValue) => {
-        console.log(imagen.value)
         dialog.value = newValue
       });
 

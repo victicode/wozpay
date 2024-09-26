@@ -57,6 +57,17 @@
       <div class="q-mt-xs text-subtitle1 text-weight-bold">¿Qué notificación push quieres mandar?</div>
       <div>
         <q-input
+          v-model="notificationSubject"
+          outlined
+          clearable
+          type="text"
+          color="primary"
+          class="q-mt-sm notification_text"
+          label="Asunto"
+        />
+      </div>
+      <div>
+        <q-input
           v-model="notificationText"
           outlined
           clearable
@@ -148,10 +159,10 @@
       })
       const sender = ref('Woz Pay informa')
       const notificationText = ref(null)
+      const notificationSubject = ref(null)
 
       const setSender = (senderPosition) => {
         const dontValidate = [senderPosition]
-
         Object.entries(checked.value).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) {
             setSenderName(senderPosition)
@@ -185,7 +196,6 @@
       }
       const getUser = () => {
         const userId = route.query.id;
-
         userStore.getUserById(userId)
         .then((response) => {
           if(response.code != 200) throw response
@@ -207,11 +217,13 @@
         })
       }
       const sendNotification = () => {
+
         if(!validate()) return
         loading.value = true
         const data = {
           user : user.value.id,
           text: notificationText.value,
+          subject: notificationSubject.value,
           sender: sender.value
         }
         notificationStore.storeNotification(data)
@@ -229,15 +241,23 @@
       const cleanForm = () => {
         user.value = null;
         notificationText.value = '';
+        notificationSubject.value = '';
+
       }
       const validate = () => {
-        if(!user.value) {
+        if(!user.value) 
+        {
           showNotify('negative', 'Debes seleccionar un destinatario')
           return false
         }
         if(notificationText.value == '' || !notificationText.value) 
         { 
           showNotify('negative', 'El campo de texto no puede quedar vacio')
+          return false
+        }
+        if(!notificationSubject.value || notificationSubject.value == '')
+        {
+          showNotify('negative', 'El asunto no puede quedar vacio')
           return false
         }
         return true
@@ -255,6 +275,7 @@
         loading,
         checked,
         notificationText,
+        notificationSubject,
         sender,
         moment,
         user,

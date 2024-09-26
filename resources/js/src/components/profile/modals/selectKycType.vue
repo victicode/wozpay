@@ -64,7 +64,10 @@
           <q-linear-progress :value="1" color="primary" />
           <div class="q-py-xl q-px-md">
             <div class="flex flex-center">
-              <canvas id="canvas"></canvas>
+              <div class="q-px-sm" style="width: 100%;" >
+                <img :src="img" alt="" style="width: 100%;"  class="" id="facial_document">
+              </div>
+              <canvas id="canvas" style="display: none;"></canvas>
             </div>
             <div class="flex flex-center q-mt-lg">
               <q-btn color="terciary" text-color="black" label="Tomar de nuevo" class="q-mx-sm" @click="useCamera()" v-if="isTakePhoto"/>
@@ -127,6 +130,7 @@
       const isTakePhoto = ref(false)
       const file = ref('');
       const data = ref(null);
+      const img = ref('')
 
       const hideModal = (data = null) => {
         step2.value =  false
@@ -168,34 +172,38 @@
         step3.value =  true        
         isTakePhoto.value = true  
         setTimeout(() => {
-          createCanva(videoFrame.value, 1)
+          createCanva()
         },200)
       }
 
       const uploadPhoto = (e) => {
-        const myImage = new Image();
         step1.value =  false        
         step3.value =  true       
         isTakePhoto.value = false  
-        file.value = e.target.files[0];
-        myImage.src = URL.createObjectURL(file.value); 
-
+        file.value = e.target.files[0]; 
         setTimeout(() => {
-          createCanva(myImage, 2)
+          createImage()
         },200)
       }
 
-      const createCanva = (img , type) => {
-        const canvas = document.querySelector("#canvas");
-        canvas.width = 254;
-        canvas.height = 190;
-        canvas.getContext("2d").drawImage(img, 0, 0, 254, 190);
+      const createCanva = () => {
+        const width = 320; 
+        const canvas = document.getElementById('canvas');
 
-        type == 1 
-        ? canvas.toBlob((blob) => {
+        const height = (videoFrame.value.videoHeight / videoFrame.value.videoWidth) * width;
+        
+        canvas.getContext("2d").drawImage(videoFrame.value, 0, 0, width, height);
+      
+        canvas.toBlob((blob) => {
           file.value = new File([blob], "capt.jpg", { type: "image/jpeg" })
         }, 'image/jpeg')
-        : file.value ; 
+        
+        img.value= canvas.toDataURL("image/png")
+      }
+
+
+      const createImage = () => {
+        img.value = URL.createObjectURL(file.value); 
       }
 
       const save = () => {
@@ -229,6 +237,7 @@
         loading,
         isTakePhoto,
         file,
+        img,
         hideModal,
         takePicture ,
         useCamera,

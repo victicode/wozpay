@@ -209,7 +209,7 @@
         step3.value =  true        
         isTakePhoto.value = true  
         setTimeout(() => {
-          createCanva(photoType.value)
+          createCanva()
         },200)
       }
 
@@ -218,16 +218,13 @@
         step3.value =  true       
         isTakePhoto.value = false  
         file.value[photoType.value] = e.target.files[0]; 
-
-        
         setTimeout(() => {
-          createImage(photoType.value)
+          createImage()
         },200)
       }
 
-      const createCanva = (id) => {
+      const createCanva = () => {
         const width = 320; 
-        const photo = document.querySelector("#"+id+"_document"); 
         const canvas = document.getElementById('canvas');
 
         const height = (videoFrame.value.videoHeight / videoFrame.value.videoWidth) * width;
@@ -242,8 +239,7 @@
       }
 
 
-      const createImage = (id) => {
-        const photo = document.querySelector("#"+id+"_document");
+      const createImage = () => {
         img.value[photoType.value] = URL.createObjectURL(file.value[photoType.value]); 
       }
 

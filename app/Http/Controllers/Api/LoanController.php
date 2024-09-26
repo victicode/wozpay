@@ -35,7 +35,7 @@ class LoanController extends Controller
         ]);
 
         $redTape =  $this->storeRedTapes($request, $loan->id);
-        $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id);
+        $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id, 'Prestamo solicitado');
 
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
@@ -73,7 +73,6 @@ class LoanController extends Controller
 
         $interest = Interest::where('days', $days)->where('type', $type)->first();
 
-        // if(!$interest) return 70;
         return $interest->interest;
     }
     private function storeRedTapes($request, $loanId) {
@@ -132,17 +131,18 @@ class LoanController extends Controller
     private function approveLoan($loan){
         $this->firstLoanDone($loan->user_id);
         $this->plusWallet($loan->user_id, $loan->amount);
-        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id);
+        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id, 'Prestamo aprobado');
         $this->createQuatas($loan);
     } 
     private function rejectLoan($loan){
-        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id);
+        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id, 'Prestamo rechazado');
     } 
-    private function emitNotification($message, $user){
+    private function emitNotification($message, $user, $subject){
         $notification = new NotificationController;
         $requestNotification = new Request([
             'text'      => $message,
             'user'   => $user,
+            'subject' => $subject,
             'sender' => 'Woz Pay informa',
         ]);
 
