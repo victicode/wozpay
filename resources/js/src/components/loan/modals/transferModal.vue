@@ -87,7 +87,7 @@
                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                           <q-date v-model="operationData.date" :options="optionsFn">
                             <div class="row items-center justify-end">
-                              <q-btn v-close-popup label="Close" color="primary" flat />
+                              <q-btn v-close-popup label="Aceptar" color="primary" flat />
                             </div>
                           </q-date>
                         </q-popup-proxy>
@@ -245,6 +245,7 @@
         loadingShow(true)
         const data = new FormData
         data.append('loan_id', loan.id)
+        data.append('quota_id', loan.value.currentQuota.id)
         data.append('amount', operationData.value.amount)
         data.append('operation_id', operationData.value.operationId)
         data.append('bank', operationData.value.bank.name)

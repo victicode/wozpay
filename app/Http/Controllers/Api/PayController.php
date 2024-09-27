@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\Pay;
+use App\Models\Loan;
+use App\Models\Quota;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
@@ -13,8 +15,6 @@ class PayController extends Controller
 {
     //
     public function storePay(Request $request) {
-
-
         $validated = $this->validateFieldsFromInput($request->all()) ;
 
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
@@ -32,6 +32,7 @@ class PayController extends Controller
                 'loan_id'       =>  $request->loan_id,
                 'amount'        =>  $request->amount,
                 'operation_id'  =>  $request->operation_id ?? rand(1000000, 9999999),
+                'quota_id'      =>  $request->quota_id ?? null,
                 'bank'          =>  $request->bank ?? null,
                 'pay_date'      =>  $request->pay_date ?? null,
                 'vaucher'       =>  $vaucher ?? null,
@@ -42,7 +43,7 @@ class PayController extends Controller
         } catch (Exception $th) {
             return $this->returnFail(400, $th->getMessage());
         }
-        
+        $this->approvePay($pay);
         return $this->returnSuccess(200, $pay);
     }
     public function payRequest(Request $request) {
@@ -123,5 +124,17 @@ class PayController extends Controller
 
         return $validator->all() ;
 
+    }
+    private function approvePay($pay){
+        $quota = Quota::find($pay->quota_id);
+        $quota->status = '2';
+        $quota->save();
+
+        
+        $loan = Loan::find($pay->loan_id);
+        $loan->status = '2';
+        $loan->save();
+
+        
     }
 }

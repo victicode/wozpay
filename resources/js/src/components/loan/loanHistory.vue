@@ -14,26 +14,34 @@
           </div>
         </div>
         <div class="flex items-center">
-          <div class="text-weight-medium text-body1 q-mt-xs">
-            Gs. {{ numberFormat(quota.amount) }}
+          <div class="text-weight-medium text-body1 q-mt-xs ">
+            Gs. {{ quota.days_due > 1 ? numberFormat(isPayWithDelay(quota)) : numberFormat(quota.amount) }}
           </div>
           <div>
             <q-icon 
-              v-if="loan.pays[n-1]"
+              v-if="quota.days_due > 1 && !quota.success_pays"
               class="q-ml-xs" 
-              :name=" loan.pays[n-1].status == 0 ? 'eva-alert-circle-outline' : loan.pays[n-1].status == 1 ? 'eva-clock-outline'  : 'eva-checkmark-circle-2-outline'" 
-              :color=" loan.pays[n-1].status == 0 ? 'negative' : loan.pays[n-1].status == 1 ? 'yellow-8'  : 'green-5'"  
+              name="eva-alert-circle-outline"
+              color="negative"  
+              size="sm" 
+              @click="showNotify( 'negative', 'Tu pago se encuentra vencido.' )"
+            />
+            <q-icon 
+              v-if="quota.success_pays"
+              class="q-ml-xs q-mt-xs" 
+              :name=" quota.success_pays.status == 0 ? 'eva-alert-circle-outline' : quota.success_pays.status == 1 ? 'eva-clock-outline'  : 'eva-checkmark-circle-2-outline'" 
+              :color=" quota.success_pays.status == 0 ? 'negative' : quota.success_pays.status == 1 ? 'yellow-8'  : 'green-5'"  
               size="sm" 
               @click="showNotify(
-                loan.pays[n-1].status == 0 
+                quota.success_pays.status == 0 
                 ? 'negative'
-                : loan.pays[n-1].status == 1 
+                : quota.success_pays.status == 1 
                 ? 'yellow-9'
                 : 'positive'
                 , 
-                loan.pays[n-1].status == 0 
+                quota.success_pays.status == 0 
                   ? 'Tu pago fue rechazado, vuelve a intentar.' 
-                  : loan.pays[n-1].status == 1 
+                  : quota.success_pays.status == 1 
                   ? 'Tú pago esta siendo verificado.' 
                   : 'Tú pago fue exitoso.')"
             />
@@ -70,6 +78,10 @@
         // return loan.amount_to_pay - amount
         return loan.amount - amount
       }
+      const isPayWithDelay = (quota) => {
+        if(quota.success_pays) return quota.success_pays.amount
+        return (((quota.amount * loan.interest_for_delay)/100) + quota.amount)
+      }
       const showNotify = (type, message) => {
         $q.notify({
           message: message,
@@ -86,6 +98,7 @@
         moment,
         forPay,
         showNotify,
+        isPayWithDelay,
       }
     }
   };

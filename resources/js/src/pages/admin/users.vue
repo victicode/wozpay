@@ -8,8 +8,30 @@
                 <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
                   {{ user.name }}
                 </div>
-                <div class="flex items-center">
-                  <div class="text-subtitle2 text-weight-light q-mt-xs q-mr-xs text-grey-7">
+                <div class="flex items-center ">
+                  <div class="mobile-hide q-mt-xs q-mr-xs">
+                    {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
+                  </div>
+                  <div class="mobile-only q-mt-xs q-mr-xs">
+                    <q-icon 
+                      :name="
+                        user.verify_status == 2 
+                        ? 'eva-checkmark-circle-2-outline' 
+                        : user.verify_status == 1 
+                        ? 'eva-clock-outline'
+                        : 'eva-close-circle-outline'
+                      "
+                      :color="
+                        user.verify_status == 2 
+                        ? 'positive' 
+                        : user.verify_status == 1 
+                        ? 'terciary'
+                        : 'negative'
+                      "
+                      size="xs"
+                    />
+                  </div>
+                  <div class="text-subtitle2 text-weight-light q-mt-xs q-mr-none text-grey-7">
                     {{ numberFormat(user.dni) }}
                   </div>
                   <q-btn 
@@ -196,7 +218,7 @@
   border-bottom: 1px solid $grey-4;
 }
 .w-70 {
-  width: 70%;
+  width: 60%;
 }
 .w-30 {
   width: 30%;

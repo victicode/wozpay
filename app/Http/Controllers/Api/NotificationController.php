@@ -49,8 +49,9 @@ class NotificationController extends Controller
             'text'      => $request->text,
             'user_id'   => $request->user,
             'sender_id' => $request->sender,
+            'subject'   => $request->subject,
             'read'      => 0,
-            'type'      => 1,
+            'type'      => $request->type ?? 1,
         ]);
         event(new NotificationsEvent($newNotification->user_id));
         return $this->returnSuccess(200, $newNotification);

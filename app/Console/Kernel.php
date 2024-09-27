@@ -2,9 +2,11 @@
 
 namespace App\Console;
 
+use App\Models\Loan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,10 +17,22 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
-            DB::table('loans')->where('due_date', '<' , date('Y-m-d') )->update([
-                'status'=> '4',
+            $quotas    = DB::table('quotas')->where('status', '1')->where('due_date', '<' , date('Y-m-d'));
+            foreach ($quotas->get() as $quota) {
+                $loan = Loan::find($quota->loan_id);
+                $loan->status = '4';
+                $loan->amount_to_pay = $this->updateAmounWithDelay($loan);      
+                $loan->save();        
+            }
+                      
+            $quotas->update([
+                'status'=> '3',
             ]);
-        })->daily();
+
+        })->everyFifteenSeconds();
+    }
+    private function updateAmounWithDelay($loan){
+        return ((($loan->amount_quota * $loan->interest_for_delay)/100) + $loan->amount_to_pay);
     }
 
     /**

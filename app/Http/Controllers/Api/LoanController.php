@@ -15,7 +15,7 @@ class LoanController extends Controller
 {
     //
     public function getActiveLoan($id) {
-        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'quotas_desc')
+        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'quotas_desc.successPays')
         ->orderBy('created_at', 'desc')->first();
 
         return $this->returnSuccess(200, $loan);
@@ -27,6 +27,7 @@ class LoanController extends Controller
             'amount' => $request->amount,
             'amount_to_pay' => $request->amountToPay,
             'quotas' => $this->getQuaotasByDay($request->due_date) ,
+            'amount_quota' => $request->amountToPay/$this->getQuaotasByDay($request->due_date),
             'status' => 1,
             'loan_number' => '619'+ rand(100000, 999999),
             'interest' => $this->getInterestPerDay($request->due_date, 1),
@@ -35,12 +36,12 @@ class LoanController extends Controller
         ]);
 
         $redTape =  $this->storeRedTapes($request, $loan->id);
-        $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id);
+        $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id, 'Prestamo solicitado');
 
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
-        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card', 'quotas_desc', 'pays')->find($id);
+        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card', 'quotas_desc.successPays', )->find($id);
 
         return $this->returnSuccess(200, $loan);
     }
@@ -73,7 +74,6 @@ class LoanController extends Controller
 
         $interest = Interest::where('days', $days)->where('type', $type)->first();
 
-        // if(!$interest) return 70;
         return $interest->interest;
     }
     private function storeRedTapes($request, $loanId) {
@@ -132,17 +132,18 @@ class LoanController extends Controller
     private function approveLoan($loan){
         $this->firstLoanDone($loan->user_id);
         $this->plusWallet($loan->user_id, $loan->amount);
-        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id);
+        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id, 'Prestamo aprobado');
         $this->createQuatas($loan);
     } 
     private function rejectLoan($loan){
-        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id);
+        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id, 'Prestamo rechazado');
     } 
-    private function emitNotification($message, $user){
+    private function emitNotification($message, $user, $subject){
         $notification = new NotificationController;
         $requestNotification = new Request([
             'text'      => $message,
             'user'   => $user,
+            'subject' => $subject,
             'sender' => 'Woz Pay informa',
         ]);
 

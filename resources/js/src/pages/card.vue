@@ -4,13 +4,22 @@
       <q-list class="q-px-sm">
         <q-item class="q-px-sm" >
           <q-item-section>
-            <div class="">
-              <q-item-label class="q-mt-xs text-weight-bold" >
-              <span class="text-body2 text-weight-bold">
-                Tipo de tarjeta
-              </span>
-              </q-item-label>
-              <q-item-label caption lines="1" class="text-weight-medium text-body2 q-pt-sm">{{ linkCard.type == 1 ? 'Tajeta de crédito' : 'tarjeta de débito' }}</q-item-label>
+            <div class="flex items-center justify-between">
+              <div>
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  Tipo de tarjeta
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2 q-pt-sm">
+                  {{ linkCard.type == 1 ? 'Tajeta de crédito' : 'tarjeta de débito' }}
+                </q-item-label>
+              </div>
+              <div>
+                <q-chip :color="linkCard.status == 2 ? 'positive' : linkCard.status == 1 ? 'warning' : 'negative'" text-color="white" >
+                  {{  linkCard.status == 2 ? 'Vinculada' : linkCard.status == 1 ? 'Pendiente' : 'Rechazada' }}
+                </q-chip>
+              </div>
             </div>
           </q-item-section>
         </q-item>
@@ -67,14 +76,14 @@
     </div>
     <div v-else-if="Object.values(linkCard).length == 0 && ready" >
       <div class="flex flex-center q-px-sm column" style="height: 100vh;">
-        <div class="text-weight-bold text-h5 q-mb-xl">
+        <div class="text-weight-bold text-h6 q-mb-xs">
           No tienes tarjetas vinculadas.
         </div>
         <div class="q-mb-xl q-pb-xl">
           <q-btn 
-            color="primary" class="w-100 q-pa-md" 
+            color="primary" class="w-100 q-py-sm q-px-lg" 
             no-caps
-            label="Inicar vinculación"
+            label="Iniciar vinculación"
             @click="router.push('link_card')"
           >
           </q-btn>

@@ -19,6 +19,7 @@ class Loan extends Model
         'amount', 
         'amount_to_pay', 
         'quotas', 
+        'amount_quota',
         'interest', 
         'interest_for_delay'
     ];

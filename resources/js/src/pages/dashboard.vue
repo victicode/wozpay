@@ -1,6 +1,6 @@
 <template>
   <div  class="dashboard_container">
-    <div style="height: 100%;" v-if="ready">
+    <div style="height: 100%;" >
       <div style="height: 28.3%;">
         <currentUserPersonalInfo />
       </div>
@@ -11,7 +11,7 @@
         <linkedCard />
       </div>
       <div style="height: 27%;">
-        <LastTrasanction />
+        <lastTrasanction />
       </div>
     </div>
 
@@ -21,38 +21,16 @@
   import currentUserPersonalInfo from '@/components/dashboard/currentUserPersonalInfo.vue';
   import actionsDashboard from '@/components/dashboard/actionsDashboard.vue';
   import linkedCard from '@/components/dashboard/linkedCard.vue';
-  import LastTrasanction from '@/components/dashboard/lastTrasanction.vue';
-  import { useAuthStore } from '@/services/store/auth.store'
-  import { useWalletStore } from '@/services/store/wallet.store'
-  import { onMounted, ref } from 'vue'
-
+  import lastTrasanction from '@/components/dashboard/lastTrasanction.vue';
   export default {
     components: {
       currentUserPersonalInfo,
       actionsDashboard,
       linkedCard,
-      LastTrasanction,
+      lastTrasanction,
     },
     setup() {
-      const user = useAuthStore().user;
-      const walletStore = useWalletStore()
-      const ready = ref(false)
-      const capitalBalances = () => {
-
-        walletStore.getBalancesByUser(user.id)
-        .then((data) => {
-          if(!data.code) throw data
-          ready.value = true
-        }).catch((response) => {
-          console.log(response)
-        })
-      }
-      onMounted(() => {
-        capitalBalances()
-      })
-      return {
-        ready
-      }
+      
     },
   }
 </script>

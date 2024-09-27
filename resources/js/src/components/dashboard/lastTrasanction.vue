@@ -26,7 +26,7 @@
                     {{ loanStatus(loan.status).text }}
                   </q-chip>
                 </div>
-                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
+                <div class="text-weight-medium q-mt-xs q-mr-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
               </div>
             </div>
             <div>
@@ -138,7 +138,7 @@
           {text:'Pendiente', color:'warning'},
           {text:'Aprobando', color:'positive'},
           {text:'Pagado',    color:'positive'},
-          {text:'No pagado', color:'warning'},
+          {text:'No pagado', color:'deep-orange-13'},
         ]
         return status[state]
       }

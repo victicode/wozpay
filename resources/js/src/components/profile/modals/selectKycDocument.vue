@@ -2,14 +2,17 @@
   <div>
     <div>
       <q-dialog v-model="step1" position="bottom" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style="width: 350px; overflow: visible;" class="position-relative ">
           <div class="cls-button" @click="hideModal()">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
           <input type="file" accept="image/jpeg, image/png" id="sotom" capture="camera" @change="uploadPhoto($event)" style="display: none;">
+          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
+            {{ photoType == 'front' ? 'Frontal del documento' : 'Dorso del documento' }}
+          </div>
           <q-card-section class="row items-center no-wrap justify-center">
-            <div class="q-pt-xs q-mx-md">
+            <div class="q-pt-none q-mx-md">
               <label for="sotom"  class="flex column items-center">
                 <div class="bg-primary flex flex-center button-file cursor-pointer" >
                     <q-icon name="eva-folder-add-outline" color="white" size="md" />
@@ -17,9 +20,9 @@
                 <div class="text-subtitle1 text-weight-medium q-mt-xs">Subir archivo</div>
               </label>
             </div>
-            <div class="q-pt-xs q-mx-md">
+            <div class="q-pt-none q-mx-md">
               <div  class="flex column items-center">
-                <div class="bg-terciary flex flex-center button-file cursor-pointer" @click="useCamera()">
+                <div class="bg-terciary flex flex-center button-file cursor-pointer" @click="useCamera(photoType)">
                     <q-icon name="eva-camera-outline" size="md" />
                 </div>
               </div>
@@ -36,6 +39,9 @@
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
+          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
+            {{ photoType == 'front' ? 'Frontal del documento' : 'Dorso del documento' }}
+          </div>
           <div class="q-pa-xl">
             <div v-if="loading" class="flex flex-center">
               <q-spinner-hourglass
@@ -48,7 +54,7 @@
                 <video id="video_frame" playsinline autoplay></video>
               </div>
               <div class="flex flex-center q-mt-lg">
-                <q-btn color="primary" text-color="white" label="Tomar foto" @click="takePicture()"/>
+                <q-btn color="primary" text-color="white" label="Tomar foto" @click="takePicture(photoType)"/>
               </div>
             </div>
           </div>
@@ -57,21 +63,42 @@
     </div>
     <div>
       <q-dialog v-model="step3" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style="overflow: visible;" class="position-relative document_verify_modal">
           <div class="cls-button" @click="hideModal()">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
+          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
+            {{ photoType == 'front' ? 'Frontal del documento' : 'Tus documentos' }}
+          </div>
           <div class="q-py-xl q-px-md">
             <div class="flex flex-center">
-              <div class="q-px-sm" style="width: 100%;" >
-                <img :src="img" alt="" style="width: 100%;"  class="" id="facial_document">
+              <div class="q-px-sm" style="width: 50%; border-right: 1px solid lightgray ;" >
+                <img :src="img['front']" alt="" style="width: 100%;" class=""  id="front_document">
+              </div>
+              <div class="q-px-sm" style="width: 50%;" >
+                <img :src="img['back']" alt="" style="width: 100%;"  class="" id="back_document">
               </div>
               <canvas id="canvas" style="display: none;"></canvas>
             </div>
             <div class="flex flex-center q-mt-lg">
               <q-btn color="terciary" text-color="black" label="Tomar de nuevo" class="q-mx-sm" @click="useCamera()" v-if="isTakePhoto"/>
-              <q-btn color="primary" text-color="white" label="Guardar" class="q-mx-sm" @click="save()" :loading="loading">
+              <q-btn 
+                color="terciary" 
+                text-color="black" 
+                label="Subir de nuevo" 
+                class="q-mx-sm" 
+                @click="step1 = true; step3 = false" 
+                v-if="!isTakePhoto"
+              />
+              <q-btn 
+                color="primary" 
+                text-color="white" 
+                :label="photoType == 'front' ? 'Continuar' : 'Guardar' " 
+                class="q-mx-sm" 
+                @click="save()" 
+                :loading="loading"
+              >
                 <template v-slot:loading>
                   <q-spinner-facebook />
                 </template>
@@ -93,10 +120,10 @@
               <q-icon name="eva-clock-outline" size="5em" color="terciary"/>
             </div>
             <div class="text-subtitle1 text-weight-medium text-center q-mt-md">
-              Tus foto esta siendo verificada.
+              Tus documentos están siendo verificados.
             </div>
             <div class="text-subtitle1 text-weight-medium text-center">
-              Te estaremos informando en un lapso de 24hrs sobre el estado verificación
+              Te estaremos informando en un lapso de 24hrs sobre el estado de tu verificación.
             </div>
             <div class="flex flex-center q-mt-lg">
               <q-btn color="primary" text-color="white" label="Cerrar" class="q-mx-sm" @click="hideModal(data)" />
@@ -116,7 +143,7 @@
     props: {
       dialog: Boolean,
     },
-    emits: ['hideModal', 'update'],
+    emits: ['hideModal'],
     setup (props, { emit }) {
 
       // Data
@@ -128,9 +155,18 @@
       const step4 = ref(false);
       const videoFrame  = ref('');
       const isTakePhoto = ref(false)
-      const file = ref('');
       const data = ref(null);
-      const img = ref('')
+      const photoType = ref('front')
+      const img = ref({
+        back:null,
+        front:null
+      })
+
+
+      const file = ref({
+        back:null,
+        front:null
+      });
 
       const hideModal = (data = null) => {
         step2.value =  false
@@ -149,11 +185,12 @@
           audio: false,
           video: true
         }
+
         navigator.mediaDevices.getUserMedia(constraints).then((mediaStream) => {
-            loading.value = false
-            setTimeout(() => {
-              handleSuccess(mediaStream)
-            },200)
+          loading.value = false
+          setTimeout(() => {
+            handleSuccess(mediaStream)
+          },200)
         }).catch(function(err) {
           console.log(err)
           step1.value =  true
@@ -180,7 +217,7 @@
         step1.value =  false        
         step3.value =  true       
         isTakePhoto.value = false  
-        file.value = e.target.files[0]; 
+        file.value[photoType.value] = e.target.files[0]; 
         setTimeout(() => {
           createImage()
         },200)
@@ -195,22 +232,30 @@
         canvas.getContext("2d").drawImage(videoFrame.value, 0, 0, width, height);
       
         canvas.toBlob((blob) => {
-          file.value = new File([blob], "capt.jpg", { type: "image/jpeg" })
+          file.value[photoType.value] = new File([blob], "capt.jpg", { type: "image/jpeg" })
         }, 'image/jpeg')
         
-        img.value= canvas.toDataURL("image/png")
+        img.value[photoType.value] = canvas.toDataURL("image/png")
       }
 
 
       const createImage = () => {
-        img.value = URL.createObjectURL(file.value); 
+        img.value[photoType.value] = URL.createObjectURL(file.value[photoType.value]); 
       }
 
       const save = () => {
+        if(photoType.value == 'front'){
+          photoType.value = 'back'
+          step3.value =  false        
+          step1.value =  true 
+          return
+        }
+        
         const formData = new FormData()
-        formData.append('facial', file.value)
-        loading.value = true
+        formData.append('document_front', file.value.front)
+        formData.append('document_back', file.value.back)
 
+        loading.value = true
         userStore.setKyc(formData).then((response) => {
           if(response.code !== 200) throw response
           step3.value =  false        
@@ -220,7 +265,6 @@
           
         }).catch((response) => {
           loading.value = false
-          console.log(response)
         })
       }
       watch(() => props.dialog, (newValue) => {
@@ -237,6 +281,7 @@
         loading,
         isTakePhoto,
         file,
+        photoType,
         img,
         hideModal,
         takePicture ,
@@ -248,6 +293,9 @@
   };
 </script>
 <style lang="scss" scoped>
+.document_verify_modal{
+  width: 800px;
+}
 .button-file {
   width: 60px; 
   height: 60px; 
@@ -262,5 +310,11 @@
 }
 #video_frame {
   border-radius: 10px; 
+}
+@media screen and (max-width: 780px) { 
+
+  .document_verify_modal{
+    width: 70%;
+  }  
 }
 </style>

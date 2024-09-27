@@ -24,7 +24,16 @@
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" @click="showDialog('check')" />
+                  <q-btn unelevated flat round color="black"  icon="eva-camera-outline" @click="showDialog('back')"  v-if="!user.document_photo_front && !user.document_photo_back" />
+                  <q-btn 
+                    v-else
+                    unelevated 
+                    flat 
+                    round 
+                    :color="user.verify_status == 1 ? 'terciary' : 'positive'"
+                    :icon="user.verify_status == 1 ? 'eva-clock-outline' : 'eva-checkmark-circle-2-outline'"  
+                  />
+                  
                 </q-item-label>
               </div>
             </q-item-section>
@@ -37,17 +46,26 @@
                   <div>
                     <div class="text-weight-bold text-body2">Verifcación facial</div>
                     <div class="text-caption text-grey-5">
-                      Toma una foto de tu documento de identidad
+                      Tomate una selfie con tu documento de identidad
                     </div>
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="bg-grey-5" style="color: black"  icon="eva-camera-outline" @click="showDialog('check')" />
+                  <q-btn unelevated flat round color="black"  icon="eva-camera-outline" @click="showDialog('check')"  v-if="!user.facial_photo"/>
+                  <q-btn 
+                    v-else
+                    unelevated 
+                    flat 
+                    round 
+                    :color="user.facial_verify == 1 ? 'terciary' : 'positive'"
+                    :icon="user.facial_verify == 1 ? 'eva-clock-outline' : 'eva-checkmark-circle-2-outline'"  
+                  />
                 </q-item-label>
               </div>
             </q-item-section>
           </q-item>
           <q-separator />
+          
         </q-list>
         <!-- Verification status -->
         <q-toolbar class="bg-white text-black q-mt-md">
@@ -112,31 +130,31 @@
                     <div class="text-weight-bold text-body2">Verificación facial</div>
                     <div class="text-caption text-grey-5 flex items-center">
                       {{ 
-                        user.verify_status == 1
+                        user.facial_verify == 1
                           ? 'Pendiente'
-                          : user.verify_status == 2 
+                          : user.facial_verify == 2 
                           ? 'Usuario verificado'
                           : 'Sin verificación'
                       }}
                       <q-icon
-                        :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                        :name="user.facial_verify == 2 ? icons.sharpVerified : icons.outlinedVerified"
                         size="xs"
-                        :color=" user.verify_status >= 1 ? 'terciary' : 'grey-5'"
+                        :color=" user.facial_verify >= 1 ? 'terciary' : 'grey-5'"
                         class="user-verify-user q-mx-xs "
-                        :class="{'verify-user':user.verify_status == 2, }"
+                        :class="{'verify-user':user.facial_verify == 2, }"
                         @click="showToltip(2)"
                       >
                         <q-tooltip 
                           anchor="top middle" 
                           self="bottom middle" 
-                          :class=" user.verify_status == 2 ? 'bg-positive': 'bg-terciary' " 
+                          :class=" user.facial_verify == 2 ? 'bg-positive': 'bg-terciary' " 
                           :offset="[10, 10]" 
                           v-model="toltip2"
                         >
                           {{
-                            user.verify_status == 1
+                            user.facial_verify == 1
                             ? 'Pendiente'
-                            : user.verify_status == 2 
+                            : user.facial_verify == 2 
                             ? 'Usuario verificado'
                             : 'Sin verificación'
                           }}
@@ -232,7 +250,9 @@
     <div v-if="dialog=='updateEmail'">
       <updateEmail :dialog="(dialog =='updateEmail')" @hideModal="updateEmail" />
     </div>
-    <selectKycType :dialog="(dialog =='check')" @hideModal="kyc" />
+    <selectKycType :dialog="(dialog =='check')" @hideModal="updateFacial" />
+    <selectKycDocument :dialog="(dialog =='back')" @hideModal="updateDocument" />
+
     
   </div>
 </template>
@@ -245,12 +265,15 @@
   import updatePhoneNumber from '@/components/profile/modals/updatePhoneNumber.vue';
   import updateEmail from '@/components/profile/modals/updateEmail.vue';
   import selectKycType from '@/components/profile/modals/selectKycType.vue';
+  import selectKycDocument from '@/components/profile/modals/selectKycDocument.vue';
+
 
   export default {
     components:{
       updatePhoneNumber,
       updateEmail,
       selectKycType,
+      selectKycDocument
     },
     
     setup () {
@@ -269,7 +292,7 @@
 
       // Methods
       const showToltip = (id) => {
-        if(id==1){
+        if(id == 1){
           toltip.value = true
           setTimeout(() => {
             toltip.value = false
@@ -286,10 +309,7 @@
       const showDialog = (dialogToShow) => {
         dialog.value = dialogToShow
       }
-      const kyc = () => {
-        dialog.value = '';
-        console.log( dialog.value)
-      }
+
       const updatePhone = (data) => {
         dialog.value = '';
         user.phone = data ?? user.phone
@@ -298,6 +318,20 @@
         dialog.value = '';
         user.email = data ?? user.email
       }
+      const updateFacial = (data) => {
+        dialog.value = '';
+        user.facial_verify = data ? data.facial_verify : user.facial_verify
+        user.facial_photo = data ? data.facial_photo : user.facial_photo
+      }
+      const updateDocument = (data) => {
+        console.log(data)
+        dialog.value = '';
+        user.document_photo_front = data ? data.document_photo_front : user.document_photo_front
+        user.document_photo_back = data ? data.document_photo_back : user.document_photo_back
+        user.verify_status = data ? data.verify_status : user.verify_status
+
+      }
+
       const showNotify = (type, message) => {
         $q.notify({
           message: message,
@@ -343,7 +377,8 @@
         uptadteInfo,
         updatePhone,
         updateEmail,
-        kyc,
+        updateFacial,
+        updateDocument,
 
       }
     }

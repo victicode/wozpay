@@ -2,6 +2,9 @@
   <div class="section_page q-mt-lg q-pt-lg">
     <div class="">
       <div class="text-subtitle1 text-weight-bold text-center">Adjuntar tarjeta de crédito o débito</div>
+
+      <input class="creditcard-input" type="text" />
+      <input class="creditcard-type" type="text" />
       <q-form
         id="linked_form"
         class=""
@@ -23,9 +26,19 @@
                 label="N° de tarjeta de débito o crédito"
                 :rules="rulesForm('card')"
                 autocomplete="off"
-                maxlength="24"
-                mask="#### #### #### #### ####"
-              />
+                maxlength="19"
+                @keyup="cleaveCard($event)"
+                @change="validateCard($event)"
+                mask="#### #### #### ####"
+                bottom-slots
+                :error="cardError"
+              >
+                <template v-slot:append>
+                  <transition name="horizontal">
+                    <div v-html="wozIcons[cardType ?? 'general' ]" style="transform: scale(0.8)" />
+                  </transition>
+                </template>
+              </q-input>
             </div>
             <div class="q-my-lg">
               <q-select 
@@ -44,7 +57,8 @@
               />
             </div>
             <div class="q-my-lg">
-              <q-input class="linkedCard q-pb-none"
+              <q-input 
+                class="linkedCard q-pb-none"
                 outlined
                 clearable
                 :clear-icon="'eva-close-outline'"
@@ -55,6 +69,10 @@
                 autocomplete="off"
                 hint="Formato EJ.: 01/2024 "
                 mask="##/####"
+                @keyup="cleaveDate($event)"
+                @change="validateDate($event)"
+                :error="dateError"
+                error-message="Formato de fecha no valido o vencido"
               >
               </q-input>
             </div>
@@ -90,7 +108,7 @@
               <div class="q-mt-xs">
                 Adjuntar tarjeta
               </div>
-              <q-icon name="eva-lock-outline" size="sm" class="q-ml-xs" /> 
+              <q-icon name="eva-lock-outline" size="sm" class="q-ml-xs q-mt-xs" /> 
             </div> 
             <template v-slot:loading>
               <q-spinner-facebook />
@@ -140,7 +158,13 @@
   import payMethod from '@/assets/images/pay_types3.png'
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import wozIcons from '@/assets/icons/wozIcons'
-
+  import { getCreditCardType } from 'cleave-zen'
+  import { 
+    isValid, 
+    isExpirationDateValid,
+    isSecurityCodeValid,
+    getCreditCardNameByNumber,
+  } from 'creditcard.js';
  
   export default {
     components: {
@@ -157,6 +181,11 @@
       const route = useRoute()
       const loading = ref(false)
       const showDialog = ref(false)
+      const cardType = ref('general')
+      const selectCard = ref(0)
+      const cardError = ref(false)
+      const dateError = ref(false)
+
 
       const options = [
         { value: '1', text: 'Crédito'},
@@ -171,8 +200,6 @@
       })
 
       // Data
-      
-      const selectCard = ref(0)
 
       const linkCard = () => {
         if(!validate()){
@@ -183,13 +210,11 @@
         cardStore.linkCard(formCardData.value).then((data) => {
           if(data.code !== 200) throw data
           setTimeout(() => {
-
             showDialog.value = true
-          }, 2000)
+          }, 1000);
           setTimeout(()=>{
             router.go(-3)
-            // loadingState(false)
-          },5000)
+          },3000)
         }).catch((response) => {
           showNotify('negative', response)
           loadingState(false)
@@ -197,7 +222,19 @@
       }
       const validate = () => {
         let isOk = true
+
         Object.entries(formCardData.value).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+
+        if(validateCard(formCardData.value.card)) {
+          isOk = false
+          return isOk
+        }
+
+        if(validateDate(formCardData.value.due_date)) {
+          isOk = false
+          return isOk
+        }
+
         return isOk
       }
       const showNotify = (type, message) => {
@@ -225,6 +262,8 @@
           ],
           cvc:[
             val => (val !== null && val !== '') || 'El CVC es obligatorio.',
+            val => val.length >= 3 || "Minimo 3 digitos.",
+
             val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
         }
@@ -234,19 +273,84 @@
       const loadingState = (state) => {
         loading.value = state;
       }
+      const cleaveCard = (e) => {
+        const value = e.target.value
+        console.log(getCreditCardType(value))
+        cardType.value = getCreditCardType(value)
+      }
+      const cleaveDate = (e) => {
+        const value = e.target.value.split('/')
+        if(parseInt(value[0]) > 12){
+          formCardData.value.due_date = '12'
+        }
+        if(value[0] == '00'){
+          formCardData.value.due_date = '01'
+        }
+        if(value[1] && value[1].length < 4){
+          dateError.value = true
+        }
+        if(value[1] && value[1].length == 4){
+          const verifyDate = new Date();
+          if(parseInt(value[1]) > verifyDate.getFullYear() + 10){
+            formCardData.value.due_date = value[0] + '' + (verifyDate.getFullYear() + 10)
+            dateError.value = false
+
+          }
+        }
+      }
+      const validateCard = (e) => {
+        if(!e) {
+          cardType.value = 'general'
+          return false
+        }
+        cardError.value = false
+        if(getCreditCardNameByNumber(e) == 'Credit card is invalid!'  && !isValid(e)){
+          alert('Tarjeta no valida.')
+          cardError.value = true
+        }
+
+        return cardError.value
+      }
+      
+      const validateDate = (e) => {
+        if(!e) {
+          return true
+        }
+        const value = e.split('/');
+        dateError.value = false
+        if(value[1] && value[1].length < 4){
+          alert('Fecha no valida.')
+
+          dateError.value = true
+        }
+        if(!isExpirationDateValid(value[0], value[1])){
+          alert('Fecha no vencida.')
+          dateError.value =  true
+        }
+        
+        return dateError.value
+      }    
+
       return{
         payMethod,
         icons,
         user,
         numberFormat,
+        cardError,
+        dateError,
         selectCard,
         formCardData,
         options,
         loading,
         showDialog,
+        cardType,
         wozIcons,
+        cleaveCard,
+        cleaveDate,
         linkCard,
         rulesForm,
+        validateCard,
+        validateDate,
       }
     },
   }
@@ -341,6 +445,9 @@
     & .q-field__append{
       transform: translateY(-2%)
     }
+    & .q-field__messages {
+      transform: translateY(-25%) translateX(-1%)
+    }
   }
 
   .input-logo-container{
@@ -354,6 +461,9 @@
   .linkedCard {
       & .q-field__bottom{
         transform: translateY(15px);
+      }
+      & .q-field__messages {
+        transform: translateY(10%) translateX(-1%)
       }
     }
   }
