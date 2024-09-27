@@ -101,8 +101,7 @@
       }
       watch(route, () => {
         isReady()
-        
-        
+        getCurrentUser()
       });
 
       onMounted(() =>{

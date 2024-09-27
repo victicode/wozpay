@@ -20,9 +20,9 @@ class Quota extends Model
     public function getDaysDueAttribute()
     {   $daysDue = 0;
         try {
-            if($this->status == 4 ){
-                $daysDue = (strtotime(date('Y-m-d')) - strtotime($this->due_date))/86400;
-            }
+
+            $daysDue = (strtotime(date('Y-m-d')) - strtotime($this->due_date))/86400;
+            
         } catch ( Exception $r) {
             $daysDue = $r->getMessage();
         }
@@ -30,5 +30,11 @@ class Quota extends Model
     }
     public function loan(){
         return $this->belongsTo(Loan::class,'loan_id', 'id');
+    }
+    public function allPays(){
+        return $this->hasMany(Pay::class,'quota_id', 'id');
+    }
+    public function successPays(){
+        return $this->hasOne(Pay::class,'quota_id', 'id')->where('status', '!=', '0');
     }
 }

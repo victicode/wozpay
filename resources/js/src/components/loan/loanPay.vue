@@ -131,9 +131,9 @@
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
             myLoan.value = data.data
-
             quotaAmount()
         }).catch((e) => {
+          console.log(e)
           showNotify('negative', 'error al obtener prestamo activo')
         })
       }
@@ -154,6 +154,7 @@
 
         const data = new FormData
         data.append('loan_id', myLoan.value.id)
+        data.append('quota_id', myLoan.value.currentQuota.id)
         data.append('amount', myLoan.value.amounToPay)
         data.append('type', 1)
         data.append('status', 1)
@@ -162,7 +163,6 @@
         payStore.createPay(data)
         .then((response) => {
           if(response.code !== 200) throw response
-          
           setTimeout(() => {
             doneModal()
           }, 4000);
@@ -224,9 +224,19 @@
       }
 
       const quotaAmount = () => {
-        myLoan.value.amounToPay = parseFloat(myLoan.value.amount_to_pay)/parseFloat(myLoan.value.quotas)
-      }
+        let currentCuota = [];
+        myLoan.value.quotas_desc.forEach(quota => {
+          if(quota.status !== 2 && !quota.success_pays){
+            currentCuota.push(quota)
+          }
+        });
 
+        myLoan.value.currentQuota = currentCuota[0];
+        myLoan.value.amounToPay = myLoan.value.currentQuota.days_due > 1 ? isPayWithDelay(myLoan.value.currentQuota) : myLoan.value.currentQuota.amount
+      }
+      const isPayWithDelay = (quota) => {
+        return (((quota.amount * myLoan.value.interest_for_delay)/100) + quota.amount)
+      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,

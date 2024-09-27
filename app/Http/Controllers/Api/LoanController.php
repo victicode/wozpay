@@ -15,7 +15,7 @@ class LoanController extends Controller
 {
     //
     public function getActiveLoan($id) {
-        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'quotas_desc')
+        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'quotas_desc.successPays')
         ->orderBy('created_at', 'desc')->first();
 
         return $this->returnSuccess(200, $loan);
@@ -27,6 +27,7 @@ class LoanController extends Controller
             'amount' => $request->amount,
             'amount_to_pay' => $request->amountToPay,
             'quotas' => $this->getQuaotasByDay($request->due_date) ,
+            'amount_quota' => $request->amountToPay/$this->getQuaotasByDay($request->due_date),
             'status' => 1,
             'loan_number' => '619'+ rand(100000, 999999),
             'interest' => $this->getInterestPerDay($request->due_date, 1),
@@ -40,7 +41,7 @@ class LoanController extends Controller
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
-        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card', 'quotas_desc', 'pays')->find($id);
+        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card', 'quotas_desc.successPays', )->find($id);
 
         return $this->returnSuccess(200, $loan);
     }

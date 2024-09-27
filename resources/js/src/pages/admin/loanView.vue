@@ -34,8 +34,13 @@
           Cuotas
         </div>
         <div class="q-mt-sm q-mb-lg" v-for="(quota, n) in loan.quotas_desc " :key="n">
-          <div class="text-subtitle1 text-bold">
-            Cuota {{ n+1 }} de {{ loan.quotas }}
+          <div class="flex justify-between">
+            <div class="text-subtitle1 text-bold" >
+              Cuota {{ n+1 }} de {{ loan.quotas }}
+            </div>
+            <div v-if="quota.success_pays">
+              <q-btn square color="primary" label="Ver pago" :icon="icons.outlinedReceiptLong" size="sm" />
+            </div>
           </div>
           <div class="q-mt-sm" >
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
@@ -43,7 +48,7 @@
                 Vencimiento {{ moment(quota.due_date).format('DD/MM/YYYY') }}
               </div>
               <div>
-                Gs. {{ numberFormat(quota.amount) }}
+                Gs. {{ quota.days_due > 1 ? numberFormat(amountWithDelayFee(quota)) : numberFormat(quota.amount)  }}
               </div>
             </div>
             <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
@@ -67,15 +72,36 @@
                 Total a pagar
               </div>
               <div>
-                Gs. {{ loan.status == '4' ? numberFormat(amountWithDelayFee(quota.amount)) : numberFormat(quota.amount) }}
+                Gs. {{ quota.days_due > 1 ? numberFormat(amountWithDelayFee(quota)) : numberFormat(quota.amount)  }}
               </div>
             </div>
-            <div class="text-subtitle2 flex justify-between cuotas_items q-py-md">
+            <div class="text-subtitle2 flex justify-between cuotas_items items-center q-py-md">
               <div>
                 Estado de pago
               </div>
-              <div>
-                {{ loan.status == '4' ? 'Atrasado' : 'Solvente' }}
+              <div v-if="!quota.success_pays">
+                <q-chip :color="!quota.success_pays && quota.days_due < 1  ? 'positive' : !quota.success_pays && quota.days_due > 1  ? 'negative' : ''" text-color="white" >
+                  {{
+                    !quota.success_pays && quota.days_due > 1 
+                    ? 'Atrasado'  
+                    :!quota.success_pays && quota.days_due < 1 
+                    ? 'Solvente'
+                    :''
+                  }}
+                </q-chip>
+                
+              </div>
+              <div v-else>
+                <q-chip :color="quota.success_pays.status == '2'  ? 'positive' : quota.success_pays.status == '1'  ? 'warning' : 'negative'" text-color="white" >
+                  {{ 
+                    quota.success_pays.status == '2' 
+                    ? 'Pagado' 
+                    : quota.success_pays.status == '1' 
+                    ? 'Pendiente' 
+                    : 'Atrasado' 
+                  }}
+                </q-chip>
+                
               </div>
             </div>
           </div>
@@ -143,6 +169,7 @@
           showNotify('negative', 'error al obtener prestamo activo')
         })
       }
+
       const setDueDaysCategorie = (days) => {
         if(!days) return 0
         if(days <= 2 ) return 0
@@ -152,8 +179,10 @@
       const amountQuote = () => {
         return loan.value.amount_to_pay/parseInt(loan.value.quotas)
       }
-      const amountWithDelayFee = (amount) => {
-        return amount + ( (loan.value.interest_for_delay*amount)/100 ) 
+      const amountWithDelayFee = (quota) => {
+        if(quota.success_pays) return quota.success_pays.amount
+
+        return (((quota.amount * loan.value.interest_for_delay)/100) + quota.amount)
       }
 
       onMounted(() => {
