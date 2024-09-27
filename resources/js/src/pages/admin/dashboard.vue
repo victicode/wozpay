@@ -1,6 +1,6 @@
 <template>
   <div  class="dashboard_container">
-    <div style="" class="dashboard_container--details" v-if="ready">
+    <div style="" class="dashboard_container--details">
       <div style="height: 28%;">
         <currentUserPersonalInfo />
       </div>
@@ -55,7 +55,7 @@
         })
       }
       onMounted(() => {
-        capitalBalances()
+        // capitalBalances()
       })
       return {
         ready
