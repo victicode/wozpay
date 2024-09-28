@@ -2,11 +2,14 @@
   <div>
     <div>
       <q-dialog v-model="step1" position="bottom" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style="width: 350px; overflow: visible;" class="position-relative" >
           <div class="cls-button" @click="hideModal()">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
+          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
+            Reconocimiento facial
+          </div>
           <input type="file" accept="image/jpeg, image/png" id="sotom" capture="camera" @change="uploadPhoto($event)" style="display: none;">
           <q-card-section class="row items-center no-wrap justify-center">
             <div class="q-pt-xs q-mx-md">
@@ -31,24 +34,27 @@
     </div>
     <div>
       <q-dialog v-model="step2" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style=" overflow: visible;" class="position-relative document_verify_modal">
           <div class="cls-button" @click="hideModal()">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
-          <div class="q-pa-xl">
-            <div v-if="loading" class="flex flex-center">
+          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
+            Reconocimiento facial
+          </div>
+          <div class="q-py-xl " style="height: 100%;">
+            <div v-if="loading" class="flex flex-center q-pa-xl" style="height: 100%;">
               <q-spinner-hourglass
                 color="grey-5"
                 size="5em"
               />
             </div>
-            <div id="video_wrap" v-else>
-              <div>
+            <div id="video_wrap  " style="height: 100%;" v-else>
+              <div style="height: 90%; " class="flex flex-center q-px-sm">
                 <video id="video_frame" playsinline autoplay></video>
               </div>
               <div class="flex flex-center q-mt-lg">
-                <q-btn color="primary" text-color="white" label="Tomar foto" @click="takePicture()"/>
+                <q-btn color="primary" text-color="white" label="Tomar foto" @click="takePicture(photoType)"/>
               </div>
             </div>
           </div>
@@ -57,13 +63,16 @@
     </div>
     <div>
       <q-dialog v-model="step3" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style=" overflow: visible;" class="position-relative document_verify_modal">
           <div class="cls-button" @click="hideModal()">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
-          <div class="q-py-xl q-px-md">
-            <div class="flex flex-center">
+          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold q-pt-md">
+            Reconocimiento facial
+          </div>
+          <div class="q-py-xl " style="height: 100%;">
+            <div class="flex flex-center" style="height: 85%;">
               <div class="q-px-sm" style="width: 100%;" >
                 <img :src="img" alt="" style="width: 100%;"  class="" id="facial_document">
               </div>
@@ -83,12 +92,12 @@
     </div>
     <div>
       <q-dialog v-model="step4" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style=" overflow: visible;" class="position-relative">
           <div class="cls-button" @click="hideModal(data)">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="terciary" />
-          <div class="q-py-xl q-px-md">
+          <div class="q-py-xl q-px-md column flex-center" style="height: 100%;">
             <div class="flex flex-center">
               <q-icon name="eva-clock-outline" size="5em" color="terciary"/>
             </div>
@@ -191,7 +200,8 @@
         const canvas = document.getElementById('canvas');
 
         const height = (videoFrame.value.videoHeight / videoFrame.value.videoWidth) * width;
-        
+        canvas.height = height;
+        canvas.width = width
         canvas.getContext("2d").drawImage(videoFrame.value, 0, 0, width, height);
       
         canvas.toBlob((blob) => {
@@ -262,5 +272,28 @@
 }
 #video_frame {
   border-radius: 10px; 
+}
+.img_content_document{
+  width: 50%; 
+}
+.with-border{
+  border-right: 1px solid lightgray ;
+}
+.document_verify_modal{
+  width: 800px;
+}
+@media screen and (max-width: 780px) { 
+  .img_content_document{
+    width: 100%; 
+  }
+  .with-border{
+    border-right: 0px ;
+    border-bottom: 1px solid lightgray ;
+
+  }
+  .document_verify_modal{
+    width: 350px; 
+    height: 100%;
+  }  
 }
 </style>

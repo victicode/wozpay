@@ -142,13 +142,14 @@
   
   @media screen and (max-width: 780px){
     .side-menu {
-      transform: translateY( 10.6%);
+      // transform: translateY( 10.6%);
       & .q-dialog__backdrop {
         width: 100%;
         left: 0;
       }
       & .fixed-right {
         right: 0;
+        left: 0;
       }
     }
   }

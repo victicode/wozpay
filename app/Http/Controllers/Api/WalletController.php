@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Pay;
 use App\Models\Loan;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
+use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
-use App\Models\Pay;
 
 class WalletController extends Controller
 {
@@ -41,6 +42,7 @@ class WalletController extends Controller
         $wallet->balance -=  $request->amountLess;
 
         $wallet->save();
+        event(new UserUpdateEvent($id));
 
         return $this->returnSuccess(200, $wallet);
     }

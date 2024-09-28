@@ -58,10 +58,12 @@
   export default {
     setup() {
       //vue provider
-      const user = useAuthStore().user
+      
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
       const { balances } = storeToRefs(useWalletStore())
+      const { user  } = storeToRefs(useAuthStore())
+
       // Data
       const showing = ref(false)
       

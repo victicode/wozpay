@@ -120,6 +120,53 @@
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
                     <span class="text-body2 text-weight-bold">
+                      Datos Faciales
+                    </span>
+                    <q-icon
+                      :name="user.facial_verify == 2 ? icons.sharpVerified : icons.outlinedVerified"
+                      size="sm"
+                      :color=" user.facial_verify > 0 ? 'terciary' :'grey-6'"
+                      class="user-verify-user"
+                      :class="{'verify-user':user.facial_verify == 2, }"
+                      @click="showToltip"
+                    >
+                      <q-tooltip 
+                        anchor="top middle" 
+                        self="bottom middle" 
+                        :class=" user.facial_verify == 2 ? 'bg-positive': 'bg-terciary' " 
+                        :offset="[10, 10]" 
+                        v-model="showing"
+                      >
+                        {{
+                          user.facial_verify == 1
+                          ? 'Verificación en proceso'
+                          : user.facial_verify == 2 
+                          ? 'Usuario verificado'
+                          : 'Sin verificación'
+                        }}
+                      </q-tooltip>
+                    </q-icon>
+                  </div>
+                </q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">
+                  {{ 
+                    user.facial_verify == 2 
+                    ? 'Aprobado'
+                    : user.facial_verify == 1
+                    ? 'Pendiente'
+                    : 'Subir documentos'
+                  }}
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                  <div>
+                    <span class="text-body2 text-weight-bold">
                       Número de cuenta Woz Pay
                     </span>
                   </div>
@@ -272,6 +319,8 @@
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router';
   import util from '@/util/numberUtil'
+  import { storeToRefs } from 'pinia'
+
   export default {
     setup () {
       //vue provider
@@ -279,7 +328,7 @@
       const $q = useQuasar()
       const store = useAuthStore()
       const router = useRouter()
-      const user = useAuthStore().user;
+      const { user  } = storeToRefs(useAuthStore())
       
       // data
       const loading = ref(false)
@@ -308,7 +357,7 @@
           setTimeout(() => {
             router.push('/login')
             loadingShow(false);
-          }, 2000);
+          }, 500);
         }).catch((e) => { 
           console.log(e)
           showNotify('negative', 'Error al cerrar sesión')

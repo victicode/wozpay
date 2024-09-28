@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Wallet;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
+use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -289,6 +290,7 @@ class UserController extends Controller
     public function setNewVerifyStatus(Request $request) {
         $user = User::find($request->id);
         if (!$user) return $this->returnFail(400, 'Usuario no encontrado');
+
         try {
             $user->verify_status = $request->verify_status ?? $user->verify_status;
             $user->facial_verify = $request->facial_verify ?? $user->facial_verify;
@@ -296,9 +298,12 @@ class UserController extends Controller
         } catch (Exception $th) {
             return $this->returnSuccess(400, $th->getMessage() );
         }
-        if($user->verify_status == 0) $this->resendVerify($user);
+
+        // if($request->verify_status  == 0 || $request->facial_verify == 0) $this->resendVerify($user);
         
-        if($user->facial_verify == 0) $this->resendVerify($user);
+       isset($request->verify_status) ? $this->documentAction($user) : $this->facialAction($user);
+
+        event(new UserUpdateEvent($user->id));
 
         return $this->returnSuccess(200, $user);
     }
@@ -344,13 +349,32 @@ class UserController extends Controller
 
         return $wallet;
     }
-    private function verifyAction($user){
-        if($user->status == 0){
-            $this->sendNotification('Tu tarjeta fue rechazada, por que no cumple con las medidas de seguridad de Woz Pay', $user->id, 'Tarjeta Rechazada', 2);
-            return;
+    private function facialAction($user){
+        if($user->facial_verify  == 0){
+            $this->sendNotification(
+                'Tu verificación facial fue rechazada, verifica que tu foto sea lo mas nititda posible y se pueda apreciar tu rostro', 
+                $user->id, 
+                'Datos faciales Rechazados', 
+                2
+            ); 
         }
-        $this->sendNotification('Tu tarjeta fue vinculada con exito!', $user->id, 'Tarjeta vinculada✅', 1);
-        return;
+        if($user->facial_verify  == 2){
+            $this->sendNotification('Tu verificación facial ser realizó de forma exitosa!', $user->id, 'Datos faciales verificados✅', 1);
+        }
+
+    }
+    private function documentAction($user){
+        if($user->verify_status  == 0){
+            $this->sendNotification(
+                'Tus documentos fueron rechazados, verifica que la foto que hayas subido sea legible tu documento y que el mismo no este vencido', 
+                $user->id, 
+                'Documentos Rechazados', 
+                2
+            ); 
+        }
+        if($user->verify_status  == 2){
+            $this->sendNotification('Tu documentos han sido verificados de forma exitosa!', $user->id, 'Documentos verificados✅', 1);
+        }
     }
     private function sendNotification($message, $user, $subject, $type){
         $notification = new NotificationController;

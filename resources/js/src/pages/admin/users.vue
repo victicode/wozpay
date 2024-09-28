@@ -12,7 +12,7 @@
                   <div class="mobile-hide q-mt-xs q-mr-xs">
                     {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
                   </div>
-                  <div class="mobile-only q-mt-xs q-mr-xs">
+                  <div class="mobile-only q-mr-xs">
                     <q-icon 
                       :name="
                         user.verify_status == 2 

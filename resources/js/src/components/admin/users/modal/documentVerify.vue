@@ -1,12 +1,15 @@
 <template>
-  <q-dialog v-model="dialog" persistent backdrop-filter="blur(8px)" class="q-px-md">
+  <q-dialog v-model="dialog" persistent backdrop-filter="blur(8px)" class="q-px-sm">
     <q-card style="flex-wrap: nowrap; height: 90%;" class="flex column dialog_document" v-if="imagen[0]">
       <q-card-section class="header_document q-pb-xs">
         <div class="text-subtitle1 text-weight-bold "> {{ setTitleByOperation() }}</div>
       </q-card-section>
-      <q-card-section class="q-pt-md-md" style="height: 100%; overflow: auto;">
+      <q-card-section class="q-pt-none q-px-none" style="height: 100%; overflow: auto;">
         <div  class="row flex-center " style="height: 100%;" >
-          <div class="col flex flex-center" v-for="(image, n) in imagen" :key="n" >
+          <div class="column flex-center q-mx-xs" v-for="(image, n) in imagen" :key="n" >
+            <div class="text-body2 text-weight-medium q-mb-xs">  
+              {{n==0 ? 'Foto frontal' : 'Foto dorsal'}}
+            </div>
             <img :src="image" alt="">
           </div>
         </div>
@@ -17,12 +20,12 @@
             <q-spinner-facebook />
           </template>
         </q-btn>
-        <q-btn color="negative" label="Rechazar" :loading="loading" @click="setNewStatusVerify(0)" > 
+        <q-btn color="negative" label="Rechazar"  v-if="showButton(0)" :loading="loading" @click="setNewStatusVerify(0)" > 
           <template v-slot:loading>
             <q-spinner-facebook />
           </template>
         </q-btn>
-        <q-btn color="positive" label="Validar" :loading="loading" @click="setNewStatusVerify(2)" > 
+        <q-btn color="positive" label="Validar" v-if="showButton(2)" :loading="loading" @click="setNewStatusVerify(2)" > 
           <template v-slot:loading>
             <q-spinner-facebook />
           </template>
@@ -109,6 +112,13 @@
         }
         emitter.emit('modalNotification', data);
       } 
+      const showButton = (type) => {
+        if(props.type == 1 ){
+          return !(user.value.verify_status == type)
+        }
+        return !(user.value.facial_verify == type)
+
+      }
       watch(() => props.dialog, (newValue) => {
         dialog.value = newValue
       });
@@ -116,11 +126,16 @@
       watch(() => props.imagen, (newValue) => {
         imagen.value = newValue
       });
+      watch(() => props.user, (newValue) => {
+        user.value = newValue
+      });
 
       return {
         loading,
         dialog,
         imagen,
+        user,
+        showButton,
         hideModal,
         setTitleByOperation,
         setNewStatusVerify,

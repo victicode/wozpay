@@ -34,7 +34,7 @@
     </div>
     <div>
       <q-dialog v-model="step2" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style=" overflow: visible;" class="position-relative document_verify_modal">
           <div class="cls-button" @click="hideModal()">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
@@ -42,15 +42,15 @@
           <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
             {{ photoType == 'front' ? 'Frontal del documento' : 'Dorso del documento' }}
           </div>
-          <div class="q-pa-xl">
-            <div v-if="loading" class="flex flex-center">
+          <div class="q-py-xl " style="height: 100%;">
+            <div v-if="loading" class="flex flex-center q-pa-xl" style="height: 100%;">
               <q-spinner-hourglass
                 color="grey-5"
                 size="5em"
               />
             </div>
-            <div id="video_wrap" v-else>
-              <div>
+            <div id="video_wrap  " style="height: 100%;" v-else>
+              <div style="height: 90%; " class="flex flex-center q-px-sm">
                 <video id="video_frame" playsinline autoplay></video>
               </div>
               <div class="flex flex-center q-mt-lg">
@@ -63,21 +63,21 @@
     </div>
     <div>
       <q-dialog v-model="step3" persistent>
-        <q-card style="overflow: visible;" class="position-relative document_verify_modal">
+        <q-card style=" overflow: visible;" class="position-relative document_verify_modal">
           <div class="cls-button" @click="hideModal()">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
-          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
+          <div class="q-mt-sm text-center text-subtitle1 text-weight-bold q-pt-md">
             {{ photoType == 'front' ? 'Frontal del documento' : 'Tus documentos' }}
           </div>
-          <div class="q-py-xl q-px-md">
-            <div class="flex flex-center">
-              <div class="q-px-sm" style="width: 50%; border-right: 1px solid lightgray ;" >
+          <div class="q-py-xl " style="height: 100%;">
+            <div class="flex flex-center" style="overflow: auto; height: 85%">
+              <div class="q-px-md-sm img_content_document with-border q-py-sm q-py-md-none" >
                 <img :src="img['front']" alt="" style="width: 100%;" class=""  id="front_document">
               </div>
-              <div class="q-px-sm" style="width: 50%;" >
-                <img :src="img['back']" alt="" style="width: 100%;"  class="" id="back_document">
+              <div class="q-px-md-sm img_content_document q-mt-md q-mt-md-none q-py-sm q-py-md-none"  >
+                <img :src="img['back']" alt="" style="width: 100%; "  class="" id="back_document">
               </div>
               <canvas id="canvas" style="display: none;"></canvas>
             </div>
@@ -95,7 +95,7 @@
                 color="primary" 
                 text-color="white" 
                 :label="photoType == 'front' ? 'Continuar' : 'Guardar' " 
-                class="q-mx-sm" 
+                class="q-mx-sm " 
                 @click="save()" 
                 :loading="loading"
               >
@@ -110,12 +110,12 @@
     </div>
     <div>
       <q-dialog v-model="step4" persistent>
-        <q-card style="width: 350px; overflow: visible;" class="position-relative">
+        <q-card style=" overflow: visible;" class="position-relative">
           <div class="cls-button" @click="hideModal(data)">
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="terciary" />
-          <div class="q-py-xl q-px-md">
+          <div class="q-py-xl q-px-md column flex-center" style="height: 100%;">
             <div class="flex flex-center">
               <q-icon name="eva-clock-outline" size="5em" color="terciary"/>
             </div>
@@ -172,6 +172,11 @@
         step2.value =  false
         step3.value =  false
         step4.value =  false
+        img.value = {
+          back:null,
+          front:null
+        }
+        photoType.value = 'front'
         emit('hideModal', data)
       }
 
@@ -224,11 +229,14 @@
       }
 
       const createCanva = () => {
-        const width = 320; 
+        const width = 300; 
         const canvas = document.getElementById('canvas');
 
         const height = (videoFrame.value.videoHeight / videoFrame.value.videoWidth) * width;
-        
+        // const.
+
+        canvas.height = height;
+        canvas.width = width
         canvas.getContext("2d").drawImage(videoFrame.value, 0, 0, width, height);
       
         canvas.toBlob((blob) => {
@@ -293,6 +301,12 @@
   };
 </script>
 <style lang="scss" scoped>
+.img_content_document{
+  width: 50%; 
+}
+.with-border{
+  border-right: 1px solid lightgray ;
+}
 .document_verify_modal{
   width: 800px;
 }
@@ -312,9 +326,17 @@
   border-radius: 10px; 
 }
 @media screen and (max-width: 780px) { 
+  .img_content_document{
+    width: 100%; 
+  }
+  .with-border{
+    border-right: 0px ;
+    border-bottom: 1px solid lightgray ;
 
+  }
   .document_verify_modal{
-    width: 70%;
+    width: 350px; 
+    height: 100%;
   }  
 }
 </style>

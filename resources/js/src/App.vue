@@ -53,8 +53,9 @@
       const user = ref({})
 
       // methods
-      const getCurrentUser = () =>{
-        if(exceptionsToShow()) return
+      const getCurrentUser = (inject = null) =>{
+        if(exceptionsToShow() && !inject) return
+
         store.currentUser().then((data)=>{
           if(data.code !== 200 ) throw data
           user.value = data.data
@@ -107,9 +108,9 @@
       onMounted(() =>{
         isReady()
         window.Echo
-        .channel('cardUpdateEvent'+user.id)
-        .listen('CardUpdateEvent', async () => {
-          getCurrentUser()
+        .channel('userUpdateEvent'+21)
+        .listen('UserUpdateEvent', async () => {
+          getCurrentUser(true)
         })
       })
       

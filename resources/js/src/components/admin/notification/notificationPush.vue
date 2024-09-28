@@ -37,7 +37,7 @@
               label="Selecciona el destinatario"
               :options="users"
               dropdown-icon="eva-chevron-down-outline"
-              class="selectedWorkType"
+              class="selectedWorkType userNotification-input selectNotification-input"
               behavior="menu"
               @filter="filterUser"
               option-value="id"
@@ -62,7 +62,7 @@
           clearable
           type="text"
           color="primary"
-          class="q-mt-sm notification_text"
+          class="q-mt-sm notification_text userNotification-input"
           label="Asunto"
         />
       </div>
@@ -311,6 +311,35 @@
 }
 </style>
 <style lang="scss">
+.userNotification-input {
+  & .q-field__control {
+    height: 45px!important;
+    min-height: 45px!important;
+  }
+  & .q-field__label{
+    transform: translateY(-25%)
+  }
+  &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
+    z-index: 100;
+    background: white!important;
+    font-weight: 600;
+    max-width: 133%;
+    padding: 0px 10px;
+    transform: translateY(-125%) translateX(0%) scale(0.75)!important;
+  }
+  
+  & .q-field__native{
+    transform: translateY(-10%);
+    font-weight: 600;
+  }
+  &.selectNotification-input .q-field__native{
+    transform: translateY(-40%)!important;
+  }
+  & .q-field__append{
+    transform: translateY(-10%)
+  }
+
+}
 .sender__section {
   border-bottom: 10px solid $grey-4;
 }

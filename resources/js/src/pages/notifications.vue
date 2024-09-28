@@ -19,7 +19,7 @@
                   />
                 </div>
                 <div class="text-body2 text-weight-medium">
-                  {{ notification.text }}
+                  {{ notification.subject }}
                 </div>
               </div>
               <div class="w-25 text-right text-body3 text-grey-7">
@@ -88,7 +88,7 @@ export default {
     const ready = ref(false)
     const emitter = inject('emitter');
     const sound = new Audio(notificationSound)
-    const router = useRouter()
+    const stopper = ref(false)
     
     const getNotifications = () =>{
       store.getAllNotificationByUser(user.id).then((data) =>{
@@ -96,7 +96,7 @@ export default {
         notifications.value = data.data.notifications
         setTimeout(() => {
           ready.value = true
-          store.seeAllNotificationByUser(user.id)
+          !stopper.value ?  store.seeAllNotificationByUser(user.id) : ''
         }, 1000);
       })
     }
@@ -116,6 +116,7 @@ export default {
       window.Echo
       .channel('notificationEvent'+user.id)
       .listen('NotificationsEvent', async (data) => {
+        stopper.value = true
         getNotifications()
         sound.play()
       })

@@ -18,6 +18,7 @@ export const useAuthStore = defineStore("auth", {
       this.setIsAdmin(user.data.user)
     },
     setUser(user){
+      console.log(user)
       this.user = user;
     },
     setIsAdmin(user){
