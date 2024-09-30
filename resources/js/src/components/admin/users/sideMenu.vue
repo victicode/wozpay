@@ -88,7 +88,7 @@
       }
 
       const goTo = () => {
-        router.push('/admin/notification/send?id='+user.id)
+        router.push('/admin/notification/send?id='+user.value.id)
         emitter.emit('closeMenu');
       }
       

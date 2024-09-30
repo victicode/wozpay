@@ -10,12 +10,12 @@
           <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
             Reconocimiento facial
           </div>
-          <input type="file" accept="image/jpeg, image/png" id="sotom" capture="camera" @change="uploadPhoto($event)" style="display: none;">
+          <input type="file" accept="image/jpeg, image/png" id="img_file" @change="uploadPhoto($event)" style="display: none;">
           <q-card-section class="row items-center no-wrap justify-center">
             <div class="q-pt-xs q-mx-md">
-              <label for="sotom"  class="flex column items-center">
+              <label for="img_file"  class="flex column items-center">
                 <div class="bg-primary flex flex-center button-file cursor-pointer" >
-                    <q-icon name="eva-folder-add-outline" color="white" size="md" />
+                  <q-icon name="eva-folder-add-outline" color="white" size="md" />
                 </div>
                 <div class="text-subtitle1 text-weight-medium q-mt-xs">Subir archivo</div>
               </label>
@@ -281,6 +281,8 @@
 }
 .document_verify_modal{
   width: 800px;
+  height: -webkit-fill-available;
+  max-height: 100%;
 }
 @media screen and (max-width: 780px) { 
   .img_content_document{

@@ -103,7 +103,7 @@ export default {
     
     const showNotification = (value) => {
       const data = {
-        newColor: value.type == 1 ? 'terciary' : value.type == 2 ? 'negative' : 'terciary', 
+        newColor: value.type == 1 ? 'terciary' : value.type == 2 ? 'positive' : 'negative', 
         newTitle: value.subject,
         newText: value.text, 
         newIcon: 'eva-bell-outline',

@@ -167,6 +167,7 @@
             openTpagoWindow()
           }, 1000);
         }).catch(() =>{
+          loadingShow('')
           showNotify.apply('negative', 'Error para procesar el pago')
         })
 

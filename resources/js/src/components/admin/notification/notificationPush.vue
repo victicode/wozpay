@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pt-md">
+  <div class="q-pt-md" style="height:100%;">
     <div class="sender__section q-px-md-lg q-px-md q-pb-sm">
       <div class="q-mt-xs text-subtitle1 text-weight-bold">¿Quién manda la notificación?</div>
       <div class="q-mt-sm">
@@ -23,10 +23,11 @@
         </div>
       </div>
     </div>
-    <div class="q-mt-md q-px-md-lg q-px-md q-pb-md message_area">
-      <div>
-        <div class="q-my-md">
-          <q-select
+    <div style="height:80%; overflow-y:auto" class="q-pb-md">
+      <div class="q-mt-md q-px-md-lg q-px-md q-pb-md message_area">
+        <div>
+          <div class="q-my-md">
+            <q-select
               v-model="user"
               clearable
               use-input
@@ -52,71 +53,96 @@
                 </q-item>
               </template>
             </q-select>
-        </div>
-      </div>
-      <div class="q-mt-xs text-subtitle1 text-weight-bold">¿Qué notificación push quieres mandar?</div>
-      <div>
-        <q-input
-          v-model="notificationSubject"
-          outlined
-          clearable
-          type="text"
-          color="primary"
-          class="q-mt-sm notification_text userNotification-input"
-          label="Asunto"
-        />
-      </div>
-      <div>
-        <q-input
-          v-model="notificationText"
-          outlined
-          clearable
-          type="textarea"
-          color="primary"
-          class="q-mt-sm notification_text"
-        />
-      </div>
-      <div class="q-px-md-xl q-pt-md " >
-        <q-btn 
-            color="primary" class="w-100 q-px-md q-pb-sm q-pt-md q-mb-none sendNotify" 
-            no-caps
-            :loading="loading"
-            label="Enviar notificación"
-            @click="sendNotification()"
-          >
-            <template v-slot:loading>
-              <q-spinner-facebook />
-            </template>
-          </q-btn>
-      </div>
-    </div>
-    <div class="q-mt-md q-px-md-lg q-px-md q-pb-md ">
-      <div class="q-mt-xs text-subtitle1 text-weight-bold">Tu notificación será vista de esta manera</div>
-      <div class="q-mt-sm">
-        <div class="text-weight-bold text-subtitle2 notification__header q-pa-sm q-py-sm">
-          <div class="q-pt-xs">
-            Nuevas notificaciones
           </div>
         </div>
-        <div class="flex justify-between items-center q-pa-sm q-py-sm notification__body">
-          <div class="w-78">
-            <div class="text-body1 text-grey-5 text-weight-medium flex items-center">
-              <div class="q-mt-xs">
-                {{ sender }}
+        <div class="q-mt-xs text-subtitle1 text-weight-bold">¿Qué notificación push quieres mandar?</div>
+        <div>
+          <q-input
+            v-model="notificationSubject"
+            outlined
+            clearable
+            type="text"
+            color="primary"
+            class="q-mt-sm notification_text userNotification-input"
+            label="Asunto"
+          />
+        </div>
+        <div class="q-my-md">
+          <q-select
+              v-model="notificationType"
+              clearable
+              use-input
+              outlined
+              clear-icon="eva-close-outline" 
+              label="Tipo de notificación"
+              :options="typesNotification"
+              dropdown-icon="eva-chevron-down-outline"
+              class="selectedWorkType userNotification-input selectNotification-input"
+              behavior="menu"
+              option-value="id"
+              option-label="name"
+            >
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    Sin resultados
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+        </div>
+        <div>
+          <q-input
+            v-model="notificationText"
+            outlined
+            clearable
+            type="textarea"
+            color="primary"
+            class="q-mt-sm notification_text"
+          />
+        </div>
+        <div class="q-px-md-xl q-pt-md " >
+          <q-btn 
+              color="primary" class="w-100 q-px-md q-pb-sm q-pt-md q-mb-none sendNotify" 
+              no-caps
+              :loading="loading"
+              label="Enviar notificación"
+              @click="sendNotification()"
+            >
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
+            </q-btn>
+        </div>
+      </div>
+      <div class="q-mt-md q-px-md-lg q-px-md q-pb-md ">
+        <div class="q-mt-xs text-subtitle1 text-weight-bold">Tu notificación será vista de esta manera</div>
+        <div class="q-mt-sm">
+          <div class="text-weight-bold text-subtitle2 notification__header q-pa-sm q-py-sm" :class="`bd-${notificationType.color}`">
+            <div class="q-pt-xs">
+              Nuevas notificaciones
+            </div>
+          </div>
+          <div class="flex justify-between items-center q-pa-sm q-py-sm notification__body" :class="`bd-${notificationType.color}`">
+            <div class="w-78">
+              <div class="text-body1 text-grey-5 text-weight-medium flex items-center">
+                <div class="q-mt-xs">
+                  {{ sender }}
+                </div>
+                <q-icon
+                  class="q-ml-xs"
+                  :name=" icons.sharpVerified"
+                  size="xs"
+                  color="terciary"
+                />
               </div>
-              <q-icon
-                class="q-ml-xs"
-                :name=" icons.sharpVerified"
-                size="xs"
-                color="terciary"
-              />
+              <div class="text-body1 text-weight-medium q-mt-xs">
+                {{ notificationText !== null && notificationText !== '' ? notificationText : 'Ingresa texto' }}
+              </div>
             </div>
-            <div class="text-body1 text-weight-medium q-mt-xs">
-              {{ notificationText !== null && notificationText !== '' ? notificationText : 'Ingresa texto' }}
+            <div class="w-22">
+              {{ moment().format('DD MMM YYYY') }}
             </div>
-          </div>
-          <div class="w-22">
-            {{ moment().format('DD MMM YYYY') }}
           </div>
         </div>
       </div>
@@ -157,9 +183,17 @@
         wozPry: false,
         wozDrp: false
       })
+      const typesNotification = ref([
+        {id: 1, name:'Normal' , color:'warning'},
+        {id: 2, name:'Aprobación' , color:'positive'},
+        {id: 3, name:'Error/Rechazo' , color:'negative'},
+      ])
+
       const sender = ref('Woz Pay informa')
       const notificationText = ref(null)
       const notificationSubject = ref(null)
+      const notificationType = ref({id: 1, name:'Normal' , color:'warning'})
+
 
       const setSender = (senderPosition) => {
         const dontValidate = [senderPosition]
@@ -177,6 +211,7 @@
         if(senderName == 'wozPry') sender.value = 'Woz Paraguay'
         if(senderName == 'wozDrp') sender.value = 'Woz Dropshipping'
       }
+
       const getUsersBySearch = (search = '') => {
         if(!route.query.id) {
           userStore.getUsersBySearch(search)
@@ -224,7 +259,8 @@
           user : user.value.id,
           text: notificationText.value,
           subject: notificationSubject.value,
-          sender: sender.value
+          sender: sender.value,
+          type: notificationType.value.id,
         }
         notificationStore.storeNotification(data)
         .then((response) => {
@@ -239,7 +275,7 @@
         })
       }
       const cleanForm = () => {
-        user.value = null;
+        user.value = route.query.id ? user.value : null;
         notificationText.value = '';
         notificationSubject.value = '';
 
@@ -276,6 +312,8 @@
         checked,
         notificationText,
         notificationSubject,
+        notificationType,
+        typesNotification,
         sender,
         moment,
         user,
@@ -302,6 +340,19 @@
   border: 1px solid $grey-5;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+.bd-{
+  &warning{
+    border-color: $warning!important;
+  }
+  &positive{
+    border-color: $positive!important;
+    
+  }
+  &negative{
+    border-color: $negative!important;
+    
+  }
 }
 .notification__body {
   border: 1px solid $grey-5;

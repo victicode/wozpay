@@ -7,13 +7,13 @@
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
-          <input type="file" accept="image/jpeg, image/png" id="sotom" capture="camera" @change="uploadPhoto($event)" style="display: none;">
+          <input type="file" accept="image/jpeg, image/png" id="img_camera" @change="uploadPhoto($event)" style="display: none;">
           <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
             {{ photoType == 'front' ? 'Frontal del documento' : 'Dorso del documento' }}
           </div>
           <q-card-section class="row items-center no-wrap justify-center">
             <div class="q-pt-none q-mx-md">
-              <label for="sotom"  class="flex column items-center">
+              <label for="img_camera"  class="flex column items-center">
                 <div class="bg-primary flex flex-center button-file cursor-pointer" >
                     <q-icon name="eva-folder-add-outline" color="white" size="md" />
                 </div>
@@ -309,6 +309,8 @@
 }
 .document_verify_modal{
   width: 800px;
+  height: -webkit-fill-available;
+  max-height: 100%;
 }
 .button-file {
   width: 60px; 

@@ -75,7 +75,8 @@
         }, 3500);
       }
       const capitalByUser = () => {
-        if(user.rol_id !== 3){
+        console.log(user.value)
+        if(user.value.rol_id !== 3){
           return numberFormat((balances.value.wallet - balances.value.loans) + balances.value.paysRecieve)
         }
       }

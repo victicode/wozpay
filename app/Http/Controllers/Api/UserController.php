@@ -259,19 +259,17 @@ class UserController extends Controller
 
         
         if ($request->facial) {
-            $facial = '/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_facial_.'. $request->File('facial')->extension();
+            $facial = '/public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_facial_.'. $request->File('facial')->extension();
             $request->file('facial')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $facial);
         }
         if ($request->document_front) {
-            $document_front = '/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_front_.'. $request->File('document_front')->extension();
+            $document_front = '/public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_front_.'. $request->File('document_front')->extension();
             $request->file('document_front')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $document_front);
         }
         if ($request->document_back) {
-            $document_back = '/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_back_.'. $request->File('document_back')->extension();
+            $document_back = '/public/images/kyc/'.$request->user()->id.'/'.rand(1000000, 9999999).'_document_back_.'. $request->File('document_back')->extension();
             $request->file('document_back')->move(public_path() . '/images/kyc/'.$request->user()->id.'/', $document_back);
         }
-
-    
         
         try {
             $user->facial_verify = $request->facial ? 1 : $user->facial_verify;

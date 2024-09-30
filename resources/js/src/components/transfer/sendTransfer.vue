@@ -1,6 +1,6 @@
 <template>
   <div class="section_page q-mt-md q-pt-lg">
-    <div class="section__page" style="max-height: 100%; overflow: scroll;">
+    <div class="section__page" style="max-height: 100%; overflow-y: auto;">
       <div class="text-subtitle1 text-weight-bold text-center">Escoge una cuenta a debitar</div>
       <div class="q-px-md-xl q-px-md">
         <div class="q-pa-md select_card q-mt-sm">
@@ -35,7 +35,7 @@
                   Caja de ahorro
                 </div>
                 <div class="text-left text-body2  text-bold">
-                  N° 9164920791
+                  N° {{ user.wallet.number}}
                 </div>
               </div>
               <div>
@@ -43,7 +43,7 @@
                   Disponible
                 </div>
                 <div class="text-right text-weight-bold text-body2">
-                  Gs. {{ numberFormat(500000) }}
+                  Gs. {{ numberFormat(user.wallet.balance) }}
                 </div>
               </div>
             </div>
@@ -157,7 +157,9 @@
   </div>
 </template>
 <script>
+  import { useWalletStore } from '@/services/store/wallet.store'
   import { useAuthStore } from '@/services/store/auth.store'
+  import { storeToRefs } from 'pinia'
   import { useUserStore } from '@/services/store/user.store'
   import { useCardStore } from '@/services/store/card.store'
   import { inject, ref } from 'vue'
@@ -167,12 +169,14 @@
   export default {
     setup() {
       //vue provider
-      const user = useAuthStore().user;
+      const emitter = inject('emitter')
+      const { user  } = storeToRefs(useAuthStore())
       const userStore = useUserStore();
       const cardStore = useCardStore()
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
       const q = useQuasar()
+
       // const router = useRouter()
       const loading = ref(false)
       // Data
@@ -206,29 +210,50 @@
         
         return iRules[id]
       }
+      const validateAmont = () =>{
+        console.log(user.value)
+        return user.value.wallet.balance < parseInt(formCardData.value.amount.replace(/\./g, ''))
+      }
       const validate = () => {
         let isOk  = true
         let msg   = ''
+        let title   = ''
         const dontValidate = ['recept_owner','recept_dni'];
 
         Object.entries(formCardData.value).forEach( ([key, value]) => {
-          if(dontValidate.includes(key)) return
-          if(value == '') { 
+          if(value == '' || value=='Cargando...') {
             isOk = false 
-            msg = 'Debes completar el formulario'
+            msg = dontValidate.includes(key) ? 'Debes seleccionar un destinatario valido' : 'Debes completar el formulario'
+            title = 'Error en formulario'
           }
         });
 
         if(selectPayMethod.value == 0) {
           isOk = false 
           msg = 'Debes seleccionar la cuenta a debitar'
+          title = 'Error en cuenta'
+        }
+        if(selectPayMethod.value == 2 && validateAmont()) {
+          isOk = false 
+          msg = 'Saldo insuficiente.'
+          title = 'Error en cuenta'
         }
 
-        !isOk ? showNotify('negative', msg) : ''
+        !isOk ? showNotification({msg, title}): showNotify('positive', 'Bien!')
         return isOk
 
         
       }
+      const showNotification = (value) => {
+        const data = {
+          newColor: 'negative', 
+          newTitle: value.title,
+          newText: value.msg, 
+          newIcon: 'eva-bell-outline',
+          newCallback: () => emitter.emit('offModalNotification'),
+        }
+        emitter.emit('modalNotification', data);
+      } 
       const showNotify = (type, message) => {
         q.notify({
           message: message,
