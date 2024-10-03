@@ -297,7 +297,7 @@ class UserController extends Controller
             return $this->returnSuccess(400, $th->getMessage() );
         }
 
-        // if($request->verify_status  == 0 || $request->facial_verify == 0) $this->resendVerify($user);
+        if($request->verify_status  == 0 || $request->facial_verify == 0) $this->resendVerify($user);
         
        isset($request->verify_status) ? $this->documentAction($user) : $this->facialAction($user);
 

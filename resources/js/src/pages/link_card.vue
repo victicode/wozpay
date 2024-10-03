@@ -70,7 +70,6 @@
         showing.value = true
         setTimeout(() => {
           showing.value = false
-          
         }, 3500);
       }
       const goTo = () => {

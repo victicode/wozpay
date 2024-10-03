@@ -189,7 +189,14 @@
                       Certificado - reporte de Informconf
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.informconf ? readTapes.informconf.name : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                      <div v-if="!readTapes.informconf" >
+                        Agregar
+                       </div>
+                       <div v-else>
+                         <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                       </div>
+                    </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -211,7 +218,14 @@
                       Certificado laboral firmado
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.work_certificate ? readTapes.work_certificate.name : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                      <div v-if="!readTapes.work_certificate " >
+                        Agregar
+                       </div>
+                       <div v-else>
+                         <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                       </div>
+                    </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -224,7 +238,14 @@
                       Tres ultimos IPS
                     </span>
                     </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.last_ips ? lastIpsMutipleNameFormat() : 'Agregar' }}</q-item-label>
+                    <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                      <div v-if="!readTapes.last_ips" >
+                       Agregar
+                      </div>
+                      <div v-else>
+                        <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                      </div>
+                    </q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -327,7 +348,7 @@
       <redirectModal :dialog="(dialog == 'redirect')" :type="redirectType" />
     </div>
     <div v-if="dialog == 'setValue'">
-      <setValueModal  :dialog="(dialog == 'setValue')" :input="input"  @hiddeModal="hiddeModal"/>
+      <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
     </div>
   </div>
 </template>
@@ -551,14 +572,6 @@
           showNotify('negative', 'error al obtener prestamo activo')
         })
       }
-      const lastIpsMutipleNameFormat = () => {
-        let finalName = ''
-        readTapes.value.last_ips.forEach((file, index) => {
-          finalName = finalName + file.name
-          finalName += (index + 1) == readTapes.value.last_ips.length ? '.' : ', '
-        });
-        return finalName
-      }
       const getInterestRate = () => {
         interestRate.value = []
         interestStore.getInterestRate()
@@ -595,11 +608,11 @@
         numberFormat,
         isCurrentLoan,
         router,
+        interestRate,
         showModal,
         hiddeModal,
         showInputModal,
         createApplyLoan,
-        lastIpsMutipleNameFormat,
       }
     }
   };

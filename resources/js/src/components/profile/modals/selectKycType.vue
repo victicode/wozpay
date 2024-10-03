@@ -13,14 +13,6 @@
           <input type="file" accept="image/jpeg, image/png" id="img_file" @change="uploadPhoto($event)" style="display: none;">
           <q-card-section class="row items-center no-wrap justify-center">
             <div class="q-pt-xs q-mx-md">
-              <label for="img_file"  class="flex column items-center">
-                <div class="bg-primary flex flex-center button-file cursor-pointer" >
-                  <q-icon name="eva-folder-add-outline" color="white" size="md" />
-                </div>
-                <div class="text-subtitle1 text-weight-medium q-mt-xs">Subir archivo</div>
-              </label>
-            </div>
-            <div class="q-pt-xs q-mx-md">
               <div  class="flex column items-center">
                 <div class="bg-terciary flex flex-center button-file cursor-pointer" @click="useCamera()">
                     <q-icon name="eva-camera-outline" size="md" />

@@ -54,12 +54,15 @@
 
       // methods
       const getCurrentUser = (inject = null) =>{
-        if(exceptionsToShow() && !inject) return
 
+        if(exceptionsToShow() && !inject) return
         store.currentUser().then((data)=>{
           if(data.code !== 200 ) throw data
           user.value = data.data
           capitalBalances(data.data.id)
+          if(!inject){
+            initChanel()
+          }
         }).catch((e) => { 
           showNotify('negative', 'Error de servicio')
           utils.errorLogout( () => router.push('/login'))
@@ -100,6 +103,15 @@
         readyState.value =  route.name == 'dashboard' || route.name == 'dashboard_admin' ? false : true
         readyState2.value =  route.name == 'Login' || route.name == 'register' ? true : false
       }
+      const initChanel = () => {
+        console.log(user.value.id)
+
+        window.Echo
+        .channel('userUpdateEvent'+user.value.id)
+        .listen('UserUpdateEvent', async () => {
+          getCurrentUser(true)
+        })
+      }
       watch(route, () => {
         isReady()
         getCurrentUser()
@@ -107,11 +119,6 @@
 
       onMounted(() =>{
         isReady()
-        window.Echo
-        .channel('userUpdateEvent'+21)
-        .listen('UserUpdateEvent', async () => {
-          getCurrentUser(true)
-        })
       })
       
       return {

@@ -52,6 +52,7 @@
     props: {
       dialog: Boolean,
       input: Object,
+      days: Object
     },
     emits: ['hiddeModal'],
     setup (props, { emit }) {
@@ -64,21 +65,12 @@
       const index = props.input.index
       const title = props.input.title
       const setterVal = ref()
+      const daysOutFormatted = props.days
       const loading = ref(false)
       const numberFormat = util.numberFormat
-
-      const days = user.is_first_loan 
-      ?[
-          { text: '15 días', value: 15 },
-        ]
-      : [
-          { text: '15 días', value: 15 },
-          { text: '30 días', value: 30 },
-          { text: '60 días', value: 60 },
-          { text: '90 días', value: 90 },
-
-        ];
-
+      const days = ref([])
+      
+      
       const amounts = user.is_first_loan 
       ? [
           { text: 'Gs. '+numberFormat(100000), value: 100000 },
@@ -105,6 +97,24 @@
         { text: 'Gs. '+numberFormat(5000000), value: 5000000 },
       ]
       // Methods
+      const setInterestRate = () => {
+        const formattedValue = []
+        if(user.is_first_loan){
+          formattedValue.push({
+            text:`${daysOutFormatted[0].days} días`,
+            value: daysOutFormatted[0].days,
+          })
+        }else{
+          Object.values(daysOutFormatted).forEach((rates) => {
+            formattedValue.push({
+              text:`${rates.days} días`,
+              value: rates.days,
+            })
+          })
+        }
+        return formattedValue
+      }
+
       const hiddeModal = () => {
         emit('hiddeModal', null)
       }
@@ -132,6 +142,9 @@
       }
       onMounted(() => {
         setValueByType() 
+        if(type == 2) {
+          days.value = setInterestRate()
+        }
       })
 
       return {

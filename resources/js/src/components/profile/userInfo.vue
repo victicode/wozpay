@@ -257,8 +257,7 @@
   </div>
 </template>
 <script>
-  import { ref } from 'vue';
-  import { inject } from 'vue'
+  import { ref, inject } from 'vue';
   import { useUserStore } from '@/services/store/user.store'
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
@@ -266,7 +265,7 @@
   import updateEmail from '@/components/profile/modals/updateEmail.vue';
   import selectKycType from '@/components/profile/modals/selectKycType.vue';
   import selectKycDocument from '@/components/profile/modals/selectKycDocument.vue';
-
+  import { storeToRefs } from 'pinia'
 
   export default {
     components:{
@@ -281,7 +280,8 @@
       const icons = inject('ionIcons')
       const $q = useQuasar()
       const store = useUserStore()
-      const user = useAuthStore().user;
+      const { user  } = storeToRefs(useAuthStore())
+
       const dialog = ref('')
       // data
       const loading = ref(false)
@@ -324,7 +324,6 @@
         user.facial_photo = data ? data.facial_photo : user.facial_photo
       }
       const updateDocument = (data) => {
-        console.log(data)
         dialog.value = '';
         user.document_photo_front = data ? data.document_photo_front : user.document_photo_front
         user.document_photo_back = data ? data.document_photo_back : user.document_photo_back
