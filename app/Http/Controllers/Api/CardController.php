@@ -58,10 +58,10 @@ class CardController extends Controller
     }
     private function cardAction($card){
         if($card->status == 0){
-            $this->sendNotification('Tu tarjeta fue rechazada, por que no cumple con las medidas de seguridad de Woz Pay', $card->user_id, 'Tarjeta Rechazada', 2);
+            $this->sendNotification('Tu tarjeta fue rechazada, por que no cumple con las medidas de seguridad de Woz Pay', $card->user_id, 'Tarjeta Rechazada', 3);
             return;
         }
-        $this->sendNotification('Tu tarjeta fue vinculada con exito!', $card->user_id, 'Tarjeta vinculada✅', 1);
+        $this->sendNotification('Tu tarjeta fue vinculada con exito!', $card->user_id, 'Tarjeta vinculada <i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>', 1);
         return;
     }
     private function sendNotification($message, $user, $subject, $type){

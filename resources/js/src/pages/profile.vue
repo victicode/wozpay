@@ -304,9 +304,9 @@
           :loading="loading"
           @click="logout" 
         >
-        <template v-slot:loading>
-          <q-spinner-facebook />
-        </template>
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
         </q-btn>
       </div>
     </div>

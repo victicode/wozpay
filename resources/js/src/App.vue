@@ -64,7 +64,7 @@
             initChanel()
           }
         }).catch((e) => { 
-          showNotify('negative', 'Error de servicio')
+          showNotification('Sesión caducada', 'El tiempo activo de su sesión ha caducado, vuelve a iniciar sesión', 'negative')
           utils.errorLogout( () => router.push('/login'))
         })
       }
@@ -90,22 +90,21 @@
         }
         return false
       }
-      const showNotify = (type, message) => {
-        $q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
+      const showNotification = (title, text, type) => {
+        const data = {
+          newColor: type, 
+          newTitle: title,
+          newText: text, 
+          newIcon: type == 'positive' ? 'eva-checkmark-circle-2-outline' : 'eva-alert-circle-outline',
+          newCallback: () => emitter.emit('offModalNotification'),
+        }
+        emitter.emit('modalNotification', data);
+      } 
       const isReady = () => {
         readyState.value =  route.name == 'dashboard' || route.name == 'dashboard_admin' ? false : true
         readyState2.value =  route.name == 'Login' || route.name == 'register' ? true : false
       }
       const initChanel = () => {
-        console.log(user.value.id)
-
         window.Echo
         .channel('userUpdateEvent'+user.value.id)
         .listen('UserUpdateEvent', async () => {

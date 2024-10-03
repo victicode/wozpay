@@ -98,7 +98,7 @@ class UserController extends Controller
         return $this->returnSuccess(200, $usersByRol);
     }
     public function store(Request $request){
-        $validated = $this->validateFieldsFromInput($request->all()) ;
+        $validated = $this->validateFieldsFromInput($request->all());
 
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
         
@@ -353,11 +353,11 @@ class UserController extends Controller
                 'Tu verificación facial fue rechazada, verifica que tu foto sea lo mas nititda posible y se pueda apreciar tu rostro', 
                 $user->id, 
                 'Datos faciales Rechazados', 
-                2
+                3
             ); 
         }
         if($user->facial_verify  == 2){
-            $this->sendNotification('Tu verificación facial ser realizó de forma exitosa!', $user->id, 'Datos faciales verificados✅', 1);
+            $this->sendNotification('Tu verificación facial ser realizó de forma exitosa!', $user->id, 'Datos faciales verificados <i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>', 1);
         }
 
     }
@@ -367,11 +367,11 @@ class UserController extends Controller
                 'Tus documentos fueron rechazados, verifica que la foto que hayas subido sea legible tu documento y que el mismo no este vencido', 
                 $user->id, 
                 'Documentos Rechazados', 
-                2
+                3
             ); 
         }
         if($user->verify_status  == 2){
-            $this->sendNotification('Tu documentos han sido verificados de forma exitosa!', $user->id, 'Documentos verificados✅', 1);
+            $this->sendNotification('Tu documentos han sido verificados de forma exitosa!', $user->id, 'Documentos verificados <i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>', 1);
         }
     }
     private function sendNotification($message, $user, $subject, $type){

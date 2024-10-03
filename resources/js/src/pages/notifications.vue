@@ -18,9 +18,7 @@
                     class="user-verify-user q-mx-xs "
                   />
                 </div>
-                <div class="text-body2 text-weight-medium">
-                  {{ notification.subject }}
-                </div>
+                <div class="text-body2 text-weight-medium" v-html="notification.subject " />
               </div>
               <div class="w-25 text-right text-body3 text-grey-7">
                 {{ moment(notification.created_at).format('DD MMM YYYY')  }}
@@ -147,8 +145,8 @@ export default {
   },
 }
 </script>
-
 <style lang="scss" scoped>
+
 .notification__section {
   max-height: 100%; 
   overflow-y: auto; 

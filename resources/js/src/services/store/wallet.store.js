@@ -15,16 +15,16 @@ export const useWalletStore = defineStore("wallet", {
         if (JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.get("/api/balance/"+user)
-            .then(({ data }) => {
-              if(data.code !== 200){
-                throw data;
-              }
-              this.setBalances(data.data)
-              resolve(data)
-            }).catch((response) => {
-              console.log(response)
-              resolve('Error al obtener.');
-            });
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            this.setBalances(data.data)
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener.');
+          });
         }
       })
       .catch((response) => {
@@ -54,6 +54,27 @@ export const useWalletStore = defineStore("wallet", {
         return 'Error al actualizar datos';
       });
     },
+    async setNewAdminCapital(amount) {
+      return new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/balance/admin", amount)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            this.setBalances(data.data)
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener.');
+          });
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    }
 
   },
   getters: {

@@ -46,6 +46,15 @@ class WalletController extends Controller
 
         return $this->returnSuccess(200, $wallet);
     }
+    public function setNewAdminCapital(Request $request) {
+        $wallet = Wallet::where('user_id', 1)->first();
+
+        $wallet->balance =  $request->amount;
+        $wallet->save();
+        event(new UserUpdateEvent(1));
+
+        return $this->returnSuccess(200, $wallet);
+    }
     private function allLoansAmount() {
         $amount = 0;
         $amounToRecive = 0 ;

@@ -25,38 +25,7 @@
           </q-input>
         </div>
       </div>
-      <div class="row q-px-none">
-        <div class="col-12 q-px-md-xl q-px-md">
-          <q-input
-            class=" amount__input-loan q-pb-md"
-            clearable
-            clear-icon="eva-close-outline"
-            color="grey-5"
-            v-model="amount"
-            name="id_user"
-            label="Cargar tu capital"
-            mask="###.###.###"
-            reverse-fill-mask
-            :rules="amountRules"
-            autocomplete="off"
-            maxlength="11"
-            bg-color="white"
-          >
-            <template v-slot:prepend>
-              Gs.
-            </template>
-          </q-input>
-        </div>
-        <div class="col-12 q-px-md-xl q-px-md">
-          <div class="q-px-md-xl ">
-            <q-btn 
-              color="primary" 
-              no-caps
-              class="w-100 q-pa-sm q-mb-md" label="Actualizar capital"  
-            />
-          </div>
-        </div>
-      </div>
+      <updateCapital />
       <div class="q-px-md-lg q-px-md q-mt-md-lg q-mt-md">
         <div class="text-body1 text-weight-bold">
           Prestamo aprobados
@@ -111,20 +80,21 @@
 </template>
 <script>
   import { ref, inject, onMounted} from 'vue';
-  import { useQuasar } from 'quasar'
   import wozIcons from '@/assets/icons/wozIcons';
   import util from '@/util/numberUtil';
   import { useRouter } from 'vue-router';
   import { useLoanStore } from '@/services/store/loan.store';
   import { useAuthStore } from '@/services/store/auth.store';
 
-  export default {
+  import updateCapital from '@/components/admin/loan/updateCapital.vue';
 
+  export default {
+    components: {
+      updateCapital
+    },
     setup () {
       //vue provider
       const icons = inject('ionIcons')
-      const emitter = inject('emitter')
-      const $q = useQuasar()
       const { numberFormat } = util;
       const router = useRouter()
       const loanStore = useLoanStore()
@@ -165,7 +135,6 @@
           console.log(response)
         })
       } 
-
       const setPage = (page) => {
         currentPage.value = page
         getApproveLoan('')

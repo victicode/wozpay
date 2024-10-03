@@ -25,6 +25,7 @@ class LoanController extends Controller
             'days' => $request->due_date,
             'type' => 1,
             'amount' => $request->amount,
+            'days' => $request->due_date,
             'amount_to_pay' => $request->amountToPay,
             'quotas' => $this->getQuaotasByDay($request->due_date) ,
             'amount_quota' => $request->amountToPay/$this->getQuaotasByDay($request->due_date),
@@ -50,7 +51,7 @@ class LoanController extends Controller
         if(!$loan) return $this->returnFail(400, 'Prestamo no encontrado');
 
         $loan->status = $request->status;
-        $loan->due_date = $request->status == 2 ? $this->dueDateQuotas($loan)[$loan->quotas-1]: $loan->due_date;
+        $loan->due_date = $request->status == 2 ? $this->dueDateQuotas($loan)[0]: $loan->due_date;
         $loan->save();
         $this->actionByStatusLoan($loan);
         return $this->returnSuccess(200, $loan);

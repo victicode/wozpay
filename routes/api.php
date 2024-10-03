@@ -101,9 +101,9 @@ Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function (
 });
 
 Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(function () {
-    // Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [TransferController::class, 'getTransferById']);
-    // Route::post('/delete/{id}', [CardController::class, 'deleteCard']);
+    Route::post('/', [TransferController::class, 'createTransfer']);
+
 });
 Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(function () {
     Route::get('/', [InterestController::class, 'getInterestRate']);
@@ -120,4 +120,6 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
 Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( function () {
     Route::get('/{id}', [WalletController::class, 'allBalances']);
     Route::post('/increments/{id}', [WalletController::class, 'incrementsWallet']);
+    Route::post('/admin', [WalletController::class, 'setNewAdminCapital']);
+
 });

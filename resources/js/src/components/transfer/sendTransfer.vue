@@ -57,7 +57,7 @@
           <q-form
             id="linked_form"
             class=""
-            @submit="storeTransfer()"
+            @submit="showConfirm()"
           >
             <div class="q-px-md-xl">
               <div class="q-pb-xs  q-px-md-lg card_form ">
@@ -134,16 +134,17 @@
                 </div>
               </div>
             </div>
-            <div class="q-px-sm q-mt-sm q-px-md-xl q-mx-md-xl">
+            <div class="q-px-sm q-mt-none q-px-md-xl q-mx-md-xl">
               <q-btn 
-                color="primary" class="w-100 q-pa-sm q-mb-sm  link_button" 
+                color="primary" class="w-100 q-pa-md q-mb-sm  link_button" 
                 no-caps
                 :loading="loading"
                 type="submit"
+                label="Enviar"
               >
-                <div class="text-white q-mt-sm text-subtitle1 text-weight-medium"  >
-                  Enviar
-                </div> 
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
               </q-btn>
               <div class="q-px-sm q-mt-sm text-primary q-pb-xl">
                 Transacción segura con Woz Security Services
@@ -154,37 +155,52 @@
       </div>
 
     </div>
+    <div v-if="showDialog == 'ready'">
+      <doneModal :dialog="(showDialog == 'ready')" :text="'Transferencia realizada'" />
+    </div>
+    <div v-if="showDialog == 'confirm'">
+      <confirmDialog :dialog="(showDialog == 'confirm')" :transfer="formCardData" @hideModal="hideModal"/>
+    </div>
   </div>
 </template>
 <script>
-  import { useWalletStore } from '@/services/store/wallet.store'
+  import { useTransferStore } from '@/services/store/transfer.store'
   import { useAuthStore } from '@/services/store/auth.store'
   import { storeToRefs } from 'pinia'
   import { useUserStore } from '@/services/store/user.store'
   import { useCardStore } from '@/services/store/card.store'
   import { inject, ref } from 'vue'
   import { useQuasar } from 'quasar'
+  import { useRouter } from 'vue-router'
   import util from '@/util/numberUtil'
-
+  import doneModal from '@/components/layouts/modals/doneModal.vue';
+  import confirmDialog from '@/components/transfer/confirmDialog.vue'
   export default {
+    components: {
+      doneModal,
+      confirmDialog,
+    },
     setup() {
       //vue provider
       const emitter = inject('emitter')
       const { user  } = storeToRefs(useAuthStore())
       const userStore = useUserStore();
       const cardStore = useCardStore()
+      const transferStore = useTransferStore();
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
       const q = useQuasar()
-
-      // const router = useRouter()
+      const showDialog = ref(false);
+      const router = useRouter()
       const loading = ref(false)
+
       // Data
       const selectPayMethod = ref(0)
       const linkCard = ref({})
       const formCardData = ref({
         amount:'',
         recept:'',
+        recept_id: '',
         text:'',
         recept_owner: '',
         recept_dni: '',
@@ -204,14 +220,13 @@
           ],
           text:[
             val => (val !== null && val !== '') || 'El concepto es requerido.',
-            val => (/[,%$#"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+            val => (/[,%$#"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
           ],
         }
         
         return iRules[id]
       }
       const validateAmont = () =>{
-        console.log(user.value)
         return user.value.wallet.balance < parseInt(formCardData.value.amount.replace(/\./g, ''))
       }
       const validate = () => {
@@ -239,9 +254,8 @@
           title = 'Error en cuenta'
         }
 
-        !isOk ? showNotification({msg, title}): showNotify('positive', 'Bien!')
+        !isOk ? showNotification({msg, title}): ''
         return isOk
-
         
       }
       const showNotification = (value) => {
@@ -264,10 +278,35 @@
         })
       }
       const storeTransfer = () => {
+
         if(!validate()) return
+        loading.value = true
+        const data = {
+          from: user.value.wallet.id,
+          to: formCardData.value.recept_id,
+          amount: parseInt(formCardData.value.amount.replace(/\./g, '')),
+          type:1,
+          pay_method:selectPayMethod.value,
+          concept :formCardData.value.text
+        }
+
+        transferStore.createTransfer(data)
+        .then((response) => {
+          if(response.code !== 200) throw response
+          loading.value = false;
+          showDialog.value = 'ready';
+          console.log(response.data)
+          setTimeout(() => {
+            router.push('/finish_transfer/'+response.data.id)
+          }, 2000);
+        })
+        .catch((response) => {
+          loading.value = false
+          showNotification({msg:response, title:'Error al realizar transferencia'})
+        })
       }
       const getLinkCard = () => {
-        cardStore.getCard(user.id).then((data) => {
+        cardStore.getCard(user.value.id).then((data) => {
           if(data.code !== 200) throw data
           linkCard.value = data.data ? Object.assign(data.data) : {}
         }).catch((response) => {
@@ -282,6 +321,7 @@
 
           setTimeout(() => {
             formCardData.value.recept_owner = data.data.user.name
+            formCardData.value.recept_id = data.data.id
             formCardData.value.recept_dni = numberFormat(data.data.user.dni)
           }, 2000)
         }).catch((response) => {
@@ -292,10 +332,21 @@
           }, 2000)
         })
       }
+      const showConfirm = () => {
+        if(!validate()) return
+        showDialog.value = 'confirm'
+      }
+      const hideModal = (isTrue) => {
+        
+        if(isTrue) storeTransfer()
+        
+        showDialog.value = ''
+      }
       const loadingWallet = (status) => {
         formCardData.value.recept_owner = status ? 'Cargando...' : '';
         formCardData.value.recept_dni = status ? 'Cargando...' : '';
       }
+
       onMounted(() => {
         getLinkCard()
       })
@@ -305,10 +356,12 @@
         numberFormat,
         selectPayMethod,
         loading,
+        showDialog,
         formCardData,
         linkCard,
         rulesForm,
         storeTransfer,
+        showConfirm,
         getWalletToTransfer,
       }
     },

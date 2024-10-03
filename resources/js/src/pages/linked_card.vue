@@ -275,7 +275,6 @@
       }
       const cleaveCard = (e) => {
         const value = e.target.value
-        console.log(getCreditCardType(value))
         cardType.value = getCreditCardType(value)
       }
       const cleaveDate = (e) => {
@@ -286,15 +285,14 @@
         if(value[0] == '00'){
           formCardData.value.due_date = '01'
         }
-        if(value[1] && value[1].length < 4){
+        if(value[1] && value[1].length < 2){
           dateError.value = true
         }
-        if(value[1] && value[1].length == 4){
+        if(value[1] && value[1].length == 2){
+          dateError.value = false
           const verifyDate = new Date();
-          if(parseInt(value[1]) > verifyDate.getFullYear() + 10){
-            formCardData.value.due_date = value[0] + '' + (verifyDate.getFullYear() + 10)
-            dateError.value = false
-
+          if(parseInt(value[1]) > (verifyDate.getFullYear() + 10)-2000){
+            formCardData.value.due_date = value[0] + '' + ((verifyDate.getFullYear() + 10)-2000)
           }
         }
       }
@@ -318,13 +316,13 @@
         }
         const value = e.split('/');
         dateError.value = false
-        if(value[1] && value[1].length < 4){
+        if(value[1] && value[1].length < 2){
           alert('Fecha no valida.')
 
           dateError.value = true
         }
         if(!isExpirationDateValid(value[0], value[1])){
-          alert('Fecha no vencida.')
+          alert('Fecha vencida.')
           dateError.value =  true
         }
         

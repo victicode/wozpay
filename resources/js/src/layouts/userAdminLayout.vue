@@ -130,11 +130,11 @@
   height: 100%;
 }
 .h-20 {
-  height: 20%;
+  height: 21%;
 }
 @media screen and (max-width: 780px){
   .h-20 {
-    height: 27%;
+    height: 28%;
   }
 }
 </style>

@@ -7,7 +7,7 @@
           <div class="boxNoVisible">
           </div>
           <div class="text-weight-bold text-h4 text-white">
-            {{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title}}
+            {{ transfer.status == 2 ? '¡Envío exitoso!' : transfer.status == 1 ? '¡Envío pendiente!' : '¡Rechzado!' }}
           </div>
           <div class="boxNoVisible">
           </div>
@@ -27,7 +27,6 @@
                     style="width: 70%;"
                     color="primary" reverse class="q-mt-none transfer__line" 
                   />
-    
                 </div>
               </div>
               <div class="w-50 flex justify-end">
@@ -36,31 +35,40 @@
             </div>
             <div class="q-px-md q-px-md-lg">
               <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
-                <div class="text-subtitle1 text-weight-bold">Monto</div>
-                <div class="text-grey-8 text-caption text-weight-medium">Cantidad de dinero en Guaranies</div>
-                <div class="text-primary text-weight-bold text-body1">
+                <div class="text-subtitle1 text-weight-bold q-pl-xs">Monto</div>
+                <div class="text-grey-8 text-caption text-weight-medium q-pl-xs">Cantidad de dinero en Guaranies</div>
+                <div class="text-primary text-weight-bold text-body1 q-pl-xs">
                   Gs. {{ numberFormat(transfer.amount) }}
                 </div>
               </div>
               <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
-                <div class="text-subtitle1 text-weight-bold">Enviado a</div>
-                <div class="text-grey-8 text-caption text-weight-medium">Titular Woz Pay</div>
-                <div class="text-primary text-weight-bold text-body1">
+                <div class="text-subtitle1 text-weight-bold q-pl-xs">Enviado a</div>
+                <div class="text-grey-8 text-caption text-weight-medium q-pl-xs ">Titular Woz Pay</div>
+                <div class="text-primary text-weight-bold text-body1 q-pl-xs">
                   {{ transfer.user_to.user.name }}
                 </div>
               </div>
               <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
-                <div class="text-subtitle1 text-weight-bold">Documentación</div>
-                <div class="text-grey-8 text-caption text-weight-medium">Documento de identificación</div>
-                <div class="text-primary text-weight-bold text-body1">
+                <div class="text-subtitle1 text-weight-bold q-pl-xs">Documentación</div>
+                <div class="text-grey-8 text-caption text-weight-medium q-pl-xs">Documento de identificación</div>
+                <div class="text-primary text-weight-bold text-body1 q-pl-xs">
                   {{ numberFormat(transfer.user_to.user.dni) }}
                 </div>
               </div>
               <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
-                <div class="text-subtitle1 text-weight-bold">Concepto</div>
-                <div class="text-grey-8 text-caption text-weight-medium">Motivo del envio</div>
-                <div class="text-primary text-weight-bold text-body1">
+                <div class="text-subtitle1 text-weight-bold q-pl-xs">Concepto</div>
+                <div class="text-grey-8 text-caption text-weight-medium q-pl-xs">Motivo del envio</div>
+                <div class="text-primary text-weight-bold text-body1 q-pl-xs">
                   {{ transfer.concept }}
+                </div>
+              </div>
+              <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
+                <div class="text-subtitle1 text-weight-bold q-pl-xs">Estado</div>
+                <div class="text-grey-8 text-caption text-weight-medium q-pl-xs">Estado del envio</div>
+                <div class="text-primary text-weight-bold text-body1">
+                  <q-chip :color="transfer.status == 2 ? 'positive' : transfer.status == 1 ? 'terciary' : 'negative'" text-color="white" >
+                    {{  transfer.status_label }}
+                  </q-chip>
                 </div>
               </div>
             </div>
@@ -78,7 +86,7 @@
           </div>
         </div>
       </div>
-      <div class="q-px-md-xl q-pt-sm">
+      <!-- <div class="q-px-md-xl q-pt-sm">
         <div class="q-px-lg q-mt-lg q-px-md-xl q-mx-md-xl">
           <q-btn 
             color="negative" class="w-100 q-pa-md donwload" 
@@ -92,7 +100,7 @@
           </div>
           </q-btn>
         </div>
-      </div>
+      </div> -->
     </div>
 
   </div>

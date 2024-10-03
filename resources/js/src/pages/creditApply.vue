@@ -1,7 +1,7 @@
 
 <template>
   <div class="apply_section" >
-    <div class="q-pb-lg" v-if="Object.values(user).length > 0 && !isCurrentLoan" >
+    <div class="q-pb-lg" v-if="!isCurrentLoan && !load" >
       <q-stepper
         v-model="step"
         ref="stepper"
@@ -250,7 +250,6 @@
                 </q-item-section>
               </q-item>
               <q-separator />
-              
             </q-list>
             <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
               <q-toolbar-title> 
@@ -330,7 +329,7 @@
         </template>
       </q-stepper>
     </div>
-    <div class="q-mt-xl q-px-md" v-else>
+    <div class="q-mt-xl q-px-md" v-else-if="isCurrentLoan && !load">
       <div>
         <div class="text-h6 text-center text-weight-bold">
           Ya tienes un préstamo activo, termina de pagarlo para obtar por otro.
@@ -339,6 +338,174 @@
         <div class="flex justify-center q-mt-lg ">
           <q-btn color="primary" label="volver" class="q-px-md" size="md"  @click="router.push('/')"  style="width: 50%;" />
         </div>
+      </div>
+    </div>
+    <div class="q-pb-lg" v-else>
+      <div class="w-100 q-mx-none" >
+        <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm ">
+          <q-toolbar-title> 
+            <div class="w-100 flex flex-center">
+              <span class="text-subtitle1 text-weight-bold ">
+                <q-skeleton type="text" style="width: 80px;" />
+              </span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="q-mt-none">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+        </q-list>
+        <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+          <q-toolbar-title> 
+            <div class="w-100 flex flex-center">
+              <span class="text-subtitle1 text-weight-bold "><q-skeleton type="text" style="width: 80px;" /></span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section >
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+        </q-list>
+        <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+          <q-toolbar-title> 
+            <div class="w-100 flex flex-center">
+              <span class="text-subtitle1 text-weight-bold "><q-skeleton type="text" style="width: 80px;" /></span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item class="q-py- q-px-sm" >
+            <q-item-section >
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                <span class="text-body2 text-weight-bold">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </span>
+                </q-item-label>
+                <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                  <q-skeleton type="text" style="width: 80px;" />
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+        </q-list>
       </div>
     </div>
     <div v-if="sendLoading">
@@ -386,6 +553,8 @@
       const dialog = ref('')
       const redirectType = ref(0);
       const loading = ref(false)
+      const load = ref(true)
+
       const step = ref(1)
       const isUserApply = ref(true)
       const interestRate = ref(1)
@@ -559,6 +728,7 @@
         return isValid
       }
       const activeLoan = () => {
+        
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
           if(data.data){
@@ -568,8 +738,9 @@
               return
           }
           isCurrentLoan.value = false
+          load.value = false
         }).catch((e) => {
-          showNotify('negative', 'error al obtener prestamo activo')
+          showNotify('negative', 'Error al obtener prestamo activo')
         })
       }
       const getInterestRate = () => {
@@ -597,6 +768,7 @@
 
       return {
         loading,
+        load,
         sendLoading,
         user,
         dialog,
