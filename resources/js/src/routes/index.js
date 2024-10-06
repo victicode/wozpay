@@ -1,4 +1,4 @@
-import { createMemoryHistory, createWebHistory, createRouter } from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router'
 import guest from './middlewares/guest'
 import auth from './middlewares/auth'
 import admin from './middlewares/admin'
