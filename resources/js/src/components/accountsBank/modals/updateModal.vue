@@ -113,7 +113,7 @@
   </q-dialog>
 </template>
 <script>
-  import { ref, onMounted } from 'vue';
+  import { ref } from 'vue';
   import { useUserStore } from '@/services/store/user.store'
   import { useAuthStore } from '@/services/store/auth.store'
   import { useBankAccountStore } from '@/services/store/bankAccount.store'
