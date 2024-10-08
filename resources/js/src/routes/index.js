@@ -32,7 +32,7 @@ import addAccountBank from '@/components/accountsBank/addAccountBank.vue'
 import userById from '@/components/admin/users/userById.vue'
 import userVerification from '@/components/admin/users/userVerification.vue'
 import userNotification from '@/components/admin/notification/notificationPush.vue'
-
+import verificationKyc from '@/components/profile/verificationKyc.vue'
 import loanPay from '@/components/loan/loanPay.vue'
 import loanView from '@/components/loan/loanView.vue'
 import link_card from '@/pages/link_card.vue'
@@ -269,6 +269,14 @@ const router = createRouter({
           meta: {
             title: 'Enviar dinero'
           },
+        },
+        {
+          path: "/verification_kyc",
+          name: "verificationKyc",
+          component: verificationKyc,
+          meta: {
+            title: 'Perfil'
+          }
         },
         {
           path: "/bank",

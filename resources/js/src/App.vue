@@ -29,7 +29,7 @@
 </template>
 <script >
 
-  import { onMounted, ref, watch} from 'vue';
+  import { inject, onMounted, ref, watch} from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useWalletStore } from '@/services/store/wallet.store'
   import { useQuasar } from 'quasar'
@@ -51,11 +51,11 @@
       const readyState = ref(false)
       const readyState2 = ref(false)
       const user = ref({})
-
+      const emitter = inject('emitter')
       // methods
       const getCurrentUser = (inject = null) =>{
-
         if(exceptionsToShow() && !inject) return
+
         store.currentUser().then((data)=>{
           if(data.code !== 200 ) throw data
           user.value = data.data

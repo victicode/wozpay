@@ -17,14 +17,36 @@
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
                   <div>
-                    <div class="text-weight-bold text-body2">Verificar documentos</div>
+                    <div class="text-weight-bold text-body2">
+                      {{ 
+                        user.verify_status == 0 
+                        ? 'Iniciar verificación' 
+                        : user.verify_status == 1 
+                        ? 'Verificación pendiente' 
+                        : 'Verificado' 
+                      }}
+                    </div>
                     <div class="text-caption text-grey-5">
-                      Toma una foto de tu documento de identidad
+                      {{ 
+                        user.verify_status == 0 
+                        ? 'Inicia el proceso verificación' 
+                        : user.verify_status == 1 
+                        ? 'Tu verificación esta siendo verificada' 
+                        : 'Usuario verificado' 
+                      }}
                     </div>
                   </div>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-caption">
-                  <q-btn unelevated flat round color="black"  icon="eva-camera-outline" @click="showDialog('back')"  v-if="!user.document_photo_front && !user.document_photo_back" />
+                  <q-btn 
+                    unelevated 
+                    flat 
+                    round 
+                    color="black"  
+                    icon="eva-camera-outline" 
+                    @click="router.push('/verification_kyc')"  
+                    v-if="!user.document_photo_front && !user.document_photo_back" 
+                  />
                   <q-btn 
                     v-else
                     unelevated 
@@ -39,7 +61,7 @@
             </q-item-section>
           </q-item>
           <q-separator />
-          <q-item class=" q-px-sm" >
+          <!-- <q-item class=" q-px-sm" >
             <q-item-section>
               <div class="flex align-center justify-between">
                 <q-item-label class="q-mt-xs text-weight-bold" >
@@ -64,8 +86,7 @@
               </div>
             </q-item-section>
           </q-item>
-          <q-separator />
-          
+          <q-separator /> -->
         </q-list>
         <!-- Verification status -->
         <q-toolbar class="bg-white text-black q-mt-md">
@@ -227,7 +248,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-px-xs-lg q-pt-md">
+      <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-px-xs-lg q-pt-md q-mb-lg">
         <q-btn 
           id="logout-button" 
           label="Actualizar" 
@@ -238,9 +259,9 @@
           :loading="loading"
           @click="uptadteInfo" 
         >
-        <template v-slot:loading>
-          <q-spinner-facebook />
-        </template>
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
         </q-btn>
       </div>
     </div>
@@ -250,8 +271,7 @@
     <div v-if="dialog=='updateEmail'">
       <updateEmail :dialog="(dialog =='updateEmail')" @hideModal="updateEmail" />
     </div>
-    <selectKycType :dialog="(dialog =='check')" @hideModal="updateFacial" />
-    <selectKycDocument :dialog="(dialog =='back')" @hideModal="updateDocument" />
+   
 
     
   </div>
@@ -263,20 +283,19 @@
   import { useQuasar } from 'quasar'
   import updatePhoneNumber from '@/components/profile/modals/updatePhoneNumber.vue';
   import updateEmail from '@/components/profile/modals/updateEmail.vue';
-  import selectKycType from '@/components/profile/modals/selectKycType.vue';
-  import selectKycDocument from '@/components/profile/modals/selectKycDocument.vue';
+
   import { storeToRefs } from 'pinia'
+  import { useRouter } from 'vue-router';
 
   export default {
     components:{
       updatePhoneNumber,
       updateEmail,
-      selectKycType,
-      selectKycDocument
     },
     
     setup () {
       //vue provider
+      const router = useRouter()
       const icons = inject('ionIcons')
       const $q = useQuasar()
       const store = useUserStore()
@@ -318,18 +337,7 @@
         dialog.value = '';
         user.email = data ?? user.email
       }
-      const updateFacial = (data) => {
-        dialog.value = '';
-        user.facial_verify = data ? data.facial_verify : user.facial_verify
-        user.facial_photo = data ? data.facial_photo : user.facial_photo
-      }
-      const updateDocument = (data) => {
-        dialog.value = '';
-        user.document_photo_front = data ? data.document_photo_front : user.document_photo_front
-        user.document_photo_back = data ? data.document_photo_back : user.document_photo_back
-        user.verify_status = data ? data.verify_status : user.verify_status
-
-      }
+      
 
       const showNotify = (type, message) => {
         $q.notify({
@@ -371,6 +379,7 @@
         dialog,
         toltip,
         toltip2,
+        router,
         showDialog,
         showToltip,
         uptadteInfo,

@@ -1,7 +1,7 @@
 <template>
   <div  class="dashboard_container">
     <div style="height: 100%;" >
-      <div style="height: 28.3%;">
+      <div style="height: 27%;">
         <currentUserPersonalInfo />
       </div>
       <div class="bg-white">
