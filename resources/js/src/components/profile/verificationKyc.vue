@@ -95,8 +95,8 @@
                     </div>
                   </div>
                   <div class="back_bottom__cardSilu flex flex-center column text-subtitle1 text-weight-bold">
-                    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><br>
-                    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><br>
+                    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                   </div>
                 </div>
                 <div class="q-mt-sm">
@@ -180,7 +180,6 @@
                       :color="'positive'"
                       :icon="'eva-checkmark-circle-2-outline'"  
                     />
-                    
                   </q-item-label>
                 </div>
               </q-item-section>
@@ -193,14 +192,110 @@
             <div 
               style=""
               class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-xl"
+              @click="step = 4"
             >
               Enviar fotos
             </div>
             <div 
               style=""
               class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-lg"
+              @click="step = 1"
             >
               Comenzar de nuevo
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <transition name="vertical">
+      <div v-show="step == 4">
+        <div>
+          <q-toolbar class="bg-white text-black q-py-sm q-mt-none">
+            <q-toolbar-title> 
+              <div class="w-100 flex items-center justify-center">
+                <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs">Verificación de identidad</span>
+              </div>
+            </q-toolbar-title>
+          </q-toolbar>
+          <div class="flex flex-center column">
+            <div v-html="wozIcons.kycUser" />
+            <div class="info__kyc-facial q-py-sm q-mt-xl q-mx-md-xl q-px-md q-px-md-xl">
+              <div class="text-h6 text-weight-bold text-center">
+                Sujeta tu documento junto a tu rostro
+              </div>
+              <div>
+                <div class="flex items-center q-my-sm">
+                  <div v-html="wozIcons.noGlasses" />
+                  <div class="q-mt-xs q-ml-xs text-subtitle1 text-weight-medium" style="width: 75%;">No uses lentes</div>
+                </div>
+                <div class="flex items-center q-my-sm">
+                  <div v-html="wozIcons.likeKyc" />
+                  <div class="q-mt-xs q-ml-xs text-subtitle1 text-weight-medium" style="width: 75%;">Usa buena iluminación</div>
+                </div>
+                <div class="flex items-center q-my-sm">
+                  <div v-html="wozIcons.kycUser2" />
+                  <div class="q-mt-xs q-ml-xs text-subtitle1 text-weight-medium" style="width: 75%;">
+                    Asegurate de que tu rostro y tu cédula sean visibles
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="q-px-md-xl q-mx-md-xl">
+          <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl">
+            <div 
+              style=""
+              class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-lg"
+              @click="showDialog('check')"
+            >
+              <div v-if="loading">
+                <q-spinner-facebook  size="md"/>
+              </div>
+              <div v-else>
+
+                Tomar foto
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <transition name="vertical">
+      <div v-show="step == 5">
+        <div>
+          <q-toolbar class="bg-white text-black q-py-sm q-mt-none">
+            <q-toolbar-title> 
+              <div class="w-100 flex items-center justify-center">
+                <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs">Proceso completado🎉</span>
+              </div>
+            </q-toolbar-title>
+          </q-toolbar>
+          <div>
+            <div class="q-pb-xl q-mt-md q-px-md column flex-center" style="height: 100%;">
+              <div class="flex flex-center">
+                <q-icon name="eva-clock-outline" size="5em" color="terciary"/>
+              </div>
+              <div class="text-subtitle1 text-weight-medium text-center q-mt-md">
+                Tu documento y tu foto estan siendo verificados por nuestro equipo.
+              </div>
+              <div class="text-subtitle1 text-weight-medium text-center">
+                Te estaremos informando en un lapso de 24hrs sobre el estado verificación.
+              </div>
+              <div class="text-subtitle1 text-weight-medium text-center">
+                Gracias por usar Woz Pay.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="q-px-md-xl q-mx-md-xl">
+          <div class="q-mt-none q-px-sm q-px-md-xl q-mx-md-xl">
+            <div 
+              style=""
+              class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-none"
+              @click="router.push('/')"
+            >
+              Volver al inicio
             </div>
           </div>
         </div>
@@ -214,11 +309,14 @@
 <script>
 import { ref } from 'vue'
 import selectKycType from '@/components/profile/modals/selectKycType.vue';
-import selectKycDocument from '@/components/profile/modals/selectKycDocument.vue';
 import setPhotoDocument from '@/components/profile/modals/setPhotoDocument.vue';
-
+import { useUserStore } from '@/services/store/user.store';
 import { useAuthStore } from '@/services/store/auth.store';
+
+import wozIcons from '@/assets/icons/wozIcons';
+import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'
+
 
 export default {
   components:{
@@ -226,16 +324,20 @@ export default {
     setPhotoDocument 
   },
   setup () {
-    const dialog = ref('')
     const { user  } = storeToRefs(useAuthStore())
+
+    const dialog = ref('')
+    const userStore = useUserStore()
     const file = ref([])
-    const step = ref(1)
+    const step = ref(user.value.verify_status == 0 && (user.value.facial_verify == 0 || !user.value.facial_verify) ? 1 : user.value.verify_status == 1 && user.value.facial_verify == 0 ? 4 : 5)
     const img = ref([]);
+    const loading = ref(false)
+    const router = useRouter()
 
     const updateFacial = (data) => {
       dialog.value = '';
-      user.facial_verify = data ? data.facial_verify : user.facial_verify
-      user.facial_photo = data ? data.facial_photo : user.facial_photo
+      file.value[3] = data 
+      sendData()
     }
     const updateDocument = (data) => {
       dialog.value = '';
@@ -248,6 +350,7 @@ export default {
     }
     const showDialog = (dialogToShow) => {
       dialog.value = dialogToShow
+      if(dialogToShow == 'check') loading.value = true
     }
     const uploadPhoto = (e, type) => {
       file.value[type] = e.target.files[0]; 
@@ -259,7 +362,34 @@ export default {
       img.value[type] = URL.createObjectURL(file.value[type]); 
       showDialog('back')
     }
+    const validate = () => {
+      let ok = true
+      file.value.forEach((file) => {
+        if(!file) ok = false
+      })
+      return ok;
+    }
+    const sendData = () => {
+      if(!validate())return
+      const data = new FormData()
+      data.append('document_front',file.value[1])
+      data.append('document_back',file.value[2])
+      data.append('facial', file.value[3])
+
+        userStore.setKyc(data).then((response) => {
+          if(response.code !== 200) throw response
+          loading.value = false
+          user.value = response.data
+          step.value = 5
+          
+        }).catch((response) => {
+          loading.value = false
+          console.log(response)
+        })
+    }
     return {
+      wozIcons,
+      loading,
       step,
       dialog,
       img,
@@ -267,11 +397,16 @@ export default {
       updateFacial,
       showDialog,
       uploadPhoto,
+      router,
     }
   }
 }
 </script>
 <style lang="scss" >
+  .info__kyc-facial{
+    background: #e3ebfe;
+    border-radius: 15px;
+  }
   .back_mid__cardSilu{
     height: 75%; width: 100%; background: white;
   }

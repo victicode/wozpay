@@ -27,6 +27,21 @@
                   <div class="text-weight-medium text-right">Gs. {{numberFormat((balances.wallet + balances.toRecieve))}}</div>
                 </div>
               </div>
+              <div class="w-100 flex items-center justify-between q-mt-sm q-pt-xs q-pb-sm" style="border-bottom: 1px solid lightgrey" @click="router.push('/pays/pending')">
+                <div class="flex items-center   w-80 ">
+                  <div class="q-mr-sm q-mt-xs">
+                    <q-icon name="eva-clock-outline" class="" size="sm" />
+                  </div>
+                  <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
+                    <div class="text-weight-medium">Pagos pendientes </div>
+                    <div class="text-weight-medium text-grey-8 ">Cuotas pendientes de aprobación</div>
+                  </div>
+                </div>
+                <div class="q-mr-sm text-end">
+                  <div class="text-weight-medium text-right">Total</div>
+                  <div class="text-weight-medium text-right">{{balances.paysPeding}}</div>
+                </div>
+              </div>
               <div class="w-100 flex items-center justify-between q-mt-sm q-pt-xs q-pb-sm" style="border-bottom: 1px solid lightgrey" >
                 <div class="flex items-center   w-80 ">
                   <div class="q-mr-sm q-mt-xs">
@@ -110,7 +125,6 @@
   import { inject, ref } from 'vue'
   import util from '@/util/numberUtil'
   import { useRouter } from 'vue-router'
-  import { useQuasar } from 'quasar'
   import { storeToRefs } from 'pinia'
 
   export default {
@@ -122,7 +136,6 @@
       const ready = ref(false)
       const numberFormat = util.numberFormat
       const router = useRouter()
-      const q = useQuasar()
       // Data
       return{
         icons,

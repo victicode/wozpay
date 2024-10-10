@@ -20,16 +20,25 @@ class WalletController extends Controller
     }
     public function allBalances($id) {
         $wallet = Wallet::where('user_id', $id)->first();
+        if(!$wallet) return $this->returnFail(400, 'Cuenta no existe.');
         $loansBalances = $this->allLoansAmount();
         $paysAndProfit = $this->allPays();
-        if(!$wallet) return $this->returnFail(400, 'Cuenta no existe.');
+        $paysPending =  $this->paysPeding();
 
-        return $this->returnSuccess(200, [
+        return $this->returnSuccess(200, $id == 1 
+        ? [
             'wallet'        => $wallet->balance,
             'loans'         => $loansBalances['amount'],
-            'toRecieve'      => $loansBalances['amountToRecive'],
+            'toRecieve'     => $loansBalances['amountToRecive'],
             'paysRecieve'   => $paysAndProfit['pays'],
             'subscriptions' => $paysAndProfit['subscriptions'],
+            'paysPeding'    => $paysPending 
+        ]
+        : [
+            'wallet'        => $wallet->balance,
+            'loans'         => $loansBalances['amount'],
+            'toRecieve'     => $loansBalances['amountToRecive'],
+            'paysRecieve'   => $paysAndProfit['pays'],
 
         ]);
     }
@@ -75,21 +84,20 @@ class WalletController extends Controller
         $forSubscriptions = 0;
         $paysRecieve = 0 ;
         $pays = Pay::where('status', '2' )->where('type', '2' )->get();
-        $subscriptions = Pay::where('status', '2' )->where('type', '1' )->get();
+        $subscriptions = Loan::where('status', '2' )->count() * 200000;
 
         if($pays) 
             foreach ($pays as $pay) {
                 $paysRecieve += $pay->amount;
-            }
-        if($subscriptions)
-            foreach ($subscriptions as $subscription) {
-                $forSubscriptions += $subscription->amount;
             }   
 
         return [
             'pays' => $paysRecieve,
-            'subscriptions' => $forSubscriptions,
+            'subscriptions' => $subscriptions,
         ];
 
+    }
+    private function paysPeding() {
+        return  Pay::where('status', '1' )->count();
     }
 }

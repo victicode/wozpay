@@ -32,10 +32,10 @@ class UserController extends Controller
             $users->where('dni', 'like', '%'.$request->search.'%');
         }
 
-		return  $this->returnSuccess(200,   $users->paginate(30));
+		return  $this->returnSuccess(200,   $users->paginate(10));
     }
     public function usersWithActiveLoan(Request $request){
-        $loanComplete = Loan::where('status','2')->OrWhere('status','3')->count();
+        $loanComplete = Loan::where('status','<>', '0')->count();
         $users = User::query()
             ->with(['loans'])
             ->withTrashed()
@@ -49,7 +49,7 @@ class UserController extends Controller
         }
 
 
-		return  $this->returnSuccess(200,   ['users' => $users->paginate(30), 'loansComplete' => $loanComplete]);
+		return  $this->returnSuccess(200,   ['users' => $users->paginate(10), 'loansComplete' => $loanComplete]);
     }
     public function cleanUser(Request $request){
         $users = User::query()
@@ -61,7 +61,7 @@ class UserController extends Controller
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');
         }
-		return  $this->returnSuccess(200,   ['users' => $users->paginate(30)]);
+		return  $this->returnSuccess(200,   ['users' => $users->paginate(10)]);
     }
     public function slowPayerUser(Request $request){
         $users = User::query()
@@ -75,7 +75,19 @@ class UserController extends Controller
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');
         }
-		return  $this->returnSuccess(200,   ['users' => $users->paginate(30)]);
+		return  $this->returnSuccess(200,   ['users' => $users->paginate(10)]);
+    }
+    public function paysPendingByUser(Request $request){
+        $users = User::query()
+            ->with(['paysPending'])
+            ->withTrashed()
+            ->where('rol_id', 3)
+            ->whereHas('paysPending');
+
+        if(!empty($request->search)){
+            $users->where('dni', 'like', '%'.$request->search.'%');
+        }
+		return  $this->returnSuccess(200,   ['users' => $users->paginate(10)]);
     }
     public function getUsersBySearch(Request $request){
         $users = User::query()
@@ -283,7 +295,7 @@ class UserController extends Controller
             return $this->returnSuccess(400, $th->getMessage() );
         }
 
-        return $this->returnSuccess(200, $user);
+        return $this->returnSuccess(200, $user->load('wallet'));
     }
     public function setNewVerifyStatus(Request $request) {
         $user = User::find($request->id);

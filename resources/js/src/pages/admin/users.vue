@@ -1,93 +1,102 @@
 <template>
+  <div>
+    <div class=" q-px-sm " v-if="ready" >
+      <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" style="border-bottom: 1px solid lightgray;">
 
-      <div>
-        <transition name="slide-fade">
-          <div class="" v-if="ready && users.data.length > 0">
-            <div>
-              <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-pa-sm userlist">
-                <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-                  {{ user.name }}
-                </div>
-                <div class="flex items-center ">
-                  <div class="mobile-hide q-mt-xs q-mr-xs">
-                    {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
-                  </div>
-                  <div class="mobile-only q-mr-xs">
-                    <q-icon 
-                      :name="
-                        user.verify_status == 2 
-                        ? 'eva-checkmark-circle-2-outline' 
-                        : user.verify_status == 1 
-                        ? 'eva-clock-outline'
-                        : 'eva-close-circle-outline'
-                      "
-                      :color="
-                        user.verify_status == 2 
-                        ? 'positive' 
-                        : user.verify_status == 1 
-                        ? 'terciary'
-                        : 'negative'
-                      "
-                      size="xs"
-                    />
-                  </div>
-                  <div class="text-subtitle2 text-weight-light q-mt-xs q-mr-none text-grey-7">
-                    {{ numberFormat(user.dni) }}
-                  </div>
-                  <q-btn 
-                    flat 
-                    round 
-                    size="xs"
-                    class="q-pb-none"
-                    @click="goTo(user.id)"  
-                  >
-                    <q-icon name="eva-chevron-right-outline" color="grey-6" size="md" />
-                  </q-btn>
-                </div>
-              </div>
-            </div>
-            <div class="pagination flex flex-center q-mt-md">
-              <q-pagination
-                v-model="currentPage"
-                :max="users.last_page"
-                direction-links
-                outline
-                ellipses
-                color="primary"
-                active-design="push"
-                active-color="primary"
-                active-text-color="white"
-                size="0.9rem"
-                gutter="sm"
-                @update:model-value="setPage"
-              />
-            </div>
-          </div>
-        </transition>
-        <transition name="slide-fade">
-          <div class="" v-if=" ready && users.data.length == 0">
-            <div class="flex flex-center">
-              <h6 class="q-mt-md">No hay usuarios registrados😥</h6>
-            </div>
-          </div>
-        </transition>
-        <transition name="slide-fade">
-          <div class="" v-if="!ready">
-            <div>
-              <div v-for="index in 10" :key="index" class="flex justify-between items-center q-pa-sm userlist">
-                <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-                  <q-skeleton type="text" />
-                </div>
-                <div class="flex justify-end w-30">
-                  <div class="text-subtitle2 text-weight-light q-mt-xs q-mr- text-grey-7 w-70">
-                    <q-skeleton type="text" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </transition>
+        <div v-html="wozIcons.solicitar" />
+        <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Solicitudes totales: {{users.data.length}} </div>
       </div>
+    </div>
+    <div v-else class="flex justify-between q-px-sm q-mt-md" >
+      <q-skeleton type="text" style="width: 50%;" />
+    </div>
+    <transition name="slide-fade">
+      <div class="" v-if="ready && users.data.length > 0">
+        <div>
+          <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-px-sm  userlist" >
+            <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
+              {{ user.name }}
+            </div>
+            <div class="flex items-center ">
+              <div class="mobile-hide q-mt-xs q-mr-xs">
+                {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
+              </div>
+              <div class="mobile-only q-mr-xs">
+                <q-icon 
+                  :name="
+                    user.verify_status == 2 
+                    ? 'eva-checkmark-circle-2-outline' 
+                    : user.verify_status == 1 
+                    ? 'eva-clock-outline'
+                    : 'eva-close-circle-outline'
+                  "
+                  :color="
+                    user.verify_status == 2 
+                    ? 'positive' 
+                    : user.verify_status == 1 
+                    ? 'terciary'
+                    : 'negative'
+                  "
+                  size="xs"
+                />
+              </div>
+              <div class="text-subtitle2 text-weight-light q-mt-xs q-mr-none text-grey-7">
+                {{ numberFormat(user.dni) }}
+              </div>
+              <q-btn 
+                flat 
+                round 
+                size="xs"
+                class="q-pb-none"
+                @click="goTo(user.id)"  
+              >
+                <q-icon name="eva-chevron-right-outline" color="grey-6" size="md" />
+              </q-btn>
+            </div>
+          </div>
+        </div>
+        <div class="pagination flex flex-center q-mt-md">
+          <q-pagination
+            v-model="currentPage"
+            :max="users.last_page"
+            direction-links
+            outline
+            ellipses
+            color="primary"
+            active-design="push"
+            active-color="primary"
+            active-text-color="white"
+            size="0.9rem"
+            gutter="sm"
+            @update:model-value="setPage"
+          />
+        </div>
+      </div>
+    </transition>
+    <transition name="slide-fade">
+      <div class="" v-if=" ready && users.data.length == 0">
+        <div class="flex flex-center">
+          <h6 class="q-mt-md">No hay usuarios registrados😥</h6>
+        </div>
+      </div>
+    </transition>
+    <transition name="slide-fade">
+      <div class="" v-if="!ready">
+        <div>
+          <div v-for="index in 10" :key="index" class="flex justify-between items-center q-pa-sm userlist">
+            <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
+              <q-skeleton type="text" />
+            </div>
+            <div class="flex justify-end w-30">
+              <div class="text-subtitle2 text-weight-light q-mt-xs q-mr- text-grey-7 w-70">
+                <q-skeleton type="text" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 <script>
   import { ref, inject, onMounted, onUnmounted } from 'vue';
@@ -216,6 +225,8 @@
 <style lang="scss" scoped>
 .userlist {
   border-bottom: 1px solid $grey-4;
+  padding-top: 0.3rem ;
+  padding-bottom: 0.3rem;
 }
 .w-70 {
   width: 60%;

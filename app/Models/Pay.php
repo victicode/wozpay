@@ -15,4 +15,7 @@ class Pay extends Model
     public function user(){
         return $this->belongsTo(User::class,'user_id', 'id');
     }
+    public function loan(){
+        return $this->belongsTo(Loan::class,'loan_id', 'id');
+    }
 }

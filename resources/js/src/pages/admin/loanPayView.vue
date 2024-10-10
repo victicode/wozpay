@@ -1,31 +1,17 @@
 <template>
-  <div v-if="Object.values(myLoan).length > 0" class="q-pt-sm">
+  <div v-if="Object.values(myLoan).length > 0" class="q-pt-md">
     <div>
       <loanProgress :loan="myLoan" />
     </div>
-    <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
-      <loanDetails />
-    </div>
-    <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
+    <div v-if=" myLoan.status != '1' && myLoan.status != '0'" @click="seeYou()">
       <loanHistory :loan="myLoan" />
-    </div>
-    <div class="q-mt-xl q-pt-xl q-mx-md q-mx-md-xl q-px-md-xl"  v-if=" myLoan.status != '1' && myLoan.status != '0'">
-      <div class="q-mt-xl q-pt-md-md">
-        <q-btn 
-          @click="goTo(loanComplete() ? 1 : 0)" 
-          no-caps
-          :color=" loanComplete() ? 'positive' : 'primary'" 
-          class="w-100 q-pa-sm " 
-          :label=" loanComplete() ? 'Prestamo pagado con exito!' : 'Pagar préstamo'" 
-        />
-      </div>
     </div>
   </div>
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
   import { inject,} from 'vue'
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import loanDetails from '@/components/loan/loanDetails.vue'
   import loanProgress from '@/components/loan/loanProgress.vue'
   import loanHistory from '@/components/loan/loanHistory.vue'
@@ -45,9 +31,10 @@
       const router = useRouter()
       const loanStore = useLoanStore();
       const myLoan = ref({})
-
+      const route = useRoute()
+      
       const activeLoan = () => {
-        loanStore.getLoan(user.id).then((data) => {
+        loanStore.getLoanById(route.params.id).then((data) => {
           if(!data.code)  throw data
           myLoan.value = data.data
         }).catch((e) => {
@@ -72,6 +59,9 @@
         })
         return goodPays == myLoan.value.quotas
       }
+      const seeYou = () => {
+        alert('seeeyou')
+      }
       onMounted(() => {
         activeLoan()
       })
@@ -84,6 +74,7 @@
         myLoan,
         goTo,
         loanComplete,
+        seeYou,
       }
     },
   }

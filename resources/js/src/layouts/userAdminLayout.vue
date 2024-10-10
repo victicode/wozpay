@@ -5,16 +5,17 @@
       <div class="section_page q-mt-md">
         <div class="user_section " >
           <div class="h-100">
-            <div class="h-20 q-pt-none q-pt-md-sm  search__container">
+            <div class="h-10 q-pt-none q-pt-md-xs  search__container">
               <div>
-                <searchUser :filter="filter" @filters="setFilters"/>
+                <searchUser  />
               </div>
             </div>
             <router-view v-slot="{ Component }">
               <transition name="inFade">
-                <component :is="Component" class="w-100" />
+                <component :is="Component" class="w-100 q-pt-sm" />
               </transition>
             </router-view>
+            <navbarUser v-if="route.name != 'paysPeding'"/>
           </div>
         </div>
       </div>
@@ -22,10 +23,11 @@
   </div>
 </template>
 <script >
+  import navbarUser from '@/components/layouts/navbarUser.vue';
   import { inject, onMounted, ref } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import utils from '@/util/httpUtil';
   import topbarPay from '@/components/layouts/topbarPay.vue';
   import searchUser from '@/components/admin/users/searchUser.vue';
@@ -33,7 +35,8 @@
   export default {
     components:{
       searchUser,
-      topbarPay
+      topbarPay,
+      navbarUser
     },
     setup () {
       //vue provider
@@ -41,7 +44,8 @@
       const $q = useQuasar()
       const store = useAuthStore();
       const router = useRouter();
-      const filter = ref(1);
+      const route = useRoute();
+
       const readyState = ref(false)
       // methods
       const getCurrentUser = () =>{
@@ -65,9 +69,6 @@
             { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
           ]
         })
-      }
-      const setFilters = (e) => {
-        console.log(e)
       } 
       // Mounted
       onMounted(() =>{
@@ -77,9 +78,8 @@
       
       return {
         icons,
+        route,
         readyState,
-        filter,
-        setFilters
       }
     }
   };
@@ -106,7 +106,7 @@
   width: 100%;
 }
 .search__container {
-  background: #d9d9d9;
+  background: white;
   overflow: hidden;
 }
 .section_page {
@@ -129,12 +129,12 @@
 .h-100 {
   height: 100%;
 }
-.h-20 {
-  height: 21%;
+.h-10 {
+  height: 10%;
 }
 @media screen and (max-width: 780px){
-  .h-20 {
-    height: 28%;
+  .h-10 {
+    height: 10%;
   }
 }
 </style>

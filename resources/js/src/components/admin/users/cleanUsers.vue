@@ -1,23 +1,28 @@
 <template>
 
   <div>
+    <div class=" q-px-sm " v-if="ready" >
+      <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" style="border-bottom: 1px solid lightgray;">
+        <div v-html="wozIcons.cleanPayer" />
+        <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Clientes al dia: {{users.data.length}} </div>
+      </div>
+    </div>
+    <div v-else class="flex justify-between q-px-sm q-mt-md" >
+      <q-skeleton type="text" style="width: 50%;" />
+    </div>
     <transition name="slide-fade">
       <div class="" v-if="ready && users.data.length > 0" >
         <div>
-          <div class="flex justify-between items-center q-pa-sm q-mt-md">
-            <div class="text-subtitle1 text-weight-bold w-30  ">Cliente</div>
-            <div class="text-subtitle1 text-weight-bold w-30 text-center">Fecha de ven.</div>
-            <div class="text-subtitle1 text-weight-bold w-30 text-right">Pagado</div>
-          </div>
           <template v-for="(user, index) in users.data" :key="index" >
-            <div v-for="loan in user.loans_complete" :key="loan.id" class="flex justify-between items-center q-pa-sm userlist">
-              <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7 w-30 ">
-                {{ numberFormat(user.dni) }}
+            <div v-for="loan in user.loans_complete" :key="loan.id" class="flex justify-between items-center q-px-sm userlist">
+              <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7 w-70 ">
+                {{ user.name }}
               </div>
-              <div class="text-subtitle2 text-weight-light  text-grey-7 w-30 text-center" >
-                {{ moment(loan.due_date).format('DD/MM/YYYY') }}
-              </div>
+              
               <div class="flex items-center justify-end w-30 text-center" >
+                <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7  ">
+                  {{ numberFormat(user.dni) }}
+                </div>
                 <q-btn 
                   flat 
                   round 
@@ -25,11 +30,7 @@
                   class="q-pb-none q-mr-xs"
                   @click="goTo(loan.id)"  
                 >
-                  <q-icon
-                    :name="icons.sharpVerified"
-                    size="sm"
-                    color="positive"
-                  />
+                  <q-icon name="eva-chevron-right-outline" color="grey-6" size="sm" />
                 </q-btn>
               </div>
             </div>
@@ -211,10 +212,15 @@ position: absolute;
 <style lang="scss" scoped>
 
 .userlist {
-border-bottom: 1px solid $grey-4;
+  border-bottom: 1px solid $grey-4;
+  padding-top: 0.3rem ;
+  padding-bottom: 0.3rem;
 }
 .w-70 {
 width: 70%;
+}
+.w-50{
+  width: 50%;
 }
 .w-30 {
 width: 30%;

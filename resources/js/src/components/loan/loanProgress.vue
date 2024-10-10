@@ -5,10 +5,10 @@
         <div class="text-subtitle1 text-weight-medium">Préstamo</div>
         <div class="text-subtitle1 text-weight-bold">N° 619{{ loan.loan_number }}</div>
       </div>
-      <div class="">
+      <!-- <div class="">
         <div class="text-subtitle1 text-weight-medium">Total a pagar</div>
         <div class="text-subtitle1 text-weight-bold">Gs. {{ numberFormat(loan.amount_to_pay) }}</div>
-      </div>
+      </div> -->
     </div>
     <div class="row q-px-none q-mt-sm">
       <div class="col-12 bg-white q-pa-7 flex items-center justify-between  loan_card" style="" >

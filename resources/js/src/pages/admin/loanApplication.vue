@@ -615,7 +615,7 @@
         </q-step>
         <template v-slot:navigation>
           <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-lg" >
-            <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
+            <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" :class=" loan.status !== '1' && step == 3 ? 'q-mb-xl':''" label="Volver"  />
             <q-btn 
               v-if="step < 3  || loan.status == '1'"
               @click=" step < 3 ? $refs.stepper.next() : changeStatusApplyLoan(2)" 

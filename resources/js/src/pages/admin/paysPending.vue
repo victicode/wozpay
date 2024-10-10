@@ -5,7 +5,7 @@
       <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" style="border-bottom: 1px solid lightgray;">
 
         <div v-html="wozIcons.solicitar" />
-        <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Solicitudes totales: {{loansCount}} </div>
+        <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Solicitudes totales: {{paysCount}} </div>
       </div>
     </div>
     <div v-else class="flex justify-between q-px-sm q-mt-md" >
@@ -14,26 +14,27 @@
     <transition name="slide-fade">
       <div class="" v-if="ready && users.data.length > 0" >
         <div>
-          <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-px-sm userlist">
-            <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-              {{ user.name }}
+          <template v-for="(user, index) in users.data" :key="index" >
+            <div v-for=" pay in user.pays_pending" :key="pay.id" class="flex justify-between items-center q-px-sm userlist">
+              <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
+                {{ user.name }}
+              </div>
+              <div class="flex items-center">
+                <div class="text-subtitle2 text-weight-light q-mt-xs text-grey-7">
+                  {{ numberFormat(user.dni) }}
+                </div>
+                <q-btn 
+                  flat 
+                  round 
+                  size="xs"
+                  class="q-pb-none"
+                  @click="goTo(pay.loan_id)"  
+                >
+                  <q-icon name="eva-chevron-right-outline" color="grey-6" size="sm" />
+                </q-btn>
+              </div>
             </div>
-            <div class="text-subtitle2 text-weight-light  text-grey-7">
-              {{ numberFormat(user.dni) }}
-            </div>
-            <div class="flex items-center">
-              <div v-html="wozIcons.solicitar" class="solict_icon" />
-              <q-btn 
-                flat 
-                round 
-                size="xs"
-                class="q-pb-none"
-                @click="goTo(user.loans[0].id)"  
-              >
-                <q-icon name="eva-chevron-right-outline" color="grey-6" size="sm" />
-              </q-btn>
-            </div>
-          </div>
+          </template>
         </div>
         <div class="pagination flex flex-center q-mt-md">
           <q-pagination
@@ -56,7 +57,7 @@
     <transition name="slide-fade">
       <div class="" v-if=" ready && users.data.length == 0">
         <div class="flex flex-center">
-          <h6 class="q-mt-md q-px-md">No hay solicitudes pendiente por aprobar. 🧐</h6>
+          <h6 class="q-mt-md q-px-md">No hay pagos pendiente.🧐</h6>
         </div>
       </div>
     </transition>
@@ -104,7 +105,8 @@ setup () {
   const ready = ref(false)
   const currentPage = ref(1)
   const users = ref([])
-  const loansCount = ref(0)
+  const paysCount = ref(0)
+  
   // methods
   const showNotify = (type, message) => {
     $q.notify({
@@ -124,15 +126,14 @@ setup () {
       page: currentPage.value,
       search: search? search.replace(/\./g, '') : '',
     }
-    userStore.getUserWithLoan(query)
+    userStore.getUsersByPaidPending(query)
     .then((response) => {
       console.log(response)
       if(response.code != 200) throw response
       setTimeout(() => {
         users.value = response.data.users
-        loansCount.value = response.data.loansComplete
+        paysCount.value = countAllPays(response.data.users.data)
         ready.value = true
-        
       }, 1000);
     })
     .catch((response) => {
@@ -150,7 +151,14 @@ setup () {
     getUsers(search)
   }
   const goTo = (id) => {
-    router.push('/admin/loan/'+id)
+    router.push('/admin/pay/loanView/'+id)
+  }
+  const countAllPays = (users) => {
+    let count = 0
+    users.forEach(user => {
+      count += user.pays_pending.length
+    });
+    return count
   }
   onMounted(() => {
     emitter.on('searchUser', (search) => {
@@ -169,7 +177,7 @@ setup () {
     numberFormat,
     currentPage,
     users,
-    loansCount,
+    paysCount,
     setPage,
     getUsers,
     goTo,

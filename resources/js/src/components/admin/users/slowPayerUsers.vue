@@ -6,7 +6,7 @@
         Tipo de atrasos 
        <span style="" class="text-caption">🔵🟡🔴</span> 
       </div>
-      <div v-for="(legend, index) in slowPayerLegend" :key="index" class="flex justify-between items-center q-pa-sm userlist">
+      <div v-for="(legend, index) in slowPayerLegend" :key="index" class="flex justify-between items-center q-px-sm userlist">
         <div class=" text-subtitle2 text-weight-light  text-grey-7 ">
           <q-icon name="eva-alert-triangle-outline" size="xs" class="q-mr-xs" :color="legend.color"/>
           {{ legend.title }}
@@ -248,7 +248,9 @@ position: absolute;
 </style>
 <style lang="scss" scoped>
 .userlist {
-border-bottom: 1px solid $grey-4;
+  border-bottom: 1px solid $grey-4;
+  padding-top: 0.3rem ;
+  padding-bottom: 0.3rem;
 }
 .w-70 {
 width: 70%;

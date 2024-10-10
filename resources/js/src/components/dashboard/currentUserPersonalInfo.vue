@@ -75,9 +75,10 @@
         }, 3500);
       }
       const capitalByUser = () => {
-        if(user.value.rol_id !== 3){
+        if(user.value.rol_id != 3){
           return numberFormat((balances.value.wallet - balances.value.loans) + balances.value.paysRecieve)
         }
+        return numberFormat(balances.value.wallet);
       }
       
       return{

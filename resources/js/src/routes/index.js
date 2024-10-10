@@ -19,6 +19,8 @@ import creditApply from '@/pages/creditApply.vue'
 import loanPage from '@/pages/loan.vue'
 import allUsers from '@/pages/admin/users.vue'
 import usersWithLoan from '@/pages/admin/loanRequest.vue'
+import paysPending from '@/pages/admin/paysPending.vue'
+import loanPayView from '@/pages/admin/loanPayView.vue'
 import loanApplication from '@/pages/admin/loanApplication.vue'
 import cleanUsers from '@/components/admin/users/cleanUsers.vue'
 import slowPayer from '@/components/admin/users/slowPayerUsers.vue'
@@ -74,16 +76,6 @@ const router = createRouter({
         }
       ]
     },
-    // {
-    //   path: "/",
-    //   name:"pages",
-    //   component: pageLayout,
-    //   // beforeEnter: auth,
-    //   children: [
-        
-    //   ]
-    // },/dashboard
-    
     {
       path: "/",
       name:"auth",
@@ -185,6 +177,13 @@ const router = createRouter({
           }
         },
         {
+          path: '/admin/pay/loanView/:id',
+          component: loanPayView,
+          meta: {
+            title: 'Pagos pendientes',
+          }
+        },
+        {
           path: '/admin/loans',
           component: loansAdmin,
           meta: {
@@ -238,6 +237,14 @@ const router = createRouter({
             title: 'Clientes'
           },
         },
+        {
+          path: "/pays/pending",
+          name: "paysPeding",
+          component: paysPending,
+          meta: {
+            title: "Pagos pendientes"
+          }
+        }
       ]
     },
     {

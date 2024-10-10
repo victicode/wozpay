@@ -198,7 +198,7 @@ export const useUserStore = defineStore("user", {
       return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/user/loan/?page="+query.page+"&search="+query.search+"&")
+          ApiService.get("/api/user/loan?page="+query.page+"&search="+query.search+"&")
             .then(( { data } ) => {
                 // console.log(data)
                 resolve(data);
@@ -215,7 +215,7 @@ export const useUserStore = defineStore("user", {
       return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/user/cleanUser/?page="+query.page+"&search="+query.search+"&")
+          ApiService.get("/api/user/cleanUser?page="+query.page+"&search="+query.search+"&")
             .then(( { data } ) => {
                 // console.log(data)
                 resolve(data);
@@ -232,7 +232,7 @@ export const useUserStore = defineStore("user", {
       return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/user/slowPayer/?page="+query.page+"&search="+query.search+"&")
+          ApiService.get("/api/user/slowPayer?page="+query.page+"&search="+query.search+"&")
             .then(( { data } ) => {
                 // console.log(data)
                 resolve(data);
@@ -254,6 +254,22 @@ export const useUserStore = defineStore("user", {
                 // console.log(data)
                 resolve(data);
                 
+            })
+            .catch(( { response } ) => {
+              console.log(response )
+              reject('Ocurrió un error desconocido al intentar obtener los usuarios');
+            });
+        }
+      })
+    },
+    async getUsersByPaidPending (query) {
+      return await new Promise((resolve, reject) => {
+        if(JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/user/payPendigs?page="+query.page+"&search="+query.search+"&")
+            .then(( { data } ) => {
+              // console.log(data)
+              resolve(data);
             })
             .catch(( { response } ) => {
               console.log(response )

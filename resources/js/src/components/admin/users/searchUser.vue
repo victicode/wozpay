@@ -2,7 +2,7 @@
   <div>
       <div
         id="SearchUser"
-        class="q-pt-sm q-px-lg q-px-md-xl"
+        class="q-pt-md-none q-pt-sm q-px-lg q-px-md-xl"
       >
       <div class="row ">
         <div class="col-12 q-mt-md ">
@@ -30,90 +30,6 @@
         </div>
       </div>
     </div>
-    <div class="q-px-xs q-px-md-xl justify-start flex">
-      <router-link
-        v-slot="{ isActive }"
-        to="/users"
-        @click="search = ''"
-      >
-    
-        <q-chip 
-          clickable 
-          color="filters" 
-          text-color="#e7ffe1" 
-          class="q-px-sm q-py-md chip__container"
-          :class="{'active': isActive}"
-        >
-          <div class="flex flex-center">
-            <div v-html="wozIcons.profile"  class="buttons-chip" />
-            <div class="q-mt-xs filters__text">
-              Clientes
-            </div>
-          </div>
-        </q-chip>
-      </router-link>
-      <router-link
-        v-slot="{ isActive }"
-        to="/users/loan"
-        @click="search = ''"
-      >
-        <q-chip 
-          clickable 
-          color="filters" 
-          text-color="#e7ffe1" 
-          class="q-px-sm q-py-md chip__container"
-          :class="{'active': isActive }"
-
-        >
-          <div class="flex flex-center">
-            <div v-html="wozIcons.solicitar"  class="buttons-chip" />
-            <div class="q-mt-xs filters__text">
-              Solicitudes
-            </div>
-          </div>
-        </q-chip>
-      </router-link>
-      <router-link
-        v-slot="{ isActive }"
-        to="/users/clean"
-        @click="search = ''"
-      >
-        <q-chip 
-          clickable 
-          color="filters" 
-          text-color="#e7ffe1" 
-          class="q-px-sm q-py-md chip__container"
-          :class="{'active': isActive }"
-        >
-          <div class="flex flex-center">
-            <div v-html="wozIcons.profile"  class="buttons-chip success" />
-            <div class="q-mt-xs filters__text">
-              Clientes al día
-            </div>
-          </div>
-        </q-chip>
-      </router-link>
-      <router-link
-        v-slot="{ isActive }"
-        to="/users/slow_payer"
-        @click="search = ''"
-      >
-        <q-chip 
-          clickable 
-          color="filters" 
-          text-color="#e7ffe1" 
-          class="q-px-sm q-py-md q-mt-sm q-mt-md-xs chip__container"
-          :class="{'active': isActive}"
-        >
-          <div class="flex flex-center">
-            <div v-html="wozIcons.profile"  class="buttons-chip danger" />
-            <div class="q-mt-xs filters__text">
-              Clientes en mora
-            </div>
-          </div>
-        </q-chip>
-      </router-link>
-    </div>
   </div>
 </template>
 <script>
@@ -124,15 +40,12 @@
   import { useRouter } from 'vue-router';
 
   export default {
-    props: {
-      filter: Number,
-    },
-    emits: ['filters'],
-    setup (props,{ emit }) {
+
+    setup () {
       //vue provider
       const icons = inject('ionIcons')
       const emitter = inject('emitter')
-      const $q = useQuasar()
+
       const { numberFormat } = util;
       const router = useRouter()
       // data
@@ -140,14 +53,11 @@
       //ref
       const searchRef = ref(null)
       // rules
-      const filter = ref(props.filter)
       const searchRules = [
         val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener "[](),%|&;\'" ',
       ]
 
-      const filters = (e) => {
-        filter.value = e
-      } 
+
       const searchUser = (value) => {
         emitter.emit('searchUser', value);
       } 
@@ -161,8 +71,6 @@
         searchRules,
         numberFormat,
         router,
-        filter,
-        filters,
         searchUser,
       }
     }

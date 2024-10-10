@@ -728,7 +728,6 @@
         return isValid
       }
       const activeLoan = () => {
-        
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
           if(data.data){

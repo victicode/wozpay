@@ -51,6 +51,8 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::get('/loan', [UserController::class, 'usersWithActiveLoan']);
     Route::get('/cleanUser', [UserController::class, 'cleanUser']);
     Route::get('/slowPayer', [UserController::class, 'slowPayerUser']);
+    Route::get('/payPendigs', [UserController::class, 'paysPendingByUser']);
+    
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
