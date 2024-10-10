@@ -7,7 +7,7 @@
             <q-btn push color="white" text-color="primary" round icon="eva-close-outline" class="close" />
           </div>
           <q-linear-progress :value="1" color="primary" />
-          <input type="file" accept="image/jpeg, image/png" id="img_camera" @change="uploadPhoto($event)" style="display: none;">
+          <input type="file" accept="image/jpeg, image/png" id="img_camera" capture="camera" @change="uploadPhoto($event)" style="display: none;">
           <div class="q-mt-sm text-center text-subtitle1 text-weight-bold">
             {{ photoType == 'front' ? 'Frontal del documento' : 'Dorso del documento' }}
           </div>

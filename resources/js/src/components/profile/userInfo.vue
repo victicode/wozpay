@@ -385,8 +385,6 @@
         uptadteInfo,
         updatePhone,
         updateEmail,
-        updateFacial,
-        updateDocument,
 
       }
     }

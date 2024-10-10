@@ -1,91 +1,213 @@
 <template>
   <div class="q-pa-md">
-    <q-stepper
-      v-model="step"
-      ref="stepper"
-      alternative-labels
-      color="primary"
-      class="verificationStep"
-      animated
-    >
-      <q-step
-        :name="1"
-        prefix="1"
-        done-color="positive"
-        :done="step > 1"
-      >
-        <div class="q-px-md-xl">
-          <div class="q-px-md-xl q-mx-md-xl q-px-sm">
-            <div class="cardSilu__container">
-              <div class="top__cardSilu flex flex-center">
-                <div class="text-center text-md-h6 text-white text-weight-bold ">
-                  REPUBLICA DEL PARAGUAY
-                </div>
-              </div>
-              <div class="mid__cardSilu flex items-top justify-between q-px-lg q-pt-md">
-                <div>
-                  <div class="star__content flex flex-center ">
-                    <div style="width: 80%; height: 80%;  border-radius: 50%;" class="bg-white flex flex-center ">
-                      <div style="width: 75%; height: 75%; border-radius: 50%;" class="bg-grey-4 flex flex-center">
-                        <q-icon name="eva-star-outline" size="2rem" color="grey-6"/>
-                      </div>
+    <transition name="vertical">
+
+      <div v-show="step < 3">
+        <input type="file" accept="image/jpeg, image/png" id="img_camera" capture="camera" @change="uploadPhoto($event, step)" style="display: none;">
+        <q-stepper
+          v-model="step"
+          ref="stepper"
+          alternative-labels
+          color="primary"
+          class="verificationStep"
+          animated
+        >
+          <q-step
+            title=""
+            :name="1"
+            prefix="1"
+            done-color="positive"
+            :done="step > 1"
+          >
+            <div class="q-px-md-xl">
+              <div class="q-px-md-xl q-mx-md-xl q-px-sm">
+                <div class="cardSilu__container">
+                  <div class="top__cardSilu flex flex-center">
+                    <div class="text-center text-md-h6 text-white text-weight-bold ">
+                      REPUBLICA DEL PARAGUAY
                     </div>
                   </div>
-                  <div class="text-subtitle2 text-center q-mt-sm text-weight-bold">
-                    1.234.567
+                  <div class="mid__cardSilu flex items-top justify-between q-px-lg q-pt-md">
+                    <div>
+                      <div class="star__content flex flex-center ">
+                        <div style="width: 80%; height: 80%;  border-radius: 50%;" class="bg-white flex flex-center ">
+                          <div style="width: 75%; height: 75%; border-radius: 50%;" class="bg-grey-4 flex flex-center">
+                            <q-icon name="eva-star-outline" size="2rem" color="grey-6"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="text-subtitle2 text-center q-mt-sm text-weight-bold">
+                        1.234.567
+                      </div>
+                    </div>
+                    <div style="width: 50%;">
+                      <div class="q-mb-md q-mb-md-lg q-mt-sm bg-grey-5 silutText" />
+                      <div class="q-mb-md q-mb-md-lg bg-grey-5 silutText" />
+                      <div class="q-mb-md q-mb-md-lg bg-grey-5 silutText" />
+    
+                    </div>
+                  </div>
+                  <div class="bottom__cardSilu" />
+                </div>
+                <div class="q-mt-sm">
+                  <div class="text-subtitle1 text-center q-mt-xs text-weight-bold">Frontal</div>
+                  <div class="text-subtitle2 text-center q-mt-xs text-weight-medium info-text q-px-lg q-py-sm ">
+                    Asegurate de que la cedula de identidad se vea claramente
                   </div>
                 </div>
-                <div style="width: 50%;">
-                  <div class="q-mb-md q-mb-md-lg q-mt-sm bg-grey-5 silutText" />
-                  <div class="q-mb-md q-mb-md-lg bg-grey-5 silutText" />
-                  <div class="q-mb-md q-mb-md-lg bg-grey-5 silutText" />
-
+              </div>
+              <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl">
+                <label for="img_camera"  class="flex column items-center">
+                <div 
+                  style=""
+                  class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc"
+                >
+                  Tomar foto
+                </div>
+              </label>
+              </div>
+            </div>
+          </q-step>
+          <q-step
+            title=""
+            :name="2"
+            prefix="2"
+            done-color="positive"
+            :done="step > 2"
+          >
+            <div class="q-px-md-xl">
+              <div class="q-px-md-xl q-mx-md-xl q-px-sm">
+                <div class="cardSilu__container">
+                  <div class="back_mid__cardSilu flex items-center justify-between q-px-lg q-pt-md">
+                    <div>
+                      <div class="star__content flex flex-center ">
+                        <div style="width: 80%; height: 80%;  border-radius: 50%;" class="bg-white flex flex-center ">
+                          <div style="width: 75%; height: 75%; border-radius: 50%;" class="bg-grey-4 flex flex-center">
+                            <q-icon name="eva-star-outline" size="2rem" color="grey-6"/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="width: 50%;">
+                      <div class="q-mb-md q-mb-md-lg q-mt-sm bg-grey-5 silutText" />
+                      <div class="q-mb-md q-mb-md-lg bg-grey-5 silutText" />
+                      <div class="q-mb-md q-mb-md-lg bg-grey-5 silutText" />
+                    </div>
+                  </div>
+                  <div class="back_bottom__cardSilu flex flex-center column text-subtitle1 text-weight-bold">
+                    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><br>
+                    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                  </div>
+                </div>
+                <div class="q-mt-sm">
+                  <div class="text-subtitle1 text-center q-mt-xs text-weight-bold">Dorsal</div>
+                  <div class="text-subtitle2 text-center q-mt-xs text-weight-medium info-text q-px-lg q-py-sm ">
+                    Asegurate de que la cedula de identidad se vea claramente
+                  </div>
                 </div>
               </div>
-              <div class="bottom__cardSilu" />
-            </div>
-            <div class="q-mt-sm">
-              <div class="text-subtitle1 text-center q-mt-xs text-weight-bold">Frontal</div>
-              <div class="text-subtitle2 text-center q-mt-xs text-weight-medium info-text q-px-lg q-py-sm ">
-                Asegurate de que la cedula de identidad se vea claramente
+              <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl">
+                <label for="img_camera"  class="flex column items-center">
+                  <div 
+                    style=""
+                    class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc"
+                  >
+                    Tomar foto
+                  </div>
+                </label>
               </div>
             </div>
-          </div>
-          <div class="q-mt-lg q-px-sm">
-            <q-btn 
-              id="logout-button" 
-              label="Tomar foto" 
-              unelevated
-              no-caps 
-              color="primary" 
-              class="full-width"
+          </q-step>
+        </q-stepper>
+      </div>
+    </transition>
+    <transition name="vertical">
+      <div v-show="step == 3">
+        <div>
+          <q-toolbar class="bg-white text-black q-py-md q-mt-sm">
+            <q-toolbar-title> 
+              <div class="w-100 flex items-center justify-center">
+                <span class="text-subtitle1 text-weight-bold q-mt-sm q-pt-xs">Verificar Identidad</span>
+              </div>
+            </q-toolbar-title>
+          </q-toolbar>
+          <q-list >
+            <q-item class=" q-px-sm" >
+              <q-item-section>
+                <div class="flex align-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                    <div>
+                      <div class="text-weight-bold text-body2">
+                        Documento - Cédula de identidad 
+                      </div>
+                      <div class="text-caption text-grey-5">
+                        Cédula de identidad frontal
+                      </div>
+                    </div>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-caption">
+                    <q-btn 
+                      unelevated 
+                      flat 
+                      round 
+                      :color="'positive'"
+                      :icon="'eva-checkmark-circle-2-outline'"  
+                    />
+                    
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class=" q-px-sm" >
+              <q-item-section>
+                <div class="flex align-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                    <div>
+                      <div class="text-weight-bold text-body2">
+                        Documento - Cédula de identidad 
+                      </div>
+                      <div class="text-caption text-grey-5">
+                        Cédula de identidad dorsal
+                      </div>
+                    </div>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-caption">
+                    <q-btn 
+                      unelevated 
+                      flat 
+                      round 
+                      :color="'positive'"
+                      :icon="'eva-checkmark-circle-2-outline'"  
+                    />
+                    
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </q-list>
+        </div>
+        <div class="q-px-md-xl q-mx-md-xl">
+          <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl">
+            <div 
+              style=""
+              class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-xl"
             >
-              <template v-slot:loading>
-                <q-spinner-facebook />
-              </template>
-            </q-btn>
+              Enviar fotos
+            </div>
+            <div 
+              style=""
+              class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-lg"
+            >
+              Comenzar de nuevo
+            </div>
           </div>
         </div>
-      </q-step>
-
-      <q-step
-        :name="2"
-        prefix="2"
-        done-color="positive"
-        :done="step > 2"
-      >
-        An ad group contains one or more ads which target a shared set of keywords.
-      </q-step> 
-     <!-- <template v-slot:navigation>
-        <q-stepper-navigation>
-           <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 2 ? 'Finish' : 'Continue'" />
-          <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" /> 
-          <q-btn v-if="step > 1" flat color="primary"  label="Back" class="q-ml-sm"  @click="showDialog('back')" />
-        </q-stepper-navigation>
-      </template> -->
-    </q-stepper>
+      </div>
+    </transition>
     <selectKycType :dialog="(dialog =='check')" @hideModal="updateFacial" />
-    <selectKycDocument :dialog="(dialog =='back')" @hideModal="updateDocument" />
+    <setPhotoDocument  :dialog="(dialog =='back')" @hideModal="updateDocument" :img="img[step]"/>
   </div>
 </template>
 
@@ -93,19 +215,23 @@
 import { ref } from 'vue'
 import selectKycType from '@/components/profile/modals/selectKycType.vue';
 import selectKycDocument from '@/components/profile/modals/selectKycDocument.vue';
+import setPhotoDocument from '@/components/profile/modals/setPhotoDocument.vue';
+
 import { useAuthStore } from '@/services/store/auth.store';
 import { storeToRefs } from 'pinia'
 
 export default {
   components:{
     selectKycType,
-    selectKycDocument
+    setPhotoDocument 
   },
   setup () {
     const dialog = ref('')
     const { user  } = storeToRefs(useAuthStore())
-
+    const file = ref([])
     const step = ref(1)
+    const img = ref([]);
+
     const updateFacial = (data) => {
       dialog.value = '';
       user.facial_verify = data ? data.facial_verify : user.facial_verify
@@ -113,21 +239,54 @@ export default {
     }
     const updateDocument = (data) => {
       dialog.value = '';
-      user.document_photo_front = data ? data.document_photo_front : user.document_photo_front
-      user.document_photo_back = data ? data.document_photo_back : user.document_photo_back
-      user.verify_status = data ? data.verify_status : user.verify_status
-
+      if(!data){
+        file.value[step.value] = ''
+        img.value[step.value] = ''
+        return
+      }
+      step.value ++;
+    }
+    const showDialog = (dialogToShow) => {
+      dialog.value = dialogToShow
+    }
+    const uploadPhoto = (e, type) => {
+      file.value[type] = e.target.files[0]; 
+      setTimeout(() => {
+        createImage(type)
+      },200)
+    }
+    const createImage = (type) => {
+      img.value[type] = URL.createObjectURL(file.value[type]); 
+      showDialog('back')
     }
     return {
       step,
       dialog,
+      img,
       updateDocument,
-      updateFacial
+      updateFacial,
+      showDialog,
+      uploadPhoto,
     }
   }
 }
 </script>
 <style lang="scss" >
+  .back_mid__cardSilu{
+    height: 75%; width: 100%; background: white;
+  }
+  .back_bottom__cardSilu{
+    height: 25%; width: 100%; background: #d9d9d9;
+
+  }
+  .buttonKYc{
+    width: 100%; height:50px; border-radius:17px;
+    box-shadow: 0px 1px 5px 0px #989898;
+    transition: all 0.5s ease;
+    &:active {
+      transform: scale(0.7);
+    }
+  }
   .info-text{
     background: #e1e9fe;
     border-radius: 20px;
