@@ -92,6 +92,14 @@ class PayController extends Controller
         //     }
         //     return $this->returnSuccess(200,  json_decode($output, true) );
     }
+    public function changeStatus($payId, Request $request) {
+        $pay = Pay::find($payId);
+        if(!$pay) return $this->returnFail(400, 'Pago no encontrado');
+
+        $pay->status = $request->status;
+        $pay->save();
+        return $this->returnSuccess(200, $pay);
+    }
     private function validateFieldsFromInput($inputs){
         $rules=[
             'loan_id'       => ['required', 'integer'],
@@ -131,9 +139,9 @@ class PayController extends Controller
         $quota->save();
 
         
-        $loan = Loan::find($pay->loan_id);
-        $loan->status = '2';
-        $loan->save();
+        // $loan = Loan::find($pay->loan_id);
+        // $loan->status = '2';
+        // $loan->save();
 
         
     }

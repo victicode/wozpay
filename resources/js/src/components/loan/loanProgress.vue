@@ -10,7 +10,7 @@
         <div class="text-subtitle1 text-weight-bold">Gs. {{ numberFormat(loan.amount_to_pay) }}</div>
       </div> -->
     </div>
-    <div class="row q-px-none q-mt-sm">
+    <div class="row q-px-none q-mt-sm" v-if="loading">
       <div class="col-12 bg-white q-pa-7 flex items-center justify-between  loan_card" style="" >
         <div class="">
           <div class="text-weight-medium text-body2">Capital prestado</div>
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="q-mt-sm q-pt-xs">
+    <div class="q-mt-sm q-pt-xs" v-if="loading">
       <q-linear-progress 
         class="q-mt-sm w-100"
         :class="isPendingPay().pending ? 'loan_progress_pending' : 'loan_progress'" 
@@ -49,7 +49,7 @@
       const numberFormat  = util.numberFormat
 
       // Data
-      const loading = ref(false);
+      const loading = ref(true);
       const loan = props.loan
       
 
@@ -91,8 +91,21 @@
           count: goodPays,
         }
       }
+      const refresh = () => {
+        loading.value = false 
+        setTimeout(() => {
+          loading.value = true
+        },2000)
+      }
+      watch(() => props.loan, (newValue, old) => {
+        console.log(old)
+        console.log(newValue)
+        loan.value = newValue
+      // refresh()
+      });
 
       return {
+        loading,
         loan,
         numberFormat,
         wozIcons,

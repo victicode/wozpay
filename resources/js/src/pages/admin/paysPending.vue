@@ -3,9 +3,8 @@
   <div>
     <div class=" q-px-sm " v-if="ready" >
       <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" style="border-bottom: 1px solid lightgray;">
-
-        <div v-html="wozIcons.solicitar" />
-        <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Solicitudes totales: {{paysCount}} </div>
+        <div v-html="wozIcons.clients" />
+        <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Cuotas pendientes de aprobación</div>
       </div>
     </div>
     <div v-else class="flex justify-between q-px-sm q-mt-md" >

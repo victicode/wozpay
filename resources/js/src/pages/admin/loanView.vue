@@ -101,7 +101,6 @@
                     : 'Atrasado' 
                   }}
                 </q-chip>
-                
               </div>
             </div>
           </div>

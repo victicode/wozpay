@@ -4,7 +4,7 @@
       <div class="text-subtitle1 text-weight-medium">Cuotas</div>
     </div>
     <div class="row q-px-none q-mt-sm" >
-      <div v-for="(quota, n) in loan.quotas_desc " :key="n" class="flex justify-between w-100 items-center q-mb-sm q-pb-xs quota_content">
+      <div v-for="(quota, n) in loan.quotas_desc " :key="n" class="flex justify-between w-100 items-center q-mb-sm q-pb-xs quota_content" @click="getPay(quota)">
         <div>
           <div class="text-weight-medium">
             Cuota {{ n+1 }} de {{ loan.quotas }}
@@ -61,7 +61,8 @@
     props: {
       loan: Object,
     },
-    setup (props) {
+    emits: ['getPay'],
+    setup (props, { emit }) {
       //vue provider
       const numberFormat  = util.numberFormat
       const $q = useQuasar();
@@ -91,6 +92,12 @@
           ]
         })
       }
+      const getPay = (pay) => {
+        emit('getPay', pay)
+      }
+      watch(() => props.loan, (newValue) => {
+        loan.value = newValue
+      });
       return {
         loan,
         numberFormat,
@@ -99,6 +106,7 @@
         forPay,
         showNotify,
         isPayWithDelay,
+        getPay,
       }
     }
   };

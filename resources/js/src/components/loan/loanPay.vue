@@ -19,7 +19,7 @@
       
       <div class="q-mt-lg  q-px-md-xl">
         <q-btn  
-          color="primary" class="w-100 q-pa-sm q-pt-md" 
+          color="primary" class="w-100 q-pa-sm" 
           label="Pagar con Tpago" 
           @click="getPayUrl()"
           :loading="(loading == 'tpago')"
@@ -31,7 +31,7 @@
       </div>
       <div class="q-mt-lg  q-px-md-xl">
         <q-btn  
-          color="grey-9" class="w-100 q-pa-sm q-pt-md" 
+          color="grey-9" class="w-100 q-pa-sm" 
           label="Pagar con transferencia bancaria" 
           @click="showModal('transfer')"
           :loading="(loading == 'transfer')"
@@ -43,7 +43,7 @@
       </div>
       <div class="q-mt-md  q-px-md-xl">
         <q-btn  
-          color="positive" class="w-100 q-pa-sm q-pt-md" 
+          color="positive" class="w-100 q-pa-sm" 
           label="Pagar con tarjeta vinculada" 
           @click="payWithCard()"
           :loading="(loading == 'card')"

@@ -245,13 +245,13 @@
         loadingShow(true)
         const data = new FormData
         data.append('loan_id', loan.id)
-        data.append('quota_id', loan.value.currentQuota.id)
+        data.append('quota_id', loan.currentQuota.id)
         data.append('amount', operationData.value.amount)
         data.append('operation_id', operationData.value.operationId)
         data.append('bank', operationData.value.bank.name)
         data.append('pay_date', operationData.value.date)
         data.append('vaucher', operationData.value.vaucher)
-        data.append('type', 2)
+        data.append('type', 3)
         data.append('status', 1)
         data.append('concept', createConceptPay())
 

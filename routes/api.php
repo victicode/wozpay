@@ -117,6 +117,7 @@ Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(fu
 Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {
     Route::post('/', [PayController::class, 'storePay']);
     Route::post('/get_url', [PayController::class, 'payRequest']);
+    Route::post('/change-status/{id}', [PayController::class, 'changeStatus']);
 });
 
 Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( function () {

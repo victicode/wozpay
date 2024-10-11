@@ -42,7 +42,7 @@ class LoanController extends Controller
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
-        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card', 'pays','quotas_desc.successPays', )->find($id);
+        $loan = Loan::query()->withCount('pays')->with('redTapes', 'user.card', 'pays','quotas_desc.successPays.user.card', )->find($id);
 
         return $this->returnSuccess(200, $loan);
     }
