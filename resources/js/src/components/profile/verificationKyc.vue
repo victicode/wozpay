@@ -3,7 +3,7 @@
     <transition name="vertical">
 
       <div v-show="step < 3">
-        <input type="file" accept="image/jpeg, image/png" id="img_camera" capture="camera" @change="uploadPhoto($event, step)" style="display: none;">
+        <input type="file" accept="image/jpeg, image/png" id="img_camera"  @change="uploadPhoto($event, step)" style="display: none;">
         <q-stepper
           v-model="step"
           ref="stepper"
