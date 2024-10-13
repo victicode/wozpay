@@ -10,8 +10,7 @@ use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
+
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -312,9 +311,11 @@ class UserController extends Controller
         if($request->verify_status  == 0 || $request->facial_verify == 0) $this->resendVerify($user);
         
        isset($request->verify_status) ? $this->documentAction($user) : $this->facialAction($user);
-
-        event(new UserUpdateEvent($user->id));
-
+        try{
+            event(new UserUpdateEvent($user->id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
         return $this->returnSuccess(200, $user);
     }
     private function validateFieldsFromInput($inputs){
@@ -395,7 +396,12 @@ class UserController extends Controller
             'sender' => 'Woz Pay informa',
             'type' => $type,
         ]);
-        $notification->storeNotification($requestNotification);
+        try {
+            //code...
+            $notification->storeNotification($requestNotification);
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
 
 }

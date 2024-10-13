@@ -39,7 +39,7 @@
               Cuota {{ n+1 }} de {{ loan.quotas }}
             </div>
             <div v-if="quota.success_pays">
-              <q-btn square color="primary" label="Ver pago" :icon="icons.outlinedReceiptLong" size="sm" />
+              <q-btn square color="primary" label="Ver pago" :icon="icons.outlinedReceiptLong" size="sm"  @click="setPay(quota.success_pays)"/>
             </div>
           </div>
           <div class="q-mt-sm" >
@@ -107,6 +107,8 @@
         </div>
       </div>
     </div>
+    <paysVerification :paySelected="selectedPay" :dialog="dialog" @hiddeModal="hiddeModal" />
+
   </div>
 </template>
 <script>
@@ -116,9 +118,12 @@
   import { useRoute } from 'vue-router';
   import util from '@/util/numberUtil'
   import moment from 'moment';
+  import paysVerification from '@/components/admin/pays/paysVerification.vue';
+
 
   export default {
     components: {
+      paysVerification,
     },
     setup () {
       const q = useQuasar()
@@ -126,6 +131,7 @@
       const numberFormat = util.numberFormat
       const icons = inject('ionIcons')
       // Data
+      const selectedPay = ref({})
       const dialog = ref(false)
       const loan = ref({})
       const route = useRoute()
@@ -152,6 +158,7 @@
       }
       const hiddeModal = () => {
         dialog.value = false
+        activeLoan()
       }
       const setDocument = (doc) => {
         document.value = doc
@@ -183,7 +190,10 @@
 
         return (((quota.amount * loan.value.interest_for_delay)/100) + quota.amount)
       }
-
+      const setPay = (pay) =>{
+        selectedPay.value = pay
+        dialog.value = true
+      }
       onMounted(() => {
         activeLoan()
       })
@@ -197,10 +207,12 @@
         document,
         slowPayerLegend,
         moment,
+        selectedPay,
         setDocument,
         hiddeModal,
         setDueDaysCategorie,
         amountWithDelayFee,
+        setPay,
       }
     }
   };

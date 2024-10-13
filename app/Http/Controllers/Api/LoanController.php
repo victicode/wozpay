@@ -10,6 +10,7 @@ use App\Models\Interest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Quota;
+use Exception;
 
 class LoanController extends Controller
 {
@@ -37,8 +38,9 @@ class LoanController extends Controller
         ]);
 
         $redTape =  $this->storeRedTapes($request, $loan->id);
+        
         $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id, 'Prestamo solicitado');
-
+        
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
@@ -133,11 +135,14 @@ class LoanController extends Controller
     private function approveLoan($loan){
         $this->firstLoanDone($loan->user_id);
         $this->plusWallet($loan->user_id, $loan->amount);
-        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id, 'Prestamo aprobado');
         $this->createQuatas($loan);
+        $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue aprobada', $loan->user_id, 'Prestamo aprobado');
+
     } 
     private function rejectLoan($loan){
+
         $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id, 'Prestamo rechazado');
+
     } 
     private function emitNotification($message, $user, $subject){
         $notification = new NotificationController;
@@ -147,8 +152,11 @@ class LoanController extends Controller
             'subject' => $subject,
             'sender' => 'Woz Pay informa',
         ]);
-
-        $notification->storeNotification($requestNotification);
+        try {
+            $notification->storeNotification($requestNotification);
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
     private function lastIpsFormat ($request, $loan){
         $lastIps = [];

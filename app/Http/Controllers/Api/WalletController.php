@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Quota;
+use Exception;
 
 class WalletController extends Controller
 {
@@ -53,7 +54,11 @@ class WalletController extends Controller
         $wallet->balance -=  $request->amountLess;
 
         $wallet->save();
-        event(new UserUpdateEvent($id));
+        try {
+            event(new UserUpdateEvent($id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
 
         return $this->returnSuccess(200, $wallet);
     }

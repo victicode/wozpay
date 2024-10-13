@@ -161,10 +161,14 @@ class PayController extends Controller
         $loan = Loan::withCount('paysSuccess')->find($pay->loan_id);
         $loan->status = $this->isCompleteLoan($loan);
         $loan->save();
-        
-        event(new UserUpdateEvent(1));
-        event(new UserUpdateEvent($pay->user_id));
+        try {
+            event(new UserUpdateEvent(1));
+            event(new UserUpdateEvent($pay->user_id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
         $this->sendNotification('Tu pago ha sido verificado y procesado con exito', $pay->user_id, 'Pago verificado', 2);
+        
     }
 
     public function isCompleteLoan($loan) {
@@ -188,6 +192,10 @@ class PayController extends Controller
             'sender' => 'Woz Pay informa',
             'type' => $type,
         ]);
-        $notification->storeNotification($requestNotification);
+        try {
+            $notification->storeNotification($requestNotification);
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
 }

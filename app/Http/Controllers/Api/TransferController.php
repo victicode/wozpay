@@ -81,7 +81,11 @@ class TransferController extends Controller
             $walletMinus = Wallet::with('user')->find($transfer->from_id);
             $walletMinus->balance -= $transfer->amount;
             $walletMinus->save();
-            event(new UserUpdateEvent($walletMinus->user->id));
+            try{
+                event(new UserUpdateEvent($walletMinus->user->id));
+            } catch (Exception $th) {
+                //throw $th;
+            }
         }
         $this->sendNotification(
             $this->messagesByStatus($transfer)[0], 
@@ -95,7 +99,11 @@ class TransferController extends Controller
             $this->titleByStatus($transfer)[1],
             2
         );
-        event(new UserUpdateEvent($walletPlus->user->id));
+        try{
+            event(new UserUpdateEvent($walletPlus->user->id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
     private function rejectTransfer(Transfer $transfer) {
         $wallet = Wallet::with('user')->find($transfer->from_id);
@@ -130,7 +138,12 @@ class TransferController extends Controller
             'sender' => 'Woz Pay informa',
             'type' => $type,
         ]);
-        $notification->storeNotification($requestNotification);
+        try {
+            //code...
+            $notification->storeNotification($requestNotification);
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
     private function messagesByStatus(Transfer $transfer){
         if($transfer->status == 3){
