@@ -8,6 +8,7 @@ use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Quota;
 
 class WalletController extends Controller
 {
@@ -27,12 +28,13 @@ class WalletController extends Controller
 
         return $this->returnSuccess(200, $id == 1 
         ? [
-            'wallet'        => $wallet->balance,
-            'loans'         => $loansBalances['amount'],
-            'toRecieve'     => $loansBalances['amountToRecive'],
-            'paysRecieve'   => $paysAndProfit['pays'],
-            'subscriptions' => $paysAndProfit['subscriptions'],
-            'paysPeding'    => $paysPending 
+            'wallet'        => round($wallet->balance),
+            'loans'         => round($loansBalances['amount']),
+            'toRecieve'     => round($loansBalances['amountToRecive']),
+            'toPay'         => round($this->allQuotasToRecive()),
+            'paysRecieve'   => round($paysAndProfit['pays']),
+            'subscriptions' => round($paysAndProfit['subscriptions']),
+            'paysPeding'    => round($paysPending) 
         ]
         : [
             'wallet'        => $wallet->balance,
@@ -67,7 +69,8 @@ class WalletController extends Controller
     private function allLoansAmount() {
         $amount = 0;
         $amounToRecive = 0 ;
-        $loans = Loan::where('status', '2' )->get();
+        $loans = Loan::where('status','!=' ,'1' )->where('status','!=' ,'0' )->get();
+        
         
         foreach ($loans as $loan) {
             $amount += $loan->amount;
@@ -80,11 +83,28 @@ class WalletController extends Controller
         ];
 
     }
+
+    private function allQuotasToRecive() {
+        $amount = 0;
+        $amounDelay = 0 ;
+        $quotas = Quota::where('status', '1' )->get();
+        $quotasDelay = Quota::with('loan')->where('status', '3' )->get();
+        
+        
+        foreach ($quotas as $quota) {
+            $amount += $quota->amount;
+        }
+        foreach ($quotasDelay as $quota) {
+            $amount += ( $quota->amount + ($quota->amount * $quota->loan->interest_for_delay)/100) ;
+        }
+        return $amount;
+
+    }
     private function allPays() {
         $forSubscriptions = 0;
         $paysRecieve = 0 ;
-        $pays = Pay::where('status', '2' )->where('type', '2' )->get();
-        $subscriptions = Loan::where('status', '2' )->count() * 200000;
+        $pays = Pay::where('status', '2' )->get();
+        $subscriptions = (Loan::where('status', '2' )->count() * 200000) + (Loan::where('status', '3' )->count() *200000) + (Loan::where('status', '4' )->count() *200000);
 
         if($pays) 
             foreach ($pays as $pay) {

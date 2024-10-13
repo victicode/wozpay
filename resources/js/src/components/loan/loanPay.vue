@@ -41,7 +41,7 @@
           </template>
         </q-btn>
       </div>
-      <div class="q-mt-md  q-px-md-xl">
+      <div class="q-mt-md  q-px-md-xl" v-if="Object.values(card).length > 0">
         <q-btn  
           color="positive" class="w-100 q-pa-sm" 
           label="Pagar con tarjeta vinculada" 
@@ -54,7 +54,7 @@
         </q-btn>
       </div>
     </div>
-    <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="Object.values(card).length > 0">
+    <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="Object.values(card).length > 0 && !loadingCard">
       <div>
         <div class="text-subtitle1 text-weight-medium">Nombre</div>
         <div class="text-weight-medium text-subtitle2">Tarjeta de Crédito ****{{ card.number.substring(card.number.length - 4) }}</div>
@@ -64,7 +64,7 @@
         <div class="text-weight-medium text-subtitle2 text-right">{{ card.due_date }}</div>
       </div>
     </div>
-    <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-else>
+    <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="loadingCard">
       <div>
         <div class="text-subtitle1 text-weight-medium">
           <q-skeleton type="QBadge" />
@@ -104,7 +104,8 @@
   import waitModal from '@/components/layouts/modals/waitModal.vue';
   import transferModal from '@/components/loan/modals/transferModal.vue';
   import { useQuasar } from 'quasar';
-  
+  import util from '@/util/numberUtil';
+
 
   export default {
     components: {
@@ -126,7 +127,8 @@
       const loading = ref(false)
       const payUrl = ref('')
       const q = useQuasar()
-
+      const loadingCard = ref(false)
+      const numberFormat = util.numberFormat
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
@@ -139,11 +141,14 @@
       }
       
       const getLinkCard = () => {
+        loadingCard.value = true;
         cardStore.getCard(user.id).then((data) => {
           if(data.code !== 200) throw data
           setTimeout(()=>{
+            loadingCard.value = false;
+
             card.value = data.data ? Object.assign(data.data) : {}
-          }, 1000)
+          }, 500)
         }).catch((response) => {
           showNotify('negative', response)
         })
@@ -155,7 +160,7 @@
         const data = new FormData
         data.append('loan_id', myLoan.value.id)
         data.append('quota_id', myLoan.value.currentQuota.id)
-        data.append('amount', myLoan.value.amounToPay)
+        data.append('amount', parseFloat(myLoan.value.amounToPay).toFixed(0))
         data.append('type', 1)
         data.append('status', 1)
         data.append('concept', createConceptPay())
@@ -165,7 +170,7 @@
           if(response.code !== 200) throw response
           setTimeout(() => {
             doneModal()
-          }, 4000);
+          }, 500);
 
         }).catch((response) => {
           showNotify('negative', response.data.error)
@@ -177,7 +182,7 @@
         loadingShow('tpago')
         showModal('tpago')
         const data = {
-          amount: myLoan.value.amounToPay,
+          amount:  parseFloat(myLoan.value.amounToPay).toFixed(0),
           type: 1,
           debitDay: new Date().getDate()
         }
@@ -191,7 +196,7 @@
             loadingShow('')
             hideModal()
             openTpagoWindow()
-          }, 1000);
+          }, 500);
         }).catch(() =>{
           showNotify('negative', 'Error para procesar el pago')
         })
@@ -204,7 +209,7 @@
           ventana.document.close();
           ventana.focus();
           return true;
-        }, 1000);
+        }, 500);
       }
 
       const showModal = (modal) => {
@@ -232,10 +237,10 @@
         });
 
         myLoan.value.currentQuota = currentCuota[0];
-        myLoan.value.amounToPay = myLoan.value.currentQuota.days_due > 1 ? isPayWithDelay(myLoan.value.currentQuota) : myLoan.value.currentQuota.amount
+        myLoan.value.amounToPay = myLoan.value.currentQuota.days_due > 1 ? isPayWithDelay(myLoan.value.currentQuota) : myLoan.value.currentQuota.amount.toFixed(0)
       }
       const isPayWithDelay = (quota) => {
-        return (((quota.amount * myLoan.value.interest_for_delay)/100) + quota.amount)
+        return (((quota.amount * myLoan.value.interest_for_delay)/100) + quota.amount).toFixed(0)
       }
       const showNotify = (type, message) => {
         q.notify({
@@ -264,6 +269,7 @@
         card,
         showDialog,
         loading,
+        loadingCard,
         payWithCard,
         quotaAmount,
         getPayUrl,
@@ -301,7 +307,7 @@
     position: absolute;
     font-size: 40px;
     margin-right: 10px;
-    transform: translateY(3.5px) translateX(230%);
+    transform: translateY(0.5px) translateX(140%);
   }
   & .q-field__native{
     font-size: 40px;

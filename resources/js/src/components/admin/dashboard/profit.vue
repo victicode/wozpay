@@ -24,7 +24,7 @@
                 </div>             
                 <div class="q-mr-sm text-end">
                   <div class="text-weight-medium text-right">Total</div>
-                  <div class="text-weight-medium text-right">Gs. {{numberFormat((balances.wallet + balances.toRecieve))}}</div>
+                  <div class="text-weight-medium text-right">Gs. {{numberFormat(((balances.wallet + balances.paysRecieve + balances.toPay  ) -  balances.loans))}}</div>
                 </div>
               </div>
               <div class="w-100 flex items-center justify-between q-mt-sm q-pt-xs q-pb-sm" style="border-bottom: 1px solid lightgrey" @click="router.push('/pays/pending')">

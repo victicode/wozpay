@@ -25,7 +25,7 @@
                 <div class="text-weight-medium text-right">
                   Disponible
                 </div>
-                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat((balances.wallet - balances.loans))}}</div>
+                <div class="text-weight-medium q-mt-xs text-right">Gs. {{numberFormat((balances.wallet + balances.paysRecieve - balances.loans))}}</div>
               </div>
             </div>
           </div>

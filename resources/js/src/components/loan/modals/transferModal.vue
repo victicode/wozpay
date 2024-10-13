@@ -246,7 +246,7 @@
         const data = new FormData
         data.append('loan_id', loan.id)
         data.append('quota_id', loan.currentQuota.id)
-        data.append('amount', operationData.value.amount)
+        data.append('amount', parseFloat(operationData.value.amount))
         data.append('operation_id', operationData.value.operationId)
         data.append('bank', operationData.value.bank.name)
         data.append('pay_date', operationData.value.date)

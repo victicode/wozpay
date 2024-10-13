@@ -734,7 +734,10 @@
             isCurrentLoan.value = data.data.status !=3
               ? true 
               : false 
-              return
+
+            load.value = false
+
+            return
           }
           isCurrentLoan.value = false
           load.value = false

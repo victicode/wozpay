@@ -11,29 +11,27 @@
       <q-skeleton type="text" style="width: 50%;" />
     </div>
     <transition name="slide-fade">
-      <div class="" v-if="ready && users.data.length > 0" >
+      <div v-if="ready && users.data.length > 0" >
         <div>
-          <template v-for="(user, index) in users.data" :key="index" >
-            <div v-for=" pay in user.pays_pending" :key="pay.id" class="flex justify-between items-center q-px-sm userlist">
-              <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-                {{ user.name }}
-              </div>
-              <div class="flex items-center">
-                <div class="text-subtitle2 text-weight-light q-mt-xs text-grey-7">
-                  {{ numberFormat(user.dni) }}
-                </div>
-                <q-btn 
-                  flat 
-                  round 
-                  size="xs"
-                  class="q-pb-none"
-                  @click="goTo(pay.loan_id)"  
-                >
-                  <q-icon name="eva-chevron-right-outline" color="grey-6" size="sm" />
-                </q-btn>
-              </div>
+          <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-px-sm userlist">
+            <div class=" text-subtitle2 text-weight-light q-mt-xs text-grey-7">
+              {{ user.name }}
             </div>
-          </template>
+            <div class="flex items-center">
+              <div class="text-subtitle2 text-weight-light q-mt-xs text-grey-7">
+                {{ numberFormat(user.dni) }}
+              </div>
+              <q-btn 
+                flat 
+                round 
+                size="xs"
+                class="q-pb-none"
+                @click="goTo(user.pays_pending[0].loan_id)"  
+              >
+                <q-icon name="eva-chevron-right-outline" color="grey-6" size="sm" />
+              </q-btn>
+            </div>
+          </div>
         </div>
         <div class="pagination flex flex-center q-mt-md">
           <q-pagination

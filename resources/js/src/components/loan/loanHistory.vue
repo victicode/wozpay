@@ -56,6 +56,7 @@
   import wozIcons from '@/assets/icons/wozIcons'
   import util from '@/util/numberUtil'
   import moment from 'moment';
+  import { ref } from 'vue';
 
   export default {
     props: {
@@ -67,21 +68,21 @@
       const numberFormat  = util.numberFormat
       const $q = useQuasar();
       // Data
-      const loan = props.loan
+      const loan = ref(props.loan)
       // Methods
       const forPay = () => {
         let amount = 0
 
-        loan.pays.forEach(pay => {
+        loan.value.pays.forEach(pay => {
           amount += pay.amount
         });
 
-        // return loan.amount_to_pay - amount
-        return loan.amount - amount
+        // return loan.value.amount_to_pay - amount
+        return loan.value.amount - amount
       }
       const isPayWithDelay = (quota) => {
         if(quota.success_pays) return quota.success_pays.amount
-        return (((quota.amount * loan.interest_for_delay)/100) + quota.amount)
+        return (((quota.amount * loan.value.interest_for_delay)/100) + quota.amount)
       }
       const showNotify = (type, message) => {
         $q.notify({
@@ -93,8 +94,10 @@
         })
       }
       const getPay = (pay) => {
+        if(!pay.success_pays) return
         emit('getPay', pay)
       }
+
       watch(() => props.loan, (newValue) => {
         loan.value = newValue
       });

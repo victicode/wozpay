@@ -50,18 +50,20 @@
 
       // Data
       const loading = ref(true);
-      const loan = props.loan
+      const loan = ref(props.loan)
       
 
       // Methods
       const forPay = () => {
         let amount = 0
 
-        loan.pays.forEach(pay => {
-          amount += pay.amount
+        loan.value.pays.forEach(pay => {
+          if(pay.status == 2){
+            amount += pay.amount
+          }
         });
 
-        return loan.amount_to_pay - amount
+        return (loan.value.amount_to_pay - amount).toFixed(0)
       }
       const isPendingPay = () => {
         let isPending = {
@@ -69,7 +71,7 @@
           pending: false
         };
 
-        loan.pays.forEach((pay) => {
+        loan.value.pays.forEach((pay) => {
           if(pay.status == 1) {
             isPending.pending = true
             isPending.count++;
@@ -81,27 +83,19 @@
       const progressByStatus = () => {
         let goodPays = 0;
 
-        loan.pays.forEach((pay) => {
+        loan.value.pays.forEach((pay) => {
           if(pay.status != 0) {
             goodPays++
           }
         })
         return {
-          linear: goodPays/loan.quotas,
+          linear: goodPays/loan.value.quotas,
           count: goodPays,
         }
       }
-      const refresh = () => {
-        loading.value = false 
-        setTimeout(() => {
-          loading.value = true
-        },2000)
-      }
+
       watch(() => props.loan, (newValue, old) => {
-        console.log(old)
-        console.log(newValue)
         loan.value = newValue
-      // refresh()
       });
 
       return {

@@ -7,9 +7,11 @@ use App\Models\Pay;
 use App\Models\Loan;
 use App\Models\Quota;
 use Illuminate\Http\Request;
+use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Api\NotificationController;
 
 class PayController extends Controller
 {
@@ -43,7 +45,12 @@ class PayController extends Controller
         } catch (Exception $th) {
             return $this->returnFail(400, $th->getMessage());
         }
-        $this->approvePay($pay);
+        // $this->approvePay($pay);
+        event(new UserUpdateEvent(1));
+
+        $this->sendNotification(
+            'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 'Pago pendiente de verificación', 1);
+
         return $this->returnSuccess(200, $pay);
     }
     public function payRequest(Request $request) {
@@ -98,6 +105,14 @@ class PayController extends Controller
 
         $pay->status = $request->status;
         $pay->save();
+
+        if($pay->status == 2) $this->approvePay($pay);
+        if($pay->status == 0) {
+            $this->sendNotification(
+                'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
+
+        };
+
         return $this->returnSuccess(200, $pay);
     }
     private function validateFieldsFromInput($inputs){
@@ -133,16 +148,46 @@ class PayController extends Controller
         return $validator->all() ;
 
     }
-    private function approvePay($pay){
+
+    private function actionAfterChange($pay) {
+        if($pay->status == 2) $this->approvePay($pay);
+    }
+
+    private function approvePay($pay) {
         $quota = Quota::find($pay->quota_id);
         $quota->status = '2';
         $quota->save();
 
+        $loan = Loan::withCount('paysSuccess')->find($pay->loan_id);
+        $loan->status = $this->isCompleteLoan($loan);
+        $loan->save();
         
-        // $loan = Loan::find($pay->loan_id);
-        // $loan->status = '2';
-        // $loan->save();
+        event(new UserUpdateEvent(1));
+        event(new UserUpdateEvent($pay->user_id));
+        $this->sendNotification('Tu pago ha sido verificado y procesado con exito', $pay->user_id, 'Pago verificado', 2);
+    }
 
-        
+    public function isCompleteLoan($loan) {
+        if($loan->quotas == $loan->pays_success_count){
+            
+            $this->sendNotification(
+                'Felicitaciones has pagado el prestamo #619'.$loan->loan_number.' en su totalidad', 
+                $loan->user_id, 'Prestamo pagado', 2);
+            event(new UserUpdateEvent($loan->user_id));
+
+            return '3';
+        }
+       return '2';
+    }
+    private function sendNotification($message, $user, $subject, $type){
+        $notification = new NotificationController;
+        $requestNotification = new Request([
+            'text'      => $message,
+            'subject'   => $subject,
+            'user'   => $user,
+            'sender' => 'Woz Pay informa',
+            'type' => $type,
+        ]);
+        $notification->storeNotification($requestNotification);
     }
 }
