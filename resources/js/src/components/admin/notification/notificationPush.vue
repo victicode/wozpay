@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div style="height:80%; overflow-y:auto" class="q-pb-md">
+    <div style="height:75%; overflow-y:auto" class="q-pb-xl q-mb-xl">
       <div class="q-mt-md q-px-md-lg q-px-md q-pb-md message_area">
         <div>
           <div class="q-my-md">

@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="dialog" persistent backdrop-filter="blur(8px)">
-    <q-card style="min-width: 350px"  v-if="user.verify_status == 0 && (user.facial_verify || user.facial_verify == 0) ">
+    <q-card style="min-width: 350px"  v-if="type==1">
       <q-card-section class=" q-mt-md">
         <div class="text-h6 text-weight-bold text-center"> {{ message.modalMessage }}</div>
         <div class="text-subtitle2 q-mt-sm text-weight-medium text-justify text-auto-phase"> 
@@ -15,7 +15,22 @@
         </q-btn>
       </q-card-actions>
     </q-card>
-    <q-card style="min-width: 350px"  v-else>
+    <q-card style="min-width: 350px"  v-if="user.verify_status == 0 && (!user.facial_verify || user.facial_verify == 0)" >
+      <q-card-section class=" q-mt-md">
+        <div class="text-h6 text-weight-bold text-center"> {{ message.modalMessage }}</div>
+        <div class="text-subtitle2 q-mt-sm text-weight-medium text-justify text-auto-phase"> 
+          Procede a validar tu identidad para poder solicitar un prestamo
+        </div>
+      </q-card-section>
+      <q-card-actions align="right" class="text-primary">
+        <q-btn flat :label="message.buttonMessage" :loading="loading" @click="router.push(message.redirectTo)" > 
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+      </q-card-actions>
+    </q-card>
+    <q-card style="min-width: 350px"  v-if="user.verify_status == 1 && (user.facial_verify || user.facial_verify == 1) ">
       <q-card-section class=" q-mt-md">
         <div class="q-pb-xl q-mt-md q-px-md column flex-center" style="height: 100%;">
         <div class="flex flex-center">
@@ -26,6 +41,41 @@
           Una vez finalizado este proceso puedes optar por un prestamo.
         </div>
       </div>
+      </q-card-section>
+      <q-card-actions align="right" class="text-primary">
+        <q-btn flat label="Volver" :loading="loading" @click="router.push('/')" > 
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+      </q-card-actions>
+    </q-card>
+    <q-card style="min-width: 350px"  v-if="(!user.card || user.card.status == 0) && user.verify_status != 0  ">
+      <q-card-section class=" q-mt-md">
+        <div class="text-h6 text-weight-bold text-center">Vincula tu tarjeta de débito/crédito</div>
+        
+        <div class="text-subtitle2 q-mt-sm text-weight-medium text-justify text-auto-phase"> 
+          Para mayor seguridad en creditos, debes vincular tu tarjeta de debito o crédito.
+        </div>
+      </q-card-section>
+      <q-card-actions align="right" class="text-primary">
+        <q-btn flat label="Vincular tarjeta" :loading="loading" @click="router.push('/link_card_form')" > 
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+      </q-card-actions>
+    </q-card>
+    <q-card style="min-width: 350px" v-if="user.card && user.card.status == 1 ">
+      <q-card-section class=" q-mt-md">
+        <div class="flex flex-center">
+          <q-icon name="eva-clock-outline" size="5em" color="terciary"/>
+        </div>
+        <div class="text-h6 text-weight-bold text-center q-mt-md">Vincula tu tarjeta de débito/crédito</div>
+        
+        <div class="text-subtitle2 q-mt-sm text-weight-medium text-justify text-auto-phase"> 
+          Estamos verificando que tu tarjeta cumpla con nuestros protocolos de seguridad.
+        </div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Volver" :loading="loading" @click="router.push('/')" > 
@@ -78,6 +128,7 @@
         setMessage()
       })
       return {
+        type,
         user,
         loading,
         dialog,

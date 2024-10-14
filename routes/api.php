@@ -89,6 +89,7 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
     Route::get('/get/{id}', [LoanController::class, 'getLoanById']);
     Route::get('/approve/get', [LoanController::class, 'getApproveLoan']);
     Route::post('/changeStatus/{id}', [LoanController::class, 'changeStatus']);
+    Route::get('/getloan/pending', [LoanController::class, 'getPendingCount']);
 });
 
 Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {

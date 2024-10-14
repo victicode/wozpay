@@ -119,8 +119,8 @@
           </div>
         </div>
       </q-form>
-      <div class="q-mt-lg q-px-md q-px-md-xl">
-        <div class="q-px-md-xl">
+      <div class="q-mt-lg q-px-md q-px-md-xl q-pb-xl">
+        <div class="q-px-md-xl q-pb-sm">
           <div class="text-body2 text-weight-bold">Anuncio</div>
           <div class="text-center publicity_content bg-primary q-pa-md q-mb-xl">
             <div class="text-caption text-white">

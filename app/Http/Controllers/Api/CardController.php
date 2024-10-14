@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\CardUpdateEvent;
-use App\Http\Controllers\Controller;
-use App\Models\Card;
 use Exception;
+use App\Models\Card;
 use Illuminate\Http\Request;
+use App\Events\CardUpdateEvent;
+use App\Events\UserUpdateEvent;
+use App\Http\Controllers\Controller;
 
 class CardController extends Controller
 {
     //
     public function getLinkCard($id) {
 
-        $card = Card::query()->where('user_id', $id)->first();
+        $card = Card::query()->where('user_id', $id)->where('status','!=', '0')->first();
 
         return $this->returnSuccess(200, $card);
 
@@ -52,8 +53,17 @@ class CardController extends Controller
         $card->save();
 
         $this->cardAction($card);
+        try {
         event(new CardUpdateEvent($card->user_id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
+        try {
+            event(new UserUpdateEvent($card->user_id));
 
+        } catch (Exception $th) {
+            //throw $th;
+        }
         return $this->returnSuccess(200, $card);
     }
     private function cardAction($card){

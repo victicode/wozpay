@@ -36,6 +36,8 @@ import userVerification from '@/components/admin/users/userVerification.vue'
 import userNotification from '@/components/admin/notification/notificationPush.vue'
 import verificationKyc from '@/components/profile/verificationKyc.vue'
 import loanPay from '@/components/loan/loanPay.vue'
+import loanPayFinish from '@/components/loan/loanPayFinish.vue'
+
 import loanView from '@/components/loan/loanView.vue'
 import link_card from '@/pages/link_card.vue'
 import cardPage from '@/pages/card.vue'
@@ -420,8 +422,15 @@ const router = createRouter({
             title: 'Mi préstamo'
           }
         },
+        {
+          path: '/loan/pay/finish',
+          component: loanPayFinish,
+          meta: {
+            title: 'Mi préstamo'
+          }
+        },
       ]
-    }
+    },
     
   ]
 })

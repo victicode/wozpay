@@ -110,6 +110,26 @@ export const useLoanStore = defineStore("loan", {
         return 'Error al actualizar datos';
       });
     },
+    async getPendingLoan(){
+      return new Promise((resolve, reject) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/loan/getloan/pending")
+            .then(({ data }) => {
+              if(data.code !== 200) throw data;
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              reject('Error al solicitar prestamo.');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
+    
   },
   getters: {
   },

@@ -18,8 +18,12 @@
                 </div>
               </div>
               <div>
-                <q-chip :color="linkCard.status == 1 ? 'positive' : 'warning'" text-color="white" >
-                  Vinculada
+                <q-chip :color="linkCard.status == 2 ? 'positive' : 'warning'" text-color="white" >
+                  {{ 
+                    linkCard.status == 2 
+                    ? 'Vinculada'
+                    : 'Pendiente'
+                  }}
                 </q-chip>
               </div>
             </div>

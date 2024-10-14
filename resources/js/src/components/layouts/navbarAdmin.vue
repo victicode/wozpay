@@ -14,7 +14,12 @@
     </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/users'" exact > 
       <div class="flex flex-center column">
-        <div v-html="wozIcons.clients" />
+        <section class="flex flex-center column relative">
+          <div v-html="wozIcons.clients" />
+          <div v-if="countPending > 0"  rounded floating class="notificationBadge1 bg-negative"  >
+            
+          </div>
+        </section>
         <span class="q-mt-xs text-dark text-caption">Clientes</span>
       </div>
     </q-route-tab>
@@ -42,26 +47,26 @@
 <script>
 import { inject, onMounted, ref } from 'vue'
 import wozIcons from '@/assets/icons/wozIcons'
-import { useNotificationStore } from '@/services/store/notification.store'
-import { useAuthStore } from '@/services/store/auth.store'
+import { useLoanStore } from '@/services/store/loan.store';
+
 
 export default {
   setup () {
     const icons = inject('ionIcons')
-    const store = useNotificationStore()
-    const user = useAuthStore().user;
-    const notificationsCount = ref(0)
-
-    // const getNotifications = () =>{
-    //   store.getAllNotificationByUser(user.id).then((data) =>{
-    //     notificationsCount.value = data.data.unreadCount
-    //   })
-    // }
-
-    // onMounted(()=>{
-    //   getNotifications()
-    // })
-    return { icons, wozIcons,}
+    const loanStore = useLoanStore();
+    const countPending = ref(0)
+    const getSolicitudesCount = () => {
+      loanStore.getPendingLoan()
+      .then((response) => {
+        console.log(response)
+        // countPending.value = 
+        countPending.value = response.data
+      })
+    }
+    onMounted(() => {
+      getSolicitudesCount()
+    })
+    return { icons, wozIcons, countPending}
   },
 }
 </script>
@@ -86,7 +91,15 @@ padding-top: 0px!important;
   }
 </style>
 <style lang="scss" scoped>
-  
+  .notificationBadge1{
+    height: 15px;
+    width: 15px;
+    background: red;
+    position: absolute;
+    border-radius: 50%;
+    left: 65%;
+    bottom: 55%;
+  }
   .w-100{
     width: 100%!important;
   }

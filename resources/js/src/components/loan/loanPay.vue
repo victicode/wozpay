@@ -6,13 +6,13 @@
     </div>
     <div class="q-px-md-xl q-px-lg q-mt-md" >
       <div class="q-px-md-xl">
-          <q-input 
-            v-model="myLoan.amounToPay" 
-            prefix="Gs." 
-            disable
-            dense  class="amount_input" mask="#.###.###" maxlength="9" reverse-fill-mask
-            
-          />
+        <q-input 
+          v-model="myLoan.amounToPay" 
+          prefix="Gs." 
+          disable
+          dense  class="amount_input" mask="#.###.###" maxlength="9" reverse-fill-mask
+          
+        />
       </div>
     </div>
     <div class="q-px-md-xl q-px-md">
@@ -21,7 +21,7 @@
         <q-btn  
           color="primary" class="w-100 q-pa-sm" 
           label="Pagar con Tpago" 
-          @click="getPayUrl()"
+          @click="queryPayUrl()"
           :loading="(loading == 'tpago')"
         >
           <template v-slot:loading>
@@ -29,19 +29,7 @@
           </template>
         </q-btn>
       </div>
-      <!-- <div class="q-mt-lg  q-px-md-xl">
-        <q-btn  
-          color="grey-9" class="w-100 q-pa-sm" 
-          label="Pagar con transferencia bancaria" 
-          @click="showModal('transfer')"
-          :loading="(loading == 'transfer')"
-        >
-          <template v-slot:loading>
-            <q-spinner-facebook />
-          </template>
-        </q-btn>
-      </div> -->
-      <div class="q-mt-md  q-px-md-xl" v-if="Object.values(card).length > 0">
+      <!-- <div class="q-mt-md  q-px-md-xl" v-if="Object.values(card).length > 0">
         <q-btn  
           color="positive" class="w-100 q-pa-sm" 
           label="Pagar con tarjeta vinculada" 
@@ -52,9 +40,21 @@
             <q-spinner-facebook />
           </template>
         </q-btn>
+      </div> -->
+      <div class="q-mt-md  q-px-md-xl" >
+        <q-btn  
+          color="grey-7" class="w-100 q-pa-sm" 
+          label="Pagar con transferencia" 
+          @click="showDialog = 'transfer'"
+          :loading="(loading == 'transfer')"
+        >
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
       </div>
     </div>
-    <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="Object.values(card).length > 0 && !loadingCard">
+    <!-- <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="Object.values(card).length > 0 && !loadingCard">
       <div>
         <div class="text-subtitle1 text-weight-medium">Nombre</div>
         <div class="text-weight-medium text-subtitle2">Tarjeta de Crédito ****{{ card.number.substring(card.number.length - 4) }}</div>
@@ -63,7 +63,7 @@
         <div class="text-subtitle1 text-weight-medium text-right">Vencimiento</div>
         <div class="text-weight-medium text-subtitle2 text-right">{{ card.due_date }}</div>
       </div>
-    </div>
+    </div> -->
     <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="loadingCard">
       <div>
         <div class="text-subtitle1 text-weight-medium">
@@ -104,8 +104,7 @@
   import waitModal from '@/components/layouts/modals/waitModal.vue';
   import transferModal from '@/components/loan/modals/transferModal.vue';
   import { useQuasar } from 'quasar';
-  import util from '@/util/numberUtil';
-
+  import axios from 'axios'
 
   export default {
     components: {
@@ -115,6 +114,7 @@
     },
     setup() {
       //vue provider
+      const emitter = inject('emitter')
       const user = useAuthStore().user;
       const icons = inject('ionIcons')
       const router = useRouter()
@@ -128,7 +128,9 @@
       const payUrl = ref('')
       const q = useQuasar()
       const loadingCard = ref(false)
-      const numberFormat = util.numberFormat
+      const axiosHttp = axios
+
+
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
@@ -198,11 +200,59 @@
             openTpagoWindow()
           }, 500);
         }).catch(() =>{
-          showNotify('negative', 'Error para procesar el pago')
+          loadingShow('')
+          hideModal()
+          showNotification({type:'negative',msg:'Error para procesar el pago', title:'Error'})
         })
 
       }
+      const queryPayUrl = () => {
+        const data = {
+          amount:  parseFloat(myLoan.value.amounToPay).toFixed(0),
+          debit_day: new Date().getDate(),
+          description: "cuotatest",
+          periodicity: 1,
+          unlimited: true
+        }
 
+
+        loadingShow('tpago')
+        showModal('tpago')
+        axiosHttp.defaults.headers.common[
+          "Authorization"
+        ] = 'Basic YXBwcy91Q2dwaFFRMXNRUFk4dlFoRHZwc1V5R09BQU1MTTBiVDp5KW80UHJqLnpjV1VERmUuNHE2MDUrWVNMR3JCc2ozWk1lQXJPbnhl';
+        axiosHttp.defaults.headers.common[
+          "Accept"
+        ] = `application/json`;
+
+        axiosHttp.defaults.headers.common[
+          "Content-Type"
+        ] = `application/json`;
+
+        axiosHttp.defaults.headers.common[
+          "Access-Control-Allow-Credentials"
+        ] = `true`;
+
+         axiosHttp.post('https://comercios.bancard.com.py:8888/external-commerce/api/0.1/commerces/321473/branches/1/links/generate-payment-link', data).then((data) => {
+          console.log(data)
+         })
+         .catch(() => {
+          showNotification({type:'negative',msg:'Error para procesar el pago', title:'Error'})
+          loadingShow('')
+          hideModal()
+         })
+        return 
+      }
+      const showNotification = ({type, title, msg}) => {
+        const data = {
+          newColor: type, 
+          newTitle: title,
+          newText:  msg, 
+          newIcon: 'eva-bell-outline',
+          newCallback: () => emitter.emit('offModalNotification'),
+        }
+        emitter.emit('modalNotification', data);
+      } 
       const openTpagoWindow = () => {
         var ventana = window.open(payUrl.value, 'pago', `height=${q.screen.height},width=${q.screen.width}`);
         setTimeout(() => {
@@ -276,6 +326,7 @@
         showModal,
         hideModal,
         doneModal,
+        queryPayUrl,
       }
     },
   }

@@ -1,9 +1,9 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md q-mb-xl q-pb-xl" style="overflow-y: auto; height: 100%;">
     <transition name="vertical">
 
       <div v-show="step < 3">
-        <input type="file" accept="image/jpeg, image/png" id="img_camera"  @change="uploadPhoto($event, step)" style="display: none;">
+        <input type="file"  id="img_camera"  @change="uploadPhoto($event, step)" style="display: none;">
         <q-stepper
           v-model="step"
           ref="stepper"
@@ -208,7 +208,7 @@
       </div>
     </transition>
     <transition name="vertical">
-      <div v-show="step == 4">
+      <div v-show="step == 4" class=" q-mb-lg" style="height: 100%; ">
         <div>
           <q-toolbar class="bg-white text-black q-py-sm q-mt-none">
             <q-toolbar-title> 
@@ -312,7 +312,6 @@ import selectKycType from '@/components/profile/modals/selectKycType.vue';
 import setPhotoDocument from '@/components/profile/modals/setPhotoDocument.vue';
 import { useUserStore } from '@/services/store/user.store';
 import { useAuthStore } from '@/services/store/auth.store';
-
 import wozIcons from '@/assets/icons/wozIcons';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'

@@ -79,6 +79,11 @@ class LoanController extends Controller
 
         return $interest->interest;
     }
+    public function getPendingCount(){
+        $loan = Loan::query()->where('status', '1')->count();
+
+        return $this->returnSuccess(200, $loan);
+    }
     private function storeRedTapes($request, $loanId) {
         $informconf = '-';
         $workCertificate = '-';

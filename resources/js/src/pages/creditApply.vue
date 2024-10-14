@@ -1,7 +1,7 @@
 
 <template>
-  <div class="apply_section" >
-    <div class="q-pb-lg" v-if="!isCurrentLoan && !load" >
+  <div class="apply_section " >
+    <div class="q-pb-xl" v-if="!isCurrentLoan && !load" >
       <q-stepper
         v-model="step"
         ref="stepper"
@@ -313,7 +313,7 @@
           </div>
         </q-step>
         <template v-slot:navigation>
-          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-xl">
+          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-xl q-pb-xl">
             <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
             <q-btn 
               @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" 
@@ -521,7 +521,7 @@
 </template>
 
 <script>
-  import { ref, inject, onMounted } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useLoanStore } from '@/services/store/loan.store'
   import { useInterestStore } from '@/services/store/interest.store.js'
@@ -530,7 +530,7 @@
   import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
   import setValueModal from '@/components/creditApply/modals/setValueModal.vue';
   import doneModal from '@/components/layouts/modals/doneModal.vue';
-
+  import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
 
   export default {
@@ -542,7 +542,8 @@
     setup () {
       const q = useQuasar()
       const router = useRouter()
-      const user = useAuthStore().user;
+      const { user  } = storeToRefs(useAuthStore())
+
       const loanStore = useLoanStore();
       const interestStore = useInterestStore();
       const numberFormat = util.numberFormat
@@ -602,23 +603,33 @@
       }
       // Methods
       const validateUser = () => {
-        if(user.verify_status != 2   ) {
+        if(user.value.verify_status != 2   ) {
           isUserApply.value = false
           redirectType.value = 2
           return isUserApply.value
         }
 
-        const dontValidate = ['facial_verify','is_public','email_verified_at','is_first_loan','created_at', 'updated_at', 'deleted_at',]
+        if(!validateCard()) {
+          redirectType.value = 2
+          isUserApply.value = false
+          return isUserApply.value
+        }
+        const dontValidate = ['facial_verify','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
 
-        Object.entries(user).forEach( ([key, value]) => {
+        Object.entries(user.value).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
-          if(!value) isUserApply.value = false
+          if(!value) isUserApply.value = false 
         });
 
+        
         redirectType.value = 1
         return isUserApply.value
       }
+      const validateCard = () => {
 
+        return user.value.card && user.value.card.status == 2
+
+      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -728,7 +739,7 @@
         return isValid
       }
       const activeLoan = () => {
-        loanStore.getLoan(user.id).then((data) => {
+        loanStore.getLoan(user.value.id).then((data) => {
           if(!data.code)  throw data
           if(data.data){
             isCurrentLoan.value = data.data.status !=3

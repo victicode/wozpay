@@ -147,7 +147,7 @@
         }
         userStore.getAllUser(query)
         .then((response) => {
-          console.log(response)
+          // console.log(response)
           if(response.code != 200) throw response
           setTimeout(() => {
             users.value = response.data

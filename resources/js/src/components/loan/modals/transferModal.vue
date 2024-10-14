@@ -20,10 +20,10 @@
                     {{ data.title }}
                   </div>
                   <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
-                    {{ index == 5 ? `Gs. ${numberFormat(data.value)}` : data.value }}
+                    {{ index == 2 ? `Gs. ${numberFormat(data.value)}` : data.value }}
                   </div>
                 </div>
-                <q-icon name="eva-copy-outline" size="md" class="copy_icon" @click="copyData(index, index == 5 ? 'Monto' : data.title )" />
+                <q-icon name="eva-copy-outline" size="md" class="copy_icon cursor-pointer" @click="copyData(index, index == 2 ? 'Monto' : data.title )" />
               </div>
             </div>
             <div class="q-pt-md">
@@ -208,12 +208,13 @@
       const loading = ref(false);
       const dialog = props.dialog;
       const dataToPay = [
-       { title: 'Titular', value: 'Woz Pay C.A'},
-       { title: 'N° de cuenta', value: '000000000000000000000000'},
-       { title: 'RUC', value: '0000000000'},
-       { title: 'Tipo de cuenta', value: 'Corriente'},
-       { title: 'Banco', value: 'Itaú'},
-       { title: 'Monto a cancelar (1 cuota)', value: loan.amounToPay}
+      { title: 'Banco', value: 'Sudameris'},
+      { title: 'Alias', value: '0983994268'},
+      // { title: 'Titular', value: 'Woz Pay C.A'},
+      // { title: 'N° de cuenta', value: '000000000000000000000000'},
+      // { title: 'RUC', value: '0000000000'},
+      // { title: 'Tipo de cuenta', value: 'Corriente'},
+      { title: 'Monto a cancelar (1 cuota)', value: loan.amounToPay}
     ]
 
       // Methods

@@ -331,11 +331,11 @@
 
       const updatePhone = (data) => {
         dialog.value = '';
-        user.phone = data ?? user.phone
+        user.value.phone = data ?? user.phone
       }
       const updateEmail = (data) => {
         dialog.value = '';
-        user.email = data ?? user.email
+        user.value.email = data ?? user.email
       }
       
 
@@ -354,7 +354,7 @@
       
       const uptadteInfo = () =>{
         loadingShow(true)
-        store.updateUser(user)
+        store.updateUser(user.value)
         .then((data)=> {
           if(!data.code){
               showNotify('negative', data)

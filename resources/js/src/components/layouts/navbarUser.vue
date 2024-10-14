@@ -20,7 +20,12 @@
     </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" to="/users/loan" exact >
       <div class="flex flex-center column">
-        <div v-html="wozIcons.solicitar" />
+        <section class="flex flex-center column relative">
+          <div v-html="wozIcons.solicitar" />
+          <div v-if="countPending > 0"  rounded floating class="notificationBadge bg-negative"  >
+            {{ countPending >= 10 ? '+'+countPending : countPending }}
+          </div>
+        </section>
         <span class="q-mt-xs text-dark text-caption">Solicitudes</span>
       </div>
     </q-route-tab>
@@ -40,13 +45,27 @@
 </template>
 
 <script>
-import { inject } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import wozIcons from '@/assets/icons/wozIcons'
+import { useLoanStore } from '@/services/store/loan.store';
 
 export default {
   setup () {
     const icons = inject('ionIcons')
-    return { icons, wozIcons,}
+    const loanStore = useLoanStore();
+    const countPending = ref(0)
+    const getSolicitudesCount = () => {
+      loanStore.getPendingLoan()
+      .then((response) => {
+        console.log(response)
+        // countPending.value = 
+        countPending.value = response.data
+      })
+    }
+    onMounted(() => {
+      getSolicitudesCount()
+    })
+    return { icons, wozIcons, countPending}
   },
 }
 </script>
