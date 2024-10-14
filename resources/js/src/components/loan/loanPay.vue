@@ -29,7 +29,7 @@
           </template>
         </q-btn>
       </div>
-      <div class="q-mt-lg  q-px-md-xl">
+      <!-- <div class="q-mt-lg  q-px-md-xl">
         <q-btn  
           color="grey-9" class="w-100 q-pa-sm" 
           label="Pagar con transferencia bancaria" 
@@ -40,7 +40,7 @@
             <q-spinner-facebook />
           </template>
         </q-btn>
-      </div>
+      </div> -->
       <div class="q-mt-md  q-px-md-xl" v-if="Object.values(card).length > 0">
         <q-btn  
           color="positive" class="w-100 q-pa-sm" 
