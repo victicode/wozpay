@@ -162,7 +162,6 @@
   import { 
     isValid, 
     isExpirationDateValid,
-    isSecurityCodeValid,
     getCreditCardNameByNumber,
   } from 'creditcard.js';
  

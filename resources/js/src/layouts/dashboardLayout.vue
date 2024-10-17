@@ -74,12 +74,12 @@
 
 <style lang="scss" scoped>
 #content-page{
-  height: 90%;
+  height: 91%;
   overflow: hidden;
 
 }
 #navbar-buttom{
-  height: 10%;
+  height: 9%;
   width: 100%;
   z-index: 10;
   background: #f1f0f0;

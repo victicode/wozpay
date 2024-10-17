@@ -1,14 +1,13 @@
 <template>
   <div class="q-pt-md">
     <pay-loan-with-card v-if="type == 'tpago'"/>
-    <pay-loan-with-transfer v-if="'transfer'"/>
+    <pay-loan-with-transfer v-if="type == 'transfer'"/>
   </div>
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
-  import { inject, onMounted, ref,} from 'vue'
+  import { inject } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-  import { useLoanStore } from '@/services/store/loan.store'
   import payLoanWithCard from '@/components/loan/payLoanWithCard.vue'
   import payLoanWithTransfer from '@/components/loan/payLoanWithTransfer.vue'
 
@@ -25,7 +24,6 @@
       const router = useRouter()
       const route = useRoute();
 
-      console.log(route)
       // Data
       return{
         icons,

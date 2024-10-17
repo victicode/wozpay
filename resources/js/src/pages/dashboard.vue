@@ -7,10 +7,13 @@
       <div class="bg-white">
         <actionsDashboard />
       </div>
+      <div class="bg-white q-py-md">
+        <socialLinks />
+      </div>
       <div style="">
         <linkedCard />
       </div>
-      <div style="height: 27%;">
+      <div style="height: 18%;">
         <lastTrasanction />
       </div>
     </div>
@@ -22,12 +25,15 @@
   import actionsDashboard from '@/components/dashboard/actionsDashboard.vue';
   import linkedCard from '@/components/dashboard/linkedCard.vue';
   import lastTrasanction from '@/components/dashboard/lastTrasanction.vue';
+  import socialLinks from '@/components/dashboard/socialLinks.vue';
+
   export default {
     components: {
       currentUserPersonalInfo,
       actionsDashboard,
       linkedCard,
       lastTrasanction,
+      socialLinks,
     },
     setup() {
       
@@ -38,6 +44,7 @@
 .dashboard_container{
   height: 100%; 
   background:#f1f0f0; 
+  overflow-y: auto;
   
 }
 @media screen and (max-width: 780px){

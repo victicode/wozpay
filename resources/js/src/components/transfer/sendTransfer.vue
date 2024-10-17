@@ -51,7 +51,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -199,6 +198,7 @@
       const loading = ref(false)
 
       // Data
+
       const selectPayMethod = ref(0)
       const linkCard = ref({})
       const formCardData = ref({

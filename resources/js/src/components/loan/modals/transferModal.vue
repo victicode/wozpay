@@ -5,49 +5,13 @@
         <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm" >
           <div class="q-pt-sm q-px-md-md q-pt-md-md q-pb-md-none">
             <div class="text-subtitle1 text-weight-medium">
-              Transfiere a esta cuenta
-            </div>
-            <div class="q-mt-sm flex info_pay__content q-py-sm q-px-md">
-              <q-icon  name="eva-alert-circle-outline" size="sm" color="primary"/>
-              <div class="text-subtitle2 text-weight-medium q-ml-sm">
-                Copia los datos y asegurate de pagar correctamente.
-              </div> 
-            </div>
-            <div class="q-mt-md q-pt-xs">
-              <div class="q-mt-md flex justify-between items-center" v-for="(data, index) in dataToPay" :key="index">
-                <div>
-                  <div class="text-body2 text-weight-medium text-grey-7">
-                    {{ data.title }}
-                  </div>
-                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
-                    {{ index == 2 ? `Gs. ${numberFormat(data.value)}` : data.value }}
-                  </div>
-                </div>
-                <q-icon name="eva-copy-outline" size="md" class="copy_icon cursor-pointer" @click="copyData(index, index == 2 ? 'Monto' : data.title )" />
-              </div>
-            </div>
-            <div class="q-pt-md">
-              <q-card-actions align="right" class="text-primary">
-                <q-btn flat no-caps label="Cerrar" @click="hideModal()"/>
-                <q-btn flat no-caps label="He usado estos datos, aceptar" @click="step = 2" />
-              </q-card-actions>
-            </div>
-          </div>
-        </q-card-section>
-      </q-card>
-    </transition>
-    <transition name="horizontal">
-      <q-card style="min-width: 350px" v-if="step === 2">
-        <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm" >
-          <div class="q-pt-sm q-px-md-md q-pt-md-md q-pb-md-none">
-            <div class="text-subtitle1 text-weight-medium">
               Datos de la operación
             </div>
             <div>
               <q-form
                 id="addTransferPay"
                 class="q-gutter-md"
-                @submit="step = 3"
+                @submit="step = 2"
               >
               <div class="row ">
                 <div class="col-12 q-my-md">
@@ -109,12 +73,8 @@
                 </div>
               </div>
               <q-card-actions align="right" class="text-primary">
-                <q-btn flat no-caps label="Volver" @click="step = 1"/>
-                <q-btn flat no-caps label="Confirmar" :loading="loading" type="submit" > 
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
+                <q-btn flat no-caps label="Volver" @click="hideModal()"/>
+                <q-btn flat no-caps label="Confirmar" type="submit" />
               </q-card-actions>
               </q-form>
             </div>
@@ -123,7 +83,7 @@
       </q-card>
     </transition>
     <transition name="horizontal">
-      <q-card style="min-width: 350px" v-if="step === 3">
+      <q-card style="min-width: 350px" v-if="step === 2">
         <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm" >
           <div class="q-pt-sm q-px-md-md q-pt-md-md q-pb-md-none">
             <div class="text-subtitle1 text-weight-medium">
@@ -139,7 +99,7 @@
               <q-form
                 id="addVoucher"
                 class="q-gutter-md"
-                @submit="createNewPay()"
+                @submit="emmitPay()"
               >
               <div class="row ">
                 <div class="col-12 q-my-md">
@@ -156,12 +116,8 @@
                 </div>
               </div>
               <q-card-actions align="right" class="text-primary">
-                <q-btn flat no-caps label="Volver" @click="step = 2"/>
-                <q-btn flat no-caps label="Confirmar" :loading="loading" type="submit" > 
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
+                <q-btn flat no-caps label="Volver" @click="step = 1"/>
+                <q-btn flat no-caps label="Confirmar" type="submit"  /> 
               </q-card-actions>
               </q-form>
             </div>
@@ -173,10 +129,8 @@
 </template>
 <script>
   import { ref, onMounted } from 'vue';
-  import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useBankAccountStore } from '@/services/store/bankAccount.store'
-  import { usePayStore } from '@/services/store/pay.store'
   import wozIcons from '@/assets/icons/wozIcons'
   import util from '@/util/numberUtil'
   import moment from 'moment';
@@ -186,12 +140,11 @@
       dialog: Boolean,
       loan: Object
     },
-    emits: ['hideModal'],
+    emits: ['hideModal', 'emitDataPay'],
     setup (props, { emit }) {
+
       //vue provider
       const bankStore = useBankAccountStore()
-      const payStore = usePayStore()
-      const user = useAuthStore().user;
       const $q = useQuasar();
       const banks = ref([])
       const numberFormat  = util.numberFormat
@@ -205,65 +158,22 @@
         date: '',
         vaucher: null,
       })
-      const loading = ref(false);
+
       const dialog = props.dialog;
-      const dataToPay = [
-      { title: 'Banco', value: 'Sudameris'},
-      { title: 'Alias', value: '0983994268'},
-      // { title: 'Titular', value: 'Woz Pay C.A'},
-      // { title: 'N° de cuenta', value: '000000000000000000000000'},
-      // { title: 'RUC', value: '0000000000'},
-      // { title: 'Tipo de cuenta', value: 'Corriente'},
-      { title: 'Monto a cancelar (1 cuota)', value: loan.amounToPay}
-    ]
 
       // Methods
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
-      const showNotify = (type, message) => {
-        $q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
+
       const hideModal = () => {
         emit('hideModal')
       }
-      const redirect = () => {
-        emit('donePay')
+      const emmitPay = () => {
+        emit('emitDataPay', operationData.value)
       }
+
       const getAllBanks = () =>{
         bankStore.getAllBanks().then((data) =>{
           if(data.code !== 200) return
           banks.value = data.data
-        })
-      }
-      const createNewPay = () => {
-        loadingShow(true)
-        const data = new FormData
-        data.append('loan_id', loan.id)
-        data.append('quota_id', loan.currentQuota.id)
-        data.append('amount', parseFloat(operationData.value.amount))
-        data.append('operation_id', operationData.value.operationId)
-        data.append('bank', operationData.value.bank.name)
-        data.append('pay_date', operationData.value.date)
-        data.append('vaucher', operationData.value.vaucher)
-        data.append('type', 3)
-        data.append('status', 1)
-        data.append('concept', createConceptPay())
-
-        payStore.createPay(data)
-        .then((response) => {
-          if(response.code !== 200) throw response
-          redirect()
-          // hideModal()
-        }).catch((response) => {
-          console.log(response)
-          loadingShow(false)
         })
       }
       
@@ -296,46 +206,21 @@
       const optionsFn = (date) => {
         return  date <= moment().format('YYYY/MM/DD')
       }
-
-      const copyData = (index, type) => {
-        const texto = dataToPay[index].value;
-        const textArea = document.createElement('textarea');
-        textArea.value = texto;
-        textArea.style.opacity = 0;
-        document.body.appendChild(textArea);
-        textArea.select();
-
-        try {
-          const success = document.execCommand('copy');
-        } catch (err) {
-          console.error(err.name, err.message);
-        }
-
-        document.body.removeChild(textArea);
-
-        showNotify('positive',`${type} copiado`)
-      }
-      const createConceptPay = () => {
-        return `Pago de cuota ${loan.pays.length + 1 }/ ${loan.quotas}`
-      }
       onMounted(() =>{
         getAllBanks()
       })
+      
       return {
         wozIcons,
-        loading,
         dialog,
         operationData,
         banks,
         step,
         numberFormat,
-        dataToPay,
-        createNewPay,
         optionsFn,
         hideModal,
         rulesForm,
-        showNotify,
-        copyData,
+        emmitPay,
       }
     }
   };

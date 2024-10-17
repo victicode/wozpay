@@ -1,15 +1,14 @@
 
 <template>
   <div class="profile_section q-pt-none" >
-    <div class=""  >
-      <div class="w-100 q-mx-none" v-if="Object.values(card).length > 0 && card.status == 2">
+    <div class="q-mt-sm"  >
+      <div class="w-100 q-mx-none" v-if="loadingCard">
         <!-- info -->
         <q-list  class="q-px-md">
-          <q-item class="q-py- q-px-sm"  >
+          <q-item class="q-py- q-px-sm" v-if="Object.values(card).length > 0 && card.status == 2">
             <q-item-section>
               <div class="flex items-center justify-between">
                 <div>
-
                   <q-item-label class="q-mt-xs text-weight-bold" >
                   <span class="text-body2 text-weight-bold">
                     Tarjeta vinculada
@@ -58,6 +57,31 @@
           <q-separator />
         </q-list>
       </div>
+      <div class="w-100 q-mx-none" v-else >
+        <!-- info -->
+        <q-list  class="q-px-md">
+          <div v-for="n in 2" :key="n">
+            <q-item class="q-py- q-px-sm">
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <div class="w-50">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      <q-skeleton type="text" style="width: 30%;"/>
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class=" text-caption"><q-skeleton type="text" style="width: 20%;" /></q-item-label>
+                  </div>
+                  <div class="w-50 flex justify-end">
+                    <q-skeleton type="text" style="width: 5%;" />
+                  </div>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </div>
+        </q-list>
+      </div>
     </div>
   </div>
 </template>
@@ -77,18 +101,13 @@
       const cardStore = useCardStore()
       const card = ref({})
       const loadingCard = ref(false)
-
-
-
-
       
       const getLinkCard = () => {
-        loadingCard.value = true;
+        
         cardStore.getCard(user.id).then((data) => {
           if(data.code !== 200) throw data
           setTimeout(()=>{
-            loadingCard.value = false;
-
+            loadingCard.value = true;
             card.value = data.data ? Object.assign(data.data) : {}
           }, 500)
         }).catch((response) => {
@@ -106,11 +125,15 @@
         icons,
         card,
         router,
+        loadingCard,
       }
     },
   }
 </script>
 <style lang="scss" scoped>
+.w-50{
+  width: 50%;
+}
 .w-100 {
   width: 100%;
 }

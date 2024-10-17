@@ -5,7 +5,7 @@
         <img :src="heroImg" class="q-mt-xl q-mt-md-md hero__img" >
       </div>
     </div>
-    <div class=" terms-section">
+    <div class="terms-section">
       <div class="q-pt-lg">
         <div class="text-center q-pt-md" > 
           <div class="text-white text-h4 text-weight-bold ">Woz Payments</div>
