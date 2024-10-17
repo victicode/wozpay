@@ -605,12 +605,14 @@
       const validateUser = () => {
         if(user.value.verify_status != 2   ) {
           isUserApply.value = false
-          redirectType.value = 2
+          redirectType.value = user.value.verify_status == 1 ? 3 : 2
           return isUserApply.value
         }
 
         if(!validateCard()) {
-          redirectType.value = 2
+          redirectType.value = user.value.card.status == 1
+          ? 5
+          : 4
           isUserApply.value = false
           return isUserApply.value
         }

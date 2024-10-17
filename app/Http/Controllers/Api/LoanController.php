@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Loan;
 use App\Models\User;
+use App\Models\Quota;
 use App\Models\Wallet;
 use App\Models\RedTape;
 use App\Models\Interest;
 use Illuminate\Http\Request;
+use App\Events\NotificationsEvent;
 use App\Http\Controllers\Controller;
-use App\Models\Quota;
-use Exception;
 
 class LoanController extends Controller
 {
@@ -41,6 +42,13 @@ class LoanController extends Controller
         
         $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id, 'Prestamo solicitado');
         
+        try {
+            event(new NotificationsEvent(1));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
+
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {

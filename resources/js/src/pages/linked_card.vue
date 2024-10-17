@@ -1,5 +1,5 @@
 <template>
-  <div class="section_page q-mt-lg q-pt-lg">
+  <div class="section_page-link q-mt-lg q-pt-lg">
     <div class="">
       <div class="text-subtitle1 text-weight-bold text-center">Adjuntar tarjeta de crédito o débito</div>
 
@@ -122,7 +122,7 @@
       <div class="q-mt-lg q-px-md q-px-md-xl q-pb-xl">
         <div class="q-px-md-xl q-pb-sm">
           <div class="text-body2 text-weight-bold">Anuncio</div>
-          <div class="text-center publicity_content bg-primary q-pa-md q-mb-xl">
+          <div class="text-center publicity_content bg-primary q-pa-md q-mb-md">
             <div class="text-caption text-white">
               Vende en todo el mundo haciendo Dropshipping
             </div>
@@ -392,7 +392,7 @@
     border-radius: 15px;
     border: 1.8px solid #bacdfd
   }
-  .section_page {
+  .section_page-link {
     background: white;
     max-height: 100%;
     height: max-content;

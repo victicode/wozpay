@@ -48,24 +48,30 @@
 import { inject, onMounted, ref } from 'vue'
 import wozIcons from '@/assets/icons/wozIcons'
 import { useLoanStore } from '@/services/store/loan.store';
+import { useAuthStore } from '@/services/store/auth.store'
 
 
 export default {
   setup () {
     const icons = inject('ionIcons')
+    const user = useAuthStore().user;
     const loanStore = useLoanStore();
     const countPending = ref(0)
     const getSolicitudesCount = () => {
       loanStore.getPendingLoan()
       .then((response) => {
-        console.log(response)
         // countPending.value = 
         countPending.value = response.data
       })
     }
     onMounted(() => {
-      getSolicitudesCount()
+      window.Echo
+      .channel('notificationEvent'+user.id)
+      .listen('NotificationsEvent', async (data) => {
+        getSolicitudesCount()
+      })
     })
+
     return { icons, wozIcons, countPending}
   },
 }
