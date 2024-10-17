@@ -59,7 +59,7 @@
           // router.go(-1)
           return
         }
-        router.push('/loan_pay')
+        router.push('/loan_select_pay')
         
       } 
       const loanComplete = () => {

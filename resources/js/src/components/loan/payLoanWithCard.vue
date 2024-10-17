@@ -11,50 +11,24 @@
           prefix="Gs." 
           disable
           dense  class="amount_input" mask="#.###.###" maxlength="9" reverse-fill-mask
-          
         />
       </div>
     </div>
     <div class="q-px-md-xl q-px-md">
-      
-      <div class="q-mt-lg  q-px-md-xl">
-        <q-btn  
-          color="primary" class="w-100 q-pa-sm" 
-          label="Pagar con Tpago" 
-          @click="queryPayUrl()"
-          :loading="(loading == 'tpago')"
-        >
-          <template v-slot:loading>
-            <q-spinner-facebook />
-          </template>
-        </q-btn>
-      </div>
-      <!-- <div class="q-mt-md  q-px-md-xl" v-if="Object.values(card).length > 0">
+      <div class="q-mt-md  q-px-md-xl" v-if="Object.values(card).length > 0">
         <q-btn  
           color="positive" class="w-100 q-pa-sm" 
           label="Pagar con tarjeta vinculada" 
-          @click="payWithCard()"
+          @click="getPayUrl()"
           :loading="(loading == 'card')"
         >
           <template v-slot:loading>
             <q-spinner-facebook />
           </template>
         </q-btn>
-      </div> -->
-      <div class="q-mt-md  q-px-md-xl" >
-        <q-btn  
-          color="grey-7" class="w-100 q-pa-sm" 
-          label="Pagar con transferencia" 
-          @click="showDialog = 'transfer'"
-          :loading="(loading == 'transfer')"
-        >
-          <template v-slot:loading>
-            <q-spinner-facebook />
-          </template>
-        </q-btn>
       </div>
     </div>
-    <!-- <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="Object.values(card).length > 0 && !loadingCard">
+    <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="Object.values(card).length > 0 && !loadingCard">
       <div>
         <div class="text-subtitle1 text-weight-medium">Nombre</div>
         <div class="text-weight-medium text-subtitle2">Tarjeta de Crédito ****{{ card.number.substring(card.number.length - 4) }}</div>
@@ -63,7 +37,7 @@
         <div class="text-subtitle1 text-weight-medium text-right">Vencimiento</div>
         <div class="text-weight-medium text-subtitle2 text-right">{{ card.due_date }}</div>
       </div>
-    </div> -->
+    </div>
     <div class="q-px-md q-pt-lg q-px-md-xl q-mx-md-xl flex justify-between" v-if="loadingCard">
       <div>
         <div class="text-subtitle1 text-weight-medium">
@@ -88,9 +62,6 @@
     <div v-if="showDialog == 'tpago'">
       <waitModal :dialog="showDialog == 'tpago' " text="Préstamo pagado" />
     </div>
-    <div v-if="showDialog == 'transfer'">
-      <transferModal :dialog="showDialog == 'transfer'" :loan="myLoan" @hideModal="hideModal" @donePay="doneModal()" />
-    </div>
   </div>
 </template>
 <script>
@@ -102,7 +73,6 @@
   import { usePayStore } from '@/services/store/pay.store'
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import waitModal from '@/components/layouts/modals/waitModal.vue';
-  import transferModal from '@/components/loan/modals/transferModal.vue';
   import { useQuasar } from 'quasar';
   import axios from 'axios'
 
@@ -110,7 +80,6 @@
     components: {
       doneModal,
       waitModal,
-      transferModal,
     },
     setup() {
       //vue provider
@@ -156,29 +125,6 @@
         })
       }
 
-      const payWithCard = () => {
-        loadingShow('card')
-
-        const data = new FormData
-        data.append('loan_id', myLoan.value.id)
-        data.append('quota_id', myLoan.value.currentQuota.id)
-        data.append('amount', parseFloat(myLoan.value.amounToPay).toFixed(0))
-        data.append('type', 1)
-        data.append('status', 1)
-        data.append('concept', createConceptPay())
-
-        payStore.createPay(data)
-        .then((response) => {
-          if(response.code !== 200) throw response
-          setTimeout(() => {
-            doneModal()
-          }, 500);
-
-        }).catch((response) => {
-          showNotify('negative', response.data.error)
-          loadingShow('')
-        })
-      } 
 
       const getPayUrl = () => {
         loadingShow('tpago')
@@ -320,7 +266,6 @@
         showDialog,
         loading,
         loadingCard,
-        payWithCard,
         quotaAmount,
         getPayUrl,
         showModal,
