@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="dialog"  :auto-close="true" backdrop-filter="blur(8px)">
-    <transition name="horizontal">
+    <!-- <transition name="horizontal">
       <q-card style="min-width: 350px" v-if="step === 1">
         <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm" >
           <div class="q-pt-sm q-px-md-md q-pt-md-md q-pb-md-none">
@@ -81,9 +81,9 @@
           </div>
         </q-card-section>
       </q-card>
-    </transition>
+    </transition> -->
     <transition name="horizontal">
-      <q-card style="min-width: 350px" v-if="step === 2">
+      <q-card style="min-width: 350px" v-if="step === 1">
         <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm" >
           <div class="q-pt-sm q-px-md-md q-pt-md-md q-pb-md-none">
             <div class="text-subtitle1 text-weight-medium">
@@ -116,7 +116,7 @@
                 </div>
               </div>
               <q-card-actions align="right" class="text-primary">
-                <q-btn flat no-caps label="Volver" @click="step = 1"/>
+                <q-btn flat no-caps label="Volver" @click="hideModal()"/>
                 <q-btn flat no-caps label="Confirmar" type="submit"  /> 
               </q-card-actions>
               </q-form>

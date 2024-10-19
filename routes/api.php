@@ -36,6 +36,9 @@ Route::prefix('auth')->name('user.')->group(function () {
 
 });
 
+Route::middleware('basic.authentication')->prefix('v1/tpago')->name('tpago')->group( function () {
+    Route::post('/', [PayController::class, 'tpagoCallback']);
+});
 Route::get('/get-users', [UserController::class, 'index']);
 
 Route::post('/create_wallet', [UserController::class, 'storeWallet']);

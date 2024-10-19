@@ -37,7 +37,7 @@ class Loan extends Model
         return $daysDue;
     }
     public function redTapes(){
-        return $this->hasOne(RedTape::class,'loan_id', 'id');
+        return $this->belongsTo(RedTape::class,'red_tapes_id', 'id');
     }
     public function pays(){
         return $this->hasMany(Pay::class,'loan_id', 'id');

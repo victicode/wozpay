@@ -39,7 +39,10 @@ class LoanController extends Controller
         ]);
 
         $redTape =  $this->storeRedTapes($request, $loan->id);
-        
+
+        $loan->red_tapes_id = $redTape->id;
+        $loan->save();
+
         $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id, 'Prestamo solicitado');
         
         try {
@@ -120,11 +123,11 @@ class LoanController extends Controller
             'informconf' => $informconf,
             'work_certificate' => $workCertificate,
             'last_ips' => $lastIps,
-            'loan_id' => $loanId,
             'user_id' => $request->user()->id,
+            'use_count' => 1,
         ]);
 
-        return [json_decode($request->last_ips, true), json_decode($request->work, true)];
+        return $redTape;
     }
     private function getQuaotasByDay($days) {
         $quoatas = [

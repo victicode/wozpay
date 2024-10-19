@@ -115,6 +115,24 @@ class PayController extends Controller
 
         return $this->returnSuccess(200, $pay);
     }
+    public function isCompleteLoan($loan) {
+        if($loan->quotas == $loan->pays_success_count){
+            
+            $this->sendNotification(
+                'Felicitaciones has pagado el prestamo #619'.$loan->loan_number.' en su totalidad', 
+                $loan->user_id, 'Prestamo pagado', 2);
+            event(new UserUpdateEvent($loan->user_id));
+
+            return '3';
+        }
+       return '2';
+    }
+    public function tpagoCallback(Request $request) {
+        
+        return $this->returnSuccess(200, [
+            'data' => $request->all(),
+        ]);
+    }
     private function validateFieldsFromInput($inputs){
         $rules=[
             'loan_id'       => ['required', 'integer'],
@@ -132,7 +150,7 @@ class PayController extends Controller
             'loan_id.integer'        => 'Prestamo no valido.',
             'amount.required'        => 'El monto es requerido.',
             'amount.integer'         => 'Monto no valido.',
-            'operation_id.integer'   => 'Número de operación no valido.',
+            'operation_id.regex'     => 'Número de operación no valido.',
             'bank.regex'             => 'Banco no valido.',
             'pay_date.date'          => 'Fecha de pago no valida.',
             'type.required'          => 'tipo es requerido.',
@@ -170,19 +188,6 @@ class PayController extends Controller
         $this->sendNotification('Tu pago ha sido verificado y procesado con exito', $pay->user_id, 'Pago verificado', 2);
         
     }
-
-    public function isCompleteLoan($loan) {
-        if($loan->quotas == $loan->pays_success_count){
-            
-            $this->sendNotification(
-                'Felicitaciones has pagado el prestamo #619'.$loan->loan_number.' en su totalidad', 
-                $loan->user_id, 'Prestamo pagado', 2);
-            event(new UserUpdateEvent($loan->user_id));
-
-            return '3';
-        }
-       return '2';
-    }
     private function sendNotification($message, $user, $subject, $type){
         $notification = new NotificationController;
         $requestNotification = new Request([
@@ -198,4 +203,5 @@ class PayController extends Controller
             //throw $th;
         }
     }
+    
 }

@@ -12,10 +12,10 @@
             </div>
             <router-view v-slot="{ Component }">
               <transition name="inFade">
-                <component :is="Component" class="w-100 q-pt-sm  q-pb-md" style="overflow-y: auto;height:78%;" />
+                <component :is="Component" class="w-100 " style="overflow: hidden;height:77%;" />
               </transition>
             </router-view>
-            <navbarUser v-if="route.name != 'paysPeding'"/>
+            <navbarUser v-if="route.name != 'paysPeding'" class="h-9"/>
           </div>
         </div>
       </div>
@@ -132,9 +132,12 @@
 .h-10 {
   height: 11%;
 }
+.h-9 {
+  height: 9%;
+}
 @media screen and (max-width: 780px){
   .h-10 {
-    height: 10%;
+    height: 11%;
   }
 }
 </style>

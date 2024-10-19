@@ -1,7 +1,7 @@
 <template>
   <div  class="dashboard_container">
     <div style="" class="dashboard_container--details">
-      <div style="height: 28%;">
+      <div class="info__conta">
         <currentUserPersonalInfo />
       </div>
       <div class="dashi"> 
@@ -83,7 +83,10 @@
   }
 
 }
-@media screen and (max-width: 780px){
+.info__conta{
+  height: 12.5rem;
+}
+@media screen and (max-width: 820px){
   .dashboard_container{
     height: 100%;
     max-height: fit-content; 

@@ -3,3 +3,6 @@
     <h1>prueba tpago</h1>
   </div>
 </template>
+<script>
+
+</script>

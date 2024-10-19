@@ -11,7 +11,7 @@
       <q-skeleton type="text" style="width: 50%;" />
     </div>
     <transition name="slide-fade">
-      <div class="" v-if="ready && users.data.length > 0">
+      <div class="" v-if="ready && users.data.length > 0" style="overflow-y: auto;height:88%" >
         <div>
           <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-px-sm  userlist" >
             <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
@@ -55,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="pagination flex flex-center q-mt-md">
+        <div class="pagination flex flex-center q-mt-md q-pb-sm">
           <q-pagination
             v-model="currentPage"
             :max="users.last_page"

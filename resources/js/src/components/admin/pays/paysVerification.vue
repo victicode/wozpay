@@ -23,10 +23,10 @@
               <div>Metodo de pago: </div>
               <div>{{ typePay[pay.type] }}</div>
             </div>
-            <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" v-if="pay.type == 3">
+            <!-- <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" v-if="pay.type == 3">
               <div>Banco </div>
               <div>{{ pay.bank }}</div>
-            </div>
+            </div> -->
             <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
               <div>Concepto: </div>
               <div>{{ pay.concept }}</div>

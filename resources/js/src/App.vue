@@ -135,7 +135,7 @@
       position: relative;
   }
 
-  @media screen and (max-width: 780px){
+  @media screen and (max-width: 820px){
     .body{
       width: 100%;
       margin: auto;

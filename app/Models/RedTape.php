@@ -26,6 +26,7 @@ class RedTape extends Model
         'last_ips',
         'loan_id',
         'user_id',
+        'use_count'
     ];
     public function loan(){
         return $this->belongsTo(RedTape::class,'loan_id', 'id');

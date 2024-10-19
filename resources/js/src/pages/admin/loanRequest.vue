@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <div class=" q-px-sm " v-if="ready" >
       <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" style="border-bottom: 1px solid lightgray;">

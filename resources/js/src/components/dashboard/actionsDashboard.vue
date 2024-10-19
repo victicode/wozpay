@@ -7,8 +7,11 @@
       <div class="row">
         <div class="col-3 q-px-xs">
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/apply">
-            <div class="q-mt-xs" v-html="icons.solicitar" />
-            <span class="q-mt-none text-dark text-body2">Solicitar</span>
+            <div v-if="loan.status == 3">
+              <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
+            </div>
+            <div class="q-mt-xs" v-html="icons.solicitar" v-else />
+            <span class="q-mt-none text-dark text-body2">{{ loan.status == 3 ? 'Rekutu' : 'Solicitar'}}</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
@@ -34,20 +37,43 @@
 </template>
 
 <script>
-  import { useAuthStore } from '@/services/store/auth.store'
   import wozIcons from '@/assets/icons/wozIcons'
+  import { useAuthStore } from '@/services/store/auth.store'
+  import { useLoanStore } from '@/services/store/loan.store';
+  import { ref, onMounted, inject } from 'vue'
 
   export default {
     setup() {
       //vue provider
       const user = useAuthStore().user;
       const icons =  wozIcons
-      // Data
+      const iconis =  inject('ionIcons')
+      const loanStore = useLoanStore() 
+      const loan = ref({}) 
 
-      // Data
+      const activeLoan = () => {
+        loanStore.getLoan(user.id).then((data) => {
+          if(!data.code)  throw data
+          loan.value = data.data ? Object.assign(data.data) : {} 
+          
+          loadingShow(false)
+          setTimeout(() => {
+            isReady.value = true
+          }, 2000)
+        }).catch((e) => {
+          isReady.value = true
+
+          showNotify('negative', 'error al obtener prestamo activo')
+        })
+      }
+      onMounted(() => {
+        activeLoan()
+      })
       return{
         icons,
+        iconis,
         user,
+        loan,
       }
     },
   }

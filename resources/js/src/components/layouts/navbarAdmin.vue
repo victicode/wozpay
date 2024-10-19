@@ -114,7 +114,7 @@ padding-top: 0px!important;
     width: 50%;
     left: 25%;
   }
-  @media screen and (max-width: 780px){
+  @media screen and (max-width: 820px){
     .bottom-tab{
       width: 100%;
       left: 0%;

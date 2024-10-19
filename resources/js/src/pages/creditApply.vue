@@ -517,6 +517,9 @@
     <div v-if="dialog == 'setValue'">
       <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
     </div>
+    <div v-if="haveRekutu">
+      <rekutuModal :dialog="haveRekutu"  @hiddeModal="hiddeModal"/>
+    </div>
   </div>
 </template>
 
@@ -529,6 +532,7 @@
   import { useRouter } from 'vue-router';
   import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
   import setValueModal from '@/components/creditApply/modals/setValueModal.vue';
+  import rekutuModal from '@/components/creditApply/modals/rekutuModal.vue';
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
@@ -537,6 +541,7 @@
     components: {
       redirectModal,
       setValueModal,
+      rekutuModal,
       doneModal
     },
     setup () {
@@ -559,7 +564,7 @@
       const step = ref(1)
       const isUserApply = ref(true)
       const interestRate = ref(1)
-
+      const haveRekutu = ref(false)
       const input = {
         title: '',
         type: 1,
@@ -628,7 +633,6 @@
         return isUserApply.value
       }
       const validateCard = () => {
-
         return user.value.card && user.value.card.status == 2
 
       }
@@ -647,7 +651,6 @@
       const loadingDone = (state) => {
         sendLoading.value = state;
       }
-
       const showModal = (data) => {
         dialog.value = data
       }
@@ -665,7 +668,6 @@
         : loan.value[input.index] = data
         calulateTotalAmount()
       }
-
       const isFile = (data) => {
         if(input.index == 'informconf' || input.index == 'work_certificate') return data[0]
         return data
@@ -682,6 +684,8 @@
       } 
       const hiddeModal = (data) => {
         dialog.value = ''
+        haveRekutu.value = !haveRekutu.value
+
         if(!data) return
         setInput(data)
       }
@@ -747,9 +751,8 @@
             isCurrentLoan.value = data.data.status !=3
               ? true 
               : false 
-
+            haveRekutu.value = data.data.status == 3
             load.value = false
-
             return
           }
           isCurrentLoan.value = false
@@ -772,7 +775,9 @@
           showNotify('negative', 'Error al obtener las tasas de intereses.')
         })
       }
+      const rekutuApply = () => {
 
+      }
       onMounted(() => {
         if(!validateUser()){
           showModal('redirect')
@@ -796,6 +801,7 @@
         isCurrentLoan,
         router,
         interestRate,
+        haveRekutu,
         showModal,
         hiddeModal,
         showInputModal,

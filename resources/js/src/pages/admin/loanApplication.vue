@@ -643,17 +643,20 @@
                 <q-spinner-facebook />
               </template>
             </q-btn>
-            <q-btn 
-              v-if="step == 3 && loan.status == '1'"
-              @click="changeStatusApplyLoan(0)" 
-              color="negative" class="w-100 q-pa-sm q-mb-xl" 
-              label="Rechazar solicitud" 
-              :loading="loading"
-            >
-              <template v-slot:loading>
-                <q-spinner-facebook />
-              </template>
-            </q-btn>
+            <div class="w-100 q-mb-md q-mb-md-none">
+
+              <q-btn 
+                v-if="step == 3 && loan.status == '1'"
+                @click="changeStatusApplyLoan(0)" 
+                color="negative" class="w-100 q-pa-sm q-mb-xl" 
+                label="Rechazar solicitud" 
+                :loading="loading"
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+            </div>
           </q-stepper-navigation>
         </template>
       </q-stepper>
@@ -693,7 +696,6 @@
       const loan = ref({})
       const route = useRoute()
       const document = ref('');
-      const allAprove = ref(0);
       const textModal = ref('');
       // Methods
       const showNotify = (type, message) => {

@@ -5,7 +5,7 @@
         class="q-pt-md-none q-pt-sm q-px-lg q-px-md-xl"
       >
       <div class="row ">
-        <div class="col-12 q-mt-md ">
+        <div class="col-12 q-mt-sm q-pt-xs ">
           <q-input
             class="search_users q-pb-md"
             outlined

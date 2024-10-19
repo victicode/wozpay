@@ -13,11 +13,13 @@
       <div style="">
         <linkedCard />
       </div>
-      <div style="height: 18%;">
+      <div style="">
         <lastTrasanction />
       </div>
+      <div style="">
+        <rekutu />
+      </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -25,6 +27,8 @@
   import actionsDashboard from '@/components/dashboard/actionsDashboard.vue';
   import linkedCard from '@/components/dashboard/linkedCard.vue';
   import lastTrasanction from '@/components/dashboard/lastTrasanction.vue';
+  import rekutu from '@/components/dashboard/rekutu.vue';
+
   import socialLinks from '@/components/dashboard/socialLinks.vue';
 
   export default {
@@ -33,6 +37,7 @@
       actionsDashboard,
       linkedCard,
       lastTrasanction,
+      rekutu,
       socialLinks,
     },
     setup() {

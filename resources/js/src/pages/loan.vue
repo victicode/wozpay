@@ -9,14 +9,14 @@
     <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
       <loanHistory :loan="myLoan" />
     </div>
-    <div class="q-mt-sm q-pt-xs q-mx-md q-mx-md-xl q-px-md-xl"  v-if=" myLoan.status != '1' && myLoan.status != '0'">
+    <div class="q-mt-sm q-pt-xs q-mx-md q-mx-md-xl q-px-md-xl"  v-if=" myLoan.status == '2'">
       <div class="q-mt-md q-pt-md-md">
         <q-btn 
           @click="goTo(loanComplete() ? 1 : 0)" 
           no-caps
-          :color=" loanComplete() ? 'positive' : 'primary'" 
+          :color="'primary'" 
           class="w-100 q-pa-sm " 
-          :label=" loanComplete() ? 'Prestamo pagado con exito!' : 'Pagar préstamo'" 
+          :label="'Pagar préstamo'" 
         />
       </div>
     </div>
@@ -30,6 +30,7 @@
   import loanProgress from '@/components/loan/loanProgress.vue'
   import loanHistory from '@/components/loan/loanHistory.vue'
   import { useLoanStore } from '@/services/store/loan.store'
+  import { useQuasar } from 'quasar';
 
 
   export default {
@@ -45,7 +46,8 @@
       const router = useRouter()
       const loanStore = useLoanStore();
       const myLoan = ref({})
-
+      const $q = useQuasar()
+      
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
@@ -57,11 +59,22 @@
       const goTo = (status) => {
         if(status){
           // router.go(-1)
+          showNotify('warning', 'Tu pago estan siendo veificados')
+
           return
         }
         router.push('/loan_select_pay')
         
       } 
+      const showNotify = (type, message) => {
+        $q.notify({
+          message: message,
+          color: type,
+          actions: [
+            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
+      }
       const loanComplete = () => {
         let goodPays = 0;
 
