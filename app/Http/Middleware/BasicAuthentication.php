@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class BasicAuthentication
 {
     private const USER= 'tpagoRequest';
-    private const PASS= '12f$4.YZp-1+';
+    private const PASS= '1Gf$4.YZp-1+';
  
     public function handle(Request $request, Closure $next)
     {

@@ -518,7 +518,7 @@
       <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
     </div>
     <div v-if="haveRekutu">
-      <rekutuModal :dialog="haveRekutu"  @hiddeModal="hiddeModal"/>
+      <rekutuModal :dialog="haveRekutu"  @hiddeModal="closeRekutu"/>
     </div>
   </div>
 </template>
@@ -615,7 +615,7 @@
         }
 
         if(!validateCard()) {
-          redirectType.value = user.value.card.status == 1
+          redirectType.value = user.value.card && user.value.card.status == 1
           ? 5
           : 4
           isUserApply.value = false
@@ -684,10 +684,14 @@
       } 
       const hiddeModal = (data) => {
         dialog.value = ''
-        haveRekutu.value = !haveRekutu.value
+        
 
         if(!data) return
         setInput(data)
+      }
+      
+      const closeRekutu = () => {
+        haveRekutu.value = false
       }
       const createApplyLoan = () => {
         if(!validateForm()){
@@ -802,6 +806,7 @@
         router,
         interestRate,
         haveRekutu,
+        closeRekutu,
         showModal,
         hiddeModal,
         showInputModal,

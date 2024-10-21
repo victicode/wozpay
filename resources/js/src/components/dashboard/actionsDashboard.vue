@@ -57,11 +57,11 @@
           loan.value = data.data ? Object.assign(data.data) : {} 
           
           loadingShow(false)
-          setTimeout(() => {
-            isReady.value = true
-          }, 2000)
+          // setTimeout(() => {
+          //   isReady.value = true
+          // }, 2000)
         }).catch((e) => {
-          isReady.value = true
+          // isReady.value = true
 
           showNotify('negative', 'error al obtener prestamo activo')
         })
