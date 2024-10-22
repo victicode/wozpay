@@ -1,56 +1,40 @@
 <template>
   <div class="flex items-center">
-    <div>
-      <div class="socialLink__container q-mx-lg">
-        <div class="socialLink__img">
-          <a href="https://cdn-www.lanacionpy.arcpublishing.com/negocios/2021/01/12/emprendedores-ln-renuncio-a-todo-y-en-5-anos-consolido-woz-paraguay-sitio-de-comercio-digital/" target="_blank">
-            <img :src="ln" height="100%" width="100%" alt="">
-          </a>
+    <q-carousel
+      v-model="slide"
+      swipeable
+      animated
+      navigation-position="bottom"
+      navigation
+      padding
+      height="150px"
+      class="bg-purple text-white rounded-borders w-100"
+    >
+      <q-carousel-slide name="style" class="column no-wrap flex-center">
+        <q-icon name="style" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
         </div>
-      </div>
-      <div class="text-weight-medium q-mt-xs flex justify-center items-center">
-      <div>
-        Prensa
-      </div>
-      <div>
-        <q-icon  :name="icons.sharpVerified" color="terciary" size="1.1rem" style="margin-left: 0.05rem; margin-top: -0.1rem;"/>
-      </div>
-      </div>
-    </div>
-    <div>
-      <div class="socialLink__container q-mx-lg">
-        <div class="socialLink__img">
-          <a href="https://www.instagram.com/wozparaguay" target="_blank">
-            <img :src="ig" height="100%" width="100%" alt="">
-          </a>
+      </q-carousel-slide>
+      <q-carousel-slide name="tv" class="column no-wrap flex-center">
+        <q-icon name="live_tv" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
         </div>
-      </div>
-      <div class="text-weight-medium q-mt-xs flex justify-center items-center">
-        <div>
-          Instagram
+      </q-carousel-slide>
+      <q-carousel-slide name="layers" class="column no-wrap flex-center">
+        <q-icon name="layers" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
         </div>
-        <div>
-          <q-icon  :name="icons.sharpVerified" color="terciary" size="1.1rem" style="margin-left: 0.05rem; margin-top: -0.1rem;"/>
+      </q-carousel-slide>
+      <template v-slot:navigation-icon="{ active, btnProps, onClick }">
+
+        <div style="height: 50px; width: 50px; background: red; border-radius: 50%;"  class="cursor-pointer q-mx-sm":class="{'bg-blue':active}" @click="onClick">
+
         </div>
-      </div>
-    </div>
-    <div>
-      <div class="socialLink__container q-mx-lg">
-        <div class="socialLink__img">
-          <a href="https://www.facebook.com/WozParaguay" target="_blank">
-            <img :src="fb" height="100%" width="100%" alt="">
-          </a>
-        </div>
-      </div>
-      <div class="text-weight-medium q-mt-xs flex justify-center items-center">
-        <div class="">
-          Facebook
-        </div>
-        <div>
-          <q-icon  :name="icons.sharpVerified" color="terciary" size="1.1rem" style="margin-left: 0.05rem; margin-top: -0.1rem;"/>  
-        </div>
-      </div>
-    </div>    
+      </template>
+    </q-carousel>
   </div>
 </template>
 <script>
@@ -65,7 +49,9 @@ export default {
       icons: inject('ionIcons'),
       ln,
       ig,
-      fb
+      fb,
+      slide: ref('style'),
+      lorem: 'cia rerum, error dignissimos praesentium libero ab nemo.'
     }
   },
 }

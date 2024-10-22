@@ -3,7 +3,7 @@
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold" v-if="Object.values(loan).length > 0"> 
+          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold" v-if="Object.values(loan).length > 0"> 
             {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}</div>
         </div>
       </div>
@@ -136,8 +136,8 @@
         const status = [
           {text:'Cancelado', color:'negative'},
           {text:'Pendiente', color:'warning'},
-          {text:'Aprobando', color:'positive'},
-          {text:'Pagado',    color:'positive'},
+          {text:'Aprobado', color:'positive'},
+          {text:'Pagada',    color:'positive'},
           {text:'No pagado', color:'deep-orange-13'},
         ]
         return status[state]

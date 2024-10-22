@@ -11,14 +11,15 @@
         <socialLinks />
       </div>
       <div style="">
+        <rekutu />
+      </div>
+      <div style="">
         <linkedCard />
       </div>
       <div style="">
         <lastTrasanction />
       </div>
-      <div style="">
-        <rekutu />
-      </div>
+      
     </div>
   </div>
 </template>

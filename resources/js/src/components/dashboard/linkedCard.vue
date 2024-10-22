@@ -4,7 +4,7 @@
       <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
-            <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold">Mis productos</div>
+            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold">Mis productos</div>
           </div>
         </div>
       </div>

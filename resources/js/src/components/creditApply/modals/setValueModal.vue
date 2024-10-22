@@ -23,7 +23,11 @@
         />
       </q-card-section>
       <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 3" >
-        <q-file class="inputLoanField" v-model="setterVal" clearable clear-icon="eva-close-outline"  autofocus dense max-files="3" multiple label="Ver en carpeta 📂">
+        <q-file 
+          class="inputLoanField" 
+          v-model="setterVal" 
+          clearable clear-icon="eva-close-outline"  
+          autofocus dense max-files="3" multiple label="Ver en carpeta 📂">
           <template v-slot:prepend>
             <q-icon name="eva-attach-2-outline" />
           </template>

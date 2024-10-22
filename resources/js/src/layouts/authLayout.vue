@@ -13,7 +13,7 @@
         </router-view>
       </div>
       <div class="text-center w-100 d-flex flex-center q-px-xl q-mt-md">
-        <div class="text-subtitle2 text-secodary text-weight-medium cursor-pointer" style="opacity: 0.6; ">
+        <div class="text-subtitle2 text-secodary text-weight-medium cursor-pointer text-decoration-underline" style="opacity: 0.6; ">
           Politica de privacidad - Términos y condiciones
         </div>
       </div>

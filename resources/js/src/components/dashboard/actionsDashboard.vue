@@ -6,7 +6,7 @@
     <div class="q-mt-md-md q-mt-xs-md">
       <div class="row">
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/apply">
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect':loan.status == 3}" to="/apply">
             <div v-if="loan.status == 3">
               <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
@@ -80,7 +80,7 @@
 </script>
 <style lang="scss">
   .actions-button{
-    border: 1.3px solid #c7c7c7!important;
+    border: 1.3px solid #c7c7c7;
     border-radius: 15px!important;
     height: 70px!important;
     width: 100%!important;

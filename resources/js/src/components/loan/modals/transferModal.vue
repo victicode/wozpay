@@ -110,7 +110,7 @@
                     :clear-icon="'eva-close-outline'"
                     color="positive"
                     v-model="operationData.vaucher"
-                    label="Adjuntar comprobante"
+                    label="Cargar comprobante 📂"
                     :rules="rulesForm('vaucher')"
                   />
                 </div>

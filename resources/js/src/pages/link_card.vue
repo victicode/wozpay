@@ -24,7 +24,7 @@
             style="width: 10%;"
             size="lg"
           />
-          <div class="text-subtitle1  text-weight-medium text-white q-pl-md q-pl-md-xs" style="width: 85%;">
+          <div class="text-subtitle1  text-weight-medium text-white q-pl-md q-pl-md-xs cursor-pointer text-decoration-underline" style="width: 85%;">
             Acepto que he leído los términos y 
             condiciones de Woz Pay
           </div>
