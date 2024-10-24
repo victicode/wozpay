@@ -41,6 +41,7 @@ import selectPayLoan from '@/components/loan/selectPayLoan.vue';
 import loanView from '@/components/loan/loanView.vue'
 import link_card from '@/pages/link_card.vue'
 import cardPage from '@/pages/card.vue'
+import AllTransaction from '@/pages/allTransaction.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -434,6 +435,13 @@ const router = createRouter({
           component: loanPayFinish,
           meta: {
             title: 'Mi préstamo'
+          }
+        },
+        {
+          path: '/transactions',
+          component: AllTransaction,
+          meta: {
+            title: 'Ultimas transacciones'
           }
         },
       ]

@@ -23,13 +23,17 @@
                   </div>
                 </div>             
                 <div class="q-mr-none cursor-pointer">
-                  <q-chip :color="linkCard.status == 2 ? 'positive' : linkCard.status == 1 ? 'warning' : 'negative'" text-color="white" >
+                  <q-chip 
+                    :color="linkCard.status == 2 ? 'chip' : linkCard.status == 1 ? 'warning' : 'negative'" 
+                    :text-color=" linkCard.status == 2 ? 'positive' : 'white'" 
+                    class="q-px-lg"
+                  >
                     {{  linkCard.status == 2 ? 'Vinculada' : linkCard.status == 1 ? 'Pendiente' : 'Rechazada' }}
                   </q-chip>
                 </div>
               </div>
               <div class="w-100 flex items-center justify-between q-mt-md ">
-                <div class="flex items-center   w-80 ">
+                <div class="flex items-center w-80 ">
                   <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.outlinedAccountBalance" class="" size="sm" />
                   </div>

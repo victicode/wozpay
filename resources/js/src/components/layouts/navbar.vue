@@ -13,7 +13,7 @@
       </div>
     </q-route-tab>
     <!-- <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/last-operations'" :icon="'eva-flip-2-outline'" exact replace label="Ult. Trans." /> -->
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" exact style="opacity: 0.4;">
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" exact :to="'/transactions'" >
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"

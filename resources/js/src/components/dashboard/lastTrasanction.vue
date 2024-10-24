@@ -22,7 +22,7 @@
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
                 <div class="text-weight-medium text-right">
-                  <q-chip class="q-ma-none" :color="loanStatus(loan.status).color" text-color="white" >
+                  <q-chip class="q-ma-none q-px-lg" :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
                     {{ loanStatus(loan.status).text }}
                   </q-chip>
                 </div>
@@ -134,11 +134,11 @@
       }
       const loanStatus = (state) => {
         const status = [
-          {text:'Cancelado', color:'negative'},
-          {text:'Pendiente', color:'warning'},
-          {text:'Aprobado', color:'positive'},
-          {text:'Pagada',    color:'positive'},
-          {text:'No pagado', color:'deep-orange-13'},
+          {text:'Cancelado', color:'negative', texColor:'white' },
+          {text:'Pendiente', color:'warning', texColor:'white' },
+          {text:'Aprobado', color:'chip', texColor:'positive' },
+          {text:'Pagada',    color:'chip', texColor:'positive' },
+          {text:'No pagado', color:'deep-orange-13', texColor:'white' },
         ]
         return status[state]
       }

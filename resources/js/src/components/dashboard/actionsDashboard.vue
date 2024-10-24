@@ -63,7 +63,7 @@
         }).catch((e) => {
           // isReady.value = true
 
-          showNotify('negative', 'error al obtener prestamo activo')
+          // showNotify('negative', 'error al obtener prestamo activo')
         })
       }
       onMounted(() => {
