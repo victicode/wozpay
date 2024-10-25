@@ -23,10 +23,10 @@ html{
   font-family:  Eva-Icons!important;
 }
 .text-terciary {
-  color: #ffc701  !important;
+  color: #ffc701!important;
 }
 .bg-terciary {
-  background: #ffc701  !important;
+  background: #ffc701!important;
 }
 .text-decoration-underline{
   text-decoration: underline;
@@ -209,10 +209,10 @@ html{
   
   background-position: center center;
 
-  animation: bg-spin 5s linear infinite;
+  animation: bg-spin 4s linear infinite;
   @keyframes bg-spin {
     to {
-      --border-angle: 1turn;
+      --border-angle: 2turn;
     }
   }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\InterestController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PayController;
+use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WalletController;
@@ -111,6 +112,11 @@ Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(fu
     Route::post('/', [TransferController::class, 'createTransfer']);
 
 });
+Route::middleware('jwt.verify')->prefix('transaction')->name('transacction.')->group(function () {
+    Route::get('/all/{id}', [TransactionController::class, 'getTrasactionByUser']);
+    Route::post('/', [TransactionController::class, 'createTransfer']);
+
+});
 Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(function () {
     Route::get('/', [InterestController::class, 'getInterestRate']);
     Route::post('/', [InterestController::class, 'storeInterestRate']);
@@ -123,6 +129,7 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
     Route::post('/get_url', [PayController::class, 'payRequest']);
     Route::post('/change-status/{id}', [PayController::class, 'changeStatus']);
 });
+
 
 Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( function () {
     Route::get('/{id}', [WalletController::class, 'allBalances']);

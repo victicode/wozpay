@@ -161,9 +161,9 @@
     <div v-if="showDialog == 'ready'">
       <doneModal :dialog="(showDialog == 'ready')" :text="'Transferencia realizada'" />
     </div>
-    <div v-if="showDialog == 'confirm'">
-      <confirmDialog :dialog="(showDialog == 'confirm')" :transfer="formCardData" @hideModal="hideModal"/>
-    </div>
+
+    <confirmDialog :dialog="(showDialog == 'confirm')" :transfer="formCardData" @hideModal="hideModal"/>
+
   </div>
 </template>
 <script>
@@ -367,6 +367,7 @@
         storeTransfer,
         showConfirm,
         getWalletToTransfer,
+        hideModal,
       }
     },
   }

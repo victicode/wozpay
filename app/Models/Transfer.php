@@ -22,7 +22,6 @@ class Transfer extends Model
         ];
         return $status[$this->status];
     }
-
     public function user_from(){
         return $this->belongsTo(Wallet::class,'from_id', 'id');
     }

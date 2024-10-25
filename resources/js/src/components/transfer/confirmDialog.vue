@@ -5,25 +5,64 @@
         <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm" >
           <div class="q-pt-sm q-px-md-md q-pt-md-md q-pb-md-none">
             <div class="text-subtitle1 text-weight-medium">
-              Confirma tu operación
+              Confirma los datos de la operación
             </div>
             <div class="q-mt-sm flex info_pay__content q-py-sm q-px-md">
               <q-icon  name="eva-alert-circle-outline" size="sm" color="primary"/>
               <div class="text-subtitle2 text-weight-medium q-ml-sm">
-                Copia los datos y asegurate de pagar correctamente.
+                Asegurate de haber introducido los datos de forma correcta
               </div> 
             </div>
             <div class="q-mt-md q-pt-xs">
               <div class="q-mt-md flex justify-between items-center">
                 <div>
                   <div class="text-body2 text-weight-medium text-grey-7">
-                  fffff
+                    Billetera WozPay
                   </div>
                   <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
-                    dddddddd
+                    {{ transfer.recept }}
                   </div>
                 </div>
-                <q-icon name="eva-copy-outline" size="md" class="copy_icon" />
+              </div>
+              <div class="q-mt-md flex justify-between items-center">
+                <div>
+                  <div class="text-body2 text-weight-medium text-grey-7">
+                    Nombre completo
+                  </div>
+                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
+                    {{ transfer.recept_owner }}
+                  </div>
+                </div>
+              </div>
+              <div class="q-mt-md flex justify-between items-center">
+                <div>
+                  <div class="text-body2 text-weight-medium text-grey-7">
+                    Cedula de indentidad
+                  </div>
+                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
+                    {{ transfer.recept_dni}}
+                  </div>
+                </div>
+              </div>
+              <div class="q-mt-md flex justify-between items-center">
+                <div>
+                  <div class="text-body2 text-weight-medium text-grey-7">
+                    Monto
+                  </div>
+                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
+                    Gs. {{ transfer.amount }}
+                  </div>
+                </div>
+              </div>
+              <div class="q-mt-md flex justify-between items-center">
+                <div>
+                  <div class="text-body2 text-weight-medium text-grey-7">
+                    Concepto
+                  </div>
+                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
+                    {{ transfer.text}}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="q-pt-md">
@@ -53,9 +92,9 @@
     setup (props, { emit }) {
       //vue provider
       const numberFormat  = util.numberFormat
-      const transfer = props.transfer
+      const transfer = ref(props.transfer)
       const loading = ref(false);
-      const dialog = props.dialog 
+      const dialog = ref(props.dialog) 
       // Methods
       const loadingShow = (state) => {
         loading.value = state;
@@ -63,6 +102,14 @@
       const hideModal = (data) => {
         emit('hideModal', data )
       }
+      watch(() => props.dialog, (newValue) => {
+        dialog.value = newValue
+        console.log(transfer.value)
+      });
+
+      watch(() => props.transfer, (newValue) => {
+        transfer.value = newValue
+      });
 
       return {
         wozIcons,

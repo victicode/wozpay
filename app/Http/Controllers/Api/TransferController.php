@@ -156,7 +156,7 @@ class TransferController extends Controller
         if($transfer->status == 2){
             return[
                 'Realizaste una transferencia de Gs.'.number_format($transfer->amount, 0, ',', '.').' con la referencia #'.$transfer->reference,
-                'Recbiste una transferencia por Gs.'.number_format($transfer->amount, 0, ',', '.').' con la referencia #'.$transfer->reference,
+                'Recibiste una transferencia por Gs.'.number_format($transfer->amount, 0, ',', '.').' con la referencia #'.$transfer->reference,
             ];
         }
     }
