@@ -6,8 +6,11 @@
           <div>
 
           </div>
-          <div v-for="(line, index) in lines(transaction)" :key="index">
-            
+          <div>
+
+            <div v-for="(line, index) in lines(transaction)" :key="index">
+              {{ line }}
+            </div>
           </div>
           <div>
 
