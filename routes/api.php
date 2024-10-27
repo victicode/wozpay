@@ -114,6 +114,8 @@ Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(fu
 });
 Route::middleware('jwt.verify')->prefix('transaction')->name('transacction.')->group(function () {
     Route::get('/all/{id}', [TransactionController::class, 'getTrasactionByUser']);
+    Route::get('/byType/{type}/{id}', [TransactionController::class, 'getTrasactionByType']);
+    Route::get('/print/{type}/{id}', [TransactionController::class, 'printTransaction']);
     Route::post('/', [TransactionController::class, 'createTransfer']);
 
 });

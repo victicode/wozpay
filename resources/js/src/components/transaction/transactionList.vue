@@ -9,7 +9,10 @@
             @click="goTo(transaction.transaction, transaction.id)"
           >
             <div class="flex items-center">
-              <div v-html="imgTransaction(transaction)" class="q-mr-sm q-mr-md-md icons-transfer" :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5}"/>
+              <div v-html="imgTransaction(transaction)" 
+              class="q-mr-sm q-mr-md-md icons-transfer" 
+              :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5}"
+              />
               <div>
                 <div 
                   v-for="(line, index) in lines(transaction)" 
@@ -125,15 +128,12 @@ export default {
       emitter.emit('modalNotification', data);
     } 
     const lines = (transaction) => {
-      
       if(transaction.transaction == 1)  return { title:'Realizaste una carga de saldo', text: transaction.concept }
       if(transaction.transaction == 2)  return { title:'Realizaste un pago de prestamo', text: transaction.concept }
       if(transaction.transaction == 3)  return { title:'Realizaste un pago de prestamo', text: transaction.concept }
       if(transaction.transaction == 4)  return { title:'Recibiste una transferencia de', second: transaction.user_from.user.name, text: transaction.concept }
       if(transaction.transaction == 5)  return { title:'Realizaste una transferencia de', second: transaction.user_to.user.name, text: transaction.concept }
       if(transaction.transaction == 6)  return { title:'Realizaste un pago de prestamo', text: transaction.concept }
-
-
     }
     const imgTransaction = (transaction) => {
       if(transaction.transaction == 1)  return wozIcons.cargar

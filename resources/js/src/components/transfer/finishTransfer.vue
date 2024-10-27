@@ -1,6 +1,6 @@
 <template>
   <div  class="bg-primary" style="height: 100vh;">
-    <div v-if="Object.values(transfer).length > 0" style="height: 100%;">
+    <div v-if="Object.values(transfer).length > 0" style="height: 100%; overflow: auto;">
 
       <div id="topbarLayout" class="bg-primary q-pt-md">
         <div class="w-100 flex justify-between items-center h-100 q-pb-sm">
@@ -14,8 +14,8 @@
         </div>
       </div>
       <div>
-        <div class="q-px-md q-mt-lg q-px-md-xl">
-          <div class="recipe__card bg-white q-py-md ">
+        <div class="q-px-md q-mt-md q-px-md-xl">
+          <div class="recipe__card bg-white q-py-xs ">
             <div class="recipe__card--header flex items-center w-100 q-pa-md q-px-md-lg ">
               <div class="w-50">
                 <div>
@@ -86,21 +86,23 @@
           </div>
         </div>
       </div>
-      <!-- <div class="q-px-md-xl q-pt-sm">
-        <div class="q-px-lg q-mt-lg q-px-md-xl q-mx-md-xl">
-          <q-btn 
-            color="negative" class="w-100 q-pa-md donwload" 
-            no-caps
-          >
-          <div class="flex flex-center">
-            <div class="q-mr-xs q-mt-xs">
-              Descargar
+      <div class="q-px-md-none q-pb-md">
+        <div class="q-px-lg q-mt-lg q-px-md-xl ">
+          <a :href="url+'api/transaction/print/5/'+transfer.id+'?token='+token"  target="_blank" rel="noopener noreferrer">
+            <q-btn 
+              color="negative" class="w-100 q-pa-md donwload" 
+              no-caps
+            >
+            <div class="flex flex-center">
+              <div class="q-mr-xs q-mt-xs">
+                Descargar
+              </div>
+              <div v-html="wozIcons.pdf" />
             </div>
-            <div v-html="wozIcons.pdf" />
-          </div>
-          </q-btn>
+            </q-btn>
+          </a>
         </div>
-      </div> -->
+      </div>
     </div>
 
   </div>
@@ -142,6 +144,8 @@
         wozIcons,
         transfer,
         numberFormat,
+        url:import.meta.env.VITE_VUE_APP_BACKEND_URL,
+        token: localStorage.getItem('id_token')
       }
     }
   };
