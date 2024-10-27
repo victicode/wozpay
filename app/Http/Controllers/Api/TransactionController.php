@@ -5,28 +5,46 @@ namespace App\Http\Controllers\Api;
 use DateTime;
 use App\Models\Pay;
 use App\Models\User;
+use App\Models\Wallet;
 use App\Models\Transfer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class TransactionController extends Controller
 {
     //
     public function getTrasactionByUser($UserId, Request $request) {
+        $user =  User::with(['successPays' => function (Builder $query) use ($request) { 
+            $query->whereMonth('created_at',$request->month+1);
+        }, 'wallet'])->find($UserId);
 
-        $wallet = User::with('wallet')->find($UserId)->wallet->id;
-        $pays =  Pay::where('user_id', $UserId)->orderBy('created_at', 'desc')->whereMonth('created_at', $request->month+1)->paginate(1);
-        $transferSend = $this->tagTransfer(Transfer::with('user_to.user')->orderBy('created_at', 'desc')->whereMonth('created_at', $request->month+1)->where('from_id', $wallet)->paginate(1), 4);
-        $transferRecept = $this->tagTransfer(Transfer::with('user_from.user')->orderBy('created_at', 'desc')->whereMonth('created_at', $request->month+1)->where('to_id', $wallet)->paginate(1),5);
+        $wallet =  Wallet::with(['transferSend' => function (Builder $query) use ($request) { 
+            $query->with('user_to.user')->whereMonth('created_at',$request->month+1);
+        }])->find($user->wallet->id);
 
+        $wallet2 =  Wallet::with(['transferRecept' => function (Builder $query) use ($request) { 
+            $query->with('user_from.user')->whereMonth('created_at',$request->month+1);
+        }] )->find($user->wallet->id);
+
+
+        
         $all = [
-            ...$pays, 
-            ...$transferSend,
-            ...$transferRecept,
+            ...$user->successPays ?? [], 
+            ...$this->tagTransfer($wallet2->transferRecept ?? [],4), 
+            ...$this->tagTransfer($wallet->transferSend ?? [],5) ,
         ];
+        
+
         usort($all, $this->object_sorter('created_at', 'DESC'));
 
-        return $this->returnSuccess(200, $all);
+        $allFormated = array_chunk($all, 6);
+
+
+        return $this->returnSuccess(200,[ 
+          'transactions' =>  $allFormated[$request->page - 1] ?? [],
+          'countAllPages' =>  ceil(count($all)/6),
+        ]);
     }
      private function object_sorter($clave,$orden=null) {
         return function ($a, $b) use ($clave,$orden) {
@@ -35,9 +53,12 @@ class TransactionController extends Controller
         };
     }
     private function tagTransfer($transfer, $tag){
+        if(count($transfer) == 0) return [];
+        
         foreach ($transfer as $key) {
             $key->transaction = $tag;
         }
         return $transfer;
     }
+
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pt-md ">
+  <div class="q-pt-md " style="height: 100%;">
     <searchAndFilter />
     <transactionList />
   </div>
@@ -29,6 +29,3 @@ export default {
   },
 }
 </script>
-<style lang="scss">
-
-</style>

@@ -42,6 +42,7 @@ import loanView from '@/components/loan/loanView.vue'
 import link_card from '@/pages/link_card.vue'
 import cardPage from '@/pages/card.vue'
 import AllTransaction from '@/pages/allTransaction.vue';
+import viewTransaction from '@/components/transaction/viewTransaction.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -442,6 +443,13 @@ const router = createRouter({
           component: AllTransaction,
           meta: {
             title: 'Ultimas transacciones'
+          }
+        },
+        {
+          path: '/trasacction/view/:type/:id',
+          component: viewTransaction,
+          meta: {
+            title: 'Comprobante'
           }
         },
       ]

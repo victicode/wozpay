@@ -1,5 +1,5 @@
 <template>
-  <div class="q-px-md-lg q-px-md  q-pt-md-md q-pt-sm search_trasaction q-pb-md-md q-pb-sm">
+  <div class="q-px-md-lg q-px-md  q-pt-md-md q-pt-sm search_trasaction q-pb-md-md q-pb-sm" style="">
     <div class="w-100 flex justify-between items-center available__money q-py-sm q-px-md">
       <div class="flex items-center">
         <q-icon
@@ -117,6 +117,7 @@ export default {
 <style lang="scss">
 .search_trasaction{
   border-bottom: 0.3rem solid $grey-5 ;
+  height: 27%;
 }
 .available__money{
   border: 0.12rem solid $grey-5;
@@ -153,6 +154,9 @@ export default {
   }
 }
 @media screen and (max-width: 780px){
+  .search_trasaction{
+    height: 26%;
+  }
   .search__trasaction {
     & .q-field__bottom{
       transform: translateY(15px);

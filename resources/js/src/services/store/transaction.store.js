@@ -26,11 +26,11 @@ export const useTransactionStore = defineStore("transaction", {
         return 'Error al actualizar datos';
       });
     },
-    async getTransaction(TransactionId) {
+    async getTrasactionByData(TransactionType, TransactionId) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/transaction/"+TransactionId,)
+          ApiService.get("/api/transaction/byType/"+TransactionType+'/'+TransactionId)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
