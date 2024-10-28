@@ -8,7 +8,8 @@
       navigation
       padding
       height="150px"
-      
+      infinite
+      autoplay="2500"
       class=" rounded-borders w-100"
     >
       <q-carousel-slide 
@@ -40,7 +41,7 @@
           </div>
         </a>
       </q-carousel-slide>
-      <template v-slot:navigation-icon="{ active, btnProps, onClick }">
+      <template v-slot:navigation-icon="{ active, onClick }">
 
         <div  class="cursor-pointer q-mx-xs socialLink__controls" :class="{active}" @click="onClick">
 

@@ -116,11 +116,11 @@ export default {
 </script>
 <style lang="scss">
 .search_trasaction{
-  border-bottom: 0.3rem solid $grey-5 ;
+  border-bottom: 2px solid $grey-5 ;
   height: 27%;
 }
 .available__money{
-  border: 0.12rem solid $grey-5;
+  border: 1px solid $grey-5;
   border-radius: 12px;
 }
 .search__trasaction {
@@ -180,7 +180,7 @@ export default {
     &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
       z-index: 100;
       background: white;
-      font-weight: 600;
+      font-weight: 400;
       max-width: 133%;
       transform: translateY(10%)  scale(0.90)!important;
     }
@@ -192,6 +192,7 @@ export default {
       width: 100%;
       text-align: end;
     }
+
     & .q-field__append{
       transform: translateY(-4%)
     }

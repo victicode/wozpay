@@ -53,7 +53,7 @@
         </div>
     </div>
     <div v-if="!loading && Object.values(transactions).length == 0" class="flex flex-center column q-pt-xl">
-      <q-icon :name="icons.ionRepeatOutline" color="terciary" size="10rem" class="q-mt-md" style="transform:rotate(50deg) ;" />
+      <q-icon :name="icons.ionRepeatOutline" color="terciary" size="5rem" class="q-mt-md" style="transform:rotate(50deg) ;" />
       <div class="text-h6 text-weight-medium">
         Sin transacciones
       </div>

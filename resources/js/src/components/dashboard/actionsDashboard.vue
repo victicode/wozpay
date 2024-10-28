@@ -80,7 +80,7 @@
 </script>
 <style lang="scss">
   .actions-button{
-    border: 1.3px solid #c7c7c7;
+    border: 1.3px solid #c7c7c7!important;
     border-radius: 15px!important;
     height: 70px!important;
     width: 100%!important;
