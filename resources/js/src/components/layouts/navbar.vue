@@ -4,11 +4,11 @@
     right-icon="-"
     active-color="terciary"
     align="justify"
-    class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex q-py-xs" 
+    class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex q-py-xs userTab" 
   >
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'" exact>
       <div class="flex flex-center column">
-        <div v-html="wozIcons.home" />
+        <div v-html="wozIcons.home" class="iconWoz"  />
         <span class="q-mt-xs text-dark text-caption">Inicio</span>
       </div>
     </q-route-tab>
@@ -34,7 +34,7 @@
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'" exact>
       <div class="flex flex-center column">
         <section class="flex flex-center column relative">
-          <div v-html="wozIcons.notification" />
+          <div v-html="wozIcons.notification" class="iconWoz" />
           <div v-if="notificationsCount > 0"  rounded floating class="notificationBadge bg-negative"  >
             {{ notificationsCount >= 10 ? '+'+notificationsCount : notificationsCount }}
           </div>
@@ -44,7 +44,7 @@
     </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/profile'" exact> 
       <div class="flex flex-center column">
-        <div v-html="wozIcons.profile" />
+        <div v-html="wozIcons.profile" class="iconWoz" />
         <span class="q-mt-xs text-dark text-caption">Perfil</span>
       </div>
     </q-route-tab>
@@ -87,7 +87,18 @@ export default {
   },
 }
 </script>
-<style>
+<style lang="scss">
+.userTab{
+
+  & .q-tab--active {
+    & span {
+      color:#ffc701!important;
+    }
+    & .iconWoz path {
+      stroke: #ffc701;
+    }
+  }
+}
 .notificationBadge{
   top: -5px!important; 
   right: -10px!important;

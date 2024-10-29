@@ -7,7 +7,7 @@
       <div class="bg-white">
         <actionsDashboard />
       </div>
-      <div class="bg-white q-py-md">
+      <div class="bg-white q-pt-md q-pb-none">
         <socialLinks />
       </div>
       <div style="">

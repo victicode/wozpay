@@ -17,7 +17,7 @@
     <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady">
         <div class="row q-px-none">
-          <div class="col-12 text-black-9 q-pa-md flex items-center justify-between justify-md-start loan_card rekutu-efect" style="" >
+          <div class="col-12 text-black-9 q-pa-md flex items-center justify-between justify-md-start loan_card " :class="{'rekutu-efect':activeRekutu =='yes', 'none-efect':activeRekutu !='yes'} " style="" >
             <div>
               <q-icon :name="icons.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div>
-              <q-btn round flat class="q-ml-md-md" @click="router.push('/apply')"> 
+              <q-btn round flat class="q-ml-md-md" @click="goTo()"> 
                 <q-icon
                   name="eva-arrow-ios-forward-outline"
                   size="xs"
@@ -103,12 +103,19 @@
           loadingShow(false)
 
           isReady.value = true
+          if(!localStorage.getItem('rekutu')){
+            if(loan.value.status == 3) localStorage.setItem('rekutu', 'yes')
+          }
 
         }).catch((e) => {
           isReady.value = true
 
           showNotify('negative', 'error al obtener prestamo activo')
         })
+      }
+      const goTo = ()=> {
+        localStorage.setItem('rekutu', 'no')
+        router.push('/apply')
       }
       const showNotify = (type, message) => {
         q.notify({
@@ -134,6 +141,8 @@
         wozIcons,
         loan,
         router,
+        activeRekutu: localStorage.getItem('rekutu'),
+        goTo,
       }
     },
   }
@@ -141,8 +150,11 @@
 </script>
 <style lang="scss" scoped>
 .loan_card{
-  border-radius:23px;
-  box-shadow: 0px 5px 5px 0px #aaaaaa
+  border-radius:20px;
+  box-shadow: 0px 5px 5px 0px #aaaaaa;
+  &.none-efect{
+    background: white;
+  }
 }
 .loan_container{
   border-bottom: 1px solid #d3d3d3;

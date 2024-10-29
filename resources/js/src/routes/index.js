@@ -252,6 +252,13 @@ const router = createRouter({
       ]
     },
     {
+      path: '/trasacction/view/:type/:id',
+      component: viewTransaction,
+      meta: {
+        title: 'Comprobante'
+      }
+    },
+    {
       path: "/",
       name:"link",
       component: paysLayout,
@@ -445,13 +452,7 @@ const router = createRouter({
             title: 'Ultimas transacciones'
           }
         },
-        {
-          path: '/trasacction/view/:type/:id',
-          component: viewTransaction,
-          meta: {
-            title: 'Comprobante'
-          }
-        },
+        
       ]
     },
     

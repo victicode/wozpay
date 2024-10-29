@@ -1,15 +1,17 @@
 <template>
-  <div class="flex items-center social__carousel">
+  <div class="flex items-center social__carousel q-px-md q-px-md-xl">
     <q-carousel
       v-model="slide"
       swipeable
       animated
       navigation-position="bottom"
       navigation
+      transition-prev="slide-right"
+      transition-next="slide-left"
       padding
-      height="150px"
+      height="140px"
       infinite
-      autoplay="2500"
+      :autoplay="5000"
       class=" rounded-borders w-100"
     >
       <q-carousel-slide 
@@ -28,14 +30,14 @@
               </div>
             </div>
             <div style="" class="q-pl-sm">
-              <div class="text-subtitle1 text-weight-bold flex items-center">
+              <div class="text-subtitle2 text-weight-bold flex items-center">
                 <div class="q-mr-xs">
                   {{info.title}}
                 </div>
                 <q-icon :name="icons.sharpVerified" color="terciary" size="1.4rem" style="margin-left: 0.05rem; margin-top: -0.1rem;"/>
 
               </div>
-              <div class="text-body2 text-weight-medium">{{info.text}}</div>
+              <div class="text-caption text-weight-medium">{{info.text}}</div>
             </div>
 
           </div>
@@ -110,8 +112,8 @@ export default {
     width:78%;
   }
   .socialLink__img--container{
-    height: 4rem;
-    width: 4rem;
+    height: 3.5rem;
+    width: 3.5rem;
     border-radius: 50%;
     border: 4px solid #ffc701;
     display: flex;

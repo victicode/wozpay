@@ -2,14 +2,17 @@
   <div class="layout-dasboard__content"   style="">
     <topbarPay />
     <div class="container_page" >
-      <div class="section_page q-mt-md">
-        
+      <div class="section_page q-mt-md">  
         <router-view v-slot="{ Component }">
           <transition name="vertical">
             <component :is="Component"  />
           </transition>
         </router-view>
       </div>
+    </div>
+    <div class="payNavbar-buttom">
+      <navbarVue  v-if="user.rol_id != 1" />
+      <navbarAdminVue v-else />
     </div>
   </div>
 </template>
@@ -20,10 +23,14 @@
   import { useRouter } from 'vue-router';
   import utils from '@/util/httpUtil';
   import topbarPay from '@/components/layouts/topbarPay.vue';
-  
+  import navbarVue from "@/components/layouts/navbar.vue";
+  import navbarAdminVue from '@/components/layouts/navbarAdmin.vue';
+
   export default {
     components:{
-      topbarPay
+      topbarPay,
+      navbarVue,
+      navbarAdminVue,
     },
     setup () {
       //vue provider
@@ -31,6 +38,7 @@
       const $q = useQuasar()
       const store = useAuthStore();
       const router = useRouter();
+      const user = ref(useAuthStore().user)
 
       const readyState = ref(false)
       // methods
@@ -61,7 +69,8 @@
       
       return {
         icons,
-        readyState
+        readyState,
+        user,
       }
     }
   };
@@ -69,7 +78,7 @@
 
 <style lang="scss" scoped>
 .container_page{
-  height: 92%;
+  height: 83%;
   overflow: hidden;
   background: $primary;
 }
@@ -81,6 +90,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.payNavbar-buttom{
+  height: 9%;
 }
 </style>
 <style lang="scss" scoped>

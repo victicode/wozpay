@@ -6,7 +6,7 @@
     <div class="q-mt-md-md q-mt-xs-md">
       <div class="row">
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect':loan.status == 3}" to="/apply">
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect':activeRekutu =='yes'}" to="/apply" >
             <div v-if="loan.status == 3">
               <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
@@ -74,6 +74,8 @@
         iconis,
         user,
         loan,
+        activeRekutu: localStorage.getItem('rekutu')
+
       }
     },
   }
@@ -93,5 +95,42 @@
     }
   }
 
+  .rekutu-efect {
 
+--border-angle: 0turn; // For animation.
+--main-bg: conic-gradient(
+    from var(--border-angle),
+    rgb(255, 255, 255),
+    rgb(255, 255, 255) 5%,
+    rgb(255, 255, 255) 60%,
+    rgb(255, 255, 255) 95%
+  );
+
+border: solid 3px transparent!important;
+border-radius: 2em;
+--gradient-border: conic-gradient(from var(--border-angle), #04741e 0%, #04741e, #08ff66 100%, #08ff66);
+
+background: 
+  // padding-box clip this background in to the overall element except the border.
+  var(--main-bg) padding-box,
+  // border-box extends this background to the border space
+  var(--gradient-border) border-box, 
+  // Duplicate main background to fill in behind the gradient border. You can remove this if you want the border to extend "outside" the box background.
+  var(--main-bg) border-box;
+
+background-position: center center;
+
+animation: bg-spin 4s linear infinite;
+@keyframes bg-spin {
+  to {
+    --border-angle: 2turn;
+  }
+}
+}
+
+@property --border-angle {
+syntax: "<angle>";
+inherits: true;
+initial-value: 0turn;
+}
 </style>

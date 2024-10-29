@@ -12,7 +12,7 @@
         <div class="quote-section">
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
-              <div class="w-100 flex items-center justify-between q-pb-md" style="border-bottom: 1px solid lightgrey" @click="router.push('/card')">
+              <div class="w-100 flex items-center justify-between q-pb-md" style="border-bottom: 1px solid lightgrey; flex-wrap: nowrap;" @click="router.push('/card')">
                 <div class="flex items-center w-80 ">
                   <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.outlinedAddCard" class="" size="sm" />

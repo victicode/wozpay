@@ -1,5 +1,5 @@
 <template>
-  <div class="q-px-md-lg q-px-md  q-pt-md-md q-pt-sm search_trasaction q-pb-md-md q-pb-sm" style="">
+  <div class="q-px-md-lg q-px-md   q-pt-none search_trasaction q-pb-md-md q-pb-sm" style="">
     <div class="w-100 flex justify-between items-center available__money q-py-sm q-px-md">
       <div class="flex items-center">
         <q-icon
@@ -126,10 +126,10 @@ export default {
 .search__trasaction {
   & .q-field__control{
     border-radius: 10px!important;
-    height: 45px
+    height: 40px
   }
   & .q-field__label{
-    transform: translateY(-25%)
+    transform: translateY(-30%)
   }
   &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
     transition: all 0.3s ease-in;
@@ -138,24 +138,24 @@ export default {
     font-weight: 600;
     max-width: 133%;
     padding: 0px 10px;
-    transform: translateY(-115%) scale(0.75) translateX(-8%)!important;
+    transform: translateY(-110%) scale(0.75) translateX(-8%)!important;
   }
   
   & .q-field__native{
-    padding-top: 15px!important;
+    padding-top: 17px!important;
     font-weight: 600;
     
   }
   & .q-field__prepend{
-    transform: translateY(-8%)
+    transform: translateY(-10%)
   }
   & .q-field__append  {
-    transform: translateY(-8%)
+    transform: translateY(-10%)
   }
 }
 @media screen and (max-width: 780px){
   .search_trasaction{
-    height: 26%;
+    height: 25%;
   }
   .search__trasaction {
     & .q-field__bottom{

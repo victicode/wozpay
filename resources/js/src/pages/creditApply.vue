@@ -786,6 +786,7 @@
         if(!validateUser()){
           showModal('redirect')
         }
+        localStorage.setItem('rekutu', 'no')
         getInterestRate()
         activeLoan()
       })

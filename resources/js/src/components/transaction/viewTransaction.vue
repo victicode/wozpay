@@ -1,53 +1,78 @@
 <template>
-  <div>
-    <div class="q-px-md q-mt-lg q-px-md-xl" v-if="loading">
-      <div class="recipe__card bg-white q-py-md  ">
-        <div class="recipe__card--header flex-center flex  q-pa-md  ">
-          <div 
-            class="viewTransaction__icon"
-            v-html="imgByType()"
-            :class="{
-              'viewTransaction__icon--transfer': transactionType == 4 , 
-              'viewTransaction__icon--transfer fill-red': transactionType == 5
-            }"
-          />
-        </div>
-        <div class="">
-          <div class="q-pt-none q-mt-sm q-pb-sm" v-for="(items, key) in transactionFormat " :key="key"  :class="{'recipe__list': key != 4}">
-            <div 
-              class="q-pl-xs q-mt-xs" 
-              :class="{ 
-                'text-weight-bold text-subtitle1 text-grey-10': index == 'title',
-                'text-weight-medium text-caption text-grey-10': index == 'text',
-                'text-primary text-weight-bold  text-subtitle2': index == 'value',
-                'text-grey-7 text-weight-medium text-caption': index == 'date' || index == 'hour',
-              }" 
-             v-for="(lines, index) in items" :key="index"> 
-              {{ lines }}
+  <div  class="bg-primary" style="height: 100vh;">
+    <div v-if="loading" style="height: 100%; overflow: auto;">
+      <div class="q-px-md-xl">
+        <div class="q-px-md q-mt-md q-px-md-xl q-pt-lg">
+          <div class="recipe__card bg-white q-py-xs ">
+            <div class="recipe__card--header flex items-center w-100 q-pa-md q-px-md-lg ">
+              <div class="w-50">
+                <div>
+                  <div class="text-weight-bold text-subtitle1">Comprobante</div>
+                  <q-linear-progress 
+                    rounded 
+                    size="4px"  
+                    :value="0.6" 
+                    style="width: 70%;"
+                    color="primary" reverse class="q-mt-none transfer__line" 
+                  />
+                </div>
+              </div>
+              <div class="w-50 flex justify-end">
+                <div 
+              class="viewTransaction__icon"
+              v-html="imgByType()"
+              :class="{
+                'viewTransaction__icon--transfer': transactionType == 4 , 
+                'viewTransaction__icon--transfer fill-red': transactionType == 5
+              }"
+            />
+              </div>
             </div>
-
-          </div>
+            <div class="q-px-md q-px-md-lg">
+              <div class="q-pt-sm q-mt-xs q-pb-sm  recipe__list" v-for="(items, key) in transactionFormat " :key="key"  >
+                <div 
+                  class="q-pl-xs q-mt- " 
+                  :class="{ 
+                    'text-subtitle1 text-weight-bold q-pl-xs': index == 'title',
+                    'text-grey-8 text-caption text-weight-medium q-pl-xs': index == 'text',
+                    'text-primary text-weight-bold text-body1 q-pl-xs': index == 'value',
+                    'text-grey-7 text-weight-medium text-caption': index == 'date' || index == 'hour',
+                  }" 
+                v-for="(lines, index) in items" :key="index"> 
+                  {{ lines }}
+                </div>
     
-        </div>
-        <div class="q-px-md-xl q-mb-md">
-          <div class="q-pt-sm">
-            <div class="q-px-none q-mt-lg q-px-md-none">
-              <a :href="url+'api/transaction/print/' + transactionType+'/'+transaction.id+'?token='+token"  target="_blank" rel="noopener noreferrer">
-
+              </div>
+            </div>
+            <div class="q-px-md-xl q-mb-md">
+              <div class="q-px-xl q-mt-lg q-px-md-xl q-mx-md-xl">
                 <q-btn 
-                  color="negative" class="w-100 q-pa-md donwload" 
+                  color="primary" class="w-100 q-pa-md back__to" 
                   no-caps
+                  label="Volver al incio"
+                  @click="router.go(-1)"
                 >
-                  <div class="flex flex-center">
-                    <div class="q-mr-xs q-mt-xs">
-                      Descargar
-                    </div>
-                    <div v-html="wozIcons.pdf" />
-                  </div>
                 </q-btn>
-              </a>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="q-px-md-none q-pb-md">
+        <div class="q-px-lg q-mt-lg q-px-md-xl ">
+          <a :href="url+'api/transaction/print/' + transactionType+'/'+transaction.id+'?token='+token"  target="_blank" rel="noopener noreferrer">
+            <q-btn 
+              color="negative" class="w-100 q-pa-md donwload" 
+              no-caps
+            >
+            <div class="flex flex-center">
+              <div class="q-mr-xs q-mt-xs">
+                Descargar
+              </div>
+              <div v-html="wozIcons.pdf" />
+            </div>
+            </q-btn>
+          </a>
         </div>
       </div>
     </div>
@@ -196,7 +221,7 @@
 </script>
 <style lang="scss" scoped>
 .viewTransaction__icon{
-  transform: scale(1.7);
+  transform: scale(1);
   width: max-content;
   
 }
@@ -215,7 +240,9 @@
 }
 .recipe__card {
   border-radius: 20px;
-
+  &--header {
+    border-bottom: 1.5px solid $primary;
+  }
 }
 .recipe__list{
   border-bottom: 1px solid $grey-5;
@@ -237,7 +264,7 @@
 
 <style lang="scss">
 .viewTransaction__icon.viewTransaction__icon--transfer{
-    transform: scale(1.7) rotate(310deg)!important;
+    transform: scale(1) rotate(310deg)!important;
     &.fill-red path{
       fill: red;
       stroke: red;

@@ -202,6 +202,9 @@ export default {
     border-image-source: linear-gradient(90deg, rgba(255,255,255,1) 6%, $grey-5 6%);
   }
   @media screen and (max-width: 780px){
+    .transactionList{
+      height: 77%;
+    }
     .icons-transfer {
       transform:scale(0.7);
     }

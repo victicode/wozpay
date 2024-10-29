@@ -1,66 +1,62 @@
 <template>
   <q-dialog v-model="dialog"  :auto-close="true" backdrop-filter="blur(8px)">
     <transition name="horizontal">
-      <q-card style="min-width: 350px">
-        <q-card-section class="q-py-sm q-px-md-md q-pt-md-md q-pb-md-sm" >
-          <div class="q-pt-sm q-px-md-md q-pt-md-md q-pb-md-none">
-            <div class="text-subtitle1 text-weight-medium">
-              Confirma los datos de la operación
+      <q-card style="min-width: 350px; border-radius: 20px;">
+        <q-card-section class="q-py-sm q-px-none q-pt-md-md q-pb-md-sm"  >
+          <div class="q-pt-sm q-pt-md-md q-pb-md-none">
+            <div style="border-bottom: 1px solid #0449fb;" class=" q-px-sm  q-pb-md">
+              <div class="text-subtitle1 text-weight-medium q-px-md text-center">
+                Confirma los datos de la operación
+              </div>
+              <div class="q-mt-sm flex info_pay__content q-py-sm q-px-md ">
+                <q-icon  name="eva-alert-circle-outline" size="sm" color="primary"/>
+                <div class="text-caption text-weight-medium q-ml-sm">
+                  Asegurate de haber introducido los datos de forma correcta
+                </div> 
+              </div>
             </div>
-            <div class="q-mt-sm flex info_pay__content q-py-sm q-px-md">
-              <q-icon  name="eva-alert-circle-outline" size="sm" color="primary"/>
-              <div class="text-subtitle2 text-weight-medium q-ml-sm">
-                Asegurate de haber introducido los datos de forma correcta
-              </div> 
-            </div>
-            <div class="q-mt-md q-pt-xs">
-              <div class="q-mt-md flex justify-between items-center">
-                <div>
-                  <div class="text-body2 text-weight-medium text-grey-7">
-                    Billetera WozPay
-                  </div>
-                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
-                    {{ transfer.recept }}
-                  </div>
-                </div>
-              </div>
-              <div class="q-mt-md flex justify-between items-center">
-                <div>
-                  <div class="text-body2 text-weight-medium text-grey-7">
-                    Nombre completo
-                  </div>
-                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
-                    {{ transfer.recept_owner }}
-                  </div>
-                </div>
-              </div>
-              <div class="q-mt-md flex justify-between items-center">
-                <div>
-                  <div class="text-body2 text-weight-medium text-grey-7">
-                    Cedula de indentidad
-                  </div>
-                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
-                    {{ transfer.recept_dni}}
-                  </div>
-                </div>
-              </div>
-              <div class="q-mt-md flex justify-between items-center">
-                <div>
-                  <div class="text-body2 text-weight-medium text-grey-7">
+            <div class="q-mt-sm q-pt-xs q-px-md-lg  q-px-sm" >
+              <div class="q-mt-md flex justify-between items-center items__confirm q-pl-xs q-pb-xs">
+                <div class="q-pl-xs">
+                  <div class="text-subtitle1 text-weight-bold text-black-10">
                     Monto
                   </div>
-                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
+                  <div class="text-grey-8 text-caption text-weight-medium">Cantidad de dinero en Guaranies</div>
+                  <div class="text-primary text-weight-bold text-subtitle1 " > 
                     Gs. {{ transfer.amount }}
                   </div>
                 </div>
               </div>
-              <div class="q-mt-md flex justify-between items-center">
-                <div>
-                  <div class="text-body2 text-weight-medium text-grey-7">
+              <div class="q-mt-md flex justify-between items-center items__confirm q-pl-xs q-pb-xs">
+                <div class="q-pl-xs">
+                  <div class="text-subtitle1 text-weight-bold text-black-10">
+                    Enviar a
+                  </div>
+                  <div class="text-grey-8 text-caption text-weight-medium">Titular Woz Pay</div>
+                  <div class="text-primary text-weight-bold text-subtitle1" > 
+                    {{ transfer.recept_owner }}
+                  </div>
+                </div>
+              </div>
+              <div class="q-mt-md flex justify-between items-center items__confirm q-pl-xs q-pb-xs">
+                <div class="q-pl-xs">
+                  <div class="text-subtitle1 text-weight-bold text-black-10">
+                    Documentación
+                  </div>
+                  <div class="text-grey-8 text-caption text-weight-medium">Documento de identificación</div>
+                  <div class="text-primary text-weight-bold text-subtitle1" > 
+                    {{ transfer.recept_dni}}
+                  </div>
+                </div>
+              </div>
+              <div class="q-mt-md flex justify-between items-center items__confirm q-pl-xs q-pb-xs">
+                <div class="q-pl-xs">
+                  <div class="text-subtitle1 text-weight-bold text-black-10">
                     Concepto
                   </div>
-                  <div class="q-mt-xs text-subtitle1 text-weight-bold" > 
-                    {{ transfer.text}}
+                  <div class="text-grey-8 text-caption text-weight-medium">Motivo del envio</div>
+                  <div class="text-primary text-weight-bold text-subtitle1" > 
+                    Gs. {{ transfer.amount }}
                   </div>
                 </div>
               </div>
@@ -138,6 +134,9 @@
   
 </style>
 <style lang="scss">
+.items__confirm{
+  border-bottom: 1px solid $grey-5;
+}
 .copy_icon {
     transform: rotate(90deg)!important;
   }
