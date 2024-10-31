@@ -56,6 +56,9 @@ class Loan extends Model
     public function paysSuccess(){
         return $this->hasMany(Pay::class,'loan_id', 'id')->where('status','2');
     }
+    public function countPays(){
+        return $this->hasMany(Pay::class,'loan_id', 'id')->where('status', '!=','0');
+    }
     public function quotas_desc(){
         return $this->hasMany(Quota::class,'loan_id', 'id');
     }
