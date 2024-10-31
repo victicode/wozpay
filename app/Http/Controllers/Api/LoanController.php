@@ -17,7 +17,7 @@ class LoanController extends Controller
 {
     //
     public function getActiveLoan($id) {
-        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'quotas_desc.successPays')
+        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'countPays','quotas_desc.successPays')
         ->orderBy('created_at', 'desc')->first();
 
         return $this->returnSuccess(200, $loan);

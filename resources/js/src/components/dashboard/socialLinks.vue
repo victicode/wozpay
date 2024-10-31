@@ -9,7 +9,7 @@
       transition-prev="slide-right"
       transition-next="slide-left"
       padding
-      height="140px"
+      height="165px"
       infinite
       :autoplay="5000"
       class=" rounded-borders w-100"

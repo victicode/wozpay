@@ -87,6 +87,14 @@
       }
       onMounted(() => {
         activeLoan()
+
+        window.Echo
+        .channel('userUpdateEvent'+user.id)
+        .listen('UserUpdateEvent', async () => {
+          console.log('lll')
+          activeLoan()
+        })
+      
       })
 
       // Data

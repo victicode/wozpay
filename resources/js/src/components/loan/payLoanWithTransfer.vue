@@ -153,6 +153,7 @@
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
             myLoan.value = data.data
+            console.log(myLoan.value)
             quotaAmount()
         }).catch((e) => {
           console.log(e)
@@ -212,7 +213,9 @@
         })
       }
       const createConceptPay = () => {
-        return `Pago de cuota ${myLoan.value.pays.length + 1 }/ ${myLoan.value.quotas}`
+        const quota = myLoan.value.quotas_desc.findIndex((item) => item.id == myLoan.value.currentQuota.id)
+
+        return `Pago de cuota ${quota + 1 }/ ${myLoan.value.quotas}`
       }
       const copyData = (index, type) => {
         const texto = dataToPay[index].value;
@@ -257,7 +260,6 @@
       const setDataPay = (data) => {
         dataPay.value = data;
         loadData.value = data ? true : false;
-        console.log(data)
         hideModal()
       }
       onMounted(() => {

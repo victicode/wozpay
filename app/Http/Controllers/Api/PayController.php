@@ -24,7 +24,7 @@ class PayController extends Controller
         $vaucher = ''; 
         
         if ($request->vaucher) {
-            $vaucher = 'public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
+            $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
             $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
         }
         
@@ -179,6 +179,7 @@ class PayController extends Controller
         $loan = Loan::withCount('paysSuccess')->find($pay->loan_id);
         $loan->status = $this->isCompleteLoan($loan);
         $loan->save();
+        
         try {
             event(new UserUpdateEvent(1));
             event(new UserUpdateEvent($pay->user_id));

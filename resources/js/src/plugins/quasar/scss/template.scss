@@ -197,7 +197,8 @@ html{
   
   border: solid 3px transparent!important;
   border-radius: 2em;
-  --gradient-border: conic-gradient(from var(--border-angle), #04741e 0%, #04741e, #08ff66 100%, #08ff66);
+  --gradient-border: conic-gradient(from var(--border-angle), #ffc701 0%, #ffc701, #fff 90%, #fff);
+
   
   background: 
     // padding-box clip this background in to the overall element except the border.

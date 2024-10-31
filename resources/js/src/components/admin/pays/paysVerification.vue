@@ -60,7 +60,7 @@
             <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold ">
               Comprobante de transferencia
             </div>
-            <a :href="'http://localhost:8020'+pay.vaucher" target="_blank'">
+            <a :href="pay.vaucher" target="_blank'">
               <div v-if ="pay.vaucher.slice(-3) !== 'pdf'">
                 <img :src="pay.vaucher" alt="">
               </div>
