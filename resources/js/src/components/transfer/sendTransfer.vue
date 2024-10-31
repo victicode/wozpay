@@ -6,7 +6,7 @@
         <div class="q-pa-md select_card q-mt-sm">
           <div class="flex" v-if="Object.values(linkCard).length > 0 ">
             <div style="width: 10%;" class="q-mr-sm text-center">
-              <q-radio v-model="selectPayMethod" checked-icon="eva-checkmark-circle-outline"  val="1" />
+              <q-radio v-model="selectPayMethod" checked-icon="eva-checkmark-circle-outline"  val="1"  v-if="linkCard.status == 2" />
             </div>
             <div class="flex justify-between card_detail q-pb-sm" >
               <div>
@@ -27,11 +27,10 @@
                 </q-chip>
               </div>
             </div>
-
           </div>
           <div class="flex q-mt-md" >
             <div style="width: 10%;" class="q-mr-sm text-center">
-              <q-radio v-model="selectPayMethod" checked-icon="eva-checkmark-circle-outline"  val="2" />
+              <q-radio v-model="selectPayMethod" checked-icon="eva-checkmark-circle-outline"  val="2"  />
             </div>
             <div class="flex justify-between card_detail q-pb-sm" >
               <div>
@@ -82,7 +81,7 @@
                 </div>
                 <div class="q-my-lg">
                   <q-input
-                    class="transferForm q-pb-none"
+                    class="transferForm numberWozPay q-pb-none"
                     outlined
                     clearable
                     :clear-icon="'eva-close-outline'"
@@ -92,7 +91,14 @@
                     :rules="rulesForm('recept')"
                     autocomplete="off"
                     @change="getWalletToTransfer()"
-                  />
+                    maxlength="8"
+                  >
+                  <template v-slot:prepend>
+                    <div class="text-body2 text-black text-weight-bold q-pr-sm" style="border-right: 1px solid grey;">
+                      916
+                    </div>
+                  </template>
+                </q-input>
                 </div>
                 <div class="q-my-lg">
                   <q-input
@@ -156,7 +162,6 @@
           </q-form>
         </div>
       </div>
-
     </div>
     <div v-if="showDialog == 'ready'">
       <doneModal :dialog="(showDialog == 'ready')" :text="'Transferencia realizada'" />
@@ -319,7 +324,7 @@
       }
       const getWalletToTransfer = () => {
         loadingWallet(true)
-        userStore.getUserByWallet(formCardData.value.recept)
+        userStore.getUserByWallet('916'+formCardData.value.recept)
         .then((data) =>{
           if(!data.code) throw data
 
@@ -419,23 +424,31 @@
       height: 50px!important;
       min-height: 50px!important;
     }
-    & .q-field__label{
-    transform: translateY(0%)
-    }
+  
     &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
       z-index: 100;
       background: white;
       font-weight: 600;
       max-width: 133%;
-      transform: translateY(-110%) translateX(4%) scale(0.75)!important;
+      transform: translateY(-120%) translateX(4%) scale(0.75)!important;
     }
-    
+    &.numberWozPay.q-field--focused .q-field__label, &.numberWozPay.q-field--float .q-field__label{
+
+      transform: translateY(-120%) translateX(-21%) scale(0.75)!important;
+    }
     & .q-field__native{
-      padding-top: 15px!important;
+      padding-top: 14px!important;
       font-weight: 500;
     }
     & .q-field__append{
       transform: translateY(-2%)
+    }
+    &  .q-field__prepend{
+      transform: translateY(0%);
+      
+    }
+    &.q-field--disabled .q-field__label{
+      background: transparent
     }
   }
   @media screen and (max-width: 780px){

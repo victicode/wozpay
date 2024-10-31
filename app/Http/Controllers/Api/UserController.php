@@ -25,12 +25,11 @@ class UserController extends Controller
 
     }
     public function allUsers(Request $request){
-        $users = User::query()->withTrashed()->where('rol_id', 3);
+        $users = User::query()->withTrashed()->where('rol_id', 3)->orderBy('created_at', 'DESC');
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');
         }
-
 		return  $this->returnSuccess(200,   $users->paginate(10));
     }
     public function usersWithActiveLoan(Request $request){
@@ -55,7 +54,8 @@ class UserController extends Controller
             ->with(['loansComplete'])
             ->withTrashed()
             ->where('rol_id', 3)
-            ->whereHas('loansComplete');
+            ->whereHas('loansComplete')
+            ->orderBy('created_at', 'DESC');
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');
@@ -82,6 +82,7 @@ class UserController extends Controller
             ->withTrashed()
             ->where('rol_id', 3)
             ->whereHas('paysPending');
+            
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');

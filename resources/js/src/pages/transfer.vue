@@ -20,7 +20,19 @@
       <div class="q-px-md q-mt-md text-white text-subtitle1 text-weight-medium">
         Ahora puedes enviar o hacer <br>transferencias de cuenta a cuenta con <br>Woz Pay.
       </div>
-      <div class="q-px-md q-mt-md-xl q-mt-md q-px-md-xl">
+      <div class="q-px-xs  flex q-mt-xs items-center">
+          <q-checkbox 
+            class="terms-checkbox"
+            v-model="transferShow"
+            color="terciary"
+            size="md"
+            @update:model-value="checkOption"
+          />
+          <div class="text-subtitle1  text-weight-medium text-white q-pl-xs q-mt-xs cursor-pointer text-decoration-underline" style="width: 85%;">
+            No volver a mostrar
+          </div>
+        </div>
+      <div class="q-px-md q-mt-md-lg q-mt-md q-px-md-xl">
         <q-btn 
           color="positive" class="w-100 q-pa-md q-mb-none  link_button" 
           no-caps
@@ -43,11 +55,20 @@ export default {
     // const user = useAuthStore().user;
     const router = useRouter()
     const $q = useQuasar()
-    
+    const transferShow = ref(false)
+    const checkOption = (e) => {
+      localStorage.setItem('showTransfer', e)
+    }
     onMounted(()=>{
       $q.addressbarColor.set('#0449fb')
     })
-    return { icons, wozIcons, router}
+    return { 
+      icons, 
+      wozIcons, 
+      router,
+      transferShow,
+      checkOption
+    }
   },
 }
 </script>

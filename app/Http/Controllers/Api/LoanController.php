@@ -75,7 +75,7 @@ class LoanController extends Controller
             ->withTrashed()
             ->where('rol_id', 3)
             ->whereHas('loans', function($q){
-                $q->where('status', '2');
+                $q->where('status', '2')->orWhere('status', '3');
             });
 
         if(!empty($request->search)){

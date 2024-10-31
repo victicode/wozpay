@@ -15,7 +15,7 @@
         </div>
         <div class="flex items-center">
           <div class="text-weight-medium text-body1 q-mt-xs ">
-            Gs. {{ quota.days_due > 1 ? numberFormat(isPayWithDelay(quota)) : numberFormat(quota.amount) }}
+            Gs. {{ quota.days_due > 1 || quota.status == 3 ? numberFormat(isPayWithDelay(quota)) : numberFormat(quota.amount) }}
           </div>
           <div>
             <q-icon 

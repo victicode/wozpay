@@ -23,8 +23,19 @@ class Loan extends Model
         'interest', 
         'interest_for_delay'
     ];
-    protected $appends = ['days_due'];
-    
+    protected $appends = ['days_due', 'status_label'];
+
+    public function getstatusLabelAttribute()
+    {   
+        $status = [
+            'Rechazada',
+            'Pendiente',
+            'Aprobada',
+            'Pagada',
+            'No pagada',
+        ];
+        return $status[intval($this->status)];
+    }
     public function getDaysDueAttribute()
     {   $daysDue = 0;
         try {

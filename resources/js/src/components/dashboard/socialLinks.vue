@@ -20,7 +20,7 @@
         :name="info.value" 
         class=" column no-wrap flex-center w-100 q-px-sm" 
       >
-        <a href="https://www.instagram.com/wozparaguay" target="_blank" class="w-100">
+        <a href="" target="_blank" class="w-100">
           <div class="socialLink__item w-100 flex items-center no-wrap q-py-md q-px-md">
             <div style="" cc>
               <div  class="socialLink__img--container">
@@ -66,18 +66,21 @@ export default {
         title:'Prensa - Diario LA NACION',
         img:ln,
         text:'Lee nuestra nota sobre Woz Paraguay y descubre más sobre nuestra empresa y servicios',
+        link: 'https://cdn-www.lanacionpy.arcpublishing.com/negocios/2021/01/12/emprendedores-ln-renuncio-a-todo-y-en-5-anos-consolido-woz-paraguay-sitio-de-comercio-digital/'
       },
       {
         value:'ig',
         title:'Instagram',
         img:ig,
         text:'Síguenos para ver más productos y servicios con ofertas exclusivas',
+        link:'https://www.instagram.com/wozparaguay',
       },
       {
         value:'fb',
         title:'Facebook',
         img:fb,
         text:'Conéctate con nuestra página de Facebook para novedades y promociones asombrosas',
+        link:'https://www.facebook.com/WozParaguay?mibextid=ZbWKwL',
       },
     ]
     return {

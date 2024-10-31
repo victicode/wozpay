@@ -78,7 +78,7 @@
                   color="primary" class="w-100 q-pa-md back__to" 
                   no-caps
                   label="Volver al incio"
-                  @click="router.go(-3)"
+                  @click="router.go(showTransfer=='true'? -2 : -3)"
                 >
                 </q-btn>
               </div>
@@ -145,7 +145,9 @@
         transfer,
         numberFormat,
         url:import.meta.env.VITE_VUE_APP_BACKEND_URL,
-        token: localStorage.getItem('id_token')
+        token: localStorage.getItem('id_token'),
+        showTransfer: localStorage.getItem('showTransfer')
+
       }
     }
   };

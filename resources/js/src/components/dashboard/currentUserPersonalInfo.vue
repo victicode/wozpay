@@ -1,8 +1,24 @@
 <template>
   <div class="userInfoContent q-pt-md q-px-lg" >
-    <div style="">
-      <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
-      <h5 class="text-white q-mt-xs text-weight-bold ">Gs. {{capitalByUser()}}</h5>
+    <div class="flex justify-between items-center">
+      <div>
+        <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
+        <h5 class="text-white q-mt-xs text-weight-bold ">Gs. {{capitalByUser()}}</h5>
+      </div>
+      <div v-if="user.rol_id == 1">
+        <q-btn 
+          :icon=" icons.ionLogOutOutline"
+          color="white"
+          text-color="black"
+          :loading="loading"
+          @click="logout"
+        >
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+
+      </div>
     </div>
     <div class="">
       <div class="w-100 user-info q-mt-md-sm">
@@ -55,6 +71,10 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
+  import { useRouter } from 'vue-router'
+  import utils from '@/util/httpUtil';
+
+  
   export default {
     setup() {
       //vue provider
@@ -63,7 +83,9 @@
       const icons = inject('ionIcons')
       const { balances } = storeToRefs(useWalletStore())
       const { user  } = storeToRefs(useAuthStore())
-
+      const store = useAuthStore()
+      const router = useRouter()
+      const loading = ref(false)
       // Data
       const showing = ref(false)
       
@@ -80,15 +102,20 @@
         }
         return numberFormat(balances.value.wallet);
       }
-      
+      const logout = () =>{
+        loading.value = true
+        utils.errorLogout( () => router.push('/login'))
+      }
       return{
         user,
         icons,
         balances,
+        loading,
         numberFormat,
         showing,
         showToltip,
         capitalByUser,
+        logout,
       }
     },
   }

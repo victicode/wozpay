@@ -15,7 +15,7 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/transfer">
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="directTransfer !== 'true' ? '/transfer': '/transfer_send'">
             <div class="q-mt-xs" v-html="icons.transferir" />
             <span class="q-mt-none text-dark text-body2">Transfer.</span>
           </q-btn>
@@ -74,7 +74,8 @@
         iconis,
         user,
         loan,
-        activeRekutu: localStorage.getItem('rekutu')
+        activeRekutu: localStorage.getItem('rekutu'),
+        directTransfer: localStorage.getItem('showTransfer')
 
       }
     },

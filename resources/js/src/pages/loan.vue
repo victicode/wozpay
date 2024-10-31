@@ -9,7 +9,7 @@
     <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
       <loanHistory :loan="myLoan" />
     </div>
-    <div class="q-mt-sm q-pt-xs q-mx-md q-mx-md-xl q-px-md-xl"  v-if=" myLoan.status == '2'">
+    <div class="q-mt-sm q-pt-xs q-mx-md q-mx-md-xl q-px-md-xl"  v-if=" myLoan.status == '2' || myLoan.status == '4' ">
       <div class="q-mt-md q-pt-md-md">
         <q-btn 
           @click="goTo(loanComplete() ? 1 : 0)" 

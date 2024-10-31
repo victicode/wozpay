@@ -4,21 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use DateTime;
 use App\Models\Pay;
+use App\Models\Loan;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\Transfer;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionController extends Controller
 {
     //
-    public function getTrasactionByUser($UserId, Request $request) {
+    public function getTrasactionByUser($userId, Request $request) {
         $user =  User::with(['successPays' => function (Builder $query) use ($request) { 
             $query->whereMonth('created_at',$request->month+1);
-        }, 'wallet'])->find($UserId);
+        }, 'wallet'])->find($userId);
 
         $wallet =  Wallet::with(['transferSend' => function (Builder $query) use ($request) { 
             $query->with('user_to.user')->whereMonth('created_at',$request->month+1);
@@ -27,11 +28,14 @@ class TransactionController extends Controller
         $wallet2 =  Wallet::with(['transferRecept' => function (Builder $query) use ($request) { 
             $query->with('user_from.user')->whereMonth('created_at',$request->month+1);
         }] )->find($user->wallet->id);
+
+        $loans = Loan::where('status', '!=','1')->where('status', '!=','0')->where('user_id', $userId)->get();
         
         $all = [
             ...$user->successPays ?? [], 
             ...$this->tagTransfer($wallet2->transferRecept ?? [],4), 
             ...$this->tagTransfer($wallet->transferSend ?? [],5) ,
+            ...$this->tagTransfer($loans ?? [],6) ,
         ];
         
         usort($all, $this->object_sorter('created_at', 'DESC'));

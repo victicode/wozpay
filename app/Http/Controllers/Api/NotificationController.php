@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\User;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Events\NotificationsEvent;
@@ -45,6 +46,29 @@ class NotificationController extends Controller
      */
     public function storeNotification(Request $request)
     {
+       
+        $newNotification = $request->user == -1
+        ?   $this->sendToAllUser($request)
+        :   $this->createNotification($request);
+
+        return $this->returnSuccess(200, $newNotification);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    private function sendToAllUser(Request $request)
+    {
+        $all = User::where('rol_id', '3')->where('general_status', '1')->where('isBlock', '0')->get();
+        foreach($all as $item){
+            $request->user = $item->id;
+            $this->createNotification($request);
+        }
+
+        return $all ;
+    }
+
+    private function createNotification(Request $request){
         $newNotification = Notification::create([
             'text'      => $request->text,
             'user_id'   => $request->user,
@@ -54,15 +78,7 @@ class NotificationController extends Controller
             'type'      => $request->type ?? 1,
         ]);
         event(new NotificationsEvent($newNotification->user_id));
-        return $this->returnSuccess(200, $newNotification);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return $newNotification;
     }
 
     /**

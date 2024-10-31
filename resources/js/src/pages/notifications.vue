@@ -15,7 +15,7 @@
                     :name="icons.sharpVerified"
                     size="xs"
                     :color="'terciary'"
-                    class="user-verify-user q-mx-xs "
+                    class="q-mx-xs "
                   />
                 </div>
                 <div class="text-body2 text-weight-medium" v-html="notification.subject " />

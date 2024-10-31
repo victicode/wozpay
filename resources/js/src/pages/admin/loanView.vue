@@ -21,8 +21,16 @@
     <div class="quota">
       <div class="q-px-md-lg q-px-md q-mt-lg">
         <div class="amount_loan flex justify-between items-center q-pb-sm">
-          <div class="text-subtitle1 text-weight-bold">
-            Su préstamo
+          <div class=" flex items-center">
+            <div class="text-subtitle1 text-weight-bold">
+              Su préstamo
+            </div>
+            <div class="q-ml-xs"> 
+              
+              <q-chip :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).textColor" >
+                {{ loan.status_label }}
+              </q-chip>
+            </div>
           </div>
           <div class="text-subtitle1 text-weight-bold">
             Gs. {{ numberFormat(loan.amount) }}
@@ -194,6 +202,16 @@
         selectedPay.value = pay
         dialog.value = true
       }
+      const loanStatus = (state) => {
+        const status = [
+          { color:'negative', textColor:'white' },
+          { color:'warning', textColor:'white' },
+          { color:'chip', textColor:'positive' },
+          { color:'chip', textColor:'positive' },
+          { color:'deep-orange-13', textColor:'white' },
+        ]
+        return status[state]
+      }
       onMounted(() => {
         activeLoan()
       })
@@ -213,6 +231,7 @@
         setDueDaysCategorie,
         amountWithDelayFee,
         setPay,
+        loanStatus,
       }
     }
   };

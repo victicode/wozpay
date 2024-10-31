@@ -217,7 +217,11 @@
           userStore.getUsersBySearch(search)
           .then((response) => {
             if(response.code !== 200) throw response
-            users.value = response.data
+            users.value = [
+              {id:-1, name:'Todos'},
+              ...response.data
+            ]
+              
           })
           .catch()
         }
@@ -252,7 +256,7 @@
         })
       }
       const sendNotification = () => {
-
+        console.log(user.value)
         if(!validate()) return
         loading.value = true
         const data = {

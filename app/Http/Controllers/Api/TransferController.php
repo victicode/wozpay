@@ -169,8 +169,8 @@ class TransferController extends Controller
         }
         if($transfer->status == 2){
             return[
-                'Transferencia realizada con exito #'.$transfer->reference .'<i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>',
-                'Acabas de recibir una transferencia #'.$transfer->reference.'<i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>',
+                'Transferencia realizada con exito <i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>',
+                'Acabas de recibir una transferencia <i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>',
             ];
         }
     }

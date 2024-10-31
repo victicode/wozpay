@@ -65,7 +65,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Loan::class)->orderBy('created_at', 'desc');
     }
     public function loansComplete(){
-        return $this->hasMany(Loan::class)->orderBy('created_at', 'desc')->where('status', '2')->orWhere('status', '3');
+        return $this->hasMany(Loan::class)->orderBy('created_at', 'desc')->where('status', '!=','1')->where('status', '!=','0');
     }
     public function loansDelay(){
         return $this->hasMany(Loan::class)->orderBy('created_at', 'desc')->where('status', '4');

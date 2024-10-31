@@ -17,9 +17,9 @@
                   <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.outlinedAddCard" class="" size="sm" />
                   </div>
-                  <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
+                  <div class=" q-ml-xs  q-mr-none q-pl-md-md">
                   <div class="text-weight-medium"> {{linkCard.type == 1 ? 'Tarjeta de crédito' : 'Tarjeta de débito' }}</div>
-                    <div class="text-weight-bold ">N° **************** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
+                    <div class="text-weight-bold ">N° ************* {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
                   </div>
                 </div>             
                 <div class="q-mr-none cursor-pointer">

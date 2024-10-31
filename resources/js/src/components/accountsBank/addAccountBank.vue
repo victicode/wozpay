@@ -44,7 +44,7 @@
                   name="id_user"
                   label="Número de cuenta"
                   autocomplete="off"
-                  mask="#### #### #### #### ####"
+                  mask="#### #### #### #### #### #### #### #### ####"
                   :rules="rulesForm('number')"
                 />
               </div>
@@ -196,7 +196,6 @@
         const iRules = {
           number:[
             val => (val !== null && val !== '') || 'El número de cuenta es requerido.',
-            val => (val.length > 20 ) || 'Debe contener 20 digitos',
             val => (/[a-zA-z,%"'();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
           owner:[
