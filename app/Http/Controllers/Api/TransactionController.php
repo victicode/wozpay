@@ -29,7 +29,10 @@ class TransactionController extends Controller
             $query->with('user_from.user')->whereMonth('created_at',$request->month+1);
         }] )->find($user->wallet->id);
 
-        $loans = Loan::where('status', '!=','1')->where('status', '!=','0')->where('user_id', $userId)->get();
+        $loans = Loan::where('status', '!=','1')
+        ->where('status', '!=','0')
+        ->whereMonth('created_at',$request->month+1)
+        ->where('user_id', $userId)->get();
         
         $all = [
             ...$user->successPays ?? [], 
@@ -100,6 +103,9 @@ class TransactionController extends Controller
         
         foreach ($transfer as $key) {
             $key->transaction = $tag;
+            if($tag==6){
+                $key->amount = 215000;
+            }
         }
         return $transfer;
     }

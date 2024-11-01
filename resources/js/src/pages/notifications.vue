@@ -75,7 +75,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import sadBell from '@/assets/images/sadBell.svg'
 import notificationSound from '@/assets/audio/notification7.wav'
-import { useRouter } from 'vue-router'
+
 
 export default {
   setup () {

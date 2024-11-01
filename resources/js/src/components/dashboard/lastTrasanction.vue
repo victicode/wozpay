@@ -2,13 +2,11 @@
   <div class="q-py-md q-px-md q-px-md-lg"  >
     <div class="" >
       <div class="row">
-        <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold" v-if="Object.values(loan).length > 0"> 
+        <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative;">
+          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold" v-if="Object.values(loan).length > 0" > 
             {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}
           </div>
-          <div class="">
-            <div v-html="wozIcons.informconf" class="q-mt-md"/>
-          </div>
+          <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2" v-if="Object.values(loan).length > 0"/>
         </div>
       </div>
     </div>
@@ -181,6 +179,12 @@
 }
 .w-10 {
   width: 6%;
+}
+.inforcof__icon2{
+  position: absolute;
+  right: 0rem;
+  // margin-top: 0.2rem;
+  transform: translateY(0.35rem) scale(0.95);
 }
 @media screen and (max-width: 780px){
   .w-80 {

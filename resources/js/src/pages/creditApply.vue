@@ -184,10 +184,11 @@
               <q-item class="q-py- q-px-sm" >
                 <q-item-section @click="showInputModal(3, 'informconf')">
                   <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Certificado - reporte de Informconf
-                    </span>
+                    <q-item-label class="q-mt-xs text-weight-bold flex items-center" style="position: relative">
+                      <span class="text-body2 text-weight-bold">
+                        Certificado - reporte de Informconf
+                      </span>
+                      <div v-html="wozIcons.informconf"  class="q-mt-md inforconf__icon"/>
                     </q-item-label>
                     <q-item-label caption lines="1" class="text-weight-medium text-body2">
                       <div v-if="!readTapes.informconf" >
@@ -536,6 +537,7 @@
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
+  import wozIcons from '@/assets/icons/wozIcons';
 
   export default {
     components: {
@@ -793,6 +795,7 @@
 
       return {
         loading,
+        wozIcons,
         load,
         sendLoading,
         user,
@@ -817,6 +820,11 @@
   };
 </script>
 <style lang="scss">
+.inforconf__icon{
+  position: absolute; 
+  right: -8.5rem; 
+  bottom: -1.8rem
+}
 #logout-button {
   padding: 10px;
 }
@@ -838,6 +846,13 @@
   }
   & .q-stepper__step-inner{
     padding: 0px!important
+  }
+}
+@media screen and (max-width: 780px){
+  .inforconf__icon{
+    transform: scale(0.6);
+    right: -6.7rem; 
+    bottom: -1.5rem;
   }
 }
 </style>

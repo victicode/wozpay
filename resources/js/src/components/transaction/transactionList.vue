@@ -17,10 +17,21 @@
                 <div 
                   v-for="(line, index) in lines(transaction)" 
                   :key="index" 
-                  class="text-subtitle2 text-grey-7 text-weight-regular" 
+                  class="text-subtitle2 text-grey-7 text-weight-regular flex items-center" 
                   :class="{'text-weight-bold text-grey-10': index=='title'}"
                 >
-                  {{ line }}
+                  <div>
+
+                    {{ line }}
+                  </div>
+                  <div v-if="line=='Woz Payments'">
+                    <q-icon
+                      :name="icons.sharpVerified"
+                      size="xs"
+                      :color="'terciary'"
+                      class="q-mx-xs "
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -133,7 +144,7 @@ export default {
       if(transaction.transaction == 3)  return { title:'Realizaste un pago de prestamo', text: transaction.concept }
       if(transaction.transaction == 4)  return { title:'Recibiste una transferencia de', second: transaction.user_from.user.name, text: transaction.concept }
       if(transaction.transaction == 5)  return { title:'Realizaste una transferencia de', second: transaction.user_to.user.name, text: transaction.concept }
-      if(transaction.transaction == 6)  return { title:'Realizaste un pago de prestamo', text: transaction.concept }
+      if(transaction.transaction == 6)  return { title:'Débito automático', text:'Woz Payments'}
     }
     const imgTransaction = (transaction) => {
       if(transaction.transaction == 1)  return wozIcons.cargar
