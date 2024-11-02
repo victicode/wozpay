@@ -21,11 +21,11 @@ class TransactionController extends Controller
             $query->whereMonth('created_at',$request->month+1);
         }, 'wallet'])->find($userId);
 
-        $wallet =  Wallet::with(['transferSend' => function (Builder $query) use ($request) { 
+        $send =  Wallet::with(['transferSend' => function (Builder $query) use ($request) { 
             $query->with('user_to.user')->whereMonth('created_at',$request->month+1);
         }])->find($user->wallet->id);
 
-        $wallet2 =  Wallet::with(['transferRecept' => function (Builder $query) use ($request) { 
+        $recept =  Wallet::with(['transferRecept' => function (Builder $query) use ($request) { 
             $query->with('user_from.user')->whereMonth('created_at',$request->month+1);
         }] )->find($user->wallet->id);
 
@@ -36,8 +36,8 @@ class TransactionController extends Controller
         
         $all = [
             ...$user->successPays ?? [], 
-            ...$this->tagTransfer($wallet2->transferRecept ?? [],4), 
-            ...$this->tagTransfer($wallet->transferSend ?? [],5) ,
+            ...$this->tagTransfer($recept->transferRecept ?? [],4), 
+            ...$this->tagTransfer($send->transferSend ?? [],5) ,
             ...$this->tagTransfer($loans ?? [],6) ,
         ];
         

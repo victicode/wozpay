@@ -55,7 +55,7 @@
         <div class="text-h6 text-weight-bold text-center">Vincula tu tarjeta de débito/crédito</div>
         
         <div class="text-subtitle2 q-mt-sm text-weight-medium text-justify text-auto-phase"> 
-          Para mayor seguridad en creditos, debes vincular tu tarjeta de debito o crédito.
+          Accede a una línea de crédito con débito automatico con cualquier tarjeta de crédito o débito.
         </div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
@@ -71,7 +71,7 @@
         <div class="flex flex-center">
           <q-icon name="eva-clock-outline" size="5em" color="terciary"/>
         </div>
-        <div class="text-h6 text-weight-bold text-center q-mt-md">Vincula tu tarjeta de débito/crédito</div>
+        <div class="text-h6 text-weight-bold text-center q-mt-md">Vinculación de tu tarjeta de débito/crédito</div>
         
         <div class="text-subtitle2 q-mt-sm text-weight-medium text-justify text-auto-phase"> 
           Estamos verificando que tu tarjeta cumpla con nuestros protocolos de seguridad.
