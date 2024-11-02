@@ -13,10 +13,11 @@ use Exception;
 
 class WalletController extends Controller
 {
-    public function getWalletByNumber($wallet){
+    public function getWalletByNumber($wallet, Request $request){
         $wallet = Wallet::with('user')->where('number', $wallet)->first();
         
         if(!$wallet) return $this->returnFail(400, 'Cuenta no existe.');
+        if($wallet->user->id == $request->user()->id) return $this->returnFail(400, 'No puedes realizar trasferencia a tu misma cuenta.');
 
         return $this->returnSuccess(200, $wallet);
     }
@@ -88,7 +89,6 @@ class WalletController extends Controller
         ];
 
     }
-
     private function allQuotasToRecive() {
         $amount = 0;
         $amounDelay = 0 ;

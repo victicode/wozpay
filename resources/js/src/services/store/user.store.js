@@ -98,9 +98,9 @@ export const useUserStore = defineStore("user", {
               if(data.code !== 200) throw data; 
               
               resolve(data)
-            }).catch((response) => {
+            }).catch(({response}) => {
               console.log(response)
-              resolve('Error al conseguir wallet.');
+              resolve(response.data.error);
             });
         }
       })
