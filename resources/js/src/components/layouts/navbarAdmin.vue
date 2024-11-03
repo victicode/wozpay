@@ -65,6 +65,8 @@ export default {
       })
     }
     onMounted(() => {
+      getSolicitudesCount()
+
       window.Echo
       .channel('notificationEvent'+user.id)
       .listen('NotificationsEvent', async (data) => {

@@ -74,14 +74,42 @@
       const numberFormat = util.numberFormat
       const days = ref([])
       
-      
-      const amounts = user.is_first_loan 
+      const amounts = user.is_first_loan && user.loans_complete_count == 0
       ? [
+          { text: 'Gs. '+numberFormat(50000), value: 50000 },
           { text: 'Gs. '+numberFormat(100000), value: 100000 },
-          { text: 'Gs. '+numberFormat(250000), value: 250000 },
-          { text: 'Gs. '+numberFormat(500000), value: 500000 },
+          { text: 'Gs. '+numberFormat(150000), value: 150000 },
+          { text: 'Gs. '+numberFormat(200000), value: 200000 },
         ]
-      : [
+      : user.loans_complete_count == 1
+      ? [
+          { text: 'Gs. '+numberFormat(50000), value: 50000 },
+          { text: 'Gs. '+numberFormat(100000), value: 100000 },
+          { text: 'Gs. '+numberFormat(150000), value: 150000 },
+          { text: 'Gs. '+numberFormat(200000), value: 200000 },
+          { text: 'Gs. '+numberFormat(225000), value: 225000 },
+          { text: 'Gs. '+numberFormat(250000), value: 250000 },
+          { text: 'Gs. '+numberFormat(300000), value: 300000 },
+
+        ]
+      : user.loans_complete_count == 2
+      ?[
+          { text: 'Gs. '+numberFormat(50000), value: 50000 },
+          { text: 'Gs. '+numberFormat(100000), value: 100000 },
+          { text: 'Gs. '+numberFormat(150000), value: 150000 },
+          { text: 'Gs. '+numberFormat(200000), value: 200000 },
+          { text: 'Gs. '+numberFormat(225000), value: 225000 },
+          { text: 'Gs. '+numberFormat(250000), value: 250000 },
+          { text: 'Gs. '+numberFormat(300000), value: 300000 },
+          { text: 'Gs. '+numberFormat(325000), value: 325000 },
+          { text: 'Gs. '+numberFormat(350000), value: 350000 },
+          { text: 'Gs. '+numberFormat(375000), value: 375000 },
+          { text: 'Gs. '+numberFormat(400000), value: 400000 },
+          { text: 'Gs. '+numberFormat(425000), value: 425000 },
+          { text: 'Gs. '+numberFormat(450000), value: 450000 },
+          { text: 'Gs. '+numberFormat(500000), value: 500000 },
+      ]
+      :[
         { text: 'Gs. '+numberFormat(100000), value: 100000 },
         { text: 'Gs. '+numberFormat(250000), value: 250000 },
         { text: 'Gs. '+numberFormat(500000), value: 500000 },

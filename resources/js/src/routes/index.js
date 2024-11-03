@@ -8,7 +8,7 @@ import pageLayout from '@/layouts/pagesLayout.vue';
 import authLayout from '@/layouts/authLayout.vue';
 import paysLayout from '@/layouts/paysLayout.vue';
 import userAdminLayout from '@/layouts/userAdminLayout.vue';
-
+import rekutuApply from '@/components/rekutu/rekutuApply.vue';
 import bankPage from '@/pages/bank.vue';
 import bankAccountPage from '@/pages/accountBank.vue';
 import lastOperationPage from '@/pages/lastOperations.vue';
@@ -452,7 +452,13 @@ const router = createRouter({
             title: 'Ultimas transacciones'
           }
         },
-        
+        {
+          path:'/rekutu_apply',
+          component: rekutuApply,
+          meta: {
+            title: 'Solicitar rekutu'
+          }
+        }
       ]
     },
     

@@ -337,7 +337,10 @@
           console.log(response)
           setTimeout(() => {
             loadingWallet(false)
-            showNotify('negative', response)
+            showNotification({
+              msg: response,
+              title: 'Error'
+            })
           }, 2000)
         })
       }

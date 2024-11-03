@@ -1,5 +1,5 @@
 <template>
-  <div class="q-py-sm q-px-md q-px-md-lg q-mt-lg q-mt-md-none" v-if="Object.values(loan).length > 0 && loan.status == 3" >
+  <div class="q-py-sm q-px-md q-px-md-lg q-mt-lg q-mt-md-none" v-if="Object.values(loan).length > 0 && loan.status == 3 && loan.red_tapes.use_count < 3 " >
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
@@ -46,7 +46,6 @@
           </div>
         </div>
       </div>
-
       <div class="quote-section" v-else>
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
@@ -100,6 +99,7 @@
           if(!data.code)  throw data
           loan.value = data.data ? Object.assign(data.data) : {} 
           
+          console.log(loan.value)
           loadingShow(false)
 
           isReady.value = true

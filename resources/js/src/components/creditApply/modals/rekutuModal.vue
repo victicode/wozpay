@@ -9,7 +9,7 @@
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="No usar" @click="hiddenModal()" /> 
-        <q-btn flat label="Usar" @click="router.push('/')" /> 
+        <q-btn flat label="Usar" @click="router.push('/rekutu_apply')" /> 
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -17,6 +17,7 @@
 
 <script>
   import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
 
   export default {
     props: {
@@ -27,6 +28,7 @@
 
       const dialog = props.dialog
       const loading = ref(false)
+      const router = useRouter()
       const hiddenModal = () => {
         emit('hiddeModal', null)
 
@@ -35,6 +37,7 @@
       return {
         loading,
         dialog,
+        router,
         hiddenModal,
       }
     }

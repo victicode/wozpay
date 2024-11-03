@@ -333,7 +333,7 @@
     <div class="q-mt-xl q-px-md" v-else-if="isCurrentLoan && !load">
       <div>
         <div class="text-h6 text-center text-weight-bold">
-          Ya tienes un préstamo activo, termina de pagarlo para obtar por otro.
+          Ya tienes un préstamo activo, termina de pagarlo para optar por otro.
         </div>
 
         <div class="flex justify-center q-mt-lg ">
@@ -610,6 +610,7 @@
       }
       // Methods
       const validateUser = () => {
+
         if(user.value.verify_status != 2   ) {
           isUserApply.value = false
           redirectType.value = user.value.verify_status == 1 ? 3 : 2
@@ -617,9 +618,11 @@
         }
 
         if(!validateCard()) {
-          redirectType.value = user.value.card && user.value.card.status == 1
-          ? 5
-          : 4
+          user.value.card && user.value.card.status == 1
+          ? redirectType.value =  5
+          : router.push('/link_card?redirect=1')
+
+
           isUserApply.value = false
           return isUserApply.value
         }
@@ -757,7 +760,8 @@
             isCurrentLoan.value = data.data.status !=3
               ? true 
               : false 
-            haveRekutu.value = data.data.status == 3
+            if(!isCurrentLoan.value) haveRekutu.value = data.data.red_tapes.use_count < 3 
+            
             load.value = false
             return
           }
@@ -780,9 +784,6 @@
           console.log(respnse)
           showNotify('negative', 'Error al obtener las tasas de intereses.')
         })
-      }
-      const rekutuApply = () => {
-
       }
       onMounted(() => {
         if(!validateUser()){

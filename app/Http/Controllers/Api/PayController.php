@@ -57,9 +57,10 @@ class PayController extends Controller
         $data = [
             "amount" => $request->amount,
             "description" => "cuotatest",
-            "periodicity" => 1,
-            "debit_day" => $request->debitDay,
-            "unlimited" => true
+            "reference_id" => '00012'
+            // "periodicity" => 1,
+            // "debit_day" => $request->debitDay,
+            // "unlimited" => true
         ];
         try {
             $response = Http::withHeaders([
@@ -175,18 +176,18 @@ class PayController extends Controller
         $quota = Quota::find($pay->quota_id);
         $quota->status = '2';
         $quota->save();
-
-        $loan = Loan::withCount('paysSuccess')->find($pay->loan_id);
-        $loan->status = $this->isCompleteLoan($loan);
-        $loan->save();
         
+        $this->sendNotification('Tu pago ha sido verificado y procesado con exito', $pay->user_id, 'Pago verificado', 2);
         try {
             event(new UserUpdateEvent(1));
             event(new UserUpdateEvent($pay->user_id));
         } catch (Exception $th) {
             //throw $th;
         }
-        $this->sendNotification('Tu pago ha sido verificado y procesado con exito', $pay->user_id, 'Pago verificado', 2);
+
+        $loan = Loan::withCount('paysSuccess')->find($pay->loan_id);
+        $loan->status = $this->isCompleteLoan($loan);
+        $loan->save();
         
     }
     private function sendNotification($message, $user, $subject, $type){

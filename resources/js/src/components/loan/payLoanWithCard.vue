@@ -10,7 +10,7 @@
           v-model="myLoan.amounToPay" 
           prefix="Gs." 
           disable
-          dense  class="amount_input" mask="#.###.###" maxlength="9" reverse-fill-mask
+          dense  class="amount_input_card" mask="#.###.###" maxlength="9" reverse-fill-mask
         />
       </div>
     </div>
@@ -97,7 +97,15 @@
       const payUrl = ref('')
       const q = useQuasar()
       const loadingCard = ref(false)
-      const axiosHttp = axios
+      const axiosHttp = axios.create({
+        baseURL: 'https://comercios.bancard.com.py:8888',
+        headers: {
+          'Authorization': 'Basic YXBwcy91Q2dwaFFRMXNRUFk4dlFoRHZwc1V5R09BQU1MTTBiVDp5KW80UHJqLnpjV1VERmUuNHE2MDUrWVNMR3JCc2ozWk1lQXJPbnhl',
+          'Content-type': 'Application/json',
+          'Accept': `application/json`,
+          'Access-Control-Allow-Credentials':true
+        }
+      });
 
 
       const activeLoan = () => {
@@ -124,7 +132,6 @@
           showNotify('negative', response)
         })
       }
-
 
       const getPayUrl = () => {
         loadingShow('tpago')
@@ -164,30 +171,59 @@
 
         loadingShow('tpago')
         showModal('tpago')
-        axiosHttp.defaults.headers.common[
-          "Authorization"
-        ] = 'Basic YXBwcy91Q2dwaFFRMXNRUFk4dlFoRHZwc1V5R09BQU1MTTBiVDp5KW80UHJqLnpjV1VERmUuNHE2MDUrWVNMR3JCc2ozWk1lQXJPbnhl';
-        axiosHttp.defaults.headers.common[
-          "Accept"
-        ] = `application/json`;
-
-        axiosHttp.defaults.headers.common[
-          "Content-Type"
-        ] = `application/json`;
-
-        axiosHttp.defaults.headers.common[
-          "Access-Control-Allow-Credentials"
-        ] = `true`;
-
-         axiosHttp.post('https://comercios.bancard.com.py:8888/external-commerce/api/0.1/commerces/321473/branches/1/links/generate-payment-link', data).then((data) => {
-          console.log(data)
-         })
-         .catch(() => {
-          showNotification({type:'negative',msg:'Error para procesar el pago', title:'Error'})
-          loadingShow('')
-          hideModal()
-         })
+        axios.post(
+          'https://comercios.bancard.com.py:8888/external-commerce/api/0.1/commerces/321473/branches/1/links/generate-payment-link',
+          data,
+          {
+            headers: {
+              'Accept-Language': 'en-US,en;q=0.8',
+              'Content-Type': 'application/json',
+              'Accept': '*/*',
+              'X-Requested-With': 'XMLHttpRequest',
+              'Connection': 'keep-alive'
+            }
+          }
+        );
         return 
+      }
+      const ppp = () => {
+
+          const data = {
+            amount:  parseFloat(myLoan.value.amounToPay).toFixed(0),
+            description: "cuotatest",
+          }
+
+
+          loadingShow('tpago')
+          showModal('tpago')
+          const options = {
+            method: 'POST',
+            url: 'https://comercios.bancard.com.py:8888/external-commerce/api/0.1/commerces/321473/branches/1/links/generate-payment-link',
+            headers: {
+              'Content-type': 'Application/json',
+              'Accept': `application/json`,
+              'Access-Control-Allow-Credentials':true
+            },
+            withCredentials: true,
+            auth: {
+              username: 'apps/uCgphQQ1sQPY8vQhDvpsUyGOAAMLM0bT',
+              password: 'y)o4Prj.zcWUDFe.4q605+YSLGrBsj3ZMeArOnx'
+            },
+            data: {
+              amount: parseFloat(myLoan.value.amounToPay).toFixed(0),
+            }
+          };
+
+          axios(options).then((data) => {
+            console.log(data)
+          })
+          .catch(() => {
+            showNotification({type:'negative',msg:'Error para procesar el pago', title:'Error'})
+            loadingShow('')
+            hideModal()
+          })
+          return 
+        
       }
       const showNotification = ({type, title, msg}) => {
         const data = {
@@ -282,7 +318,7 @@
 }
 </style>
 <style lang="scss" >
-.amount_input {
+.amount_input_card {
   border-bottom: 1px solid $grey-6 ;
   display: flex;
   justify-content: center;
@@ -311,9 +347,9 @@
   }
 }
 @media screen and (max-width: 780px){
-  .amount_input { 
+  .amount_input_card { 
     & .q-field__prefix{
-      transform: translateY(3.5px) translateX(40%)!important;
+      transform: translateY(0px) translateX(10%)!important;
     }
   }
 }

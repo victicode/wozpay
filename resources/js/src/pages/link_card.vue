@@ -1,5 +1,11 @@
 <template>
   <div style="height: 100vh;" class=" bg-primary">
+
+ 
+    <div style="position: absolute; left: 0.1rem; top: 0; z-index: 3;" class="q-mt-sm">
+      <q-btn  round unelevated dense color="grey-5" size="1rem" icon="eva-chevron-left-outline" @click="goBack()" />
+    </div>
+
     <div  class="bg-white hero-section" >
       <div class="flex flex-center">
         <img :src="heroImg" class="q-mt-xl q-mt-md-md hero__img" >
@@ -52,8 +58,9 @@
   import heroImg from '@/assets/images/woz.png'
   import { inject, ref } from 'vue'
   import util from '@/util/numberUtil'
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { useQuasar } from 'quasar'
+import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
 
   export default {
     setup() {
@@ -65,6 +72,7 @@
       const ready = true
       const numberFormat = util.numberFormat
       const router = useRouter()
+      const route = useRoute()
       const accept_terms = ref(false)
       const loading = ref(false)
       // Methods
@@ -82,6 +90,12 @@
       const validateTermsCheck = () => {
         if(!accept_terms.value) showNotify('negative', 'Debes aceptar los términos y condiciones')
         return accept_terms.value
+      }
+      const goBack = () => {
+        console.log(route)
+        route.query.redirect 
+        ? router.go(-2)
+        : router.go(-1)
       }
       const showNotify = (type, message) => {
         q.notify({
@@ -105,6 +119,7 @@
         heroImg,
         showToltip,
         goTo,
+        goBack,
       }
     },
   }

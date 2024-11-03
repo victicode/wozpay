@@ -38,7 +38,8 @@ class LoanController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        $redTape =  $this->storeRedTapes($request, $loan->id);
+
+        $redTape = isset($request->isRekutu) ? $this->getRedTapesbyUser($request->user()->id) : $this->storeRedTapes($request, $loan->id);
 
         $loan->red_tapes_id = $redTape->id;
         $loan->save();
@@ -129,6 +130,23 @@ class LoanController extends Controller
 
         return $redTape;
     }
+    private function getRedTapesbyUser($userId){
+        $redTape = RedTape::where('user_id', $userId)->orderBy('created_at', 'desc')->first();
+        $redTape->use_count++;
+        $redTape->save();
+        return $redTape;
+    }
+    private function reduceRedTapes($userId){
+        $redTape = RedTape::where('user_id', $userId)->orderBy('created_at', 'desc')->first();
+
+        if($redTape->use_count == 1){
+            $redTape->delete();
+            return ;
+        }
+        $redTape->use_count--;
+        $redTape->save();
+        return $redTape;
+    }
     private function getQuaotasByDay($days) {
         $quoatas = [
             15 => 1,
@@ -156,7 +174,7 @@ class LoanController extends Controller
 
     } 
     private function rejectLoan($loan){
-
+        $this->reduceRedTapes($loan->user_id);
         $this->emitNotification('Tu solicititud del prestamo #'.$loan->loan_number.' fue rechazado', $loan->user_id, 'Prestamo rechazado');
 
     } 
@@ -191,7 +209,6 @@ class LoanController extends Controller
         $wallet->balance +=  $amount;
         $wallet->save();
     }
-    
     private function createQuatas($loan){
         for ($i=0; $i < $loan->quotas; $i++) { 
             # code...

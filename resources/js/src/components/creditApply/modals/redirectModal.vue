@@ -4,7 +4,7 @@
       <q-card-section class=" q-mt-md">
         <div class="text-h6 text-weight-bold text-center"> {{ message.modalMessage }}</div>
         <div class="text-subtitle2 q-mt-sm text-weight-medium text-justify text-auto-phase"> 
-          Para obtar por un credito debes tener tu perfil verificado y completar toda tu información laboral y personal.
+          Para optar por un credito debes tener tu perfil verificado y completar toda tu información laboral y personal.
         </div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">

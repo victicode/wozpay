@@ -115,7 +115,7 @@
           loadingShow(false)
           setTimeout(() => {
             isReady.value = true
-          }, 2000)
+          }, 500)
         }).catch((e) => {
           isReady.value = true
 
