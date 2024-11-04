@@ -44,9 +44,7 @@
         </a>
       </q-carousel-slide>
       <template v-slot:navigation-icon="{ active, onClick }">
-
         <div  class="cursor-pointer q-mx-xs socialLink__controls" :class="{active}" @click="onClick">
-
         </div>
       </template>
     </q-carousel>

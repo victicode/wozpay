@@ -16,20 +16,8 @@
   };
 
 </script>
-<style scss scoped>
-  .body{
-      width: 50%;
-      margin: auto;
-      overflow: hidden;
-      position: relative;
-  }
+<style scoped>
 
-  @media screen and (max-width: 780px){
-    .body{
-      width: 100%;
-      margin: auto;
-    }
-  }
 </style>
 <style>
 .animate__animated {/* referring directly to the animation's @keyframe declaration */

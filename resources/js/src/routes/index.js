@@ -43,11 +43,20 @@ import link_card from '@/pages/link_card.vue'
 import cardPage from '@/pages/card.vue'
 import AllTransaction from '@/pages/allTransaction.vue';
 import viewTransaction from '@/components/transaction/viewTransaction.vue';
-
+import landing from '../pages/landing.vue';
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', redirect: window.localStorage.getItem('is_admin') == 'true' ? '/admin/dashboard' :'/dashboard' },
+    {
+      path: '/',
+      name: 'landing',
+      component: landing,
+      meta: {
+        title: 'Crea tu cuenta'
+      },
+    },
+
+    
     {
       path: "/",
       name:"home",

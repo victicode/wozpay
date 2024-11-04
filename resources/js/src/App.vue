@@ -32,7 +32,6 @@
   import { inject, onMounted, ref, watch} from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useWalletStore } from '@/services/store/wallet.store'
-  import { useQuasar } from 'quasar'
   import { useRoute, useRouter } from 'vue-router';
   import utils from '@/util/httpUtil';
   import modalNotification from '@/components/layouts/modals/modalNotification.vue';
@@ -43,7 +42,6 @@
     },
     setup () {
       //vue provider
-      const $q = useQuasar()
       const store = useAuthStore();
       const walletStore = useWalletStore()
       const router = useRouter();
@@ -80,7 +78,7 @@
       }
       const exceptionsToShow = () => {
         const user = useAuthStore().user;
-        if(route.name == 'Login' && route.name == 'register') {
+        if(route.name == 'Login' && route.name == 'register' && route.name == 'landing') {
           readyState2.value = true
           return true
         }
@@ -102,7 +100,7 @@
       } 
       const isReady = () => {
         readyState.value =  route.name == 'dashboard' || route.name == 'dashboard_admin' ? false : true
-        readyState2.value =  route.name == 'Login' || route.name == 'register' ? true : false
+        readyState2.value =  route.name == 'Login' || route.name == 'register' || route.name == 'landing' ? true : false
       }
       const initChanel = () => {
         window.Echo
@@ -127,21 +125,7 @@
     }
   };
 </script>
-<style scss scoped>
-  .body{
-      width: 50%;
-      margin: auto;
-      overflow: hidden;
-      position: relative;
-  }
 
-  @media screen and (max-width: 820px){
-    .body{
-      width: 100%;
-      margin: auto;
-    }
-  }
-</style>
 <style>
 .animate__animated {/* referring directly to the animation's @keyframe declaration */
   animation-duration: 0.2s; /* don't forget to set a duration! */
