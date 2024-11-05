@@ -1,5 +1,5 @@
 <template>
-  <section class="q-pt-md q-px-md-lg q-pt-md-lg q-mt-md-sm q-px-sm">
+  <section class="q-pt-md q-px-md-lg q-pt-md-lg q-mt-md-sm q-px-sm" >
     <div>
       <div class=" text-transfer1 q-px-md  q-px-md-xl ">
         Transferencias nacionales e internacionales
@@ -38,7 +38,7 @@
           padding
           height="640px"
           infinite
-          autoplay="2500"
+          :autoplay="2500"
           class=" rounded-borders w-100"
         >
           <q-carousel-slide 

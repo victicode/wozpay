@@ -1,7 +1,9 @@
 <template>
-  <div class="bg-blueLanding q-pb-lg q-px-sm q-pt-md-lg flex flex-md-column">
+  <div class="bg-blueLanding q-pb-lg q-px-sm q-pt-md-lg flex flex-md-column" style="box-shadow: #00000033 0px 5px 18px 2px;
+    z-index: 9;
+    position: relative;">
     <div class="q-px-md q-px-md-lg q-pt-md text__section">
-      <div class="q-pt-xl text-yellowLanding text-hero1 text-bold show-xs">
+      <div class="q-pt-lg text-yellowLanding text-hero1 text-bold show-xs">
         Woz Pay
       </div>
       <div>
@@ -26,10 +28,14 @@
         </div>
       </div>
     </div>
-    <div class="img__section q-mt-md">
-      <img :src="imagen2" alt="" class="img__section--items img1">
+    <div class="img__section q-mt-md q-pl-md-xl">
+      <div class="q-pl-md-xl">
+        <img :src="hero_img" alt="" class="img__section--items img1 q-ml-md-xl" />
+
+      </div>
+      <!-- <img :src="imagen2" alt="" class="img__section--items img1">
       <img :src="imagen1" alt="" class="img__section--items img2">
-      <img :src="imagen3" alt="" class="img__section--items img3">
+      <img :src="imagen3" alt="" class="img__section--items img3"> -->
     </div>
     <div class="utility__section q-px-md q-mt-md show-xs">
       <div class="utility__container q-pa-md">
@@ -53,12 +59,14 @@
   import imagen1 from '@/assets/images/IMAGEN_1.svg'
   import imagen2 from '@/assets/images/IMAGEN_2.svg'
   import imagen3 from '@/assets/images/IMAGEN_3.svg'
+  import hero_img from '@/assets/images/hero_img.webp'
   export default {
     setup(){
       return{
         imagen1,
         imagen2,
-        imagen3
+        imagen3,
+        hero_img
       }
     }
   }
@@ -75,22 +83,10 @@
   overflow: hidden;
 
   &--items{
-    position: absolute;
     height: 500px;
   }
   & .img1 {
     z-index: 2;
-    left: 22%;
-    transform: scale(0.9) rotate(-10deg) translateY(1rem);
-  }
-  & .img2 {
-    z-index: 3;
-    left: calc(60% - 154px)
-  }
-  & .img3 {
-    z-index: 2;
-    left: 52%;
-    transform:  scale(1.08) rotate(-0deg) translateY(0.8rem);
   }
 }
 
@@ -116,25 +112,12 @@
     width: 100%;
   }
   .img__section{
-    height: 300px;
     width: 100%;
+    position: relative;
+    height:auto;
+
     &--items{
-      position: absolute;
-      height: 300px;
-    }
-    & .img1 {
-      z-index: 2;
-      left: -4%;
-      transform: scale(0.9) rotate(-10deg) translateY(1rem);
-    }
-    & .img2 {
-      z-index: 3;
-      left: calc(49% - 92.5px)
-    }
-    & .img3 {
-      z-index: 2;
-      left: 34%;
-      transform:  scale(1.08) rotate(-0deg) translateY(0.8rem);
+      height: auto;
     }
   }
   .text-hero1 {

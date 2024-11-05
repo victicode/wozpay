@@ -1,21 +1,33 @@
 <template>
-  <div class="q-px-lg q-py-md flex items-center">
+  <div class="q-px-lg q-py-md flex items-center" style="box-shadow: #00000033 0px 5px 18px 2px;
+    z-index: 10;
+    position: relative;">
     <div style="width: 50%;">
       <div class="text-terciary  woz-logo2">Woz Payments</div>
       <q-linear-progress rounded size="7px" track-color="backLinear"  :value="0.55" color="white" reverse class=" landing__progress" />
     </div>
     <div style="width: 50%;" class="flex items-center justify-around">
-      <div class="text-link">Precios</div>
-      <div class="text-link">Preguntas frecuentes</div>
-      <div class="text-link">Regístrate o inicia sesión</div>
+      <div class="text-link_header">Precios</div>
+      <div class="text-link_header">Preguntas frecuentes</div>
+      <div class="text-link_header active">Regístrate o inicia sesión</div>
     </div>
   </div>
 </template>
 <style lang="scss">
-.text-link{
+.text-link_header{
   font-size: 1.15rem;
   cursor: pointer;
   font-weight: 500;
+  transition: all 0.2s ease-in;
+  &:hover{
+    color: #ffc701!important;
+  }
+  &.active{
+    color: $primary;
+    &:hover{
+      transform: scale(1.1);
+    }
+  }
 }
 .woz-logo2 {
   font-weight: bold;

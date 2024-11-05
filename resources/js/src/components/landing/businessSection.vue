@@ -1,12 +1,14 @@
 <template>
-  <section class="q-px-sm q-px-md-lg q-pt-lg q-py-xl q-pb-lg bg-business flex">
+  <section class="q-px-sm q-px-md-lg q-pt-lg q-py-xl q-pb-lg bg-business flex" style="box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px 2px;
+    z-index: 8;
+    position: relative;">
     <div class="q-px-md title__section q-pt-md-lg">
       <div class="text-business1 ">
         Impulsa tu negocio con un
 
         préstamo Woz Pay a medida
       </div>
-      <div class="text-business2 q-mt-sm q-px-md q-pl-md-xl">
+      <div class="text-business2 q-mt-sm q-px-sm q-pl-md-xl">
         Financiamos tus proyectos con un préstamo <br> de crédito por débito
       </div>
       <div class="hidde-xs-flex  q-mt-xl q-pl-xl q-ml-md">
