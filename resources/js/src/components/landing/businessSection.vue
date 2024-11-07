@@ -1,5 +1,5 @@
 <template>
-  <section class="q-px-sm q-px-md-lg q-pt-lg q-py-xl q-pb-lg bg-business flex" style="box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px 2px;
+  <section class="q-px-sm q-px-md-xl q-pt-lg q-py-xl q-pb-lg bg-business flex" style="box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px 2px;
     z-index: 8;
     position: relative;">
     <div class="q-px-md title__section q-pt-md-lg">

@@ -1,5 +1,5 @@
 <template>
-  <section class="q-mt-xs q-py-md " >
+  <section class="q-mt-xs q-py-md q-px-md-xl q-pt-md-xl " >
     <div class="q-px-md q-px-md-xl" >
       <div class="text-link1 q-px-sm">
         Vincula una tarjeta de crédito o débito con <span class="text-link2 hidde-xs-inline">Woz Pay</span>

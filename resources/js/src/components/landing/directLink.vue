@@ -1,5 +1,5 @@
 <template>
-  <section class="q-mt-xs q-px-xs q-py-md q-pb-lg direct__links q-pa-md-xl">
+  <section class="q-mt-xs q-px-xs q-py-md q-pb-lg direct__links q-pa-md-xl ">
     <div class="direct__links--container q-pb-md q-mt-md-lg">
       <div class="q-mt-lg list__link">
         <div class="q-pl-sm title__links q-mb-sm ">Woz Paraguay</div>

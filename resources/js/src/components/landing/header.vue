@@ -9,10 +9,22 @@
     <div style="width: 50%;" class="flex items-center justify-around">
       <div class="text-link_header">Precios</div>
       <div class="text-link_header">Preguntas frecuentes</div>
-      <div class="text-link_header active">Regístrate o inicia sesión</div>
+      <div class="text-link_header active" @click="router.push('/login')">Regístrate o inicia sesión</div>
     </div>
   </div>
 </template>
+<script>
+
+  import { useRouter } from 'vue-router';
+
+  export default {
+    setup(){
+      return{
+        router: useRouter()
+      }
+    }
+  }
+</script>
 <style lang="scss">
 .text-link_header{
   font-size: 1.15rem;
