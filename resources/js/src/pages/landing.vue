@@ -115,7 +115,7 @@
     }
   }
 </script>
-<style lang="scss" >
+<style lang="scss" scoped >
 .my-element2, .my-element4{
   transform: translateY(1000px);
 }

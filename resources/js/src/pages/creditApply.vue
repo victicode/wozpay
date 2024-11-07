@@ -626,11 +626,15 @@
           isUserApply.value = false
           return isUserApply.value
         }
-        const dontValidate = ['facial_verify','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
+        const dontValidate = ['facial_verify','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
 
         Object.entries(user.value).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
-          if(!value) isUserApply.value = false 
+          if(!value){
+            console.log(key)
+            isUserApply.value = false 
+          } 
+            
         });
 
         
