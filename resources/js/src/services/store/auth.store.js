@@ -41,6 +41,8 @@ export const useAuthStore = defineStore("auth", {
     logoutAction(){
       storage.deleteItem("is_admin");
       storage.deleteItem("user_unique_id");
+      storage.deleteItem("rekutu");
+
       this.isAuthenticated = false;
       this.user = {};
       this.errors = {};

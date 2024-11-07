@@ -1,5 +1,5 @@
 <template>
-  <section class="q-mt-xs  q-pt-xl q-pb-lg aquipago__section">
+  <section class="q-mt-xs  q-pt-xl q-pb-lg q-px-md-xl aquipago__section">
     <div >
       <div class="text-center text-aquipago1 q-px-md">
         ¿Donde pago?

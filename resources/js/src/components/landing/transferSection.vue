@@ -1,5 +1,5 @@
 <template>
-  <section class="q-pt-md q-px-md-lg q-pt-md-lg q-mt-md-sm q-px-sm" >
+  <section class="q-pt-md q-px-md-xl q-pt-md-lg q-mt-md-sm q-px-sm" >
     <div>
       <div class=" text-transfer1 q-px-md  q-px-md-xl ">
         Transferencias nacionales e internacionales
@@ -95,7 +95,7 @@ export default {
 .text-transfer2 {
   font-size: 1.5rem;
   font-weight: 600;
-  width: 40%;
+  width: 45%;
 }
 
 .socialLink__controls{

@@ -93,25 +93,30 @@
       const loan = ref({}) 
       const loading = ref(true);
       const router = useRouter()
+      const activeRekutu = ref('')
 
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
           loan.value = data.data ? Object.assign(data.data) : {} 
-          
-          console.log(loan.value)
           loadingShow(false)
-
           isReady.value = true
-          if(!localStorage.getItem('rekutu')){
-            if(loan.value.status == 3) localStorage.setItem('rekutu', 'yes')
-          }
-
+          isRekutu()
+          
         }).catch((e) => {
           isReady.value = true
 
           showNotify('negative', 'error al obtener prestamo activo')
         })
+      }
+      const isRekutu = () =>{
+       if(!localStorage.getItem('rekutu') ){
+          if(loan.value.status == 3 && loan.value.red_tapes.use_count < 3){
+              localStorage.setItem('rekutu', 'yes')
+          }
+        }
+        activeRekutu.value = localStorage.getItem('rekutu')
+
       }
       const goTo = ()=> {
         localStorage.setItem('rekutu', 'no')
@@ -141,7 +146,7 @@
         wozIcons,
         loan,
         router,
-        activeRekutu: localStorage.getItem('rekutu'),
+        activeRekutu,
         goTo,
       }
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blueLanding q-pb-lg q-px-sm q-pt-md-lg flex flex-md-column" style="box-shadow: #00000033 0px 5px 18px 2px;
+  <div class="bg-blueLanding q-pb-lg q-px-sm q-px-md-xl q-pt-md-lg flex flex-md-column" style="box-shadow: #00000033 0px 5px 18px 2px;
     z-index: 9;
     position: relative;">
     <div class="q-px-md q-px-md-lg q-pt-md text__section">
