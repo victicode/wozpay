@@ -33,13 +33,24 @@
                 <div 
                   class="q-pl-xs q-mt- " 
                   :class="{ 
+                    'flex': transactionType == 6,
                     'text-subtitle1 text-weight-bold q-pl-xs': index == 'title',
                     'text-grey-8 text-caption text-weight-medium q-pl-xs': index == 'text',
                     'text-primary text-weight-bold text-body1 q-pl-xs': index == 'value',
                     'text-grey-7 text-weight-medium text-caption': index == 'date' || index == 'hour',
                   }" 
-                v-for="(lines, index) in items" :key="index"> 
-                  {{ lines }}
+                  v-for="(lines, index) in items" :key="index"
+                > 
+                  <div>
+                    {{ lines }}
+                  </div>
+                  <q-icon
+                    :name="icons.sharpVerified"
+                    size="xs"
+                    :color="'terciary'"
+                    class="q-mx-xs "
+                    v-if="transactionType == 6 && lines == 'Woz Payments'"
+                  />
                 </div>
     
               </div>
@@ -106,7 +117,7 @@
         lines[0] = {
           title:'Monto',
           text:'Cantidad de dinero en Guaranies',
-          value:numberFormat(transaction.value.amount)
+          value:numberFormat(transactionType == 6 ?215000 :transaction.value.amount )
         }
         
         if(transactionType == 1) {
@@ -170,11 +181,12 @@
           }
           lines[2] = {
             title:'Tipo de debito',
-            text: transaction.value.user.card.type ==  1 ? 'Debito tarjeta de crédito' : 'Debito tarjeta de débito',
+            text:  'Debito tarjeta de crédito',
           }
           lines[3] = {
             title:'Referencia',
-            text:'619 5556668745',
+            text:'Referncia de prestamo',
+            value: '619 5556668745',
           }
         }
 

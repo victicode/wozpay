@@ -6,7 +6,7 @@
     <div class="q-mt-md-md q-mt-xs-md">
       <div class="row">
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect':activeRekutu =='yes'}" to="/apply" >
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect': activeRekutu ==='yes'}" to="/apply" >
             <div v-if="loan.status == 3 && loan.red_tapes.use_count < 3">
               <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
@@ -50,21 +50,29 @@
       const iconis =  inject('ionIcons')
       const loanStore = useLoanStore() 
       const loan = ref({}) 
+      const activeRekutu = ref('')
 
       const activeLoan = () => {
         loanStore.getLoan(user.id).then((data) => {
           if(!data.code)  throw data
           loan.value = data.data ? Object.assign(data.data) : {} 
           
+          isRekutu()
           loadingShow(false)
-          // setTimeout(() => {
-          //   isReady.value = true
-          // }, 2000)
         }).catch((e) => {
           // isReady.value = true
 
           // showNotify('negative', 'error al obtener prestamo activo')
         })
+      }
+      const isRekutu = () =>{
+       if(!localStorage.getItem('rekutu') ){
+          if(loan.value.status == 3 && loan.value.red_tapes.use_count < 3){
+              localStorage.setItem('rekutu', 'yes')
+          }
+        }
+        activeRekutu.value = localStorage.getItem('rekutu')
+
       }
       onMounted(() => {
         activeLoan()
@@ -74,7 +82,7 @@
         iconis,
         user,
         loan,
-        activeRekutu: localStorage.getItem('rekutu'),
+        activeRekutu,
         directTransfer: localStorage.getItem('showTransfer')
 
       }

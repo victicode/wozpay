@@ -91,6 +91,9 @@ class TransactionController extends Controller
         if($type == 4 || $type == 5 ){
             return  Transfer::with('user_from.user', 'user_to.user')->find($id);
         }
+        if($type == 6){
+            return  Loan::with('user')->find($id);
+        }
     }
     private function object_sorter($clave,$orden=null) {
         return function ($a, $b) use ($clave,$orden) {
