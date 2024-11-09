@@ -19,7 +19,6 @@
           class="no-wrap  flex q-px-sm" 
         >
           <div class="number__top flex flex-center text-primary q-mt-lg">
-            
             {{ key+1 }}
           </div>
           <div>
@@ -64,6 +63,8 @@
   import imagen6 from '@/assets/images/IMAGEN_6.svg'
   import imagen7 from '@/assets/images/IMAGEN_7.svg'
   import imagen8 from '@/assets/images/IMAGEN_8.svg'
+  import click_img from '@/assets/images/click.webp'
+
   
 export default {
   setup() {
@@ -75,6 +76,7 @@ export default {
     return {
       slide: ref(0),
       infoData,
+      click_img,
     }
   },
 }

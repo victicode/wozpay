@@ -1,8 +1,8 @@
 <template>
   <q-layout view="hHh lpR fFf" style="overflow: hidden;">
     <div>
-      <transition name="vertical">
-        <q-page-container class="body" v-if="readyState && readyState2">
+      <transition name="inFade">
+        <q-page-container class="body" v-if="readyState && readyState2" :class="{'landing': route.name=='landing'}">
           <router-view v-slot="{ Component }" >
             <transition name="vertical">
               <component :is="Component" />
@@ -53,7 +53,12 @@
       // methods
       const getCurrentUser = (inject = null) =>{
         if(exceptionsToShow() && !inject) return
-
+        if(route.name == 'landing'){
+          setTimeout(() => {
+            readyState.value = true
+            readyState2.value = true
+          },2000)
+        }
         store.currentUser().then((data)=>{
           if(data.code !== 200 ) throw data
           user.value = data.data
@@ -78,11 +83,11 @@
       }
       const exceptionsToShow = () => {
         const user = useAuthStore().user;
-        if(route.name == 'Login' && route.name == 'register' && route.name == 'landing') {
+        if(route.name == 'Login' && route.name == 'register') {
           readyState2.value = true
           return true
         }
-        if(route.name !== 'dashboard' && route.name != 'dashboard_admin' && Object.values(user).length > 0) {
+        if(route.name !== 'dashboard' && route.name != 'dashboard_admin' && route.name != 'landing' && Object.values(user).length > 0) {
           readyState2.value = true
           return true
         }
@@ -99,8 +104,8 @@
         emitter.emit('modalNotification', data);
       } 
       const isReady = () => {
-        readyState.value =  route.name == 'dashboard' || route.name == 'dashboard_admin' ? false : true
-        readyState2.value =  route.name == 'Login' || route.name == 'register' || route.name == 'landing' ? true : false
+        readyState.value =  route.name == 'dashboard' || route.name == 'dashboard_admin' || route.name == 'landing'  ? false : true
+        readyState2.value =  route.name == 'Login' || route.name == 'register' ? true : false
       }
       const initChanel = () => {
         window.Echo
@@ -121,6 +126,7 @@
       return {
         readyState2,
         readyState,
+        route,
       }
     }
   };
@@ -131,10 +137,14 @@
   animation-duration: 0.2s; /* don't forget to set a duration! */
 }
 .body{
-  width: 50%;
+  width: 50%!important;
   margin: auto;
   overflow: hidden;
   position: relative;
+}
+.body.landing{
+  width: 100%!important;
+
 }
 @media screen and (max-width: 780px){
   .body{

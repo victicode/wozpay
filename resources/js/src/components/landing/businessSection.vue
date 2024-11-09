@@ -12,13 +12,16 @@
         Financiamos tus proyectos con un préstamo <br> de crédito por débito
       </div>
       <div class="hidde-xs-flex  q-mt-xl q-pl-xl q-ml-md">
-        <div class="q-pt-lg contanier__text3">
+        <div class="q-pt-lg contanier__text3 flex" >
+          <img :src="click_img" alt="" style="height: 1.9rem; transform: rotate(100deg) translatex(-2px);" class="q-mr-sm" >
           <div class="text-business3">Registrate gratis</div>
         </div>
-        <div class="q-pt-lg contanier__text3">
+        <div class="q-pt-lg contanier__text3 flex" >
+          <img :src="click_img" alt="" style="height: 1.9rem; transform: rotate(100deg) translatex(-2px);" class="q-mr-sm" >
           <div class="text-business3">Desembolso en cuenta</div>
         </div>
-        <div class="q-pt-lg contanier__text3">
+        <div class="q-pt-lg contanier__text3 flex" >
+          <img :src="click_img" alt="" style="height: 1.9rem; transform: rotate(100deg) translatex(-2px);" class="q-mr-sm" >
           <div class="text-business3">Solicitá tu préstamo</div>
         </div>
       </div>
@@ -34,27 +37,32 @@
       </div>
     </div>
     <div class="q-px-md q-mt-lg show-xs benefict__section">
-      <div class="q-pt-md">
+      <div class="q-pt-md flex">
+        <img :src="click_img" alt="" style="height: 1.7rem; transform: rotate(90deg) translateX(-5px);"  class="q-mr-sm">
         <div class="text-business3">Registrate gratis</div>
       </div>
-      <div class="q-pt-md">
+      <div class="q-pt-md flex">
+        <img :src="click_img" alt="" style="height: 1.7rem; transform: rotate(90deg) translateX(-5px);"  class="q-mr-sm">
         <div class="text-business3">Desembolso en cuenta</div>
       </div>
-      <div class="q-pt-md">
+      <div class="q-pt-md flex">
+        <img :src="click_img" alt="" style="height: 1.7rem; transform: rotate(90deg) translateX(-5px);"  class="q-mr-sm">
         <div class="text-business3">Solicitá tu préstamo</div>
-      </div>
+      </div> 
     </div>
   </section>
 </template>
 <script>
   import imagen4 from '@/assets/images/IMAGEN_4.svg'
   import imagen5 from '@/assets/images/IMAGEN_5.svg'
+  import click_img from '@/assets/images/click.webp'
 
   export default {
     setup(){
       return{
         imagen4,
         imagen5,
+        click_img,
       }
     }
   }

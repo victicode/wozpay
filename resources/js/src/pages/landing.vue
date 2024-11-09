@@ -52,22 +52,8 @@
     setup(){
       const $q = useQuasar()
       $q.addressbarColor.set('#1c3150')
-      // console.log(gsap)
       onMounted(() => {
-        // let tl = gsap.timeline({
-        //     // yes, we can add it to an entire timeline!
-        //     scrollTrigger: {
-        //         trigger: '.container',
-        //         pin: true, // pin the trigger element while active
-        //         start: 'top top', // when the top of the trigger hits the top of the viewport
-        //         end: '+=50%', // end after scrolling 500px beyond the start
-        //         scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-        //     }
-        // });
-        // tl.from('.my-element', { scale: 0.8,  autoAlpha: 0 })
-        // tl.from('.my-element2', { scale: 0.8,  autoAlpha: 0 })
-        // tl.from('.my-element3', { scale: 0.8,  autoAlpha: 0 })
-        // tl.from('.my-element4', { scale: 0.8,  autoAlpha: 0 })
+
         setTimeout(() => {
           
           gsap.to('.my-element1',{
@@ -115,7 +101,9 @@
     }
   }
 </script>
-<style lang="scss" scoped >
+<style lang="scss" >
+
+
 .my-element2, .my-element4{
   transform: translateY(1000px);
 }
@@ -124,9 +112,5 @@
 }
 .my-element1{
   opacity: 0;   
-
-}
-.body{
-  width: 100%!important;
 }
 </style>

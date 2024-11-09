@@ -47,15 +47,15 @@ import viewTransaction from '@/components/transaction/viewTransaction.vue';
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'landing',
-    //   component: () => import('@/pages/landing.vue'),
-    //   meta: {
-    //     title: 'Crea tu cuenta'
-    //   },
-    // },
-    { path: '/', redirect: window.localStorage.getItem('is_admin') == 'true' ? '/admin/dashboard' :'/dashboard' },
+    {
+      path: '/',
+      name: 'landing',
+      component: () => import('@/pages/landing.vue'),
+      meta: {
+        title: 'Crea tu cuenta'
+      },
+    },
+    // { path: '/', redirect: window.localStorage.getItem('is_admin') == 'true' ? '/admin/dashboard' :'/dashboard' },
 
     {
       path: "/",
