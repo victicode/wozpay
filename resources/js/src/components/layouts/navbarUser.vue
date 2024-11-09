@@ -99,6 +99,7 @@ export default {
     border-top: 1.5px solid $grey-4;
     width: 50%;
     left: 25%;
+    height: 9%;
   }
   @media screen and (max-width: 780px){
     .bottom-tab{

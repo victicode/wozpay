@@ -126,9 +126,12 @@ export default {
     border-top: 1.5px solid $grey-3;
     width: 50%;
     left: 25%;
+    height: 9%;
   }
   @media screen and (max-width: 820px){
     .bottom-tab{
+      height: 8%;
+
       width: 100%;
       left: 0%;
     }

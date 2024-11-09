@@ -98,7 +98,7 @@
   overflow: hidden;
   }
   #navbar-buttom{
-    height: 8%;
+    height: 9%;
   }
 }
 </style>
