@@ -77,14 +77,31 @@
           Puedes efectivizar en tu cuenta bancaria directamente, utilizando el método SIPAP
         </div>
       </div>
+      <div class="show-xs-flex justify-center w-100 q-px-md q-pt-xl" >
+      <q-btn 
+        label="Registrate en Woz Pay" 
+        unelevated
+        no-caps 
+        color="terciary" 
+        class="full-width q-pa-md" 
+        @click="router.push('/register')" 
+      >
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
+    </div>
     </div>
   </section>
 </template>
 <script>
 import imagen9 from '@/assets/images/IMAGEN_9.svg'
+import { useRouter } from 'vue-router';
+
 export default {
   setup() {
     return {
+      router: useRouter(),
       imagen9
     }
   },

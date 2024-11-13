@@ -26,14 +26,12 @@
         </div>
       </div>
     </div>
-    <div class="q-px-sm img__section q-mt-md q-pt-md-md" >
-      <div style="width: 47%;">
-
+    <div class="q-px-sm img__section__business q-mt-md q-pt-md-md" >
+      <div style="width: 47%;" class="transferImg">
         <img :src="imagen4" alt="" class="img1_bussiness" />
       </div>
-      <div style="width: 47%;">
-
-        <img :src="imagen5" alt="" class="img2_bussiness" />
+      <div style="width: 47%;" class="transferImg">
+        <img :src="imagen5" alt=""  class="img2_bussiness" />
       </div>
     </div>
     <div class="q-px-md q-mt-lg show-xs benefict__section">
@@ -67,13 +65,13 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="scss">
 
 .title__section{
   width: 50%;
   order: 2;
 }
-.img__section{
+.img__section__business{
   order: 1;
   width: 50%;
   height: max-content;
@@ -113,7 +111,7 @@
     width: 100%;
     order: 1;
   }
-  .img__section{
+  .img__section__business{
     justify-content: space-between;
     width: 100%;
   }
@@ -132,5 +130,18 @@
     text-align: start;
   }
 }
+.transferImg{
+  // transition:  all 1s;
+  animation: slidein 1.5s infinite alternate-reverse ease-in;
 
+}
+@keyframes slidein {
+  from {
+    transform: translateY(-5px);
+  }
+
+  to {
+    transform: translateY(10px);
+  }
+}
 </style>

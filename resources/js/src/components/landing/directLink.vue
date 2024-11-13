@@ -103,7 +103,7 @@ export default {
  background:  #e6e6e6;
  &--container{
   display: flex;
-  border-top: 2px solid $primary;
+  border-top: 2px solid #1c274c;
 
  }
 }
@@ -137,8 +137,8 @@ export default {
    background:  #e6e6e6;
    &--container{
     display: block;
-    border-top: 1px solid $primary;
-    border-bottom: 1px solid $primary;
+    border-top: 1px solid #1c274c;
+    border-bottom: 1px solid #1c274c;
   
    }
   }
