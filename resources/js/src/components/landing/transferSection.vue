@@ -1,5 +1,5 @@
 <template>
-  <section class="q-pt-md q-px-md-xl q-pt-md-lg q-mt-md-sm q-px-sm" >
+  <section class="q-pt-xl q-px-md-xl q-pt-md-lg q-mt-md-sm q-px-sm" >
     <div>
       <div class=" text-transfer1 q-px-md  q-px-md-xl ">
         Transferencias nacionales e internacionales
@@ -62,8 +62,8 @@
         label="Comienza hoy" 
         unelevated
         no-caps 
-        color="terciary" 
-        class="full-width q-pa-md" 
+        color="yellowLanding" 
+        class="full-width q-pa-md landing__button" 
         @click="router.push('/login')" 
       >
         <template v-slot:loading>

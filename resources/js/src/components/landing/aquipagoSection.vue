@@ -60,6 +60,11 @@ export default {
 
   }
 @media screen and (max-width: 780px){
+  .aquipago__section{
+    border-top: 0.8rem solid $grey-3;
+    border-bottom: 0.8rem solid $grey-3;
+  
+  }
   .text-aquipago1 {
     font-size: 1.7rem;
   }

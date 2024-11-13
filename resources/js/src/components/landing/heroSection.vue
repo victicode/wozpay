@@ -67,8 +67,8 @@
         label="Registrate en Woz Pay" 
         unelevated
         no-caps 
-        color="terciary" 
-        class="full-width q-pa-md" 
+        color="yellowLanding" 
+        class="full-width q-pa-md landing__button" 
         @click="router.push('/register')" 
       >
         <template v-slot:loading>
