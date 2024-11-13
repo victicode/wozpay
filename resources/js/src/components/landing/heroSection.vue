@@ -62,6 +62,20 @@
         </div>
       </div>
     </div>
+    <div class="show-xs-flex justify-center w-100 q-px-md q-pt-md" >
+      <q-btn 
+        label="Registrate en Woz Pay" 
+        unelevated
+        no-caps 
+        color="terciary" 
+        class="full-width q-pa-md" 
+        @click="router.push('/register')" 
+      >
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
+    </div>
   </div>
 </template>
 <script>
@@ -70,10 +84,12 @@
   import imagen3 from '@/assets/images/IMAGEN_3.svg'
   import hero_img from '@/assets/images/hero_img.webp'
   import click_img from '@/assets/images/click.webp'
+  import { useRouter } from 'vue-router'
 
   export default {
     setup(){
       return{
+        router: useRouter(),
         imagen1,
         imagen2,
         imagen3,

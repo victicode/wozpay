@@ -57,6 +57,20 @@
         </q-carousel>
       </div>
     </div>
+    <div class="show-xs-flex justify-center w-100 q-px-md q-py-md" >
+      <q-btn 
+        label="Comienza hoy" 
+        unelevated
+        no-caps 
+        color="terciary" 
+        class="full-width q-pa-md" 
+        @click="router.push('/login')" 
+      >
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
+    </div>
   </section>
 </template>
 <script>
@@ -64,8 +78,7 @@
   import imagen7 from '@/assets/images/IMAGEN_7.svg'
   import imagen8 from '@/assets/images/IMAGEN_8.svg'
   import click_img from '@/assets/images/click.webp'
-
-  
+  import { useRouter } from 'vue-router';
 export default {
   setup() {
     const infoData = [
@@ -74,6 +87,7 @@ export default {
       imagen8,
     ]
     return {
+      router: useRouter(),
       slide: ref(0),
       infoData,
       click_img,

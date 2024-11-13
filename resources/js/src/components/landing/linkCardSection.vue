@@ -21,7 +21,7 @@
           Tu billetera electrónica más completa 
           <br>
           <br>
-          Tabla de tarifario para retiro
+          Tabla de intereses
         </div>
       </div>
       <div class="q-mt-md q-px-sm">

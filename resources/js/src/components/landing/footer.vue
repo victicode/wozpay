@@ -3,11 +3,24 @@
     z-index: 8;
     position: relative;">
     <div>
-      2022 © todos los derechos reservados @Wozparaguay | 
+      {{moment().format('YYYY')}} © todos los derechos reservados @Wozparaguay | 
       Términos y Condiciones | política de privacidad
     </div>
   </div>
 </template>
+<script>
+import moment from 'moment';
+
+ 
+
+  export default {
+    setup(){
+      return{
+        moment
+      }
+    }
+  }
+</script>
 <style>
 .bg-footer {
     background: white;

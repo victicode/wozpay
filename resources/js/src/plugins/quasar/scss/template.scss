@@ -23,7 +23,7 @@ html{
   display: flex;
   flex-wrap: wrap;
 }
-.show-xs{
+.show-xs, .show-xs-flex{
   display: none;
 }
 
@@ -61,6 +61,9 @@ html{
 }
 .text-yellowLanding{
   color: #f9a826!important;
+}
+.bg-yellowLanding {
+  background: #f9a826!important;
 }
 .text-blueLanding {
   color: #1c3150!important;
@@ -284,6 +287,9 @@ html{
   }
   .show-xs{
     display: block;
+  }
+  .show-xs-flex{
+    display: flex;
   }
   .bg-blueLanding {
     background: #1c3150!important;
