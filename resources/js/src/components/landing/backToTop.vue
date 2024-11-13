@@ -13,7 +13,7 @@ export default {
   
     return {
       backtop: () => {
-        console.log('topree')
+        document.documentElement.scrollTop = 0; 
       }
     }
   },

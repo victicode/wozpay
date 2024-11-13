@@ -28,8 +28,8 @@
       <div class="q-mt-lg list__link">
         <div class="q-pl-sm title__links q-mb-sm ">Comienza</div>
         <div class="flex ">
-          <div v-for="(item, key) in init" :key="key" class="item__woz q-pl-sm q-mt-xs q-pl-md-sm" :class="{'q-pl-lg q-pr-sm':key%2!==0 }">
-              {{ item.text }}
+          <div v-for="(item, key) in init" :key="key" @click="router.push(item.value)" class="item__woz q-pl-sm q-mt-xs q-pl-md-sm" :class="{'q-pl-lg q-pr-sm':key%2!==0 }">
+            {{ item.text }}
           </div>
         </div>
       </div>
@@ -37,12 +37,14 @@
   </section>
 </template>
 <script>
+import { useRouter } from 'vue-router';
+
 
 
 export default {
   setup() {
-  
     return {
+      router: useRouter(),
       wozParaguay: [
         'Woz Paraguay Marketplace',
         'Woz Music',
