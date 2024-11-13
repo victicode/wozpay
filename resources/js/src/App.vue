@@ -67,8 +67,12 @@
             initChanel()
           }
         }).catch((e) => { 
-          showNotification('Sesión caducada', 'El tiempo activo de su sesión ha caducado, vuelve a iniciar sesión', 'negative')
-          utils.errorLogout( () => router.push('/login'))
+          if(route.name!='landing'){
+
+            showNotification('Sesión caducada', 'El tiempo activo de su sesión ha caducado, vuelve a iniciar sesión', 'negative')
+            
+            utils.errorLogout( () => router.push('/login'))
+          }
         })
       }
       const capitalBalances = (id) => {
@@ -148,7 +152,7 @@
 }
 @media screen and (max-width: 780px){
   .body{
-    width: 100%;
+    width: 100%!important;
     margin: auto;
   }
 }
