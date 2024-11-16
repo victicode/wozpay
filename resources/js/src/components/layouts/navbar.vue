@@ -22,6 +22,11 @@
         <span class="q-mt-xs text-dark text-caption">Ult. Trans</span>
       </div>
     </q-route-tab>
+    <q-route-tab class="q-px-none q-px-md-lg" :to="'/requestPay'" exact>
+      <div class="flex flex-center column paylink__button" style="">
+        <span class="q-mt-xs text-white text-caption">Cobrar</span>
+      </div>
+    </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'" exact>
       <div class="flex flex-center column">
         <q-icon
@@ -42,12 +47,7 @@
         <span class="q-mt-xs text-dark text-caption">Notificaciones</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/profile'" exact> 
-      <div class="flex flex-center column">
-        <div v-html="wozIcons.profile" class="iconWoz" />
-        <span class="q-mt-xs text-dark text-caption">Perfil</span>
-      </div>
-    </q-route-tab>
+    
    
   </q-tabs>
 </template>
@@ -88,8 +88,15 @@ export default {
 }
 </script>
 <style lang="scss">
+.paylink__button{
+  border-radius: 50%; background: $positive; height: 70px; width: 70px;
+  transform: translateY(-50%) ;
+  border: 5px solid #85fc85;
+  animation: 1.5s bouncee infinite alternate-reverse;
+  opacity: 1!important;
+}
 .userTab{
-
+  overflow: visible;
   & .q-tab--active {
     & span {
       color:#ffc701!important;
@@ -97,6 +104,14 @@ export default {
     & .iconWoz path {
       stroke: #ffc701;
     }
+    & .paylink__button{
+      & span {
+        color:white!important;
+      }
+    }
+  }
+  & .q-tabs__content {
+    overflow: visible!important;
   }
 }
 .notificationBadge{
@@ -114,8 +129,16 @@ export default {
   color: white;
 }
 .q-tab__label{
-    font-size: 0.72rem!important;
+  font-size: 0.72rem!important;
+}
+@keyframes bouncee {
+  0%{
+    transform: translateY(-50%) scale(1);
   }
+  100%{
+    transform: translateY(-50%) scale(1.1);
+  }
+}
 </style>
 <style lang="scss" scoped>
   
@@ -131,9 +154,9 @@ export default {
   @media screen and (max-width: 820px){
     .bottom-tab{
       height: 8%;
-
       width: 100%;
       left: 0%;
     }
   }
+  
 </style>

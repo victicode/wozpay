@@ -56,7 +56,15 @@ const router = createRouter({
       },
     },
     // { path: '/', redirect: window.localStorage.getItem('is_admin') == 'true' ? '/admin/dashboard' :'/dashboard' },
-
+    {
+      path: '/requestPay',
+      name: 'payLink',
+      beforeEnter: auth,
+      component: () => import('@/pages/payLink.vue'),
+      meta: {
+        title: 'Solicitar Pago'
+      },
+    },
     {
       path: "/",
       name:"home",

@@ -17,7 +17,14 @@
             <q-spinner-facebook />
           </template>
         </q-btn>
-
+      </div>
+      <div class="q-px-md-lg" v-else> 
+          <q-btn flat @click="router.push('/profile')" class="q-px-none"> 
+            <div class="flex justify-content-end items-center column">
+              <div v-html="wozIcons.profile" class="iconWoz-top " />
+              <span class="q-mt-xs text-white text-caption iconWoz-top__text">Perfil</span>
+            </div>
+          </q-btn>
       </div>
     </div>
     <div class="">
@@ -73,6 +80,7 @@
   import util from '@/util/numberUtil'
   import { useRouter } from 'vue-router'
   import utils from '@/util/httpUtil';
+  import wozIcons from '@/assets/icons/wozIcons';
 
   
   export default {
@@ -108,11 +116,13 @@
       }
       return{
         user,
+        wozIcons,
         icons,
         balances,
         loading,
         numberFormat,
         showing,
+        router,
         showToltip,
         capitalByUser,
         logout,
@@ -121,7 +131,17 @@
   }
 
 </script>
+<style lang="scss">
+.iconWoz-top{
+    & path{
+      stroke: white;
+      color: white;
+      stroke-width: 3px;
+    }
+  }
+</style>
 <style lang="scss" scoped>
+  
   .userInfoContent{
     height: 100%; 
     overflow: hidden;
