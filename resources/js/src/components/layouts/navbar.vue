@@ -6,14 +6,14 @@
     align="justify"
     class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex q-py-xs userTab" 
   >
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'" exact>
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'" exact style="width: 19%;">
       <div class="flex flex-center column">
         <div v-html="wozIcons.home" class="iconWoz"  />
         <span class="q-mt-xs text-dark text-caption">Inicio</span>
       </div>
     </q-route-tab>
     <!-- <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/last-operations'" :icon="'eva-flip-2-outline'" exact replace label="Ult. Trans." /> -->
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" exact :to="'/transactions'" >
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" exact :to="'/transactions'" style="width: 20%;" >
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"
@@ -22,12 +22,12 @@
         <span class="q-mt-xs text-dark text-caption">Ult. Trans</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-none q-px-md-lg" :to="'/requestPay'" exact>
+    <q-route-tab class="q-px-none q-px-md-lg" :to="'/requestPay'" exact style="width: 20%;">
       <div class="flex flex-center column paylink__button" style="">
         <span class="q-mt-xs text-white text-caption">Cobrar</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'" exact>
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'" exact style="width: 17%;">
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"
@@ -36,7 +36,7 @@
         <span class="q-mt-xs text-dark text-caption">Banco</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'" exact>
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'" exact style="width: 23%;">
       <div class="flex flex-center column">
         <section class="flex flex-center column relative">
           <div v-html="wozIcons.notification" class="iconWoz" />
@@ -90,7 +90,7 @@ export default {
 <style lang="scss">
 .paylink__button{
   border-radius: 50%; background: $positive; height: 70px; width: 70px;
-  transform: translateY(-50%) ;
+  transform: translateY(-40%) ;
   border: 5px solid #85fc85;
   animation: 1.5s bouncee infinite alternate-reverse;
   opacity: 1!important;
@@ -133,10 +133,10 @@ export default {
 }
 @keyframes bouncee {
   0%{
-    transform: translateY(-50%) scale(1);
+    transform: translateY(-45%) scale(1);
   }
   100%{
-    transform: translateY(-50%) scale(1.1);
+    transform: translateY(-45%) scale(1.1);
   }
 }
 </style>
