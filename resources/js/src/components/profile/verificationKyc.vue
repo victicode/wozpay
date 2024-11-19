@@ -208,7 +208,7 @@
       </div>
     </transition>
     <transition name="vertical">
-      <div v-show="step == 4" class=" q-mb-lg" style="height: 100%; ">
+      <div v-show="step == 4" class=" q-mb-xl" style="height: 102%; ">
         <div>
           <q-toolbar class="bg-white text-black q-py-sm q-mt-none">
             <q-toolbar-title> 
@@ -293,7 +293,7 @@
             <div 
               style=""
               class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-none"
-              @click="router.push('/')"
+              @click="router.push('/dashboard')"
             >
               Volver al inicio
             </div>

@@ -43,7 +43,7 @@
       </div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="Volver" :loading="loading" @click="router.push('/')" > 
+        <q-btn flat label="Volver" :loading="loading" @click="router.push('/dashboard')" > 
           <template v-slot:loading>
             <q-spinner-facebook />
           </template>
@@ -78,7 +78,7 @@
         </div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="Volver" :loading="loading" @click="router.push('/')" > 
+        <q-btn flat label="Volver" :loading="loading" @click="router.push('/dashboard')" > 
           <template v-slot:loading>
             <q-spinner-facebook />
           </template>

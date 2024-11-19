@@ -14,7 +14,7 @@
       <div class="" v-if="ready && users.data.length > 0" style="overflow-y: auto;height:88%" >
         <div>
           <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-px-sm  userlist" >
-            <div class="w-70 text-subtitle2 text-weight-light q-mt-xs text-grey-7">
+            <div class="w-70 text-subtitle2 text-weight-light q-mt-xs " :class="{'text-red-14': !(!user.deleted_at), 'text-grey-7':(!user.deleted_at)}">
               {{ user.name }}
             </div>
             <div class="flex items-center ">

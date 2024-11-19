@@ -66,7 +66,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/generatePayLink/:id',
+      path: '/generatePayLink/:type/:id',
       name: 'generatePayLink',
       beforeEnter: auth,
       component: () => import('@/pages/generatePayLink.vue'),

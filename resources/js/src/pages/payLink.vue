@@ -41,8 +41,8 @@
           <q-icon name="eva-arrowhead-down-outline" color="white" size="4rem" class="slide-down"/>
         </div>
       </div> 
-      <div class="hero-content q-pt-lg q-pb-lg" style=" background: #19cd15;" >
-        <div class="w-100 q-pt-md-xl q-pt-none q-pb-md q-px-md q-px-md-xl" style="background: #19cd15;">
+      <div class="hero-content q-pt-lg " style=" background: #19cd15;" >
+        <div class="w-100 q-pt-md-xl q-pt-none q-pb-md q-px-md q-px-md-xl" >
           <div class="q-px-sm q-px-md-lg">
             <div class="text-h4 text-white text-weight-bold" style="font-size: 1.8rem;">
               ¿Cómo accedo a los links?
@@ -58,7 +58,7 @@
             </div>
           </div>
         </div> 
-        <div class="w-100 q-mt-md q-pb-md q-pt-xs offerWall">
+        <div class="w-100 q-mt-md q-pb-xl q-pt-xs offerWall">
           <div class="q-pa-md">
 
             <!-- woz pay free -->
@@ -74,7 +74,7 @@
                   <div class="q-mt-xs text-terciary">6 links en todas las categorías</div>
                 </div>
                 <div>
-                  <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(0)"/>
+                  <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(0,0)"/>
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@
                       <div class="text-body-2 text-weight-medium ">USD 25.99</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">3% por transacción</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(1)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(1,1)"/>
                   </div>
                 </div>
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
@@ -128,7 +128,7 @@
                       <div class="text-body-2 text-weight-medium ">USD 12.99</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">6% por transacción</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(2)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(1,2)"/>
                   </div>
                 </div>
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
@@ -150,7 +150,7 @@
                       <div class="text-body-2 text-weight-medium ">USD 9.99</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">8.5% por transacción</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(3)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(1,3)"/>
                   </div>
                 </div>
               </div>
@@ -186,7 +186,7 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 120.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">9% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(4)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(3,4)"/>
                   </div>
                 </div>
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
@@ -211,7 +211,7 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 100.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">10% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(5)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(2,5)"/>
                   </div>
                 </div>
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
@@ -236,13 +236,13 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 99.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(6)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(2,6)"/>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- offer woz pay -->
+            <!-- basic woz pay -->
             <div class="q-mt-md">
               <q-chip square color="primary" text-color="white" class="tagSetction">
                 <div class="text-caption">
@@ -262,7 +262,7 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 15.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(7)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(3,7)"/>
                   </div>
                 </div>
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
@@ -277,7 +277,7 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 12.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(8)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(2,8)"/>
                   </div>
                 </div>
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
@@ -292,7 +292,7 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 10.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(9)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(3,9)"/>
                   </div>
                 </div>
               </div>
@@ -336,8 +336,8 @@ export default {
       
     ]
 
-    const goTo = (id) => {
-      router.push('/generatePayLink/'+id)
+    const goTo = (type, id) => {
+      router.push('/generatePayLink/'+type+'/'+id)
     }
     onMounted(() => {
       useQuasar().addressbarColor.set('#19cd15')

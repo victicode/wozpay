@@ -1,6 +1,6 @@
 <template>
   <div class="pay-generate__content" style="">
-    <div id="linkGenerateContent">
+    <div id="linkGenerateContentNoReady">
       <div class="bg-primary" style="" >
         <div class="q-px-md q-px-md-lg q-py-md">
           <div class="text-h4 text-white text-weight-medium" style="font-size: 2rem;">
@@ -19,7 +19,7 @@
           <div class="q-px-md q-mt-md">
             <div class="q-pb-lg q-pt-sm q-px-md requirements-info__container">
               <div>
-                <div v-for="(item, n) in requeriments" :key="n" class="q-py-sm requirements-info__item">
+                <div v-for="(item, n) in requeriments" :key="n" class="q-py-sm requirements-info__item flex justify-between items-center">
                   <div>
                     <div class="text-subtitle1 text-weight-medium" style="font-size: 0.9rem;">
                       {{ item.title }}
@@ -28,7 +28,7 @@
                       {{ item.text }}
                     </div>
                   </div>
-                  
+                  <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.7rem" class="q-mt-sm" v-if="item.icon" />
                 </div>
               </div>
               <div class="q-px-none q-mt-md">
@@ -37,7 +37,9 @@
                   label="Vincula una tarjeta" 
                   unelevated
                   no-caps 
-                  color="primary"  
+                  color="primary" 
+                  @click="goTo('/link_card')" 
+                  :disable="!(!check.card)"
                 >
                   <template v-slot:loading>
                     <q-spinner-facebook />
@@ -48,13 +50,14 @@
                   label="Cargar una solicitud" 
                   unelevated
                   no-caps 
-                  color="primary"  
+                  color="primary"
+                  @click="goTo('/apply')"   
+                  :disable="!(!check.loan)"
                 >
                   <template v-slot:loading>
                     <q-spinner-facebook />
                   </template>
                 </q-btn>
-                
               </div>
             </div>
           </div>
@@ -75,7 +78,9 @@ export default {
     requirements: Object
   },
   setup(props) {
+    const icons =  inject('ionIcons');
     const router = useRouter()
+    const check = ref(props.requirements)
     const formatRequeriments = (requerimentsProps) => {
       return [
         {
@@ -102,7 +107,7 @@ export default {
     }
     const requeriments = ref(formatRequeriments(props.requirements))
     const goTo = (id) => {
-      router.push('/generatePayLink/'+id)
+      router.push(id)
     }
 
     onMounted(() => {
@@ -111,12 +116,16 @@ export default {
 
     watch(() => props.requirements, (newValue) => {
       requeriments.value = formatRequeriments(newValue)
+      check.value = newValue
     })
+
+    console.log(check.value)
     return {
       router,
-      icons: inject('ionIcons'),
+      icons,
       wozIcons,
       requeriments,
+      check,
       goTo,
     }
   },
@@ -135,14 +144,14 @@ export default {
   width: 100%;
   overflow: hidden;
 }
-#linkGenerateContent{
+#linkGenerateContentNoReady{
   height: 91%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 @media screen and (max-width: 780px){
 
-  #linkGenerateContent{
+  #linkGenerateContentNoReady{
     height: 92%;
   }
   

@@ -67,7 +67,7 @@
                 label="Fecha de vencimiento"
                 :rules="rulesForm('card_date')"
                 autocomplete="off"
-                hint="Formato EJ.: 01/24 "
+                hint="Formato EJ.: 01/29"
                 mask="##/##"
                 @keyup="cleaveDate($event)"
                 @change="validateDate($event)"

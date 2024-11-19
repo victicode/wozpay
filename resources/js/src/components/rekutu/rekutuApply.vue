@@ -321,7 +321,7 @@
           loadingDone(true)
           loadingShow(false)
           setTimeout(() => {
-            router.push('/')
+            router.push('/dashboard')
           }, 3500);
         }).catch((e) => {
           console.log(e)

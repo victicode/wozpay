@@ -38,19 +38,20 @@ export default {
     const { user  } = storeToRefs(useAuthStore())
     const requirements = ref({
       card: user.value.card ?? false,
-      current: user.value.currentloan ?? false,
+      current: user.value.current_loan ?? false,
       loan:user.value.loans_complete_count ?? false,
     })
-    const showNotReady = ref(false)
+    const showNotReady = ref(true)
     const load = ref(false)
     const colorBanner = ref('#0449fb')
     const router = useRouter();
 
     const validateToShow = () => {
-      let isOk = Object.values(requirements.value).find((el) => !el)
+      let isOk = Object.values(requirements.value).filter((el) => !el)
+
       setTimeout(() => {
         load.value = true;
-        showNotReady.value = !isOk 
+        // showNotReady.value = !(isOk.length == 0)
       }, 1000);
     }
     onMounted(() => {

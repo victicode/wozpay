@@ -333,11 +333,11 @@
     <div class="q-mt-xl q-px-md" v-else-if="isCurrentLoan && !load">
       <div>
         <div class="text-h6 text-center text-weight-bold">
-          Ya tienes un préstamo activo, termina de pagarlo para optar por otro.
+          {{statusLoan == 1  ? 'Tu solicitud de prestamo esta siendo verificada por nuestro equipo.' : 'Ya tienes un préstamo activo, termina de pagarlo para optar por otro.' }}
         </div>
 
         <div class="flex justify-center q-mt-lg ">
-          <q-btn color="primary" label="volver" class="q-px-md" size="md"  @click="router.push('/')"  style="width: 50%;" />
+          <q-btn color="primary" label="volver" class="q-px-md" size="md"  @click="router.push('/dashboard')"  style="width: 50%;" />
         </div>
       </div>
     </div>
@@ -557,6 +557,7 @@
       
       // Data
       const isCurrentLoan = ref(true)
+      const statusLoan = ref(0)
       const sendLoading = ref(false);
       const dialog = ref('')
       const redirectType = ref(0);
@@ -736,7 +737,7 @@
           loadingDone(true)
           loadingShow(false)
           setTimeout(() => {
-            router.push('/')
+            router.push('/dashboard')
           }, 3500);
         }).catch((e) => {
           console.log(e)
@@ -761,6 +762,7 @@
         loanStore.getLoan(user.value.id).then((data) => {
           if(!data.code)  throw data
           if(data.data){
+            statusLoan.value = data.data.status;
             isCurrentLoan.value = data.data.status !=3
               ? true 
               : false 
@@ -815,6 +817,7 @@
         router,
         interestRate,
         haveRekutu,
+        statusLoan,
         closeRekutu,
         showModal,
         hiddeModal,
