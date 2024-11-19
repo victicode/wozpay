@@ -25,7 +25,19 @@ class UserController extends Controller
 
     }
     public function allUsers(Request $request){
-        $users = User::query()->withTrashed()->where('rol_id', 3)->orderBy('created_at', 'DESC');
+        $users = User::query()->where('rol_id', 3)->orderBy('created_at', 'DESC');
+        if($request->type == 1){
+            $users->where('verify_status', 2)->where('facial_verify', 2);
+        }
+        if($request->type == 2){
+            $users->where('verify_status', 1)->orWhere('facial_verify', 1);
+        }
+        if($request->type == 3){
+            $users->withTrashed()->where('deleted_at', '!=',null);
+        }
+        if($request->type == 4){
+            $users->where('verify_status', 0)->orWhere('facial_verify', 0);
+        }
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');

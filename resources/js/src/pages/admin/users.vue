@@ -1,11 +1,40 @@
 <template>
   <div>
-    <div class=" q-px-sm " v-if="ready" >
-      <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" style="border-bottom: 1px solid lightgray;">
-
+    <div class=" q-px-sm flex justify-between items-center" v-if="ready" style="border-bottom: 1px solid lightgray;">
+      <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" >
         <div v-html="wozIcons.solicitar" />
         <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Clientes totales: {{users.data.length}} </div>
       </div>
+      <q-fab color="primary" rounded size="medium" flat direction="left" class="filtersContent">
+        <template v-slot:icon="{ opened }">
+          <q-icon :class="{ 'example-fab-animate--hover': opened !== true }" name="eva-funnel-outline" />
+        </template>
+
+        <template v-slot:active-icon="{ opened }">
+          <q-icon :class="{ 'example-fab-animate': opened === true }" name="eva-funnel-outline" />
+        </template>
+
+        <q-fab-action 
+          class="filtersButton" 
+          :color="typeOfUser==1 ?'terciary':'grey-6'"
+          external-label outline 
+          @click="setFilter(1)" label-position="bottom" icon="eva-checkmark-circle-2-outline"   />
+        <q-fab-action 
+          class="filtersButton" 
+          :color="typeOfUser==2 ?'terciary':'grey-6'" 
+          external-label outline 
+          @click="setFilter(2)"   icon="eva-clock-outline" label-position="bottom"   />
+          <q-fab-action 
+          class="filtersButton" 
+          :color="typeOfUser==4 ?'terciary':'grey-6'"
+          external-label outline 
+          @click="setFilter(4)" label-position="bottom" icon="eva-close-circle-outline"   />
+        <q-fab-action 
+          class="filtersButton" 
+          :color="typeOfUser==3 ?'terciary':'grey-6'"
+          external-label outline
+          @click="setFilter(3)" label-position="bottom" icon="eva-trash-2-outline"   />
+      </q-fab>
     </div>
     <div v-else class="flex justify-between q-px-sm q-mt-md" >
       <q-skeleton type="text" style="width: 50%;" />
@@ -116,7 +145,6 @@
       //vue provider
       const icons = inject('ionIcons')
       const emitter = inject('emitter')
-
       const $q = useQuasar()
       const userStore = useUserStore()
       const router = useRouter()
@@ -125,7 +153,7 @@
       const ready = ref(false)
       const currentPage = ref(1)
       const users = ref([])
-
+      const typeOfUser = ref(1)
       // methods
       const showNotify = (type, message) => {
         $q.notify({
@@ -144,6 +172,7 @@
         const query = {
           page: currentPage.value,
           search: search? search.replace(/\./g, '') : '',
+          typeOfUser: typeOfUser.value
         }
         userStore.getAllUser(query)
         .then((response) => {
@@ -164,7 +193,6 @@
         currentPage.value = page
         getUsers('')
       }
-      
       const getUsersBySearch = (search) => {
         currentPage.value = 1
         getUsers(search)
@@ -172,7 +200,10 @@
       const goTo = (id) => {
         router.push('/admin/user/'+id)
       }
-      
+      const setFilter = (index)=> {
+        typeOfUser.value = index
+        getUsers()
+      }
       onMounted(() => {
         emitter.on('searchUser', (search) => {
           getUsersBySearch(search)
@@ -182,6 +213,7 @@
       onUnmounted(() => {
         emitter.off('searchUser')
       })
+
       return {
         icons,
         wozIcons,
@@ -190,15 +222,36 @@
         numberFormat,
         currentPage,
         users,
+        typeOfUser,
         setPage,
         getUsers,
         goTo,
+        setFilter,
       }
     }
   };
 </script>
 
 <style lang="scss">
+  .filtersButton.q-btn--outline:before{
+    background: white;
+  }
+  .filtersButton.active.q-btn--outline:before{
+    background: rgb(218, 221, 13);
+  }
+  .filtersContent {
+
+    & .q-fab__actions--left{
+      margin-right: 0px;
+      background: #044afbe0;
+      justify-content: space-between;
+      border-radius: 10px;
+  
+    }
+    & .q-fab__actions .q-btn{
+      margin: 5px 15px;
+    }
+  }
   .slide-fade-enter-active {
     transition: all 0.3s ease-out;
     position: absolute;
@@ -248,4 +301,25 @@
     height: 25%;
   }
 }
+</style>
+<style lang="sass" scoped>
+.example-fab-animate,
+.q-fab:hover .example-fab-animate--hover
+  animation: example-fab-animate 0.82s cubic-bezier(.36,.07,.19,.97) both
+  transform: translate3d(0, 0, 0)
+  backface-visibility: hidden
+  perspective: 1000px
+
+@keyframes example-fab-animate
+  10%, 90%
+    transform: scale(1)
+
+  20%, 80%
+    transform: scale(1.1)
+
+  30%, 50%, 70%
+    transform: scale(1.1)
+
+  40%, 60%
+    transform: scale(1.1)
 </style>

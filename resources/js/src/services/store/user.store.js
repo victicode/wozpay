@@ -113,7 +113,7 @@ export const useUserStore = defineStore("user", {
       return await new Promise((resolve, reject) => {
         if(JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/user/all?page="+query.page+"&search="+query.search+"&")
+          ApiService.get("/api/user/all?page="+query.page+"&search="+query.search+"&"+"type="+query.typeOfUser+"&")
             .then(( { data } ) => {
                 // console.log(data)
                 resolve(data);
