@@ -1,20 +1,20 @@
 <template>
   <div class="layout-dasboard__content" style="">
     <div id="content-page">
-      <div class="hero-content q-px-md q-pt-lg q-px-md-xl" style="height: 98%; background: #19cd15;" >
+      <div class="hero-content q-px-md q-pt-lg q-px-md-xl" style="height: max-content; background: #19cd15;" >
         <div class="q-px-sm q-px-md-lg">
-          <div class="text-h4 text-white text-weight-medium" style="font-size: 2rem;">
+          <div class="text-h4 text-white text-weight-bold text-linkPay" style="font-size: 2rem;">
             Link de pago: cobra en
             línea sin un sitio web
           </div>
-          <div class="text-subtitle1 text-white q-mt-md">
+          <div class="text-subtitle1 text-white q-mt-md text-linkPay text-weight-medium ">
             Genera un Link de Pago desde Woz Pay y
             envíalo por facebook, SMS, whatsapp, email
             o cualquier otra red social sin necesidad de
             un sitio web.
           </div>
         </div>
-        <q-carousel
+        <!-- <q-carousel
           v-model="slide"
           animated
           
@@ -36,10 +36,20 @@
             <img :src="info.img" alt="" style="" class="slider__payLink-img">
            </div>
           </q-carousel-slide>
-        </q-carousel>
-        <div class="flex flex-center">
-          <q-icon name="eva-arrowhead-down-outline" color="white" size="4rem" class="slide-down"/>
+        </q-carousel> -->
+        <div  class="q-mt-sm">
+          <div v-for="(info, key) in infoData" 
+            :key="key"
+            :name="key" 
+            class="text-center flex q-mt-xl q-pt-xl"
+            style="width:100%"
+          >
+            <img :src="info.img" alt="" style="" class="slider__payLink-img ">
+          </div>
         </div>
+        <!-- <div class="flex flex-center">
+          <q-icon name="eva-arrowhead-down-outline" color="white" size="4rem" class="slide-down"/>
+        </div> -->
       </div> 
       <div class="hero-content q-pt-lg " style=" background: #19cd15;" >
         <div class="w-100 q-pt-md-xl q-pt-none q-pb-md q-px-md q-px-md-xl" >
@@ -388,6 +398,7 @@ export default {
 }
 .slider__payLink-img{
   height: 420px;
+  margin: auto
 }
 .slider__payLink--container{
   height: 440px;

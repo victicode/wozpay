@@ -6,7 +6,7 @@
     align="justify"
     class="bg-white text-dark shadow-0 fixed-bottom bottom-tab q-py-md-xs q-px-md-lg flex q-py-xs userTab" 
   >
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'" exact style="width: 19%;">
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/dashboard'" exact style="width: 20%;">
       <div class="flex flex-center column">
         <div v-html="wozIcons.home" class="iconWoz"  />
         <span class="q-mt-xs text-dark text-caption">Inicio</span>
@@ -22,12 +22,12 @@
         <span class="q-mt-xs text-dark text-caption">Ult. Trans</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-none q-px-md-lg" :to="'/requestPay'" exact style="width: 20%;">
+    <q-route-tab class="q-px-none q-px-md-lg" :to="'/requestPay'" exact style="width: 20%; opacity:1">
       <div class="flex flex-center column paylink__button" style="">
-        <span class="q-mt-xs text-white text-caption">Cobrar</span>
+        <span class="text-white text-caption">Cobrar</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'" exact style="width: 17%;">
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'" exact style="width: 20%;">
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"
@@ -36,7 +36,7 @@
         <span class="q-mt-xs text-dark text-caption">Banco</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'" exact style="width: 23%;">
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/notifications'" exact style="width: 20%;">
       <div class="flex flex-center column">
         <section class="flex flex-center column relative">
           <div v-html="wozIcons.notification" class="iconWoz" />
@@ -44,7 +44,8 @@
             {{ notificationsCount >= 10 ? '+'+notificationsCount : notificationsCount }}
           </div>
         </section>
-        <span class="q-mt-xs text-dark text-caption">Notificaciones</span>
+        <span class="q-mt-xs text-dark text-caption hidde-xs">Notificaciones</span>
+        <span class="q-mt-xs text-dark text-caption show-xs">Notif.</span>
       </div>
     </q-route-tab>
     

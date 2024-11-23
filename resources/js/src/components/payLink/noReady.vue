@@ -3,11 +3,11 @@
     <div id="linkGenerateContentNoReady">
       <div class="bg-primary" style="" >
         <div class="q-px-md q-px-md-lg q-py-md">
-          <div class="text-h4 text-white text-weight-medium" style="font-size: 2rem;">
+          <div class="text-h4 text-white text-weight-bold text-linkPay" style="font-size: 2rem;">
             Requisitos de Woz
             Payments links
           </div>
-          <div class="text-subtitle2 text-white q-mt-md q-pr-xl text-weight-medium">
+          <div class="text-subtitle2 text-white q-mt-md q-pr-xl text-weight-medium text-linkPay">
             Te ayudamos en el proceso de compra de
             links para tu comercio o trabajo
           </div>

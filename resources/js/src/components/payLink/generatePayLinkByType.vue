@@ -3,7 +3,7 @@
     <div id="linkGenerateContent">
       <div class="hero-content q-px-md q-pt-lg q-px-md-xl" :style="'background:'+header.color" >
         <div class=" q-px-md-lg">
-          <div class="text-h4 text-white text-weight-medium" >
+          <div class="text-h4 text-white text-weight-bold " >
             {{header.title}}
           </div>
           <div class="text-subtitle1 text-white q-mt-sm text-weight-medium q-pb-md">
