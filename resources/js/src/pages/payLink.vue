@@ -1,7 +1,23 @@
 <template>
-  <div class="layout-dasboard__content" style="">
-    <div id="content-page">
-      <div class="hero-content q-px-md q-pt-lg q-px-md-xl" style="height: max-content; background: #19cd15;" >
+  <div class="layout-dasboard__content-way" style="">
+    
+    <div id="content-page" style="position: relative; background: #19cd15; overflow: visible;">
+      <div style="position: absolute; transform: translateX(5rem) translateY(18rem);z-index: 1;">
+        <div class="way__container">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="511" height="2928" style="overflow: visible">
+            <path 
+              class="dotWay"
+              style=" 
+                  stroke-width: 10px;
+                  stroke: #0055a9;
+                  stroke-dasharray: 36rem;
+                  transition: all 1s ease-out;
+                  stroke-dashoffset: 13rem;"
+              stroke-linecap="round"   fill="#E5E6EB" d="M0 0 C7.57558867 4.09921911 13.88187561 10.0807941 17.078125 18.1640625 C19.35875226 26.26222201 19.37073891 35.92902146 15.3203125 43.44921875 C10.06640514 51.361168 4.08128247 56.41040584 -5 59.4375 C-5.33 105.6375 -5.66 151.8375 -6 199.4375 C71.88 199.4375 149.76 199.4375 230 199.4375 C230 495.7775 230 792.1175 230 1097.4375 C305.9 1097.1075 381.8 1096.7775 460 1096.4375 C460 1176.9575 460 1257.4775 460 1340.4375 C386.08 1340.4375 312.16 1340.4375 236 1340.4375 C236 1630.8375 236 1921.2375 236 2220.4375 C162.08 2220.4375 88.16 2220.4375 12 2220.4375 C12 2291.3875 12 2362.3375 12 2435.4375 C87.24 2435.4375 162.48 2435.4375 240 2435.4375 C239.67 2595.1575 239.34 2754.8775 239 2919.4375 C234.71 2919.4375 230.42 2919.4375 226 2919.4375 C226 2764.0075 226 2608.5775 226 2448.4375 C151.09 2448.4375 76.18 2448.4375 -1 2448.4375 C-1 2368.9075 -1 2289.3775 -1 2207.4375 C72.92 2207.4375 146.84 2207.4375 223 2207.4375 C223 1917.0375 223 1626.6375 223 1327.4375 C296.92 1327.4375 370.84 1327.4375 447 1327.4375 C447 1255.8275 447 1184.2175 447 1110.4375 C371.1 1110.4375 295.2 1110.4375 217 1110.4375 C217 814.0975 217 517.7575 217 212.4375 C139.12 212.4375 61.24 212.4375 -19 212.4375 C-19 161.9475 -19 111.4575 -19 59.4375 C-21.97 58.4475 -24.94 57.4575 -28 56.4375 C-34.84025243 52.74376369 -41.17154019 46.4598479 -43.5625 38.8984375 C-45.1895069 29.7465237 -45.25858496 20.35649332 -40 12.4375 C-31.14768131 -0.15297399 -14.69344358 -6.03204526 0 0 Z "  transform="translate(44,1.5625)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-content q-px-md q-pt-lg q-px-md-xl" style="height: max-content; position:relative; z-index: 1;" >
         <div class="q-px-sm q-px-md-lg">
           <div class="text-h4 text-white text-weight-bold text-linkPay" style="font-size: 2rem;">
             Link de pago: cobra en
@@ -14,29 +30,6 @@
             un sitio web.
           </div>
         </div>
-        <!-- <q-carousel
-          v-model="slide"
-          animated
-          
-          transition-prev="slide-right"
-          transition-next="slide-left"
-          padding
-          infinite
-          :autoplay="2500"
-          class=" rounded-borders w-100 slider__payLink--container q-mt-sm"
-          style="background: transparent;"
-        >
-          <q-carousel-slide 
-            v-for="(info, key) in infoData"
-            :key="key"
-            :name="key" 
-            class=" column no-wrap flex-center w-100 q-px-sm" 
-          >
-           <div>
-            <img :src="info.img" alt="" style="" class="slider__payLink-img">
-           </div>
-          </q-carousel-slide>
-        </q-carousel> -->
         <div  class="q-mt-sm">
           <div v-for="(info, key) in infoData" 
             :key="key"
@@ -47,11 +40,8 @@
             <img :src="info.img" alt="" style="" class="slider__payLink-img ">
           </div>
         </div>
-        <!-- <div class="flex flex-center">
-          <q-icon name="eva-arrowhead-down-outline" color="white" size="4rem" class="slide-down"/>
-        </div> -->
       </div> 
-      <div class="hero-content q-pt-lg " style=" background: #19cd15;" >
+      <div class="hero-content q-pt-lg " style=" background: #19cd15; position:relative; z-index: 1;" >
         <div class="w-100 q-pt-md-xl q-pt-none q-pb-md q-px-md q-px-md-xl" >
           <div class="q-px-sm q-px-md-lg">
             <div class="text-h4 text-white text-weight-bold" style="font-size: 1.8rem;">
@@ -326,6 +316,7 @@
   import { inject, onMounted } from 'vue';
   import { useQuasar } from 'quasar';
   import wozIcons from '@/assets/icons/wozIcons';
+  import gsap from '@/plugins/gsap/gsap';
 
 export default {
   components:{
@@ -351,6 +342,27 @@ export default {
     }
     onMounted(() => {
       useQuasar().addressbarColor.set('#19cd15')
+      setTimeout(() => {
+          
+          let Ro = gsap.to('.dotWay',{
+            scrollTrigger: {
+              trigger: '.dotWay',
+              start:'-100px 100px',
+              end:'bottom bottom',
+
+              markers: true,
+              toggleActions:"restart pause reverse reverse"
+            },
+            opacity: 1,
+            strokeDashoffset:'-1000px'
+          })
+          function onScroll() {
+            var scrollY = window.scrollY || 0;
+    
+            Ro.tweenTo(scrollY/1000);
+          }
+          document.addEventListener("scroll", onScroll);
+        }, 1000);
     })
 
     return {
@@ -397,7 +409,7 @@ export default {
   box-shadow: 0px -5px 10px 0px #4141414f
 }
 .slider__payLink-img{
-  height: 420px;
+  height: 510px;
   margin: auto
 }
 .slider__payLink--container{
@@ -412,10 +424,10 @@ export default {
   width: 100%;
   z-index: 10;
   background: #f1f0f0;
+  position: relative;
 }
-.layout-dasboard__content{
-  height: 100vh;
-  max-height: 100vh;
+.layout-dasboard__content-way{
+
 }
 .payLink{
   height: 0.8rem; 
@@ -435,10 +447,10 @@ export default {
 }
 @media screen and (max-width: 780px){
   .slider__payLink-img{
-    height: 380px;
+    height: 450px;
   }
   .slider__payLink--container{
-    height: 400px;
+    height: 500px;
   }
   .payLink{
     height: 0.8rem; 
