@@ -2,17 +2,19 @@
   <div class="layout-dasboard__content-way" style="">
     
     <div id="content-page" style="position: relative; background: #19cd15; overflow: visible;">
-      <div style="position: absolute; transform: translateX(5rem) translateY(18rem);z-index: 1;">
+      <div class="wayto">
         <div class="way__container">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="511" height="2928" style="overflow: visible">
             <path 
               class="dotWay"
               style=" 
-                  stroke-width: 10px;
-                  stroke: #0055a9;
-                  stroke-dasharray: 36rem;
-                  transition: all 1s ease-out;
-                  stroke-dashoffset: 13rem;"
+                stroke-width: 28px;
+                stroke: #0055a9;
+                stroke-dasharray: 36rem;
+                transition: all 0.7s linear;
+                stroke-dashoffset: 13rem;
+                stroke-miterlimit:8"
+                
               stroke-linecap="round"   fill="#E5E6EB" d="M0 0 C7.57558867 4.09921911 13.88187561 10.0807941 17.078125 18.1640625 C19.35875226 26.26222201 19.37073891 35.92902146 15.3203125 43.44921875 C10.06640514 51.361168 4.08128247 56.41040584 -5 59.4375 C-5.33 105.6375 -5.66 151.8375 -6 199.4375 C71.88 199.4375 149.76 199.4375 230 199.4375 C230 495.7775 230 792.1175 230 1097.4375 C305.9 1097.1075 381.8 1096.7775 460 1096.4375 C460 1176.9575 460 1257.4775 460 1340.4375 C386.08 1340.4375 312.16 1340.4375 236 1340.4375 C236 1630.8375 236 1921.2375 236 2220.4375 C162.08 2220.4375 88.16 2220.4375 12 2220.4375 C12 2291.3875 12 2362.3375 12 2435.4375 C87.24 2435.4375 162.48 2435.4375 240 2435.4375 C239.67 2595.1575 239.34 2754.8775 239 2919.4375 C234.71 2919.4375 230.42 2919.4375 226 2919.4375 C226 2764.0075 226 2608.5775 226 2448.4375 C151.09 2448.4375 76.18 2448.4375 -1 2448.4375 C-1 2368.9075 -1 2289.3775 -1 2207.4375 C72.92 2207.4375 146.84 2207.4375 223 2207.4375 C223 1917.0375 223 1626.6375 223 1327.4375 C296.92 1327.4375 370.84 1327.4375 447 1327.4375 C447 1255.8275 447 1184.2175 447 1110.4375 C371.1 1110.4375 295.2 1110.4375 217 1110.4375 C217 814.0975 217 517.7575 217 212.4375 C139.12 212.4375 61.24 212.4375 -19 212.4375 C-19 161.9475 -19 111.4575 -19 59.4375 C-21.97 58.4475 -24.94 57.4575 -28 56.4375 C-34.84025243 52.74376369 -41.17154019 46.4598479 -43.5625 38.8984375 C-45.1895069 29.7465237 -45.25858496 20.35649332 -40 12.4375 C-31.14768131 -0.15297399 -14.69344358 -6.03204526 0 0 Z "  transform="translate(44,1.5625)"/>
           </svg>
         </div>
@@ -97,7 +99,7 @@
                       </div>
                       <div class="flex flex-center">
                         <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">5.648</div>
+                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
                       </div>
                     </div>
                   </div>
@@ -119,7 +121,7 @@
                       </div>
                       <div class="flex flex-center">
                         <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">5.648</div>
+                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
                       </div>
                     </div>
                   </div>
@@ -141,7 +143,7 @@
                       </div>
                       <div class="flex flex-center">
                         <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">5.648</div>
+                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
                       </div>
                     </div>
                   </div>
@@ -167,9 +169,9 @@
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
                   <div>
                     <div class="q-mt-xs">15 Links para Freelancers</div>
-                    <div class="q-mt-xs text-grey-6 flex items-center">
-                      <div style="text-decoration: line-through;">Gs. 15.000</div>
-                      <div>Gs. 8.000</div>
+                    <div class="q-mt-xs  flex items-center">
+                      <div class="text-grey-6" style="text-decoration: line-through;">Gs. 15.000</div>
+                      <div class="text-grey-8 q-ml-md-md">Gs. 8.000</div>
                     </div>
                     <div class="q-mt-none flex items-center">
                       <div>
@@ -177,7 +179,7 @@
                       </div>
                       <div class="flex flex-center">
                         <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">5.648</div>
+                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
                       </div>
                     </div>
                   </div>
@@ -192,9 +194,9 @@
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
                   <div>
                     <div class="q-mt-xs">15 Links para membresías</div>
-                    <div class="q-mt-xs text-grey-6 flex items-center">
-                      <div style="text-decoration: line-through;">Gs. 12.000</div>
-                      <div>Gs. 6.667</div>
+                    <div class="q-mt-xs  flex items-center">
+                      <div class="text-grey-6" style="text-decoration: line-through;">Gs. 12.000</div>
+                      <div class="text-grey-8 q-ml-md-md">Gs. 6.667</div>
                     </div>
                     <div class="q-mt-none flex items-center">
                       <div>
@@ -202,7 +204,7 @@
                       </div>
                       <div class="flex flex-center">
                         <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">97.268</div>
+                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
                       </div>
                     </div>
                   </div>
@@ -217,9 +219,9 @@
                 <div class="flex justify-between items-center q-py-sm border-bottom-1">
                   <div>
                     <div class="q-mt-xs">15 Links para ventas</div>
-                    <div class="q-mt-xs text-grey-6 flex items-center">
-                      <div style="text-decoration: line-through;">Gs. 10.000</div>
-                      <div>Gs. 6.600</div>
+                    <div class="q-mt-xs  flex items-center">
+                      <div class="text-grey-6" style="text-decoration: line-through;">Gs. 10.000</div>
+                      <div class="text-grey-8 q-ml-md-md">Gs. 6.600</div>
                     </div>
                     <div class="q-mt-none flex items-center">
                       <div>
@@ -227,7 +229,7 @@
                       </div>
                       <div class="flex flex-center">
                         <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">33.502</div>
+                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
                       </div>
                     </div>
                   </div>
@@ -310,13 +312,13 @@
   import imagen6 from '@/assets/images/paylink1.png'
   import imagen7 from '@/assets/images/paylink2.png'
   import imagen8 from '@/assets/images/paylink3.png'
-  import click_img from '@/assets/images/click.webp'
   import { useRouter } from 'vue-router';
   import navbarVue from "@/components/layouts/navbar.vue";
   import { inject, onMounted } from 'vue';
   import { useQuasar } from 'quasar';
   import wozIcons from '@/assets/icons/wozIcons';
   import gsap from '@/plugins/gsap/gsap';
+  import util from '@/util/numberUtil'
 
 export default {
   components:{
@@ -324,6 +326,8 @@ export default {
   },
   setup() {
     const router = useRouter()
+    const numberFormat = util.numberFormat
+
     const infoData = [
       {
         img: imagen6,
@@ -336,33 +340,32 @@ export default {
       },
       
     ]
-
     const goTo = (type, id) => {
       router.push('/generatePayLink/'+type+'/'+id)
+    }
+    const random = (min, max) => {
+      return Math.floor((Math.random() * (max - min + 1)) + min);
     }
     onMounted(() => {
       useQuasar().addressbarColor.set('#19cd15')
       setTimeout(() => {
-          
+        function onScroll() {
+          let scrollY = window.scrollY || 0;
+          let strok = scrollY > 120  && scrollY < 751 ? '#039900' : scrollY > 750 ? '#ffc000' : '#0449fb'
           let Ro = gsap.to('.dotWay',{
             scrollTrigger: {
               trigger: '.dotWay',
               start:'-100px 100px',
               end:'bottom bottom',
-
-              markers: true,
-              toggleActions:"restart pause reverse reverse"
+              toggleActions:"restart restart reverse restart"
             },
-            opacity: 1,
-            strokeDashoffset:'-1000px'
+            strokeDashoffset:-1*(scrollY) +'px',
+            stroke:strok,
+            fillOpacity:0.8
           })
-          function onScroll() {
-            var scrollY = window.scrollY || 0;
-    
-            Ro.tweenTo(scrollY/1000);
-          }
-          document.addEventListener("scroll", onScroll);
-        }, 1000);
+        }
+        document.addEventListener("scroll", onScroll);
+      }, 1000);
     })
 
     return {
@@ -371,12 +374,17 @@ export default {
       infoData,
       icons: inject('ionIcons'),
       wozIcons,
+      numberFormat,
       goTo,
+      random,
     }
   },
 }
 </script>
 <style>
+.wayto{
+  position: absolute; transform: translateX(6.2rem) translateY(18rem);z-index: 1;
+}
 .profile-user__icon{
   transform: scale(0.6);
 }
@@ -426,9 +434,7 @@ export default {
   background: #f1f0f0;
   position: relative;
 }
-.layout-dasboard__content-way{
 
-}
 .payLink{
   height: 0.8rem; 
   width: 0.8rem; 
@@ -446,6 +452,9 @@ export default {
   animation: slideDown 1s alternate infinite;
 }
 @media screen and (max-width: 780px){
+  .wayto{
+    position: absolute; transform: translateX(-4.5rem) translateY(-10rem) scale(0.68);z-index: 1;
+  }
   .slider__payLink-img{
     height: 450px;
   }

@@ -3,7 +3,7 @@
     <div id="linkGenerateContentNoReady">
       <div class="bg-primary" style="" >
         <div class="q-px-md q-px-md-lg q-py-md">
-          <div class="text-h4 text-white text-weight-bold text-linkPay" style="font-size: 2rem;">
+          <div class="text-h4 text-white text-weight-bold text-linkPay" style="font-size: 2.5rem;">
             Requisitos de Woz
             Payments links
           </div>
@@ -15,8 +15,8 @@
       </div> 
       <div>
         <div>
-          <div class="text-center text-primary text-h6 q-mt-md">Debes cumplir estos requisitos</div>
-          <div class="q-px-md q-mt-md">
+          <div class="text-center text-primary text-h6 q-mt-lg">Debes cumplir estos requisitos</div>
+          <div class="q-px-md q-mt-lg">
             <div class="q-pb-lg q-pt-sm q-px-md requirements-info__container">
               <div>
                 <div v-for="(item, n) in requeriments" :key="n" class="q-py-sm requirements-info__item flex justify-between items-center">

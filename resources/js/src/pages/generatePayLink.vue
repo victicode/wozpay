@@ -51,7 +51,7 @@ export default {
 
       setTimeout(() => {
         load.value = true;
-        // showNotReady.value = !(isOk.length == 0)
+        showNotReady.value = !(isOk.length == 0)
       }, 1000);
     }
     onMounted(() => {

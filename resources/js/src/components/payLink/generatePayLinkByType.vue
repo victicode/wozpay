@@ -3,7 +3,7 @@
     <div id="linkGenerateContent">
       <div class="hero-content q-px-md q-pt-lg q-px-md-xl" :style="'background:'+header.color" >
         <div class=" q-px-md-lg">
-          <div class="text-h4 text-white text-weight-bold " >
+          <div class="text-h4 text-white text-weight-bold "  style="font-size: 2.3rem;">
             {{header.title}}
           </div>
           <div class="text-subtitle1 text-white q-mt-sm text-weight-medium q-pb-md">
@@ -26,15 +26,16 @@
             behavior="menu"
             color="positive"
             class="linkPaySelectType" 
+            
           />
         </div>
         <div class="q-px-md q-mt-md">
           <div class="text-subtitle1 text-weight-bold text-blue-grey-10"> 
             Crea un link para ventas
           </div>
-          <div class="text-subtitle2 text-blue-grey-9 q-pr-xl q-mt-sm text-weight-light"> 
+          <div class="text-subtitle2 text-blue-grey-9  q-mt-sm text-weight-light flex items-center q-mr-none"> 
             Disponible para cobros de servicios internacionales 
-            <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.5rem" class="q-mt-sm" style="margin-top: -5px;"/>
+            <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.3rem" class=" q-ml-xs" style="margin-top: -5px;"/>
           </div>
         </div>
         <div class="q-px-md q-mt-md">
@@ -85,9 +86,47 @@
             Woz Pay te informa que éstas son las comisiones a ser descontadas
           </div>
         </div>
+        <div class="q-px-md">
+          <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
+            <div class="q-py-xs">Comisión Woz Pay 12%</div>
+            <div>
+              Gs. {{ !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12)) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.12))
+                : 0
+              }}
+            </div>
+          </div>
+          <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
+            <div class="q-py-xs">Comision por transacción</div>
+            <div>
+              Gs. 7.800
+            </div>
+          </div>
+          <div class="flex justify-between items-center q-px-md q-mt-lg text-weight-bold text-subtitle1 q-mb-lg amount__items q-py-sm">
+            <div class="q-py-xs">Total a cobrar</div>
+            <div>
+              Gs. {{ 
+                !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12) ) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.12) )-7800 )
+                : 0
+              }}
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-
+      <div class="q-px-md q-pb-lg">
+        <q-btn 
+          
+          unelevated
+          no-caps 
+          color="terciary" 
+          class="full-width q-pa-sm" 
+        >
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+          <div class="q-py-xs">Generar link de pago</div>
+        </q-btn>
       </div>
     </div>
   </div>
@@ -97,11 +136,14 @@
   import { inject, onMounted } from 'vue';
   import { useQuasar } from 'quasar';
   import wozIcons from '@/assets/icons/wozIcons';
+  import util from '@/util/numberUtil'
 
 export default {
   setup() {
     const router = useRouter()
     const route = useRoute();
+    const numberFormat = util.numberFormat
+
     const product = ref({
       name:'',
       amount:'',
@@ -127,7 +169,7 @@ export default {
       },
       
     ]
-
+    
     const optionsLink = [
       {
         id:0,
@@ -182,6 +224,7 @@ export default {
       optionsLink,
       selectedOption,
       product,
+      numberFormat,
       rulesForm,
     }
   },
@@ -194,17 +237,17 @@ export default {
   height: 91%;
   overflow-y: auto;
 }
-
 @media screen and (max-width: 780px){
-
   #linkGenerateContent{
     height: 92%;
   }
-  
 }
 </style>
-
 <style lang="scss">
+  .amount__items{
+    border: 1px solid rgb(82, 82, 82);
+    border-radius: 8px;
+  }
   .linkPaySelectType.q-field--auto-height.q-field--labeled{
      & .q-field__control-container{
       padding-top: 0px!important;
@@ -242,7 +285,6 @@ export default {
   .linkPaySelectType2 .q-field__native{
     padding-top: 15px!important;
   }
-
   @media screen and (max-width: 780px){
   .linkPaySelectType {
       & .q-field__bottom{
