@@ -77,9 +77,9 @@
       const amounts = user.is_first_loan && user.loans_complete_count == 0
       ? [
           { text: 'Gs. '+numberFormat(50000), value: 50000 },
-          { text: 'Gs. '+numberFormat(100000), value: 100000 },
-          { text: 'Gs. '+numberFormat(150000), value: 150000 },
-          { text: 'Gs. '+numberFormat(200000), value: 200000 },
+          // { text: 'Gs. '+numberFormat(100000), value: 100000 },
+          // { text: 'Gs. '+numberFormat(150000), value: 150000 },
+          // { text: 'Gs. '+numberFormat(200000), value: 200000 },
         ]
       : user.loans_complete_count == 1
       ? [
