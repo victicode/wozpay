@@ -209,6 +209,8 @@
     </transition>
     <transition name="vertical">
       <div v-show="step == 4" class=" q-mb-xl" style="height: 102%; ">
+        <input type="file"  id="img_cameraFace"  @change="uploadPhoto($event, step)" style="display: none;">
+
         <div>
           <q-toolbar class="bg-white text-black q-py-sm q-mt-none">
             <q-toolbar-title> 
@@ -243,20 +245,22 @@
           </div>
         </div>
         <div class="q-px-md-xl q-mx-md-xl">
-          <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl">
-            <div 
-              style=""
-              class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc q-mt-lg"
-              @click="showDialog('check')"
-            >
-              <div v-if="loading">
-                <q-spinner-facebook  size="md"/>
-              </div>
-              <div v-else>
+          <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl q-mb-xl">
+            <label for="img_cameraFace"  class="flex column items-center">
+              <div 
+                style=""
+                class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc"
+              >
+              
+                <div v-if="loading">
+                  <q-spinner-facebook  size="md"/>
+                </div>
+                <div v-else>
 
-                Tomar foto
+                  Tomar foto
+                </div>
               </div>
-            </div>
+            </label>
           </div>
         </div>
       </div>
@@ -345,6 +349,10 @@ export default {
         img.value[step.value] = ''
         return
       }
+      if(step.value == 4){
+        sendData()
+        return
+      }
       step.value ++;
     }
     const showDialog = (dialogToShow) => {
@@ -352,6 +360,7 @@ export default {
       if(dialogToShow == 'check') loading.value = true
     }
     const uploadPhoto = (e, type) => {
+      if(step.value == 4) loading.value = true
       file.value[type] = e.target.files[0]; 
       setTimeout(() => {
         createImage(type)
@@ -373,7 +382,7 @@ export default {
       const data = new FormData()
       data.append('document_front',file.value[1])
       data.append('document_back',file.value[2])
-      data.append('facial', file.value[3])
+      data.append('facial', file.value[4])
 
         userStore.setKyc(data).then((response) => {
           if(response.code !== 200) throw response
