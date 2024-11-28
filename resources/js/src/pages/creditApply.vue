@@ -1,525 +1,528 @@
 
 <template>
-  <div class="apply_section " >
-    <div class="q-pb-xl" v-if="!isCurrentLoan && !load" >
-      <q-stepper
-        v-model="step"
-        ref="stepper"
-        contracted
-        color="primary"
-        animated
-        class="no-header-steper"
-      >
-        <q-step
-          :name="1"
-          title="Select campaign settings"
-          icon="settings"
-          :done="step > 1"
-        >
-          <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm ">
-              <q-toolbar-title> 
-                <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">Datos laborales</span>
-                </div>
-              </q-toolbar-title>
-            </q-toolbar>
-            <q-list >
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'business')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Empresa
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'business_address')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Dirección
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business_address ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'business_phone')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Número de teléfono
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business_phone ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section>
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Aporta IPS
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="q-mt-none">
-                      <q-toggle size="md" color="positive" v-model="readTapes.ips" :val="true"  />
+  <div v-if="showNotReady">
 
-                    </q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </q-list>
-            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
-              <q-toolbar-title> 
-                <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">Referencia laboral</span>
-                </div>
-              </q-toolbar-title>
-            </q-toolbar>
-            <q-list >
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'boss_name')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Nombre de tu jefe directo
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_name ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'boss_phone')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      WhatsApp de tu jefe
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_phone ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </q-list>
-            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
-              <q-toolbar-title> 
-                <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">Referencia personal</span>
-                </div>
-              </q-toolbar-title>
-            </q-toolbar>
-            <q-list >
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'reference_name')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Nombre y apellido
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_name ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'reference_relationship')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Parentesco
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_relationship ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(1, 'reference_phone')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      WhatsApp
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_phone ?? 'Agregar' }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </q-list>
-          </div>
-        </q-step>
-        <q-step
-          :name="2"
-          title="Select campaign settings"
-          icon="settings"
-          :done="step > 2"
+    <div v-if="isOk">
+      <notReady :requirements="requirements" />
+    </div>
+    <div class="apply_section " v-else >
+      <div class="q-pb-xl" v-if="!isCurrentLoan && !load" >
+        <q-stepper
+          v-model="step"
+          ref="stepper"
+          contracted
+          color="primary"
+          animated
+          class="no-header-steper"
         >
-          <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-white text-black q-mt-md ">
-              <q-toolbar-title> 
-                <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">Informconf</span>
-                </div>
-              </q-toolbar-title>
-            </q-toolbar>
-            <q-list >
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(3, 'informconf')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold flex items-center" style="position: relative">
+          <q-step
+            :name="1"
+            title="Select campaign settings"
+            icon="settings"
+            :done="step > 1"
+          >
+            <div class="w-100 q-mx-none" >
+              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm ">
+                <q-toolbar-title> 
+                  <div class="w-100 flex flex-center">
+                    <span class="text-subtitle1 text-weight-bold ">Datos laborales</span>
+                  </div>
+                </q-toolbar-title>
+              </q-toolbar>
+              <q-list >
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'business')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
                       <span class="text-body2 text-weight-bold">
-                        Certificado - reporte de Informconf
+                        Empresa
                       </span>
-                      <div v-html="wozIcons.informconf"  class="q-mt-md inforconf__icon"/>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                      <div v-if="!readTapes.informconf" >
-                        Agregar
-                       </div>
-                       <div v-else>
-                         <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
-                       </div>
-                    </q-item-label>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'business_address')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Dirección
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business_address ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'business_phone')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Número de teléfono
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.business_phone ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section>
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Aporta IPS
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="q-mt-none">
+                        <q-toggle size="md" color="positive" v-model="readTapes.ips" :val="true"  />
+  
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+              </q-list>
+              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+                <q-toolbar-title> 
+                  <div class="w-100 flex flex-center">
+                    <span class="text-subtitle1 text-weight-bold ">Referencia laboral</span>
                   </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </q-list>
-            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
-              <q-toolbar-title> 
-                <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
-                </div>
-              </q-toolbar-title>
-            </q-toolbar>
-            <q-list >
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(3, 'work_certificate')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Certificado laboral firmado
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                      <div v-if="!readTapes.work_certificate " >
-                        Agregar
-                       </div>
-                       <div v-else>
-                         <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
-                       </div>
-                    </q-item-label>
+                </q-toolbar-title>
+              </q-toolbar>
+              <q-list >
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'boss_name')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Nombre de tu jefe directo
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_name ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'boss_phone')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        WhatsApp de tu jefe
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.boss_phone ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+              </q-list>
+              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+                <q-toolbar-title> 
+                  <div class="w-100 flex flex-center">
+                    <span class="text-subtitle1 text-weight-bold ">Referencia personal</span>
                   </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(3, 'last_ips')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Tres ultimos IPS
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                      <div v-if="!readTapes.last_ips" >
-                       Agregar
-                      </div>
-                      <div v-else>
-                        <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
-                      </div>
-                    </q-item-label>
+                </q-toolbar-title>
+              </q-toolbar>
+              <q-list >
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'reference_name')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Nombre y apellido
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_name ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'reference_relationship')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Parentesco
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_relationship ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(1, 'reference_phone')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        WhatsApp
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ readTapes.reference_phone ?? 'Agregar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+              </q-list>
+            </div>
+          </q-step>
+          <q-step
+            :name="2"
+            title="Select campaign settings"
+            icon="settings"
+            :done="step > 2"
+          >
+            <div class="w-100 q-mx-none" >
+              <q-toolbar class="bg-white text-black q-mt-md ">
+                <q-toolbar-title> 
+                  <div class="w-100 flex flex-center">
+                    <span class="text-subtitle1 text-weight-bold ">Informconf</span>
                   </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </q-list>
-            <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
-              <q-toolbar-title> 
-                <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">Linea de crédito disponible</span>
-                </div>
-              </q-toolbar-title>
-            </q-toolbar>
-            <q-list >
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(2, 'amount')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                     {{ user.is_first_loan ? 'Primer préstamo' : 'Préstamo' }} 
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.amount ? 'Gs.' + numberFormat(loan.amount) : 'Seleccionar' }}</q-item-label>
+                </q-toolbar-title>
+              </q-toolbar>
+              <q-list >
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(3, 'informconf')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold flex items-center" style="position: relative">
+                        <span class="text-body2 text-weight-bold">
+                          Certificado - reporte de Informconf
+                        </span>
+                        <div v-html="wozIcons.informconf"  class="q-mt-md inforconf__icon"/>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                        <div v-if="!readTapes.informconf" >
+                          Agregar
+                         </div>
+                         <div v-else>
+                           <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                         </div>
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+              </q-list>
+              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+                <q-toolbar-title> 
+                  <div class="w-100 flex flex-center">
+                    <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
                   </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section @click="showInputModal(2, 'due_date')">
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Plazo
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + ' días' : 'Seleccionar' }} </q-item-label>
+                </q-toolbar-title>
+              </q-toolbar>
+              <q-list >
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(3, 'work_certificate')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Certificado laboral firmado
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                        <div v-if="!readTapes.work_certificate " >
+                          Agregar
+                         </div>
+                         <div v-else>
+                           <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                         </div>
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(3, 'last_ips')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Tres ultimos IPS
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                        <div v-if="!readTapes.last_ips" >
+                         Agregar
+                        </div>
+                        <div v-else>
+                          <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                        </div>
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+              </q-list>
+              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+                <q-toolbar-title> 
+                  <div class="w-100 flex flex-center">
+                    <span class="text-subtitle1 text-weight-bold ">Linea de crédito disponible</span>
                   </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section>
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Total a devolver
-                    </span>
-                    </q-item-label>
-                    <q-item-label caption lines="1" class="text-weight-medium text-body2">Gs. {{ numberFormat(loan.amountToPay) }}</q-item-label>
+                </q-toolbar-title>
+              </q-toolbar>
+              <q-list >
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(2, 'amount')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                       {{ user.is_first_loan ? 'Primer préstamo' : 'Préstamo' }} 
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.amount ? 'Gs.' + numberFormat(loan.amount) : 'Seleccionar' }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(2, 'due_date')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Plazo
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">{{ loan.due_date  ? loan.due_date + ' días' : 'Seleccionar' }} </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section>
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Total a devolver
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">Gs. {{ numberFormat(loan.amountToPay) }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+              </q-list>
+              <div class="q-px-md">
+                <div class="q-mt-lg more_money_requiriments q-pa-sm">
+                  <div class="text-body1 text-center text-weight-bold"> ¿Quieres una linea de crédito superior?</div>
+                  <div class="q-mt-md q-pl-lg">
+                    <div class="q-mb-md text-weight-medium text-body2">• Carga y mantén un saldo de Gs. 500.000</div>
+                    <div class="q-mb-md text-weight-medium text-body2">• Paga tus facturas de Aqui Pago</div>
+                    <div class="q-mb-md text-weight-medium text-body2">• Adquiere una membresia de Woz Paraguay</div>
+                    <div class="q-mb-md text-weight-medium text-body2">• Compra un libro digital de Woz Dropshipping</div>
                   </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </q-list>
-            <div class="q-px-md">
-              <div class="q-mt-lg more_money_requiriments q-pa-sm">
-                <div class="text-body1 text-center text-weight-bold"> ¿Quieres una linea de crédito superior?</div>
-                <div class="q-mt-md q-pl-lg">
-                  <div class="q-mb-md text-weight-medium text-body2">• Carga y mantén un saldo de Gs. 500.000</div>
-                  <div class="q-mb-md text-weight-medium text-body2">• Paga tus facturas de Aqui Pago</div>
-                  <div class="q-mb-md text-weight-medium text-body2">• Adquiere una membresia de Woz Paraguay</div>
-                  <div class="q-mb-md text-weight-medium text-body2">• Compra un libro digital de Woz Dropshipping</div>
                 </div>
               </div>
             </div>
+          </q-step>
+          <template v-slot:navigation>
+            <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-xl q-pb-xl">
+              <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
+              <q-btn 
+                @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" 
+                color="primary" class="w-100 q-pa-sm q-mb-xl" 
+                :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" 
+                :loading="loading"
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+            </q-stepper-navigation>
+          </template>
+        </q-stepper>
+      </div>
+      <div class="q-mt-xl q-px-md" v-else-if="isCurrentLoan && !load">
+        <div>
+          <div class="text-h6 text-center text-weight-bold">
+            {{statusLoan == 1  ? 'Tu solicitud de prestamo esta siendo verificada por nuestro equipo.' : 'Ya tienes un préstamo activo, termina de pagarlo para optar por otro.' }}
           </div>
-        </q-step>
-        <template v-slot:navigation>
-          <q-stepper-navigation class="q-mt-md flex justify-end q-mx-md-xl q-mb-xl q-pb-xl">
-            <q-btn v-if="step > 1"  color="grey-6" @click="$refs.stepper.previous()" class="w-100 q-pa-sm q-mb-md" label="Volver"  />
-            <q-btn 
-              @click=" step == 1 ? $refs.stepper.next() : createApplyLoan()" 
-              color="primary" class="w-100 q-pa-sm q-mb-xl" 
-              :label="step === 2 ? 'Presentar solicitiud' : 'Siguente'" 
-              :loading="loading"
-            >
-              <template v-slot:loading>
-                <q-spinner-facebook />
-              </template>
-            </q-btn>
-          </q-stepper-navigation>
-        </template>
-      </q-stepper>
-    </div>
-    <div class="q-mt-xl q-px-md" v-else-if="isCurrentLoan && !load">
-      <div>
-        <div class="text-h6 text-center text-weight-bold">
-          {{statusLoan == 1  ? 'Tu solicitud de prestamo esta siendo verificada por nuestro equipo.' : 'Ya tienes un préstamo activo, termina de pagarlo para optar por otro.' }}
-        </div>
-
-        <div class="flex justify-center q-mt-lg ">
-          <q-btn color="primary" label="volver" class="q-px-md" size="md"  @click="router.push('/dashboard')"  style="width: 50%;" />
+  
+          <div class="flex justify-center q-mt-lg ">
+            <q-btn color="primary" label="volver" class="q-px-md" size="md"  @click="router.push('/dashboard')"  style="width: 50%;" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="q-pb-lg" v-else>
-      <div class="w-100 q-mx-none" >
-        <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm ">
-          <q-toolbar-title> 
-            <div class="w-100 flex flex-center">
-              <span class="text-subtitle1 text-weight-bold ">
-                <q-skeleton type="text" style="width: 80px;" />
-              </span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
-        <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
+      <div class="q-pb-lg" v-else>
+        <div class="w-100 q-mx-none" >
+          <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm ">
+            <q-toolbar-title> 
+              <div class="w-100 flex flex-center">
+                <span class="text-subtitle1 text-weight-bold ">
                   <q-skeleton type="text" style="width: 80px;" />
                 </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
               </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
+            </q-toolbar-title>
+          </q-toolbar>
+          <q-list >
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="q-mt-none">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </q-list>
+          <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+            <q-toolbar-title> 
+              <div class="w-100 flex flex-center">
+                <span class="text-subtitle1 text-weight-bold "><q-skeleton type="text" style="width: 80px;" /></span>
               </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
+            </q-toolbar-title>
+          </q-toolbar>
+          <q-list >
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section >
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </q-list>
+          <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+            <q-toolbar-title> 
+              <div class="w-100 flex flex-center">
+                <span class="text-subtitle1 text-weight-bold "><q-skeleton type="text" style="width: 80px;" /></span>
               </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="q-mt-none">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-        </q-list>
-        <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
-          <q-toolbar-title> 
-            <div class="w-100 flex flex-center">
-              <span class="text-subtitle1 text-weight-bold "><q-skeleton type="text" style="width: 80px;" /></span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
-        <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section >
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-        </q-list>
-        <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
-          <q-toolbar-title> 
-            <div class="w-100 flex flex-center">
-              <span class="text-subtitle1 text-weight-bold "><q-skeleton type="text" style="width: 80px;" /></span>
-            </div>
-          </q-toolbar-title>
-        </q-toolbar>
-        <q-list >
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section>
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-py- q-px-sm" >
-            <q-item-section >
-              <div class="flex items-center justify-between">
-                <q-item-label class="q-mt-xs text-weight-bold" >
-                <span class="text-body2 text-weight-bold">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </span>
-                </q-item-label>
-                <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                  <q-skeleton type="text" style="width: 80px;" />
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-        </q-list>
+            </q-toolbar-title>
+          </q-toolbar>
+          <q-list >
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section>
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item class="q-py- q-px-sm" >
+              <q-item-section >
+                <div class="flex items-center justify-between">
+                  <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-body2 text-weight-bold">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </span>
+                  </q-item-label>
+                  <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                    <q-skeleton type="text" style="width: 80px;" />
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+          </q-list>
+        </div>
       </div>
-    </div>
-    <div v-if="sendLoading">
-      <doneModal :dialog="sendLoading" :text="'Solicitud enviada'" />
-    </div>
-    <div v-if="dialog == 'redirect'">
-      <redirectModal :dialog="(dialog == 'redirect')" :type="redirectType" />
-    </div>
-    <div v-if="dialog == 'setValue'">
-      <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
-    </div>
-    <div v-if="haveRekutu">
-      <rekutuModal :dialog="haveRekutu"  @hiddeModal="closeRekutu"/>
+      <div v-if="sendLoading">
+        <doneModal :dialog="sendLoading" :text="'Solicitud enviada'" />
+      </div>
+      <div v-if="dialog == 'setValue'">
+        <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
+      </div>
+      <div v-if="haveRekutu">
+        <rekutuModal :dialog="haveRekutu"  @hiddeModal="closeRekutu"/>
+      </div>
     </div>
   </div>
 </template>
@@ -538,13 +541,14 @@
   import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
   import wozIcons from '@/assets/icons/wozIcons';
-
+  import notReady from '@/components/creditApply/notReady.vue';
   export default {
     components: {
       redirectModal,
       setValueModal,
       rekutuModal,
-      doneModal
+      doneModal,
+      notReady,
     },
     setup () {
       const q = useQuasar()
@@ -565,6 +569,9 @@
       const load = ref(true)
 
       const step = ref(1)
+      const isOk = ref(false)
+      const showNotReady = ref(false)
+      
       const isUserApply = ref(true)
       const interestRate = ref(1)
       const haveRekutu = ref(false)
@@ -610,42 +617,7 @@
         due_date: 'Plazo',
       }
       // Methods
-      const validateUser = () => {
 
-        if(user.value.verify_status != 2   ) {
-          isUserApply.value = false
-          redirectType.value = user.value.verify_status == 1 ? 3 : 2
-          return isUserApply.value
-        }
-
-        if(!validateCard()) {
-          user.value.card && user.value.card.status == 1
-          ? redirectType.value =  5
-          : router.push('/link_card?redirect=1')
-
-
-          isUserApply.value = false
-          return isUserApply.value
-        }
-        const dontValidate = ['facial_verify','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
-
-        Object.entries(user.value).forEach( ([key, value]) => {
-          if(dontValidate.includes(key)) return
-          if(!value){
-            console.log(key)
-            isUserApply.value = false 
-          } 
-            
-        });
-
-        
-        redirectType.value = 1
-        return isUserApply.value
-      }
-      const validateCard = () => {
-        return user.value.card && user.value.card.status == 2
-
-      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -694,8 +666,6 @@
       } 
       const hiddeModal = (data) => {
         dialog.value = ''
-        
-
         if(!data) return
         setInput(data)
       }
@@ -791,17 +761,62 @@
           showNotify('negative', 'Error al obtener las tasas de intereses.')
         })
       }
-      onMounted(() => {
-        if(!validateUser()){
-          showModal('redirect')
+      const validateUser = () => {
+        const dontValidate = ['facial_verify','current_loan','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
+
+        Object.entries(user.value).forEach( ([key, value]) => {
+          if(dontValidate.includes(key)) return
+          if(!value){
+            isUserApply.value = false 
+          } 
+            
+        });
+
+        return isUserApply.value ? user.value : false
+      }
+      const validateCard = () => {
+        return user.value.card ? user.value.card : false
+
+      }
+      const validateKyc = () => {
+
+
+        if(!(user.value.facial_verify == 0 && user.value.verify_status == 0) ){
+         return {value: false, item:user.value}
         }
-        localStorage.setItem('rekutu', 'no')
-        getInterestRate()
-        activeLoan()
+ 
+      }
+      const requirements = ref({
+        card: validateCard() ,
+        profile: validateUser(),
+        kyc: validateKyc()
+      })
+
+
+      const validateToShow = () => {
+        let isOks = Object.values(requirements.value).filter((el) => !el)
+        setTimeout(() => {
+          isOk.value = !(isOks.length == 0)
+          showNotReady.value = true;
+        }, 500);
+        return !(isOks.length == 0)
+      }
+      onMounted(() => {
+        if(validateToShow()){
+
+          return
+        }else{
+          localStorage.setItem('rekutu', 'no')
+          getInterestRate()
+          activeLoan()
+        }
       })
 
       return {
         loading,
+        isOk,
+        showNotReady,
+        requirements,
         wozIcons,
         load,
         sendLoading,

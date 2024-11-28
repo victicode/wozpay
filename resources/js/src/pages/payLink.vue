@@ -357,7 +357,7 @@ export default {
         function onScroll() {
           let scrollY = window.scrollY || 0;
           let strok = scrollY > 520  && scrollY < 1001 ? '#039900' : scrollY > 1000 ? '#ffc000' : '#0449fb'
-          document.querySelector('.milk').setAttribute('y2', scrollY/170 )
+          document.querySelector('.milk').setAttribute('y2', scrollY/200 )
           document.querySelector('.cd').setAttribute('stop-color', strok )
         }
         document.addEventListener("scroll", onScroll);

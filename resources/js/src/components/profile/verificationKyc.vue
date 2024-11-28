@@ -244,8 +244,8 @@
             </div>
           </div>
         </div>
-        <div class="q-px-md-xl q-mx-md-xl">
-          <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl q-mb-xl">
+        <div class="q-px-md-xl q-mx-md-xl q-pb-xs">
+          <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl q-mb-xl q-pb-lg">
             <label for="img_cameraFace"  class="flex column items-center">
               <div 
                 style=""

@@ -11,7 +11,7 @@
               <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
             <div class="q-mt-xs" v-html="icons.solicitar" v-else />
-            <span class="q-mt-none text-dark text-body2">{{ loan.status == 3 && loan.red_tapes.use_count < 3 ? 'Rekutu' : 'Solicitar'}}</span>
+            <span class="q-mt-none text-dark text-body2">{{ loan.status == 3 && loan.red_tapes.use_count < 3 ? 'Rekutu' : 'Prestamo'}}</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
