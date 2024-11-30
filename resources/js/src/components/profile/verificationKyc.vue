@@ -209,7 +209,7 @@
     </transition>
     <transition name="vertical">
       <div v-show="step == 4" class=" q-mb-xl" style="height: 102%; ">
-        <input type="file"  id="img_cameraFace"  @change="uploadPhoto($event, step)" style="display: none;">
+        <input type="file"  id="img_cameraFace"  @change="uploadPhoto($event, step)" style="display: none;" accept="image/*" capture="camera">
 
         <div>
           <q-toolbar class="bg-white text-black q-py-sm q-mt-none">

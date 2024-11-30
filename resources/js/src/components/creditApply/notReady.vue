@@ -3,7 +3,7 @@
     <div id="linkGenerateContentNoReady_loan">
       <div>
         <div>
-          <div class="text-center text-primary text-h6 q-mt-lg">Debes cumplir estos requisitos para solicitar tu prestamo</div>
+          <div class="text-center text-primary text-h6 q-mt-lg q-px-md">Debes cumplir estos requisitos para solicitar tu prestamo</div>
           <div class="q-px-md q-mt-lg">
             <div class="q-pb-lg q-pt-sm q-px-md requirements-info__container__loan">
               <div>
@@ -45,7 +45,6 @@ export default {
     const router = useRouter()
     const check = ref(props.requirements)
     const formatRequeriments = (requerimentsProps) => {
-
       return [
         {
           title: 'Registrate en Woz Payments',
@@ -54,20 +53,20 @@ export default {
         },
         {
           title: 'Tarjeta de crédito débito vinculada',
-          text: !requerimentsProps.card  ? 'No vinculada' : requerimentsProps.card.status == 1 ? 'Pendiente' : 'Aprobada',
-          icon: !requerimentsProps.card  ? 0 : requerimentsProps.card.status == 1 ? 1 : 2,
+          text: !requerimentsProps.card.valueData  ? 'No vinculada' : requerimentsProps.card.item.status == 1 ? 'Pendiente' : 'Aprobada',
+          icon: !requerimentsProps.card.valueData  ? 0 : requerimentsProps.card.item.status == 1 ? 1 : 2,
           link:'/link_card?redirect=1',
         },
         {
           title: 'Completa tu perfil',
-          text: !requerimentsProps.profile ? 'No realizado' : 'Completado',
-          icon: !requerimentsProps.profile ? 0 : 2 ,
+          text: !requerimentsProps.profile.valueData ? 'No realizado' : 'Completado',
+          icon: !requerimentsProps.profile.valueData ? 0 : 2 ,
           link:'/profile',
         },
         {
           title: 'Verifica tu identidad',
-          text: !requerimentsProps.kyc ? 'Sin verificacion' :  requerimentsProps.kyc.status == 1 ? 'Pendiente' : 'Aprobado',
-          icon: !requerimentsProps.kyc ? 0 : requerimentsProps.kyc.status == 1  == 1 ? 1 : 2,
+          text:  requerimentsProps.kyc.item.verify_status == 0  ? 'Sin verificacion' :  requerimentsProps.kyc.item.verify_status == 1 ? 'Pendiente' : 'Aprobado',
+          icon:  requerimentsProps.kyc.item.verify_status == 0  ? 0 : requerimentsProps.kyc.item.verify_status == 1  == 1 ? 1 : 2,
           link:'/verification_kyc',
         }
       ]

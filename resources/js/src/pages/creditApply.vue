@@ -178,7 +178,7 @@
             :done="step > 2"
           >
             <div class="w-100 q-mx-none" >
-              <q-toolbar class="bg-white text-black q-mt-md ">
+              <!-- <q-toolbar class="bg-white text-black q-mt-md ">
                 <q-toolbar-title> 
                   <div class="w-100 flex flex-center">
                     <span class="text-subtitle1 text-weight-bold ">Informconf</span>
@@ -207,7 +207,7 @@
                   </q-item-section>
                 </q-item>
                 <q-separator />
-              </q-list>
+              </q-list> -->
               <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
                 <q-toolbar-title> 
                   <div class="w-100 flex flex-center">
@@ -241,7 +241,7 @@
                     <div class="flex items-center justify-between">
                       <q-item-label class="q-mt-xs text-weight-bold" >
                       <span class="text-body2 text-weight-bold">
-                        Tres ultimos IPS
+                        Último IPS
                       </span>
                       </q-item-label>
                       <q-item-label caption lines="1" class="text-weight-medium text-body2">
@@ -590,7 +590,7 @@
         reference_name: null,
         reference_phone: null,
         reference_relationship: null,
-        informconf: null,
+        // informconf: null,
         work_certificate: null,
         last_ips: null,
         
@@ -610,7 +610,7 @@
         reference_name: 'Nombre completo de referencia',
         reference_phone: 'WhatsApp de referencia',
         reference_relationship: 'Parentesco de referencia',
-        informconf: 'Informconf',
+        // informconf: 'Informconf',
         work_certificate: 'Certificado Laboral',
         last_ips: 'Ultimos tres ultimos Ips',
         amount: 'Monto de prestamo',
@@ -651,7 +651,9 @@
         calulateTotalAmount()
       }
       const isFile = (data) => {
-        if(input.index == 'informconf' || input.index == 'work_certificate') return data[0]
+        // if(input.index == 'informconf' || input.index == 'work_certificate') return data[0]
+        if(input.index == 'work_certificate') return data[0]
+
         return data
       }
       const calulateTotalAmount = () => {
@@ -690,7 +692,7 @@
         formData.append('reference_name', readTapes.value.reference_name)
         formData.append('reference_phone', readTapes.value.reference_phone)
         formData.append('reference_relationship', readTapes.value.reference_relationship)
-        formData.append('informconf', readTapes.value.informconf)
+        // formData.append('informconf', readTapes.value.informconf)
         formData.append('last_ips', readTapes.value.last_ips.length)
         formData.append('work', readTapes.value.work_certificate)
         formData.append('amount', loan.value.amount)
@@ -762,7 +764,7 @@
         })
       }
       const validateUser = () => {
-        const dontValidate = ['facial_verify','current_loan','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
+        const dontValidate = ['facial_verify','facial_photo', 'verify_status', 'document_photo_front', 'document_photo_back', 'current_loan','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
 
         Object.entries(user.value).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
@@ -772,17 +774,32 @@
             
         });
 
-        return isUserApply.value ? user.value : false
+        return isUserApply.value ? {valueData: true, item:user.value} : {valueData: false, item:user.value}
       }
       const validateCard = () => {
-        return user.value.card ? user.value.card : false
+
+        if(!user.value.card){
+         return {valueData: false, item:user.value.card}
+        }
+        if(user.value.card.status == 1){
+          return {valueData: false, item:user.value.card}
+        }
+        if(user.value.card.status == 2 ){
+          return {valueData: true, item:user.value.card}
+        }
 
       }
       const validateKyc = () => {
 
 
-        if(!(user.value.facial_verify == 0 && user.value.verify_status == 0) ){
-         return {value: false, item:user.value}
+        if(user.value.facial_verify == 0 && user.value.verify_status == 0 ){
+         return {valueData: false, item:user.value}
+        }
+        if(user.value.facial_verify == 1 || user.value.verify_status == 1){
+          return {valueData: false, item:user.value}
+        }
+        if(user.value.facial_verify == 2 && user.value.verify_status == 2 ){
+          return {valueData: true, item:user.value}
         }
  
       }
@@ -794,7 +811,7 @@
 
 
       const validateToShow = () => {
-        let isOks = Object.values(requirements.value).filter((el) => !el)
+        let isOks = Object.values(requirements.value).filter((el) => !el.valueData)
         setTimeout(() => {
           isOk.value = !(isOks.length == 0)
           showNotReady.value = true;

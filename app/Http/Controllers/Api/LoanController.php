@@ -101,10 +101,10 @@ class LoanController extends Controller
         $workCertificate = '-';
         $lastIps =  $this->lastIpsFormat($request, $loanId);
         
-        if ($request->informconf) {
-            $informconf = 'public/images/informconf/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('informconf')->extension();
-            $request->file('informconf')->move(public_path() . '/images/informconf/', $informconf);
-        }
+        // if ($request->informconf) {
+        //     $informconf = 'public/images/informconf/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('informconf')->extension();
+        //     $request->file('informconf')->move(public_path() . '/images/informconf/', $informconf);
+        // }
         if ($request->work) {
             $workCertificate = 'public/images/work_certificate/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('work')->extension();
             $request->file('work')->move(public_path() . '/images/work_certificate/', $workCertificate);
@@ -121,7 +121,7 @@ class LoanController extends Controller
             'reference_name' => $request->reference_name,
             'reference_phone' => $request->reference_phone,
             'reference_relationship' => $request->reference_relationship,
-            'informconf' => $informconf,
+            // 'informconf' => $informconf,
             'work_certificate' => $workCertificate,
             'last_ips' => $lastIps,
             'user_id' => $request->user()->id,
