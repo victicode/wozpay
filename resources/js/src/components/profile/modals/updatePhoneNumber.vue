@@ -15,7 +15,7 @@
             hint="Formato: (+595) ### ###-##"  
           >
             <template v-slot:prepend>
-              <div class="text-body2 text-black text-weight-bold q-pt-xs" style="font-size: 0.84rem;">(+595)</div>
+              <div class="text-body2 text-black text-weight-bold " style="font-size: 0.84rem; transform: translateY(-1px);">(+595)</div>
             </template>
           </q-input>
         </q-card-section>

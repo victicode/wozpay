@@ -304,7 +304,7 @@ class UserController extends Controller
             $user->save();
             
         } catch (Exception $th) {
-            return $this->returnSuccess(400, $th->getMessage() );
+            return $this->returnSuccess(400, $th->getMessage());
         }
 
         return $this->returnSuccess(200, $user->load('wallet'));

@@ -45,6 +45,7 @@ export default {
     const router = useRouter()
     const check = ref(props.requirements)
     const formatRequeriments = (requerimentsProps) => {
+      console.log(requerimentsProps)
       return [
         {
           title: 'Registrate en Woz Payments',
@@ -53,8 +54,8 @@ export default {
         },
         {
           title: 'Tarjeta de crédito débito vinculada',
-          text: !requerimentsProps.card.valueData  ? 'No vinculada' : requerimentsProps.card.item.status == 1 ? 'Pendiente' : 'Aprobada',
-          icon: !requerimentsProps.card.valueData  ? 0 : requerimentsProps.card.item.status == 1 ? 1 : 2,
+          text: !requerimentsProps.card.item ? 'No vinculada' : requerimentsProps.card.item.status == 1 ? 'Pendiente' : 'Aprobada',
+          icon: !requerimentsProps.card.item ? 0 : requerimentsProps.card.item.status == 1 ? 1 : 2,
           link:'/link_card?redirect=1',
         },
         {

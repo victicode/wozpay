@@ -212,8 +212,11 @@
             showDialog.value = true
           }, 1000);
           setTimeout(()=>{
-            router.go(-3)
-          },3000)
+            route.query.redirect
+            ?router.push('/apply')
+            :router.go(-3)
+            
+          },4000)
         }).catch((response) => {
           showNotify('negative', response)
           loadingState(false)

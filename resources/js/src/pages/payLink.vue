@@ -6,8 +6,8 @@
         <div class="way__container">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1308" height="2954" style="overflow: visible">
             <defs>
-              <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="0.1"  class="milk" style="transition: all 1s ease ;">
-                <stop offset="12%" stop-color="#0449fb" class="cd"/>
+              <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="0.1"  class="wayTransition" style="transition: all 1s ease ;">
+                <stop offset="12%" stop-color="#0449fb" class="backgorundWay"/>
                 <stop offset="12%" stop-color="white" />
               </linearGradient>
             </defs>
@@ -355,10 +355,11 @@ export default {
       useQuasar().addressbarColor.set('#19cd15')
       setTimeout(() => {
         function onScroll() {
+          let timeTransition = window.screen.width < 780 ? 150 : 200
           let scrollY = window.scrollY || 0;
           let strok = scrollY > 520  && scrollY < 1001 ? '#039900' : scrollY > 1000 ? '#ffc000' : '#0449fb'
-          document.querySelector('.milk').setAttribute('y2', scrollY/200 )
-          document.querySelector('.cd').setAttribute('stop-color', strok )
+          document.querySelector('.wayTransition').setAttribute('y2', scrollY/timeTransition )
+          document.querySelector('.backgorundWay').setAttribute('stop-color', strok )
         }
         document.addEventListener("scroll", onScroll);
       }, 1000);

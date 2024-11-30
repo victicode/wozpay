@@ -246,7 +246,7 @@
         </div>
         <div class="q-px-md-xl q-mx-md-xl q-pb-xs">
           <div class="q-mt-lg q-px-sm q-px-md-xl q-mx-md-xl q-mb-xl q-pb-lg">
-            <label for="img_cameraFace"  class="flex column items-center">
+            <!-- <label for="img_cameraFace"  class="flex column items-center">
               <div 
                 style=""
                 class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc"
@@ -260,7 +260,21 @@
                   Tomar foto
                 </div>
               </div>
-            </label>
+            </label> -->
+            <div 
+              style=""
+              class="bg-primary text-white tex-bold-medium flex flex-center text-subtitle2 cursor-pointer buttonKYc" @click="showDialog('check')"
+            >
+            
+              <div v-if="loading">
+                <q-spinner-facebook  size="md"/>
+              </div>
+              <div v-else>
+
+                Tomar foto
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -311,7 +325,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import selectKycType from '@/components/profile/modals/selectKycType.vue';
 import setPhotoDocument from '@/components/profile/modals/setPhotoDocument.vue';
 import { useUserStore } from '@/services/store/user.store';
@@ -328,7 +342,6 @@ export default {
   },
   setup () {
     const { user  } = storeToRefs(useAuthStore())
-
     const dialog = ref('')
     const userStore = useUserStore()
     const file = ref([])
@@ -336,10 +349,11 @@ export default {
     const img = ref([]);
     const loading = ref(false)
     const router = useRouter()
+    const emitter = inject('emitter');
 
     const updateFacial = (data) => {
       dialog.value = '';
-      file.value[3] = data 
+      file.value[4] = data 
       sendData()
     }
     const updateDocument = (data) => {
@@ -384,17 +398,28 @@ export default {
       data.append('document_back',file.value[2])
       data.append('facial', file.value[4])
 
-        userStore.setKyc(data).then((response) => {
-          if(response.code !== 200) throw response
-          loading.value = false
-          user.value = response.data
-          step.value = 5
-          
-        }).catch((response) => {
-          loading.value = false
-          console.log(response)
-        })
+      userStore.setKyc(data).then((response) => {
+        if(response.code !== 200) throw response
+        loading.value = false
+        user.value = response.data
+        step.value = 5
+        
+      }).catch((response) => {
+        loading.value = false
+        showNotification(response)
+        console.log(response)
+      })
     }
+    const showNotification = (value) => {
+      const data = {
+        newColor: 'negative', 
+        newTitle: 'Erro al cargar',
+        newText: value, 
+        newIcon: 'eva-bell-outline',
+        newCallback: () => emitter.emit('offModalNotification'),
+      }
+      emitter.emit('modalNotification', data);
+    } 
     return {
       wozIcons,
       loading,

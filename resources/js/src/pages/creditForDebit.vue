@@ -97,7 +97,7 @@
   import { inject, ref } from 'vue'
   import util from '@/util/numberUtil'
   import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
 
   export default {
     setup() {
@@ -108,6 +108,7 @@
       const q = useQuasar()
       const router = useRouter()
       const loading = ref(false)
+      const route = useRoute()
       // Data
       const selectCard = ref(0)
       const goTo = () => {
@@ -115,7 +116,10 @@
           showNotify('negative', 'Debe seleccionar el tipo de tarjeta')
           return
         }
-        router.push('/linked_card/'+selectCard.value)
+        route.query.redirect 
+        ? router.push('/linked_card/'+selectCard.value+'?redirect='+route.query.redirect)
+        : router.push('/linked_card/'+selectCard.value)
+        
       }
       const verify = () => {
         

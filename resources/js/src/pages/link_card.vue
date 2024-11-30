@@ -60,7 +60,7 @@
   import util from '@/util/numberUtil'
   import { useRoute, useRouter } from 'vue-router'
   import { useQuasar } from 'quasar'
-import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
+
 
   export default {
     setup() {
@@ -84,18 +84,17 @@ import redirectModal from '@/components/creditApply/modals/redirectModal.vue';
       }
       const goTo = () => {
         if(!validateTermsCheck()) return
-
-        router.push('/link_card_form')
+        
+        route.query.redirect
+        ? router.push('/link_card_form?redirect='+route.query.redirect)
+        : router.push('/link_card_form')
       }
       const validateTermsCheck = () => {
         if(!accept_terms.value) showNotify('negative', 'Debes aceptar los términos y condiciones')
         return accept_terms.value
       }
       const goBack = () => {
-        console.log(route)
-        route.query.redirect 
-        ? router.go(-2)
-        : router.go(-1)
+        router.go(-1)
       }
       const showNotify = (type, message) => {
         q.notify({

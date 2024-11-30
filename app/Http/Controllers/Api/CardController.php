@@ -34,7 +34,12 @@ class CardController extends Controller
             //throw $th;
             return $this->returnFail(505, $th->getMessage());
         }
-        
+        try {
+            event(new UserUpdateEvent($card->user_id));
+
+        } catch (Exception $th) {
+            //throw $th;
+        }
         return $this->returnSuccess(200, $card);
     }
     public function deleteCard($id) {
