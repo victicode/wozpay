@@ -1,6 +1,6 @@
 
 <template>
-  <div v-if="showNotReady">
+  <div v-if="showNotReady" style="height: 100%;">
 
     <div v-if="isOk">
       <notReady :requirements="requirements" />
@@ -869,7 +869,7 @@
   padding: 10px;
 }
 .apply_section {
-  height: 115%; 
+  height: 100%; 
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;

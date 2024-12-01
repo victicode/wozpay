@@ -413,7 +413,7 @@ export default {
     const showNotification = (value) => {
       const data = {
         newColor: 'negative', 
-        newTitle: 'Erro al cargar',
+        newTitle: 'Error al cargar',
         newText: value, 
         newIcon: 'eva-bell-outline',
         newCallback: () => emitter.emit('offModalNotification'),
