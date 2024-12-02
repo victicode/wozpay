@@ -39,7 +39,7 @@ class UserController extends Controller
             $users->where('verify_status', 0)->orWhere('facial_verify', 0);
         }
         if($request->type == 5){
-            $users->whereHas('card', function($q){
+            $users->with('card')->whereHas('card', function($q){
                 $q->orderBy('created_at', 'desc');
             });
         }
