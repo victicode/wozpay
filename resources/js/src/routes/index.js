@@ -4,7 +4,6 @@ import auth from './middlewares/auth'
 import admin from './middlewares/admin'
 
 import dashboardLayout from '@/layouts/dashboardLayout.vue';
-import pageLayout from '@/layouts/pagesLayout.vue';
 import authLayout from '@/layouts/authLayout.vue';
 import paysLayout from '@/layouts/paysLayout.vue';
 import userAdminLayout from '@/layouts/userAdminLayout.vue';
@@ -13,20 +12,16 @@ import bankPage from '@/pages/bank.vue';
 import bankAccountPage from '@/pages/accountBank.vue';
 import lastOperationPage from '@/pages/lastOperations.vue';
 import notificationsPage from '@/pages/notifications.vue';
-import profilePage from '@/pages/profile.vue';
 import deposit from '@/pages/deposit.vue'
 import creditApply from '@/pages/creditApply.vue'
 import loanPage from '@/pages/loan.vue'
 import allUsers from '@/pages/admin/users.vue'
 import usersWithLoan from '@/pages/admin/loanRequest.vue'
-import paysPending from '@/pages/admin/paysPending.vue'
 import loanPayView from '@/pages/admin/loanPayView.vue'
 import loanApplication from '@/pages/admin/loanApplication.vue'
 import cleanUsers from '@/components/admin/users/cleanUsers.vue'
 import slowPayer from '@/components/admin/users/slowPayerUsers.vue'
 import loanViewAdmin from '@/pages/admin/loanView.vue'
-import loansAdmin from '@/pages/admin/loans.vue'
-import interestAdmin from '@/pages/admin/interest.vue'
 import userInfo from '@/components/profile/userInfo.vue'
 import userAddress from '@/components/profile/userAddress.vue'
 import userProffesion from '@/components/profile/userProffesion.vue'
@@ -39,9 +34,6 @@ import loanPay from '@/components/loan/loanPay.vue'
 import loanPayFinish from '@/components/loan/loanPayFinish.vue'
 import selectPayLoan from '@/components/loan/selectPayLoan.vue';
 import loanView from '@/components/loan/loanView.vue'
-import link_card from '@/pages/link_card.vue'
-import cardPage from '@/pages/card.vue'
-import AllTransaction from '@/pages/allTransaction.vue';
 import viewTransaction from '@/components/transaction/viewTransaction.vue';
 
 const router = createRouter({
@@ -133,7 +125,7 @@ const router = createRouter({
     {
       path: "/link_card",
       name:"link_card",
-      component: link_card,
+      component: import('@/pages/link_card.vue'),
       meta: {
         title : 'Vincular tarjeta'
       },
@@ -215,14 +207,14 @@ const router = createRouter({
         },
         {
           path: '/admin/loans',
-          component: loansAdmin,
+          component: () => import('@/pages/admin/loans.vue'),
           meta: {
             title: 'Préstamo'
           }
         },
         {
           path: '/admin/interest',
-          component: interestAdmin,
+          component: () => import('@/pages/admin/interest.vue'),
           meta: {
             title: 'Calculadora de intereses'
           }
@@ -270,7 +262,7 @@ const router = createRouter({
         {
           path: "/pays/pending",
           name: "paysPeding",
-          component: paysPending,
+          component: import('@/pages/admin/paysPending.vue'),
           meta: {
             title: "Pagos pendientes"
           }
@@ -333,7 +325,7 @@ const router = createRouter({
         },
         {
           path: "/profile",
-          component: profilePage,
+          component: () => import('@/pages/profile.vue'),
           meta: {
             title : 'Perfil'
           },
@@ -431,7 +423,7 @@ const router = createRouter({
         },
         {
           path: "/card",
-          component: cardPage,
+          component: () => import('@/pages/card.vue'),
           meta: {
             title : 'Vincular tarjeta de crédito'
           },
@@ -473,7 +465,7 @@ const router = createRouter({
         },
         {
           path: '/transactions',
-          component: AllTransaction,
+          component: () => import('@/pages/allTransaction.vue'),
           meta: {
             title: 'Ultimas transacciones'
           }

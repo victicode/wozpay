@@ -24,11 +24,17 @@
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/deposit" >
             <div class="q-mt-xs" v-html="icons.cargar" />
             <span class="q-mt-none text-dark text-body2">Cargar</span>
+            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
+              <q-icon name="eva-lock-outline" size="lg" color="grey-3"></q-icon>
+            </div>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">   
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100">
             <div v-html="icons.pagoYa" />
+            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
+              <q-icon name="eva-lock-outline" size="lg" color="grey-3"></q-icon>
+            </div>
           </q-btn>
         </div>
       </div>
@@ -89,6 +95,7 @@
     },
   }
 </script>
+
 <style lang="scss">
   .actions-button{
     border: 1.3px solid #c7c7c7!important;

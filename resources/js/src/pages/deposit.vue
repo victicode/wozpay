@@ -199,9 +199,7 @@
   }
 </script>
 <style lang="scss" scoped>
-  .unavailable-button {
-    position: absolute; bottom: 0; top: 0; left: 0; right: 0; background: rgba(12, 12, 12, 0.397); 
-  }
+
   .bank__section_skeleton{
     padding-top: 1.2rem;
     padding-bottom: 1.2rem;

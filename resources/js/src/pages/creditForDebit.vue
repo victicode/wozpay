@@ -30,18 +30,19 @@
           </div>
           <div class="flex q-mt-md" >
             <div style="width: 10%;" class="q-mr-sm text-center">
-              <q-radio v-model="selectCard" checked-icon="eva-checkmark-circle-outline"  val="2" />
+              <q-radio v-model="selectCard" disable checked-icon="eva-checkmark-circle-outline"  val="2" />
             </div>
-            <div class="flex justify-between card_detail q-pb-sm" >
+            <div class="flex justify-between card_detail q-pb-sm text-grey-5" >
               <div>
                 <div class="text-left text-body1">
                   Tarjeta de débito
                 </div>
-                <div class="text-left text-body2 text-grey-6">
-                  Hasta 18 cuotas
+                <div class="text-left text-body2 text-grey-5">
+                  <!-- Hasta 18 cuotas -->
+                   Válido para clientes con antiguedad
                 </div>
               </div>
-              <div>
+              <div v-if="2==3">
                 <div class="text-right text-weight-medium text-caption">
                   Préstamos hasta
                 </div>
@@ -50,7 +51,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

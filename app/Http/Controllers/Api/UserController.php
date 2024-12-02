@@ -38,6 +38,11 @@ class UserController extends Controller
         if($request->type == 4){
             $users->where('verify_status', 0)->orWhere('facial_verify', 0);
         }
+        if($request->type == 5){
+            $users->whereHas('card', function($q){
+                $q->orderBy('created_at', 'desc');
+            });
+        }
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');

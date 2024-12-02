@@ -7,7 +7,7 @@
       </div>
       <div v-if="user.rol_id == 1">
         <q-btn 
-          :icon=" icons.ionLogOutOutline"
+          icon="eva-log-in-outline"
           color="white"
           text-color="black"
           :loading="loading"

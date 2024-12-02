@@ -1,44 +1,48 @@
 <template>
   <div>
+    <div class="w-100 flex q-px-md justify-center q-my-sm">
+      <q-btn
+        class="filtersButton q-mx-xs" 
+        :color="typeOfUser==1 ?'terciary':'grey-6'"
+        external-label outline 
+        @click="setFilter(1)" label-position="bottom" icon="eva-checkmark-circle-2-outline"   
+      />
+      <q-btn
+        class="filtersButton q-mx-xs" 
+        :color="typeOfUser==5 ?'terciary':'grey-6'"
+        external-label outline
+        @click="setFilter(5)" label-position="bottom" icon="eva-credit-card-outline"   
+      />
+      <q-btn
+        class="filtersButton q-mx-xs" 
+        :color="typeOfUser==2 ?'terciary':'grey-6'" 
+        external-label outline 
+        @click="setFilter(2)" icon="eva-clock-outline" label-position="bottom"   
+      />
+      <q-btn
+        class="filtersButton q-mx-xs" 
+        :color="typeOfUser==4 ?'terciary':'grey-6'"
+        external-label outline 
+        @click="setFilter(4)" label-position="bottom" icon="eva-close-circle-outline"   
+      />
+      <q-btn
+        class="filtersButton q-mx-xs" 
+        :color="typeOfUser==3 ?'terciary':'grey-6'"
+        external-label outline
+        @click="setFilter(3)" label-position="bottom" icon="eva-trash-2-outline"   
+      />
+      
+    </div>
     <div class=" q-px-sm flex justify-between items-center" v-if="ready" style="border-bottom: 1px solid lightgray;">
       <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" >
         <div v-html="wozIcons.solicitar" />
         <div class="text-subtitle2 text-weight-medium q-ml-xs q-mt-xs">Clientes totales: {{users.data.length}} </div>
       </div>
-      <q-fab color="primary" rounded size="medium" flat direction="left" class="filtersContent">
-        <template v-slot:icon="{ opened }">
-          <q-icon :class="{ 'example-fab-animate--hover': opened !== true }" name="eva-funnel-outline" />
-        </template>
-
-        <template v-slot:active-icon="{ opened }">
-          <q-icon :class="{ 'example-fab-animate': opened === true }" name="eva-funnel-outline" />
-        </template>
-
-        <q-fab-action 
-          class="filtersButton" 
-          :color="typeOfUser==1 ?'terciary':'grey-6'"
-          external-label outline 
-          @click="setFilter(1)" label-position="bottom" icon="eva-checkmark-circle-2-outline"   />
-        <q-fab-action 
-          class="filtersButton" 
-          :color="typeOfUser==2 ?'terciary':'grey-6'" 
-          external-label outline 
-          @click="setFilter(2)"   icon="eva-clock-outline" label-position="bottom"   />
-          <q-fab-action 
-          class="filtersButton" 
-          :color="typeOfUser==4 ?'terciary':'grey-6'"
-          external-label outline 
-          @click="setFilter(4)" label-position="bottom" icon="eva-close-circle-outline"   />
-        <q-fab-action 
-          class="filtersButton" 
-          :color="typeOfUser==3 ?'terciary':'grey-6'"
-          external-label outline
-          @click="setFilter(3)" label-position="bottom" icon="eva-trash-2-outline"   />
-      </q-fab>
     </div>
     <div v-else class="flex justify-between q-px-sm q-mt-md" >
       <q-skeleton type="text" style="width: 50%;" />
     </div>
+
     <transition name="slide-fade">
       <div class="" v-if="ready && users.data.length > 0" style="overflow-y: auto;height:88%" >
         <div>
@@ -46,28 +50,54 @@
             <div class="w-70 text-subtitle2 text-weight-light q-mt-xs " :class="{'text-red-14': !(!user.deleted_at), 'text-grey-7':(!user.deleted_at)}">
               {{ user.name }}
             </div>
-            <div class="flex items-center ">
-              <div class="mobile-hide q-mt-xs q-mr-xs">
-                {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
+            <div class="flex items-center">
+              <div v-if="typeOfUser != 5">
+                <div class="mobile-hide q-mt-xs q-mr-xs" >
+                  {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
+                </div>
+                <div class="mobile-only q-mr-xs">
+                  <q-icon 
+                    :name="
+                      user.verify_status == 2 
+                      ? 'eva-checkmark-circle-2-outline' 
+                      : user.verify_status == 1 
+                      ? 'eva-clock-outline'
+                      : 'eva-close-circle-outline'
+                    "
+                    :color="
+                      user.verify_status == 2 
+                      ? 'positive' 
+                      : user.verify_status == 1 
+                      ? 'terciary'
+                      : 'negative'
+                    "
+                    size="xs"
+                  />
+                </div>
               </div>
-              <div class="mobile-only q-mr-xs">
-                <q-icon 
-                  :name="
-                    user.verify_status == 2 
-                    ? 'eva-checkmark-circle-2-outline' 
-                    : user.verify_status == 1 
-                    ? 'eva-clock-outline'
-                    : 'eva-close-circle-outline'
-                  "
-                  :color="
-                    user.verify_status == 2 
-                    ? 'positive' 
-                    : user.verify_status == 1 
-                    ? 'terciary'
-                    : 'negative'
-                  "
-                  size="xs"
-                />
+              <div v-else>
+                <div class="mobile-hide q-mt-xs q-mr-xs" >
+                  {{ user.card.status == 1 ? 'Pendiente' : 'Aprobado' }}
+                </div>
+                <div class="mobile-only q-mr-xs">
+                  <q-icon 
+                    :name="
+                      user.card.status == 2 
+                      ? 'eva-checkmark-circle-2-outline' 
+                      : user.card.status == 1 
+                      ? 'eva-clock-outline'
+                      : 'eva-close-circle-outline'
+                    "
+                    :color="
+                      user.card.status == 2 
+                      ? 'positive' 
+                      : user.card.status == 1 
+                      ? 'terciary'
+                      : 'negative'
+                    "
+                    size="xs"
+                  />
+                </div>
               </div>
               <div class="text-subtitle2 text-weight-light q-mt-xs q-mr-none text-grey-7">
                 {{ numberFormat(user.dni) }}

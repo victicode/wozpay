@@ -23,7 +23,7 @@
                 :clear-icon="'eva-close-outline'"
                 color="positive"
                 v-model="formCardData.card"
-                label="N° de tarjeta de débito o crédito"
+                label="N° de tarjeta de crédito"
                 :rules="rulesForm('card')"
                 autocomplete="off"
                 maxlength="19"
@@ -40,7 +40,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="q-my-lg">
+            <div class="q-my-lg" v-if="2==3">
               <q-select 
                 outlined
                 class="linkedCard q-pb-none" 

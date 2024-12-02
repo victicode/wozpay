@@ -23,7 +23,7 @@
                 <div class="text-subtitle3 text-grey-7"> {{ user.accountbank.account_number }} </div>
               </div>
             </div>
-            <div>
+            <div v-else>
               <div class="text-weight-medium text-body1 text-center q-mb-md">
                 No tiene cuenta de banco vinculada. 😞
               </div>
