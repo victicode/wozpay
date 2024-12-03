@@ -393,14 +393,14 @@
           :done="step > 3"
         >
           <div class="w-100 q-mx-none" >
-            <q-toolbar class="bg-white text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm" v-if="2==3">
               <q-toolbar-title> 
                 <div class="w-100 flex flex-center">
                   <span class="text-subtitle1 text-weight-bold q-pt-sm">Informconf</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
-            <q-list >
+            <q-list v-if="2==3" >
               <q-item class="q-py- q-px-sm" >
                 <q-item-section >
                   <div class="flex items-center justify-between">
@@ -455,7 +455,7 @@
                   <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                     <span class="text-body2 text-weight-bold">
-                      Tres ultimos IPS
+                      Últimos IPS
                     </span>
                     </q-item-label>
                     <q-item-label 

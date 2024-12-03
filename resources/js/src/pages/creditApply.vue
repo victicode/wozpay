@@ -612,7 +612,7 @@
         reference_relationship: 'Parentesco de referencia',
         // informconf: 'Informconf',
         work_certificate: 'Certificado Laboral',
-        last_ips: 'Ultimos tres ultimos Ips',
+        last_ips: 'Último IPS',
         amount: 'Monto de prestamo',
         due_date: 'Plazo',
       }

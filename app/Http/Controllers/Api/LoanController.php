@@ -42,6 +42,8 @@ class LoanController extends Controller
         $redTape = isset($request->isRekutu) ? $this->getRedTapesbyUser($request->user()->id) : $this->storeRedTapes($request, $loan->id);
 
         $loan->red_tapes_id = $redTape->id;
+        $loan->isRekutu = isset($request->isRekutu) ? 1 : 0;
+
         $loan->save();
 
         $this->emitNotification('Tu solicititud de prestamo fue creada con exito', $loan->user_id, 'Prestamo solicitado');

@@ -31,6 +31,7 @@ class TransactionController extends Controller
 
         $loans = Loan::where('status', '!=','1')
         ->where('status', '!=','0')
+        ->where('isRekutu', 0)
         ->whereMonth('created_at',$request->month+1)
         ->where('user_id', $userId)->get();
         

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="q-px-md text-subtitle2 q-mt-sm">Filtros de busqueda:</div>
     <div class="w-100 flex q-px-md justify-center q-my-sm">
       <q-btn
         class="filtersButton q-mx-xs" 
@@ -165,7 +166,7 @@
   import wozIcons from '@/assets/icons/wozIcons';
   import util from '@/util/numberUtil';
   import searchUser from '@/components/admin/users/searchUser.vue';
-
+  import { storeToRefs } from 'pinia'
 
   export default {
     components: {
@@ -173,6 +174,7 @@
     },  
     setup () {
       //vue provider
+      const { stateList } = storeToRefs(useUserStore())
       const icons = inject('ionIcons')
       const emitter = inject('emitter')
       const $q = useQuasar()
@@ -183,7 +185,7 @@
       const ready = ref(false)
       const currentPage = ref(1)
       const users = ref([])
-      const typeOfUser = ref(1)
+      const typeOfUser = ref(stateList.value)
       // methods
       const showNotify = (type, message) => {
         $q.notify({
@@ -206,7 +208,6 @@
         }
         userStore.getAllUser(query)
         .then((response) => {
-          // console.log(response)
           if(response.code != 200) throw response
           setTimeout(() => {
             users.value = response.data
@@ -232,6 +233,7 @@
       }
       const setFilter = (index)=> {
         typeOfUser.value = index
+        userStore.setStateList(index)
         getUsers()
       }
       onMounted(() => {

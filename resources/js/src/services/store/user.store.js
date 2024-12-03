@@ -3,7 +3,13 @@ import ApiService from "@/services/axios/";
 import JwtService from "@/services/jwt/";
 
 export const useUserStore = defineStore("user", {
+  state: () => ({
+    stateList: 1,
+  }),
   actions: {
+    setStateList(state){
+      this.stateList = state;
+    },
     async updateUser(data) {
       return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {

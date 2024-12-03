@@ -59,7 +59,7 @@
             <div class="flex items-center justify-between">
               <q-item-label class="q-mt-xs text-weight-bold" >
               <span class="text-body2 text-weight-bold">
-                Tres ultimos IPS
+                Último IPS
               </span>
               </q-item-label>
               <q-item-label caption lines="1" class="text-weight-medium text-body2 cursor-pointer">
@@ -206,7 +206,7 @@
 
       const titleText = {
         work_certificate: 'Certificado Laboral',
-        last_ips: 'Ultimos tres ultimos Ips',
+        last_ips: 'Últimos IPS',
         amount: 'Monto de prestamo',
         due_date: 'Plazo',
       }
