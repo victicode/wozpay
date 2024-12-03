@@ -185,7 +185,7 @@
           }
           lines[3] = {
             title:'Referencia',
-            text:'Referncia de prestamo',
+            text:'Cuota anual Prepaga Woz Payments',
             value: '619 5556668745',
           }
         }

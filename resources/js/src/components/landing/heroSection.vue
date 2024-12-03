@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="show-xs-flex justify-center w-100 q-px-md q-pt-md" >
+    <div class="show-xs-flex justify-center w-100 q-px-md q-pt-md"  style="width: 100%;">
       <q-btn 
         label="Registrate en Woz Pay" 
         unelevated

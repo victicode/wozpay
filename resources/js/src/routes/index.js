@@ -125,7 +125,7 @@ const router = createRouter({
     {
       path: "/link_card",
       name:"link_card",
-      component: import('@/pages/link_card.vue'),
+      component: () => import('@/pages/link_card.vue'),
       meta: {
         title : 'Vincular tarjeta'
       },

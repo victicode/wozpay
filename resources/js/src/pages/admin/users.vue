@@ -45,7 +45,7 @@
     </div>
 
     <transition name="slide-fade">
-      <div class="" v-if="ready && users.data.length > 0" style="overflow-y: auto;height:88%" >
+      <div class="" v-if="ready && users.data.length > 0" style="overflow-y: auto;height:75%" >
         <div>
           <div v-for="(user, index) in users.data" :key="index" class="flex justify-between items-center q-px-sm  userlist" >
             <div class="w-70 text-subtitle2 text-weight-light q-mt-xs " :class="{'text-red-14': !(!user.deleted_at), 'text-grey-7':(!user.deleted_at)}">
@@ -115,7 +115,7 @@
             </div>
           </div>
         </div>
-        <div class="pagination flex flex-center q-mt-md q-pb-sm">
+        <div class="pagination flex flex-center q-mt-md q-pb-md">
           <q-pagination
             v-model="currentPage"
             :max="users.last_page"

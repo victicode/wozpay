@@ -21,10 +21,10 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/deposit" >
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100"  > <!-- to="/deposit"-->
             <div class="q-mt-xs" v-html="icons.cargar" />
             <span class="q-mt-none text-dark text-body2">Cargar</span>
-            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
+            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 7px;">
               <q-icon name="eva-lock-outline" size="md" color="grey-3"></q-icon>
             </div>
           </q-btn>
@@ -32,7 +32,7 @@
         <div class="col-3 q-px-xs">   
           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100">
             <div v-html="icons.pagoYa" />
-            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
+            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 7px;">
               <q-icon name="eva-lock-outline" size="md" color="grey-3"></q-icon>
             </div>
           </q-btn>
