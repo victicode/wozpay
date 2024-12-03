@@ -262,7 +262,7 @@ const router = createRouter({
         {
           path: "/pays/pending",
           name: "paysPeding",
-          component: () =>  import('@/pages/admin/paysPending.vue'),
+          component: () => import('@/pages/admin/paysPending.vue'),
           meta: {
             title: "Pagos pendientes"
           }
