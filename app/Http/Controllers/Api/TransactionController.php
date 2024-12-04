@@ -108,7 +108,7 @@ class TransactionController extends Controller
         foreach ($transfer as $key) {
             $key->transaction = $tag;
             if($tag==6){
-                $key->amount = 215000;
+                $key->amount = 212000;
             }
         }
         return $transfer;

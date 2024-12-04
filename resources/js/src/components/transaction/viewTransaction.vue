@@ -117,7 +117,7 @@
         lines[0] = {
           title:'Monto',
           text:'Cantidad de dinero en Guaranies',
-          value:numberFormat(transactionType == 6 ?215000 :transaction.value.amount )
+          value:numberFormat(transactionType == 6 ?212000 :transaction.value.amount )
         }
         
         if(transactionType == 1) {
@@ -186,7 +186,7 @@
           lines[3] = {
             title:'Referencia',
             text:'Cuota anual Prepaga Woz Payments',
-            value: '619 5556668745',
+            value: '619-'+transaction.value.loan_number,
           }
         }
 

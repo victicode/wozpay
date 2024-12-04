@@ -109,7 +109,7 @@ class WalletController extends Controller
         $forSubscriptions = 0;
         $paysRecieve = 0 ;
         $pays = Pay::where('status', '2' )->get();
-        $subscriptions = (Loan::where('status', '2' )->count() * 200000) + (Loan::where('status', '3' )->count() *200000) + (Loan::where('status', '4' )->count() *200000);
+        $subscriptions = (Loan::where('status', '2' )->where('isRekutu', 0)->count() * 150000) + (Loan::where('status', '3' )->where('isRekutu', 0)->count() *150000) + (Loan::where('status', '4' )->count() *150000);
 
         if($pays) 
             foreach ($pays as $pay) {
