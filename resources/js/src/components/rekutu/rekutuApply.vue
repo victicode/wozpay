@@ -143,7 +143,7 @@
       <redirectModal :dialog="(dialog == 'redirect')" :type="redirectType" />
     </div>
     <div v-if="dialog == 'setValue'">
-      <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
+      <setValueModal :isRekutu="true" :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
     </div>
   </div>
 </template>

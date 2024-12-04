@@ -56,7 +56,8 @@
     props: {
       dialog: Boolean,
       input: Object,
-      days: Object
+      days: Object,
+      isRekutu: Boolean
     },
     emits: ['hiddeModal'],
     setup (props, { emit }) {
@@ -81,6 +82,16 @@
           // { text: 'Gs. '+numberFormat(150000), value: 150000 },
           // { text: 'Gs. '+numberFormat(200000), value: 200000 },
         ]
+      : user.loans_complete_count == 1 && props.isRekutu
+      ? [
+          { text: 'Gs. '+numberFormat(50000), value: 50000 },
+
+        ]
+      : user.loans_complete_count == 2 && props.isRekutu
+      ? [
+          { text: 'Gs. '+numberFormat(50000), value: 50000 },
+
+        ]
       : user.loans_complete_count == 1
       ? [
           { text: 'Gs. '+numberFormat(50000), value: 50000 },
@@ -93,7 +104,7 @@
 
         ]
       : user.loans_complete_count == 2
-      ?[
+      ? [
           { text: 'Gs. '+numberFormat(50000), value: 50000 },
           { text: 'Gs. '+numberFormat(100000), value: 100000 },
           { text: 'Gs. '+numberFormat(150000), value: 150000 },
@@ -108,8 +119,8 @@
           { text: 'Gs. '+numberFormat(425000), value: 425000 },
           { text: 'Gs. '+numberFormat(450000), value: 450000 },
           { text: 'Gs. '+numberFormat(500000), value: 500000 },
-      ]
-      :[
+        ]
+      : [
         { text: 'Gs. '+numberFormat(100000), value: 100000 },
         { text: 'Gs. '+numberFormat(250000), value: 250000 },
         { text: 'Gs. '+numberFormat(500000), value: 500000 },
@@ -127,16 +138,22 @@
         { text: 'Gs. '+numberFormat(4500000), value: 4500000 },
         { text: 'Gs. '+numberFormat(4750000), value: 4750000 },
         { text: 'Gs. '+numberFormat(5000000), value: 5000000 },
-      ]
+        ]
       // Methods
       const setInterestRate = () => {
         const formattedValue = []
-        if(user.is_first_loan){
+        if(user.is_first_loan && user.loans_complete_count == 0){
           formattedValue.push({
             text:`${daysOutFormatted[0].days} días`,
             value: daysOutFormatted[0].days,
           })
-        }else{
+        }else if((user.loans_complete_count == 1 && props.isRekutu) || (user.loans_complete_count == 2 && props.isRekutu)){
+          formattedValue.push({
+            text:`${daysOutFormatted[0].days} días`,
+            value: daysOutFormatted[0].days,
+          })
+        }
+        else{
           Object.values(daysOutFormatted).forEach((rates) => {
             formattedValue.push({
               text:`${rates.days} días`,

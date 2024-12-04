@@ -518,7 +518,7 @@
         <doneModal :dialog="sendLoading" :text="'Solicitud enviada'" />
       </div>
       <div v-if="dialog == 'setValue'">
-        <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal"/>
+        <setValueModal  :dialog="(dialog == 'setValue')" :input="input" :days="interestRate.interestRate"  @hiddeModal="hiddeModal" :isRekutu="false"/>
       </div>
       <div v-if="haveRekutu">
         <rekutuModal :dialog="haveRekutu"  @hiddeModal="closeRekutu"/>
