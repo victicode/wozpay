@@ -71,9 +71,12 @@
       }
 
       const setTitleByOperation = () => {
-        if(typeof document.value == 'object') return 'Ultimos 3 IPS';
+        console.log(document.value)
+        // if(typeof document.value == 'object') return 'Ultimos 3 IPS';
         const doc = document.value.split('/')[1];
         if(doc == 'work_certificate') return 'Certificado de trabajo';
+        if(doc == 'last_ips') return 'Último IPS';
+        if(doc == 'last_iva') return 'Último IVA';
         if(doc == 'informconf') return 'Certificado Informconf';
         
       }

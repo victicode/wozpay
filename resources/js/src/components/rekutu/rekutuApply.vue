@@ -206,7 +206,7 @@
 
       const titleText = {
         work_certificate: 'Certificado Laboral',
-        last_ips: 'Últimos IPS',
+        last_ips: 'Último IPS',
         amount: 'Monto de prestamo',
         due_date: 'Plazo',
       }

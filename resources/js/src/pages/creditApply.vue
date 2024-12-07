@@ -85,8 +85,24 @@
                   </q-item-section>
                 </q-item>
                 <q-separator />
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section>
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Aporta IVA
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="q-mt-none">
+                        <q-toggle size="md" color="positive" v-model="readTapes.iva" :val="true"  />
+  
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
               </q-list>
-              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+              <!-- <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
                 <q-toolbar-title> 
                   <div class="w-100 flex flex-center">
                     <span class="text-subtitle1 text-weight-bold ">Referencia laboral</span>
@@ -120,8 +136,8 @@
                   </q-item-section>
                 </q-item>
                 <q-separator />
-              </q-list>
-              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+              </q-list> -->
+              <!-- <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
                 <q-toolbar-title> 
                   <div class="w-100 flex flex-center">
                     <span class="text-subtitle1 text-weight-bold ">Referencia personal</span>
@@ -168,6 +184,75 @@
                   </q-item-section>
                 </q-item>
                 <q-separator />
+              </q-list> -->
+              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
+                <q-toolbar-title> 
+                  <div class="w-100 flex flex-center">
+                    <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
+                  </div>
+                </q-toolbar-title>
+              </q-toolbar>
+              <q-list >
+                <q-item class="q-py- q-px-sm" >
+                  <q-item-section @click="showInputModal(3, 'work_certificate')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Certificado laboral firmado
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                        <div v-if="!readTapes.work_certificate " >
+                          Agregar
+                         </div>
+                         <div v-else>
+                           <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                         </div>
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item class="q-py- q-px-sm" v-if="readTapes.ips" >
+                  <q-item-section @click="showInputModal(3, 'last_ips')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Último IPS
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                        <div v-if="!readTapes.last_ips" >
+                         Agregar
+                        </div>
+                        <div v-else>
+                          <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                        </div>
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator v-if="readTapes.iva"/>
+                <q-item class="q-py- q-px-sm" v-if="readTapes.iva" >
+                  <q-item-section @click="showInputModal(3, 'last_iva')">
+                    <div class="flex items-center justify-between">
+                      <q-item-label class="q-mt-xs text-weight-bold" >
+                      <span class="text-body2 text-weight-bold">
+                        Último IVA
+                      </span>
+                      </q-item-label>
+                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
+                        <div v-if="!readTapes.last_iva" >
+                         Agregar
+                        </div>
+                        <div v-else>
+                          <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
+                        </div>
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+                <q-separator v-if="readTapes.ips"/>
               </q-list>
             </div>
           </q-step>
@@ -178,6 +263,9 @@
             :done="step > 2"
           >
             <div class="w-100 q-mx-none" >
+              <div v-if="2==3">
+
+              
               <!-- <q-toolbar class="bg-white text-black q-mt-md ">
                 <q-toolbar-title> 
                   <div class="w-100 flex flex-center">
@@ -208,55 +296,7 @@
                 </q-item>
                 <q-separator />
               </q-list> -->
-              <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
-                <q-toolbar-title> 
-                  <div class="w-100 flex flex-center">
-                    <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
-                  </div>
-                </q-toolbar-title>
-              </q-toolbar>
-              <q-list >
-                <q-item class="q-py- q-px-sm" >
-                  <q-item-section @click="showInputModal(3, 'work_certificate')">
-                    <div class="flex items-center justify-between">
-                      <q-item-label class="q-mt-xs text-weight-bold" >
-                      <span class="text-body2 text-weight-bold">
-                        Certificado laboral firmado
-                      </span>
-                      </q-item-label>
-                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                        <div v-if="!readTapes.work_certificate " >
-                          Agregar
-                         </div>
-                         <div v-else>
-                           <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
-                         </div>
-                      </q-item-label>
-                    </div>
-                  </q-item-section>
-                </q-item>
-                <q-separator />
-                <q-item class="q-py- q-px-sm" >
-                  <q-item-section @click="showInputModal(3, 'last_ips')">
-                    <div class="flex items-center justify-between">
-                      <q-item-label class="q-mt-xs text-weight-bold" >
-                      <span class="text-body2 text-weight-bold">
-                        Último IPS
-                      </span>
-                      </q-item-label>
-                      <q-item-label caption lines="1" class="text-weight-medium text-body2">
-                        <div v-if="!readTapes.last_ips" >
-                         Agregar
-                        </div>
-                        <div v-else>
-                          <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.8rem"/> 
-                        </div>
-                      </q-item-label>
-                    </div>
-                  </q-item-section>
-                </q-item>
-                <q-separator />
-              </q-list>
+              </div>
               <q-toolbar class="bg-white text-black q-pt-sm q-mt-sm">
                 <q-toolbar-title> 
                   <div class="w-100 flex flex-center">
@@ -585,15 +625,16 @@
         business_address: null,
         business_phone: null,
         ips:false,
-        boss_name: null,
-        boss_phone: null,
-        reference_name: null,
-        reference_phone: null,
-        reference_relationship: null,
+        iva:false,
+        // boss_name: null,
+        // boss_phone: null,
+        // reference_name: null,
+        // reference_phone: null,
+        // reference_relationship: null,
         // informconf: null,
         work_certificate: null,
         last_ips: null,
-        
+        last_iva: null,
       })
       const loan = ref({
         amount: null,
@@ -613,6 +654,7 @@
         // informconf: 'Informconf',
         work_certificate: 'Certificado Laboral',
         last_ips: 'Último IPS',
+        last_iva: 'Último IVA',
         amount: 'Monto de prestamo',
         due_date: 'Plazo',
       }
@@ -653,7 +695,6 @@
       const isFile = (data) => {
         // if(input.index == 'informconf' || input.index == 'work_certificate') return data[0]
         if(input.index == 'work_certificate') return data[0]
-
         return data
       }
       const calulateTotalAmount = () => {
@@ -687,21 +728,32 @@
         formData.append('business_address', readTapes.value.business_address)
         formData.append('business_phone', readTapes.value.business_phone)
         formData.append('ips', readTapes.value.ips)
-        formData.append('boss_name', readTapes.value.boss_name)
-        formData.append('boss_phone', readTapes.value.boss_phone)
-        formData.append('reference_name', readTapes.value.reference_name)
-        formData.append('reference_phone', readTapes.value.reference_phone)
-        formData.append('reference_relationship', readTapes.value.reference_relationship)
+        formData.append('iva', readTapes.value.iva)
+
+        // formData.append('boss_name', readTapes.value.boss_name)
+        // formData.append('boss_phone', readTapes.value.boss_phone)
+        // formData.append('reference_name', readTapes.value.reference_name)
+        // formData.append('reference_phone', readTapes.value.reference_phone)
+        // formData.append('reference_relationship', readTapes.value.reference_relationship)
         // formData.append('informconf', readTapes.value.informconf)
-        formData.append('last_ips', readTapes.value.last_ips.length)
+
         formData.append('work', readTapes.value.work_certificate)
         formData.append('amount', loan.value.amount)
         formData.append('amountToPay', loan.value.amountToPay)
         formData.append('due_date', loan.value.due_date)
 
-        readTapes.value.last_ips.forEach((ips, index) => {
-          formData.append('last_ips'+index, ips)
-        });
+        if(readTapes.value.ips){
+          formData.append('last_ips', readTapes.value.last_ips.length)
+          readTapes.value.last_ips.forEach((ips, index) => {
+            formData.append('last_ips'+index, ips)
+          });
+        }
+        if(readTapes.value.iva){
+          formData.append('last_iva', readTapes.value.last_iva.length)
+          readTapes.value.last_iva.forEach((iva, index) => {
+            formData.append('last_iva'+index, iva)
+          });
+        }
 
         loanStore.createLoan(formData)
         .then((data) => {
@@ -720,7 +772,7 @@
       }
       const validateForm = () => {
         let isValid = true 
-        const dontValidate = ['ips','amountToPay']
+        const dontValidate = ['ips', 'iva', 'amountToPay', 'last_ips', 'last_iva']
         const formInputs = Object.assign({}, readTapes.value, loan.value);
 
         Object.entries(formInputs).forEach( ([key, value]) => {
@@ -790,7 +842,6 @@
 
       }
       const validateKyc = () => {
-
 
         if(user.value.facial_verify == 0 && user.value.verify_status == 0 ){
          return {valueData: false, item:user.value}

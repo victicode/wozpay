@@ -16,6 +16,7 @@ class RedTape extends Model
         'business_address',
         'business_phone',
         'ips',
+        'iva',
         'boss_name',
         'boss_phone',
         'reference_name',
@@ -24,6 +25,7 @@ class RedTape extends Model
         'informconf',
         'work_certificate',
         'last_ips',
+        'last_iva',
         'loan_id',
         'user_id',
         'use_count'

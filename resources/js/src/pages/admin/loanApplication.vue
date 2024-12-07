@@ -300,15 +300,30 @@
                 </q-item-section>
               </q-item>
               <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Aporta IVA
+                    </span>
+                    </q-item-label>
+                    <q-item-label caption lines="1" class="q-mt-none">
+                      <q-toggle size="md" color="positive" v-model="loan.red_tapes.iva" :val="loan.red_tapes.iva"  />
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
             </q-list>
-            <q-toolbar class="bg-white text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm" v-if="2==3">
               <q-toolbar-title> 
                 <div class="w-100 flex flex-center">
                   <span class="text-subtitle1 text-weight-bold ">Referencia laboral</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
-            <q-list >
+            <q-list v-if="2==3">
               <q-item class="q-py- q-px-sm" >
                 <q-item-section >
                   <div class="flex items-center justify-between">
@@ -336,14 +351,14 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-white text-black q-mt-sm">
+            <q-toolbar class="bg-white text-black q-mt-sm" v-if="2==3">
               <q-toolbar-title> 
                 <div class="w-100 flex flex-center">
                   <span class="text-subtitle1 text-weight-bold q-pt-sm">Referencia personal</span>
                 </div>
               </q-toolbar-title>
             </q-toolbar>
-            <q-list >
+            <q-list v-if="2==3">
               <q-item class="q-py- q-px-sm" >
                 <q-item-section >
                   <div class="flex items-center justify-between">
@@ -384,6 +399,75 @@
               </q-item>
               <q-separator />
             </q-list>
+            <q-toolbar class="bg-white text-black q-mt-sm">
+              <q-toolbar-title> 
+                <div class="w-100 flex flex-center">
+                  <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
+                </div>
+              </q-toolbar-title>
+            </q-toolbar>
+            <q-list >
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section >
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Certificado laboral firmado
+                    </span>
+                    </q-item-label>
+                    <q-item-label 
+                      caption 
+                      lines="1" 
+                      @click="setDocument(loan.red_tapes.work_certificate)" 
+                      class="text-decoration-underline cursor-pointer"
+                    >
+                      {{ documentFormat(loan.red_tapes.work_certificate) }}
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" v-if="loan.red_tapes.ips">
+                <q-item-section >
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Último IPS
+                    </span>
+                    </q-item-label>
+                    <q-item-label 
+                      caption 
+                      lines="1" 
+                      @click="setDocument(loan.red_tapes.last_ips)" 
+                      class="text-decoration-underline cursor-pointer"
+                    >
+                      {{ documentFormat(loan.red_tapes.last_ips) }}
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator v-if="loan.red_tapes.iva"/>
+              <q-item class="q-py- q-px-sm" v-if="loan.red_tapes.iva">
+                <q-item-section >
+                  <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold" >
+                    <span class="text-body2 text-weight-bold">
+                      Último IVA
+                    </span>
+                    </q-item-label>
+                    <q-item-label 
+                      caption 
+                      lines="1" 
+                      @click="setDocument(loan.red_tapes.last_iva)" 
+                      class="text-decoration-underline cursor-pointer"
+                    >
+                      {{ documentFormat(loan.red_tapes.last_iva) }}
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator v-if="loan.red_tapes.ips"/>
+            </q-list>
           </div>
         </q-step>
         <q-step
@@ -422,55 +506,7 @@
               </q-item>
               <q-separator />
             </q-list>
-            <q-toolbar class="bg-white text-black q-mt-sm">
-              <q-toolbar-title> 
-                <div class="w-100 flex flex-center">
-                  <span class="text-subtitle1 text-weight-bold ">Comprobante de ingresos</span>
-                </div>
-              </q-toolbar-title>
-            </q-toolbar>
-            <q-list >
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section >
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Certificado laboral firmado
-                    </span>
-                    </q-item-label>
-                    <q-item-label 
-                      caption 
-                      lines="1" 
-                      @click="setDocument(loan.red_tapes.work_certificate)" 
-                      class="text-decoration-underline cursor-pointer"
-                    >
-                      {{ documentFormat(loan.red_tapes.work_certificate) }}
-                    </q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item class="q-py- q-px-sm" >
-                <q-item-section >
-                  <div class="flex items-center justify-between">
-                    <q-item-label class="q-mt-xs text-weight-bold" >
-                    <span class="text-body2 text-weight-bold">
-                      Últimos IPS
-                    </span>
-                    </q-item-label>
-                    <q-item-label 
-                      caption 
-                      lines="1" 
-                      @click="setDocument(loan.red_tapes.last_ips)" 
-                      class="text-decoration-underline cursor-pointer"
-                    >
-                      {{ documentFormat(loan.red_tapes.last_ips) }}
-                    </q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-            </q-list>
+            
             <q-toolbar class="bg-white text-black q-mt-sm">
               <q-toolbar-title> 
                 <div class="w-100 flex flex-center">
@@ -715,16 +751,17 @@
         dialog.value = false
       }
       const setDocument = (doc) => {
-        document.value = doc
+        document.value = typeof doc == 'object' ? doc[0] : doc
         showModal()
       }
       const activeLoan = () => {
         loanStore.getLoanById(route.params.id).then((data) => {
           if(!data.code)  throw data
-
           loan.value = data.data
           loan.value.red_tapes.ips = (loan.value.red_tapes.ips == 1)
+          loan.value.red_tapes.iva = (loan.value.red_tapes.iva == 1)
           loan.value.red_tapes.last_ips = JSON.parse(loan.value.red_tapes.last_ips)
+          loan.value.red_tapes.last_iva = JSON.parse(loan.value.red_tapes.last_iva)
 
         }).catch((e) => {
           showNotify('negative', 'error al obtener prestamo activo')

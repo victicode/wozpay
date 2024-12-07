@@ -99,14 +99,17 @@ class LoanController extends Controller
         return $this->returnSuccess(200, $loan);
     }
     private function storeRedTapes($request, $loanId) {
-        $informconf = '-';
+        // $informconf = '-';
         $workCertificate = '-';
         $lastIps =  $this->lastIpsFormat($request, $loanId);
+        $lastIva =  $this->lastIvaFormat($request, $loanId);
+
         
         // if ($request->informconf) {
         //     $informconf = 'public/images/informconf/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('informconf')->extension();
         //     $request->file('informconf')->move(public_path() . '/images/informconf/', $informconf);
         // }
+        
         if ($request->work) {
             $workCertificate = 'public/images/work_certificate/'.rand(1000000, 9999999).'_'.$loanId.'_'. $request->user()->id .'.'. $request->File('work')->extension();
             $request->file('work')->move(public_path() . '/images/work_certificate/', $workCertificate);
@@ -117,15 +120,17 @@ class LoanController extends Controller
             'business' => $request->business,
             'business_address' => $request->business_address,
             'business_phone' => $request->business_phone,
-            'ips' => $request->ips ? 1 : 0 ,
-            'boss_name' => $request->boss_name,
-            'boss_phone' => $request->boss_phone,
-            'reference_name' => $request->reference_name,
-            'reference_phone' => $request->reference_phone,
-            'reference_relationship' => $request->reference_relationship,
+            'ips' => $request->ips == 'false' ? 0 : 1 ,
+            'iva' => $request->iva == 'false' ? 0 : 1 ,
+            // 'boss_name' => $request->boss_name,
+            // 'boss_phone' => $request->boss_phone,
+            // 'reference_name' => $request->reference_name,
+            // 'reference_phone' => $request->reference_phone,
+            // 'reference_relationship' => $request->reference_relationship,
             // 'informconf' => $informconf,
             'work_certificate' => $workCertificate,
             'last_ips' => $lastIps,
+            'last_iva' => $lastIva,
             'user_id' => $request->user()->id,
             'use_count' => 1,
         ]);
@@ -202,6 +207,15 @@ class LoanController extends Controller
             array_push($lastIps , $ips);
         }
         return json_encode($lastIps);
+    }
+    private function lastIvaFormat ($request, $loan){
+        $lastIva = [];
+        for ($i=0; $i < $request->last_iva ; $i++) { 
+            $iva = 'public/images/last_iva/'.rand(1000000, 9999999).'_'.$loan.'_'. $request->user()->id .'.'. $request->File('last_iva'.$i)->extension();
+            $request->file('last_iva'.$i)->move(public_path() . '/images/last_iva/', $iva);
+            array_push($lastIva , $iva);
+        }
+        return json_encode($lastIva);
     }
     private function plusWallet($user, $amount){
         $wallet = Wallet::where('user_id', $user)->first();
