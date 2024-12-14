@@ -1,24 +1,22 @@
 <template>
-  <div class="flex items-center social__carousel q-px-md q-px-md-xl">
+  <div class="flex items-center social__carousel q-px-md ">
     <q-carousel
       v-model="slide"
       swipeable
       animated
-      navigation-position="bottom"
-      navigation
       transition-prev="slide-right"
       transition-next="slide-left"
       padding
-      height="165px"
+      height="120px"
       infinite
-      :autoplay="5000"
+      :autoplay="50000000"
       class=" rounded-borders w-100"
     >
       <q-carousel-slide 
         v-for="info in infoData"
         :key="info.value"
         :name="info.value" 
-        class=" column no-wrap flex-center w-100 q-px-sm" 
+        class=" column no-wrap flex-center w-100 q-px-sm q-py-none" 
       >
         <a :href="info.link" target="_blank" class="w-100">
           <div class="socialLink__item w-100 flex items-center no-wrap q-py-md q-px-md">
@@ -37,16 +35,13 @@
                 <q-icon :name="icons.sharpVerified" color="terciary" size="1.4rem" style="margin-left: 0.05rem; margin-top: -0.1rem;"/>
 
               </div>
-              <div class="text-caption text-weight-medium">{{info.text}}</div>
+              <div class=" text-weight-medium text-social__info" style="">{{info.text}}</div>
             </div>
 
           </div>
         </a>
       </q-carousel-slide>
-      <template v-slot:navigation-icon="{ active, onClick }">
-        <div  class="cursor-pointer q-mx-xs socialLink__controls" :class="{active}" @click="onClick">
-        </div>
-      </template>
+
     </q-carousel>
   </div>
 </template>
@@ -90,6 +85,9 @@ export default {
 }
 </script>
 <style lang="scss">
+  .text-social__info{
+    font-size: 0.8rem;
+  }
   .socialLink__controls{
     height: 0.8rem; 
     width: 0.8rem; 
@@ -129,5 +127,10 @@ export default {
     border-radius: 50%;
     overflow: hidden;
   }
-  
+  @media screen and (max-width: 780px){
+    .text-social__info{
+      font-size: 0.76rem;
+    }
+  }
+
 </style>

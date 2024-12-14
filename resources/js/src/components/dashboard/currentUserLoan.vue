@@ -3,48 +3,51 @@
     <div class="" >
       <div class="row">
         <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative;">
-          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold" v-if="Object.values(loan).length > 0" > 
+          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold" > 
             {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}
           </div>
-          <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2" v-if="Object.values(loan).length > 0"/>
+          <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2"/>
         </div>
       </div>
     </div>
     <div style="" class="q-mb-sm">
-      <div class="quote-section" v-if="isReady && Object.values(loan).length > 0" >
+      <div class="quote-section" v-if="isReady " >
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
-            <div>
+            <div class="q-mr-none" style="margin-right: 0.15rem;">
               <div v-html="wozIcons.withdrawal" />
             </div>
             <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-50">
-                <div class="text-weight-medium">Préstamo</div>
-                <div class="text-weight-bold q-mt-xs">N° 619{{loan.loan_number}}</div>
+              <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-auto">
+                <div class="text-weight-medium" style="font-size: 0.95rem;">Préstamo</div>
+                <div class="text-weight-bold q-pt-sm text-subtitle2"  v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
+                <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
               </div>
-              <div class="q-ml-md q-ml-md-none q-pl-md-md w-50 text-end">
-                <div class="text-weight-medium text-right">
-                  <q-chip class="q-ma-none q-px-lg" :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
-                    {{ loanStatus(loan.status).text }}
-                  </q-chip>
+              <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">
+                <div v-if="Object.values(loan).length > 0 ">
+                  <div class="text-weight-medium text-right">
+                    <q-chip class="q-ma-none q-px-lg" :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
+                      {{ loanStatus(loan.status).text }}
+                    </q-chip>
+                  </div>
+                  <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1" style="">Gs. {{numberFormat(loan.amount)}}</div>
                 </div>
-                <div class="text-weight-medium q-mt-xs q-mr-xs text-right">Gs. {{numberFormat(loan.amount)}}</div>
+                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer" @click="router.push('/apply')" v-else>Solicitar</div>
               </div>
             </div>
-            <div>
-              <q-btn round flat class="q-ml-md-md" @click="router.push('/loan')"> 
+            <div class="">
+              <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/apply')"> 
                 <q-icon
                   name="eva-arrow-ios-forward-outline"
-                  size="xs"
+                  size="sm"
                   color="black"
-                  
                 />
               </q-btn>
             </div>
           </div>
         </div>
       </div>
-      <div v-else-if="isReady && Object.values(loan).length == 0" >
+      <!-- <div v-else-if="isReady && Object.values(loan).length == 0" >
         <div class="w-100 column items-center q-pt-md">
             <q-img
               :src="sadface"
@@ -56,7 +59,7 @@
             No tienes ningún préstamo <br>aprobado 
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="quote-section" v-else>
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
@@ -198,8 +201,11 @@
   .w-50 {
     width: 40%;
   }
+  .w-auto{
+    width: auto;
+  }
   .loan_card > div:nth-child(1){ width: 10%!important; }
-  .loan_card > div:nth-child(2){ width: 82%!important; }
+  .loan_card > div:nth-child(2){ width: 81%!important; }
   .loan_card > div:nth-child(3){ width: 8%!important; }
 
 }

@@ -83,7 +83,8 @@
         const data = {
           user: user.id,
           amount: parseInt(plusAmount.value.replace(/\./g, '')),
-          amountLess: parseInt(lessAmount.value.replace(/\./g, ''))
+          amountLess: parseInt(lessAmount.value.replace(/\./g, '')),
+          type:1
         }
         walletStore.incrementsWalletAdmin(data)
         .then((data) => {

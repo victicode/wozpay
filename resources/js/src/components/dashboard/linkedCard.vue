@@ -12,14 +12,14 @@
         <div class="quote-section">
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
-              <div class="w-100 flex items-center justify-between q-pb-md" style="border-bottom: 1px solid lightgrey; flex-wrap: nowrap;" @click="router.push('/card')">
+              <div class="w-100 flex items-center justify-between " style=" flex-wrap: nowrap;" @click="router.push('/card')">
                 <div class="flex items-center w-80 ">
                   <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.outlinedAddCard" class="" size="sm" />
                   </div>
-                  <div class=" q-ml-xs  q-mr-none q-pl-md-md">
+                  <div class=" q-ml-xs q-mr-none q-pl-md-md">
                   <div class="text-weight-medium"> {{linkCard.type == 1 ? 'Tarjeta de crédito' : 'Tarjeta de débito' }}</div>
-                    <div class="text-weight-bold ">N° ************* {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
+                    <div class="text-weight-bold ">N° ********** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
                   </div>
                 </div>             
                 <div class="q-mr-none cursor-pointer">
@@ -32,21 +32,7 @@
                   </q-chip>
                 </div>
               </div>
-              <div class="w-100 flex items-center justify-between q-mt-md ">
-                <div class="flex items-center w-80 ">
-                  <div class="q-mr-sm q-mt-xs">
-                    <q-icon :name="icons.outlinedAccountBalance" class="" size="sm" />
-                  </div>
-                  <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
-                    <div class="text-weight-medium">Caja de ahorro</div>
-                    <div class="text-weight-bold ">N° {{ user.wallet.number }} </div>
-                  </div>
-                </div>
-                <div class="q-mr-sm text-end">
-                  <div class="text-weight-medium text-right">Disponible</div>
-                  <div class="text-weight-medium  text-right">Gs. {{numberFormat(user.wallet.balance)}}</div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -188,7 +174,7 @@
 </style>
 <style lang="scss" scoped>
 .loan_card{
-  border-radius:23px;
+  border-radius:15px;
   box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{

@@ -1,12 +1,15 @@
 <template>
   <div  class="dashboard_container">
     <div style="height: 100%;" >
-      <div style="height: 27%;">
+      <div style="height: 14rem;">
         <currentUserPersonalInfo />
       </div>
       <div class="bg-white">
         <actionsDashboard />
       </div>
+      <!-- <div>
+        <q-btn @click="enviar" color="black"> enviar</q-btn>
+      </div> -->
       <div class="bg-white q-pt-sm q-pb-none">
         <socialLinks />
       </div>
@@ -17,7 +20,13 @@
         <linkedCard />
       </div>
       <div style="">
-        <lastTrasanction />
+        <walletUser />
+      </div>
+      <div>
+        <linksDepartament />
+      </div>
+      <div style="">
+        <currentUserLoan />
       </div>
       
     </div>
@@ -27,29 +36,41 @@
   import currentUserPersonalInfo from '@/components/dashboard/currentUserPersonalInfo.vue';
   import actionsDashboard from '@/components/dashboard/actionsDashboard.vue';
   import linkedCard from '@/components/dashboard/linkedCard.vue';
-  import lastTrasanction from '@/components/dashboard/lastTrasanction.vue';
+  import currentUserLoan from '@/components/dashboard/currentUserLoan.vue';
   import rekutu from '@/components/dashboard/rekutu.vue';
-
+  import linksDepartament from '@/components/dashboard/linksDepartament.vue';
   import socialLinks from '@/components/dashboard/socialLinks.vue';
-
+  import walletUser from '@/components/dashboard/walletUser.vue';
+  import { useUserStore } from '@/services/store/user.store';
   export default {
     components: {
       currentUserPersonalInfo,
       actionsDashboard,
       linkedCard,
-      lastTrasanction,
+      currentUserLoan,
       rekutu,
       socialLinks,
+      walletUser,
+      linksDepartament,
     },
     setup() {
-      
+      const user = useUserStore()
+      const enviar = () => {
+        user.prueba().then((response) => {
+          console.log(response)
+          console.log('kkkkkkk')
+        })
+      }
+      return{
+        enviar,
+      }
     },
   }
 </script>
 <style lang="scss" scoped>
 .dashboard_container{
   height: 100%; 
-  background:#f1f0f0; 
+  background:#ffffff; 
   overflow-y: auto;
   
 }
@@ -57,7 +78,7 @@
   .dashboard_container{
     height: 100%;
     max-height: fit-content; 
-    background:#f1f0f0; 
+
     overflow-y: auto;
   }
 }

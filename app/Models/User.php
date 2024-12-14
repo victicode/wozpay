@@ -88,9 +88,12 @@ class User extends Authenticatable implements JWTSubject
     public function wallet(){
         return $this->hasOne(Wallet::class)->where('type', 1);
     }
-    public function walletFound(){
+    public function walletLink(){
         return $this->hasOne(Wallet::class)->where('type', 2);
     }
+    // public function walletFound(){
+    //     return $this->hasOne(Wallet::class)->where('type', 2);
+    // }
     public function accountbank(){
         return $this->hasOne(AccountBank::class);
     }

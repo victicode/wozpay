@@ -12,6 +12,7 @@ use App\Models\Interest;
 use Illuminate\Http\Request;
 use App\Events\NotificationsEvent;
 use App\Http\Controllers\Controller;
+use Resend\Laravel\Facades\Resend;
 
 class LoanController extends Controller
 {
@@ -54,7 +55,7 @@ class LoanController extends Controller
             //throw $th;
         }
         
-
+        $this->sendeEmail($loan->user_id);
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
@@ -218,7 +219,7 @@ class LoanController extends Controller
         return json_encode($lastIva);
     }
     private function plusWallet($user, $amount){
-        $wallet = Wallet::where('user_id', $user)->first();
+        $wallet = Wallet::where('user_id', $user)->where('type', 1)->first();
         
         if(!$wallet) return $this->returnFail(404, 'Wallet no encontrada');
 
@@ -247,5 +248,21 @@ class LoanController extends Controller
         }
         return $daysOfPayQouta; 
     }
+    public function sendeEmail($userId){
 
+        $user = User::find($userId);
+        if(!$user) return;
+
+        try {
+            Resend::emails()->send([
+                'from' => 'Woz Pay <notifications@wozpayments.com>',
+                'to' => [$user->email],
+                'subject' => 'hello world',
+                'html' => '<h1>hola saludos</h1>',
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
+    }
 }

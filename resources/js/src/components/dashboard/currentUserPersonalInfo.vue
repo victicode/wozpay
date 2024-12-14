@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center">
       <div>
         <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
-        <h5 class="text-white q-mt-xs text-weight-bold ">Gs. {{capitalByUser()}}</h5>
+        <h4 class="text-white q-mt-xs  q-pt-sm text-weight-bold ">Gs. {{capitalByUser()}} </h4>
       </div>
       <div v-if="user.rol_id == 1">
         <q-btn 
@@ -27,7 +27,7 @@
           </q-btn>
       </div>
     </div>
-    <div class="">
+    <div class="q-mt-md-md q-mt-md">
       <div class="w-100 user-info q-mt-md-sm">
         <div class="flex items-center"> 
           <h6 class=" text-subtitle1 text-weight-medium  q-mr-xs  q-mt-xs q-mb-none">
@@ -145,7 +145,7 @@
   .userInfoContent{
     height: 100%; 
     overflow: hidden;
-    background: linear-gradient(180deg, #0449fb 65%, #fff 60%);
+    background: linear-gradient(180deg, #0449fb 75%, #fff 60%);
   }
   h5{
     font-size: 1.9rem!important;

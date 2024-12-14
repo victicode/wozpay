@@ -22,7 +22,7 @@ class WalletController extends Controller
         return $this->returnSuccess(200, $wallet);
     }
     public function allBalances($id) {
-        $wallet = Wallet::where('user_id', $id)->first();
+        $wallet = Wallet::where('user_id', $id)->where('type', 1)->first();
         if(!$wallet) return $this->returnFail(400, 'Cuenta no existe.');
         $loansBalances = $this->allLoansAmount();
         $paysAndProfit = $this->allPays();
@@ -47,7 +47,7 @@ class WalletController extends Controller
         ]);
     }
     public function incrementsWallet($id, Request $request) {
-        $wallet = Wallet::where('user_id', $id)->first();
+        $wallet = Wallet::where('user_id', $id)->where('type', $request->type)->first();
         
         if(!$wallet) return $this->returnFail(404, 'Wallet no encontrada');
 
@@ -64,7 +64,7 @@ class WalletController extends Controller
         return $this->returnSuccess(200, $wallet);
     }
     public function setNewAdminCapital(Request $request) {
-        $wallet = Wallet::where('user_id', 1)->first();
+        $wallet = Wallet::where('user_id', 1)->where('type', 1)->first();
 
         $wallet->balance =  $request->amount;
         $wallet->save();

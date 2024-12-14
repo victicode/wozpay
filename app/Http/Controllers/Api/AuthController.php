@@ -33,7 +33,7 @@ class AuthController extends Controller
 				'password'	=> $request->password
 			]);
 		}catch (Exception $e) {
-			return $this->returnFail(505,['message'=> $e->getMessage()]);
+			return $this->returnFail(505,['message'=> 'Error en conexion a internet']);
 		}
 
 		if(!$token){
@@ -68,7 +68,7 @@ class AuthController extends Controller
 			]);
 	}
 	public function getUser(Request $request){
-		return $this->returnSuccess(200, User::with('wallet', 'card', 'currentLoan')->withCount('loansComplete')->find($request->user()->id));
+		return $this->returnSuccess(200, User::with('wallet', 'walletLink', 'card', 'currentLoan')->withCount('loansComplete')->find($request->user()->id));
 	}
 	public function refresh(){
 		return $this->createNewToken(JWTAuth::refresh());

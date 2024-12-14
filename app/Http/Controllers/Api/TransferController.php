@@ -74,11 +74,11 @@ class TransferController extends Controller
 
     }
     private function isApproveTransfer(Transfer $transfer){
-        $walletPlus = Wallet::with('user')->find($transfer->to_id);
+        $walletPlus = Wallet::with('user')->where('type', 1)->where('user_id', $transfer->to_id)->first();
         $walletPlus->balance += $transfer->amount;
         $walletPlus->save();
         if($transfer->pay_method == 2){
-            $walletMinus = Wallet::with('user')->find($transfer->from_id);
+            $walletMinus = Wallet::with('user')->where('type', 1)->where('user_id', $transfer->from_id)->first();
             $walletMinus->balance -= $transfer->amount;
             $walletMinus->save();
             try{
@@ -106,7 +106,7 @@ class TransferController extends Controller
         }
     }
     private function rejectTransfer(Transfer $transfer) {
-        $wallet = Wallet::with('user')->find($transfer->from_id);
+        $wallet = Wallet::with('user')->where('type', 1)->where('user_id', $transfer->to_id)->first();
         $wallet->balance += $transfer->amount;
         $wallet->save();
         $this->sendNotification(
@@ -118,7 +118,7 @@ class TransferController extends Controller
     }
 
     private function waitTransfer(Transfer $transfer) {
-        $wallet = Wallet::with('user')->find($transfer->from_id);
+        $wallet = Wallet::with('user')->where('type', 1)->where('user_id', $transfer->to_id)->first();
         $wallet->balance -= $transfer->amount;
         $wallet->save();
         $this->sendNotification(

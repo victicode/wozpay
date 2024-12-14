@@ -298,8 +298,22 @@ export const useUserStore = defineStore("user", {
           });
         }
       })
+    },
+    async prueba(data){
+      return await new Promise((resolve, reject) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.post('/api/user/email_prueba', data)
+          .then(({data}) => {
+            resolve(data)
+          })
+          .catch(( { response } ) => {
+            console.log(response )
+            reject('Ocurrió un error al enviar la prueba');
+          });
+        }
+      })
     }
-
   },
   getters: {
   },
