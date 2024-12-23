@@ -16,7 +16,7 @@
               <q-icon :name="icons.outlinedAddCard" size="lg" color="primary" />
             </div>
             <div class="q-px-md text-center q-py-sm q-mt-sm infoCard text-subtitle2">
-              Te debitaremos una tarifa 2 USD ~ (Gs. 15.628) para <br> validar la tarjeta
+              Te debitaremos una tarifa 3,3 USD para <br> validar la tarjeta
             </div>
             <div class="q-my-lg">
               <q-input

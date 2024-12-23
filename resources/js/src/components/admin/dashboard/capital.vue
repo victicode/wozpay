@@ -169,19 +169,8 @@
 .w-100 {
   width: 100%!important;
 }
-.linked_section{
-  height: 100%; 
-  overflow: hidden; 
-  border-top:10px solid lightgray; 
-  border-bottom:10px solid lightgray;
-}
-.linked_description {
-  font-size: 12px; 
-  color:lightgray ; 
-}
-.linked_container{
-  border-bottom: 1px solid #d3d3d3;
-}
+
+
 
 </style>
 <style lang="scss" scoped>

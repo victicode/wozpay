@@ -787,7 +787,7 @@
           if(!data.code)  throw data
           if(data.data){
             statusLoan.value = data.data.status;
-            isCurrentLoan.value = data.data.status !=3
+            isCurrentLoan.value = data.data.status != 3 || data.data.status != 0
               ? true 
               : false 
             if(!isCurrentLoan.value) haveRekutu.value = data.data.red_tapes.use_count < 3 

@@ -75,12 +75,10 @@ class LoanController extends Controller
     }
     public function getApproveLoan(Request $request) {
         $users = User::query()
-            ->with(['loans'])
+            ->with(['loansComplete'])
             ->withTrashed()
             ->where('rol_id', 3)
-            ->whereHas('loans', function($q){
-                $q->where('status', '2')->orWhere('status', '3');
-            });
+            ->whereHas('loansComplete');
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');

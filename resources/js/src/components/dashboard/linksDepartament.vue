@@ -32,10 +32,10 @@
                     <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1" style="">Gs. {{numberFormat(loan.amount)}}</div>
                   </div>
                 </div>
-                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer q-ml-sm" @click="router.push('/link_activate')" v-else >Activar</div>
+                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer " @click="router.push( !user.walletLink ? '/pay_link_services' : '#')" v-else >Activar</div>
               </div>
               <div class="">
-                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/link_activate')" size="xs"> 
+                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push( !user.walletLink ? '/pay_link_services' : '#')" size="xs"> 
                   <q-icon
                     name="eva-arrow-ios-forward-outline"
                     size="sm"
@@ -103,19 +103,7 @@
 .w-100 {
   width: 100%!important;
 }
-.linked_section{
-  height: 100%; 
-  overflow: hidden; 
-  border-top:10px solid lightgray; 
-  border-bottom:10px solid lightgray;
-}
-.linked_description {
-  font-size: 12px; 
-  color:lightgray ; 
-}
-.linked_container{
-  border-bottom: 1px solid #d3d3d3;
-}
+
 
 </style>
 <style lang="scss" scoped>
@@ -145,7 +133,7 @@
 
 @media screen and (max-width: 780px){
   .w-85 {
-    width: auto;
+    width: 80%;
   }
   .w-50 {
     width: auto;

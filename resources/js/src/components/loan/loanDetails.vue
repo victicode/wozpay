@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-py-xs  q-px-md linked_section bg-white"  >
+    <div class="q-py-xs  q-px-md loan_linked_section bg-white"  >
       <div class="flex items-center justify-between">
         <div class="text-subtitle1 text-weight-medium">
           <div class="flex items-center"> 
@@ -44,7 +44,7 @@
 </script>
 
 <style>
-.linked_section {
+.loan_linked_section {
 
   height: 100%; 
   overflow: hidden; 

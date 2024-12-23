@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-py-sm q-px-md q-px-md-lg" v-if="Object.values(linkCard).length > 0 && ready" >
+    <div class="q-py-sm q-px-md q-px-md-lg" >
       <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
@@ -8,7 +8,7 @@
           </div>
         </div>
       </div>
-      <div style="">
+      <div style="" v-if="Object.values(linkCard).length > 0 && ready" >
         <div class="quote-section">
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="q-py-md  q-px-md linked_section bg-white" v-else >
+    <div class="q-pb-md  q-px-lg linked_section bg-white" v-if="Object.values(linkCard).length == 0 && ready" >
       <div class="flex items-center justify-between linked_container">
         <div class="text-subtitle1 text-weight-medium">
           <div class="flex items-center"> 
@@ -64,13 +64,13 @@
               </q-icon>
             </div>
           </div>
-          <div class="linked_description" >
+          <div class="linked_description text-grey-6" >
             Adjuntar tu tarjeta para débito automático y más.
           </div>
         </div>
         <div class="q-mb-xs">
           <q-icon
-            name="eva-arrow-ios-forward-outline"
+            name="eva-arrow-ios-forward-outline cursor-pointer"
             size="sm"
             @click="router.push('link_card')"
             color="lightgdark"
@@ -160,15 +160,14 @@
 .linked_section{
   height: 100%; 
   overflow: hidden; 
-  border-top:10px solid lightgray; 
-  border-bottom:10px solid lightgray;
+  border-top:0px solid lightgray; 
+  border-bottom:0px solid lightgray;
 }
 .linked_description {
   font-size: 12px; 
-  color:lightgray ; 
 }
 .linked_container{
-  border-bottom: 1px solid #d3d3d3;
+  border-bottom: 3px solid #d3d3d3;
 }
 
 </style>

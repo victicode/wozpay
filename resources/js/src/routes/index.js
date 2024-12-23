@@ -479,6 +479,15 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: "/pay_link_services",
+      name:"pay_link_landing",
+      component: () => import('@/pages/linkLanding.vue'),
+      meta: {
+        title : 'Incia el servicio'
+      },
+      beforeEnter: auth,
+    },
     
   ]
 })

@@ -35,7 +35,7 @@
             <div>
               <template v-for="(user, index) in loans.data" :key="index" >
 
-                <div v-for="loan in user.loans" :key="loan.id"  class="flex justify-between items-center q-mt-sm border-b-1 q-py-sm cursor-pointer" @click="goTo(loan.id)">
+                <div v-for="loan in user.loans_complete" :key="loan.id"  class="flex justify-between items-center q-mt-sm border-b-1 q-py-sm cursor-pointer" @click="goTo(loan.id)">
                   <div class="text-subtitle2 text-grey-7 text-weight-ligth w-40 ellipsis">{{user.name}}</div>
                   <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-center">{{ numberFormat(user.dni) }}</div>
                   <div class="text-subtitle2 text-grey-7 text-weight-ligth w-20 text-right">Gs. {{ numberFormat(loan.amount) }}</div>
