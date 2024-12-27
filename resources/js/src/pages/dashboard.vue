@@ -22,9 +22,9 @@
       <div style="">
         <walletUser />
       </div>
-      <!-- <div>
+      <div>
         <linksDepartament />
-      </div> -->
+      </div>
       <div style="">
         <currentUserLoan />
       </div>

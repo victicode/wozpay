@@ -484,7 +484,7 @@ const router = createRouter({
       name:"pay_link_landing",
       component: () => import('@/pages/linkLanding.vue'),
       meta: {
-        title : 'Incia el servicio'
+        title : 'Inicia el servicio'
       },
       beforeEnter: auth,
     },

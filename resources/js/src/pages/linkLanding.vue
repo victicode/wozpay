@@ -45,20 +45,54 @@
       </div>
     </div>
     <div>
-      <div class="q-px-lg q-my-lg">
-        <div class="q-px-sm">
+      <div class=" q-mt-xs">
+        <div class="">
 
-          <div v-for="(item,index) in whatDo" :key="index" style="border-radius: 20px; background: #e1e9fe;" class="q-pa-md q-mb-md">
-            <div>
-              <img :src="item.img" alt="" style="height: 4rem; " class="mx-auto">
+          <div v-for="(item,index) in withdrawal" :key="index"  :style="'background:'+item.color " class="q-pt-md q-mb-xs card__logo-pay">
+            <div class="flex items-center logo__container " :style="'background:'+item.sectionColor">
+              <img :src="item.logo" alt="" style="height: 2.8rem; " class=" q-ml-sm ">
+              <div v-if="item.title" style="color: #1c304f; font-weight: 900; font-size: 2rem;">
+                {{ item.title }}
+              </div>
             </div>
-            <div class="text-center text-bold q-px-sm q-mt-md" style="font-size: 1.45rem;" >
-              {{ item.title }}
-            </div>
-            <div style="color: #1c304f; font-weight: 400; font-size: 0.9rem;" class="text-center q-mt-xs q-px-md">
-              {{ item.text }}
+            <div style="font-weight: 500; font-size: 0.95rem; line-height: 1.7;" :style="'color:'+item.sectionColor" class="q-mt-xs q-px-md q-py-md">
+              <div v-html="item.text" class="q-pt-xs" />
+              
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="q-mt-md">
+      <div class=" q-px-lg q-pt-md" style="color: #1c304f; font-size: 1.3rem; font-weight: 600;">
+        Empieza a usar Woz Payments Internacional
+      </div>
+      <div class="q-px-md steps">
+        <div v-for="(item, index) in initWozLink" :key="index" class="q-mt-md ">
+          <div class="steps__title-section q-mb-sm q-mx-sm">
+            <div class="steps__title-section--title">
+              {{ item.title }}
+            </div>
+            <q-linear-progress rounded size="7px" track-color="backLinear"  :value="0.55" color="white" reverse class=" links-progress" />
+          </div>
+          <div class="q-px-sm">
+            <q-timeline color="linksLanding" class="linksTimeline">
+              <q-timeline-entry
+                v-for="(step, key) in item.steps"
+                color="linksLanding"
+                :title="step.title"
+                :key="key"
+                :body="step.text"
+                :icon="`${key+1}`"
+              />
+            </q-timeline>
+          </div>
+
+        </div>
+      </div>
+      <div class="q-px-md"> 
+        <div class="include__table q-mt-md q-pa-md">
+          
         </div>
       </div>
     </div>
@@ -108,11 +142,66 @@
           logo: binance,
           text: `Usar Binance para recibir dinero en dólares es conveniente debido a sus bajas comisiones, rapidez en las transacciones y seguridad avanzada. Además, ofrece múltiples opciones de retiro y soporte global`,
           color: '#ffc601',
+          sectionColor:'#000',
         },
         {
-          logo: binance,
-          text: `Usar Binance para recibir dinero en dólares es conveniente debido a sus bajas comisiones, rapidez en las transacciones y seguridad avanzada. Además, ofrece múltiples opciones de retiro y soporte global`,
-          color: '#ffc601',
+          logo: mp,
+          text: `Ideal en Sudamérica por su amplia <br> aceptación, facilidad de uso y seguridad en transacciones.`,
+          color: '#0449fa',
+          sectionColor:'#fff',
+        },
+        {
+          logo: transfer,
+          title: 'Transferencia',
+          text: `Retira dinero directamente a <br> tu cuenta bancaria por <br> transferencia SIPAP`,
+          color: '#1c304f',
+          sectionColor:'#fff',
+
+        }
+      ]
+      const initWozLink = [
+        {
+          title: 'Comenzar',
+          steps: [
+            {
+              title: 'Verificación de cuenta',
+              text: 'Deberás tener una cuenta verificada para la activación de la misma',
+            },
+            {
+              title: 'Constitución nacional',
+              text: 'Tienes que estar habilitado con una cuenta propia en tu sistema bancario',
+            },
+            {
+              title: 'Documentación',
+              text: 'Pediremos documentaciónes extras para su proceso de verificación',
+            },
+          ]
+        },
+        {
+          title: 'Tiempo de verificación',
+          steps: [
+            {
+              title: 'Verificación por sistema',
+              text: 'Verificamos por sistema tus documentaciones en 24 horas hábiles',
+            },
+            {
+              title: 'Verificación manual',
+              text: 'Verificación manual en un maximo de 7 días',
+            },
+            {
+              title: 'Operación',
+              text: 'Podrás operar luego de la verificación por sistema en 24 horas',
+            },
+          ]
+        },
+        {
+          title:'Precio',
+          steps:[
+            {
+              title:'Documentación',
+              text:'Validación de documentación tiene un costo de 30 USD'
+            }
+          ]
         }
       ]
       
@@ -121,8 +210,77 @@
         wozIcons,
         person,
         whatDo,
+        withdrawal,
+        initWozLink,
       }
     },
   }
 
 </script>
+
+<style lang="scss" >
+.include__table {
+  background: #fef3df;
+  border-radius: 15px;
+}
+.linksTimeline{
+  & .q-timeline__dot{
+    transform: translateY(45px);
+    color: #f8a80d!important;
+    & .q-icon {
+      font-weight:bold;
+      top: -10px;
+    }
+    &::before{
+      height: 30px;
+      width: 30px;
+      top: -7px;
+      left: 0px;
+    }
+    &::after{
+      left: 13px;
+      top: 20px;
+    }
+  }
+  & .q-timeline__content{
+    & h6{
+      margin-bottom:  10px;
+    }
+    color: #1c304f; 
+    font-size: 15px;
+  }
+}
+.steps{
+  &__title-section{
+    width: max-content;
+    &--title{
+      color: #1c304f; font-size: 1.75rem; font-weight: 600; line-height: 1.2;
+    }
+  }
+}
+.links-progress {
+    border: 1px solid #e5b301;
+    width: auto!important;
+    border-radius: 90px;
+    & .q-linear-progress__track{
+      opacity: 1;
+    }
+    & .q-linear-progress__model {
+      border-top-right-radius: 90px;
+      border-bottom-right-radius: 90px;
+    }
+  }
+  @media screen and (max-width: 780px){
+    .links-progress {
+      width: auto!important;
+
+    }
+  }
+.logo__container {
+  border-top-right-radius: 50px; border-bottom-right-radius: 50px;width: 80%;
+  padding: 1rem 0rem;
+}
+.card__logo-pay{
+  height:17rem; overflow:hidden; 
+}
+</style>

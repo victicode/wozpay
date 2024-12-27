@@ -58,7 +58,7 @@
                 }}
               </q-tooltip>
             </q-icon>
-            <!-- <q-icon class="q-ml-xs" :name="icons.ionGlobeOutline" size="sm" :color="!user.wallet_link ? 'grey-6' : user.walletLink.status = 1 ? 'warning': 'positive'" /> -->
+            <q-icon class="q-ml-xs" :name="icons.ionGlobeOutline" size="sm" :color="!user.wallet_link ? 'grey-6' : user.walletLink.status = 1 ? 'warning': 'positive'" />
           </div>
         </div>
         <div>
