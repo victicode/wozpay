@@ -14,7 +14,7 @@
       </div>
     </div>
     <div>
-      <div class="text-center q-px-lg q-pt-md" style="color: #1c304f; font-size: 1.7rem; font-weight: 900;"> 
+      <div class="text-center q-px-lg q-pt-md howdoTitle" > 
         ¿Qué puedes hacer con una cuenta internacional?
       </div>
       <div class="q-px-lg q-my-lg">
@@ -57,7 +57,6 @@
             </div>
             <div style="font-weight: 500; font-size: 0.95rem; line-height: 1.7;" :style="'color:'+item.sectionColor" class="q-mt-xs q-px-md q-py-md">
               <div v-html="item.text" class="q-pt-xs" />
-              
             </div>
           </div>
         </div>
@@ -90,9 +89,25 @@
 
         </div>
       </div>
-      <div class="q-px-md"> 
-        <div class="include__table q-mt-md q-pa-md">
-          
+      <div class="q-px-md q-mb-lg"> 
+        <div class="include__table q-mt-md q-px-md q-py-lg">
+          <div class="include__table--title">
+            Incluye
+          </div>
+          <div>
+            <div v-for="(item, key) in addOns" :key="key" class="flex items-center q-mt-md">
+              <div class="include__table--item text-white flex flex-center">{{ key+1 }}</div>
+              <div class="include__table--text q-ml-sm">{{ item }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 2px solid #f8a80d; " class="q-pa-lg bg-grey-4 q-mb-xl">
+        <div style="font-size: 2rem; font-weight: 600;">
+          30USD anual
+        </div>
+        <div class="text-grey-7 q-mt-sm" style="font-size: 0.85rem;" >
+          Costo de la activación por única vez (Incluye comisiones gubernamentales y tu primer año gratis)
         </div>
       </div>
     </div>
@@ -204,7 +219,11 @@
           ]
         }
       ]
-      
+      const addOns = [
+        'Constitución y activación de la cuenta',
+        'Identificación fiscal de la cuenta (EIN)',
+        'Presentación de la documentación 83B',
+      ]
       return{
         user,
         wozIcons,
@@ -212,6 +231,7 @@
         whatDo,
         withdrawal,
         initWozLink,
+        addOns,
       }
     },
   }
@@ -219,13 +239,35 @@
 </script>
 
 <style lang="scss" >
-.include__table {
+.howdoTitle{
+  color: #1c304f; 
+  font-size: 1.7rem; 
+  font-weight: 900;
+}
+.include__table{
   background: #fef3df;
   border-radius: 15px;
+  &--title{
+    color: #4f5457; 
+    font-size: 1.3rem; 
+    font-weight: 600;
+  }
+  &--item{
+    height: 28px; 
+    width: 28px; 
+    border-radius: 50%; 
+    background: #f8a80d;
+    font-size: 1rem;
+  }
+  &--text{
+    color: #4f5457; 
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
 }
 .linksTimeline{
   & .q-timeline__dot{
-    transform: translateY(45px);
+    transform: translateY(35px);
     color: #f8a80d!important;
     & .q-icon {
       font-weight:bold;
