@@ -14,28 +14,31 @@
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="flex-wrap: nowrap;" >
               <div class="q-mr-none" style="margin-right: 0.15rem;">
                 <!-- <div v-html="wozIcons.withdrawal" /> -->
-                 <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.walletLink.status = 1 ? 'warning': 'positive'" />
+                 <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': 'positive'" />
               </div>
               <div class="flex items-center justify-between  w-85 " >
-                <div class=" q-mr-md-none q-pl-md-md q-pl- w-auto">
-                  <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
-                  <!-- <div class="text-weight-bold q-pt-sm text-subtitle2"  v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div> -->
-                  <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
-                </div>
-                <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.walletLink">
-                  <div >
-                    <div class="text-weight-medium text-right">
-                      <q-chip class="q-ma-none q-px-lg" :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
-                        {{ loanStatus(loan.status).text }}
-                      </q-chip>
-                    </div>
-                    <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1" style="">Gs. {{numberFormat(loan.amount)}}</div>
+                <div class=" q-mr-md-none q-pl-md-md q-pl- w-auto" >
+                  <div v-if="!user.wallet_link ">
+                    <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
+                    <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
+                  </div>
+                  <div v-else style="width:100%;" class="q-ml-xs" @click="router.push('/pay_link_dashboard')"> 
+                    <div class="text-weight-medium ellipsis text__mid" style="font-size: 0.89rem; ">Cuenta corriente internacional</div>
+                    <div class="text-weight-bold q-pt-xs text-subtitle2"  >N° {{ user.wallet_link.number }}</div>
                   </div>
                 </div>
-                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer " @click="router.push( !user.walletLink ? '/pay_link_services' : '#')" v-else >Activar</div>
+                <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link && (user.wallet_link.status == 2 || user.wallet_link.status == 1)">
+                  <div class="" @click="router.push('/pay_link_dashboard')">
+                    <div class="text-weight-medium text-right q-pt-sm">
+                      Disponible
+                    </div>
+                    <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1" style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
+                  </div>
+                </div>
+                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer " @click="router.push('/pay_link_services')" v-else >Activar</div>
               </div>
-              <div class="">
-                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push( !user.walletLink ? '/pay_link_services' : '#')" size="xs"> 
+              <div class="" v-if="!user.wallet_link">
+                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/pay_link_services')" size="xs"> 
                   <q-icon
                     name="eva-arrow-ios-forward-outline"
                     size="sm"
@@ -107,6 +110,9 @@
 
 </style>
 <style lang="scss" scoped>
+.text__mid{
+  width: auto;
+}
 .loan_card{
   border-radius:15px;
   box-shadow: 0px 5px 5px 0px #aaaaaa
@@ -133,10 +139,13 @@
 
 @media screen and (max-width: 780px){
   .w-85 {
-    width: 80%;
+    width: 90%;
   }
   .w-50 {
     width: auto;
+  }
+  .text__mid{
+    width: 90%;
   }
 }
 </style>

@@ -488,6 +488,15 @@ const router = createRouter({
       },
       beforeEnter: auth,
     },
+    {
+      path: "/pay_link_dashboard",
+      name:"pay_link_dashboard",
+      component: () => import('@/pages/dashboardLink.vue'),
+      meta: {
+        title : 'Bienvenido'
+      },
+      beforeEnter: auth,
+    },
     
   ]
 })

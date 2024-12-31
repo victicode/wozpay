@@ -98,7 +98,9 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
 });
 
 Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {
-    Route::post('/{id}', [WalletController::class, 'getWalletByNumber']);
+    Route::get('/{id}', [WalletController::class, 'getWalletByNumber']);
+    Route::post('/link', [WalletController::class, 'activateLinkWallet']);
+
 });
 
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {

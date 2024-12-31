@@ -21,6 +21,17 @@ class WalletController extends Controller
 
         return $this->returnSuccess(200, $wallet);
     }
+    public function activateLinkWallet(Request $request){
+        $wallet = Wallet::create([
+            'number'    => '918' . $request->user()->dni,
+            'balance'   => 0,
+            'type'      => 2,
+            'status'    => 1,
+            'user_id'   => $request->user()->id,
+        ]);
+
+        return $this->returnSuccess(200, $wallet);
+    }
     public function allBalances($id) {
         $wallet = Wallet::where('user_id', $id)->where('type', 1)->first();
         if(!$wallet) return $this->returnFail(400, 'Cuenta no existe.');

@@ -74,8 +74,28 @@ export const useWalletStore = defineStore("wallet", {
         console.log(response)
         return 'Error al actualizar datos';
       });
+    },
+    async activateLinkWallet(data) {
+      return new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/wallet/link", data)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            this.setBalances(data.data)
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener.');
+          });
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
     }
-
   },
   getters: {
   },

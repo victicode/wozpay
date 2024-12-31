@@ -99,7 +99,7 @@ export const useUserStore = defineStore("user", {
       return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("api/wallet/"+ wallet)
+          ApiService.get("api/wallet/"+ wallet)
             .then(({ data }) => {
               if(data.code !== 200) throw data; 
               

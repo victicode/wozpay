@@ -37,7 +37,7 @@
             <q-icon
               :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
               size="sm"
-              :color=" user.verify_status > 0 ? 'terciary' :'grey-5'"
+              :color=" user.verify_status > 0 ? '1c304f' :'grey-5'"
               class="user-verify-user"
               :class="{'verify-user':user.verify_status == 2, }"
               @click="showToltip"
@@ -146,7 +146,7 @@
   .userInfoContent{
     height: 100%; 
     overflow: hidden;
-    background: linear-gradient(180deg, #0449fb 75%, #fff 60%);
+    background: linear-gradient(180deg, #1c304f 75%, #fff 60%);
   }
   h5{
     font-size: 1.9rem!important;

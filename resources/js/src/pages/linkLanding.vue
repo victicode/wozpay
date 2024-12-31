@@ -102,7 +102,7 @@
           </div>
         </div>
       </div>
-      <div style="border-top: 2px solid #f8a80d; " class="q-pa-lg bg-grey-4 q-mb-xl">
+      <div style="border-top: 2px solid #f8a80d; " class="q-pa-lg bg-grey-4 q-mb-sm">
         <div style="font-size: 2rem; font-weight: 600;">
           30USD anual
         </div>
@@ -110,11 +110,47 @@
           Costo de la activación por única vez (Incluye comisiones gubernamentales y tu primer año gratis)
         </div>
       </div>
+      <div>
+        <div>
+          <div >
+            <img :src="teamship" alt="" width="160" class="mx-auto">
+          </div>
+          <div class="text-center" style="transform: translateY(-1rem);">
+            <div class="userTeam__title">+12.000</div>
+            <div class="userTeam__text" >
+              Cuentas activadas
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="q-px-lg q-mb-lg q-mt-md">
+        <div class="text-center activate__text">Comienza ahora</div>
+        <q-btn  
+          label="Activar cuenta" 
+          unelevated
+          no-caps 
+          color="terciary" 
+          class="full-width q-pa-md q-mt-sm" 
+          @click="showModal=true"
+        />
+      </div>
+      <q-dialog v-model="showModal" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <div class="text-subtitle2">¿Seguro que deseas activar tu cuenta de cobros internacionales?</div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancelar" color="grey-7" @click="showModal=false" />
+          <q-btn flat label="Activar" color="primary" :loading="loading" @click="activateWallet()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     </div>
   </section>
 </template>
 <script>
-  import { inject, ref } from 'vue'
+  import { ref } from 'vue'
   import { useAuthStore } from '@/services/store/auth.store'
   import { storeToRefs } from 'pinia'
   import { useRouter } from 'vue-router'
@@ -126,14 +162,17 @@
   import binance from '@/assets/images/binance.svg'
   import mp from '@/assets/images/mp.svg'
   import transfer from '@/assets/images/tr.svg'
+  import teamship from '@/assets/images/team.svg'
+  import { useWalletStore } from '@/services/store/wallet.store';
 
-
-  
   export default {
     setup() {
       //vue provider
+      const showModal = ref(false)
+      const loading = ref(false)
       const { user  } = storeToRefs(useAuthStore())
-      
+      const router = useRouter()
+      const walletStore = useWalletStore()
       const whatDo = [
         {
           title: 'Operaciones en globales',
@@ -224,6 +263,23 @@
         'Identificación fiscal de la cuenta (EIN)',
         'Presentación de la documentación 83B',
       ]
+      const activateWallet  = () =>{
+        loading.value = true
+        walletStore.activateLinkWallet({user: user.value.id})
+        .then((data) => {
+          if(data.code !==200) throw data
+          setTimeout(() => {
+            
+            router.push('/pay_link_dashboard')
+            loading.value = false;
+          }, 2000);
+
+        })  
+        .catch((response) =>{
+          console.log(response)
+          loading.value = false;
+        })
+      }
       return{
         user,
         wozIcons,
@@ -232,6 +288,10 @@
         withdrawal,
         initWozLink,
         addOns,
+        teamship,
+        showModal,
+        loading,
+        activateWallet,
       }
     },
   }
@@ -239,6 +299,15 @@
 </script>
 
 <style lang="scss" >
+.activate__text{
+  font-size: 1.6rem; font-weight: bold;
+}
+.userTeam__text{
+  font-size: 1rem; color: #0ed90a; font-weight: bold; line-height: 1;
+}
+.userTeam__title{
+  font-size: 2.7rem; color: #0ed90a; font-weight: 900; line-height: 1;
+}
 .howdoTitle{
   color: #1c304f; 
   font-size: 1.7rem; 
