@@ -43,7 +43,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="q-my-lg" v-if="2==3">
+            <div class="q-my-lg" >
               <q-select 
                 outlined
                 class="linkedCard q-pb-none" 

@@ -30,8 +30,6 @@
                   <div class="text-weight-medium text-right">
                     Disponible
                   </div>
-                  
-
                   <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
                 </div>
               </div>
@@ -69,9 +67,7 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import util from '@/util/numberUtil'
   import { inject, ref, onMounted } from 'vue'
-  import sadFace from '@/assets/images/sadFace.svg'
   import wozIcons from '@/assets/icons/wozIcons';
-  import { useLoanStore } from '@/services/store/loan.store';
   import { useQuasar } from 'quasar';
   import { useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
@@ -84,39 +80,9 @@
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
       const isReady = ref(false)
-      const sadface = sadFace
-      const loanStore = useLoanStore() 
       const loan = ref({}) 
-      const loading = ref(true);
       const router = useRouter()
 
-      const activeLoan = () => {
-        loanStore.getLoan(user.id).then((data) => {
-          if(!data.code)  throw data
-          loan.value = data.data ? Object.assign(data.data) : {} 
-          
-          loadingShow(false)
-          setTimeout(() => {
-            isReady.value = true
-          }, 500)
-        }).catch((e) => {
-          isReady.value = true
-
-          showNotify('negative', 'error al obtener prestamo activo')
-        })
-      }
-      const showNotify = (type, message) => {
-        q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
-      const loadingShow = (state) => {
-        loading.value = state;
-      }
       const loanStatus = (state) => {
         const status = [
           {text:'Cancelado', color:'negative', texColor:'white' },
@@ -128,12 +94,9 @@
         return status[state]
       }
       onMounted(() => {
-        activeLoan()
-        window.Echo
-        .channel('userUpdateEvent'+user.id)
-        .listen('UserUpdateEvent', async () => {
-          activeLoan()
-        })
+        setTimeout(() => {
+          isReady.value = true
+        }, 500)
       })
       // Data
       return{
@@ -141,9 +104,7 @@
         user,
         numberFormat,
         isReady,
-        sadface,
         wozIcons,
-        loan,
         router,
         loanStatus,
       }

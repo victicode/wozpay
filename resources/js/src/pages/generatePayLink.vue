@@ -37,7 +37,7 @@ export default {
     const route = useRoute()
     const { user  } = storeToRefs(useAuthStore())
     const requirements = ref({
-      card: user.value.card ?? false,
+      card: user.value.card  ?? false,
       current: user.value.current_loan ?? false,
       loan:user.value.loans_complete_count ?? false,
     })

@@ -71,6 +71,8 @@
   import { useRouter } from 'vue-router';
   import { inject, onMounted } from 'vue';
   import { useQuasar } from 'quasar';
+  import { storeToRefs } from 'pinia'
+  import { useAuthStore } from '@/services/store/auth.store'
   import wozIcons from '@/assets/icons/wozIcons';
 
 export default {
@@ -80,6 +82,8 @@ export default {
   setup(props) {
     const icons =  inject('ionIcons');
     const router = useRouter()
+    const { user  } = storeToRefs(useAuthStore())
+
     const check = ref(props.requirements)
     const formatRequeriments = (requerimentsProps) => {
       return [
@@ -90,8 +94,8 @@ export default {
         },
         {
           title: 'Tarjeta de crédito débito vinculada',
-          text: !requerimentsProps.card ? 'No vinculada' : 'Vinculada',
-          icon: !(!requerimentsProps.card),
+          text: !requerimentsProps.card ? 'No vinculada' : user.value.card.status == 1 ? 'Pendiente' :'Vinculada',
+          icon: !(!requerimentsProps.card) && user.value.card.status == 2,
         },
         {
           title: 'Una solicitud de préstamo',
@@ -100,8 +104,8 @@ export default {
         },
         {
           title: 'Un préstamo activo',
-          text: !requerimentsProps.current ? 'Sin Préstamos' : 'Prestamo activo',
-          icon: !(!requerimentsProps.current),
+          text: !requerimentsProps.current ? 'Sin Préstamos' : user.value.current_loan.status == 1 ? 'Pendiente' : 'Prestamo activo',
+          icon: !(!requerimentsProps.current) && user.value.current_loan.status == 2,
         }
       ]
     }
@@ -119,7 +123,6 @@ export default {
       check.value = newValue
     })
 
-    console.log(check.value)
     return {
       router,
       icons,

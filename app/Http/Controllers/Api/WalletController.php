@@ -29,7 +29,12 @@ class WalletController extends Controller
             'status'    => 1,
             'user_id'   => $request->user()->id,
         ]);
-
+        
+        try {
+            event(new UserUpdateEvent($wallet->user_id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
         return $this->returnSuccess(200, $wallet);
     }
     public function allBalances($id) {

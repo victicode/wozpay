@@ -263,7 +263,21 @@
         'Identificación fiscal de la cuenta (EIN)',
         'Presentación de la documentación 83B',
       ]
+      const requirements = ref({
+        card: user.value.card ?? false,
+        current: user.value.current_loan ?? false,
+        loan:user.value.loans_complete_count ?? false,
+      })
+      const validateRequeriments = () => {
+        let isOk = Object.values(requirements.value).filter((el) => !el)
+        console.log(isOk)
+        return !(isOk.length == 0)
+      }
       const activateWallet  = () =>{
+        if(validateRequeriments()){
+          router.push('/generatePayLink/1/1')
+          return
+        }
         loading.value = true
         walletStore.activateLinkWallet({user: user.value.id})
         .then((data) => {

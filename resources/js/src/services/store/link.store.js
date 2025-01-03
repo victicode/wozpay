@@ -2,16 +2,13 @@ import { defineStore } from "pinia";
 import ApiService from "@/services/axios/";
 import JwtService from "@/services/jwt/";
 
-export const useInterestStore = defineStore("interest", {
-  state: () => ({
-   
-  }),
+export const useLinkStore = defineStore("link", {
   actions: {
-    async getInterestRate() {
+    async getLinksByUser(userId) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/interest")
+          ApiService.get("/api/link/byUser/"+userId)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -19,7 +16,7 @@ export const useInterestStore = defineStore("interest", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al obtener.');
+              resolve('Error al obtener historial de links');
             });
         }
       })
@@ -28,11 +25,11 @@ export const useInterestStore = defineStore("interest", {
         return 'Error al actualizar datos';
       });
     },
-    async storeInterestRate(data) {
+    async createLink(data) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/interest", data)
+          ApiService.post("/api/link",data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -40,7 +37,7 @@ export const useInterestStore = defineStore("interest", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al obtener.');
+              resolve('Error al eliminar tarjeta vinculada');
             });
         }
       })
@@ -49,29 +46,6 @@ export const useInterestStore = defineStore("interest", {
         return 'Error al actualizar datos';
       });
     },
-    async updateInterestRate(data) {
-      return await new Promise((resolve) => {
-        if (JwtService.getToken()) {
-          ApiService.setHeader();
-          ApiService.post("/api/interest/"+data.type, data)
-            .then(({ data }) => {
-              if(data.code !== 200){
-                throw data;
-              }
-              // this.setBalances(data.data)
-              resolve(data)
-            }).catch((response) => {
-              console.log(response)
-              resolve('Error al sumar saldo');
-            });
-        }
-      })
-      .catch((response) => {
-        console.log(response)
-        return 'Error al actualizar datos';
-      });
-    },
-
   },
   getters: {
   },

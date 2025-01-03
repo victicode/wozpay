@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\CardController;
 use App\Http\Controllers\Api\InterestController;
+use App\Http\Controllers\Api\LinkController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PayController;
@@ -103,6 +104,9 @@ Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(functi
 
 });
 
+Route::middleware('jwt.verify')->prefix('link')->group(function(){
+    Route::get('/byUser/{id}', [LinkController::class, 'getByUser']);
+});
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [CardController::class, 'getLinkCard']);
