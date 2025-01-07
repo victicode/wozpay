@@ -15,7 +15,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
             $quotas    = DB::table('quotas')->where('status', '1')->where('due_date', '<' , date('Y-m-d'));
             foreach ($quotas->get() as $quota) {
@@ -29,6 +28,15 @@ class Kernel extends ConsoleKernel
                 'status'=> '3',
             ]);
 
+        })->everyFifteenSeconds();
+
+        $schedule->call(function () {
+            date_default_timezone_set('America/Caracas');
+            $links = DB::table('links')->where('status', '1')->where('due_time', '<' , date('Y-m-d H:i:s'));
+          
+            $links->update([
+                'status'=> 0,
+            ]);
         })->everyFifteenSeconds();
     }
     private function updateAmounWithDelay($loan){

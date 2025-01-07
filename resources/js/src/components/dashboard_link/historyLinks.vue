@@ -15,20 +15,20 @@
             </div>
             <div>
               <div 
-                class="text-subtitle2 text-grey-6 text-right text-weight-medium" 
-                :class="{'text-positive': link.status == 2, 'text-terciary':link.status == 1 ,'text-negative':link.status == 0 }"
+                class="text-subtitle2  text-right " 
+                :class="{'text-grey-6 text-weight-medium': link.status == 2, 'text-terciary text-weight-bold':link.status == 1 ,'text-negative text-weight-bold':link.status == 0 }"
               >
-                {{link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : 'Pendiente'}}
+                {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.status == 1 ? 'Pendiente' : 'Rechazado' }}
               </div>
               <div 
                 style="font-size: 15px;" 
                 class="text-weight-medium text-right" 
-                :class="{'text-positive': link.status == 2, 'text-grey-6':link.status == 1 ,'text-negative':link.status == 0 }"
+                :class="{'text-positive': link.status == 2, 'text-grey-6':link.status != 2 ,'text-negative':link.status == 0 }"
               >
                 GS {{ numberFormat(link.amount) }}
               </div>
-              <div class="text-subtitle2 text-grey-6 text-right text-weight-medium"  v-if="link.status != 2">
-                {{link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : 'Pendiente'}}
+              <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item'+link.id" style="transition: all 1s ease ;" >
+                
               </div>
             </div>
           </div>
@@ -68,6 +68,9 @@
           if(response.code !== 200) throw response
           userLinks.value = response.data
           clocks(response.data)
+          console.log(userLinks.value)
+
+          
         })
         .catch((response) => {
           console.log(response)
@@ -84,32 +87,33 @@
         })
       }
       const clocks = (data) =>{
-        const filter = data.filter((item) => item.status != 2)
-        console.log(filter)
-        // if(currentTicket.value){
-        //   interval.value = setInterval( () => {
-        //     let today = new moment();
-        //     let product_due_date = moment(currentTicket.value.updated_at);
-        //     let diff_due_date = Math.round(moment.duration(today.diff(product_due_date)).as('seconds'));
-        //     let seconds = () => {
-        //       return (diff_due_date % 60+'').length == 1
-        //       ?  '0' + diff_due_date % 60
-        //       : diff_due_date % 60
-        //     }
-        //     let minute = () => {
-        //       return (parseInt(diff_due_date / 60)+'').length == 1
-        //       ?  '0' + parseInt(diff_due_date / 60)
-        //       : parseInt(diff_due_date / 60)
-        //     }
-        //     let hour = () => {
-        //       return (parseInt(diff_due_date / 3600)+'').length == 1
-        //       ?  '0' + parseInt(diff_due_date / 3600)
-        //       : parseInt(diff_due_date / 3600)
-        //     }
-  
-        //     date.value =  hour() + ':' + minute() + ':' + seconds();
-        //   }, 1000 )
-        // }
+        const withTime = data.filter((item) => item.status != 2)
+        
+        withTime.forEach(element => {
+          
+          element.timer = setInterval( () => {
+            let today =  new Date().getTime();
+            let link_due_date = new Date(moment(element.due_time)).getTime();
+            let diffTime = link_due_date - today;
+            let duration = moment.duration(diffTime, 'milliseconds');
+
+            if(diffTime < 0) {
+              clearInterval(element.timer);
+              setTimeout(() => {
+                document.getElementById('timer-item'+element.id).innerHTML = '00:00:00'
+              },1000)
+              return
+            }
+            
+            duration = moment.duration(duration - 1000, 'milliseconds');
+            let hour = (duration.hours()+'').length == 1 ? '0' + duration.hours() : duration.hours()
+            let minutes = (duration.minutes()+'').length == 1 ? '0' + duration.minutes() : duration.minutes()
+            let seconds = (duration.seconds()+'').length == 1 ? '0' + duration.seconds() : duration.seconds()
+            document.getElementById('timer-item'+element.id).innerHTML =  hour + ":" + minutes + ":" + seconds
+          }, 1000)
+          
+        });
+
       }
       onMounted(() => {
         getLinkByUser()

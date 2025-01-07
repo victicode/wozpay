@@ -4,7 +4,6 @@ import JwtService from "@/services/jwt/";
 
 export const useCardStore = defineStore("card", {
   actions: {
-
     async getCard(userId) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {

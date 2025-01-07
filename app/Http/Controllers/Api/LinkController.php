@@ -14,7 +14,7 @@ class LinkController extends Controller
     public function getByUser($id)
     {
         //
-        $link = Link::where('user_id', $id)->get();
+        $link = Link::where('user_id', $id)->orderBy('id', 'desc')->take(5)->get();
         return $this->returnSuccess(200, $link);
     }
 
