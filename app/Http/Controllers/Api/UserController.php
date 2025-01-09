@@ -122,7 +122,7 @@ class UserController extends Controller
 		return  $this->returnSuccess(200, $users->take(10)->get());
     }
     public function getUserById($userId){
-        $user = User::with('card', 'redTape.loan', 'wallet', 'pays','accountbank.bank')->withTrashed()->find($userId);
+        $user = User::with('card', 'redTape.loan', 'wallet', 'walletLink', 'pays','accountbank.bank')->withTrashed()->find($userId);
  
          return $this->returnSuccess(200, $user);
     }
@@ -341,8 +341,32 @@ class UserController extends Controller
         }
         return $this->returnSuccess(200, $user);
     }
+    public function getNotificationsUser(Request $request){
+        $waitLink = User::query()->where('rol_id', 3)
+        ->orderBy('created_at', 'DESC')->with('walletLink')->whereHas('walletLink', function($q){
+            $q->where('status', 1);
+        })->count();
+
+        $waitCard = User::query()->where('rol_id', 3)
+        ->orderBy('created_at', 'DESC')->with('card')->whereHas('card', function($q){
+                $q->where('status', 1)->orderBy('created_at', 'desc');
+            })->count();
+
+        $waitDocument = User::query()->where('rol_id', 3)
+        ->orderBy('created_at', 'DESC')->where('verify_status', 1)->orWhere('facial_verify', 1)->count();
+
+
+        $data = [
+            'waitCard'      => $waitCard,
+            'waitLinkPay'   => $waitLink,
+            'waitDocument'  => $waitDocument
+        ];
+
+
+		return  $this->returnSuccess(200, $data);
+    }
     private function validateFieldsFromInput($inputs){
-        $rules=[
+        $rules =[
             'fullName'      => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
             'dni'           => ['required', 'unique:users', 'regex:/^[0-9 .]+$/i'],
             // 'email'         => ['required', 'email',],

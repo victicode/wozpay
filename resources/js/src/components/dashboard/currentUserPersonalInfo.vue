@@ -33,7 +33,7 @@
           <h6 class=" text-subtitle1 text-weight-medium  q-mr-xs  q-mt-xs q-mb-none">
             {{ user.name }} 
           </h6>
-          <div>
+          <div class="flex items-center">
             <q-icon
               :name="user.verify_status == 2 ? icons.sharpVerified : icons.outlinedVerified"
               size="sm"
@@ -58,7 +58,9 @@
                 }}
               </q-tooltip>
             </q-icon>
-            <q-icon class="q-ml-xs" :name="icons.ionGlobeOutline" size="sm" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': 'positive'" />
+            <div v-if="user.rol_id == 3">
+              <q-icon class="q-ml-xs" :name="icons.ionGlobeOutline" size="sm" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': 'positive'" />
+            </div>
           </div>
         </div>
         <div>
@@ -97,7 +99,6 @@
       const loading = ref(false)
       // Data
       const showing = ref(false)
-      
       // Methods
       const showToltip = () => {
         showing.value = true

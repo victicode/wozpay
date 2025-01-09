@@ -2,43 +2,57 @@
   <div>
     <div class="q-px-md text-subtitle2 q-mt-sm">Filtros de busqueda:</div>
     <div class="w-100 flex q-px-sm justify-center q-my-sm">
-      <q-btn
-        class="filtersButton q-mx-xs" 
-        :color="typeOfUser==1 ?'terciary':'grey-6'"
-        external-label outline 
-        @click="setFilter(1)" label-position="bottom" icon="eva-checkmark-circle-2-outline"   
-      />
-      <q-btn
-        class="filtersButton q-mx-xs" 
-        :color="typeOfUser==5 ?'terciary':'grey-6'"
-        external-label outline
-        @click="setFilter(5)" label-position="bottom" icon="eva-credit-card-outline"   
-      />
-      <q-btn
-        class="filtersButton q-mx-xs" 
-        :color="typeOfUser==6 ?'terciary':'grey-6'"
-        external-label outline
-        @click="setFilter(6)" label-position="bottom" icon="eva-globe-outline"   
-      />
-      <q-btn
-        class="filtersButton q-mx-xs" 
-        :color="typeOfUser==2 ?'terciary':'grey-6'" 
-        external-label outline 
-        @click="setFilter(2)" icon="eva-clock-outline" label-position="bottom"   
-      />
-      <q-btn
-        class="filtersButton q-mx-xs" 
-        :color="typeOfUser==4 ?'terciary':'grey-6'"
-        external-label outline 
-        @click="setFilter(4)" label-position="bottom" icon="eva-close-circle-outline"   
-      />
-      <q-btn
-        class="filtersButton q-mx-xs" 
-        :color="typeOfUser==3 ?'terciary':'grey-6'"
-        external-label outline
-        @click="setFilter(3)" label-position="bottom" icon="eva-trash-2-outline"   
-      />
-      
+      <div>
+        <q-btn
+          class="filtersButton q-mr-xs" 
+          :color="typeOfUser==1 ?'terciary':'grey-6'"
+          external-label outline 
+          @click="setFilter(1)" label-position="bottom" size="0.78rem" icon="eva-checkmark-circle-2-outline"   
+        />
+      </div>
+      <div class="relative">
+        <q-btn
+          class="filtersButton q-mr-xs" 
+          :color="typeOfUser==5 ?'terciary':'grey-6'"
+          external-label outline
+          @click="setFilter(5)" label-position="bottom" size="0.78rem" icon="eva-credit-card-outline"   
+        />
+        <div class="notifications__hub" v-if="alerts.waitCard > 0" />
+      </div>
+      <div class="relative">
+        <q-btn
+          class="filtersButton q-mr-xs" 
+          :color="typeOfUser==6 ?'terciary':'grey-6'"
+          external-label outline
+          @click="setFilter(6)" label-position="bottom" size="0.78rem" icon="eva-globe-outline"   
+        />
+        <div class="notifications__hub" v-if="alerts.waitLinkPay > 0" />
+      </div>
+      <div class="relative">
+        <q-btn
+          class="filtersButton q-mr-xs" 
+          :color="typeOfUser==2 ?'terciary':'grey-6'" 
+          external-label outline 
+          @click="setFilter(2)" icon="eva-clock-outline" label-position="bottom" size="0.78rem"   
+        />
+        <div class="notifications__hub" v-if="alerts.waitDocument > 0" />
+      </div>
+      <div class="relative">
+        <q-btn
+          class="filtersButton q-mr-xs" 
+          :color="typeOfUser==4 ?'terciary':'grey-6'"
+          external-label outline 
+          @click="setFilter(4)" label-position="bottom" size="0.78rem" icon="eva-close-circle-outline"   
+        />
+      </div>
+      <div>
+        <q-btn
+          class="filtersButton q-mr-xs" 
+          :color="typeOfUser==3 ?'terciary':'grey-6'"
+          external-label outline
+          @click="setFilter(3)" label-position="bottom" size="0.78rem" icon="eva-trash-2-outline"   
+        />
+      </div>
     </div>
     <div class=" q-px-sm flex justify-between items-center" v-if="ready" style="border-bottom: 1px solid lightgray;">
       <div class="flex items-center q-mt-md q-pb-sm q-mb-sm" >
@@ -210,6 +224,11 @@
       const currentPage = ref(1)
       const users = ref([])
       const typeOfUser = ref(stateList.value)
+      const alerts  = ref({
+        waitCard: 0,
+        waitLinkPay: 0,
+        waitDocument: 0,
+      })
       // methods
       const showNotify = (type, message) => {
         $q.notify({
@@ -260,10 +279,19 @@
         userStore.setStateList(index)
         getUsers()
       }
+
+      const getNofi = () => {
+        userStore.getNotificationAdmininUser().then((response) => {
+          alerts.value = response.data
+
+          console.log(alerts.value)
+        })
+      }
       onMounted(() => {
         emitter.on('searchUser', (search) => {
           getUsersBySearch(search)
         })
+        getNofi()
         getUsers()
       })
       onUnmounted(() => {
@@ -275,6 +303,7 @@
         wozIcons,
         loading,
         ready,
+        alerts,
         numberFormat,
         currentPage,
         users,
@@ -332,6 +361,15 @@
 
 </style>
 <style lang="scss" scoped>
+.notifications__hub{
+  position: absolute;
+  top: -0.3rem;
+  right: 0rem;
+  width: 15px;
+  height: 15px;
+  background: rgb(238, 24, 24);
+  border-radius: 50%;
+}
 .userlist {
   border-bottom: 1px solid $grey-4;
   padding-top: 0.3rem ;

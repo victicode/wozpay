@@ -2,7 +2,7 @@
   <q-expansion-item expand-separator>
     <template v-slot:header>
       <q-item-section class="text-subtitle2 text-weight-medium ">
-        Cargar billetera
+        {{typeWallet == 1 ? 'Cargar billetera' : 'Cargar cuenta internacional'}}
       </q-item-section>
     </template>
     <q-card>
@@ -37,7 +37,7 @@
         </div>
         <div class="current_balance q-px-md q-py-sm q-mt-sm">
           <div class="text-subtitle3 q-mt-xs">Saldo actual</div>
-          <div class="text-subtitle3 q-mt-xs">Gs.{{ numberFormat(user.wallet.balance) }}</div>
+          <div class="text-subtitle3 q-mt-xs">Gs.{{ typeWallet == 1 ? numberFormat(user.wallet.balance) : numberFormat(user.wallet_link.balance)  }}</div>
         </div>
         <div class="q-mt-sm w-100 q-px-sm q-pb-md">
           <q-btn  
@@ -66,6 +66,7 @@
   export default {
     props: {
       user: Object,
+      type: Number,
     },
     setup (props) {
       //vue provider
@@ -77,20 +78,24 @@
       const numberFormat = util.numberFormat
       const plusAmount = ref('')
       const lessAmount = ref('')
-
+      const typeWallet = props.type
       const actionWallet = () => {
         loading.value = true
         const data = {
           user: user.id,
           amount: parseInt(plusAmount.value.replace(/\./g, '')),
           amountLess: parseInt(lessAmount.value.replace(/\./g, '')),
-          type:1
+          type: typeWallet
         }
         walletStore.incrementsWalletAdmin(data)
         .then((data) => {
           if(data.code !== 200) throw data
           setTimeout(()=> {
-            user.wallet.balance = data.data.balance
+            if(typeWallet == 1)user.wallet.balance = data.data.balance
+            if(typeWallet == 2)user.wallet_link.balance = data.data.balance
+
+              
+    
             loading.value = false
             plusAmount.value = ''
             lessAmount .value = ''
@@ -98,7 +103,6 @@
           },1000)
         })
         .catch((response) => {
-          console.log(response)
           loading.value = false
           showNotify('negative', 'Error al actualizar')
         })
@@ -119,6 +123,7 @@
         numberFormat,
         plusAmount,
         lessAmount,
+        typeWallet,
         actionWallet,
       }
     }
@@ -153,7 +158,7 @@
       }
       & .q-field__prefix{
         color: $grey-7;
-        transform: translateY(-35%) translateX(215%)
+        transform: translateY(-35%) translateX(205%)
       }
     }
   }

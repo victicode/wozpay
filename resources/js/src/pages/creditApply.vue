@@ -787,10 +787,15 @@
           if(!data.code)  throw data
           if(data.data){
             statusLoan.value = data.data.status;
-            isCurrentLoan.value = data.data.status != 3 || data.data.status != 0
-              ? true 
-              : false 
-            if(!isCurrentLoan.value) haveRekutu.value = data.data.red_tapes.use_count < 3 
+            
+            isCurrentLoan.value = data.data.status == 3 || data.data.status == 0
+              ? false  
+              : true
+
+            if(!isCurrentLoan.value) {
+              console.log(data.data)
+              // haveRekutu.value = data.data.red_tapes.use_count < 3 
+            }
             
             load.value = false
             return
@@ -798,6 +803,7 @@
           isCurrentLoan.value = false
           load.value = false
         }).catch((e) => {
+          console.log(e)
           showNotify('negative', 'Error al obtener prestamo activo')
         })
       }

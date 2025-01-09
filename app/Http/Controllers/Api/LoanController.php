@@ -18,7 +18,7 @@ class LoanController extends Controller
 {
     //
     public function getActiveLoan($id) {
-        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes.user', 'pays', 'countPays','quotas_desc.successPays')
+        $loan = Loan::query()->withCount('pays')->where('user_id', $id)->with('redTapes', 'pays', 'countPays','quotas_desc.successPays')
         ->orderBy('created_at', 'desc')->first();
 
         return $this->returnSuccess(200, $loan);
@@ -68,7 +68,7 @@ class LoanController extends Controller
         if(!$loan) return $this->returnFail(400, 'Prestamo no encontrado');
 
         $loan->status = $request->status;
-        $loan->due_date = $request->status == 2 ? $this->dueDateQuotas($loan)[0]: $loan->due_date;
+        $loan->due_date = $request->status == 2 ? $this->dueDateQuotas($loan)[0] : $loan->due_date;
         $loan->save();
         $this->actionByStatusLoan($loan);
         return $this->returnSuccess(200, $loan);
@@ -146,7 +146,7 @@ class LoanController extends Controller
         $redTape = RedTape::where('user_id', $userId)->orderBy('created_at', 'desc')->first();
 
         if($redTape->use_count == 1){
-            $redTape->delete();
+            // $redTape->delete();
             return ;
         }
         $redTape->use_count--;

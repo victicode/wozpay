@@ -299,6 +299,21 @@ export const useUserStore = defineStore("user", {
         }
       })
     },
+    async getNotificationAdmininUser(){
+      return await new Promise((resolve, reject) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.get('/api/user/get_notifications')
+          .then(({data}) => {
+            resolve(data)
+          })
+          .catch(( { response } ) => {
+            console.log(response )
+            reject('Ocurrió un error al actualizar el status de verificación');
+          });
+        }
+      })
+    },
     async prueba(data){
       return await new Promise((resolve, reject) => {
         if(JwtService.getToken()){

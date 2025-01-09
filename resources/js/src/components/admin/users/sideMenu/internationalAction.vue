@@ -23,7 +23,7 @@
             </span>
           </q-item-label>
           <q-item-label>
-            <van-switch v-model="checked.block" size="medium" @update:model-value="setStatus(2)" :loading="loading"/>
+            <van-switch v-model="checked.suspense" size="medium" @update:model-value="setStatus(2)" :loading="loading"/>
           </q-item-label>
         </div>
       </q-item-section>
@@ -50,8 +50,6 @@
 
       const checked = ref({
         suspense: user.general_status == 1,
-        block: user.isBlock == 1,
-        delete: user.deleted_at !== null,
       })
 
       const setStatus = (isBlock) => {

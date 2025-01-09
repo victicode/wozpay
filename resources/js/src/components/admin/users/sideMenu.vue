@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="dialog" class="side-menu" position="right" maximized>
     <q-card > 
-      <div class="w-100 q-mx-none q-pt-sm" >
+      <div class="w-100 q-mx-none q-pt-sm q-pb-md"  style="height: 90%; overflow-y: auto;">
         <!-- info -->
         <q-toolbar class="bg-white text-black header-form">
           <q-toolbar-title> 
@@ -11,7 +11,7 @@
           </q-toolbar-title>
         </q-toolbar>
         <q-list class="q-pt-sm">
-          <walletActions :user="user"/>
+          <walletActions :type="1" :user="user"/>
           <q-item class="q-py-none q-px-md" >
             <q-item-section>
               <div class="flex items-center justify-between">
@@ -66,7 +66,7 @@
           </q-toolbar-title>
         </q-toolbar>
         <q-list >
-          <walletActions :user="user"/>
+          <walletActions :type="2" :user="user"/>
         </q-list>
         
         <!-- Links pay-->

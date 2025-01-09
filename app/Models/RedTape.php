@@ -31,7 +31,8 @@ class RedTape extends Model
         'use_count'
     ];
     public function loan(){
-        return $this->belongsTo(RedTape::class,'loan_id', 'id');
+        return $this->hasMany(Loan::class,'red_tapes_id', 'id');
+
     }
     public function user(){
         return $this->belongsTo(User::class,'user_id', 'id');
