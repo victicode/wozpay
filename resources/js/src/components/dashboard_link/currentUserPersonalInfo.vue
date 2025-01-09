@@ -107,9 +107,9 @@
       }
       const capitalByUser = () => {
         if(user.value.rol_id != 3){
-          return numberFormat((balances.value.wallet - balances.value.loans) + balances.value.paysRecieve)
+          return numberFormat(balances.value.wallet_link)
         }
-        return numberFormat(balances.value.wallet);
+        return numberFormat(balances.value.wallet_link);
       }
       const logout = () =>{
         loading.value = true

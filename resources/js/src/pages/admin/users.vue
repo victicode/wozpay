@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-px-md text-subtitle2 q-mt-sm">Filtros de busqueda:</div>
-    <div class="w-100 flex q-px-md justify-center q-my-sm">
+    <div class="w-100 flex q-px-sm justify-center q-my-sm">
       <q-btn
         class="filtersButton q-mx-xs" 
         :color="typeOfUser==1 ?'terciary':'grey-6'"
@@ -13,6 +13,12 @@
         :color="typeOfUser==5 ?'terciary':'grey-6'"
         external-label outline
         @click="setFilter(5)" label-position="bottom" icon="eva-credit-card-outline"   
+      />
+      <q-btn
+        class="filtersButton q-mx-xs" 
+        :color="typeOfUser==6 ?'terciary':'grey-6'"
+        external-label outline
+        @click="setFilter(6)" label-position="bottom" icon="eva-globe-outline"   
       />
       <q-btn
         class="filtersButton q-mx-xs" 
@@ -52,31 +58,7 @@
               {{ user.name }}
             </div>
             <div class="flex items-center">
-              <div v-if="typeOfUser != 5">
-                <div class="mobile-hide q-mt-xs q-mr-xs" >
-                  {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
-                </div>
-                <div class="mobile-only q-mr-xs">
-                  <q-icon 
-                    :name="
-                      user.verify_status == 2 
-                      ? 'eva-checkmark-circle-2-outline' 
-                      : user.verify_status == 1 
-                      ? 'eva-clock-outline'
-                      : 'eva-close-circle-outline'
-                    "
-                    :color="
-                      user.verify_status == 2 
-                      ? 'positive' 
-                      : user.verify_status == 1 
-                      ? 'terciary'
-                      : 'negative'
-                    "
-                    size="xs"
-                  />
-                </div>
-              </div>
-              <div v-else>
+              <div v-if="typeOfUser == 5">
                 <div class="mobile-hide q-mt-xs q-mr-xs" >
                   {{ user.card.status == 1 ? 'Pendiente' : 'Aprobado' }}
                 </div>
@@ -93,6 +75,48 @@
                       user.card.status == 2 
                       ? 'positive' 
                       : user.card.status == 1 
+                      ? 'terciary'
+                      : 'negative'
+                    "
+                    size="xs"
+                  />
+                </div>
+              </div>
+              <div v-else-if="typeOfUser == 6">
+                <div class="mobile-hide q-mt-xs q-mr-xs" >
+                  {{ user.wallet_link.status == 1 ? 'Pendiente' : 'Aprobado' }}
+                </div>
+                <div class="mobile-only q-mr-xs">
+                  <q-icon 
+                    name="eva-globe-outline"
+                    :color="
+                      user.wallet_link.status == 2 
+                      ? 'positive' 
+                      : user.wallet_link.status == 1 
+                      ? 'terciary'
+                      : 'negative'
+                    "
+                    size="xs"
+                  />
+                </div>
+              </div>
+              <div v-else>
+                <div class="mobile-hide q-mt-xs q-mr-xs" >
+                  {{ user.verify_status == 1 ? 'Pendiente' : 'Aprobado' }}
+                </div>
+                <div class="mobile-only q-mr-xs">
+                  <q-icon 
+                    :name="
+                      user.verify_status == 2 
+                      ? 'eva-checkmark-circle-2-outline' 
+                      : user.verify_status == 1 
+                      ? 'eva-clock-outline'
+                      : 'eva-close-circle-outline'
+                    "
+                    :color="
+                      user.verify_status == 2 
+                      ? 'positive' 
+                      : user.verify_status == 1 
                       ? 'terciary'
                       : 'negative'
                     "

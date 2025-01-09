@@ -39,6 +39,8 @@ class WalletController extends Controller
     }
     public function allBalances($id) {
         $wallet = Wallet::where('user_id', $id)->where('type', 1)->first();
+        $wallet_link = Wallet::where('user_id', $id)->where('type', 2)->first();
+
         if(!$wallet) return $this->returnFail(400, 'Cuenta no existe.');
         $loansBalances = $this->allLoansAmount();
         $paysAndProfit = $this->allPays();
@@ -47,6 +49,7 @@ class WalletController extends Controller
         return $this->returnSuccess(200, $id == 1 
         ? [
             'wallet'        => round($wallet->balance),
+            
             'loans'         => round($loansBalances['amount']),
             'toRecieve'     => round($loansBalances['amountToRecive']),
             'toPay'         => round($this->allQuotasToRecive()),
@@ -59,7 +62,7 @@ class WalletController extends Controller
             'loans'         => $loansBalances['amount'],
             'toRecieve'     => $loansBalances['amountToRecive'],
             'paysRecieve'   => $paysAndProfit['pays'],
-
+            'wallet_link'   => $wallet_link ? round($wallet_link->balance) : 0,
         ]);
     }
     public function incrementsWallet($id, Request $request) {

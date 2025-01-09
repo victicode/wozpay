@@ -28,7 +28,7 @@
                   </div>
                 </div>
                 <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link && (user.wallet_link.status == 2 || user.wallet_link.status == 1)">
-                  <div class="" @click="router.push('/pay_link_dashboard')">
+                  <div class="cursor-pointer" @click="router.push('/pay_link_dashboard')">
                     <div class="text-weight-medium text-right q-pt-sm">
                       Disponible
                     </div>

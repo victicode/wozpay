@@ -43,6 +43,11 @@ class UserController extends Controller
                 $q->orderBy('created_at', 'desc');
             });
         }
+        if($request->type == 6){
+            $users->with('walletLink')->whereHas('walletLink', function($q){
+                $q->where('status', 1);
+            });
+        }
 
         if(!empty($request->search)){
             $users->where('dni', 'like', '%'.$request->search.'%');

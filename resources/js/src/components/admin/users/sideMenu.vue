@@ -44,6 +44,62 @@
         <q-list >
           <userBankInfo :user="user"/>
         </q-list>
+
+        <!-- international pay -->
+        <q-toolbar class="bg-white text-black q-mt-none header-form">
+          <q-toolbar-title> 
+            <div class="w-100 flex items-center justify-between">
+              <span class="text-subtitle2 text-weight-bold q-mt-none">Cuenta bancaria internacional</span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <internationalAction :user="user"/>
+        </q-list>
+
+        <!-- balance link pay -->
+        <q-toolbar class="bg-white text-black q-mt-none header-form">
+          <q-toolbar-title> 
+            <div class="w-100 flex items-center justify-between">
+              <span class="text-subtitle2 text-weight-bold q-mt-none">Saldo de cuenta bancaria</span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <walletActions :user="user"/>
+        </q-list>
+        
+        <!-- Links pay-->
+        <q-toolbar class="bg-white text-black q-mt-none header-form">
+          <q-toolbar-title> 
+            <div class="w-100 flex items-center justify-between">
+              <span class="text-subtitle2 text-weight-bold q-mt-none">Links generados</span>
+            </div>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-list >
+          <q-item class="q-py-none q-px-md" >
+            <q-item-section>
+              <div class="flex items-center justify-between">
+                <q-item-label class="q-mt-xs text-weight-bold" >
+                  <span class="text-subtitle2 text-weight-medium">
+                    Ver todos los links
+                  </span>
+                </q-item-label>
+                <q-btn 
+                  flat 
+                  round 
+                  size="xs"
+                  class="q-pb-none q-ml-xs"
+                  @click="goTo()"
+                >
+                  <q-icon name="eva-chevron-right-outline" color="grey-7" size="md" />
+                </q-btn>
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
+        
         <!-- user actions -->
         <q-toolbar class="bg-white text-black q-mt-none header-form">
           <q-toolbar-title> 
@@ -65,12 +121,14 @@
   import walletActions from './sideMenu/walletActions.vue';
   import userBankInfo from './sideMenu/userBankInfo.vue';
   import userActions from './sideMenu/userActions.vue';
+  import internationalAction from './sideMenu/internationalAction.vue';
   
   export default {
     components: {
       walletActions,
       userActions,
       userBankInfo,
+      internationalAction,
     },
     props: {
       user: Object,

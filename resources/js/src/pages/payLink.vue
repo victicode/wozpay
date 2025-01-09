@@ -229,7 +229,7 @@
             </div>
 
             <!-- basic woz pay -->
-            <div class="q-mt-md">
+            <div class="q-mt-md q-pb-xl">
               <q-chip square color="primary" text-color="white" class="tagSetction">
                 <div class="text-caption">
                   Tarifas básicas
