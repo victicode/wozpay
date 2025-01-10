@@ -9,7 +9,7 @@
             </span>
           </q-item-label>
           <q-item-label>
-            <van-switch v-model="checked.suspense" size="medium" @update:model-value="setStatus(1)"  :loading="loading"/>
+            <van-switch v-model="checked.active" size="medium" @update:model-value="setStatus(1)"  :loading="loading"/>
           </q-item-label>
         </div>
       </q-item-section>
@@ -42,62 +42,43 @@
 
     setup (props) {
       //vue provider
-      const user = props.user
+      const user = ref(props.user)
       const emitter = inject('emitter');
       const loading = ref(false)
       const userStore = useUserStore()
       const q = useQuasar()
 
       const checked = ref({
-        suspense: user.general_status == 1,
+        active: user.value.wallet_link.status == 1,
+        suspense: !(user.value.wallet_link.status == 1),
+
       })
 
       const setStatus = (isBlock) => {
         loading.value = true
         const data = isBlock == 1
         ? {
-            user: user.id,
+            user: user.value.id,
             status: checked.value.suspense
           } 
         : {
-            user: user.id,
+            user: user.value.id,
             block: checked.value.block 
           }
 
-        sendData(data)
-      }
-      const deleteUser = () => {
-        loading.value = true
-        userStore.deleteUser(user.id)
-        .then((data) => {
-          if(data.code !== 200) throw data
+          if(isBlock == 1){
+            checked.value.active = true
+            checked.value.suspense = !checked.value.active 
+          }
+          if(isBlock == 2){
+            checked.value.suspense = true
+            checked.value.active = !checked.value.suspense 
+          }
           loading.value = false
-          emitUserChanges(data.data)
-          showNotify( 'negative', 'Usuario eliminado')
-        })
-        .catch((response) => {
-          checked.value.suspense = false
-          loading.value = false
-          showNotify('negative', 'Error al realizar esta acción')
 
-        })
+        // sendData(data)
       }
-      const restoreUser = () => {
-        loading.value = true
-        userStore.restoreUser(user.id)
-        .then((data) => {
-          if(data.code !== 200) throw data
-          loading.value = false
-          emitUserChanges(data.data)
-          showNotify( 'positive', 'Usuario restaurado')
-        })
-        .catch((response) => {
-          checked.value.suspense = false
-          loading.value = false
-          showNotify('negative', 'Error al realizar esta acción')
 
-        })
-      }
 
       const sendData = (formData)  => {
         userStore.setUserStatus(formData)
@@ -129,10 +110,7 @@
 
         showNotify(checked.value.block ? 'grey-8' : 'positive', checked.value.block ? 'Usuario bloqueado' : 'Usuario desbloqueado')
       }
-      const setUserCondition = () => {
-        if(checked.value.delete) return deleteUser() 
-        restoreUser()
-      }
+
       const emitUserChanges = (user) => {
         emitter.emit('setUser', user);
       }
@@ -141,7 +119,6 @@
         user,
         checked,
         setStatus,
-        setUserCondition
       }
     }
   };
