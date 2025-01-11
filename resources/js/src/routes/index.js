@@ -163,7 +163,7 @@ const router = createRouter({
       name:"linksByUser",
       component: () => import('@/pages/admin/linksByUser.vue'),
       meta: {
-        title : '¡Envío exitoso!'
+        title : 'Links de pago'
       },
       beforeEnter: admin,
     },

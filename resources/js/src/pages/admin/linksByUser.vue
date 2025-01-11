@@ -1,15 +1,14 @@
 <template>
   <div>
-    <div class="q-pl-md-lg q-pl-md">
-      <div class="text-subtitle1 text-bold">Links generados</div>
-      <div class="text-subtitle1">Historial de links generados</div>
+    <div class="q-pl-md-lg q-pl-md q-py-md q-mt-md" style="border-bottom: 1px solid lightgray;">
+      <div class="text-h5  text-center text-bold">Links</div>
     </div>
-    <div>
+    <div class="q-py-xs">
       <div v-if="load">
-        <div v-if="userLinks.length > 0" class="q-px-md" >
-          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center" @click="goTo(link.id)">
+        <div v-if="userLinks.length > 0" class="q-px-xs" >
+          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center justify-between" >
             <q-icon name="eva-link-2-outline" size="md" />
-            <div style="border-bottom: 1px solid lightgray; width: 90%;" class="q-px-md flex items-center justify-between ">
+            <div class="q-pl-md flex items-center justify-between container__link">
               <div>
                 <div class="text-subtitle1 text-weight-medium">Link de pago</div>
                 <div class="text-subtitle2 text-weight-regular">N° {{ link.code }}</div>
@@ -31,7 +30,9 @@
                 <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>
             </div>
-  
+            <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none">
+              <q-icon name="eva-more-vertical-outline" size="1.5rem" />
+            </q-btn>
           </div>
         </div>
         <div v-else class="text-center text-h6 q-mt-lg">
@@ -71,6 +72,7 @@
         </div>
       </div>
     </div>
+    <modalActions />
   </div>
 </template>
 <script>
@@ -83,7 +85,12 @@
   import { useRoute, useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import moment from 'moment';
+  import modalActions from '@/components/admin/links/modalActions.vue';
+ 
   export default {
+    components:{
+      modalActions
+    },
     setup() {
       //vue provider
       const q = useQuasar()
@@ -177,3 +184,13 @@
   }
 
 </script>
+<style lang="scss" scoped>
+.container__link{
+  border-bottom: 1px solid lightgray; width: 89%;
+}
+@media screen and (max-width: 780px){
+  .container__link{
+    width: 80%;
+  }
+}
+</style>

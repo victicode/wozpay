@@ -91,7 +91,7 @@
                   round 
                   size="xs"
                   class="q-pb-none q-ml-xs"
-                  @click="goTo()"
+                  @click="goLinks()"
                 >
                   <q-icon name="eva-chevron-right-outline" color="grey-7" size="md" />
                 </q-btn>
@@ -149,6 +149,9 @@
         router.push('/admin/notification/send?id='+user.value.id)
         emitter.emit('closeMenu');
       }
+      const goLinks = () => {
+        router.push('/link/byUser/'+user.value.id)
+      }
       
       emitter.on('showSideMenu', (state) => {
         showSideMenu(state)
@@ -162,6 +165,7 @@
         dialog,
         user,
         goTo,
+        goLinks,
         showSideMenu,
       }
     }
