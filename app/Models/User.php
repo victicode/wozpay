@@ -97,4 +97,7 @@ class User extends Authenticatable implements JWTSubject
     public function accountbank(){
         return $this->hasOne(AccountBank::class);
     }
+    public function links(){
+        return $this->hasMany(link::class)->orderBy('created_at', 'desc');
+    }
 }   

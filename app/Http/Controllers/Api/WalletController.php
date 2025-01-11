@@ -26,7 +26,7 @@ class WalletController extends Controller
             'number'    => '918' . $request->user()->dni,
             'balance'   => 0,
             'type'      => 2,
-            'status'    => 1,
+            'status'    => 2,
             'user_id'   => $request->user()->id,
         ]);
         
@@ -86,6 +86,15 @@ class WalletController extends Controller
         $wallet = Wallet::where('user_id', 1)->where('type', 1)->first();
 
         $wallet->balance =  $request->amount;
+        $wallet->save();
+        event(new UserUpdateEvent(1));
+
+        return $this->returnSuccess(200, $wallet);
+    }
+    public function setStatus(Request $request){
+        $wallet = Wallet::where('user_id', $request->user)->where('type', 2)->first();
+
+        $wallet->status =  $request->status;
         $wallet->save();
         event(new UserUpdateEvent(1));
 

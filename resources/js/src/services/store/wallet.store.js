@@ -84,7 +84,6 @@ export const useWalletStore = defineStore("wallet", {
             if(data.code !== 200){
               throw data;
             }
-            this.setBalances(data.data)
             resolve(data)
           }).catch((response) => {
             console.log(response)
@@ -94,6 +93,26 @@ export const useWalletStore = defineStore("wallet", {
       }).catch((response) => {
         console.log(response)
         return 'Error al actualizar datos';
+      });
+    },
+    async setWalletStatus(data) {
+      return new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/wallet/setStatus", data)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al actualizar el estatus.');
+          });
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al actualizar el estatus';
       });
     }
   },

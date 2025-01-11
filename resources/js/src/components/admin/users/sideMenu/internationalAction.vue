@@ -32,8 +32,8 @@
 </template>
 <script >
   import { ref, inject, onMounted} from 'vue';
-  import { useUserStore } from '@/services/store/user.store';
   import { useQuasar } from 'quasar';
+  import { useWalletStore } from '@/services/store/wallet.store';
 
   export default {
     props: {
@@ -44,49 +44,53 @@
       //vue provider
       const user = ref(props.user)
       const emitter = inject('emitter');
+      const walletStore = useWalletStore()
+
       const loading = ref(false)
-      const userStore = useUserStore()
       const q = useQuasar()
 
       const checked = ref({
-        active: user.value.wallet_link.status == 1,
-        suspense: !(user.value.wallet_link.status == 1),
+        active: user.value.wallet_link.status == 2,
+        suspense: !(user.value.wallet_link.status == 2),
 
       })
 
       const setStatus = (isBlock) => {
         loading.value = true
-        const data = isBlock == 1
-        ? {
-            user: user.value.id,
-            status: checked.value.suspense
-          } 
-        : {
-            user: user.value.id,
-            block: checked.value.block 
-          }
-
+        let data = {}
           if(isBlock == 1){
             checked.value.active = true
             checked.value.suspense = !checked.value.active 
+            data = {
+              user: user.value.id,
+              status: 2
+            }
           }
           if(isBlock == 2){
             checked.value.suspense = true
             checked.value.active = !checked.value.suspense 
+            data = {
+              user: user.value.id,
+              status: 0
+            }
           }
           loading.value = false
 
-        // sendData(data)
+          user.value.wallet_link.status == data.status 
+          ? ''
+          : sendData(data)
       }
 
-
+      
       const sendData = (formData)  => {
-        userStore.setUserStatus(formData)
+        walletStore.setWalletStatus(formData)
         .then((data) => {
           if(data.code !== 200) throw data
           loading.value = false
-          emitUserChanges(data.data)
-          setNotify(formData)
+          user.value.wallet_link.status = data.data.status
+          formData.status == 0
+          ? showNotify('negative', 'Cuenta internacional suspendida')
+          : showNotify('positive', 'Cuenta internacional activa')
         })
         .catch((response) => {
           checked.value.suspense = false
@@ -105,11 +109,7 @@
           ]
         })
       }
-      const setNotify = (data) => {
-        if(data.status) return showNotify(checked.value.suspense ? 'positive' : 'terciary', checked.value.suspense ? 'Usuario habilitado' : 'Usuario suspendido')
 
-        showNotify(checked.value.block ? 'grey-8' : 'positive', checked.value.block ? 'Usuario bloqueado' : 'Usuario desbloqueado')
-      }
 
       const emitUserChanges = (user) => {
         emitter.emit('setUser', user);

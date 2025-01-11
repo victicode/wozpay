@@ -150,6 +150,24 @@ const router = createRouter({
       beforeEnter: auth,
     },
     {
+      path: "/link/pay/:id",
+      name:"payLinkDetails",
+      component: () => import('@/pages/detailsPayLink.vue'),
+      meta: {
+        title : '¡Envío exitoso!'
+      },
+      beforeEnter: auth,
+    },
+    {
+      path: "/link/byUser/:user",
+      name:"linksByUser",
+      component: () => import('@/pages/admin/linksByUser.vue'),
+      meta: {
+        title : '¡Envío exitoso!'
+      },
+      beforeEnter: admin,
+    },
+    {
       path: "/",
       name:"admin",
       component: paysLayout,

@@ -94,8 +94,6 @@
             if(typeWallet == 1)user.wallet.balance = data.data.balance
             if(typeWallet == 2)user.wallet_link.balance = data.data.balance
 
-              
-    
             loading.value = false
             plusAmount.value = ''
             lessAmount .value = ''

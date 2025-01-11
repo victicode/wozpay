@@ -6,7 +6,6 @@
     </div>
     <div>
       <div v-if="load">
-
         <div v-if="userLinks.length > 0" class="q-px-md" >
           <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center" @click="goTo(link.id)">
             <q-icon name="eva-link-2-outline" size="md" />
@@ -29,7 +28,7 @@
                 >
                   GS {{ numberFormat(link.amount) }}
                 </div>
-                <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item'+link.id" style="transition: all 1s ease ;" />
+                <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>
             </div>
   
@@ -81,7 +80,7 @@
   import wozIcons from '@/assets/icons/wozIcons';
   import { useLinkStore } from '@/services/store/link.store';
   import { useQuasar } from 'quasar';
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import moment from 'moment';
   export default {
@@ -93,11 +92,12 @@
       const numberFormat = util.numberFormat
       const isReady = ref(false)
       const router = useRouter()
+      const route = useRoute()
       const linkStore = useLinkStore()
       const userLinks = ref([])
       const load = ref(false)
       const getLinkByUser = () => {
-        linkStore.getLinksByUser(user.value.id)
+        linkStore.getLinksByUser(route.params.user)
         .then((response) => {
           if(response.code !== 200) throw response
           userLinks.value = response.data
@@ -136,7 +136,7 @@
             if(diffTime < 0) {
               clearInterval(element.timer);
               setTimeout(() => {
-                document.getElementById('timer-item'+element.id).innerHTML = '00:00:00'
+                document.getElementById('timer-item_link-user'+element.id).innerHTML = '00:00:00'
               },1000)
               return
             }
@@ -145,7 +145,7 @@
             let hour = (duration.hours()+'').length == 1 ? '0' + duration.hours() : duration.hours()
             let minutes = (duration.minutes()+'').length == 1 ? '0' + duration.minutes() : duration.minutes()
             let seconds = (duration.seconds()+'').length == 1 ? '0' + duration.seconds() : duration.seconds()
-            document.getElementById('timer-item'+element.id).innerHTML =  hour + ":" + minutes + ":" + seconds
+            document.getElementById('timer-item_link-user'+element.id).innerHTML =  hour + ":" + minutes + ":" + seconds
           }, 1000)
           
         });

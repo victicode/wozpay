@@ -17,7 +17,7 @@
                  <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': 'positive'" />
               </div>
               <div class="flex items-center justify-between  w-85 " >
-                <div class=" q-mr-md-none q-pl-md-md q-pl- w-auto" >
+                <div class=" q-mr-md-none q-pl-md-md q-pl- w-autox" >
                   <div v-if="!user.wallet_link ">
                     <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
                     <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
@@ -110,6 +110,9 @@
 
 </style>
 <style lang="scss" scoped>
+.w-autox{
+  width: auto;
+}
 .text__mid{
   width: auto;
 }
@@ -146,6 +149,9 @@
   }
   .text__mid{
     width: 90%;
+  }
+  .w-autox{
+    width: 63%;
   }
 }
 </style>

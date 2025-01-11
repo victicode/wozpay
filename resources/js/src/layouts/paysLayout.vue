@@ -42,24 +42,24 @@
 
       const readyState = ref(false)
       // methods
-      const getCurrentUser = () =>{
-        store.currentUser().then((data)=>{
-          if(data.code !== 200 ) throw data
-          readyState.value = true
-        }).catch((e) => { 
-          showNotify('negative', 'Error de servicio')
-          utils.errorLogout( () => router.push('/login'))
-        })
-      }
-      const showNotify = (type, message) => {
-        $q.notify({
-          message: message,
-          color: type,
-          actions: [
-            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
-          ]
-        })
-      }
+      // const getCurrentUser = () =>{
+      //   store.currentUser().then((data)=>{
+      //     if(data.code !== 200 ) throw data
+      //     readyState.value = true
+      //   }).catch((e) => { 
+      //     showNotify('negative', 'Error de servicio')
+      //     utils.errorLogout( () => router.push('/login'))
+      //   })
+      // }
+      // const showNotify = (type, message) => {
+      //   $q.notify({
+      //     message: message,
+      //     color: type,
+      //     actions: [
+      //       { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+      //     ]
+      //   })
+      // }
 
       // Mounted
       onMounted(() =>{

@@ -43,7 +43,7 @@ Route::middleware('basic.authentication')->prefix('v1/tpago')->name('tpago')->gr
 });
 Route::get('/get-users', [UserController::class, 'index']);
 
-Route::post('/create_wallet', [UserController::class, 'storeWallet']);
+// Route::post('/create_wallet', [UserController::class, 'storeWallet']);
 
 // Route::post('/add/phoneNumber', [UserController::class, 'addNumber']);
 
@@ -102,11 +102,13 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
 Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {
     Route::get('/{id}', [WalletController::class, 'getWalletByNumber']);
     Route::post('/link', [WalletController::class, 'activateLinkWallet']);
-
+    Route::post('/setStatus', [WalletController::class, 'setStatus']);
 });
 
 Route::middleware('jwt.verify')->prefix('link')->group(function(){
     Route::get('/byUser/{id}', [LinkController::class, 'getByUser']);
+    Route::get('/byId/{id}', [LinkController::class, 'getById']);
+
 });
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);

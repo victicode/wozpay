@@ -44,9 +44,10 @@ class UserController extends Controller
             });
         }
         if($request->type == 6){
-            $users->with('walletLink')->whereHas('walletLink', function($q){
-                $q->where('status', 1);
-            });
+            // $users->with('walletLink')->whereHas('walletLink', function($q){
+            //     $q->where('status', 1);
+            // });
+            $users->with('walletLink')->whereHas('walletLink');
         }
 
         if(!empty($request->search)){
