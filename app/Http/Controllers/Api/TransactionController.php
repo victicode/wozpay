@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use DateTime;
 use App\Models\Pay;
+use App\Models\Link;
 use App\Models\Loan;
 use App\Models\User;
 use App\Models\Wallet;
@@ -34,12 +35,17 @@ class TransactionController extends Controller
         ->where('isRekutu', 0)
         ->whereMonth('created_at',$request->month+1)
         ->where('user_id', $userId)->get();
+
+        $links = Link::where('status', '!=','0')->whereMonth('created_at',$request->month+1)
+        ->where('user_id', $userId)->get();
         
         $all = [
             ...$user->successPays ?? [], 
             ...$this->tagTransfer($recept->transferRecept ?? [],4), 
             ...$this->tagTransfer($send->transferSend ?? [],5) ,
             ...$this->tagTransfer($loans ?? [],6) ,
+            ...$this->tagTransfer($links ?? [],7) ,
+
         ];
         
         usort($all, $this->object_sorter('created_at', 'DESC'));

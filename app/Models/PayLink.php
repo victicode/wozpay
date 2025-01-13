@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Link extends Model
+class PayLink extends Model
 {
     use HasFactory, SoftDeletes;
     protected $appends  =   ['status_label'];
@@ -20,10 +20,7 @@ class Link extends Model
         ];
         return $status[$this->status];
     }
-    public function user(){
-        return $this->belongsTo(User::class,'user_id', 'id');
-    }
-    public function pay(){
-        return $this->hasOne(PayLink::class,'link_id', 'id');
+    public function link(){
+        return $this->belongsTo(User::class,'link_id', 'id');
     }
 }

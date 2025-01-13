@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Link;
+use App\Models\PayLink;
 use Illuminate\Http\Request;
 
 class LinkController extends Controller
@@ -24,7 +25,25 @@ class LinkController extends Controller
     public function getById($id)
     {
         //
-        $link = Link::with('user')->find($id);
+        $link = Link::with('user', 'pay')->find($id);
+        return $this->returnSuccess(200, $link);
+    }
+
+    public function setPayStatus(Request $request)
+    {
+        //.3
+        $pay = PayLink::find($request->payId);
+        $link = Link::with('user', 'pay')->find($pay->link_id);
+
+        $pay->status = $request->status;
+        $link->pay_status = $request->status;
+        
+        if($link->pay_status == 2){
+            $link->status = 2;
+        }
+        $pay->save();
+        $link->save();
+
         return $this->returnSuccess(200, $link);
     }
 

@@ -30,7 +30,7 @@
                 <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>
             </div>
-            <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none">
+            <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none" @click="getLinkById(link.id)">
               <q-icon name="eva-more-vertical-outline" size="1.5rem" />
             </q-btn>
           </div>
@@ -72,7 +72,8 @@
         </div>
       </div>
     </div>
-    <modalActions />
+    
+    <modalActions :show="show" :link="selectedLink" @hiddeModal="hideModal()" @updateLink="updateLink"/>
   </div>
 </template>
 <script>
@@ -103,6 +104,9 @@
       const linkStore = useLinkStore()
       const userLinks = ref([])
       const load = ref(false)
+      const selectedLink = ref({})
+      const show = ref(false)
+
       const getLinkByUser = () => {
         linkStore.getLinksByUser(route.params.user)
         .then((response) => {
@@ -120,6 +124,13 @@
           showNotify('negative', response)
         })
       }
+      const getLinkById = (id) => {
+        show.value = true
+        linkStore.getLinkById(id)
+        .then((data) => {
+          selectedLink.value = data.data
+        })
+      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -131,9 +142,7 @@
       }
       const clocks = (data) =>{
         const withTime = data.filter((item) => item.status != 2)
-        
         withTime.forEach(element => {
-          
           element.timer = setInterval( () => {
             let today =  new Date().getTime();
             let link_due_date = new Date(moment(element.due_time)).getTime();
@@ -161,6 +170,20 @@
       const goTo = (id) => {
         router.push('/link/pay/'+id)
       }
+      const hideModal = () =>{
+        show.value = false
+        selectedLink.value = {}
+      }
+      const updateLink = (link) =>{
+        console.log('dfdsfsdfsd')
+        let index = userLinks.value.findIndex(linkLot => linkLot.id == link.id);
+
+        if (index > -1) {
+          userLinks.value[index] = link
+        }
+
+        selectedLink.value = link
+      }
       onMounted(() => {
         getLinkByUser()
         // window.Echo
@@ -178,7 +201,12 @@
         isReady,
         wozIcons,
         userLinks,
+        show,
+        selectedLink,
         goTo,
+        getLinkById,
+        hideModal,
+        updateLink
       }
     },
   }

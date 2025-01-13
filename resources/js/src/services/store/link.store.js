@@ -66,6 +66,26 @@ export const useLinkStore = defineStore("link", {
         console.log(response)
         return 'Error al actualizar datos';
       });
+    },
+    async setPayStatus(data){
+      return new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/link/pay/setStatus", data)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al actualizar el estatus.');
+          });
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al actualizar el estatus';
+      });
     }
   },
   getters: {

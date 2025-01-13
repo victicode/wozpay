@@ -115,7 +115,7 @@
       const link = ref({})
       const numberFormat = util.numberFormat
 
-      const getTransfer = () => {
+      const getLink = () => {
         storeLink.getLinkById(linkId)
         .then((data) => {
           // console.log(data)
@@ -174,7 +174,7 @@
       }
       onMounted(()=>{
         $q.addressbarColor.set('#0449fb')
-        getTransfer()
+        getLink()
       })
       return {
         icons,

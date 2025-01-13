@@ -1,6 +1,6 @@
 <template>
   <div class="transactionList" >
-    <div v-if="!loading && Object.values(transactions).length > 0" style="height: 100%;" >
+    <div v-if="!loading && Object.values(transactions).length > 0" style="height: 100%;" class="q-pb-md">
       <div style="height: 80%;overflow: auto;" class="q-mt-md">
 
         <div v-for="(transaction, key) in transactions" :key="key" class="q-py-sm  cursor-pointer" >
@@ -9,10 +9,13 @@
             @click="goTo(transaction.transaction, transaction.id)"
           >
             <div class="flex items-center">
-              <div v-html="imgTransaction(transaction)" 
+              <div v-html="imgTransaction(transaction)"
+              v-if="transaction.transaction !=7" 
               class="q-mr-sm q-mr-md-md icons-transfer" 
               :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5}"
               />
+              <q-icon name="eva-link-2-outline" size="md" class="q-mr-sm" />
+              
               <div>
                 <div 
                   v-for="(line, index) in lines(transaction)" 
@@ -32,6 +35,7 @@
                       class="q-mx-xs "
                     />
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -40,13 +44,13 @@
                 {{ moment(transaction.created_at).format('DD/MM/YYYY') }}
               </div>
               <div class="text-subtitle2 text-right text-weight-medium " :class="colorTextByTrasaction(transaction)">
-                Gs. {{ transaction.transaction == 1 || transaction.transaction == 4 ? '' : '-' }}{{ numberFormat(transaction.amount) }}
+                Gs. {{ transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7? '' : '-' }}{{ numberFormat(transaction.amount) }}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="pagination flex flex-center  q-pt-md" style="height: 10%;">
+      <div class="pagination flex flex-center  q-pt-md " style="height: 10%;">
           <q-pagination
             v-model="currentPage"
             :max="lastPage"
@@ -145,6 +149,8 @@ export default {
       if(transaction.transaction == 4)  return { title:'Recibiste una transferencia de', second: transaction.user_from.user.name, text: transaction.concept }
       if(transaction.transaction == 5)  return { title:'Realizaste una transferencia de', second: transaction.user_to.user.name, text: transaction.concept }
       if(transaction.transaction == 6)  return { title:'Débito automático', text:'Woz Payments'}
+      if(transaction.transaction == 7)  return { title:'Links de pago', second:'N°'+transaction.code,text:'Woz Payments'}
+
     }
     const imgTransaction = (transaction) => {
       if(transaction.transaction == 1)  return wozIcons.cargar
@@ -153,9 +159,11 @@ export default {
       if(transaction.transaction == 4)  return wozIcons.transferir
       if(transaction.transaction == 5)  return wozIcons.transferir
       if(transaction.transaction == 6)  return wozIcons.cardOutline
+      if(transaction.transaction == 7)  return 'eva-link-2-outline'
+
     }
     const colorTextByTrasaction = (transaction) => {
-      if(transaction.transaction == 1 || transaction.transaction == 4)  return 'text-positive'
+      if(transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7)  return 'text-positive'
       return 'text-negative'
     }
     const goTo = (type, id) => {

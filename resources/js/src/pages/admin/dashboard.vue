@@ -84,7 +84,7 @@
 
 }
 .info__conta{
-  height: 12.5rem;
+  height: 13rem;
 }
 @media screen and (max-width: 820px){
   .dashboard_container{
