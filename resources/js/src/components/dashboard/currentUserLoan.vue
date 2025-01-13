@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="">
-              <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/apply')"> 
+              <q-btn round flat class="q-ml-md-md q-pt-sm" @click="goTo()"> 
                 <q-icon
                   name="eva-arrow-ios-forward-outline"
                   size="sm"
@@ -147,6 +147,14 @@
         ]
         return status[state]
       }
+      const goTo = () => {
+        if(Object.values(loan).length == 0){
+
+          router.push('/apply')
+          return
+        }
+        router.push('/loan')
+      }
       onMounted(() => {
         activeLoan()
         window.Echo
@@ -166,6 +174,7 @@
         loan,
         router,
         loanStatus,
+        goTo
       }
     },
   }

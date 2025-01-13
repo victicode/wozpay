@@ -19,24 +19,26 @@ class TransactionController extends Controller
     //
     public function getTrasactionByUser($userId, Request $request) {
         $user =  User::with(['successPays' => function (Builder $query) use ($request) { 
-            $query->whereMonth('created_at',$request->month+1);
+            $query->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
         }, 'wallet'])->find($userId);
 
         $send =  Wallet::with(['transferSend' => function (Builder $query) use ($request) { 
-            $query->with('user_to.user')->whereMonth('created_at',$request->month+1);
+            $query->with('user_to.user')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
         }])->find($user->wallet->id);
 
         $recept =  Wallet::with(['transferRecept' => function (Builder $query) use ($request) { 
-            $query->with('user_from.user')->whereMonth('created_at',$request->month+1);
+            $query->with('user_from.user')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
         }] )->find($user->wallet->id);
 
         $loans = Loan::where('status', '!=','1')
         ->where('status', '!=','0')
         ->where('isRekutu', 0)
         ->whereMonth('created_at',$request->month+1)
+        ->whereYear('created_at', $request->year)
         ->where('user_id', $userId)->get();
 
         $links = Link::where('status', '!=','0')->whereMonth('created_at',$request->month+1)
+        ->whereYear('created_at', $request->year)
         ->where('user_id', $userId)->get();
         
         $all = [

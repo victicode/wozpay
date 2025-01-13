@@ -1,6 +1,6 @@
 <template>
   <div class="q-px-md-lg q-px-md   q-pt-none search_trasaction q-pb-md-md q-pb-sm" style="">
-    <div class="w-100 flex justify-between items-center available__money q-py-sm q-px-md">
+    <div class="w-100 flex justify-between items-center available__money q-py-md-sm q-px-md">
       <div class="flex items-center">
         <q-icon
           :size="'sm'"
@@ -10,9 +10,37 @@
       </div>
       <div class="text-weight-bold text-primary">Gs. {{capitalByUser()}}</div>
     </div>
+    <div class="flex flex-center q-pb-md q-pb-md-none q-pt-sm">
+      <div style="width: 50%;" class="q-px-sm">
+        <q-select 
+          class="setMonth q-pb-none" 
+          v-model="selectedMonth" 
+          :options="options" 
+          label="Mes" 
+          dropdown-icon="eva-chevron-down-outline"
+          behavior="menu"
+          option-label="text" 
+          option-value="value"
+          @update:model-value="applyFilter"
+        />
+      </div>
+      <div style="width: 50%;" class="q-px-sm">
+        <q-select 
+          class="setMonth q-pb-none" 
+          v-model="selectedYear" 
+          :options="years" 
+          label="Año" 
+          dropdown-icon="eva-chevron-down-outline"
+          behavior="menu"
+          option-label="text" 
+          option-value="value"
+          @update:model-value="applyFilter"
+        />
+      </div>
+    </div>
     <div>
       <q-input
-        class="search__trasaction q-pt-md q-pb-sm"
+        class="search__trasaction q-pt-md-md q-pb-xs"
         outlined
         clearable
         clear-icon="eva-close-outline"
@@ -33,19 +61,7 @@
         </template>
       </q-input>
     </div>
-    <div>
-      <q-select 
-        class="setMonth q-pb-none" 
-        v-model="selectedMonth" 
-        :options="options" 
-        label="Escoge un mes" 
-        dropdown-icon="eva-chevron-down-outline"
-        behavior="menu"
-        option-label="text" 
-        option-value="value"
-        @update:model-value="applyFilter"
-      />
-    </div>
+    
   </div>
 </template>
 <script>
@@ -87,7 +103,13 @@ export default {
       { value: '11', text: 'Noviembre'},
       { value: '12', text: 'Diciembre'},
     ]
+    const years = [
+      { value: 2024, text: '2024'},
+      { value: 2025, text: '2025'},
+
+    ]
     const selectedMonth = ref(options[new Date().getMonth()])
+    const selectedYear = ref(years.find(op => op.value == new Date().getFullYear()))
 
     const capitalByUser = () => {
       if(user.value.rol_id != 3){
@@ -96,7 +118,7 @@ export default {
       return numberFormat(balances.value.wallet);
     }
     const applyFilter = () => {
-      emitter.emit('refreshByFilter', { month: selectedMonth.value.value, search: search.value});
+      emitter.emit('refreshByFilter', { month: selectedMonth.value.value, year: selectedYear.value.value, search: search.value});
     }
     return { 
       user,
@@ -108,6 +130,8 @@ export default {
       numberFormat,
       options,
       selectedMonth,
+      selectedYear,
+      years,
       capitalByUser,
       applyFilter,
     }

@@ -74,11 +74,12 @@ class TransferController extends Controller
 
     }
     private function isApproveTransfer(Transfer $transfer){
-        $walletPlus = Wallet::with('user')->where('type', 1)->where('user_id', $transfer->to_id)->first();
+        $walletPlus = Wallet::with('user')->where('type', 1)->find($transfer->to_id);
         $walletPlus->balance += $transfer->amount;
         $walletPlus->save();
+        
         if($transfer->pay_method == 2){
-            $walletMinus = Wallet::with('user')->where('type', 1)->where('user_id', $transfer->from_id)->first();
+            $walletMinus = Wallet::with('user')->where('type', 1)->find($transfer->from_id);
             $walletMinus->balance -= $transfer->amount;
             $walletMinus->save();
             try{

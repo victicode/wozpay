@@ -9,7 +9,7 @@ export const useTransactionStore = defineStore("transaction", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/transaction/all/"+data.user+'?page='+data.page+'&search='+data.search+'&month='+data.month+'&')
+          ApiService.get("/api/transaction/all/"+data.user+'?page='+data.page+'&search='+data.search+'&month='+data.month+'&year='+data.year+'&')
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

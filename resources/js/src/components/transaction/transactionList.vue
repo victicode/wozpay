@@ -1,7 +1,7 @@
 <template>
-  <div class="transactionList" >
-    <div v-if="!loading && Object.values(transactions).length > 0" style="height: 100%;" class="q-pb-md">
-      <div style="height: 80%;overflow: auto;" class="q-mt-md">
+  <div class="transactionList q-mb-xl" >
+    <div v-if="!loading && Object.values(transactions).length > 0" style="height: 100%;"  >
+      <div style="height: 80%;" class="q-mt-md">
 
         <div v-for="(transaction, key) in transactions" :key="key" class="q-py-sm  cursor-pointer" >
           <div 
@@ -14,7 +14,7 @@
               class="q-mr-sm q-mr-md-md icons-transfer" 
               :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5}"
               />
-              <q-icon name="eva-link-2-outline" size="md" class="q-mr-sm" />
+              <q-icon name="eva-link-2-outline" size="md" class="q-mr-sm" v-if="transaction.transaction == 7" />
               
               <div>
                 <div 
@@ -50,7 +50,8 @@
           </div>
         </div>
       </div>
-      <div class="pagination flex flex-center  q-pt-md " style="height: 10%;">
+      <div class="pagination flex flex-center  q-pt-md q-pb-xl" style="height: 10%;">
+        <div class="q-pb-md">
           <q-pagination
             v-model="currentPage"
             :max="lastPage"
@@ -64,8 +65,10 @@
             size="0.9rem"
             gutter="sm"
             @update:model-value="setPage"
+            class="q-pb-xl"
           />
         </div>
+      </div>
     </div>
     <div v-if="!loading && Object.values(transactions).length == 0" class="flex flex-center column q-pt-xl">
       <q-icon :name="icons.ionRepeatOutline" color="terciary" size="5rem" class="q-mt-md" style="transform:rotate(50deg) ;" />
@@ -108,6 +111,7 @@ export default {
     const router = useRouter()
     const search = ref('')
     const month = ref(new Date().getMonth())
+    const year = ref(new Date().getFullYear())
     const loading = ref(true)
     const currentPage = ref(1)
     const lastPage = ref(10)
@@ -117,7 +121,8 @@ export default {
         page: currentPage.value,
         user: user.value.id,
         search:search.value,
-        month: month.value
+        month: month.value,
+        year: year.value
       }
 
       transactionStore.allTransactionByUser(data)
@@ -179,6 +184,7 @@ export default {
         currentPage.value = 1
         search.value = data.search ?? ''
         month.value = data.month-1
+        year.value = data.year
         getTransactions()
       })
 
@@ -201,8 +207,21 @@ export default {
 }
 </script>
 <style lang="scss" >
+
   .transactionList{
-    height: 75%;
+    height: 70%;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 5px;
+      background: transparent;
+      background: rgba(199, 199, 199, 0.719);
+
+    }
+    &::-webkit-scrollbar-thumb{
+      background: $primary;
+      border-radius: 50px;
+    }
+  
   }
   .icons-transfer {
     transform:scale(0.9);
@@ -223,6 +242,7 @@ export default {
   @media screen and (max-width: 780px){
     .transactionList{
       height: 77%;
+      
     }
     .icons-transfer {
       transform:scale(0.7);
