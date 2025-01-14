@@ -27,7 +27,7 @@
         <span class="text-white text-caption">Cobrar</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/account_bank'" exact style="width: 20%;">
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/bank_info'" exact style="width: 20%;">
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"

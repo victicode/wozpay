@@ -1,11 +1,8 @@
 <template>
-  <div style="height: 100vh;" class=" bg-primary">
-
- 
+  <div style="height: 100vh;" class=" bg-primary"> 
     <div style="position: absolute; left: 0.1rem; top: 0; z-index: 3;" class="q-mt-sm">
       <q-btn  round unelevated dense color="grey-5" size="1rem" icon="eva-chevron-left-outline" @click="goBack()" />
     </div>
-
     <div  class="bg-white hero-section" >
       <div class="flex flex-center">
         <img :src="heroImg" class="q-mt-xl q-mt-md-md hero__img" >

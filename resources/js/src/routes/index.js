@@ -132,6 +132,15 @@ const router = createRouter({
       beforeEnter: auth,
     },
     {
+      path: "/bank_info",
+      name:"bank_info",
+      component: () => import('@/pages/bankPresentation.vue'),
+      meta: {
+        title : 'Banco'
+      },
+      beforeEnter: auth,
+    },
+    {
       path: "/transfer",
       name:"transfer",
       component: () => import('@/pages/transfer.vue'),
