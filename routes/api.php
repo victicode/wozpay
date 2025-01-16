@@ -69,6 +69,7 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::post('/setNewVerifyStatus', [UserController::class, 'setNewVerifyStatus']);
     Route::post('/email_prueba/{id}', [LoanController::class, 'sendeEmail']);
     Route::get('/get_notifications', [UserController::class,'getNotificationsUser']);
+    Route::post('/setStatusNotShow', [UserController::class, 'setStatusNotShow']);
 
 });
 

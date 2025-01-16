@@ -27,7 +27,7 @@
         <span class="text-white text-caption">Cobrar</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/bank_info'" exact style="width: 20%;">
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="user.viewBank == 1 ? '/bank_info' : '/account_bank'" exact style="width: 20%;">
       <div class="flex flex-center column">
         <q-icon
           :size="'sm'"
@@ -59,17 +59,18 @@ import wozIcons from '@/assets/icons/wozIcons'
 import { useNotificationStore } from '@/services/store/notification.store'
 import { useAuthStore } from '@/services/store/auth.store'
 import notificationSound from '@/assets/audio/notification7.wav'
+import { storeToRefs } from 'pinia'
 
 export default {
   setup () {
     const icons = inject('ionIcons')
     const store = useNotificationStore()
-    const user = useAuthStore().user;
+    const { user } = storeToRefs(useAuthStore()) ;
     const notificationsCount = ref(0)
     const sound = new Audio(notificationSound)
 
     const getNotifications = () =>{
-      store.getAllNotificationByUser(user.id).then((data) =>{
+      store.getAllNotificationByUser(user.value.id).then((data) =>{
         notificationsCount.value = data.data.unreadCount
       })
     }
@@ -77,14 +78,14 @@ export default {
     onMounted(()=>{
       getNotifications()
       window.Echo
-      .channel('notificationEvent'+user.id)
+      .channel('notificationEvent'+user.value.id)
       .listen('NotificationsEvent', async (data) => {
         getNotifications()
         sound.play()
       })
   
     })
-    return { icons, wozIcons, notificationsCount}
+    return { icons, wozIcons, notificationsCount, user}
   },
 }
 </script>

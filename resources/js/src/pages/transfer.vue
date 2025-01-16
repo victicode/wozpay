@@ -26,7 +26,6 @@
             v-model="transferShow"
             color="terciary"
             size="md"
-            @update:model-value="checkOption"
           />
           <div class="text-subtitle1  text-weight-medium text-white q-pl-xs q-mt-xs cursor-pointer text-decoration-underline" style="width: 85%;">
             No volver a mostrar
@@ -37,7 +36,7 @@
           color="positive" class="w-100 q-pa-md q-mb-none  link_button" 
           no-caps
           label="Enviar ahora"
-          @click="router.push('/transfer_send')"
+          @click="goTo()"
         />
       </div>
     </div>
@@ -48,6 +47,8 @@ import { inject, onMounted, ref } from 'vue'
 import wozIcons from '@/assets/icons/wozIcons'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { useUserStore } from '@/services/store/user.store';
+import { useAuthStore } from '@/services/store/auth.store';
 
 export default {
   setup () {
@@ -56,8 +57,27 @@ export default {
     const router = useRouter()
     const $q = useQuasar()
     const transferShow = ref(false)
-    const checkOption = (e) => {
-      localStorage.setItem('showTransfer', e)
+    const userStore = useUserStore()
+    const authStore = useAuthStore()
+
+    const changeStatusNotShow = () => {
+      const data = {
+        type: 2,
+        status:0,
+      }
+      userStore.setStatusNotShow(data)
+      .then((response) => {
+        if(response.code !==200) throw response
+        
+        authStore.setUser(response.data)
+      }).catch((response) => {
+
+      })
+    }
+    const goTo = () => {
+      if(transferShow.value) changeStatusNotShow()
+
+      router.push('/transfer_send')
     }
     onMounted(()=>{
       $q.addressbarColor.set('#0449fb')
@@ -65,9 +85,8 @@ export default {
     return { 
       icons, 
       wozIcons, 
-      router,
       transferShow,
-      checkOption
+      goTo
     }
   },
 }

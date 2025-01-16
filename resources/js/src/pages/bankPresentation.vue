@@ -27,7 +27,7 @@
         <div class=" flex q-mt-lg q-pt-md items-center" style="transform: translateX(-0.8rem);">
           <q-checkbox 
             class="terms-checkbox_transf"
-            v-model="accept_terms"
+            v-model="notShowBank"
             color="terciary"
             style="width: 10%;"
             size="lg"
@@ -57,6 +57,8 @@
   import heroImg from '@/assets/images/tr.svg'
   import { inject, ref } from 'vue'
   import {  useRouter } from 'vue-router'
+  import { useUserStore } from '@/services/store/user.store';
+  import { useAuthStore } from '@/services/store/auth.store';
 
   export default {
     setup() {
@@ -64,14 +66,31 @@
 
       const icons = inject('ionIcons')
       const router = useRouter()
-      const accept_terms = ref(false)
-
+      const notShowBank = ref(false)
+      const userStore = useUserStore()
+      const authStore = useAuthStore()
       // Methods
 
       const goTo = () => {
+        if(notShowBank.value) changeStatusNotShow()
+
         router.push('/account_bank')
       }
 
+      const changeStatusNotShow = () => {
+        const data = {
+          type: 1,
+          status:0,
+        }
+        userStore.setStatusNotShow(data)
+        .then((response) => {
+          if(response.code !==200) throw response
+          
+          authStore.setUser(response.data)
+        }).catch((response) => {
+
+        })
+      }
       const goBack = () => {
         router.go(-1)
       }
@@ -79,7 +98,7 @@
       // Data
       return{
         icons,
-        accept_terms,
+        notShowBank,
         heroImg,
         goTo,
         goBack,

@@ -15,7 +15,7 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="directTransfer !== 'true' ? '/transfer': '/transfer_send'">
+          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'">
             <div class="q-mt-xs" v-html="icons.transferir" />
             <span class="q-mt-none text-dark text-body2">Transfer.</span>
           </q-btn>
@@ -46,12 +46,13 @@
   import wozIcons from '@/assets/icons/wozIcons'
   import { useAuthStore } from '@/services/store/auth.store'
   import { useLoanStore } from '@/services/store/loan.store';
+  import { storeToRefs } from 'pinia';
   import { ref, onMounted, inject } from 'vue'
 
   export default {
     setup() {
       //vue provider
-      const user = useAuthStore().user;
+      const { user } = storeToRefs(useAuthStore()) 
       const icons =  wozIcons
       const iconis =  inject('ionIcons')
       const loanStore = useLoanStore() 
@@ -59,7 +60,7 @@
       const activeRekutu = ref('')
 
       const activeLoan = () => {
-        loanStore.getLoan(user.id).then((data) => {
+        loanStore.getLoan(user.value.id).then((data) => {
           if(!data.code)  throw data
           loan.value = data.data ? Object.assign(data.data) : {} 
           
@@ -89,7 +90,6 @@
         user,
         loan,
         activeRekutu,
-        directTransfer: localStorage.getItem('showTransfer')
 
       }
     },

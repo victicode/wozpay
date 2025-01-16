@@ -366,6 +366,15 @@ class UserController extends Controller
 
 		return  $this->returnSuccess(200, $data);
     }
+    public function setStatusNotShow(Request $request){
+        $user = User::find($request->user()->id);
+        if($request->type == 1) $user->viewBank = $request->status;
+        if($request->type == 2) $user->viewTransfer = $request->status;
+
+        $user->save();
+
+        return $this->returnSuccess(200, $user->load('wallet', 'walletLink', 'card', 'currentLoan')->loadCount('loansComplete'));
+    }
     private function validateFieldsFromInput($inputs){
         $rules =[
             'fullName'      => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
