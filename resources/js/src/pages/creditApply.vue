@@ -793,8 +793,8 @@
               : true
 
             if(!isCurrentLoan.value) {
-              console.log(data.data)
-              // haveRekutu.value = data.data.red_tapes.use_count < 3 
+              // console.log(data.data)
+              haveRekutu.value = data.data.red_tapes.use_count < 3 
             }
             
             load.value = false
@@ -822,12 +822,13 @@
         })
       }
       const validateUser = () => {
-        const dontValidate = ['facial_verify', 'wallet_link', 'facial_photo', 'verify_status', 'document_photo_front', 'document_photo_back', 'current_loan','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
+        const dontValidate = ['facial_verify', 'viewBank', 'viewTransfer', 'viewRekutu', 'wallet_link', 'facial_photo', 'verify_status', 'document_photo_front', 'document_photo_back', 'current_loan','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
 
         Object.entries(user.value).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
           if(!value){
             isUserApply.value = false 
+            console.log(key, value)
           } 
             
         });

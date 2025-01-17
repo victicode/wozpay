@@ -1,8 +1,8 @@
 <template>
   <div class="layout-dasboard__content" style="">
     <div id="linkGenerateContent">
-      <div class="hero-content q-px-md q-pt-lg q-px-md-xl" :style="'background:'+header.color" >
-        <div class=" q-px-md-lg">
+      <div class="hero-content q-px-md q-pt-lg q-px-md-xl" transition-style="in:circle:center" :style="'background:'+header.color" >
+        <div class=" q-px-md-lg hero-content_title" transition-style="in:circle:center" :style="'background:'+header.color" >
           <div class="text-h4 text-white text-weight-bold "  style="font-size: 2.3rem;">
             {{header.title}}
           </div>
@@ -26,7 +26,7 @@
             behavior="menu"
             color="positive"
             class="linkPaySelectType" 
-            
+            @update:model-value="updateType()"
           />
         </div>
         <div class="q-px-md q-mt-md">
@@ -116,11 +116,12 @@
       </div>
       <div class="q-px-md q-pb-lg">
         <q-btn 
-          
+          :loading="loading"
           unelevated
           no-caps 
           color="terciary" 
           class="full-width q-pa-sm" 
+          @click="createLink"
         >
           <template v-slot:loading>
             <q-spinner-facebook />
@@ -133,17 +134,20 @@
 </template>
 <script>
   import { useRoute, useRouter } from 'vue-router';
-  import { inject, onMounted } from 'vue';
+  import { ref, inject, onMounted } from 'vue';
   import { useQuasar } from 'quasar';
   import wozIcons from '@/assets/icons/wozIcons';
   import util from '@/util/numberUtil'
+  import { useLinkStore } from '@/services/store/link.store';
 
 export default {
   setup() {
+    const q = useQuasar();
     const router = useRouter()
     const route = useRoute();
     const numberFormat = util.numberFormat
-
+    const linkStore = useLinkStore()
+    const loading = ref(false)
     const product = ref({
       name:'',
       amount:'',
@@ -167,6 +171,10 @@ export default {
         title:'Links de freelancers',
         color:'#929396'
       },
+      {
+        title:'Links de ventas',
+        color:'#ffc701'
+      },
       
     ]
     
@@ -176,29 +184,38 @@ export default {
         name:'Selecciona el tipo de link'
       },
       {
-        id:1,
+        id:4,
         name:'Ventas'
       },
       {
-        id:2,
+        id:3,
         name:'Freelancers'
       },
       {
-        id:3,
+        id:2,
         name:'Membresías'
       },
     ]
-    const selectedOption = ref({
-      id:0,
-      name:'Selecciona el tipo de link'
-    })
+    const header = ref(title[parseInt(route.params.type)])
 
+    const selectedOption = ref(optionsLink[parseInt(route.params.type)])
+    const updateType = () => {
+      header.value = title[selectedOption.value.id]
+      if(document.querySelector('.hero-content_title').classList.contains('swicht')){
+        document.querySelector('.hero-content_title').classList.remove('swicht')
+      }
+      setTimeout(() => {
+        document.querySelector('.hero-content_title').classList.add('swicht')
+      }, 10);
+
+
+    }
     const rulesForm = (id) => {
       const iRules = {
         name:[
           val => (val !== null && val !== '') || 'Nombre del producto es requerido.',
           // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-          val => (/[,%\-"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          val => (/[,%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
         amount:[
           val => (val !== null && val !== '') || 'Monto es requerido',
@@ -206,19 +223,60 @@ export default {
         description:[
           val => (val !== null && val !== '') || 'Detalles de producto es requerido.',
           // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-          val => (/[,%\-"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          val => (/[,%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
       }
       
       return iRules[id]
     }
-    onMounted(() => {
-      useQuasar().addressbarColor.set(title[parseInt(route.params.type).color])
-    })
+    
 
+    const validateFrom = () => {
+      let isOk = true
+      Object.entries(product).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+      
+      if(selectedOption.value.id == 0) {
+        showNotify('negative', 'Debes selecionar un metodo de pago')
+        return false
+      }
+      showNotify('negative', 'Debes completar el formulario')
+      return isOk
+    }
+
+    const createLink = () => {
+      if(!validateFrom()){
+        return
+      }
+      loading.value = true
+      const data = {
+        note:   product.value.details,
+        amount: product.value.amount,
+        title:  product.value.name,
+        type:   selectedOption
+      }
+      linkStore.createLink(data)
+      .then((response) => {
+        console.log(response)
+        loading.value = false
+      })
+    }
+    const showNotify = (type, message) => {
+      q.notify({
+        message: message,
+        color: type,
+        actions: [
+          { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+        ]
+      })
+    }
+
+      onMounted(() => {
+      q.addressbarColor.set(title[parseInt(route.params.type).color])
+    })
     return {
       router,
-      header: title[parseInt(route.params.type)],
+      header,
+      loading,
       icons: inject('ionIcons'),
       wozIcons,
       optionsLink,
@@ -226,6 +284,8 @@ export default {
       product,
       numberFormat,
       rulesForm,
+      updateType,
+      createLink,
     }
   },
 }
@@ -244,6 +304,20 @@ export default {
 }
 </style>
 <style lang="scss">
+  @keyframes circle-in-center {
+    from {
+      clip-path: circle(0%);
+    }
+    to {
+      clip-path: circle(125%);
+    }
+  }
+
+
+  .swicht {
+    animation: 1.5s cubic-bezier(.25, 1, .30, 1) circle-in-center both;
+  }
+
   .amount__items{
     border: 1px solid rgb(82, 82, 82);
     border-radius: 8px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-py-sm q-px-md q-px-md-lg" >
+  <div class="q-py-sm q-px-md q-px-md-lg q-pb-md" >
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">

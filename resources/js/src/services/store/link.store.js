@@ -37,7 +37,7 @@ export const useLinkStore = defineStore("link", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al eliminar tarjeta vinculada');
+              resolve('Error al crear link de pago');
             });
         }
       })
@@ -67,6 +67,7 @@ export const useLinkStore = defineStore("link", {
         return 'Error al actualizar datos';
       });
     },
+
     async setPayStatus(data){
       return new Promise((resolve) => {
         if (JwtService.getToken()) {

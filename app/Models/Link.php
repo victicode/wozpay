@@ -9,6 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Link extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = [
+        'url', 
+        'short', 
+        'code', 
+        'title',
+        'note', 
+        'amount', 
+        'status', 
+        'pay_status', 
+        'isWatch', 
+        'type', 
+        'user_id',
+        'due_time',
+    ];
     protected $appends  =   ['status_label'];
 
     public function getstatusLabelAttribute()

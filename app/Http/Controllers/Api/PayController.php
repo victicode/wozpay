@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
+use App\Models\User;
 
 class PayController extends Controller
 {
@@ -45,7 +46,7 @@ class PayController extends Controller
         } catch (Exception $th) {
             return $this->returnFail(400, $th->getMessage());
         }
-        // $this->approvePay($pay);
+
         event(new UserUpdateEvent(1));
 
         $this->sendNotification(
@@ -115,7 +116,7 @@ class PayController extends Controller
     }
     public function isCompleteLoan($loan) {
         if($loan->quotas == $loan->pays_success_count){
-            
+            if($loan->redTapes->use_count <= 3) User::where('id', $loan->user_id)->update(['viewRekutu' => 1]);
             $this->sendNotification(
                 'Felicitaciones has pagado el prestamo #619'.$loan->loan_number.' en su totalidad', 
                 $loan->user_id, 'Prestamo pagado', 2);
@@ -165,10 +166,6 @@ class PayController extends Controller
 
     }
 
-    private function actionAfterChange($pay) {
-        if($pay->status == 2) $this->approvePay($pay);
-    }
-
     private function approvePay($pay) {
         $quota = Quota::find($pay->quota_id);
         $quota->status = '2';
@@ -182,7 +179,7 @@ class PayController extends Controller
             //throw $th;
         }
 
-        $loan = Loan::withCount('paysSuccess')->find($pay->loan_id);
+        $loan = Loan::withCount('paysSuccess')->with('redTapes')->find($pay->loan_id);
         $loan->status = $this->isCompleteLoan($loan);
         $loan->save();
         

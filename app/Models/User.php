@@ -26,7 +26,11 @@ class User extends Authenticatable implements JWTSubject
         'rol_id',
         'verify_status',
         'facial_verify',
-        'is_first_loan'
+        'is_first_loan',
+        'viewBank',
+        'viewTransfer',
+        'viewRekutu',
+
     ];
 
     /**

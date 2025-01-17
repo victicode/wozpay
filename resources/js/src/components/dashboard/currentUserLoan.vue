@@ -148,7 +148,7 @@
         return status[state]
       }
       const goTo = () => {
-        if(Object.values(loan).length == 0){
+        if(Object.values(loan.value).length == 0){
 
           router.push('/apply')
           return

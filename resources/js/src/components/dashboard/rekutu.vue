@@ -17,7 +17,10 @@
     <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady">
         <div class="row q-px-none">
-          <div class="col-12 text-black-9 q-pa-md flex items-center justify-between justify-md-start loan_card " :class="{'rekutu-efect':activeRekutu =='yes', 'none-efect':activeRekutu !='yes'} " style="" >
+          <div 
+            class="col-12 text-black-9 q-pa-md flex items-center justify-between justify-md-start loan_card " 
+            :class="{'rekutu-efect':user.viewRekutu} " style="" 
+          >
             <div>
               <q-icon :name="icons.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
@@ -80,12 +83,13 @@
   import { useLoanStore } from '@/services/store/loan.store';
   import { useQuasar } from 'quasar';
   import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia';
 
   export default {
     setup() {
       //vue provider
       const q = useQuasar()
-      const user = useAuthStore().user;
+      const{ user } = storeToRefs(useAuthStore());
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
       const isReady = ref(false)
@@ -93,15 +97,13 @@
       const loan = ref({}) 
       const loading = ref(true);
       const router = useRouter()
-      const activeRekutu = ref('')
 
       const activeLoan = () => {
-        loanStore.getLoan(user.id).then((data) => {
+        loanStore.getLoan(user.value.id).then((data) => {
           if(!data.code)  throw data
           loan.value = data.data ? Object.assign(data.data) : {} 
           loadingShow(false)
           isReady.value = true
-          isRekutu()
           
         }).catch((e) => {
           isReady.value = true
@@ -109,15 +111,7 @@
           showNotify('negative', 'error al obtener prestamo activo')
         })
       }
-      const isRekutu = () =>{
-       if(!localStorage.getItem('rekutu') ){
-          if(loan.value.status == 3 && loan.value.red_tapes.use_count < 3){
-              localStorage.setItem('rekutu', 'yes')
-          }
-        }
-        activeRekutu.value = localStorage.getItem('rekutu')
 
-      }
       const goTo = ()=> {
         localStorage.setItem('rekutu', 'no')
         router.push('/apply')
@@ -146,7 +140,6 @@
         wozIcons,
         loan,
         router,
-        activeRekutu,
         goTo,
       }
     },

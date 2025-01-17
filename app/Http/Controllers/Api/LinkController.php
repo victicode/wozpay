@@ -52,8 +52,21 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        
+        $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
+        $link = Link::create([
+            'url'      => config('app.url').'v1/pay/link/'.$code ,
+            'short'    => '',
+            'code'     => $code,
+            'title'    => $request->title,
+            'note'     => $request->note,
+            'amount'   => $request->amount,
+            'status'   => 1,
+            'isWatch'  => 0,
+            'type'     => $request->type,
+            'user_id'  => $request->user()->id,
+            'due_time' => date('Y-m-d H:i:s', time() + 7200)
+        ]);
+        return $this->returnSuccess(200, $link);
     }
 
     /**
