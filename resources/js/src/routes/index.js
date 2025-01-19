@@ -150,6 +150,15 @@ const router = createRouter({
       beforeEnter: auth,
     },
     {
+      path: "/v1/pay/:id",
+      name:"pay",
+      component: () => import('@/pages/transfer.vue'),
+      meta: {
+        title : 'Pagar'
+      },
+      beforeEnter: auth,
+    },
+    {
       path: "/finish_transfer/:id",
       name:"finish_transfer",
       component: () => import('@/components/transfer/finishTransfer.vue'),

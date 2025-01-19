@@ -26,7 +26,7 @@ export const useLinkStore = defineStore("link", {
       });
     },
     async createLink(data) {
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("/api/link",data)
@@ -43,7 +43,7 @@ export const useLinkStore = defineStore("link", {
       })
       .catch((response) => {
         console.log(response)
-        return 'Error al actualizar datos';
+        return 'Error al crear link de pago';
       });
     },
     async getLinkById(id) {

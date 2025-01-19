@@ -52,10 +52,12 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('America/Caracas');
+
         $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
+
         $link = Link::create([
             'url'      => config('app.url').'v1/pay/link/'.$code ,
-            'short'    => '',
             'code'     => $code,
             'title'    => $request->title,
             'note'     => $request->note,

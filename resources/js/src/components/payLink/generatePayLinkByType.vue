@@ -1,14 +1,18 @@
 <template>
   <div class="layout-dasboard__content" style="">
     <div id="linkGenerateContent">
-      <div class="hero-content q-px-md q-pt-lg q-px-md-xl" transition-style="in:circle:center" :style="'background:'+header.color" >
+      <div class="hero-content q-px-md q-pt-lg q-px-md-sm" transition-style="in:circle:center" :style="'background:'+header.color" >
         <div class=" q-px-md-lg hero-content_title" transition-style="in:circle:center" :style="'background:'+header.color" >
           <div class="text-h4 text-white text-weight-bold "  style="font-size: 2.3rem;">
-            {{header.title}}
+            {{ header.title }}
           </div>
-          <div class="text-subtitle1 text-white q-mt-sm text-weight-medium q-pb-md">
+          <div class="text-subtitle1 text-white q-mt-sm text-weight-medium ">
             Sólo puedes generar una cantidad de 6 links
             en la versión gratuita
+          </div>
+          <div class="q-pb-md flex items-center">
+            <q-linear-progress rounded size="15px"  track-color="white"  :value="countLink/user.limit_link" :color="header.track" class="q-mt-sm totalLink_progress" />
+            <div class="q-mt-sm q-px-sm text-subtitle1 text-bold text-white">{{  countLink }}/ {{ user.limit_link }}</div>
           </div>
         </div>
       </div> 
@@ -130,6 +134,7 @@
         </q-btn>
       </div>
     </div>
+    <doneModal :dialog="done"/>
   </div>
 </template>
 <script>
@@ -139,15 +144,25 @@
   import wozIcons from '@/assets/icons/wozIcons';
   import util from '@/util/numberUtil'
   import { useLinkStore } from '@/services/store/link.store';
+  import doneModal from '@/components/layouts/modals/doneModal.vue';
+  import { storeToRefs } from 'pinia';
+  import { useAuthStore } from '@/services/store/auth.store';
+
 
 export default {
+  components: {
+    doneModal
+  },
   setup() {
+    const { user } = storeToRefs(useAuthStore())
     const q = useQuasar();
     const router = useRouter()
     const route = useRoute();
     const numberFormat = util.numberFormat
     const linkStore = useLinkStore()
     const loading = ref(false)
+    const done = ref(false)
+    const countLink = ref(0)
     const product = ref({
       name:'',
       amount:'',
@@ -157,23 +172,28 @@ export default {
       
       {
         title:'Links de cortesía',
-        color:'#ffc701'
+        color:'#ffc701',
+        track: 'primary'
       },
       {
         title:'Links ilimitados',
-        color:'#19cd15'
+        color:'#19cd15',
+        track: 'white'
       },
       {
         title:'Links de membresías',
-        color:'#0449fb'
+        color:'#0449fb',
+        track: 'terciary'
       },
       {
         title:'Links de freelancers',
-        color:'#929396'
+        color:'#929396',
+        track: 'terciary'
       },
       {
         title:'Links de ventas',
-        color:'#ffc701'
+        color:'#ffc701',
+        track: 'primary'
       },
       
     ]
@@ -197,7 +217,6 @@ export default {
       },
     ]
     const header = ref(title[parseInt(route.params.type)])
-
     const selectedOption = ref(optionsLink[parseInt(route.params.type)])
     const updateType = () => {
       header.value = title[selectedOption.value.id]
@@ -207,8 +226,6 @@ export default {
       setTimeout(() => {
         document.querySelector('.hero-content_title').classList.add('swicht')
       }, 10);
-
-
     }
     const rulesForm = (id) => {
       const iRules = {
@@ -229,34 +246,42 @@ export default {
       
       return iRules[id]
     }
-    
-
     const validateFrom = () => {
       let isOk = true
-      Object.entries(product).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+      Object.entries(product.value).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
       
       if(selectedOption.value.id == 0) {
         showNotify('negative', 'Debes selecionar un metodo de pago')
         return false
       }
-      showNotify('negative', 'Debes completar el formulario')
       return isOk
     }
-
     const createLink = () => {
       if(!validateFrom()){
+        showNotify('negative', 'Debes completar el formulario')
         return
       }
+      
       loading.value = true
       const data = {
         note:   product.value.details,
-        amount: product.value.amount,
+        amount: parseInt(product.value.amount.replace(/\./g, '')),
         title:  product.value.name,
-        type:   selectedOption
+        type:   selectedOption.value.id
       }
       linkStore.createLink(data)
       .then((response) => {
+        if(response.code !== 200) throw response
+
+        loading.value = false
+        done.value = true
+        setTimeout(() => {
+          goTo(response.data.id)
+        }, 1000);
+      })
+      .catch((response) => {
         console.log(response)
+        showNotify('negative', response)
         loading.value = false
       })
     }
@@ -269,11 +294,23 @@ export default {
         ]
       })
     }
-
-      onMounted(() => {
+    const goTo = (id) => {
+      router.push('/link/pay/'+id)
+    }
+    const countLinkUsed = () => {
+      linkStore.getLinksByUser(user.value.id)
+      .then((response) =>{
+        countLink.value = response.data.length
+      })
+    }
+    onMounted(() => {
       q.addressbarColor.set(title[parseInt(route.params.type).color])
+      countLinkUsed()
     })
     return {
+      done,
+      user,
+      countLink,
       router,
       header,
       loading,
@@ -358,6 +395,27 @@ export default {
   }
   .linkPaySelectType2 .q-field__native{
     padding-top: 15px!important;
+  }
+  .totalLink_progress {
+    border: 1px solid transparent;
+    width: 90%!important;
+    border-radius: 90px;
+    & .q-linear-progress__track{
+      opacity: 1;
+    }
+    & .q-linear-progress__model {
+      border-top-right-radius: 90px;
+      border-bottom-right-radius: 90px;
+    }
+  }
+  @media screen and (max-width: 780px){
+    #auth-section{
+      height: 100vh; 
+    }
+    .totalLink_progress {
+      width: 55%!important;
+
+    }
   }
   @media screen and (max-width: 780px){
   .linkPaySelectType {

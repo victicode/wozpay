@@ -1,8 +1,8 @@
 <template>
-  <div  class="bg-positive" style="height: 100vh;">
-    <div v-if="Object.values(link).length > 0" style="height: 100%; overflow: auto;">
+  <div  class="bg-positive " style="height: 100vh;">
+    <div v-if="Object.values(link).length > 0" style="height: 100%; overflow: auto;" class="q-pb-xl q-pb-md-sm">
 
-      <div id="topbarLayoutLink" class="bg-positive q-pt-md">
+      <div id="topbarLayoutLink" class="bg-positive q-pt-md q-pt-md-xs">
         <div class="w-100 flex justify-between items-center h-100 q-pb-sm">
           <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="router.go(-1)" />
 
@@ -15,7 +15,7 @@
       </div>
       <div>
         <div class="q-px-md q-mt-xs q-px-md-xl">
-          <div class="recipe__card bg-white q-py-xs ">
+          <div class="recipe__card bg-white q-py-xs q-mt-lg q-mt-md-none">
             <div class="recipe__card--header flex items-center w-100 q-pa-md q-px-md-lg ">
               <div class="w-50">
                 <div>
@@ -31,13 +31,13 @@
               </div>
             </div>
             <div class="q-px-md q-px-md-lg">
-              <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Link generado</div>
                 <div class="text-primary text-weight-light text-body1 q-px-xs q-py-xs">
-                  https://www.{{ link.url }}
+                  {{ link.url }}
                 </div>
               </div>
-              <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs flex items-center justify-between">
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs flex items-center justify-between">
                 <div>
                   <div class="text-subtitle1 text-weight-bold q-pl-xs">Categoría</div>
                   <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
@@ -48,25 +48,25 @@
                   N° {{ link.code }}
                 </div>
               </div>
-              <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Concepto</div>
                 <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
                   {{ link.note }}
                 </div>
               </div>
-              <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Monto</div>
                 <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
                   Gs. {{ numberFormat(link.amount) }}
                 </div>
               </div>
-              <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Duración del link</div>
                 <div class="text-primary text-weight-bold text-body1 q-px-xs q-py-xs">
                   2 horas desde su creación
                 </div>
               </div>
-              <div class="recipe__list q-pt-sm q-mt-xs q-pb-xs">
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Estado</div>
                 <div class="text-primary text-weight-medium text-body1">
                   <q-chip :color="link.status == 2 ? 'positive' : link.status == 1 ? 'terciary' : 'negative'" text-color="white" >
@@ -76,8 +76,8 @@
               </div>
             </div>
             <div class="q-px-md-xl q-mb-md">
-              <div class="text-h6 text-primary text-center text-weight-medium q-mt-lg">Tiempo restante</div>
-              <div class="text-h4 text-primary text-center text-weight-medium q-mt-sm" :id="'timer-link'+link.id" style="letter-spacing: 5px;" />
+              <div class="text-h6 text-primary text-center text-weight-medium q-mt-lg q-mt-md-sm">Tiempo restante</div>
+              <div class="text-h4 text-primary text-center text-weight-medium q-mt-sm q-mt-md-none" :id="'timer-link'+link.id" style="letter-spacing: 5px;" />
               <div class="q-px-xl q-mt-sm q-px-md-xl q-mx-md-xl">
                 <q-btn 
                   color="primary" class="w-100 q-pa-md back__to" 
@@ -149,7 +149,7 @@
 
       const copyLink = () => {
 
-        const texto = 'https://www.'+link.value.url;
+        const texto = link.value.url;
         const textArea = document.createElement('textarea');
         textArea.value = texto;
         textArea.style.opacity = 0;

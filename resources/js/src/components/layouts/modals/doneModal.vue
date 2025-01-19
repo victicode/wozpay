@@ -10,7 +10,7 @@
     </q-dialog>
 </template>
 <script>
-  import { inject } from 'vue';
+  import { inject, ref, watch } from 'vue';
 
   export default {
     props: {
@@ -19,9 +19,13 @@
     },
     setup(props) {
       //vue provider
-      const dialog = props.dialog;
+      const dialog = ref(props.dialog);
       const icons = inject('ionIcons')
-  
+
+      watch(() => props.dialog, (newValue) => {
+        dialog.value = newValue
+      });
+      
       return{
         dialog,
         icons,
