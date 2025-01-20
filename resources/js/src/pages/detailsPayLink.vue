@@ -4,12 +4,14 @@
 
       <div id="topbarLayoutLink" class="bg-positive q-pt-md q-pt-md-xs">
         <div class="w-100 flex justify-between items-center h-100 q-pb-sm">
-          <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="router.go(-1)" />
+          <q-btn flat round color="white" size="md" @click="router.go(-1)" >
+            <q-icon name="eva-chevron-left-outline" size="xl"/>
+          </q-btn>
 
           <div class="text-weight-bold text-white title__text">
             Link generado con éxito
           </div>
-          <div class="boxNoVisible">
+          <div class="boxNoVisibleLink">
           </div>
         </div>
       </div>
@@ -41,7 +43,7 @@
                 <div>
                   <div class="text-subtitle1 text-weight-bold q-pl-xs">Categoría</div>
                   <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
-                    {{ link.type == 1 ? 'Freelance' : link.type == 2 ? 'Venta' : 'Membresias'  }}
+                    {{ link.type == 1 ? 'Freelance' : link.type == 4 ? 'Venta' : 'Membresias'  }}
                   </div>
                 </div>
                 <div class="text-grey-5 text-weight-medium text-body1 q-pt-lg">
@@ -51,7 +53,7 @@
               <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Concepto</div>
                 <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
-                  {{ link.note }}
+                  {{ link.title }}
                 </div>
               </div>
               <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
@@ -191,7 +193,7 @@
 </script>
 <style lang="scss" scoped>
 .title__text{
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 .donwload {
   border-radius: 15px!important;
@@ -216,9 +218,9 @@
   width: 100%;
   line-break:anywhere
 }
-.boxNoVisible {
-  width: 72px;
-  height: 72px;
+.boxNoVisibleLink {
+  width: 45px;
+  height: 45px;
   visibility: hidden;
 }
 .h-100{

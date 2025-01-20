@@ -41,7 +41,7 @@
                   }" 
                   v-for="(lines, index) in items" :key="index"
                 > 
-                  <div>
+                  <div style="word-wrap: break-word;">
                     {{ lines }}
                   </div>
                   <q-icon
@@ -190,12 +190,25 @@
           }
         }
 
+        if(transactionType == 7)  {
+          lines[1] = {
+            title:'Titulo del producto',
+            text:transaction.value.title,
+          }
+          lines[2] = {
+            title:'URL',
+            value:  transaction.value.url,
+          }
+          lines[3] = {
+            title:'Referencia',
+            value: transaction.value.code,
+          }
+        }
+
         lines.push({
           date: moment(transaction.value.created_at).format('DD/MM/YYYY'),
           hour: moment(transaction.value.created_at).format('hh:mm') + ' hs',
         })
-
-        console.log(lines)
         return  lines
       }
       const imgByType = () => {

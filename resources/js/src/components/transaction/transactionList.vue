@@ -172,6 +172,7 @@ export default {
       return 'text-negative'
     }
     const goTo = (type, id) => {
+      // if()
       router.push('/trasacction/view/'+type+'/'+id)
     }
     const setPage = (page) => {

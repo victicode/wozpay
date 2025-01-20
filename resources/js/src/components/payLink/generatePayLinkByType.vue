@@ -208,16 +208,16 @@ export default {
         name:'Ventas'
       },
       {
-        id:3,
-        name:'Freelancers'
-      },
-      {
         id:2,
         name:'Membresías'
       },
+      {
+        id:3,
+        name:'Freelancers'
+      },
     ]
     const header = ref(title[parseInt(route.params.type)])
-    const selectedOption = ref(optionsLink[parseInt(route.params.type)])
+    const selectedOption = ref(optionsLink.find(el => el.id == parseInt(route.params.type)))
     const updateType = () => {
       header.value = title[selectedOption.value.id]
       if(document.querySelector('.hero-content_title').classList.contains('swicht')){

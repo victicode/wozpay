@@ -222,7 +222,7 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 99.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(2,6)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(4,6)"/>
                   </div>
                 </div>
               </div>
@@ -278,7 +278,7 @@
                       <div class="text-body-2 text-weight-medium ">Gs. 10.000</div>
                       <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(3,9)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(4,9)"/>
                   </div>
                 </div>
               </div>

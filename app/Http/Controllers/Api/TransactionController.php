@@ -103,6 +103,9 @@ class TransactionController extends Controller
         if($type == 6){
             return  Loan::with('user')->find($id);
         }
+        if($type == 7){
+            return  Link::with('user')->find($id);
+        }
     }
     private function object_sorter($clave,$orden=null) {
         return function ($a, $b) use ($clave,$orden) {
@@ -130,6 +133,7 @@ class TransactionController extends Controller
             'Comprobante de transferencia interna recibida',
             'Comprobante de transferencia interna realizada',
             'Comprobante de descuento automático',
+            'Link de pago',
         ];
 
         return $types[$type];
@@ -212,6 +216,20 @@ class TransactionController extends Controller
             $lines[3] = [
             'title' => 'Referencia',
             'text'  =>'619 5556668745',
+            ];
+        }
+        if($type == 7)  {
+            $lines[1] = [
+            'title' => 'Titulo del producto',
+            'value'  => $transaction->title,
+            ];
+            $lines[2] = [
+            'title' => 'URL',
+            'value'  => $transaction->url
+            ];
+            $lines[3] = [
+            'title' => 'Referencia',
+            'value'  => $transaction->code,
             ];
         }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="q-px-md-lg q-px-md   q-pt-none search_trasaction q-pb-md-md q-pb-sm" style="">
-    <div class="w-100 flex justify-between items-center available__money q-py-md-sm q-px-md">
+    <div class="w-100 flex justify-between items-center available__money q-py-md-sm q-py-sm q-px-md">
       <div class="flex items-center">
         <q-icon
           :size="'sm'"

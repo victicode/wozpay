@@ -24,7 +24,7 @@
           ganancias directamente a tu cuenta
           bancaria.
         </div>
-        <div class=" flex q-mt-lg q-pt-md items-center" style="transform: translateX(-0.8rem);">
+        <div class=" flex q-mt-md q-pt-md items-center" style="transform: translateX(-0.8rem);">
           <q-checkbox 
             class="terms-checkbox_transf"
             v-model="notShowBank"
@@ -39,7 +39,7 @@
           </a>
         </div>
       </div>
-      <div class="q-px-md q-mt-lg q-px-md-xl q-mx-md-xl">
+      <div class="q-px-md q-mt-md q-px-md-xl q-mx-md-xl">
         <q-btn 
           color="primary" class="w-100 q-pa-sm q-mb-lg text-primary access_button" 
           no-caps
