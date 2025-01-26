@@ -5,7 +5,6 @@ import storage from "@/services/storage";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    count: 0,
     errors: [],
     isAuthenticated: !!JwtService.getToken(),
     user: {},
@@ -41,7 +40,6 @@ export const useAuthStore = defineStore("auth", {
     logoutAction(){
       storage.deleteItem("is_admin");
       storage.deleteItem("user_unique_id");
-      storage.deleteItem("rekutu");
 
       this.isAuthenticated = false;
       this.user = {};

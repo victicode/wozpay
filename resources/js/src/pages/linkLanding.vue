@@ -134,17 +134,44 @@
           @click="showModal=true"
         />
       </div>
-      <q-dialog v-model="showModal" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <div class="text-subtitle2">¿Seguro que deseas activar tu cuenta de cobros internacionales?</div>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="grey-7" @click="showModal=false" />
-          <q-btn flat label="Activar" color="primary" :loading="loading" @click="activateWallet()" />
-        </q-card-actions>
-      </q-card>
+      <q-dialog v-model="showModal" full-width full-height persistent class="modalPreActive">
+       
+        <div style="height: 100%; background: red; width: 100%;" class="bg-white">
+          <div class="q-pa-md container__preActive">
+              <div class="q-py-md">
+                <div class="text-center text__priceActive" style="">
+                  30 USD
+                </div>
+                <div class="text-center  text-grey-7 text__anual q-mb-xs"  style="">Precio anual</div>
+                <div style="" class="separator_rombo"/>
+              </div>
+              <div>
+                <div class="text-center">
+                  Cuenta corriente internacional
+                </div>
+                <div>
+                  <div v-for="(item,index) in section1" :key="index" class="text-subtitle1 flex items-center q-py-sm">
+                    <div style="height: 1.5rem; width: 1.5rem; border-radius: 50%;" class="bg-iconPreactive flex flex-center q-mr-sm">
+                      <q-icon name="eva-checkmark-outline" color="white" size="1rem" />
+                    </div>
+                    {{ item }}
+                  </div>
+                </div>
+                <div class="text-center q-my-md text-bold text-subtitle1">
+                  Cobros a clientes
+                </div>
+                <div>
+                  <div v-for="(item,index) in section2" :key="index" class="text-subtitle1 flex items-center q-py-sm">
+                    <div style="height: 1.5rem; width: 1.5rem; border-radius: 50%;" class="bg-iconPreactive flex flex-center q-mr-sm">
+                      <q-icon name="eva-checkmark-outline" color="white" size="1rem" />
+                    </div>
+                    {{ item }}
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        
     </q-dialog>
     </div>
   </section>
@@ -168,7 +195,7 @@
   export default {
     setup() {
       //vue provider
-      const showModal = ref(false)
+      const showModal = ref(true)
       const loading = ref(false)
       const { user  } = storeToRefs(useAuthStore())
       const router = useRouter()
@@ -190,7 +217,6 @@
           img: engine,
         },
       ]
-
       const withdrawal = [
         {
           logo: binance,
@@ -263,6 +289,17 @@
         'Identificación fiscal de la cuenta (EIN)',
         'Presentación de la documentación 83B',
       ]
+      const section1 = [
+        'Cobro internacional',
+        '200 monedas disponibles',
+        'Retiro en cuenta bancaria',
+        'Todas las categorias y rubros'
+      ]
+      const section2 = [
+        'Ventas',
+        'Suscripciones - pagos mensuales',
+        'Trabajos en el exterior',
+      ]
       const requirements = ref({
         card: user.value.card ?? false,
         current: user.value.current_loan ?? false,
@@ -306,6 +343,8 @@
         showModal,
         loading,
         activateWallet,
+        section1,
+        section2,
       }
     },
   }
@@ -313,6 +352,54 @@
 </script>
 
 <style lang="scss" >
+.text-iconPreactive{
+  color:#19cd15!important;
+}
+.bg-iconPreactive{
+  background: #19cd15!important;
+}
+.separator_rombo{
+  width: 85%; border-bottom: 4px solid #19cd15;
+  margin: auto;
+  position: relative;
+  &::after{
+    content: '';
+    width: 12px;
+    height: 12px;
+    transform: rotate(45deg);
+    background: #19cd15;
+    position: absolute;
+    right: -0.3rem;
+    top: -0.2822rem;
+  }
+  &::before{
+    content: '';
+    width: 12px;
+    height: 12px;
+    transform: rotate(45deg);
+    background: #19cd15;
+    position: absolute;
+    left: -0.3rem;
+    top: -0.2822rem;
+  }
+}
+.text__priceActive{
+  color: #19cd15; font-weight: bold; font-size: 3.4rem; line-height: 1;
+}
+.text__anual{
+  font-weight: 300; font-size: 0.8rem; text-align: end; margin-right: 5rem;
+}
+.container__preActive{
+  border: 1px solid $primary;
+  width: 50%;
+  margin: auto;
+  border-radius: 2rem;
+}
+.modalPreActive{
+  & .q-dialog__inner--minimized {
+    padding: 0px!important;
+  }
+}
 .activate__text{
   font-size: 1.6rem; font-weight: bold;
 }
@@ -396,6 +483,9 @@
     }
   }
   @media screen and (max-width: 780px){
+    .container__preActive{
+      width: 90%;
+    }
     .links-progress {
       width: auto!important;
 
