@@ -4,7 +4,7 @@
       <div class="w-100">
         <img :src="person" alt="" class=" mx-auto" height="">
       </div>
-      <div style="width: 100%; border-top: 4px solid #f9a826; background: #1c304f;" class="q-px-md q-py-lg">
+      <div class="q-px-md q-py-lg sectionLinkLan">
         <div class="text-white  text-bold q-px-xs" style="font-size: 1.8rem;">
           Activa tu cuenta internacional con Woz Payments
         </div>
@@ -20,7 +20,7 @@
       <div class="q-px-lg q-my-lg">
         <div class="q-px-sm">
 
-          <div v-for="(item,index) in whatDo" :key="index" style="border-radius: 20px; background: #e1e9fe;" class="q-pa-md q-mb-md">
+          <div v-for="(item,index) in whatDo" :key="index" style="" class="q-pa-md q-mb-md whatDoContainer">
             <div>
               <img :src="item.img" alt="" style="height: 4rem; " class="mx-auto">
             </div>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="q-mt-xl">
-      <div style="width: 100%; border-top: 4px solid #f9a826; background: #1c304f;" class="q-px-md q-py-lg">
+      <div class="q-px-md q-py-lg sectionLinkLan">
         <div class="text-white  text-bold q-px-xs" style="font-size: 1.8rem;">
           Retiros en cuentas bancarias y billeteras
         </div>
@@ -134,11 +134,10 @@
           @click="showModal=true"
         />
       </div>
-      <q-dialog v-model="showModal" full-width full-height persistent class="modalPreActive">
-       
-        <div style="height: 100%; background: red; width: 100%;" class="bg-white">
-          <div class="q-pa-md container__preActive">
-              <div class="q-py-md">
+      <q-dialog v-model="showModal" full-width full-height persistent class="modalPreActive ">
+        <div style="height: 100%; background: red; width: 100%;" class="bg-white q-pt-md">
+          <div class="q-py-md q-px-md container__preActive">
+              <div class="q-py-sm q-px-sm">
                 <div class="text-center text__priceActive" style="">
                   30 USD
                 </div>
@@ -146,8 +145,12 @@
                 <div style="" class="separator_rombo"/>
               </div>
               <div>
-                <div class="text-center">
-                  Cuenta corriente internacional
+                <div class="text-center q-py-sm">
+                  <p class="text-subtitle1">
+                    Cuenta corriente internacional
+                  </p>
+                  <q-icon :name="icons.ionGlobeOutline" size="md" color="iconPreactive" />
+
                 </div>
                 <div>
                   <div v-for="(item,index) in section1" :key="index" class="text-subtitle1 flex items-center q-py-sm">
@@ -157,7 +160,7 @@
                     {{ item }}
                   </div>
                 </div>
-                <div class="text-center q-my-md text-bold text-subtitle1">
+                <div class="text-center q-my-sm text-bold text-subtitle1">
                   Cobros a clientes
                 </div>
                 <div>
@@ -170,9 +173,29 @@
                 </div>
               </div>
           </div>
+          <div class="q-mt-md">
+            <div class="q-px-md">
+              <div class="flex justify-between q-px-xs q-py-sm contentDetail">
+                <div class="text-subtitle2 text-weight-medium" >Cotización USD - Woz Pay</div>
+                <div class="text-subtitle2 text-weight-medium" >USD 1 = 7.333 Gs</div>
+              </div>
+              <div class="flex justify-between q-px-xs q-py-sm contentDetail">
+                <div class="text-subtitle2 text-weight-medium" >Total Gs</div>
+                <div class="text-subtitle2 text-weight-medium" >{{`${numberFormat(220000)}Gs`}}  </div>
+              </div>
+              <div class="flex justify-between q-px-xs q-py-sm contentDetail">
+                <div class="text-subtitle2 text-weight-medium" >Tiempo restante</div>
+                <div class="text-subtitle2 text-weight-medium text-terciary" >120 seg</div>
+              </div>
+            </div>
+            <div class="w-100 flex flex-center q-my-lg">
+              <q-btn color="iconPreactive" @click="activateWallet()">
+                <div class="q-py-sm q-px-xl">Completar el pago</div>
+              </q-btn>
+            </div>
+          </div>
         </div>
-        
-    </q-dialog>
+      </q-dialog>
     </div>
   </section>
 </template>
@@ -190,16 +213,18 @@
   import mp from '@/assets/images/mp.svg'
   import transfer from '@/assets/images/tr.svg'
   import teamship from '@/assets/images/team.svg'
-  import { useWalletStore } from '@/services/store/wallet.store';
-
+  import util from '@/util/numberUtil'
+  
   export default {
     setup() {
       //vue provider
-      const showModal = ref(true)
+      const numberFormat = util.numberFormat
+      const icons = inject('ionIcons')
+      const showModal = ref(false)
       const loading = ref(false)
       const { user  } = storeToRefs(useAuthStore())
       const router = useRouter()
-      const walletStore = useWalletStore()
+
       const whatDo = [
         {
           title: 'Operaciones en globales',
@@ -315,24 +340,11 @@
           router.push('/generatePayLink/1/1')
           return
         }
-        loading.value = true
-        walletStore.activateLinkWallet({user: user.value.id})
-        .then((data) => {
-          if(data.code !==200) throw data
-          setTimeout(() => {
-            
-            router.push('/pay_link_dashboard')
-            loading.value = false;
-          }, 2000);
-
-        })  
-        .catch((response) =>{
-          console.log(response)
-          loading.value = false;
-        })
+        router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f')
       }
       return{
         user,
+        router,
         wozIcons,
         person,
         whatDo,
@@ -342,9 +354,11 @@
         teamship,
         showModal,
         loading,
-        activateWallet,
         section1,
         section2,
+        numberFormat,
+        icons,
+        activateWallet,
       }
     },
   }
@@ -352,6 +366,9 @@
 </script>
 
 <style lang="scss" >
+.contentDetail{
+  border-bottom: 3px dashed black
+}
 .text-iconPreactive{
   color:#19cd15!important;
 }
@@ -359,7 +376,8 @@
   background: #19cd15!important;
 }
 .separator_rombo{
-  width: 85%; border-bottom: 4px solid #19cd15;
+  width: 85%; 
+  border-bottom: 4px solid #19cd15;
   margin: auto;
   position: relative;
   &::after{
@@ -387,13 +405,14 @@
   color: #19cd15; font-weight: bold; font-size: 3.4rem; line-height: 1;
 }
 .text__anual{
-  font-weight: 300; font-size: 0.8rem; text-align: end; margin-right: 5rem;
+  font-weight: 300; font-size: 0.8rem; text-align: end; margin-right: 4rem;
 }
 .container__preActive{
-  border: 1px solid $primary;
+  border: 2px solid #1c304f;
   width: 50%;
   margin: auto;
   border-radius: 2rem;
+  box-shadow: 0px 5px 10px 0px #9f9f9fc4;
 }
 .modalPreActive{
   & .q-dialog__inner--minimized {
@@ -461,6 +480,12 @@
     color: #1c304f; 
     font-size: 15px;
   }
+}
+.whatDoContainer{
+  border-radius: 20px; background: #e1e9fe;
+}
+.sectionLinkLan {
+  width: 100%; border-top: 4px solid #f9a826; background: #1c304f;
 }
 .steps{
   &__title-section{

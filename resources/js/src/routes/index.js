@@ -67,10 +67,33 @@ const router = createRouter({
       },
     },
     {
+      path:'/',
+      name:'payLinkForm',
+      beforeEnter: auth,
+      component:() => import('@/layouts/payFormLinkLayout.vue'),
+      children:[
+        {
+          path: "/form_pay_link/user/:type",
+          name:"form_pay_lin_user",
+          component: () => import('@/pages/paylinkFormUser.vue'),
+          meta: {
+            title : 'Vincular tarjeta'
+          },
+        },
+        {
+          path: "/form_pay_link/client",
+          name:"form_pay_lin_client",
+          component: () => import('@/pages/paylinkFormClient.vue'),
+          meta: {
+            title : 'Vincular tarjeta'
+          },
+        },
+      ]
+    },
+    {
       path: "/",
       name:"home",
       component: dashboardLayout,
-      
       children: [
         {
           name: "dashboard",

@@ -41,7 +41,6 @@
           </div>
         </a>
       </q-carousel-slide>
-
     </q-carousel>
   </div>
 </template>
