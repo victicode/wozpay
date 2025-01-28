@@ -173,8 +173,8 @@
                 </div>
               </div>
           </div>
-          <div class="q-mt-md">
-            <div class="q-px-md">
+          <div class="q-mt-md q-px-md-xl q-mx-md-xl">
+            <div class="q-px-md q-px-md-xl q-mx-md-xl">
               <div class="flex justify-between q-px-xs q-py-sm contentDetail">
                 <div class="text-subtitle2 text-weight-medium" >Cotización USD - Woz Pay</div>
                 <div class="text-subtitle2 text-weight-medium" >USD 1 = 7.333 Gs</div>

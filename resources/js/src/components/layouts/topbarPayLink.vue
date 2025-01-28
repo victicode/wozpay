@@ -1,6 +1,6 @@
 <template>
-  <div id="topbarLayoutlink" class=" q-pt-xs" :style="'background:#'+ route.query.color">
-    <div class="w-100 flex flex-center h-100 q-pb-sm q-pt-md position-relative">
+  <div id="topbarLayoutlink" class=" q-pt-none" :style="'background:#'+ route.query.color">
+    <div class="w-100 flex flex-center h-100 q-pb-sm q-pt-md-sm q-pt-md position-relative">
       <div style="position: absolute; left: 0%;">
         <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="redirectToHome()" />
       </div>
@@ -68,7 +68,7 @@
   height: 100%;
 }
 #topbarLayoutlink{
-  height: 10%;
+  height: 9%;
   width: 100%;
   // border-bottom: 1px solid lightgray;
 }

@@ -65,6 +65,14 @@ export const usePayStore = defineStore("pay", {
         return 'Error al actualizar datos';
       });
     },
+    getDataTransfer(){
+      return [
+        'SUDAMERIS BANK',
+        'CUENTA CORRIENTE',
+        'ALIAS BANCARIO',
+        '0983994268'
+      ]
+    }
 
   },
   getters: {

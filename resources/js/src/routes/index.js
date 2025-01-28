@@ -77,7 +77,7 @@ const router = createRouter({
           name:"form_pay_lin_user",
           component: () => import('@/pages/paylinkFormUser.vue'),
           meta: {
-            title : 'Vincular tarjeta'
+            title : 'Pagos'
           },
         },
         {

@@ -243,6 +243,7 @@
         data.append('amount', parseFloat(dataPay.value.amount))
         data.append('vaucher', dataPay.value.vaucher)
         data.append('type', 3)
+        data.append('method', 1)
         data.append('status', 1)
         data.append('concept', createConceptPay())
 

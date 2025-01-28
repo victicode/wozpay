@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\Pay;
 use App\Models\Loan;
+use App\Models\User;
 use App\Models\Quota;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
-use App\Models\User;
 
 class PayController extends Controller
 {
@@ -37,6 +38,7 @@ class PayController extends Controller
                 'operation_id'  =>  $request->operation_id ?? rand(1000000, 9999999),
                 'quota_id'      =>  $request->quota_id ?? null,
                 'bank'          =>  $request->bank ?? null,
+                'method'        =>  $request->method,
                 'pay_date'      =>  $request->pay_date ?? null,
                 'vaucher'       =>  $vaucher ?? null,
                 'type'          =>  $request->type,
@@ -49,8 +51,17 @@ class PayController extends Controller
 
         event(new UserUpdateEvent(1));
 
-        $this->sendNotification(
-            'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 'Pago pendiente de verificación', 1);
+        if($request->type == 5){
+            $this->sendNotification(
+                'Tu pago  de activación de cuenta internacional fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
+                'Pago pendiente de verificación', 1);
+            $this->activateLinkWallet($request);
+        }else{
+            $this->sendNotification(
+            'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
+            'Pago pendiente de verificación', 1);
+        
+        }
 
         return $this->returnSuccess(200, $pay);
     }
@@ -134,7 +145,6 @@ class PayController extends Controller
     }
     private function validateFieldsFromInput($inputs){
         $rules=[
-            'loan_id'       => ['required', 'integer'],
             'amount'        => ['required', 'integer'],
             'operation_id'  => ['regex:/^[0-9]+$/i'],
             'bank'          => ['regex:/^[a-zA-Z-À-ÿ0-9 .]+$/i'],
@@ -145,8 +155,6 @@ class PayController extends Controller
 
         ];
         $messages = [
-            'loan_id.required'       => 'El prestamo es requerido.',
-            'loan_id.integer'        => 'Prestamo no valido.',
             'amount.required'        => 'El monto es requerido.',
             'amount.integer'         => 'Monto no valido.',
             'operation_id.regex'     => 'Número de operación no valido.',
@@ -198,6 +206,22 @@ class PayController extends Controller
         } catch (Exception $th) {
             //throw $th;
         }
+    }
+    private function activateLinkWallet(Request $request){
+        $wallet = Wallet::create([
+            'number'    => '918' . $request->user()->dni,
+            'balance'   => 0,
+            'type'      => 2,
+            'status'    => 1,
+            'user_id'   => $request->user()->id,
+        ]);
+        
+        try {
+            event(new UserUpdateEvent($wallet->user_id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
+        return $this->returnSuccess(200, $wallet);
     }
     
 }

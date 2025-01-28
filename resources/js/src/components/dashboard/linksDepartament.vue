@@ -55,7 +55,6 @@
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
-  import { useCardStore } from '@/services/store/card.store'
   import { inject, onMounted, ref } from 'vue'
   import util from '@/util/numberUtil'
   import { useRouter } from 'vue-router'

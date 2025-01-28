@@ -79,8 +79,8 @@
 
 <style lang="scss" scoped>
 .container_page{
-  height: 83%;
-  overflow: hidden;
+  height: 82%;
+  overflow-y: hidden;
 
 }
 
