@@ -143,6 +143,18 @@ class PayController extends Controller
             'data' => $request->all(),
         ]);
     }
+
+    public function getPayPendings(Request $request){
+        
+        return $this->returnSuccess(200,
+        [
+            'payActication' => $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
+            'payPackage'    => $request->count ? Pay::where('type', 6)->where('status', 1)->count() : Pay::where('type', 6)->with('user')->where('status', 1)->get(),
+            'payCreateLink' => $request->count ? Pay::where('type', 7)->where('status', 1)->count() : Pay::where('type', 7)->with('user')->where('status', 1)->get(),
+
+        ]);
+
+    }
     private function validateFieldsFromInput($inputs){
         $rules=[
             'amount'        => ['required', 'integer'],

@@ -277,6 +277,13 @@ const router = createRouter({
           meta: {
             title: 'Calculadora de intereses'
           }
+        },
+        {
+          path: '/admin/payPendingList/:id',
+          component: () => import('@/pages/admin/paysPendingList.vue'),
+          meta:{
+            title: 'Lista de pagos pendientes'
+          },
         }
       ]
     },

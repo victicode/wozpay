@@ -44,8 +44,8 @@
             </div>
           </div>
         </div> 
-        <div class="w-100 q-mt-md q-pb-xl q-pt-xs offerWall">
-          <div class="q-pa-md">
+        <div class="w-100 q-mt-md q-pb-xl q-pt-xs offerWall" :class="{'q-mb-xl q-pt-md': user.wallet_link.status!=2}">
+          <div class="q-pa-md" v-if="user.wallet_link.status==2">
 
             <!-- woz pay free -->
             <div>
@@ -284,6 +284,9 @@
               </div>
             </div>
           </div>
+          <div v-else class="q-px-xl text-center text-subtitle2 q-mb-md"> 
+            La activación de tu cuenta de cobros internacional esta siendo verifcada, pronto podras crear tus links de cobro
+          </div>
         </div>
       </div>
     </div>
@@ -304,6 +307,8 @@
   import wozIcons from '@/assets/icons/wozIcons';
   import backgroundWay from '@/components/payLink/backgroundWay.vue';
   import util from '@/util/numberUtil'
+  import { useAuthStore } from '@/services/store/auth.store';
+  import { storeToRefs } from 'pinia';
 
 export default {
   components:{
@@ -313,7 +318,7 @@ export default {
   setup() {
     const router = useRouter()
     const numberFormat = util.numberFormat
-
+    const { user } = storeToRefs(useAuthStore())
     const infoData = [
       {
         img: imagen6,
@@ -347,6 +352,7 @@ export default {
     })
 
     return {
+      user,
       router,
       slide: ref(0),
       infoData,

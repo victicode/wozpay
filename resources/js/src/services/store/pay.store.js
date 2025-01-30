@@ -65,6 +65,26 @@ export const usePayStore = defineStore("pay", {
         return 'Error al actualizar datos';
       });
     },
+    async getPendingPays(count){
+      return new Promise((resolve, reject ) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.get("/api/pay/pays_pending"+ (count ?'?count=1':''))
+          .then(({data}) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            reject(response)
+          })
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al obtener pagos pendientes';
+      });
+    },
     getDataTransfer(){
       return [
         'SUDAMERIS BANK',
