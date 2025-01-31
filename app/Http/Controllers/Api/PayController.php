@@ -20,16 +20,12 @@ class PayController extends Controller
     //
     public function storePay(Request $request) {
         $validated = $this->validateFieldsFromInput($request->all()) ;
-
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
-
         $vaucher = ''; 
-        
         if ($request->vaucher) {
             $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
             $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
-        }
-        
+        }  
         try {
             $pay = Pay::create([
                 'user_id'       =>  $request->user()->id,
@@ -53,14 +49,13 @@ class PayController extends Controller
 
         if($request->type == 5){
             $this->sendNotification(
-                'Tu pago  de activación de cuenta internacional fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
-                'Pago pendiente de verificación', 1);
+            'Tu pago  de activación de cuenta internacional fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
+            'Pago pendiente de verificación', 1);
             $this->activateLinkWallet($request);
         }else{
             $this->sendNotification(
             'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
             'Pago pendiente de verificación', 1);
-        
         }
 
         return $this->returnSuccess(200, $pay);
@@ -116,7 +111,23 @@ class PayController extends Controller
         $pay->status = $request->status;
         $pay->save();
 
-        if($pay->status == 2) $this->approvePay($pay);
+        if($pay->status == 2) {
+            switch ($pay->type) {
+                case '3':
+                    $this->approvePay($pay);
+                    break;
+                case '5':
+                    $this->approveActivation($pay->user_id);
+                    break;
+                case '6':
+                    $this->approvePackage();
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+            
+        }
         if($pay->status == 0) {
             $this->sendNotification(
                 'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
@@ -124,6 +135,28 @@ class PayController extends Controller
         };
 
         return $this->returnSuccess(200, $pay);
+    }
+    public function changeStatusByType($payId, Request $request){
+        $pay = Pay::find($payId);
+        if(!$pay) return $this->returnFail(400, 'Pago no encontrado');
+
+        $pay->status = $request->status;
+        $pay->save();
+
+
+
+        if($pay->status == 2) {
+
+        }
+ 
+        if($pay->status == 0) {
+            $this->sendNotification(
+                'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
+
+        };
+
+        return $this->returnSuccess(200, $pay);
+
     }
     public function isCompleteLoan($loan) {
         if($loan->quotas == $loan->pays_success_count){
@@ -143,7 +176,6 @@ class PayController extends Controller
             'data' => $request->all(),
         ]);
     }
-
     public function getPayPendings(Request $request){
         
         return $this->returnSuccess(200,
@@ -154,6 +186,10 @@ class PayController extends Controller
 
         ]);
 
+    }
+    public function getById($id){
+        $pay = Pay::with('user')->find($id);
+        return $this->returnSuccess(200, $pay);
     }
     private function validateFieldsFromInput($inputs){
         $rules=[
@@ -185,14 +221,13 @@ class PayController extends Controller
         return $validator->all() ;
 
     }
-
     private function approvePay($pay) {
         $quota = Quota::find($pay->quota_id);
         $quota->status = '2';
         $quota->save();
         
-        $this->sendNotification('Tu pago ha sido verificado y procesado con exito', $pay->user_id, 'Pago verificado', 2);
         try {
+            $this->sendNotification('Tu pago ha sido verificado y procesado con exito', $pay->user_id, 'Pago verificado', 2);
             event(new UserUpdateEvent(1));
             event(new UserUpdateEvent($pay->user_id));
         } catch (Exception $th) {
@@ -203,6 +238,18 @@ class PayController extends Controller
         $loan->status = $this->isCompleteLoan($loan);
         $loan->save();
         
+    }
+    private function approveActivation($user){
+        Wallet::where('user_id', $user)->where('type', 2)->update([
+            'status' => 2
+        ]);
+        try {
+            $this->sendNotification('Tu cuenta de cobro internacional ha sido activada con exito', $user, 'Pago verificado', 2);
+            event(new UserUpdateEvent($user));
+        } catch (Exception $th) {
+            //throw $th;
+        }
+        // $wal
     }
     private function sendNotification($message, $user, $subject, $type){
         $notification = new NotificationController;

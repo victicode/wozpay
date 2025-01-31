@@ -18,20 +18,20 @@
       <div class="text-subtitle1 text-bold">Pagos pendientes: {{pays.length}}</div>
       <div></div>
     </div>
-    <div class=" q-mt-lg q-px-sm">
+    <div class=" q-mt-lg q-px-md-sm q-px-sm">
       <template v-if="loading">
         <div v-if="pays.length > 0">
-          <div v-for="(item, index) in pays" :key="index" class="q-px-md q-pb-xs q-mt-md pays__container flex items-center justify-between">
-            <div class="text-subtitle1">
-              {{ item.user.name }}
+          <div v-for="(item, index) in pays" :key="index" class="q-px-md-md q-px-none q-pb-xs q-mt-md pays__container flex items-center justify-between">
+            <div class="text-subtitle2 text-weight-medium">
+              Mirna Eustolgia Gomez Parra
             </div>
-            <div class="flex">
-              <div class="q-mr-sm">
-                {{ numberFormat(item.amount) }}
+            <div class="flex items-center">
+              <div class="q-mr-sm text-subtitle2 text-weight-medium">
+                Gs. {{ numberFormat(item.amount) }}
               </div>
-              <div>
-                >
-              </div>
+              <q-btn flat @click="goTo(item.id)" class="q-px-none">
+                <q-icon name="eva-chevron-right-outline"  class="q-pb-xs"/>
+              </q-btn>
             </div>
           </div>
         </div>
@@ -48,20 +48,26 @@
         </div>
       </template>
     </div>
+
   </div>
 </template>
 <script>
 import { usePayStore } from '@/services/store/pay.store';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import util from '@/util/numberUtil'
+
 export default {
+
+
   setup() {
     const payStore = usePayStore();
-    const route = useRoute()
+    const route = useRoute();
+    const router = useRouter();
     const pays = ref([]);
-    const numberFormat = util.numberFormat
+    const numberFormat = util.numberFormat;
     const loading = ref(false);
+    const selectedPay = ref({})
     const options = [
       {
         title:'Pagos de activación',
@@ -77,7 +83,7 @@ export default {
         title:'Pagos de link',
         index:'payPackage'
       }
-    ]
+    ];
 
     const selectedLote = ref(options[route.params.id]);
 
@@ -93,7 +99,10 @@ export default {
         console.log(response)
         loading.value = true
       })
-    }
+    };
+    const goTo = (id) => {
+      router.push('/admin/paysDetailsOther/'+id)
+    };
     onMounted(() => {
       getPaylist()
     })
@@ -103,8 +112,11 @@ export default {
       selectedLote,
       pays,
       loading,
+      selectedPay,
+      numberFormat,
       getPaylist,
-      numberFormat
+      goTo,
+
     }
   }
 }
@@ -114,25 +126,25 @@ export default {
 .pays__container{
   border-bottom: 1px solid lightgray
 }
-@media screen and (max-width: 780px){
 
 
-  .filterPays{
-    &.q-field--float .q-field__label, .q-field--focused .q-field__label {
-      transform: translateY(-123%) scale(0.75);
-      transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.396s cubic-bezier(0.4, 0, 0.2, 1);
-      background: white!important;
-      font-weight: 500;
-      z-index: 2;
-    }
-    &.q-field--auto-height.q-field--labeled .q-field__control-container{
-      padding-top: 15px;
-    }
-    & .q-field__control{
-      border-radius: 8px;
-      z-index: 1;
-    }
+
+.filterPays{
+  &.q-field--float .q-field__label, .q-field--focused .q-field__label {
+    transform: translateY(-123%) scale(0.75);
+    transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.396s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white!important;
+    font-weight: 500;
+    z-index: 2;
   }
-
+  &.q-field--auto-height.q-field--labeled .q-field__control-container{
+    padding-top: 15px;
+  }
+  & .q-field__control{
+    border-radius: 8px;
+    z-index: 1;
+  }
+}
+@media screen and (max-width: 780px){
 }
 </style>

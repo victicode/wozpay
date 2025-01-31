@@ -151,6 +151,6 @@ class WalletController extends Controller
 
     }
     private function paysPeding() {
-        return  Pay::where('status', '1' )->count();
+        return  Pay::where('status', '1' )->where('type', '3' )->count();
     }
 }

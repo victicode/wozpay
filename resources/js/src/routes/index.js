@@ -284,6 +284,13 @@ const router = createRouter({
           meta:{
             title: 'Lista de pagos pendientes'
           },
+        },
+        {
+          path: '/admin/paysDetailsOther/:id',
+          component: () => import('@/pages/admin/paysDetailsOther.vue'),
+          meta:{
+            title: 'Detalles de pago'
+          },
         }
       ]
     },

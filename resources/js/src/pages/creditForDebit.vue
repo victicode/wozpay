@@ -26,7 +26,6 @@
                 </div>
               </div>
             </div>
-
           </div>
           <div class="flex q-mt-md" >
             <div style="width: 10%;" class="q-mr-sm text-center">
