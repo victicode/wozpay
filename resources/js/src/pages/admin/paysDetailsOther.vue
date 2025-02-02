@@ -92,7 +92,7 @@
   import { usePayStore } from '@/services/store/pay.store'
   import moment from 'moment';
   import util from '@/util/numberUtil';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   export default {
     components: {
       PDF
@@ -106,6 +106,7 @@
       const emitter = inject('emitter')
       const numberFormat = util.numberFormat;
       const route = useRoute()
+      const router = useRouter()
       // Methods
       const typePay = [
         '',
@@ -131,15 +132,14 @@
 
         payStore.changeStatus(data)
         .then((response) => {
-          console.log(response)
           if(response.code !== 200) throw response
-          emitter.emit('payChangeStatus')
           showNotification('Estado de pago cambiado', messageModal[newStatus], 'positive')
           loading.value = false;
-          hideModal()
+          setTimeout(() => {
+            router.go(-1);
+          }, 2000);
         })
         .catch((response) => {
-          hideModal()
           loading.value = false;
           showNotification('Error al actualizar', response, 'negative')
         })

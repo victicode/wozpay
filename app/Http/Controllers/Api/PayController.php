@@ -29,7 +29,7 @@ class PayController extends Controller
         try {
             $pay = Pay::create([
                 'user_id'       =>  $request->user()->id,
-                'loan_id'       =>  $request->loan_id,
+                'loan_id'       =>  $request->loan_id ?? null,
                 'amount'        =>  $request->amount,
                 'operation_id'  =>  $request->operation_id ?? rand(1000000, 9999999),
                 'quota_id'      =>  $request->quota_id ?? null,

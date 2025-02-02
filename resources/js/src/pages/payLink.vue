@@ -46,243 +46,120 @@
         </div> 
         <div class="w-100 q-mt-md q-pb-xl q-pt-xs offerWall" :class="{'q-mb-xl q-pt-md': user.wallet_link.status!=2}">
           <div class="q-pa-md" v-if="user.wallet_link.status==2">
-
-            <!-- woz pay free -->
-            <div>
-              <q-chip square color="terciary" text-color="white" class="tagSetction">
-                <div class="text-caption">
-                  Cortesia Woz Pay
-                </div>
-              </q-chip>
-              <div class="flex justify-between q-px-md q-py-sm items-center freeLink wallLink q-mt-sm" style="">
-                <div>
-                  <div class="q-mt-xs">Links de cortesía Woz Pay</div>
-                  <div class="q-mt-xs text-terciary">6 links en todas las categorías</div>
-                </div>
-                <div>
-                  <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(0,0)"/>
-                </div>
-              </div>
-            </div>
-
-            <!-- ilimit link -->
-            <div class="q-mt-md">
-              <q-chip square color="positive" text-color="white" class="tagSetction">
-                <div class="text-caption">
-                  Links ilimitados
-                </div>
-              </q-chip>
-              <div class="q-px-md q-pb-md q-pt-sm ilimitLink wallLink q-mt-sm" style="">
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
+            <template v-if="loading">
+              <!-- woz pay free -->
+              <div>
+                <q-chip square color="terciary" text-color="white" class="tagSetction">
+                  <div class="text-caption">
+                    Cortesia Woz Pay
+                  </div>
+                </q-chip>
+                <div class="flex justify-between q-px-md q-py-sm items-center freeLink wallLink q-mt-sm" style="">
                   <div>
-                    <div class="q-mt-xs">Links ilimitados</div>
-                    <div class="q-mt-xs text-grey-6">Todas las categorias</div>
-                    <div class="q-mt-none flex items-center">
-                      <div>
-                        <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
-                      </div>
-                      <div class="flex flex-center">
-                        <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
-                      </div>
-                    </div>
+                    <div class="q-mt-xs">Links de cortesía Woz Pay</div>
+                    <div class="q-mt-xs text-terciary">6 links en todas las categorías</div>
                   </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">USD 25.99</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">3% por transacción</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(1,1)"/>
-                  </div>
-                </div>
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
                   <div>
-                    <div class="q-mt-xs">Links ilimitados</div>
-                    <div class="q-mt-xs text-grey-6">Freelances, membresías</div>
-                    <div class="q-mt-none flex items-center">
-                      <div>
-                        <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
-                      </div>
-                      <div class="flex flex-center">
-                        <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">USD 12.99</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">6% por transacción</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(1,2)"/>
-                  </div>
-                </div>
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
-                  <div>
-                    <div class="q-mt-xs">Links ilimitados</div>
-                    <div class="q-mt-xs text-grey-6">Ventas</div>
-                    <div class="q-mt-none flex items-center">
-                      <div>
-                        <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
-                      </div>
-                      <div class="flex flex-center">
-                        <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">USD 9.99</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">8.5% por transacción</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(1,3)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(0)"/>
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- offer woz pay -->
-            <div class="q-mt-md">
-              <q-chip square color="primary" text-color="white" class="tagSetction">
-                <div class="text-caption">
-                  Ofertas Woz Pay
-                </div>
-              </q-chip>
-              <div class="q-px-md q-pb-md q-pt-sm offerLink wallLink q-mt-sm" style="">
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
-                  <div>
-                    <div class="q-mt-xs">15 Links para Freelancers</div>
-                    <div class="q-mt-xs  flex items-center">
-                      <div class="text-grey-6" style="text-decoration: line-through;">Gs. 15.000</div>
-                      <div class="text-grey-8 q-ml-md-md">Gs. 8.000</div>
-                    </div>
-                    <div class="q-mt-none flex items-center">
-                      <div>
-                        <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
-                      </div>
-                      <div class="flex flex-center">
-                        <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
-                      </div>
-                    </div>
+  
+              <!-- ilimit link -->
+              <div class="q-mt-md">
+                <q-chip square color="positive" text-color="white" class="tagSetction">
+                  <div class="text-caption">
+                    Links ilimitados
                   </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">Gs. 120.000</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">9% + USD 1</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(3,4)"/>
-                  </div>
-                </div>
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
-                  <div>
-                    <div class="q-mt-xs">15 Links para membresías</div>
-                    <div class="q-mt-xs  flex items-center">
-                      <div class="text-grey-6" style="text-decoration: line-through;">Gs. 12.000</div>
-                      <div class="text-grey-8 q-ml-md-md">Gs. 6.667</div>
-                    </div>
-                    <div class="q-mt-none flex items-center">
-                      <div>
-                        <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
-                      </div>
-                      <div class="flex flex-center">
-                        <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
+                </q-chip>
+                <div class="q-px-md q-pb-md q-pt-sm ilimitLink wallLink q-mt-sm" style="">
+                  <div class="flex justify-between items-center q-py-sm border-bottom-1" v-for="(item, key) in packages.noLimit" :key="key">
+                    <div>
+                      <div class="q-mt-xs">{{ item.title }}</div>
+                      <div class="q-mt-xs text-grey-6">{{ item.note }}</div>
+                      <div class="q-mt-none flex items-center">
+                        <div>
+                          <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
+                        </div>
+                        <div class="flex flex-center">
+                          <div v-html="wozIcons.profile" class="profile-user__icon" />
+                          <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">Gs. 100.000</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">10% + USD 1</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(2,5)"/>
-                  </div>
-                </div>
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
-                  <div>
-                    <div class="q-mt-xs">15 Links para ventas</div>
-                    <div class="q-mt-xs  flex items-center">
-                      <div class="text-grey-6" style="text-decoration: line-through;">Gs. 10.000</div>
-                      <div class="text-grey-8 q-ml-md-md">Gs. 6.600</div>
-                    </div>
-                    <div class="q-mt-none flex items-center">
-                      <div>
-                        <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
+                    <div class="flex">
+                      <div class="text-right">
+                        <div class="text-body-2 text-weight-medium ">USD {{item.amount}}</div>
+                        <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
                       </div>
-                      <div class="flex flex-center">
-                        <div v-html="wozIcons.profile" class="profile-user__icon" />
-                        <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
-                      </div>
+                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
                     </div>
-                  </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">Gs. 99.000</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(4,6)"/>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- basic woz pay -->
-            <div class="q-mt-md q-pb-xl">
-              <q-chip square color="primary" text-color="white" class="tagSetction">
-                <div class="text-caption">
-                  Tarifas básicas
-                </div>
-              </q-chip>
-              <div class="q-px-md q-pb-md q-pt-sm offerLink wallLink q-mt-sm" style="">
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
-                  <div>
-                    <div class="q-mt-xs">Links para FreeLancers</div>
-                    <div class="q-mt-xs text-grey-6 flex items-center">
-                      Compra mínima 5
-                    </div>
+              
+              <!-- offer woz pay -->
+              <div class="q-mt-md">
+                <q-chip square color="primary" text-color="white" class="tagSetction">
+                  <div class="text-caption">
+                    Ofertas Woz Pay
                   </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">Gs. 15.000</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
+                </q-chip>
+                <div class="q-px-md q-pb-md q-pt-sm offerLink wallLink q-mt-sm" style="">
+                  <div class="flex justify-between items-center q-py-sm border-bottom-1" v-for="(item, key) in packages.offer" :key="key">
+                    <div>
+                      <div class="q-mt-xs">{{ item.title }}</div>
+                      <div class="q-mt-xs  flex items-center">
+                        <div class="text-grey-6" style="text-decoration: line-through;"> {{item.note.split(',')[0]}} </div>
+                        <div class="text-grey-8 q-ml-md-md">{{item.note.split(',')[1]}}</div>
+                      </div>
+                      <div class="q-mt-none flex items-center">
+                        <div>
+                          <q-icon v-for="n in 5" :name="icons.sharpStar" :key="n" color="terciary" size="1rem"/>
+                        </div>
+                        <div class="flex flex-center">
+                          <div v-html="wozIcons.profile" class="profile-user__icon" />
+                          <div class="text-caption text-grey-6">{{numberFormat(random(100,99999))}}</div>
+                        </div>
+                      </div>
                     </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(3,7)"/>
-                  </div>
-                </div>
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
-                  <div>
-                    <div class="q-mt-xs">Links para membresías</div>
-                    <div class="q-mt-xs text-grey-6 flex items-center">
-                      Compra mínima 6
+                    <div class="flex">
+                      <div class="text-right">
+                        <div class="text-body-2 text-weight-medium ">Gs. {{numberFormat(item.amount)}}</div>
+                        <div class="text-grey-7" style="font-size: 0.7rem;">{{item.comision}}% + USD 1</div>
+                      </div>
+                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
                     </div>
-                  </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">Gs. 12.000</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(2,8)"/>
-                  </div>
-                </div>
-                <div class="flex justify-between items-center q-py-sm border-bottom-1">
-                  <div>
-                    <div class="q-mt-xs">Links para ventas</div>
-                    <div class="q-mt-xs text-grey-6 flex items-center">
-                      Compra minima 7
-                    </div>
-                  </div>
-                  <div class="flex">
-                    <div class="text-right">
-                      <div class="text-body-2 text-weight-medium ">Gs. 10.000</div>
-                      <div class="text-grey-7" style="font-size: 0.7rem;">12% + USD 1</div>
-                    </div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(4,9)"/>
                   </div>
                 </div>
               </div>
-            </div>
+  
+              <!-- basic woz pay -->
+              <div class="q-mt-md q-pb-xl">
+                <q-chip square color="primary" text-color="white" class="tagSetction">
+                  <div class="text-caption">
+                    Tarifas básicas
+                  </div>
+                </q-chip>
+                <div class="q-px-md q-pb-md q-pt-sm offerLink wallLink q-mt-sm" style="">
+                  <div class="flex justify-between items-center q-py-sm border-bottom-1" v-for="(item, key) in packages.basic" :key="key">
+                    <div>
+                      <div class="q-mt-xs">{{item.title}}</div>
+                      <div class="q-mt-xs text-grey-6 flex items-center">
+                        {{ item.note }}
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="text-right">
+                        <div class="text-body-2 text-weight-medium ">Gs. {{numberFormat(item.amount)}}</div>
+                        <div class="text-grey-7" style="font-size: 0.7rem;">{{item.comision}}% + USD 1</div>
+                      </div>
+                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
           </div>
           <div v-else class="q-px-xl text-center text-subtitle2 q-mb-md"> 
             La activación de tu cuenta de cobros internacional esta siendo verifcada, pronto podras crear tus links de cobro
@@ -309,6 +186,7 @@
   import util from '@/util/numberUtil'
   import { useAuthStore } from '@/services/store/auth.store';
   import { storeToRefs } from 'pinia';
+  import { usePackageStore } from '@/services/store/package.store';
 
 export default {
   components:{
@@ -319,6 +197,9 @@ export default {
     const router = useRouter()
     const numberFormat = util.numberFormat
     const { user } = storeToRefs(useAuthStore())
+    const packages = ref({})
+    const packageStore = usePackageStore()
+    const loading = ref(false)
     const infoData = [
       {
         img: imagen6,
@@ -331,14 +212,63 @@ export default {
       },
       
     ]
-    const goTo = (type, id) => {
-      router.push('/generatePayLink/'+type+'/'+id)
+    const titles = [
+      '',
+      'Links',
+      'Links',
+      'Links ilimitado',
+    ]
+    const subtitles = [
+      '',
+      'Tarifas básicas',
+      'Oferta Woz Pay',
+      'Ilimitado',
+    ]
+    const colors = [
+      '',
+      '0449fa',
+      '0449fa',
+      '19cd15',
+    ]
+    const goTo = (item) => {
+      if(item == 0){
+
+        router.push('/generatePayLink/0')
+        return
+      }
+      router.push('/form_pay_link/user/2?color='+colors[item.type]+'&title='+titles[item.type]+'&subtitle='+subtitles[item.type]+'&id='+item.id+'&type='+item.type+'&description='+`${item.title}`+'&amount='+finalPrice(item))
     }
     const random = (min, max) => {
       return Math.floor((Math.random() * (max - min + 1)) + min);
     }
+    const finalPrice = (item) => {
+      return item.type == 1 
+      ? item.amount*5
+      : item.type == 3 
+      ? item.amount * 7895
+      : item.amount
+    }
+    const getPackages = () => {
+      packageStore.getPackages()
+      .then((response) => {
+        packages.value = splitPackages(response.data)
+        console.log(packages.value)
+        loading.value = true
+      })
+      .catch((response) => {
+
+      })
+    }
+    const splitPackages = (packages) => {
+      return {
+        noLimit: packages.filter(item => item.type == 3),
+        offer: packages.filter(item => item.type == 2),
+        basic: packages.filter(item => item.type == 1),
+      }
+    }
     onMounted(() => {
       useQuasar().addressbarColor.set('#19cd15')
+      getPackages()
       setTimeout(() => {
         function onScroll() {
           let timeTransition = window.screen.width < 780 ? 150 : 200
@@ -354,11 +284,12 @@ export default {
     return {
       user,
       router,
-      slide: ref(0),
       infoData,
+      loading,
       icons: inject('ionIcons'),
       wozIcons,
       numberFormat,
+      packages,
       goTo,
       random,
     }

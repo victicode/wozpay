@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\InterestController;
 use App\Http\Controllers\Api\LinkController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\PayController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\TransferController;
@@ -152,5 +153,9 @@ Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( fun
     Route::get('/{id}', [WalletController::class, 'allBalances']);
     Route::post('/increments/{id}', [WalletController::class, 'incrementsWallet']);
     Route::post('/admin', [WalletController::class, 'setNewAdminCapital']);
+});
 
+Route::middleware('jwt.verify')->prefix('package')->name('package.')->group( function () {
+    Route::get('/', [PackageController::class, 'getPackage']);
+    Route::get('/byId/{id}', [PackageController::class, 'getPackageById']);
 });

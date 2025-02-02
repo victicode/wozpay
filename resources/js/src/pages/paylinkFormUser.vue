@@ -37,7 +37,7 @@
                   route.params.type == 1 
                   ? 'Activación de cuenta internacional Woz Payments' 
                   : route.params.type == 2 
-                  ? router.query.description
+                  ? route.query.description
                   : link.description
                 }}
               </div>
@@ -46,7 +46,7 @@
                   route.params.type == 1 
                   ? numberFormat(220000)
                   : route.params.type == 2 
-                  ? numberFormat(router.query.amount)
+                  ? numberFormat(route.query.amount)
                   : numberFormat(link.amount)
                 }}
               </div>
@@ -151,7 +151,7 @@
         })
       }
       
-
+      console.log(route)
       const createConceptPay = () => {
         return route.params.type == 1 
             ? 'Pago de activación'
@@ -172,7 +172,7 @@
             route.params.type == 1 
             ? 220000
             : route.params.type == 2 
-            ? router.query.amount
+            ? route.query.amount
             : link.amount
         ))
         data.append('vaucher', comprobant.value)
