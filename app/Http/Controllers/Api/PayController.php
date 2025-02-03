@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
+use App\Models\Package;
 
 class PayController extends Controller
 {
@@ -26,11 +27,15 @@ class PayController extends Controller
             $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
             $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
         }  
+        $amount = null;
+
+        if($request->type == 6) $amount = Package::find($request->package)->amount;
         try {
             $pay = Pay::create([
                 'user_id'       =>  $request->user()->id,
                 'loan_id'       =>  $request->loan_id ?? null,
-                'amount'        =>  $request->amount,
+                'package_id'    =>  $request->package ?? null,
+                'amount'        =>  $amount ?? $request->amount,
                 'operation_id'  =>  $request->operation_id ?? rand(1000000, 9999999),
                 'quota_id'      =>  $request->quota_id ?? null,
                 'bank'          =>  $request->bank ?? null,
@@ -120,7 +125,7 @@ class PayController extends Controller
                     $this->approveActivation($pay->user_id);
                     break;
                 case '6':
-                    $this->approvePackage();
+                    $this->approvePackage($pay->package_id, $pay->user_id);
                     break;
                 default:
                     # code...
@@ -188,7 +193,7 @@ class PayController extends Controller
 
     }
     public function getById($id){
-        $pay = Pay::with('user')->find($id);
+        $pay = Pay::with(['user','package'])->find($id);
         return $this->returnSuccess(200, $pay);
     }
     private function validateFieldsFromInput($inputs){
@@ -238,6 +243,23 @@ class PayController extends Controller
         $loan->status = $this->isCompleteLoan($loan);
         $loan->save();
         
+    }
+    private function approvePackage($packageID, $userID){
+        $package = Package::find($packageID);
+        $user = User::find($userID);
+
+        if($package->categorie == 2) $user->membership_link = $user->membership_link + $package->quantity;
+        if($package->categorie == 3) $user->freelancer_link = $user->freelancer_link + $package->quantity;
+        if($package->categorie == 4) $user->sell_link = $user->sell_link + $package->quantity;
+        
+        $user->save();
+        
+        try {
+            $this->sendNotification('Tu compra de links de cobro "'.$package->title.'" ha sido verificada con exito', $user, 'Pago verificado', 2);
+            event(new UserUpdateEvent($user));
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
     private function approveActivation($user){
         Wallet::where('user_id', $user)->where('type', 2)->update([

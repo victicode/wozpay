@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('free_link')->after('rol_id')->default(6);
+            $table->integer('sell_link')->after('free_link')->default(0);
+            $table->integer('freelancer_link')->after('sell_link')->default(0);
+            $table->integer('membership_link')->after('freelancer_link')->default(0);
+
         });
     }
 

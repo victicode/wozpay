@@ -76,12 +76,12 @@ export default {
       {
 
         title:'Pagos de paquetes',
-        index:'payCreateLink'
+        index:'payPackage'
       },
       {
 
         title:'Pagos de link',
-        index:'payPackage'
+        index:'payCreateLink'
       }
     ];
 

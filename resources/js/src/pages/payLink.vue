@@ -47,8 +47,9 @@
         <div class="w-100 q-mt-md q-pb-xl q-pt-xs offerWall" :class="{'q-mb-xl q-pt-md': user.wallet_link.status!=2}">
           <div class="q-pa-md" v-if="user.wallet_link.status==2">
             <template v-if="loading">
+      
               <!-- woz pay free -->
-              <div>
+              <div >
                 <q-chip square color="terciary" text-color="white" class="tagSetction">
                   <div class="text-caption">
                     Cortesia Woz Pay
@@ -87,10 +88,13 @@
                         </div>
                       </div>
                     </div>
-                    <div class="flex">
-                      <div class="text-right">
+                    <div class="flex items-center">
+                      <div class="text-right" v-if="!item.isBuy">
                         <div class="text-body-2 text-weight-medium ">USD {{item.amount}}</div>
                         <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
+                      </div>
+                      <div v-else class="text-bold text-subtitle1 text-primary">
+                        Comprado
                       </div>
                       <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
                     </div>
@@ -123,10 +127,13 @@
                         </div>
                       </div>
                     </div>
-                    <div class="flex">
-                      <div class="text-right">
-                        <div class="text-body-2 text-weight-medium ">Gs. {{numberFormat(item.amount)}}</div>
-                        <div class="text-grey-7" style="font-size: 0.7rem;">{{item.comision}}% + USD 1</div>
+                    <div class="flex items-center">
+                      <div class="text-right" v-if="!item.isBuy">
+                        <div class="text-body-2 text-weight-medium ">USD {{item.amount}}</div>
+                        <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
+                      </div>
+                      <div v-else class="text-bold text-subtitle1 text-primary">
+                        Comprado
                       </div>
                       <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
                     </div>
@@ -149,10 +156,13 @@
                         {{ item.note }}
                       </div>
                     </div>
-                    <div class="flex">
-                      <div class="text-right">
-                        <div class="text-body-2 text-weight-medium ">Gs. {{numberFormat(item.amount)}}</div>
-                        <div class="text-grey-7" style="font-size: 0.7rem;">{{item.comision}}% + USD 1</div>
+                    <div class="flex flex items-center">
+                      <div class="text-right" v-if="!item.isBuy">
+                        <div class="text-body-2 text-weight-medium ">USD {{item.amount}}</div>
+                        <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
+                      </div>
+                      <div v-else class="text-bold text-subtitle1 text-primary">
+                        Comprado
                       </div>
                       <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
                     </div>
@@ -245,14 +255,13 @@ export default {
       return item.type == 1 
       ? item.amount*5
       : item.type == 3 
-      ? item.amount * 7895
+      ? item.amount * 7333 
       : item.amount
     }
     const getPackages = () => {
       packageStore.getPackages()
       .then((response) => {
         packages.value = splitPackages(response.data)
-        console.log(packages.value)
         loading.value = true
       })
       .catch((response) => {
@@ -312,6 +321,9 @@ export default {
   background: white; 
   border-radius: 20px;
   box-shadow: 0px 2px 10px 0px #4141414f;
+  &.invLink{
+    border: 1px solid #8d8d8d;
+  }
   &.freeLink{
     border: 1px solid #f9a826;
   }

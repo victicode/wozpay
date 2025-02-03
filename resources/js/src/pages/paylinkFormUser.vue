@@ -68,7 +68,7 @@
               Comprobante
             </div>
             <div class="q-pt-xs">
-              <q-file outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant"/>
+              <q-file accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant"/>
             </div>
             <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
               Te confirmaremos el estado de tu pago en el dia
@@ -151,7 +151,6 @@
         })
       }
       
-      console.log(route)
       const createConceptPay = () => {
         return route.params.type == 1 
             ? 'Pago de activación'
@@ -186,12 +185,14 @@
         data.append('method', route.params.type != 3 ? 1 : 2 )
         data.append('status', 1)
         data.append('concept', createConceptPay())
+        if(route.params.type == 2){
+        data.append('package', route.query.id)
 
+        }
         payStore.createPay(data)
         .then((response) => {
           if(response.code !== 200) throw response
 
-          console.log(response)
           showDialog.value = true
           loading.value = false
           setTimeout(() => {

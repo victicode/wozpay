@@ -10,7 +10,7 @@ class Pay extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $fillable =   ['user_id', 'loan_id', 'amount', 'operation_id','quota_id', 'method', 'bank', 'pay_date', 'vaucher', 'type', 'status', 'concept'];
+    protected $fillable =   ['user_id', 'loan_id', 'package_id', 'amount', 'operation_id','quota_id', 'method', 'bank', 'pay_date', 'vaucher', 'type', 'status', 'concept'];
     protected $appends  =   ['status_label', 'transaction'];
     
     public function getstatusLabelAttribute()

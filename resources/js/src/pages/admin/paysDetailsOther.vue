@@ -26,6 +26,10 @@
             <div>Concepto: </div>
             <div>{{ pay.concept }}</div>
           </div>
+          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+            <div>Paquete: </div>
+            <div>{{ pay.package.title }}</div>
+          </div>
         </div>
         <div v-if="pay.type == 1">
           <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold">

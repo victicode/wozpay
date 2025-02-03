@@ -7,12 +7,11 @@
             {{ header.title }}
           </div>
           <div class="text-subtitle1 text-white q-mt-sm text-weight-medium ">
-            Sólo puedes generar una cantidad de 6 links
-            en la versión gratuita
+            {{ header.subtitle }}
           </div>
           <div class="q-pb-md flex items-center">
-            <q-linear-progress rounded size="15px"  track-color="white"  :value="countLink/user.limit_link" :color="header.track" class="q-mt-sm totalLink_progress" />
-            <div class="q-mt-sm q-px-sm text-subtitle1 text-bold text-white">{{  countLink }}/ {{ user.limit_link }}</div>
+            <q-linear-progress rounded size="15px"  track-color="white"  :value="countLink/limit()" :color="header.track" class="q-mt-sm totalLink_progress" />
+            <div class="q-mt-sm q-px-sm text-subtitle1 text-bold text-white">{{  countLink }}/ {{ limit() }}</div>
           </div>
         </div>
       </div> 
@@ -172,32 +171,45 @@ export default {
       
       {
         title:'Links de cortesía',
+        subtitle:'Sólo puedes generar una cantidad de 6 links en la versión gratuita',
         color:'#ffc701',
         track: 'primary'
       },
       {
         title:'Links ilimitados',
+        subtitle:'Puedes generar todos los lins de manera ilimitada',
         color:'#19cd15',
         track: 'white'
       },
       {
         title:'Links de membresías',
+        subtitle:'Cobra tus membresías o suscripciones de manera mensual con debito automatico',
         color:'#0449fb',
         track: 'terciary'
       },
       {
         title:'Links de freelancers',
+        subtitle:'Genera links para tus honorarios como freelancer',
         color:'#929396',
         track: 'terciary'
       },
       {
         title:'Links de ventas',
+        subtitle:'Genera links para enviárselo a tus compradores',
         color:'#ffc701',
         track: 'primary'
       },
       
     ]
-    
+    const limit = () => {
+      
+      if(route.params.type == 0) return user.value.free_link
+      if(route.params.type == 1) return user.value.free_link
+      if(route.params.type == 2) return user.value.free_link
+      if(route.params.type == 3) return user.value.free_link
+      if(route.params.type == 4) return user.value.free_link
+
+    }
     const optionsLink = [
       {
         id:0,
@@ -323,6 +335,7 @@ export default {
       rulesForm,
       updateType,
       createLink,
+      limit,
     }
   },
 }
