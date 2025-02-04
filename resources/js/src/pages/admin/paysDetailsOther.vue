@@ -26,7 +26,7 @@
             <div>Concepto: </div>
             <div>{{ pay.concept }}</div>
           </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" v-if="pay.package" >
             <div>Paquete: </div>
             <div>{{ pay.package.title }}</div>
           </div>

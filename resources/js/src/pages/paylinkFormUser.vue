@@ -7,12 +7,12 @@
         </div>
         <div class="contet__border-primary q-px-md q-py-none q-mt-xs">
           <div class="flex items-center payToContent q-my-md justify-between" >
-            <div class="text-titlePay" v-if="route.params.type != 2 || route.params.type != 1 ">
+            <div class="text-titlePay" v-if="route.params.type != 2 && route.params.type != 1 ">
               Comercio
             </div>
             <div class="flex items-center">
               <div class="text-titlePay">
-                {{route.params.type != 2 ||  route.params.type != 1  ? link.user.name : 'Woz Payments'}}
+                {{route.params.type != 2 && route.params.type != 1  ? link.user.name : 'Woz Payments'}}
               </div>
               <div class="bg-primary flex flex-center q-ml-xs iconcontent">
                 <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
@@ -21,7 +21,7 @@
           </div>
           <div class="flex justify-between payToContent q-my-md">
             <div class="text-titlePay">RUC / CI</div>
-            <div class="text-titlePay">{{route.params.type != 2 ||  route.params.type != 1  ? numberFormat(link.user.dni) : numberFormat(4920791)}}</div>
+            <div class="text-titlePay">{{route.params.type != 2 && route.params.type != 1  ? numberFormat(link.user.dni) : numberFormat(4920791)}}</div>
           </div>
         </div>
       </div>
@@ -51,17 +51,17 @@
                 }}
               </div>
             </div>
-            <div id="timeCountForm" class="text-titlePay text-backLinear" v-if="route.params.type != 2 ||  route.params.type != 1" />
+            <div id="timeCountForm" class="text-titlePay text-backLinear" v-if="route.params.type != 2 && route.params.type != 1" />
           </div>
         </div>
       </div>
       <div class="q-mb-md">
         <div class="text-weight-bold">
-          {{route.params.type != 2 ||  route.params.type != 1 ? 'Datos de tarjetas':'Datos para el pago'}}
+          {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjetas':'Datos para el pago'}}
         </div>
         
         <div class="contet__border-primary q-px-md q-py-xs q-mt-xs">
-          <template v-if="route.params.type != 2 ||  route.params.type != 1 ">
+          <template v-if="route.params.type != 2 &&  route.params.type != 1 ">
             <div v-for="(item ,key) in clientForm" :key="key" class="q-mt-md ">
               <div class="q-px-xs text-bold q-pb-sm" v-if="item.title">
                 {{ item.title }}
@@ -424,15 +424,16 @@
       }
       const callbackChange = (key, e) => {
         console.log(key)
-        const change = {
-          nameClient:false,
-          numberClient:false,
-          due: validateDate(e),
-          cvc:false,
-          email:false,
+        if(key == 'nameClient') return
+        if(key == 'numberClient') return
+        if(key == 'due'){
+          validateDate(e)
+          return
         }
-        
-        return change[key]
+        if(key == 'cvc') return
+        if(key == 'email') return
+
+   
       }
       onMounted(() => {
         if(validateRequeriments()){

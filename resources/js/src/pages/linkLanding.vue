@@ -185,7 +185,7 @@
               </div>
               <div class="flex justify-between q-px-xs q-py-sm contentDetail">
                 <div class="text-subtitle2 text-weight-medium" >Tiempo restante</div>
-                <div class="text-subtitle2 text-weight-medium text-terciary" >120 seg</div>
+                <div class="text-subtitle2 text-weight-medium text-terciary" >120 min</div>
               </div>
             </div>
             <div class="w-100 flex flex-center q-my-lg">
