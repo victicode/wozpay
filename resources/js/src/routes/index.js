@@ -81,13 +81,13 @@ const router = createRouter({
           },
         },
         {
-          path: "/form_pay_link/client",
-          name:"form_pay_lin_client",
-          component: () => import('@/pages/paylinkFormClient.vue'),
+          path: "/v1/pay/link/:code",
+          name:"form_pay_link",
+          component: () => import('@/pages/paylinkFormUser.vue'),
           meta: {
-            title : 'Vincular tarjeta'
+            title : 'Pagos'
           },
-        },
+        }
       ]
     },
     {

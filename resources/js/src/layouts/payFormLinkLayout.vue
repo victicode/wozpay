@@ -1,7 +1,7 @@
 <template>
   <div class="layout-dasboard__content"   style="">
     <topbarPay />
-    <div class="container_page" :style="'background:#'+route.query.color">
+    <div class="container_page" :style="'background:#'+ (route.query.color ? route.query.color : '0449fa')">
       <div class="section_page q-mt-md">  
         <router-view v-slot="{ Component }">
           <transition name="vertical">

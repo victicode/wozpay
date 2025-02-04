@@ -61,7 +61,7 @@
                     <div class="q-mt-xs text-terciary">6 links en todas las categorías</div>
                   </div>
                   <div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(0)"/>
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo2(0)"/>
                   </div>
                 </div>
               </div>
@@ -90,13 +90,13 @@
                     </div>
                     <div class="flex items-center">
                       <div class="text-right" v-if="!item.isBuy">
-                        <div class="text-body-2 text-weight-medium ">USD {{item.amount}}</div>
+                        <div class="text-body-2 text-weight-medium ">USD {{numberFormatDecimal(item.amount)}}</div>
                         <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
                       </div>
                       <div v-else class="text-bold text-subtitle1 text-primary">
                         Comprado
                       </div>
-                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
+                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="!item.isBuy ? goTo(item) : goTo2(item.categorie)" />
                     </div>
                   </div>
                 </div>
@@ -129,13 +129,13 @@
                     </div>
                     <div class="flex items-center">
                       <div class="text-right" v-if="!item.isBuy">
-                        <div class="text-body-2 text-weight-medium ">USD {{item.amount}}</div>
+                        <div class="text-body-2 text-weight-medium ">Gs {{numberFormatDecimal(item.amount)}}</div>
                         <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
                       </div>
                       <div v-else class="text-bold text-subtitle1 text-primary">
                         Comprado
                       </div>
-                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
+                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"   @click="!item.isBuy ? goTo(item) : goTo2(item.categorie)"/>
                     </div>
                   </div>
                 </div>
@@ -158,13 +158,13 @@
                     </div>
                     <div class="flex flex items-center">
                       <div class="text-right" v-if="!item.isBuy">
-                        <div class="text-body-2 text-weight-medium ">USD {{item.amount}}</div>
+                        <div class="text-body-2 text-weight-medium ">Gs {{numberFormatDecimal(item.amount)}}</div>
                         <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
                       </div>
                       <div v-else class="text-bold text-subtitle1 text-primary">
                         Comprado
                       </div>
-                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo(item)"/>
+                      <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="!item.isBuy ? goTo(item) : goTo2(item.categorie)"/>
                     </div>
                   </div>
                 </div>
@@ -206,6 +206,7 @@ export default {
   setup() {
     const router = useRouter()
     const numberFormat = util.numberFormat
+    const numberFormatDecimal = util.numberFormatDecimal
     const { user } = storeToRefs(useAuthStore())
     const packages = ref({})
     const packageStore = usePackageStore()
@@ -241,12 +242,11 @@ export default {
       '19cd15',
     ]
     const goTo = (item) => {
-      if(item == 0){
-
-        router.push('/generatePayLink/0')
-        return
-      }
       router.push('/form_pay_link/user/2?color='+colors[item.type]+'&title='+titles[item.type]+'&subtitle='+subtitles[item.type]+'&id='+item.id+'&type='+item.type+'&description='+`${item.title}`+'&amount='+finalPrice(item))
+    }
+    const goTo2 = (type) => {
+      router.push('/generatePayLink/'+type)
+      return
     }
     const random = (min, max) => {
       return Math.floor((Math.random() * (max - min + 1)) + min);
@@ -298,8 +298,10 @@ export default {
       icons: inject('ionIcons'),
       wozIcons,
       numberFormat,
+      numberFormatDecimal,
       packages,
       goTo,
+      goTo2,
       random,
     }
   },

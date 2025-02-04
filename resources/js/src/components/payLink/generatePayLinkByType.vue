@@ -205,9 +205,9 @@ export default {
       
       if(route.params.type == 0) return user.value.free_link
       if(route.params.type == 1) return user.value.free_link
-      if(route.params.type == 2) return user.value.free_link
-      if(route.params.type == 3) return user.value.free_link
-      if(route.params.type == 4) return user.value.free_link
+      if(route.params.type == 2) return user.value.membership_link
+      if(route.params.type == 3) return user.value.freelancer_link
+      if(route.params.type == 4) return user.value.sell_link
 
     }
     const optionsLink = [

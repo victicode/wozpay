@@ -1,18 +1,18 @@
 <template>
   <div class="q-py-sm" style="overflow: scroll; height: 100%;">
-    <div class="q-px-md q-py-md">
+    <div class="q-px-md q-py-md" v-if="ready">
       <div class="q-mb-md">
         <div class="text-weight-bold">
           Comercio / Cliente:
         </div>
         <div class="contet__border-primary q-px-md q-py-none q-mt-xs">
           <div class="flex items-center payToContent q-my-md justify-between" >
-            <div class="text-titlePay" v-if="route.params.type == 3">
+            <div class="text-titlePay" v-if="route.params.type != 2 || route.params.type != 1 ">
               Comercio
             </div>
             <div class="flex items-center">
               <div class="text-titlePay">
-                Woz Payments
+                {{route.params.type != 2 ||  route.params.type != 1  ? link.user.name : 'Woz Payments'}}
               </div>
               <div class="bg-primary flex flex-center q-ml-xs iconcontent">
                 <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
@@ -21,7 +21,7 @@
           </div>
           <div class="flex justify-between payToContent q-my-md">
             <div class="text-titlePay">RUC / CI</div>
-            <div class="text-titlePay">{{ numberFormat(4920791) }}</div>
+            <div class="text-titlePay">{{route.params.type != 2 ||  route.params.type != 1  ? numberFormat(link.user.dni) : numberFormat(4920791)}}</div>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
                   ? 'Activación de cuenta internacional Woz Payments' 
                   : route.params.type == 2 
                   ? route.query.description
-                  : link.description
+                  : link.title +' - '+ link.note
                 }}
               </div>
               <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs">
@@ -51,29 +51,58 @@
                 }}
               </div>
             </div>
-            <div id="timeCount" class="text-titlePay" v-if="route.params.type == 3" />
+            <div id="timeCountForm" class="text-titlePay text-backLinear" v-if="route.params.type != 2 ||  route.params.type != 1" />
           </div>
         </div>
       </div>
       <div class="q-mb-md">
         <div class="text-weight-bold">
-          Datos para el pago
+          {{route.params.type != 2 ||  route.params.type != 1 ? 'Datos de tarjetas':'Datos para el pago'}}
         </div>
+        
         <div class="contet__border-primary q-px-md q-py-xs q-mt-xs">
-          <div class="q-px-md q-py-sm q-my-md infoPay__content" v-for="(item,key) in dataPay" :key="key">
-            {{ item }}
-          </div>
-          <div class="q-my-md">
-            <div class="text-bold q-px-xs">
-              Comprobante
+          <template v-if="route.params.type != 2 ||  route.params.type != 1 ">
+            <div v-for="(item ,key) in clientForm" :key="key" class="q-mt-md ">
+              <div class="q-px-xs text-bold q-pb-sm" v-if="item.title">
+                {{ item.title }}
+              </div>
+              <q-input 
+                class="q-pb-sm paycardLink-input " 
+                outlined 
+                clearable
+                :clear-icon="'eva-close-outline'"
+                v-model="item.value" 
+                :label="item.label"  
+                autocomplete="off"
+                :rules="rulesForm(key)"
+                :mask="maskFormat(key)"
+                :maxlength="key == 'cvc' ? 3 : ''"
+                @keyup="callbackKeyup(key,$event)"
+                @change="callbackChange(key, $event)"
+                :error="key == 'date' ? dateError : false"
+                error-message="Formato de fecha no valido o vencido"
+              />
+              <div class="q-px-xs" v-if="item.sublabel">
+                {{ item.sublabel }}
+              </div>
             </div>
-            <div class="q-pt-xs">
-              <q-file accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant"/>
+          </template>
+          <template v-else>
+            <div class="q-px-md q-py-sm q-my-md infoPay__content" v-for="(item,key) in dataPay" :key="key">
+              {{ item }}
             </div>
-            <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
-              Te confirmaremos el estado de tu pago en el dia
+            <div class="q-my-md">
+              <div class="text-bold q-px-xs">
+                Comprobante
+              </div>
+              <div class="q-pt-xs">
+                <q-file accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant"/>
+              </div>
+              <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
+                Te confirmaremos el estado de tu pago en el dia
+              </div>
             </div>
-          </div>
+          </template>
           <div class="q-px-xl q-my-md flex flex-center">
             <img :src="payMethod" alt="" style=" height: 2.1rem;">
           </div>
@@ -84,7 +113,7 @@
             color="primary" class="w-100 q-pa-npne q-mb-none linkPay_button" 
             no-caps
             :loading="loading"
-            @click="createPay()"
+            @click="procedToPay()"
           >
             <div class="text-white q-py-sm text-subtitle1 text-weight-medium flex justify-center items-stretch"  >
               <div class="q-mt-xs">
@@ -108,10 +137,18 @@
   import { storeToRefs } from 'pinia'
   import { useRouter, useRoute } from 'vue-router'
   import { usePayStore } from '@/services/store/pay.store'
+  import { useLinkStore } from '@/services/store/link.store';
+  import { useQuasar } from 'quasar'
   import util from '@/util/numberUtil'
   import payMethod from '@/assets/images/pay_types3.png'
-  import { useQuasar } from 'quasar'
   import doneModal from '@/components/layouts/modals/doneModal.vue';
+  import moment from 'moment';
+  import { getCreditCardType } from 'cleave-zen'
+  import { 
+    isValid, 
+    isExpirationDateValid,
+    getCreditCardNameByNumber,
+  } from 'creditcard.js';
 
   export default {
     components: {
@@ -127,16 +164,45 @@
       const { user  } = storeToRefs(useAuthStore())
       const router = useRouter()
       const route = useRoute();
-      const link = ref({})
-      const comprobant = ref([]);
       const payStore = usePayStore()
+      const linkStore = useLinkStore()
+      const link = ref({})
+      const ready = ref(!(!route.query.title))
+      
+      const comprobant = ref([]);
       const requirements = ref({
         card: user.value.card ?? false,
         current: user.value.current_loan ?? false,
         loan:user.value.loans_complete_count ?? false,
       })
       const dataPay = payStore.getDataTransfer()
-
+      const cardType = ref('general');
+      const cardError = ref(false)
+      const dateError = ref(false)
+      const clientForm = ref({
+        nameClient:{
+          value:'',
+          label:'Nombre en la tarjeta'
+        },
+        numberClient:{
+          value:'',
+          label:'Número de tarjeta'
+        },
+        due:{
+          value:'',
+          label:'Fecha de vencimiento'
+        },
+        cvc:{
+          value:'',
+          label:'Código de seguridad'
+        },
+        email:{
+          value:'',
+          title:'Información extra',
+          sublabel:'Te confirmaremos el estado de tu pago',
+          label:'Correo electrónico'
+        },
+      })
       const validateRequeriments = () => {
         let isOk = Object.values(requirements.value).filter((el) => !el)
         return !(isOk.length == 0)
@@ -158,7 +224,12 @@
             ? 'Pago de paquetes de link'
             : link.title
       }
-      const createPay = () =>{
+      const procedToPay = () => {
+        route.params.type == 1 || route.params.type == 2 
+        ? createPay()
+        : createPayClient()
+      }
+      const createPay = () => {
         
         if(!Object.values(comprobant.value).length ){
           showNotify('negative', ' Debes cargar el comprobante de pago')
@@ -205,25 +276,191 @@
           loading.value = false
         })
       }
+      const createPayClient = () => {
+        console.log('AAAAAAAAAAAAAAAHHHHHHH')
+      }
+      const getLink = () => {
+        if(!route.params.code) return
+        linkStore.getLinkByCode(route.params.code)
+        .then((response) => {
+          ready.value = true
+          link.value = response.data
+          clocks()
+        })
+      }
+      const clocks = () => {
+        link.value.timer = setInterval( () => {
+          let today =  new Date().getTime();
+          let link_due_date = new Date(moment(link.value.due_time)).getTime();
+          let diffTime = link_due_date - today;
+          let duration = moment.duration(diffTime, 'milliseconds');
+
+          if(diffTime < 0) {
+            clearInterval(link.value.timer);
+            setTimeout(() => {
+              document.getElementById('timeCountForm').innerHTML = '00:00:00'
+            },1000)
+            return
+          }
+          
+          duration = moment.duration(duration - 1000, 'milliseconds');
+          let hour = (duration.hours()+'').length == 1 ? '0' + duration.hours() : duration.hours()
+          let minutes = (duration.minutes()+'').length == 1 ? '0' + duration.minutes() : duration.minutes()
+          let seconds = (duration.seconds()+'').length == 1 ? '0' + duration.seconds() : duration.seconds()
+          document.getElementById('timeCountForm').innerHTML =  hour + ":" + minutes + ":" + seconds
+        }, 1000)
+
+      }
+
+      const rulesForm = (key) => {
+        const iRules = {
+          nameClient:[
+            val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
+            // val => (val.length > 20 ) || 'Debe contener 20 digitos',
+            val => (/[a-zA-z,%".'();?&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+          ],
+          numberClient:[
+            val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
+            // val => (val.length > 20 ) || 'Debe contener 20 digitos',
+            val => (/[a-zA-z,%"'();+*&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+          ],
+          due:[
+            val => (val !== null && val !== '') || 'La fecha de vencimiento es requerida.',
+            // val => (/[,%"' ();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          ],
+          cvc:[
+            val => (val !== null && val !== '') || 'El CVC es obligatorio.',
+            val => val.length >= 3 || "Minimo 3 digitos.",
+
+            val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+          ],
+          email:[
+            val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
+            // val => (val.length > 20 ) || 'Debe contener 20 digitos',
+            val => (/[a-zA-z,%"'();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+          ],
+        }
+        
+        return iRules[key]
+      }
+      const maskFormat = (key) => {
+        const iMask = {
+          nameClient:'',
+          numberClient:'',
+          due:'##/##',
+          cvc:'###',
+          email:'',
+        }
+        
+        return iMask[key]
+      }
+      const cleaveDate = (e) => {
+        const value = e.target.value.split('/')
+        if(parseInt(value[0]) > 12){
+          clientForm.value.due.value = '12'
+        }
+        if(value[0] == '00'){
+          clientForm.value.due.value = '01'
+        }
+        if(value[1] && value[1].length < 2){
+          dateError.value = true
+        }
+        if(value[1] && value[1].length == 2){
+          dateError.value = false
+          const verifyDate = new Date();
+          if(parseInt(value[1]) > (verifyDate.getFullYear() + 10)-2000){
+            clientForm.value.due.value = value[0] + '' + ((verifyDate.getFullYear() + 10)-2000)
+          }
+        }
+      }
+      const cleaveCard = (e) => {
+        const value = e.target.value
+        cardType.value = getCreditCardType(value)
+        console.log(cardType.value)
+      }
+      const validateCard = (e) => {
+        if(!e) {
+          cardType.value = 'general'
+          return false
+        }
+        cardError.value = false
+        if(getCreditCardNameByNumber(e) == 'Credit card is invalid!'  && !isValid(e)){
+          alert('Tarjeta no valida.')
+          cardError.value = true
+        }
+
+        return cardError.value
+      }
+
+      const validateDate = (e) => {
+        if(!e) {
+          return true
+        }
+        const value = e.split('/');
+        dateError.value = false
+        if(value[1] && value[1].length < 2){
+          alert('Fecha no valida.')
+
+          dateError.value = true
+        }
+        if(!isExpirationDateValid(value[0], value[1])){
+          alert('Fecha vencida.')
+          dateError.value =  true
+        }
+        
+        return dateError.value
+      }    
+
+      const callbackKeyup = (key, e) => {
+        const keyup = {
+          nameClient:false,
+          numberClient:cleaveCard,
+          due: cleaveDate,
+          cvc:false,
+          email:false,
+        }
+        console.log(keyup[key])
+        return keyup[key](e)
+      }
+      const callbackChange = (key, e) => {
+        console.log(key)
+        const change = {
+          nameClient:false,
+          numberClient:false,
+          due: validateDate(e),
+          cvc:false,
+          email:false,
+        }
+        
+        return change[key]
+      }
       onMounted(() => {
         if(validateRequeriments()){
           router.push('/generatePayLink/1/1')
         }
+        getLink()
       })
 
       return{
         showDialog,
+        dateError,
         user,
         router,
         route,
         loading,
+        ready,
         numberFormat,
         icons,
         link,
         dataPay,
+        clientForm,
         comprobant,
         payMethod,
-        createPay,
+        procedToPay,
+        rulesForm,
+        maskFormat,
+        callbackKeyup,
+        callbackChange
       }
     },
   }
@@ -267,4 +504,42 @@
 .iconcontent{
   height: 1.2rem; width: 1.2rem; border-radius: 50%;
 }
+
+.paycardLink-input {
+  & .q-field__control {
+    border-radius: 10px!important;
+    height: 45px;
+    &::before{
+      border-color: rgb(141, 141, 141);
+    }
+  }
+  & .q-field__label{
+    transform: translateY(-18%)
+  }
+  &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
+    z-index: 100;
+    background: white!important;
+    font-weight: 600;
+    max-width: 133%;
+    padding: 0px 10px;
+    transform: translateY(-125%) translateX(4%) scale(0.75)!important;
+  }
+  
+  & .q-field__native{
+    padding-top: 15px!important;
+    font-weight: 600;
+  }
+  & .q-field__append{
+    transform: translateY(-5%)
+  }
+
+}
+@media screen and (max-width: 780px){
+  .paycardLink-input {
+    & .q-field__bottom{
+      transform: translateY(15px);
+    }
+  }
+}
+
 </style>

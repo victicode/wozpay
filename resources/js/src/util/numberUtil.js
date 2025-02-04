@@ -2,6 +2,9 @@ const util = {
   numberFormat: (number) => {
     return new Intl.NumberFormat('de-DE').format(Number.parseFloat(number).toFixed(0))
   },
+  numberFormatDecimal: (number) => {
+    return new Intl.NumberFormat('de-DE').format(Number.parseFloat(number).toFixed(2))
+  },
   moneyFormat: (number) => {
     let money = 0;
 

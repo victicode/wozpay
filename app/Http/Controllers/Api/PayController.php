@@ -255,8 +255,8 @@ class PayController extends Controller
         $user->save();
         
         try {
-            $this->sendNotification('Tu compra de links de cobro "'.$package->title.'" ha sido verificada con exito', $user, 'Pago verificado', 2);
-            event(new UserUpdateEvent($user));
+            $this->sendNotification('Tu compra de links de cobro "'.$package->title.'" ha sido verificada con exito', $user->id, 'Pago verificado', 2);
+            event(new UserUpdateEvent($user->id));
         } catch (Exception $th) {
             //throw $th;
         }

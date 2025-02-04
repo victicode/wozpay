@@ -272,6 +272,10 @@
         getUsers(search)
       }
       const goTo = (id) => {
+        // if(typeOfUser == 6){
+        //   router.push('/admin/paysDetailsOther/'+id)
+        //   return
+        // }
         router.push('/admin/user/'+id)
       }
       const setFilter = (index)=> {

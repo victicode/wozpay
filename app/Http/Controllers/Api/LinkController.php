@@ -71,6 +71,11 @@ class LinkController extends Controller
         return $this->returnSuccess(200, $link);
     }
 
+    public function getByCode($code){
+        $link = Link::with('user', 'pay')->where('code', $code)->first();
+        return $this->returnSuccess(200, $link);
+    }
+
     /**
      * Display the specified resource.
      */
