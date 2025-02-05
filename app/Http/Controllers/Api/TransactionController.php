@@ -110,6 +110,13 @@ class TransactionController extends Controller
         if($type == 7){
             return  Link::with('user')->find($id);
         }
+        if($type == 8){
+            return Pay::with('user')->find($id);
+
+        }
+        if($type == 9){
+            return Pay::with('user', 'package')->find($id);
+        }
     }
     private function object_sorter($clave,$orden=null) {
         return function ($a, $b) use ($clave,$orden) {

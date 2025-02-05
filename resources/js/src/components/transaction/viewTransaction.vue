@@ -204,6 +204,34 @@
             value: transaction.value.code,
           }
         }
+        if(transactionType == 8)  {
+          lines[1] = {
+            title:'Titulo del producto',
+            text:'Activación de cuenta internacional',
+          }
+          lines[2] = {
+            title:'Referencia',
+            value: transaction.value.operation_id,
+          }
+          lines[3] = {
+            title:'Metodo de pago',
+            value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
+          }
+        }
+        if(transactionType == 9)  {
+          lines[1] = {
+            title:'Titulo del producto',
+            text:transaction.value.package.title,
+          }
+          lines[2] = {
+            title:'Referencia',
+            value: transaction.value.operation_id,
+          }
+          lines[3] = {
+            title:'Metodo de pago',
+            value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
+          }
+        }
 
         lines.push({
           date: moment(transaction.value.created_at).format('DD/MM/YYYY'),
