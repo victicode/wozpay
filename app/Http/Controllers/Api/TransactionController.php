@@ -12,6 +12,7 @@ use App\Models\Transfer;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Models\PayLink;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class TransactionController extends Controller
@@ -31,7 +32,12 @@ class TransactionController extends Controller
         }] )->find($user->wallet->id);
         $activationPay = Pay::with('user')->where('user_id',$userId)->where('type',5)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
         $packagePay = Pay::with('user', 'package')->where('user_id',$userId)->where('type',6)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
-
+        
+        
+        $paysLink = PayLink::whereHas('links', function (Builder $query) use ($userId){
+            $query->where('user_id',  $userId);
+        })->where('status', 2)->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
+        
         $loans = Loan::where('status', '!=','1')
         ->where('status', '!=','0')
         ->where('isRekutu', 0)
@@ -50,7 +56,8 @@ class TransactionController extends Controller
             ...$this->tagTransfer($loans ?? [],6) ,
             ...$this->tagTransfer($links ?? [],7) ,
             ...$activationPay,
-            ...$packagePay
+            ...$packagePay,
+            ...$paysLink
 
         ];
         
@@ -116,6 +123,9 @@ class TransactionController extends Controller
         }
         if($type == 9){
             return Pay::with('user', 'package')->find($id);
+        }
+        if($type == 10){
+            return PayLink::with('user', 'package')->find($id);
         }
     }
     private function object_sorter($clave,$orden=null) {

@@ -76,11 +76,18 @@
                 autocomplete="off"
                 :rules="rulesForm(key)"
                 :mask="maskFormat(key)"
-                :maxlength="key == 'cvc' ? 3 : ''"
+                :maxlength="key == 'cvc' ? 3 : key == 'numberClient' ? 22 :''"
                 @keyup="callbackKeyup(key,$event)"
                 @change="callbackChange(key, $event)"
-              />
-              <div class="q-px-xs q-pt-md" v-if="item.sublabel">
+                
+              >
+                <template v-slot:append v-if=" key == 'numberClient'">
+                  <transition name="horizontal">
+                    <div v-html="wozIcons[cardType ?? 'general' ]" style="transform: scale(0.8)" />
+                  </transition>
+                </template>
+              </q-input>
+              <div class="q-px-xs q-pt-xs" v-if="item.sublabel">
                 {{ item.sublabel }}
               </div>
             </div>
@@ -97,7 +104,7 @@
                 <q-file accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant"/>
               </div>
               <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
-                Te confirmaremos el estado de tu pago en el dia
+                Te confirmaremos el estado de tu pago en el día
               </div>
             </div>
           </template>
@@ -146,6 +153,7 @@
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import moment from 'moment';
   import { getCreditCardType } from 'cleave-zen'
+  import wozIcons from '@/assets/icons/wozIcons'
   import { 
     isValid, 
     isExpirationDateValid,
@@ -200,7 +208,7 @@
         email:{
           value:'',
           title:'Información extra',
-          sublabel:'Te confirmaremos el estado de tu pago',
+          sublabel:'Te confirmaremos el estado de tu pago en el día',
           label:'Correo electrónico'
         },
       })
@@ -303,7 +311,7 @@
           showDialog.value = true
           loading.value = false
           setTimeout(() => {
-            // router.push('/dashboard')
+            router.push('/trasacction/view/10/'+response.data.id)
           }, 2000);
 
         }).catch((response) => {
@@ -348,7 +356,7 @@
           nameClient:[
             val => (val !== null && val !== '') || 'El nombre del titular es obligatorio.',
             // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-            val => (/[,%".'()*#|;?&|<>]/.test(val) == false ) || "Nombre no valido",
+            val => (/[0-9,%".'()*#|;?&|<>]/.test(val) == false ) || "Nombre no valido",
           ],
           numberClient:[
             val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
@@ -406,7 +414,8 @@
       }
       const cleaveCard = (e) => {
         const value = e.target.value
-        cardType.value = getCreditCardType(value)
+        console.log(getCreditCardType(value))
+        cardType.value = getCreditCardType(value) ?? 'general'
       }
       const validateCard = (e) => {
         if(!e) {
@@ -444,7 +453,7 @@
       }    
 
       const callbackKeyup = (key, e) => {
-
+        console.log(key)
         if(key == 'nameClient') return
         if(key == 'numberClient') {
           cleaveCard(e)
@@ -501,7 +510,9 @@
         showDialog,
         formError,
         errorMessage,
+        wozIcons,
         user,
+        cardType,
         router,
         route,
         loading,

@@ -27,7 +27,7 @@ class PayLink extends Model
         'due_date',
         'email'
     ];
-    protected $appends  =   ['status_label'];
+    protected $appends  =   ['status_label','transaction'];
 
     public function getstatusLabelAttribute()
     {   
@@ -38,7 +38,12 @@ class PayLink extends Model
         ];
         return $status[$this->status];
     }
-    public function link(){
-        return $this->belongsTo(User::class,'link_id', 'id');
+    public function getTransactionAttribute(){
+        
+        return 10;
+        
+    }
+    public function links(){
+        return $this->belongsTo(Link::class,'link_id', 'id');
     }
 }
