@@ -9,6 +9,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PayLink extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $table = 'pay_links';
+    protected $fillable = [
+        'link_id', 
+        'amount', 
+        'method', 
+        'type', 
+        'status', 
+        'concept', 
+        'operation_id', 
+        'bank', 
+        'pay_date',
+        'vaucher',
+        'card',
+        'card_name',
+        'cvc',
+        'due_date',
+        'email'
+    ];
     protected $appends  =   ['status_label'];
 
     public function getstatusLabelAttribute()

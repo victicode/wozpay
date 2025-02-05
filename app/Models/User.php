@@ -81,7 +81,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Pay::class)->orderBy('created_at', 'desc');
     }
     public function successPays(){
-        return $this->hasMany(Pay::class)->where('status', '2')->orderBy('created_at', 'desc');
+        return $this->hasMany(Pay::class)->where('status', '2')->where('type', '!=' , 5)->where('type', '!=' , 6)->where('type', '!=' , 7)->orderBy('created_at', 'desc');
     }
     public function paysPending(){
         return $this->hasMany(Pay::class)->where('status', '1')->where('type', '3' )->orderBy('created_at', 'desc');

@@ -17,7 +17,7 @@ export const useTransactionStore = defineStore("transaction", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al solicitar prestamo.');
+              resolve('Error al obtener datos.');
             });
         }
       })

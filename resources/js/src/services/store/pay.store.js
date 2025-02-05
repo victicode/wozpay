@@ -45,6 +45,26 @@ export const usePayStore = defineStore("pay", {
         return 'Error al actualizar datos';
       });
     },
+    async createPayLink(body) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/pay/link", body)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              resolve(response.response);
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async changeStatus(body) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {

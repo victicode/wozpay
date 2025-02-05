@@ -67,7 +67,7 @@
                 {{ item.title }}
               </div>
               <q-input 
-                class="q-pb-sm paycardLink-input " 
+                class="q-pb-md paycardLink-input " 
                 outlined 
                 clearable
                 :clear-icon="'eva-close-outline'"
@@ -79,10 +79,8 @@
                 :maxlength="key == 'cvc' ? 3 : ''"
                 @keyup="callbackKeyup(key,$event)"
                 @change="callbackChange(key, $event)"
-                :error="key == 'date' ? dateError : false"
-                error-message="Formato de fecha no valido o vencido"
               />
-              <div class="q-px-xs" v-if="item.sublabel">
+              <div class="q-px-xs q-pt-md" v-if="item.sublabel">
                 {{ item.sublabel }}
               </div>
             </div>
@@ -103,8 +101,12 @@
               </div>
             </div>
           </template>
-          <div class="q-px-xl q-my-md flex flex-center">
+          <div class="q-px-xl q-mt-md flex flex-center q-pb-sm">
             <img :src="payMethod" alt="" style=" height: 2.1rem;">
+          </div>
+          <div v-if="formError" class="text-subtitle1 text-negative text-bold text-center q-mt-md flex flex-center">
+            <q-icon name="eva-alert-circle-outline" color="negative" size="sm"/>
+            {{ errorMessage }}
           </div>
         </div>
       </div>
@@ -168,7 +170,7 @@
       const linkStore = useLinkStore()
       const link = ref({})
       const ready = ref(!(!route.query.title))
-      
+      const errorMessage = ref('')
       const comprobant = ref([]);
       const requirements = ref({
         card: user.value.card ?? false,
@@ -177,8 +179,7 @@
       })
       const dataPay = payStore.getDataTransfer()
       const cardType = ref('general');
-      const cardError = ref(false)
-      const dateError = ref(false)
+      const formError = ref(false)
       const clientForm = ref({
         nameClient:{
           value:'',
@@ -277,7 +278,37 @@
         })
       }
       const createPayClient = () => {
-        console.log('AAAAAAAAAAAAAAAHHHHHHH')
+        if(!validate()){
+          showNotify('negative', 'Debe completar el formulario')
+          return
+        }
+        loading.value = true;
+        const data = new FormData()
+
+        data.append('link_id', link.value.id)
+        data.append('concept', link.value.title +' - '+ link.value.note)
+
+        data.append('card', clientForm.value.numberClient.value)
+        data.append('card_name', clientForm.value.nameClient.value)
+        data.append('cvc', clientForm.value.cvc.value)
+        data.append('date', clientForm.value.due.value)
+        data.append('email', clientForm.value.email.value)
+
+
+
+        payStore.createPayLink(data)
+        .then((response) => {
+          if(response.code !== 200) throw response
+
+          showDialog.value = true
+          loading.value = false
+          setTimeout(() => {
+            // router.push('/dashboard')
+          }, 2000);
+
+        }).catch((response) => {
+          loading.value = false
+        })
       }
       const getLink = () => {
         if(!route.params.code) return
@@ -315,9 +346,9 @@
       const rulesForm = (key) => {
         const iRules = {
           nameClient:[
-            val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
+            val => (val !== null && val !== '') || 'El nombre del titular es obligatorio.',
             // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-            val => (/[a-zA-z,%".'();?&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+            val => (/[,%".'()*#|;?&|<>]/.test(val) == false ) || "Nombre no valido",
           ],
           numberClient:[
             val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
@@ -335,9 +366,9 @@
             val => (/[a-zA-z,%"' ();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
           email:[
-            val => (val !== null && val !== '') || 'El número de tarjeta es requerido.',
+            val => (val !== null && val !== '') || 'El email es requerido.',
             // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-            val => (/[a-zA-z,%"'();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
+            val => (/[*# ,%´"'();&|<>]/.test(val) == false ) || "Se permiten solo valores numericos",
           ],
         }
         
@@ -363,10 +394,10 @@
           clientForm.value.due.value = '01'
         }
         if(value[1] && value[1].length < 2){
-          dateError.value = true
+          formError.value = true
         }
         if(value[1] && value[1].length == 2){
-          dateError.value = false
+          formError.value = false
           const verifyDate = new Date();
           if(parseInt(value[1]) > (verifyDate.getFullYear() + 10)-2000){
             clientForm.value.due.value = value[0] + '' + ((verifyDate.getFullYear() + 10)-2000)
@@ -376,20 +407,20 @@
       const cleaveCard = (e) => {
         const value = e.target.value
         cardType.value = getCreditCardType(value)
-        console.log(cardType.value)
       }
       const validateCard = (e) => {
         if(!e) {
           cardType.value = 'general'
           return false
         }
-        cardError.value = false
+        formError.value = false
         if(getCreditCardNameByNumber(e) == 'Credit card is invalid!'  && !isValid(e)){
           alert('Tarjeta no valida.')
-          cardError.value = true
+          errorMessage.value = 'Tarjeta no valida'
+          formError.value = true
         }
 
-        return cardError.value
+        return formError.value
       }
 
       const validateDate = (e) => {
@@ -397,35 +428,41 @@
           return true
         }
         const value = e.split('/');
-        dateError.value = false
+        formError.value = false
         if(value[1] && value[1].length < 2){
           alert('Fecha no valida.')
-
-          dateError.value = true
+          errorMessage.value = 'Fecha no valida'
+          formError.value = true
         }
         if(!isExpirationDateValid(value[0], value[1])){
           alert('Fecha vencida.')
-          dateError.value =  true
+          errorMessage.value = 'Fecha vencida.'
+          formError.value =  true
         }
         
-        return dateError.value
+        return formError.value
       }    
 
       const callbackKeyup = (key, e) => {
-        const keyup = {
-          nameClient:false,
-          numberClient:cleaveCard,
-          due: cleaveDate,
-          cvc:false,
-          email:false,
+
+        if(key == 'nameClient') return
+        if(key == 'numberClient') {
+          cleaveCard(e)
+          return
         }
-        console.log(keyup[key])
-        return keyup[key](e)
+        if(key == 'due'){
+          cleaveDate(e)
+          return
+        }
+        if(key == 'cvc') return
+        if(key == 'email') return
       }
       const callbackChange = (key, e) => {
-        console.log(key)
         if(key == 'nameClient') return
-        if(key == 'numberClient') return
+        if(key == 'numberClient') {
+          validateCard(e)
+          return
+        }
         if(key == 'due'){
           validateDate(e)
           return
@@ -435,6 +472,24 @@
 
    
       }
+      const validate = () => {
+        let isOk = true
+
+        Object.entries(clientForm.value).forEach( ([key,value ]) => { if(value.value == '') isOk = false }); 
+
+        if(validateCard(clientForm.value.numberClient.value)) {
+          isOk = false
+          return isOk
+        }
+
+        if(validateDate(clientForm.value.due.value)) {
+          isOk = false
+          return isOk
+        }
+
+        return isOk
+      }
+
       onMounted(() => {
         if(validateRequeriments()){
           router.push('/generatePayLink/1/1')
@@ -444,7 +499,8 @@
 
       return{
         showDialog,
-        dateError,
+        formError,
+        errorMessage,
         user,
         router,
         route,

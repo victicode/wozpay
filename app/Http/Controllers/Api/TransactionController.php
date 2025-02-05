@@ -29,6 +29,8 @@ class TransactionController extends Controller
         $recept =  Wallet::with(['transferRecept' => function (Builder $query) use ($request) { 
             $query->with('user_from.user')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
         }] )->find($user->wallet->id);
+        $activationPay = Pay::with('user')->where('user_id',$userId)->where('type',5)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
+        $packagePay = Pay::with('user', 'package')->where('user_id',$userId)->where('type',6)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
 
         $loans = Loan::where('status', '!=','1')
         ->where('status', '!=','0')
@@ -47,6 +49,8 @@ class TransactionController extends Controller
             ...$this->tagTransfer($send->transferSend ?? [],5) ,
             ...$this->tagTransfer($loans ?? [],6) ,
             ...$this->tagTransfer($links ?? [],7) ,
+            ...$activationPay,
+            ...$packagePay
 
         ];
         

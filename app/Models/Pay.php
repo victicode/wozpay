@@ -11,7 +11,7 @@ class Pay extends Model
     use HasFactory, SoftDeletes;
     
     protected $fillable =   ['user_id', 'loan_id', 'package_id', 'amount', 'operation_id','quota_id', 'method', 'bank', 'pay_date', 'vaucher', 'type', 'status', 'concept'];
-    protected $appends  =   ['status_label', 'transaction'];
+    public $appends  =   ['status_label', 'transaction'];
     
     public function getstatusLabelAttribute()
     {   
@@ -25,7 +25,12 @@ class Pay extends Model
         return $status[$this->status];
     }
     public function getTransactionAttribute(){
-        return intval($this->type);
+        if($this->type == 5) return 8;
+        else if($this->type==6)return 9;
+        else{
+
+            return intval($this->type);
+        }
     }
     public function user(){
         return $this->belongsTo(User::class,'user_id', 'id');
@@ -36,4 +41,5 @@ class Pay extends Model
     public function package(){
         return $this->belongsTo(Package::class,'package_id', 'id');
     }
+    
 }

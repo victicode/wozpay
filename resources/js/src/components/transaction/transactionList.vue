@@ -10,11 +10,11 @@
           >
             <div class="flex items-center">
               <div v-html="imgTransaction(transaction)"
-              v-if="transaction.transaction !=7" 
-              class="q-mr-sm q-mr-md-md icons-transfer" 
-              :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5}"
+                v-if="transaction.transaction !=7 && transaction.transaction !=8 && transaction.transaction !=9" 
+                class="q-mr-sm q-mr-md-md icons-transfer" 
+                :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5}"
               />
-              <q-icon name="eva-link-2-outline" size="md" class="q-mr-sm" v-if="transaction.transaction == 7" />
+              <q-icon :name="imgTransaction(transaction)" size="md" class="q-mr-sm" v-if="transaction.transaction == 7 || transaction.transaction ==8 || transaction.transaction ==9" />
               
               <div>
                 <div 
@@ -134,7 +134,7 @@ export default {
       })
       .catch((response) => {
         loading.value = false
-        showNotification({msg:response, title:'Error al realizar transferencia'})
+        showNotification({msg:response, title:'Error'})
       })
     } 
     const showNotification = (value) => {
@@ -155,6 +155,10 @@ export default {
       if(transaction.transaction == 5)  return { title:'Realizaste una transferencia de', second: transaction.user_to.user.name, text: transaction.concept }
       if(transaction.transaction == 6)  return { title:'Débito automático', text:'Woz Payments'}
       if(transaction.transaction == 7)  return { title:'Links de pago', second:'N°'+transaction.code,text:'Woz Payments'}
+      if(transaction.transaction == 8)  return { title:'Pago de activación', second:'Cuenta internacional', }
+      if(transaction.transaction == 9)  return { title:'Pago de paquete de links', second:transaction.package.title, }
+
+
 
     }
     const imgTransaction = (transaction) => {
@@ -165,6 +169,9 @@ export default {
       if(transaction.transaction == 5)  return wozIcons.transferir
       if(transaction.transaction == 6)  return wozIcons.cardOutline
       if(transaction.transaction == 7)  return 'eva-link-2-outline'
+      if(transaction.transaction == 8 || transaction.transaction == 9)  return 'eva-credit-card-outline'
+
+
 
     }
     const colorTextByTrasaction = (transaction) => {

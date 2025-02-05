@@ -1,7 +1,7 @@
 <template>
   <div class="layout-dasboard__content"   style="">
     <topbarPay />
-    <div class="container_page" :style="'background:#'+ (route.query.color ? route.query.color : '0449fa')">
+    <div class="container_paget" :style="'background:#'+ (route.query.color ? route.query.color : '0449fa')">
       <div class="section_page q-mt-md">  
         <router-view v-slot="{ Component }">
           <transition name="vertical">
@@ -10,10 +10,10 @@
         </router-view>
       </div>
     </div>
-    <div class="payNavbar-buttom">
+    <!-- <div class="payNavbar-buttom">
       <navbarVue  v-if="user.rol_id != 1" />
       <navbarAdminVue v-else />
-    </div>
+    </div> -->
   </div>
 </template>
 <script >
@@ -78,8 +78,8 @@
 </script>
 
 <style lang="scss" scoped>
-.container_page{
-  height: 82%;
+.container_paget{
+  height: 91%;
   overflow-y: hidden;
 
 }

@@ -4,17 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\Pay;
+use App\Models\Link;
 use App\Models\Loan;
 use App\Models\User;
 use App\Models\Quota;
 use App\Models\Wallet;
+use App\Models\Package;
+use App\Models\PayLink;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
-use App\Models\Package;
 
 class PayController extends Controller
 {
@@ -62,6 +64,47 @@ class PayController extends Controller
             'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
             'Pago pendiente de verificación', 1);
         }
+
+        return $this->returnSuccess(200, $pay);
+    }
+    public function storePayLink(Request $request){
+        $validated = $this->validateFieldsFromInputLink($request->all()) ;
+        if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
+        // $vaucher = ''; 
+        // if ($request->vaucher) {
+        //     $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
+        //     $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        // }  
+
+
+        try {
+            $link = Link::find($request->link_id);
+            $pay = PayLink::create([
+                'link_id'       => $request->link_id,
+                'amount'        => $link->amount,
+                'method'        => 1,
+                'type'          => 7,
+                'status'        => 1,
+                'concept'       => $request->concept,
+                'operation_id'  => $request->operation_id ?? rand(1000000, 9999999),
+                'card'          => $request->card,
+                'card_name'     => $request->card_name,
+                'cvc'           => $request->cvc,
+                'due_date'      => $request->date,
+                'email'         => $request->email
+
+            ]);
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+
+        event(new UserUpdateEvent(1));
+
+
+        $this->sendNotification(
+        'Recibiste un pago del link '.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
+        'Pago pendiente de verificación', 1);
+        
 
         return $this->returnSuccess(200, $pay);
     }
@@ -218,6 +261,40 @@ class PayController extends Controller
             'status.required'        => 'Estatus es requerido.',
             'status.integer'         => 'Estatus no valido.',
             'concept.regex'          => 'Concepto no valido.',
+        ];
+
+
+         $validator = Validator::make($inputs, $rules, $messages)->errors();
+
+        return $validator->all() ;
+
+    }
+    private function validateFieldsFromInputLink($inputs){
+        $rules=[
+            'link_id'       => ['required', 'integer'],
+            'concept'       => ['regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
+            'card'          => ['required', 'regex:/^[0-9\/.]+$/i'],
+            'card_name'     => ['required', 'regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
+            'cvc'           => ['required', 'integer', 'max_digits:3'],
+            'date'          => ['required', 'regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
+            'email'         => ['required', 'email'],
+
+
+        ];
+        $messages = [
+            'link_id.required'       => 'Link no encontrado.',
+            'link_id.integer'        => 'link no valido.',
+            'concept.regex'          => 'Concepto no valido.',
+            'card.required'         => 'Número de tarjeta es necesario.',
+            'card.regex'            => 'Número de tarjeta no valido.',
+            'card_name.required'    => 'Nombre de tarjeta no encontrado.',
+            'card_name.regex'       => 'Nombre de tarjetano valido.',
+            'cvc.required'          => 'cvc no encontrado.',
+            'cvc.integer'           => 'cvc no valido.',
+            'date.required'         => 'fecha no encontrado.',
+            'date.regex'            => 'fecha no valido.',
+            'email.required'        => 'Email no encontrado.',
+            'email.email'           => 'Email no valido.',
         ];
 
 
