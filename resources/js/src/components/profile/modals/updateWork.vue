@@ -38,6 +38,7 @@
               clearable 
               clear-icon="eva-close-outline" 
               autofocus  
+              :rules="inputRules"
               hint="Ej. Analista IT, Gerente de operaciones, Operador"
             />
           </div>
@@ -221,7 +222,10 @@
       const updateForSlider = () => {
         copyValue.value =  `${moneyFormat(salaryRange.value.min)} - ${moneyFormat(salaryRange.value.max)}`
       }
-
+      const inputRules = [
+        val => (val !== null && val !== '') || 'El campo no puede quedar vacio',
+        val => (/[%\-"'():;&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[]()-%|&;\'" ',
+      ]
       onMounted(() => {
         setModelInput()
       })
@@ -230,6 +234,7 @@
         user,
         updateInfoDialog,
         copyValue,
+        inputRules,
         hideModal,
         setTitleByOperation,
         setModelInput,

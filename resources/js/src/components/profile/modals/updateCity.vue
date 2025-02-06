@@ -5,7 +5,7 @@
           <div class="text-subtitle1 text-weight-bold"> {{ setTitleByOperation() }}</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="copy" clearable clear-icon="eva-close-outline" autofocus   />
+          <q-input dense v-model="copy" :rules="inputRules" clearable clear-icon="eva-close-outline" autofocus   />
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Volver" @click="hideModal(null)"/>
@@ -125,6 +125,10 @@
         if(copy.value == null || copy.value.length == 0) return false;
         return true;
       }
+      const inputRules = [
+        val => (val !== null && val !== '') || 'El campo no puede quedar vacio',
+        val => (/[%\-"'():;&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[]()-%|&;\'" ',
+      ]
       onMounted(() => {
         setModelInput()
       })
@@ -135,7 +139,9 @@
         locality,
         address,
         updateInfoDialog,
+        inputRules,
         copy,
+        inputRules,
         hideModal,
         setTitleByOperation,
         setModelInput,

@@ -131,7 +131,7 @@
           no-caps 
           color="terciary" 
           class="full-width q-pa-md q-mt-sm" 
-          @click="showModal=true"
+          @click="clocks()"
         />
       </div>
       <q-dialog v-model="showModal" full-width full-height persistent class="modalPreActive ">
@@ -177,7 +177,7 @@
             <div class="q-px-md q-px-md-xl q-mx-md-xl">
               <div class="flex justify-between q-px-xs q-py-sm contentDetail">
                 <div class="text-subtitle2 text-weight-medium" >Cotización USD - Woz Pay</div>
-                <div class="text-subtitle2 text-weight-medium" >USD 1 = 7.333 Gs</div>
+                <div class="text-subtitle2 text-weight-medium" >USD 1 = {{numberFormat(rate[count])}} Gs</div>
               </div>
               <div class="flex justify-between q-px-xs q-py-sm contentDetail">
                 <div class="text-subtitle2 text-weight-medium" >Total Gs</div>
@@ -185,7 +185,7 @@
               </div>
               <div class="flex justify-between q-px-xs q-py-sm contentDetail">
                 <div class="text-subtitle2 text-weight-medium" >Tiempo restante</div>
-                <div class="text-subtitle2 text-weight-medium text-terciary" >120 min</div>
+                <div class="text-subtitle2 text-weight-medium text-terciary" id="timer-seconds"/>
               </div>
             </div>
             <div class="w-100 flex flex-center q-my-lg">
@@ -214,7 +214,6 @@
   import transfer from '@/assets/images/tr.svg'
   import teamship from '@/assets/images/team.svg'
   import util from '@/util/numberUtil'
-  
   export default {
     setup() {
       //vue provider
@@ -224,7 +223,17 @@
       const loading = ref(false)
       const { user  } = storeToRefs(useAuthStore())
       const router = useRouter()
-
+      const time = ref(121)
+      const count = ref(0)
+      const timer = ref()
+      const rate = [
+        7333,
+        7600,
+        7900,
+        8100,
+        7500,
+        7700,
+      ]
       const whatDo = [
         {
           title: 'Operaciones en globales',
@@ -337,14 +346,37 @@
       }
       const activateWallet  = () =>{
         if(validateRequeriments()){
-          router.push('/generatePayLink/1/1')
+          router.push('/generatePayLink/1')
           return
         }
         router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f')
       }
+      const clocks = () => {
+        showModal.value=true
+        timer.value = setInterval( () => {
+          if(time.value <= 0) {
+            if(count.value == 5){
+              clearInterval(timer.value);
+
+              setTimeout(() => {
+                document.getElementById('timer-seconds').innerHTML = '0 seg'
+              },1000)
+              return
+            }
+            time.value = 121
+            count.value++
+          }
+          time.value--
+          document.getElementById('timer-seconds').innerHTML = time.value +' seg'
+          
+        }, 1000)
+
+      }
       return{
         user,
         router,
+        rate,
+        count,
         wozIcons,
         person,
         whatDo,
@@ -359,6 +391,7 @@
         numberFormat,
         icons,
         activateWallet,
+        clocks,
       }
     },
   }
@@ -367,7 +400,7 @@
 
 <style lang="scss" >
 .contentDetail{
-  border-bottom: 3px dashed black
+  border-bottom: 1px dashed rgb(202, 202, 202)
 }
 .text-iconPreactive{
   color:#19cd15!important;

@@ -248,7 +248,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12 q-mt-md q-mb-md q-px-md-xl q-px-xs-lg q-pt-md q-mb-lg">
+      <div class="col-12 q-mt-md  q-px-md-xl q-px-xs-lg q-pt-md q-mb-xl q-pb-xs">
         <q-btn 
           id="logout-button" 
           label="Actualizar" 

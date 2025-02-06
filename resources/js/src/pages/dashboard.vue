@@ -72,6 +72,9 @@
   height: 100%; 
   background:#ffffff; 
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   
 }
 @media screen and (max-width: 780px){

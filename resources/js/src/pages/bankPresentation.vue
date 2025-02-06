@@ -147,15 +147,11 @@
   }
 }
 .hero__img_transfer {
-  height: 15rem;
+  height: 12rem;
 }
 .terms-section_transfer {
   height: 55%; 
   // background: linear-gradient(130deg, $primary 60%, #0449fb 70%, rgba(0,32,163,1) 80%, rgba(0,16,83,1) 90%, rgba(0,0,0,1) 100%);
 }
-@media screen and (max-width: 780px) { 
-  .hero__img {
-    height: 15rem;
-  }
-}
+
 </style>
