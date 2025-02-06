@@ -112,9 +112,12 @@ Route::middleware('jwt.verify')->prefix('link')->group(function(){
     Route::get('/byUser/{id}', [LinkController::class, 'getByUser']);
     Route::get('/byId/{id}', [LinkController::class, 'getById']);
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
-
     Route::post('/pay/setStatus', [LinkController::class, 'setPayStatus']);
 });
+Route::prefix('link-public')->group(function(){
+    Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
+});
+
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [CardController::class, 'getLinkCard']);
@@ -134,6 +137,10 @@ Route::middleware('jwt.verify')->prefix('transaction')->name('transacction.')->g
     Route::post('/', [TransactionController::class, 'createTransfer']);
 
 });
+Route::prefix('transaction-public')->name('transacction.public.')->group(function () {
+    Route::get('/byType/{type}/{id}', [TransactionController::class, 'getTrasactionByType']);
+    Route::get('/print/{type}/{id}', [TransactionController::class, 'printTransaction']);
+});
 Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(function () {
     Route::get('/', [InterestController::class, 'getInterestRate']);
     Route::post('/', [InterestController::class, 'storeInterestRate']);
@@ -149,6 +156,9 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
     Route::post('/change-status/{id}', [PayController::class, 'changeStatus']);
     Route::post('/change-status-type/{id}', [PayController::class, 'changeStatusType']);
     Route::get('/pays_pending', [PayController::class, 'getPayPendings']);
+});
+Route::prefix('pay-public')->name('pay.link.')->group( function () {
+    Route::post('/link', [PayController::class, 'storePayLink']);
 });
 
 

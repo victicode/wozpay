@@ -17,6 +17,7 @@
         :key="info.value"
         :name="info.value" 
         class=" column no-wrap flex-center w-100 q-px-sm q-py-none" 
+        style="background:#f2f2f5"
       >
         <a :href="info.link" target="_blank" class="w-100">
           <div class="socialLink__item w-100 flex items-center no-wrap q-py-md q-px-md">

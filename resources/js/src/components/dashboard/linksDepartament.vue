@@ -4,7 +4,7 @@
       <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
-            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold">Cobros internacionales</div>
+            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium">Cobros internacionales</div>
           </div>
         </div>
       </div>
@@ -13,18 +13,17 @@
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="flex-wrap: nowrap;" >
               <div class="q-mr-none" style="margin-right: 0.15rem;">
-                <!-- <div v-html="wozIcons.withdrawal" /> -->
                  <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': 'positive'" />
               </div>
               <div class="flex items-center justify-between  w-85 " >
                 <div class=" q-mr-md-none q-pl-md-md q-pl- w-autox" >
                   <div v-if="!user.wallet_link ">
                     <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
-                    <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
+                    <div class="q-mt-xs text-grey-8 " style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
                   </div>
                   <div v-else style="width:100%;" class="q-ml-xs" @click="router.push('/pay_link_dashboard')"> 
                     <div class="text-weight-medium ellipsis text__mid" style="font-size: 0.89rem; ">Cuenta corriente internacional</div>
-                    <div class="text-weight-bold q-pt-xs text-subtitle2"  >N° {{ user.wallet_link.number }}</div>
+                    <div class=""  >N° {{ user.wallet_link.number }}</div>
                   </div>
                 </div>
                 <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link && (user.wallet_link.status == 2 || user.wallet_link.status == 1)">
@@ -117,7 +116,7 @@
 }
 .loan_card{
   border-radius:15px;
-  box-shadow: 0px 5px 5px 0px #aaaaaa
+  //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{
   border-bottom: 1px solid #d3d3d3;

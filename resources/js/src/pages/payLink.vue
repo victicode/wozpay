@@ -156,7 +156,7 @@
                         {{ item.note }}
                       </div>
                     </div>
-                    <div class="flex flex items-center">
+                    <div class="flex items-center">
                       <div class="text-right" v-if="!item.isBuy">
                         <div class="text-body-2 text-weight-medium ">Gs {{numberFormatDecimal(item.amount)}}</div>
                         <div class="text-grey-7" style="font-size: 0.7rem;">{{ item.comision }}% por transacción</div>
@@ -255,7 +255,7 @@ export default {
       return item.type == 1 
       ? item.amount*5
       : item.type == 3 
-      ? item.amount * 7333 
+      ? item.amount * 7872
       : item.amount
     }
     const getPackages = () => {

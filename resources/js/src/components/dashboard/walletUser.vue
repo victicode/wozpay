@@ -4,7 +4,7 @@
       <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
-            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold">Caja de ahorro básica</div>
+            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium">Caja de ahorro básica</div>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
                   </div>
                   <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
                     <div class="text-weight-medium">Caja de ahorro</div>
-                    <div class="text-weight-bold ">N° {{ user.wallet.number }} </div>
+                    <div class=" ">N° {{ user.wallet.number }} </div>
                   </div>
                 </div>
                 <div class="q-mr-sm text-end">
@@ -102,7 +102,7 @@
 <style lang="scss" scoped>
 .loan_card{
   border-radius:15px;
-  box-shadow: 0px 5px 5px 0px #aaaaaa
+  //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{
   border-bottom: 1px solid #d3d3d3;

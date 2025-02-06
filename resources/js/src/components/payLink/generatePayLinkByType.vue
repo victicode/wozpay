@@ -426,7 +426,7 @@ export default {
       height: 100vh; 
     }
     .totalLink_progress {
-      width: 55%!important;
+      width: 83%!important;
 
     }
   }

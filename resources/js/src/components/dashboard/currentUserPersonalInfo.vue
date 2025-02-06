@@ -147,7 +147,7 @@
   .userInfoContent{
     height: 100%; 
     overflow: hidden;
-    background: linear-gradient(180deg, #0449fb 75%, #fff 60%);
+    background: linear-gradient(180deg, #0449fb 75%, #f2f2f5 60%);
   }
   h5{
     font-size: 1.9rem!important;

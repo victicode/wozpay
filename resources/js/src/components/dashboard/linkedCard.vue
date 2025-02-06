@@ -4,7 +4,7 @@
       <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
-            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold">Mis productos</div>
+            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium"> Mis productos Woz Payments</div>
           </div>
         </div>
       </div>
@@ -13,20 +13,22 @@
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
               <div class="w-100 flex items-center justify-between " style=" flex-wrap: nowrap;" @click="router.push('/card')">
-                <div class="flex items-center w-80 ">
+                <div class="flex items-center w-80aaa ">
                   <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.outlinedAddCard" class="" size="sm" />
                   </div>
                   <div class=" q-ml-xs q-mr-none q-pl-md-md">
-                  <div class="text-weight-medium"> {{linkCard.type == 1 ? 'Tarjeta de crédito' : 'Tarjeta de débito' }}</div>
-                    <div class="text-weight-bold ">N° ********** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
+                  <!-- <div class="text-weight-medium"> {{linkCard.type == 1 ? 'Tarjeta de crédito' : 'Tarjeta de débito' }}</div> -->
+                  <div class="text-weight-medium"> Tarjeta de crédito - Débito </div>
+                  
+                    <div class="">N° ********** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
                   </div>
                 </div>             
                 <div class="q-mr-none cursor-pointer">
                   <q-chip 
                     :color="linkCard.status == 2 ? 'chip' : linkCard.status == 1 ? 'warning' : 'negative'" 
                     :text-color=" linkCard.status == 2 ? 'positive' : 'white'" 
-                    class="q-px-lg"
+                    class="q-px-md-lg q-px-md"
                   >
                     {{  linkCard.status == 2 ? 'Vinculada' : linkCard.status == 1 ? 'Pendiente' : 'Rechazada' }}
                   </q-chip>
@@ -38,45 +40,42 @@
         </div>
       </div>
     </div>
-    <div class="q-pb-md  q-px-lg linked_section bg-white" v-if="Object.values(linkCard).length == 0 && ready" >
-      <div class="flex items-center justify-between linked_container">
-        <div class="text-subtitle1 text-weight-medium">
-          <div class="flex items-center"> 
-            <h6 class=" text-subtitle1 text-weight-medium  q-mr-sm text-dark">
-              Vincular tarjeta de crédito o debito
-            </h6>
-            <div>
-              <q-icon
-                :name="icons.outlinedAddCard "
-                size="sm"
-                @click="showToltip"
-                color="dark"
-              >
-              <q-tooltip 
-                anchor="top middle" 
-                self="bottom middle" 
-                class="bg-positive" 
-                :offset="[10, 10]" 
-                v-model="showing"
-              >
-               Vincula tu tarjeta
-              </q-tooltip>
-              </q-icon>
+    <div class="q-pb-md  q-px-md  " v-if="Object.values(linkCard).length == 0 && ready" >
+      <div class="quote-section">
+        <div class="row q-px-none">
+          <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
+            <div class="w-100 flex items-center justify-between " style=" flex-wrap: nowrap;" @click="router.push('/card')">     
+              <div class="flex items-center w-80bbbb ">
+                <div class="q-mr-md-sm q-mr-xs q-mt-xs">
+                  <q-icon :name="icons.outlinedAddCard" class="" size="md" color="grey-6" />
+                </div>
+                <div class="" style="width: 80%">
+                  <div class=" text-subtitle1 text-weight-medium  q-mr-sm text-dark ellipsis text-turnc ">
+                    Vincular tarjeta de crédito o debito
+                  </div>
+                  <div class="linked_description text-grey-6 ellipsis" >
+                    Adjuntar tu tarjeta para débito automático y más.
+                  </div>
+                </div>
+              </div>  
+              <div class="q-mr-none cursor-pointer flex items-center">
+                <div class="text-subtitle2 q-pt-xs">
+                  Activar
+                </div>
+                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/pay_link_services')" size="sm"> 
+                  <q-icon
+                    name="eva-arrow-ios-forward-outline"
+                    size="sm"
+                    color="black"
+                  />
+                </q-btn>
+              </div>
             </div>
+            
           </div>
-          <div class="linked_description text-grey-6" >
-            Adjuntar tu tarjeta para débito automático y más.
-          </div>
-        </div>
-        <div class="q-mb-xs">
-          <q-icon
-            name="eva-arrow-ios-forward-outline cursor-pointer"
-            size="sm"
-            @click="router.push('link_card')"
-            color="lightgdark"
-          />
         </div>
       </div>
+
     </div>
     
   </div>
@@ -154,6 +153,9 @@
 </script>
 
 <style lang="scss">
+.text-turnc{
+  width: max-content;
+}
 .w-100 {
   width: 100%!important;
 }
@@ -174,7 +176,7 @@
 <style lang="scss" scoped>
 .loan_card{
   border-radius:15px;
-  box-shadow: 0px 5px 5px 0px #aaaaaa
+  //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{
   border-bottom: 1px solid #d3d3d3;
@@ -189,7 +191,7 @@
 .quote-section::-webkit-scrollbar {
     display: none;
 }
-.w-80 {
+.w-80bbbb {
   width: 80%;
 }
 .w-50 {
@@ -197,8 +199,12 @@
 }
 
 @media screen and (max-width: 780px){
-  .w-80 {
-    width: auto;
+  .text-turnc{
+    width: 85%;
+  }
+
+  .w-80bbbb {
+    width: 74%;
   }
   .w-50 {
     width: auto;

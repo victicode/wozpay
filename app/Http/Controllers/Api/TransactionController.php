@@ -125,7 +125,7 @@ class TransactionController extends Controller
             return Pay::with('user', 'package')->find($id);
         }
         if($type == 10){
-            return PayLink::with('user', 'package')->find($id);
+            return PayLink::with('links')->find($id);
         }
     }
     private function object_sorter($clave,$orden=null) {
@@ -155,6 +155,10 @@ class TransactionController extends Controller
             'Comprobante de transferencia interna realizada',
             'Comprobante de descuento automático',
             'Link de pago',
+            'Activación cuenta internacional',
+            'Comprobante de pago de paquetes',
+            'Comprobante de pago',
+
         ];
 
         return $types[$type];
@@ -253,6 +257,34 @@ class TransactionController extends Controller
             'value'  => $transaction->code,
             ];
         }
+        if($type == 8)  {
+            $lines[1] = [
+              'title' =>'Titulo del producto',
+              'text' => 'Activación de cuenta internacional',
+            ];
+            $lines[2] = [
+              'title' => 'Referencia',
+              'value' => $transaction->operation_id,
+            ];
+            $lines[3] = [
+              'title' => 'Metodo de pago',
+              'value' => $transaction->method == 1 ? 'Transferencia' : 'Tarjeta',
+            ];
+          }
+          if($type == 9)  {
+            $lines[1] = [
+              'title' => 'Titulo del producto',
+              'text' => $transaction->package->title,
+            ];
+            $lines[2] = [
+              'title' => 'Referencia',
+              'value' => $transaction->operation_id,
+            ];
+            $lines[3] = [
+              'title' => 'Metodo de pago',
+              'value' => $transaction->method == 1 ? 'Transferencia' : 'Tarjeta',
+            ];
+          }
 
         array_push($lines,[
             'date'  => date("d/m/Y", strtotime($transaction->created_at)),

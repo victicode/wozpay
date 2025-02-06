@@ -41,7 +41,7 @@
                   }" 
                   v-for="(lines, index) in items" :key="index"
                 > 
-                  <div style="word-wrap: break-word;">
+                  <div style="word-wrap: break-word;" :class="{'text-warning': (key==4)}"  >
                     {{ lines }}
                   </div>
                   <q-icon
@@ -61,7 +61,7 @@
                   color="primary" class="w-100 q-pa-md back__to" 
                   no-caps
                   label="Volver al incio"
-                  @click="router.go(-1)"
+                  @click="router.options.history.state.back == '/transactions' ? router.go(-1): router.push('/dashboard')"
                 >
                 </q-btn>
               </div>
@@ -103,7 +103,6 @@
       const icons = inject('ionIcons')
       const route = useRoute();
       const router = useRouter();
-      const $q = useQuasar()
       const transactionType = route.params.type 
       const id = route.params.id 
       const loading = ref(false)
@@ -111,6 +110,8 @@
       const transaction = ref({})
       const transactionFormat = ref([])
       const numberFormat = util.numberFormat
+      console.log(route)
+      console.log()
 
       const lines = () => {
         const lines = []
@@ -232,6 +233,25 @@
             value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
           }
         }
+        if(transactionType == 10)  {
+          lines[1] = {
+            title:'Titulo del producto',
+            text:transaction.value.links.title,
+          }
+          lines[2] = {
+            title:'Referencia',
+            value: transaction.value.operation_id,
+          }
+          lines[3] = {
+            title:'Metodo de pago',
+            value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
+          }
+          lines[4] = {
+            title:'Estado',
+            value: transaction.value.status_label,
+            
+          }
+        }
 
         lines.push({
           date: moment(transaction.value.created_at).format('DD/MM/YYYY'),
@@ -246,6 +266,7 @@
         if(transactionType == 6)  return wozIcons.cardOutline
       }
       const getTransaction = () => {
+        route
         storeTransaction.getTrasactionByData(transactionType, id)
         .then((data) => {
           transaction.value = data.data

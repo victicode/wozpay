@@ -280,6 +280,7 @@
       }
       const setFilter = (index)=> {
         typeOfUser.value = index
+        currentPage.value = 1
         userStore.setStateList(index)
         getUsers()
       }

@@ -35,7 +35,7 @@
     <div class="q-py-sm q-px-md q-px-md-lg" v-else>
       <div class="row q-px-none">
         <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start pays_dashboard_card" style="" >
-          <div class="w-100 flex flex items-center">
+          <div class="w-100 flex items-center">
             <div style="" class="w-10D">
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
@@ -51,7 +51,7 @@
               <q-skeleton type="rect" class="q-mt-xs" />
             </div>
           </div>
-          <div class="w-100 flex flex items-center q-mt-md">
+          <div class="w-100 flex items-center q-mt-md">
             <div style="" class="w-10D">
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
@@ -67,7 +67,7 @@
               <q-skeleton type="rect" class="q-mt-xs" />
             </div>
           </div>
-          <div class="w-100 flex flex items-center q-mt-md">
+          <div class="w-100 flex items-center q-mt-md">
             <div style="" class="w-10D">
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
@@ -164,7 +164,7 @@
 <style lang="scss" scoped>
 .pays_dashboard_card{
   border-radius:23px;
-  box-shadow: 0px 5px 5px 0px #aaaaaa
+  //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 
 .pays-section::-webkit-scrollbar {

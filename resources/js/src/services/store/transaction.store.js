@@ -26,21 +26,24 @@ export const useTransactionStore = defineStore("transaction", {
         return 'Error al actualizar datos';
       });
     },
-    async getTrasactionByData(TransactionType, TransactionId) {
+    async getTrasactionByData(TransactionType, TransactionId, isPublic = false) {
+      const route = isPublic ? '/api/transaction/byType/' : '/api/transaction-public/byType/'
       return await new Promise((resolve) => {
-        if (JwtService.getToken()) {
+        if (!isPublic) {
+          if(JwtService.getToken()) throw ''
           ApiService.setHeader();
-          ApiService.get("/api/transaction/byType/"+TransactionType+'/'+TransactionId)
-            .then(({ data }) => {
-              if(data.code !== 200){
-                throw data;
-              }
-              resolve(data)
-            }).catch((response) => {
-              console.log(response)
-              resolve('Error al solicitar prestamo.');
-            });
         }
+        ApiService.get(route+TransactionType+'/'+TransactionId)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al solicitar prestamo.');
+          });
+        
       })
       .catch((response) => {
         console.log(response)

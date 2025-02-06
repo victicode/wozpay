@@ -6,7 +6,7 @@
     <div class="q-mt-md-md q-mt-xs-md">
       <div class="row">
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect': user.viewRekutu}" to="/apply" >
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect': user.viewRekutu}" to="/apply" >
             <div v-if="loan.status == 3 && loan.red_tapes.use_count < 3">
               <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
@@ -15,24 +15,24 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'">
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'">
             <div class="q-mt-xs" v-html="icons.transferir" />
             <span class="q-mt-none text-dark text-body2">Transfer.</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-           <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100" > <!-- to="/deposit" -->
+           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" > <!-- to="/deposit" -->
             <div class="q-mt-xs" v-html="icons.cargar" />
             <span class="q-mt-none text-dark text-body2">Cargar</span>
-            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 7px;">
+            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
               <q-icon name="eva-lock-outline" size="md" color="grey-3"></q-icon>
             </div>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">   
-          <q-btn color="transparet" flat no-caps class="q-px-xs q-py-none actions-button w-100">
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100">
             <div v-html="icons.pagoYa" />
-            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 7px;">
+            <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
               <q-icon name="eva-lock-outline" size="md" color="grey-3"></q-icon>
             </div>
           </q-btn>
@@ -87,11 +87,12 @@
 
 <style lang="scss">
   .actions-button{
-    border: 1.3px solid #c7c7c7!important;
+    box-shadow: 0px 0px 0px 0px #aaaaaab4;
+    border: 0px solid #c7c7c7!important;
     border-radius: 15px!important;
     height: 70px!important;
     width: 100%!important;
-    
+   background: white; 
     & .q-btn__content{
       display: flex!important;
       flex-direction: column!important;

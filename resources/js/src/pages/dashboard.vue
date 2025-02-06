@@ -4,29 +4,32 @@
       <div style="height: 14rem;">
         <currentUserPersonalInfo />
       </div>
-      <div class="bg-white">
-        <actionsDashboard />
-      </div>
-      <!-- <div>
-        <q-btn @click="enviar" color="black"> enviar</q-btn>
-      </div> -->
-      <div class="bg-white q-pt-sm q-pb-none">
-        <socialLinks />
-      </div>
-      <div style="">
-        <rekutu />
-      </div>
-      <div style="">
-        <linkedCard />
-      </div>
-      <div style="">
-        <walletUser />
-      </div>
-      <div>
-        <linksDepartament />
-      </div>
-      <div style="">
-        <currentUserLoan />
+      <div style="background:#f2f2f5">
+
+        <div class="">
+          <actionsDashboard />
+        </div>
+        <!-- <div>
+          <q-btn @click="enviar" color="black"> enviar</q-btn>
+        </div> -->
+        <div class=" q-pt-sm q-pb-none">
+          <socialLinks />
+        </div>
+        <div style="">
+          <rekutu />
+        </div>
+        <div style="">
+          <linkedCard />
+        </div>
+        <div style="">
+          <walletUser />
+        </div>
+        <div>
+          <linksDepartament />
+        </div>
+        <div style="">
+          <currentUserLoan />
+        </div>
       </div>
       
     </div>
