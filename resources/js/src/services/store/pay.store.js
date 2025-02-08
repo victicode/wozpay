@@ -47,18 +47,16 @@ export const usePayStore = defineStore("pay", {
     },
     async createPayLink(body) {
       return await new Promise((resolve) => {
-        if (JwtService.getToken()) {
-          ApiService.setHeader();
-          ApiService.post("/api/pay/link", body)
-            .then(({ data }) => {
-              if(data.code !== 200){
-                throw data;
-              }
-              resolve(data)
-            }).catch((response) => {
-              resolve(response.response);
-            });
-        }
+        ApiService.post("/api/pay-public/link", body)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            resolve(response.response);
+          });
+        
       })
       .catch((response) => {
         console.log(response)

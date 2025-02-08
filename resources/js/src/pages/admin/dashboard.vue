@@ -70,7 +70,7 @@
 <style lang="scss" scoped>
 .dashboard_container{
   height: 100%; 
-  background:#f1f0f0; 
+  background:#f2f2f5; 
   overflow: hidden;
 }
 .dashboard_container--details {

@@ -276,7 +276,8 @@
           showDialog.value = true
           loading.value = false
           setTimeout(() => {
-            router.push('/dashboard')
+            // router.push('/dashboard')
+            router.push('/trasacction/view/'+(route.params.type == 1 ? 8 : 9)+'/'+response.data.id)
             
           }, 2000);
 
@@ -311,7 +312,7 @@
           showDialog.value = true
           loading.value = false
           setTimeout(() => {
-            router.push('/trasacction/view/10/'+response.data.id)
+            router.push('/trasacction-public/view/10/'+response.data.id)
           }, 2000);
 
         }).catch((response) => {
@@ -500,7 +501,8 @@
       }
 
       onMounted(() => {
-        if(validateRequeriments()){
+        
+        if(validateRequeriments() && (route.params.type == 1 || route.params.type == 2 )){
           router.push('/generatePayLink/1/1')
         }
         getLink()

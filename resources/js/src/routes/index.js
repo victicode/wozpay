@@ -69,12 +69,13 @@ const router = createRouter({
     {
       path:'/',
       name:'payLinkForm',
-      beforeEnter: auth,
+      
       component:() => import('@/layouts/payFormLinkLayout.vue'),
       children:[
         {
           path: "/form_pay_link/user/:type",
           name:"form_pay_lin_user",
+          beforeEnter: auth,
           component: () => import('@/pages/paylinkFormUser.vue'),
           meta: {
             title : 'Pagos'
@@ -344,6 +345,16 @@ const router = createRouter({
     },
     {
       path: '/trasacction/view/:type/:id',
+      name: "view_transx",
+      beforeEnter:auth,
+      component: viewTransaction,
+      meta: {
+        title: 'Comprobante'
+      }
+    },
+    {
+      path: '/trasacction-public/view/:type/:id',
+      name: "view_trans",
       component: viewTransaction,
       meta: {
         title: 'Comprobante'

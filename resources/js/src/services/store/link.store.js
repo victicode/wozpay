@@ -69,19 +69,18 @@ export const useLinkStore = defineStore("link", {
     },
     async getLinkByCode(code) {
       return await new Promise((resolve, reject) =>{
-        if (JwtService.getToken()) {
-          ApiService.setHeader();
-          ApiService.get("/api/link/byCode/"+code)
-            .then(({ data }) => {
-              if(data.code !== 200){
-                throw data;
-              }
-              resolve(data)
-            }).catch((response) => {
-              console.log(response)
-              resolve('Error al obtener el link');
-            });
-        }
+
+        ApiService.get("/api/link-public/byCode/"+code)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener el link');
+          });
+        
       })
       .catch((response) => {
         console.log(response)

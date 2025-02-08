@@ -3,7 +3,7 @@
     <div class="" >
       <div class="row">
         <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative;">
-          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold" > 
+          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium" > 
             {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}
           </div>
           <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2"/>
@@ -20,8 +20,8 @@
             <div class="flex items-center justify-between  w-80 ">
               <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-auto">
                 <div class="text-weight-medium" style="font-size: 0.95rem;">Préstamo</div>
-                <div class="text-weight-bold q-pt-sm text-subtitle2"  v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
-                <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
+                <div class=" q-pt-sm "  v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
+                <div class="q-mt-xs text-grey-8" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">
                 <div v-if="Object.values(loan).length > 0 ">
@@ -182,8 +182,8 @@
 </script>
 <style lang="scss" scoped>
 .loan_card{
-  border-radius:23px;
-  box-shadow: 0px 5px 5px 0px #aaaaaa
+  border-radius:15px;
+  //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{
   border-bottom: 1px solid #d3d3d3;

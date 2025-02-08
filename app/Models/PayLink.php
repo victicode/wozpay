@@ -33,7 +33,7 @@ class PayLink extends Model
     {   
         $status = [
             'Rechazada',
-            'Pendiente',
+            'Pendiente de aprobación',
             'Aprobada',
         ];
         return $status[$this->status];

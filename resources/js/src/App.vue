@@ -87,7 +87,7 @@
       }
       const exceptionsToShow = () => {
         const user = useAuthStore().user;
-        if(route.name == 'Login' && route.name == 'register') {
+        if(route.name == 'Login' && route.name == 'register' && route.name == 'form_pay_link' && route.name =='view_trans') {
           readyState2.value = true
           return true
         }
@@ -109,7 +109,7 @@
       } 
       const isReady = () => {
         readyState.value =  route.name == 'dashboard' || route.name == 'dashboard_admin' || route.name == 'landing'  ? false : true
-        readyState2.value =  route.name == 'Login' || route.name == 'register' ? true : false
+        readyState2.value =  route.name == 'Login' || route.name == 'register' || route.name == 'form_pay_link' || route.name =='view_trans' ? true : false
       }
       const initChanel = () => {
         window.Echo
