@@ -1,5 +1,8 @@
 <template>
   <q-dialog v-model="updateInfoDialog" persistent backdrop-filter="blur(8px)">
+    <q-form
+      @submit="uptadteInfo()"
+    >
       <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-subtitle1 text-weight-bold"> {{ setTitleByOperation() }}</div>
@@ -9,13 +12,14 @@
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Volver" @click="hideModal(null)"/>
-          <q-btn flat label="Confirmar" :loading="loading" @click="uptadteInfo()" > 
+          <q-btn flat label="Confirmar" :loading="loading"  > 
             <template v-slot:loading>
               <q-spinner-facebook />
             </template>
           </q-btn>
         </q-card-actions>
       </q-card>
+    </q-form>
   </q-dialog>
 </template>
 <script>

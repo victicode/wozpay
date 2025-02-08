@@ -828,7 +828,7 @@
           if(dontValidate.includes(key)) return
           if(!value){
             isUserApply.value = false 
-            console.log(key, value)
+            // console.log(key, value)
           } 
             
         });
