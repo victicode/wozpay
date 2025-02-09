@@ -92,7 +92,7 @@
     border-radius: 15px!important;
     height: 70px!important;
     width: 100%!important;
-   background: white; 
+    background: white!important; 
     & .q-btn__content{
       display: flex!important;
       flex-direction: column!important;
