@@ -1,6 +1,6 @@
 <template>
-  <div class="q-py-sm" style="overflow: scroll; height: 100%;">
-    <div class="q-px-md q-py-md" v-if="ready">
+  <div class="q-py-sm " style="overflow: scroll; height: 100%;">
+    <div class="q-px-md q-py-md q-pb-xl q-mb-md" v-if="ready">
       <div class="q-mb-md">
         <div class="text-weight-bold">
           Comercio / Cliente:
@@ -552,7 +552,7 @@
   }
 }
 .infoPay__content{
-  border: 0.124rem solid rgb(141, 141, 141);
+  border: 1px solid rgb(141, 141, 141);
   border-radius: 8px;
   font-weight: 500;
 }
@@ -568,7 +568,7 @@
   font-weight: 500;
 }
 .contet__border-primary{
-  border: 0.124rem solid #1c304f;
+  border: 1px solid #1c304f;
   border-radius: 0.7rem;
 }
 .iconcontent{

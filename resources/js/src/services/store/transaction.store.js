@@ -27,13 +27,13 @@ export const useTransactionStore = defineStore("transaction", {
       });
     },
     async getTrasactionByData(TransactionType, TransactionId, isPublic = false) {
-      const route = isPublic ? '/api/transaction/byType/' : '/api/transaction-public/byType/'
+      const url = isPublic ? '/api/transaction/byType/' : '/api/transaction-public/byType/'
       return await new Promise((resolve) => {
         if (!isPublic) {
-          if(JwtService.getToken()) throw ''
+          if(!JwtService.getToken()) throw ''
           ApiService.setHeader();
         }
-        ApiService.get(route+TransactionType+'/'+TransactionId)
+        ApiService.get(url+TransactionType+'/'+TransactionId)
           .then(({ data }) => {
             if(data.code !== 200){
               throw data;

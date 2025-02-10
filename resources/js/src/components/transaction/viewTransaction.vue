@@ -110,10 +110,9 @@
       const transaction = ref({})
       const transactionFormat = ref([])
       const numberFormat = util.numberFormat
-      console.log(route)
-      console.log()
 
       const lines = () => {
+
         const lines = []
         lines[0] = {
           title:'Monto',
@@ -266,9 +265,9 @@
         if(transactionType == 6)  return wozIcons.cardOutline
       }
       const getTransaction = () => {
-        route
-        storeTransaction.getTrasactionByData(transactionType, id)
+        storeTransaction.getTrasactionByData(transactionType, id, route.fullPath.includes('10') )
         .then((data) => {
+          console.log(data)
           transaction.value = data.data
           transactionFormat.value = lines()
           loading.value = true

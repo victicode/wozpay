@@ -79,7 +79,6 @@
         iconis,
         user,
         loan,
-
       }
     },
   }
