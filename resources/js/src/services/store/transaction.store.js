@@ -27,7 +27,7 @@ export const useTransactionStore = defineStore("transaction", {
       });
     },
     async getTrasactionByData(TransactionType, TransactionId, isPublic = false) {
-      const url = isPublic ? '/api/transaction/byType/' : '/api/transaction-public/byType/'
+      const url = isPublic ? '/api/transaction-public/byType/' : '/api/transaction/byType/'
       return await new Promise((resolve) => {
         if (!isPublic) {
           if(!JwtService.getToken()) throw ''

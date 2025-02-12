@@ -61,7 +61,7 @@
           </div>
           <a :href="pay.vaucher" target="_blank'">
             <div v-if ="pay.vaucher.slice(-3) !== 'pdf'">
-              <img :src="pay.vaucher" alt="">
+              <img :src="pay.vaucher" alt="" class="mx-auto">
             </div>
             <div v-else>
               <PDF :src="pay.vaucher"/>

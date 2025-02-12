@@ -1,17 +1,19 @@
 <template>
   <div  class="dashboardLink_container">
-    <div style="height: 100%;" >
+    <div style="height: 100%; " >
       <div style="height: 14rem;">
         <currentUserPersonalInfo />
       </div>
-      <div style="">
-        <currentUserLink />
-      </div>
-      <div>
-        <historyLinks />
-      </div>
-      <div class="payNavbar-buttom">
-        <navbarVue />
+      <div style="background:#f2f2f5;height:calc(100vh - 14rem)">
+        <div style="">
+          <currentUserLink />
+        </div>
+        <div>
+          <historyLinks />
+        </div>
+        <div class="payNavbar-buttom">
+          <navbarVue />
+        </div>
       </div>
     </div>
   </div>

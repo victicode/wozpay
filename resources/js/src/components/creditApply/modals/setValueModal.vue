@@ -1,47 +1,53 @@
 <template>
   <q-dialog v-model="dialog" persistent backdrop-filter="blur(8px)">
     <q-card style="min-width: 350px">
-      <q-card-section>
-        <div class="text-subtitle1 text-weight-bold"> Agregar {{ title }}</div>
-      </q-card-section>
-      <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 1" >
-        <q-input 
-          dense 
-          v-model="setterVal" 
-          clearable 
-          clear-icon="eva-close-outline" 
-          autofocus   
-        />
-      </q-card-section>
-      <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 2" >
-        <van-picker 
-          v-model="setterVal" 
-          :columns="index == 'due_date' ? days : amounts" 
-          visible-option-num="7" 
-          :show-toolbar="false"  
-          class="van_picker_up" 
-        />
-      </q-card-section>
-      <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 3" >
-        <q-file 
-          class="inputLoanField" 
-          v-model="setterVal" 
-          clearable clear-icon="eva-close-outline"  
-          autofocus dense max-files="3" multiple label="Ver en carpeta 📂">
-          <template v-slot:prepend>
-            <q-icon name="eva-attach-2-outline" />
-          </template>
-        </q-file>
-      </q-card-section>
+      <q-form
+        @submit="setValue()"
+      >
+        <q-card-section>
+          <div class="text-subtitle1 text-weight-bold"> Agregar {{ title }}</div>
+        </q-card-section>
+        <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 1" >
+          <q-input 
+            dense 
+            v-model="setterVal" 
+            clearable 
+            clear-icon="eva-close-outline" 
+            autofocus  
+            :rules="index == 'business_phone' ? inputRulesNumber : inputRules" 
+          />
+        </q-card-section>
+        <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 2" >
+          <van-picker 
+            v-model="setterVal" 
+            :columns="index == 'due_date' ? days : amounts" 
+            visible-option-num="7" 
+            :show-toolbar="false"  
+            class="van_picker_up" 
+          />
+        </q-card-section>
+        <q-card-section class="q-pt-none" style="overflow-y: hidden"  v-if="type == 3" >
+          <q-file 
+            class="inputLoanField" 
+            v-model="setterVal" 
+            clearable clear-icon="eva-close-outline"  
+            accept=".jpg, .pdf, image/*"
+            autofocus dense max-files="3" multiple label="Ver en carpeta 📂">
+            <template v-slot:prepend>
+              <q-icon name="eva-attach-2-outline" />
+            </template>
+          </q-file>
+        </q-card-section>
 
-      <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="Volver" @click="hiddeModal()"/>
-        <q-btn flat label="Confirmar" :loading="loading" @click="setValue()" > 
-          <template v-slot:loading>
-            <q-spinner-facebook />
-          </template>
-        </q-btn>
-      </q-card-actions>
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Volver" @click="hiddeModal()"/>
+          <q-btn flat label="Confirmar" :loading="loading" type="submit"> 
+            <template v-slot:loading>
+              <q-spinner-facebook />
+            </template>
+          </q-btn>
+        </q-card-actions>
+      </q-form>
     </q-card>
   </q-dialog>
 </template>
@@ -74,6 +80,7 @@
       const loading = ref(false)
       const numberFormat = util.numberFormat
       const days = ref([])
+      console.log(index)
       
       const amounts = user.is_first_loan && user.loans_complete_count == 0
       ? [
@@ -189,6 +196,14 @@
         ? [{text:'', value:''}]
         : null
       }
+      const inputRules = [
+        val => (val !== null && val !== '') || 'El campo no puede quedar vacio',
+        val => (/[%\-"'():;&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[]()-%|&;\'" ',
+      ]
+      const inputRulesNumber = [
+        val => (val !== null && val !== '') || 'El campo no puede quedar vacio',
+        val => (/[a-zA-Z%\_#+*\\ \-"'():;&|<>]/.test(val) == false ) || 'Valor tiene que ser númerico ',
+      ]
       onMounted(() => {
         setValueByType() 
         if(type == 2) {
@@ -206,6 +221,8 @@
         title,
         index,
         setterVal,
+        inputRules,
+        inputRulesNumber,
         hiddeModal,
         setValue,
       }

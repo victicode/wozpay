@@ -1,74 +1,78 @@
 <template>
   <q-dialog v-model="updateInfoDialog" persistent backdrop-filter="blur(8px)">
       <q-card style="min-width: 350px; transform:translateY(-25%)" >
-        <q-card-section>
-          <div class="text-subtitle1 text-weight-bold"> {{ setTitleByOperation() }}</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <div v-if="dialogType == 'work'"  class="position-relative relative">
-            <!-- <q-input dense v-model="copyValue" clearable clear-icon="eva-close-outline" autofocus  /> -->
-            <q-select
-              v-model="copyValue"
-              clearable
-              use-input
-              clear-icon="eva-close-outline" autofocus 
-              transition-show="scale"
-              transition-hide="scale"
-              label="Selecciona tu tipo de empleo"
-              :options="workOptions"
-              hint="Ej. Empleado, independiente, o empleador"
-              dropdown-icon="eva-chevron-down-outline"
-              class="selectedWorkType"
-              behavior="menu"
-              @filter="filterWork"
-            >
-              <template v-slot:no-option>
-                <q-item>
-                  <q-item-section class="text-grey">
-                    Sin resultados
-                  </q-item-section>
-                </q-item>
+        <q-form
+          @submit="uptadteInfo()"
+        >
+          <q-card-section>
+            <div class="text-subtitle1 text-weight-bold"> {{ setTitleByOperation() }}</div>
+          </q-card-section>
+          <q-card-section class="q-pt-none">
+            <div v-if="dialogType == 'work'"  class="position-relative relative">
+              <!-- <q-input dense v-model="copyValue" clearable clear-icon="eva-close-outline" autofocus  /> -->
+              <q-select
+                v-model="copyValue"
+                clearable
+                use-input
+                clear-icon="eva-close-outline" autofocus 
+                transition-show="scale"
+                transition-hide="scale"
+                label="Selecciona tu tipo de empleo"
+                :options="workOptions"
+                hint="Ej. Empleado, independiente, o empleador"
+                dropdown-icon="eva-chevron-down-outline"
+                class="selectedWorkType"
+                behavior="menu"
+                @filter="filterWork"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey">
+                      Sin resultados
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div v-if="dialogType == 'office'" >
+              <q-input 
+                dense 
+                v-model="copyValue" 
+                clearable 
+                clear-icon="eva-close-outline" 
+                autofocus  
+                :rules="inputRules"
+                hint="Ej. Analista IT, Gerente de operaciones, Operador"
+              />
+            </div>
+            <div v-if="dialogType == 'salary'" >
+              <!-- <q-input dense v-model="copyValue" clearable clear-icon="eva-close-outline" autofocus  /> -->
+              <q-range
+                class="q-my-sm q-px-sm"
+                v-model="salaryRange"
+                color="green"
+                markers
+                label-always
+                :left-label-value="minPriceLabel"
+                :right-label-value="maxPriceLabel"
+                :marker-labels="rangeSalaryMarkets"
+                switch-label-side
+                switch-marker-labels-side
+                :min="0"
+                :max="8000000"
+                @update:model-value="updateForSlider()"
+              />
+            </div>
+          </q-card-section>
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="Volver" @click="hideModal(null)"/>
+            <q-btn flat label="Confirmar" :loading="loading" type="submit" > 
+              <template v-slot:loading>
+                <q-spinner-facebook />
               </template>
-            </q-select>
-          </div>
-          <div v-if="dialogType == 'office'" >
-            <q-input 
-              dense 
-              v-model="copyValue" 
-              clearable 
-              clear-icon="eva-close-outline" 
-              autofocus  
-              :rules="inputRules"
-              hint="Ej. Analista IT, Gerente de operaciones, Operador"
-            />
-          </div>
-          <div v-if="dialogType == 'salary'" >
-            <!-- <q-input dense v-model="copyValue" clearable clear-icon="eva-close-outline" autofocus  /> -->
-            <q-range
-              class="q-my-sm q-px-sm"
-              v-model="salaryRange"
-              color="green"
-              markers
-              label-always
-              :left-label-value="minPriceLabel"
-              :right-label-value="maxPriceLabel"
-              :marker-labels="rangeSalaryMarkets"
-              switch-label-side
-              switch-marker-labels-side
-              :min="0"
-              :max="8000000"
-              @update:model-value="updateForSlider()"
-            />
-          </div>
-        </q-card-section>
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Volver" @click="hideModal(null)"/>
-          <q-btn flat label="Confirmar" :loading="loading" @click="uptadteInfo()" > 
-            <template v-slot:loading>
-              <q-spinner-facebook />
-            </template>
-          </q-btn>
-        </q-card-actions>
+            </q-btn>
+          </q-card-actions>
+        </q-form>
       </q-card>
   </q-dialog>
 </template>

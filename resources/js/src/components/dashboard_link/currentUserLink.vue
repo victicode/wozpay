@@ -118,7 +118,7 @@
 }
 .link__payContent{
   border-radius:23px;
-  box-shadow: 0px 5px 5px 0px #aaaaaa
+  //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{
   border-bottom: 1px solid #d3d3d3;

@@ -541,7 +541,7 @@
   width: 100%;
 }
 .linkPay_button{
-  width: 100%;
+  width: 100%!important;
 }
 .file_paylink .q-field__control{
   border-radius: 10px;

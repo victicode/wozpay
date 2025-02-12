@@ -146,7 +146,7 @@ class LoanController extends Controller
         $redTape = RedTape::where('user_id', $userId)->orderBy('created_at', 'desc')->first();
 
         if($redTape->use_count == 1){
-            // $redTape->delete();
+            $redTape->delete();
             return ;
         }
         $redTape->use_count--;

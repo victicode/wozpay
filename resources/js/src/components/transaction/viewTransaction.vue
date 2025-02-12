@@ -265,6 +265,7 @@
         if(transactionType == 6)  return wozIcons.cardOutline
       }
       const getTransaction = () => {
+        console.log(route.fullPath.includes('10'))
         storeTransaction.getTrasactionByData(transactionType, id, route.fullPath.includes('10') )
         .then((data) => {
           console.log(data)

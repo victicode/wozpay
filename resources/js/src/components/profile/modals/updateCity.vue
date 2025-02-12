@@ -1,9 +1,9 @@
 <template>
   <q-dialog v-model="updateInfoDialog" persistent backdrop-filter="blur(8px)">
-    <q-form
-      @submit="uptadteInfo()"
-    >
-      <q-card style="min-width: 350px">
+    <q-card style="min-width: 350px">
+        <q-form
+          @submit="uptadteInfo()"
+        >
         <q-card-section>
           <div class="text-subtitle1 text-weight-bold"> {{ setTitleByOperation() }}</div>
         </q-card-section>
@@ -12,14 +12,14 @@
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Volver" @click="hideModal(null)"/>
-          <q-btn flat label="Confirmar" :loading="loading"  > 
+          <q-btn flat label="Confirmar" :loading="loading" type="submit"> 
             <template v-slot:loading>
               <q-spinner-facebook />
             </template>
           </q-btn>
         </q-card-actions>
-      </q-card>
-    </q-form>
+      </q-form>
+    </q-card>
   </q-dialog>
 </template>
 <script>
@@ -125,7 +125,6 @@
         })
       }
       const validate = () => {
-        console.log(copy.value)
         if(copy.value == null || copy.value.length == 0) return false;
         return true;
       }
