@@ -1,11 +1,11 @@
 <template>
-  <div class="q-py-md q-px-md q-px-md-lg"  >
+  <div class="q-py-xs q-px-md q-px-md-lg"  >
     <div class="" >
       <div class="row">
-        <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative;">
-          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium" > 
+        <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative; height: 3rem;">
+          <!-- <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium" > 
             {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}
-          </div>
+          </div> -->
           <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2"/>
         </div>
       </div>
@@ -30,7 +30,7 @@
                       {{ loanStatus(loan.status).text }}
                     </q-chip>
                   </div>
-                  <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1" style="">Gs. {{numberFormat(loan.amount)}}</div>
+                  <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(loan.amount)}}</div>
                 </div>
                 <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer" @click="router.push('/apply')" v-else>Solicitar</div>
               </div>

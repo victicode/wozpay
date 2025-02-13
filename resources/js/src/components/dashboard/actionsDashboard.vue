@@ -6,18 +6,18 @@
     <div class="q-mt-md-md q-mt-xs-md">
       <div class="row">
         <div class="col-3 q-px-xs">
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'">
+            <div class="q-mt-xs" v-html="icons.transferir" />
+            <span class="q-mt-none text-dark text-body2">Transfer.</span>
+          </q-btn>
+        </div>
+        <div class="col-3 q-px-xs">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect': user.viewRekutu}" to="/apply" >
             <div v-if="loan.status == 3 && loan.red_tapes.use_count < 3">
               <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
             </div>
             <div class="q-mt-xs" v-html="icons.solicitar" v-else />
             <span class="q-mt-none text-dark text-body2">{{ loan.status == 3 && loan.red_tapes.use_count < 3 ? 'Rekutu' : 'Prestamo'}}</span>
-          </q-btn>
-        </div>
-        <div class="col-3 q-px-xs">
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'">
-            <div class="q-mt-xs" v-html="icons.transferir" />
-            <span class="q-mt-none text-dark text-body2">Transfer.</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">

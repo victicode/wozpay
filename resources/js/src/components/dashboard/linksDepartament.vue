@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="q-py-sm q-px-md q-px-md-lg" >
-      <div class=" q-pb-sm" >
+      <!-- <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
             <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium">Cobros internacionales</div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div style="">
         <div class="quote-section">
           <div class="row q-px-none">
@@ -31,7 +31,7 @@
                     <div class="text-weight-medium text-right q-pt-sm">
                       Disponible
                     </div>
-                    <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1" style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
+                    <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
                   </div>
                 </div>
                 <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer " @click="router.push('/pay_link_services')" v-else >Activar</div>
@@ -132,7 +132,7 @@
     display: none;
 }
 .w-85 {
-  width: 85%;
+  width: 93%;
 }
 .w-50 {
   width: 50%;

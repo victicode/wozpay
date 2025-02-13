@@ -1,6 +1,6 @@
 <template>
-  <div class="q-py-sm q-px-md q-px-md-lg q-mt-lg q-mt-md-none" v-if="Object.values(loan).length > 0 && loan.status == 3 && loan.red_tapes.use_count < 3 " >
-    <div class=" q-pb-sm" >
+  <div class="q-py-xs q-px-md q-px-md-lg q-mt-lg q-mt-md-none" v-if="Object.values(loan).length > 0 && loan.status == 3 && loan.red_tapes.use_count < 3 " >
+    <!-- <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
           <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold flex items-center" > 
@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady">
         <div class="row q-px-none">

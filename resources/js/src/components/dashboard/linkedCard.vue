@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="q-py-sm q-px-md q-px-md-lg" >
-      <div class=" q-pb-sm" >
+      <!-- <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
             <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium"> Mis productos Woz Payments</div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div style="" v-if="Object.values(linkCard).length > 0 && ready" >
         <div class="quote-section">
           <div class="row q-px-none">

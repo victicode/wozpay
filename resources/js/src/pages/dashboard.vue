@@ -16,16 +16,16 @@
           <socialLinks />
         </div>
         <div style="">
-          <rekutu />
+          <walletUser />
+        </div>
+        <div>
+          <linksDepartament />
         </div>
         <div style="">
           <linkedCard />
         </div>
         <div style="">
-          <walletUser />
-        </div>
-        <div>
-          <linksDepartament />
+          <rekutu />
         </div>
         <div style="">
           <currentUserLoan />
