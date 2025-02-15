@@ -40,14 +40,14 @@
         </div>
       </div>
     </div>
-    <div class="q-pb-md  q-px-md  " v-if="Object.values(linkCard).length == 0 && ready" >
+    <div class="q-pb-md q-px-md q-px-md-lg " v-if="Object.values(linkCard).length == 0 && ready" >
       <div class="quote-section">
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
             <div class="w-100 flex items-center justify-between " style=" flex-wrap: nowrap;" @click="router.push('/card')">     
               <div class="flex items-center w-80bbbb ">
                 <div class="q-mr-md-sm q-mr-xs q-mt-xs">
-                  <q-icon :name="icons.outlinedAddCard" class="" size="md" color="grey-6" />
+                  <q-icon :name="icons.outlinedAddCard" class="" size="md" color="grey-7" />
                 </div>
                 <div class="" style="width: 80%">
                   <div class=" text-subtitle1 text-weight-medium  q-mr-sm text-dark ellipsis text-turnc ">

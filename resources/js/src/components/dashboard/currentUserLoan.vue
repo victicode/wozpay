@@ -1,15 +1,6 @@
 <template>
-  <div class="q-py-xs q-px-md q-px-md-lg"  >
-    <div class="" >
-      <div class="row">
-        <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative; height: 3rem;">
-          <!-- <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium" > 
-            {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}
-          </div> -->
-          <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2"/>
-        </div>
-      </div>
-    </div>
+  <div class="q-py-sm q-px-md q-px-md-lg"  >
+    
     <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady " >
         <div class="row q-px-none">
@@ -30,7 +21,7 @@
                       {{ loanStatus(loan.status).text }}
                     </q-chip>
                   </div>
-                  <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(loan.amount)}}</div>
+                  <!-- <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(loan.amount)}}</div> -->
                 </div>
                 <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer" @click="router.push('/apply')" v-else>Solicitar</div>
               </div>
@@ -81,6 +72,16 @@
               <q-skeleton type="rect"  />
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="q-pb-md" >
+      <div class="row">
+        <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative; height: 3rem;">
+          <!-- <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium" > 
+            {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}
+          </div> -->
+          <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2"/>
         </div>
       </div>
     </div>
@@ -201,7 +202,7 @@
   position: absolute;
   right: 0rem;
   // margin-top: 0.2rem;
-  transform: translateY(0.35rem) scale(0.95);
+  transform: translateY(-0.5rem) scale(0.95)
 }
 @media screen and (max-width: 780px){
   .w-80 {

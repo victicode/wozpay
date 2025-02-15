@@ -180,11 +180,7 @@
       const ready = ref(!(!route.query.title))
       const errorMessage = ref('')
       const comprobant = ref([]);
-      const requirements = ref({
-        card: user.value.card ?? false,
-        current: user.value.current_loan ?? false,
-        loan:user.value.loans_complete_count ?? false,
-      })
+
       const dataPay = payStore.getDataTransfer()
       const cardType = ref('general');
       const formError = ref(false)
@@ -212,10 +208,7 @@
           label:'Correo electrónico'
         },
       })
-      const validateRequeriments = () => {
-        let isOk = Object.values(requirements.value).filter((el) => !el)
-        return !(isOk.length == 0)
-      }
+
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -415,7 +408,6 @@
       }
       const cleaveCard = (e) => {
         const value = e.target.value
-        console.log(getCreditCardType(value))
         cardType.value = getCreditCardType(value) ?? 'general'
       }
       const validateCard = (e) => {
@@ -501,10 +493,6 @@
       }
 
       onMounted(() => {
-        
-        if(validateRequeriments() && (route.params.type == 1 || route.params.type == 2 )){
-          router.push('/generatePayLink/1/1')
-        }
         getLink()
       })
 

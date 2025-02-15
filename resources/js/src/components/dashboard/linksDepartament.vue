@@ -27,11 +27,16 @@
                   </div>
                 </div>
                 <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link && (user.wallet_link.status == 2 || user.wallet_link.status == 1)">
-                  <div class="cursor-pointer" @click="router.push('/pay_link_dashboard')">
+                  <div class="cursor-pointer" @click="router.push('/pay_link_dashboard')" v-if="user.wallet_link.status == 2">
                     <div class="text-weight-medium text-right q-pt-sm">
                       Disponible
                     </div>
                     <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
+                  </div>
+                  <div class="cursor-pointer" v-else>
+                    <q-chip class="q-ma-none q-px-lg" color="warning" text-color="white" >
+                      Pendiente
+                    </q-chip>
                   </div>
                 </div>
                 <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer " @click="router.push('/pay_link_services')" v-else >Activar</div>

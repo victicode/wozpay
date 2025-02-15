@@ -334,21 +334,7 @@
         'Suscripciones - pagos mensuales',
         'Trabajos en el exterior',
       ]
-      const requirements = ref({
-        card: user.value.card ?? false,
-        current: user.value.current_loan ?? false,
-        loan:user.value.loans_complete_count ?? false,
-      })
-      const validateRequeriments = () => {
-        let isOk = Object.values(requirements.value).filter((el) => !el)
-        console.log(isOk)
-        return !(isOk.length == 0)
-      }
       const activateWallet  = () =>{
-        if(validateRequeriments()){
-          router.push('/generatePayLink/1')
-          return
-        }
         router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f')
       }
       const clocks = () => {
