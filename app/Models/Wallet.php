@@ -11,7 +11,17 @@ class Wallet extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['number', 'balance', 'type', 'status', 'user_id'];
+    protected $appends = ['status_label'];
 
+    public function getstatusLabelAttribute()
+    {   
+        $status = [
+            'Rechazada',
+            'Pendiente',
+            'Aprobada',
+        ];
+        return $status[intval($this->status)];
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id', 'id');
     }

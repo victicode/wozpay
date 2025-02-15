@@ -19,16 +19,16 @@
           </div>
         </q-card-section>
         <q-linear-progress :value="1" :color="color ?? 'terciary' " size="0.125rem"/>
-        <q-card-section class=" text-center">
+        <q-card-section class="text-center">
           <div :class=" color ? 'text-'+color : 'text-terciary'" class="text-weight-bold text-subtitle1">
             <div v-html="title ?? 'Pago de cuotas'" />
           </div>
           <div class="text-subtitle2 q-mt-sm q-px-md q-py-sm"   :class="{'negative-back ': color == 'negative'}"> 
-            <div v-if="color == 'negative'" class="text-weight-bold">
+            <div v-if="color == 'negative'" class="text-weight-bold q-mb-xs">
               Motivo
             </div>
-            <div class="text-weight-medium">
-              {{ text }}
+            <div class="text-weight-medium" v-html="text">
+
             </div>
           </div>
 

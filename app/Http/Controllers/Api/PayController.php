@@ -180,6 +180,11 @@ class PayController extends Controller
             
         }
         if($pay->status == 0) {
+            switch ($pay->type) {
+                case '5':
+                    $this->rejectWallet($pay->user_id);
+                    break;
+            }
             $this->sendNotification(
                 'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
 
@@ -187,28 +192,7 @@ class PayController extends Controller
 
         return $this->returnSuccess(200, $pay);
     }
-    public function changeStatusByType($payId, Request $request){
-        $pay = Pay::find($payId);
-        if(!$pay) return $this->returnFail(400, 'Pago no encontrado');
-
-        $pay->status = $request->status;
-        $pay->save();
-
-
-
-        if($pay->status == 2) {
-
-        }
  
-        if($pay->status == 0) {
-            $this->sendNotification(
-                'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
-
-        };
-
-        return $this->returnSuccess(200, $pay);
-
-    }
     public function isCompleteLoan($loan) {
         if($loan->quotas == $loan->pays_success_count){
             if($loan->redTapes->use_count <= 3) User::where('id', $loan->user_id)->update(['viewRekutu' => 1]);
@@ -351,7 +335,7 @@ class PayController extends Controller
         } catch (Exception $th) {
             //throw $th;
         }
-        // $wal
+
     }
     private function sendNotification($message, $user, $subject, $type){
         $notification = new NotificationController;
@@ -383,6 +367,18 @@ class PayController extends Controller
             //throw $th;
         }
         return $this->returnSuccess(200, $wallet);
+    }
+    private function rejectWallet($user){
+        Wallet::where('user_id', $user)->where('type', 2)->update([
+            'status' => 0
+        ]);
+        try {
+            $this->sendNotification(
+                'Tú cuenta internacional no ha podido ser activada debido a que tu pago único con cumple con nuestras medidas de seguridad, vuelve a intentarlo. <br><br> Si crees que se ha cometido un error comunícate con nuestro equipo de soporte ', $user, 'Cuenta no activada', 3);
+            event(new UserUpdateEvent($user));
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
     
 }

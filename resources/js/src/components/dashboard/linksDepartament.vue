@@ -13,29 +13,29 @@
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="flex-wrap: nowrap;" >
               <div class="q-mr-none" style="margin-right: 0.15rem;">
-                 <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': 'positive'" />
+                 <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': user.wallet_link.status == 2 ?  'positive' : 'negative'" />
               </div>
-              <div class="flex items-center justify-between  w-85 " >
+              <div class="flex items-center justify-between  w-85 "  @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_services')">
                 <div class=" q-mr-md-none q-pl-md-md q-pl- w-autox" >
                   <div v-if="!user.wallet_link ">
                     <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
                     <div class="q-mt-xs text-grey-8 " style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
                   </div>
-                  <div v-else style="width:100%;" class="q-ml-xs" @click="router.push('/pay_link_dashboard')"> 
+                  <div v-else style="width:100%;" class="q-ml-xs" > 
                     <div class="text-weight-medium ellipsis text__mid" style="font-size: 0.89rem; ">Cuenta corriente internacional</div>
                     <div class=""  >N° {{ user.wallet_link.number }}</div>
                   </div>
                 </div>
-                <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link && (user.wallet_link.status == 2 || user.wallet_link.status == 1)">
-                  <div class="cursor-pointer" @click="router.push('/pay_link_dashboard')" v-if="user.wallet_link.status == 2">
+                <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link" >
+                  <div class="cursor-pointer"  v-if="user.wallet_link.status == 2">
                     <div class="text-weight-medium text-right q-pt-sm">
                       Disponible
                     </div>
                     <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
                   </div>
                   <div class="cursor-pointer" v-else>
-                    <q-chip class="q-ma-none q-px-lg" color="warning" text-color="white" >
-                      Pendiente
+                    <q-chip class="q-ma-none" style="padding: 0px 0.7rem;" :color=" user.wallet_link.status == 1 ? 'warning':'negative'" text-color="white" >
+                      {{ user.wallet_link.status_label }}
                     </q-chip>
                   </div>
                 </div>

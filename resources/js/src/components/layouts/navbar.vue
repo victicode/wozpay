@@ -22,7 +22,7 @@
         <span class="q-mt-xs text-dark text-caption">Ult. Trans</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-none q-px-md-lg" :to="!user.wallet_link ?'/pay_link_services' : '/requestPay'" exact style="width: 20%; opacity:1">
+    <q-route-tab class="q-px-none q-px-md-lg" :to="!user.wallet_link || user.wallet_link.status == 0 ? '/pay_link_services' : '/requestPay'" exact style="width: 20%; opacity:1">
       <div class="flex flex-center column paylink__button" style="">
         <span class="text-white text-caption">Cobrar</span>
       </div>
