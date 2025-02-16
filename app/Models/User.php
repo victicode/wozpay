@@ -104,4 +104,16 @@ class User extends Authenticatable implements JWTSubject
     public function links(){
         return $this->hasMany(link::class)->orderBy('created_at', 'desc');
     }
+    public function linksFree(){
+        return $this->hasMany(link::class)->orderBy('created_at', 'desc');
+    }
+    public function linksMember(){
+        return $this->hasMany(link::class)->orderBy('created_at', 'desc');
+    }
+    public function linksSell(){
+        return $this->hasMany(link::class)->orderBy('created_at', 'desc');
+    }
+    public function linksFreelance(){
+        return $this->hasMany(link::class)->orderBy('created_at', 'desc');
+    }
 }   

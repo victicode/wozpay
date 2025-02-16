@@ -41,8 +41,14 @@
                   }" 
                   v-for="(lines, index) in items" :key="index"
                 > 
-                  <div style="word-wrap: break-word;" :class="{'text-warning': (key==4)}"  >
-                    {{ lines }}
+                  <div style="word-wrap: break-word;"   >
+                    <div v-if="!validateChip(lines) ">
+
+                      {{ lines }}
+                    </div>
+                    <q-chip v-else :color="lines == 'Pendiente' ? 'warning' : lines == 'Aprobado' ? 'positive' : 'negative'"  text-color="white" >
+                      {{ lines }}
+                    </q-chip>
                   </div>
                   <q-icon
                     :name="icons.sharpVerified"
@@ -211,11 +217,15 @@
           }
           lines[2] = {
             title:'Referencia',
-            value: transaction.value.operation_id,
+            value: 'N° '+transaction.value.operation_id,
           }
           lines[3] = {
             title:'Metodo de pago',
             value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
+          }
+          lines[4] = {
+            title:'Estado',
+            value: transaction.value.status_label,
           }
         }
         if(transactionType == 9)  {
@@ -225,11 +235,15 @@
           }
           lines[2] = {
             title:'Referencia',
-            value: transaction.value.operation_id,
+            value: 'N° '+transaction.value.operation_id,
           }
           lines[3] = {
             title:'Metodo de pago',
             value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
+          }
+          lines[4] = {
+            title:'Estado',
+            value: transaction.value.status_label,
           }
         }
         if(transactionType == 10)  {
@@ -239,7 +253,7 @@
           }
           lines[2] = {
             title:'Referencia',
-            value: transaction.value.operation_id,
+            value: 'N° '+transaction.value.operation_id,
           }
           lines[3] = {
             title:'Metodo de pago',
@@ -248,7 +262,6 @@
           lines[4] = {
             title:'Estado',
             value: transaction.value.status_label,
-            
           }
         }
 
@@ -274,6 +287,10 @@
           loading.value = true
         })
       }
+      const validateChip = (lines) => {
+        const refere =  ['Aprobado', 'Pendiente', 'Rechazada']
+        return refere.includes(lines)
+      }
       onMounted(()=>{
         getTransaction()
       })
@@ -287,6 +304,7 @@
         imgByType,
         transactionType,
         transaction,
+        validateChip,
         url:import.meta.env.VITE_VUE_APP_BACKEND_URL,
         token: localStorage.getItem('id_token')
       }

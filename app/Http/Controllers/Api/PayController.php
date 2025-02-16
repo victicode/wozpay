@@ -353,13 +353,22 @@ class PayController extends Controller
         }
     }
     private function activateLinkWallet(Request $request){
-        $wallet = Wallet::create([
-            'number'    => '918' . $request->user()->dni,
-            'balance'   => 0,
-            'type'      => 2,
-            'status'    => 1,
-            'user_id'   => $request->user()->id,
-        ]);
+
+        $wallet = Wallet::where('user_id', $request->user()->id)->where('type', 2)->first();
+        
+        if(!($wallet)){
+            $wallet = Wallet::create([
+                'number'    => '918' . $request->user()->dni,
+                'balance'   => 0,
+                'type'      => 2,
+                'status'    => 1,
+                'user_id'   => $request->user()->id,
+            ]);
+        }else{
+            $wallet->status = 1;
+            $wallet->save();
+        }
+
         
         try {
             event(new UserUpdateEvent($wallet->user_id));

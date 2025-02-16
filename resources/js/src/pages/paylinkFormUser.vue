@@ -101,7 +101,17 @@
                 Comprobante
               </div>
               <div class="q-pt-xs">
-                <q-file accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant"/>
+                <q-file for="fileId" accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant" v-show="!Object.values(comprobant).length" />
+                <div class="q-px-md q-py-sm  infoPay__content " v-show="Object.values(comprobant).length">
+                  <label for="fileId" class="flex items-center">
+                    <div class="q-pt-xs text-positive" >
+                      Comprobante subido
+                    </div>
+                    <div class="bg-positive flex flex-center q-ml-xs iconcontent">
+                      <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
+                    </div>
+                  </label>
+                </div>
               </div>
               <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
                 Te confirmaremos el estado de tu pago en el día

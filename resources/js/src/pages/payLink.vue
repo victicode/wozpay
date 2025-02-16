@@ -45,9 +45,8 @@
           </div>
         </div> 
         <div class="w-100 q-mt-md q-pb-xl q-pt-xs offerWall" :class="{'q-mb-xl q-pt-md': user.wallet_link.status!=2}">
-          <div class="q-pa-md" v-if="user.wallet_link.status==2">
+          <div class="q-pa-md"  :class="{'filter-xs': user.wallet_link.status!=2}">
             <template v-if="loading">
-      
               <!-- woz pay free -->
               <div >
                 <q-chip square color="terciary" text-color="white" class="tagSetction">
@@ -170,10 +169,55 @@
                 </div>
               </div>
             </template>
+            <template v-else >
+              <div class="q-pt-xl q-mt-xl q-pb-lg flex flex-center">
+                <q-spinner
+                  color="positive"
+                  size="4em"
+                />
+              </div>
+            </template>
           </div>
-          <div v-else class="q-px-xl text-center text-subtitle2 q-mb-md"> 
-            La activación de tu cuenta de cobros internacional esta siendo verifcada, pronto podras crear tus links de cobro
-          </div>
+          <template v-if="user.wallet_link.status!==2">
+            <div class="" style="position: absolute; bottom: 0; left: 0; right: 0; top: 0; background:#3a33337a; border-radius: 15px;">
+              <q-card class="notification__card"  >
+                <q-card-section class="flex q-pb-sm w-100 items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="text-terciary">
+                      Woz Pay informa
+                    </div>
+                    <q-icon
+                      :name="icons.sharpVerified"
+                      size="xs"
+                      color="terciary"
+                      class="q-mx-xs "
+                    />
+                  </div>
+                  <!-- <div>
+                    <q-icon :name="icon" size="sm" :color="color == 'negative' ? color : 'black'" />
+                  </div> -->
+                </q-card-section>
+                <q-linear-progress :value="1" color="terciary " size="0.125rem"/>
+                <q-card-section class="text-center">
+                  <div  class="text-terciary text-weight-bold text-subtitle1">
+                    Revision de pago
+                  </div>
+                  <div class="text-subtitle2 q-mt-sm q-px-md q-py-sm" > 
+                    <div class="text-weight-medium">
+                      La activación de tu cuenta de cobros internacional esta siendo verifcada, pronto podras crear tus links de cobro
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-card-section 
+                  class="row bg-terciary items-center no-wrap justify-center" 
+                >
+                  <div class="text-white text-subtitle2 cursor-pointer" >
+                   Validando...
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -186,6 +230,7 @@
   import imagen6 from '@/assets/images/phone1.webp'
   import imagen7 from '@/assets/images/phone2.webp'
   import imagen8 from '@/assets/images/phone3.webp'
+  import gsap from '@/plugins/gsap/gsap';
   
   import { useRouter } from 'vue-router';
   import navbarVue from "@/components/layouts/navbar.vue";
@@ -205,6 +250,7 @@ export default {
   },
   setup() {
     const router = useRouter()
+    const icons = inject('ionIcons')
     const numberFormat = util.numberFormat
     const numberFormatDecimal = util.numberFormatDecimal
     const { user } = storeToRefs(useAuthStore())
@@ -261,8 +307,8 @@ export default {
     const getPackages = () => {
       packageStore.getPackages()
       .then((response) => {
-        packages.value = splitPackages(response.data)
-        loading.value = true
+          packages.value = splitPackages(response.data)
+          loading.value = true
       })
       .catch((response) => {
 
@@ -288,13 +334,32 @@ export default {
         }
         document.addEventListener("scroll", onScroll);
       }, 1000);
+      setTimeout(() => {
+        
+        gsap.to('.notification__card',{
+          scrollTrigger: {
+            trigger: '.notification__card',
+            start:'-30rem 100vh',
+            end:'1000rem top',
+            markers: true,
+            toggleActions: 'play reset restart reset'
+          },
+          top:'5rem',
+          left:'calc(50% - 150px)',
+          position: 'fixed',
+
+        })
+      }, 1000);
     })
+
+
 
     return {
       user,
       router,
       infoData,
       loading,
+      icons,
       icons: inject('ionIcons'),
       wozIcons,
       numberFormat,
@@ -308,6 +373,13 @@ export default {
 }
 </script>
 <style>
+.notification__card{
+  transition: none!important;
+  left: calc(50% - 150px);
+  top:5rem;
+
+  width: 300px; overflow: visible; border-radius: 20px;
+}
 .profile-user__icon{
   transform: scale(0.6);
 }
@@ -337,6 +409,7 @@ export default {
   }
 }
 .offerWall {
+  position: relative;
   background: white;
   border-top-left-radius: 15px; 
   border-top-right-radius: 15px;  
@@ -403,6 +476,9 @@ export default {
   #navbar-buttom{
     height: 5%;
   }
+}
+.filter-xs{
+  filter: blur(4px);
 }
 @keyframes slideDown {
   0% {
