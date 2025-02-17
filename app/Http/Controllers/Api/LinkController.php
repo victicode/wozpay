@@ -12,12 +12,19 @@ class LinkController extends Controller
     /**
      * Display a listing of the resource by Id.
      */
-    public function getByUser($id)
+    public function getByUserLast5($id)
     {
         //
         $links = Link::where('user_id', $id)->orderBy('id', 'desc')->take(5)->get();
         return $this->returnSuccess(200, $links);
     }
+    public function getByUser($id)
+    {
+        //
+        $links = Link::where('user_id', $id)->orderBy('id', 'desc')->get();
+        return $this->returnSuccess(200, $links);
+    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -57,16 +64,17 @@ class LinkController extends Controller
         $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
 
         $link = Link::create([
-            'url'      => config('app.url').'v1/pay/link/'.$code ,
-            'code'     => $code,
-            'title'    => $request->title,
-            'note'     => $request->note,
-            'amount'   => $request->amount,
-            'status'   => 1,
-            'isWatch'  => 0,
-            'type'     => $request->type,
-            'user_id'  => $request->user()->id,
-            'due_time' => date('Y-m-d H:i:s', time() + 7200)
+            'url'       => config('app.url').'v1/pay/link/'.$code ,
+            'code'      => $code,
+            'title'     => $request->title,
+            'note'      => $request->note,
+            'amount'    => $request->amount,
+            'status'    => 1,
+            'isWatch'   => 0,
+            'categorie' => intval($request->categorie),
+            'type'      => $request->type,
+            'user_id'   => $request->user()->id,
+            'due_time'  => date('Y-m-d H:i:s', time() + 7200)
         ]);
         return $this->returnSuccess(200, $link);
     }

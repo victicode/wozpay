@@ -178,7 +178,7 @@
               </div>
             </template>
           </div>
-          <template v-if="user.wallet_link.status!==2">
+          <template v-if="user.wallet_link.status!=2">
             <div class="" style="position: absolute; bottom: 0; left: 0; right: 0; top: 0; background:#3a33337a; border-radius: 15px;">
               <q-card class="notification__card"  >
                 <q-card-section class="flex q-pb-sm w-100 items-center justify-between">
@@ -210,9 +210,10 @@
                 </q-card-section>
                 <q-card-section 
                   class="row bg-terciary items-center no-wrap justify-center" 
+                  @click="router.go(-1)"
                 >
                   <div class="text-white text-subtitle2 cursor-pointer" >
-                   Validando...
+                   Validando.
                   </div>
                 </q-card-section>
               </q-card>
@@ -299,7 +300,7 @@ export default {
     }
     const finalPrice = (item) => {
       return item.type == 1 
-      ? item.amount*5
+      ? item.amount * 5
       : item.type == 3 
       ? item.amount * 7872
       : item.amount
@@ -341,7 +342,6 @@ export default {
             trigger: '.notification__card',
             start:'-30rem 100vh',
             end:'1000rem top',
-            markers: true,
             toggleActions: 'play reset restart reset'
           },
           top:'5rem',

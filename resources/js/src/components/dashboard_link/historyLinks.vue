@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-pb-xl">
     <div class="q-pl-md-lg q-pl-md">
       <div class="text-subtitle1 text-bold">Links generados</div>
       <div class="text-subtitle1">Historial de links generados</div>
@@ -97,7 +97,7 @@
       const userLinks = ref([])
       const load = ref(false)
       const getLinkByUser = () => {
-        linkStore.getLinksByUser(user.value.id)
+        linkStore.getLastFive(user.value.id)
         .then((response) => {
           if(response.code !== 200) throw response
           userLinks.value = response.data

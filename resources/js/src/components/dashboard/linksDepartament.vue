@@ -15,7 +15,7 @@
               <div class="q-mr-none" style="margin-right: 0.15rem;">
                  <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': user.wallet_link.status == 2 ?  'positive' : 'negative'" />
               </div>
-              <div class="flex items-center justify-between  w-85 "  @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_services')">
+              <div class="flex items-center justify-between  w-85 "  @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_dashboard')">
                 <div class=" q-mr-md-none q-pl-md-md q-pl- w-autox" >
                   <div v-if="!user.wallet_link ">
                     <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>

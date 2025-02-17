@@ -11,7 +11,7 @@
           </div>
           <div class="q-pb-md flex items-center">
             <q-linear-progress rounded size="15px"  track-color="white"  :value="countLink/limit()" :color="header.track" class="q-mt-sm totalLink_progress" />
-            <div class="q-mt-sm q-px-sm text-subtitle1 text-bold text-white">{{  countLink }}/ {{ limit() }}</div>
+            <div class="q-mt-sm q-px-sm text-subtitle1 text-bold text-white">{{  countLink }} / {{ limit() }}</div>
           </div>
         </div>
       </div> 
@@ -36,8 +36,10 @@
           <div class="text-subtitle1 text-weight-bold text-blue-grey-10"> 
             Crea un link para ventas
           </div>
-          <div class="text-subtitle2 text-blue-grey-9  q-mt-sm text-weight-light flex items-center q-mr-none"> 
-            Disponible para cobros de servicios internacionales 
+          <div class=" text-blue-grey-9  q-mt-sm text-weight-light flex items-end q-mr-none" style="font-size: 0.88rem;"> 
+            <div>
+              Disponible para cobros de servicios internacionales 
+            </div>
             <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.3rem" class=" q-ml-xs" style="margin-top: -5px;"/>
           </div>
         </div>
@@ -125,6 +127,7 @@
           color="terciary" 
           class="full-width q-pa-sm" 
           @click="createLink"
+          :disable="countLink/limit() == 1"
         >
           <template v-slot:loading>
             <q-spinner-facebook />
@@ -273,13 +276,17 @@ export default {
         showNotify('negative', 'Debes completar el formulario')
         return
       }
-      
+      if(countLink.value/limit() == 1){
+        showNotify('negative', 'Alcanzaste el maximo de tus links, adquiere un paquete')
+        return
+      }
       loading.value = true
       const data = {
         note:   product.value.details,
         amount: parseInt(product.value.amount.replace(/\./g, '')),
         title:  product.value.name,
-        type:   selectedOption.value.id
+        type:   selectedOption.value.id,
+        categorie: route.params.type
       }
       linkStore.createLink(data)
       .then((response) => {
@@ -312,8 +319,16 @@ export default {
     const countLinkUsed = () => {
       linkStore.getLinksByUser(user.value.id)
       .then((response) =>{
-        countLink.value = response.data.length
+        countLink.value = filterByCategorie(response.data)[route.params.type].length
       })
+    }
+    const filterByCategorie = (data) => {
+      const free      = data.filter(item => item.categorie == route.params.type)
+      const sell      = data.filter(item => item.categorie == route.params.type)
+      const member    = data.filter(item => item.categorie == route.params.type)
+      const freelance = data.filter(item => item.categorie == route.params.type)
+
+      return [free, '', member, freelance, sell,]
     }
     onMounted(() => {
       q.addressbarColor.set(title[parseInt(route.params.type).color])

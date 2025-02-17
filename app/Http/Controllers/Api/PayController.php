@@ -34,6 +34,9 @@ class PayController extends Controller
         if($request->type == 6) {
             $pac = Package::find($request->package);
             $amount = $pac->type == 3 ? ($pac->amount *7872) : $pac->amount;
+
+            $amount = $pac->type == 1 ? ($pac->amount *5) : $amount ;
+
         }
         try {
             $pay = Pay::create([

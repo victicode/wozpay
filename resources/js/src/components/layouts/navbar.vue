@@ -22,7 +22,7 @@
         <span class="q-mt-xs text-dark text-caption">Ult. Trans</span>
       </div>
     </q-route-tab>
-    <q-route-tab class="q-px-none q-px-md-lg" :to="!user.wallet_link || user.wallet_link.status == 0 ? '/pay_link_services' : '/requestPay'" exact style="width: 20%; opacity:1">
+    <q-route-tab class="q-px-none q-px-md-lg" :to="toRoute()" exact style="width: 20%; opacity:1">
       <div class="flex flex-center column paylink__button" style="">
         <span class="text-white text-caption">Cobrar</span>
       </div>
@@ -74,7 +74,35 @@ export default {
         notificationsCount.value = data.data.unreadCount
       })
     }
+    const checkLinksAvaible = () => {
+      return user.value.links_count <= (user.value.free_link + user.value.sell_link + user.value.freelancer_link + user.value.membership_link)
+    }
+    const toRoute = () => {
+      if(!user.value.wallet_link || user.value.wallet_link.status == 0) return '/pay_link_services'
+      
+      if(checkLinksAvaible()) return setRoute()
+      return '/requestPay'
 
+    }
+    const setRoute = () => {
+      if( filterByCategorie(user.value.links)[0].length+1 <= user.value.free_link ) return '/generatePayLink/0'
+      if( filterByCategorie(user.value.links)[2].length+1 <= user.value.membership_link ) return '/generatePayLink/2'
+      if( filterByCategorie(user.value.links)[3].length+1 <= user.value.freelancer_link ) return '/generatePayLink/3'
+      if( filterByCategorie(user.value.links)[4].length+1 <= user.value.sell_link ) return '/generatePayLink/4'
+
+      // console.log(filterByCategorie(user.value.links)[0].length+1)
+      // console.log(user.value.free_link)
+      
+      return '/requestPay'
+    }
+    const filterByCategorie = (data) => {
+      const free      = data.filter(item => item.categorie == 0)
+      const member    = data.filter(item => item.categorie == 2)
+      const freelance = data.filter(item => item.categorie == 3)
+      const sell      = data.filter(item => item.categorie == 4)
+
+      return [free, '', member, freelance, sell,]
+    }
     onMounted(()=>{
       getNotifications()
       window.Echo
@@ -85,7 +113,7 @@ export default {
       })
   
     })
-    return { icons, wozIcons, notificationsCount, user}
+    return { icons, wozIcons, notificationsCount, user, toRoute,}
   },
 }
 </script>

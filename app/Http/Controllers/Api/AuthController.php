@@ -68,7 +68,7 @@ class AuthController extends Controller
 			]);
 	}
 	public function getUser(Request $request){
-		return $this->returnSuccess(200, User::with('wallet', 'walletLink', 'card', 'currentLoan')->withCount('loansComplete')->find($request->user()->id));
+		return $this->returnSuccess(200, User::with('wallet', 'walletLink', 'card', 'currentLoan', 'links')->withCount('loansComplete', 'links')->find($request->user()->id));
 	}
 	public function refresh(){
 		return $this->createNewToken(JWTAuth::refresh());

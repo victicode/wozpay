@@ -19,6 +19,7 @@ class Link extends Model
         'status', 
         'pay_status', 
         'isWatch', 
+        'categorie',
         'type', 
         'user_id',
         'due_time',

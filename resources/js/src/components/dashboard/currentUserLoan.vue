@@ -11,7 +11,7 @@
             <div class="flex items-center justify-between  w-80 ">
               <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-auto">
                 <div class="text-weight-medium" style="font-size: 0.95rem;">Préstamo</div>
-                <div class=" q-pt-sm "  v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
+                <div v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
                 <div class="q-mt-xs text-grey-8" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">

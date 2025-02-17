@@ -354,7 +354,6 @@
         }, 1000)
 
       }
-
       const rulesForm = (key) => {
         const iRules = {
           nameClient:[
@@ -456,7 +455,6 @@
       }    
 
       const callbackKeyup = (key, e) => {
-        console.log(key)
         if(key == 'nameClient') return
         if(key == 'numberClient') {
           cleaveCard(e)

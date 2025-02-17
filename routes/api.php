@@ -109,6 +109,7 @@ Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(functi
 
 Route::middleware('jwt.verify')->prefix('link')->group(function(){
     Route::post('/', [LinkController::class, 'store']);
+    Route::get('/lastFive/{id}', [LinkController::class, 'getByUserLast5']);
     Route::get('/byUser/{id}', [LinkController::class, 'getByUser']);
     Route::get('/byId/{id}', [LinkController::class, 'getById']);
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
