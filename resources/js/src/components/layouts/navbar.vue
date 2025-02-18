@@ -79,7 +79,7 @@ export default {
     }
     const toRoute = () => {
       if(!user.value.wallet_link || user.value.wallet_link.status == 0) return '/pay_link_services'
-      
+      if(user.value.wallet_link.status == 1) return '/requestPay'
       if(checkLinksAvaible()) return setRoute()
       return '/requestPay'
 

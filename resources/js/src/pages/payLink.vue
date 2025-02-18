@@ -213,7 +213,7 @@
                   @click="router.go(-1)"
                 >
                   <div class="text-white text-subtitle2 cursor-pointer" >
-                   Validando.
+                   Volver
                   </div>
                 </q-card-section>
               </q-card>
