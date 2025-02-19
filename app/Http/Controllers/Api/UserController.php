@@ -147,6 +147,7 @@ class UserController extends Controller
                 'is_first_loan' => 1,
                 'facial_verify' => 0,
                 'verify_status' => 0,
+                'free_link'     => 30,
 
             ]);
         } catch (Exception $th) {

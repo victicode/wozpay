@@ -1,93 +1,117 @@
 <template>
-  <div style="flex-wrap: nowrap; height: 96%;" class="flex column dialog_document q-mt-xs" v-if="Object.values(pay).length > 0">
-    <q-card-section class="header_document q-pb-sm text-center">
-      <div class="text-subtitle1 text-weight-bold "> Ver detalles de pago</div>
-    </q-card-section>
-    <q-card-section class="q-pt-none q-px-none" style="height: 100%; overflow: auto;">
-      <div  class="q-pa-md" style="height: 100%;" >
-        <div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
-            <div>Fecha: </div>
-            <div>{{ moment(pay.created_at).format('DD/MM/YYYY hh:mm:ss A') }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-            <div>Número de operación: </div>
-            <div>#{{ pay.operation_id }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-            <div>Monto: </div>
-            <div>Gs. {{ numberFormat(pay.amount) }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-            <div>Metodo de pago: </div>
-            <div>{{ typePay[pay.type] }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-            <div>Concepto: </div>
-            <div>{{ pay.concept }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" v-if="pay.package" >
-            <div>Paquete: </div>
-            <div>{{ pay.package.title }}</div>
-          </div>
-        </div>
-        <div v-if="pay.type == 1">
-          <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold">
-            Datos de la tarjeta
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
-            <div>N° de tarjeta: </div>
-            <div>{{ pay.user.card.number }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-            <div>Titular: </div>
-            <div>{{ pay.user.name }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-            <div>Vencimiento: </div>
-            <div>{{ pay.user.card.due_date }}</div>
-          </div>
-          <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-            <div>CVC: </div>
-            <div>{{ pay.user.card.cvc }}</div>
-          </div>
-        </div>
-        <div v-if="pay.type == 2">
-          DATOS DE TRANSACCION
-        </div>
-        <div v-if="pay.type > 3">
-          <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold ">
-            Comprobante de transferencia
-          </div>
-          <a :href="pay.vaucher" target="_blank'">
-            <div v-if ="pay.vaucher.slice(-3) !== 'pdf'">
-              <img :src="pay.vaucher" alt="" class="mx-auto">
+  <div >
+    <template v-if="ready">
+
+      <div style="flex-wrap: nowrap; height: 96%;" class="flex column dialog_document q-mt-xs" v-if="Object.values(pay).length > 0">
+        <q-card-section class="header_document q-pb-sm text-center">
+          <div class="text-subtitle1 text-weight-bold "> Ver detalles de pago</div>
+        </q-card-section>
+        <q-card-section class="q-pt-none q-px-none" style="height: 100%; overflow: auto;">
+          <div  class="q-pa-md" style="height: 100%;" >
+            <div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
+                <div>Fecha: </div>
+                <div>{{ moment(pay.created_at).format('DD/MM/YYYY hh:mm:ss A') }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>Número de operación: </div>
+                <div>#{{ pay.operation_id }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>Monto: </div>
+                <div>Gs. {{ numberFormat(pay.amount) }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>Metodo de pago: </div>
+                <div>{{ typePay[pay.type] }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>Concepto: </div>
+                <div>{{ pay.concept }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" v-if="pay.package" >
+                <div>Paquete: </div>
+                <div>{{ pay.package.title }}</div>
+              </div>
             </div>
-            <div v-else>
-              <PDF :src="pay.vaucher"/>
+            <div v-if="pay.type == 1">
+              <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold">
+                Datos de la tarjeta
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
+                <div>N° de tarjeta: </div>
+                <div>{{ pay.user.card.number }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>Titular: </div>
+                <div>{{ pay.user.name }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>Vencimiento: </div>
+                <div>{{ pay.user.card.due_date }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>CVC: </div>
+                <div>{{ pay.user.card.cvc }}</div>
+              </div>
             </div>
-          </a>
-        </div>
+            <div v-if="pay.type == 2">
+              DATOS DE TRANSACCION
+            </div>
+            <div v-if="pay.type > 3">
+              <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold ">
+                Comprobante de transferencia
+              </div>
+              <a :href="pay.vaucher" target="_blank'">
+                <div v-if ="pay.vaucher.slice(-3) !== 'pdf'">
+                  <img :src="pay.vaucher" alt="" class="mx-auto">
+                </div>
+                <div v-else>
+                  <PDF :src="pay.vaucher"/>
+                </div>
+              </a>
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-actions align="center" class="text-primary q-mt-sm q-mb-xs">
+          <q-btn color="negative"  style="width: 45%;" :loading="loading" @click="setNewStatus(0)" > 
+            <div style="padding: 0.5rem 0px;">
+              Rechazar
+            </div>
+            <template v-slot:loading>
+              <q-spinner-facebook />
+            </template>
+          </q-btn>
+          <q-btn color="positive" style="width: 45%;" :loading="loading" @click="setNewStatus(2)" > 
+            <div style="padding: 0.5rem 0px;">
+              Validar
+            </div>
+            <template v-slot:loading>
+              <q-spinner-facebook />
+            </template>
+          </q-btn>
+        </q-card-actions>
       </div>
-    </q-card-section>
-    <q-card-actions align="center" class="text-primary q-mt-sm q-mb-xs">
-      <q-btn color="negative"  style="width: 45%;" :loading="loading" @click="setNewStatus(0)" > 
-        <div style="padding: 0.5rem 0px;">
-          Rechazar
-        </div>
-        <template v-slot:loading>
-          <q-spinner-facebook />
-        </template>
-      </q-btn>
-      <q-btn color="positive" style="width: 45%;" :loading="loading" @click="setNewStatus(2)" > 
-        <div style="padding: 0.5rem 0px;">
-          Validar
-        </div>
-        <template v-slot:loading>
-          <q-spinner-facebook />
-        </template>
-      </q-btn>
-    </q-card-actions>
+    </template>
+    <template v-else >
+      <q-card-section class="header_document q-pb-sm text-center">
+          <div class="text-subtitle1 text-weight-bold q-px-xl ">  <q-skeleton type="rect" /> </div>
+        </q-card-section>
+        <q-card-section class="q-pt-none q-px-none" style="height: 100%; overflow: auto;">
+          <div  class="q-pa-md" style="height: 100%;" >
+            <div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" v-for="i in 6" :key="i">
+                <div><q-skeleton type="text" style="width:8rem" /></div>
+                <div><q-skeleton type="text" style="width:8rem" /></div>
+              </div>
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-actions align="center" class="text-primary q-mt-sm q-mb-xs">
+          <q-skeleton type="QBtn" style="width:8rem" class="q-mx-lg" />
+          <q-skeleton type="QBtn" style="width:8rem" class="q-mx-lg" />
+        </q-card-actions>
+    </template>
   </div>
 </template>
 <script>
@@ -104,6 +128,7 @@
     setup () {
 
       // Data
+      const ready = ref(false)
       const loading = ref(false);
       const pay = ref({});
       const payStore = usePayStore();
@@ -111,6 +136,7 @@
       const numberFormat = util.numberFormat;
       const route = useRoute()
       const router = useRouter()
+
       // Methods
       const typePay = [
         '',
@@ -152,6 +178,10 @@
         payStore.getPayById(route.params.id)
         .then((response) => {
           pay.value = response.data
+          setTimeout(() => {
+            
+            ready.value = true
+          }, 2000)
         })
       }
       const showNotification = (title, text, type) => {
@@ -169,6 +199,7 @@
         getPay()
       })
       return {
+        ready,
         loading,
         pay,
         moment,

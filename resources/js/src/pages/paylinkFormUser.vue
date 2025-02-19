@@ -588,7 +588,7 @@
     font-weight: 600;
     max-width: 133%;
     padding: 0px 10px;
-    transform: translateY(-125%) translateX(4%) scale(0.75)!important;
+    transform: translateY(-128%) translateX(4%) scale(0.75)!important;
   }
   
   & .q-field__native{

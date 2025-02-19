@@ -126,7 +126,7 @@
       <div class="q-px-lg q-mb-lg q-mt-md">
         <div class="text-center activate__text">Comienza ahora</div>
         <q-btn  
-          :label="user.wallet_link.status!=1 ? 'Activar cuenta' : 'Pago pendiente de aprobación'" 
+          :label="user.wallet_link && user.wallet_link.status==1 ? 'Pago pendiente de aprobación' : 'Activar cuenta'" 
           unelevated
           no-caps 
           color="terciary" 
@@ -338,7 +338,7 @@
         router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f')
       }
       const clocks = () => {
-        if(user.wallet_link.status==1) return
+        if( user.wallet_link && user.wallet_link.status== 1 ) return
         showModal.value=true
         timer.value = setInterval( () => {
           if(time.value <= 0) {

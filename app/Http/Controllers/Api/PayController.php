@@ -108,7 +108,7 @@ class PayController extends Controller
 
 
         $this->sendNotification(
-        'Recibiste un pago del link '.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
+        'Recibiste un pago del link #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
         'Pago pendiente de verificación', 1);
         
 
@@ -184,12 +184,19 @@ class PayController extends Controller
         }
         if($pay->status == 0) {
             switch ($pay->type) {
+                case '3':
+                    $this->sendNotification(
+                        'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
+                    break;
                 case '5':
                     $this->rejectWallet($pay->user_id);
                     break;
+                case '6':
+                    $this->sendNotification(
+                        'Tu pago por nuestro paquete de link no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago de paquete rechazado', 3);
+                    break;
             }
-            $this->sendNotification(
-                'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
+            
 
         };
 

@@ -127,7 +127,7 @@
           color="terciary" 
           class="full-width q-pa-sm" 
           @click="createLink"
-          :disable="countLink/limit() == 1"
+          :disable="countLink >= limit()"
         >
           <template v-slot:loading>
             <q-spinner-facebook />
@@ -276,7 +276,7 @@ export default {
         showNotify('negative', 'Debes completar el formulario')
         return
       }
-      if(countLink.value/limit() == 1){
+      if(countLink.value >= limit()){
         showNotify('negative', 'Alcanzaste el maximo de tus links, adquiere un paquete')
         return
       }
@@ -407,7 +407,7 @@ export default {
       background: white;
       font-weight: 600;
       max-width: 133%;
-      transform: translateY(-110%) translateX(4%) scale(0.75)!important;
+      transform: translateY(-125%) translateX(4%) scale(0.75)!important;
     }
     
     & .q-field__native{

@@ -57,11 +57,15 @@
                 <div class="flex justify-between q-px-md q-py-sm items-center freeLink wallLink q-mt-sm" style="">
                   <div>
                     <div class="q-mt-xs">Links de cortesía Woz Pay</div>
-                    <div class="q-mt-xs text-terciary">6 links en todas las categorías</div>
+                    <div class="q-mt-xs text-terciary">30 links en todas las categorías</div>
+                    
                   </div>
-                  <div>
-                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline"  @click="goTo2(0)"/>
+                  <div style="display: block;">
+                    <q-btn flat round color="black" size="md" icon="eva-chevron-right-outline" v-if="filterByCategorie(user.links)[0].length+1 <= user.free_link" @click="goTo2(0)"/>
                   </div>
+                </div>
+                <div class=" text-terciary text-right q-pr-sm q-pt-sm text-bold">
+                  {{ `${filterByCategorie(user.links)[0].length} / ${user.free_link}` }}
                 </div>
               </div>
   
@@ -295,6 +299,14 @@ export default {
       router.push('/generatePayLink/'+type)
       return
     }
+    const filterByCategorie = (data) => {
+      const free      = data.filter(item => item.categorie == 0)
+      const member    = data.filter(item => item.categorie == 2)
+      const freelance = data.filter(item => item.categorie == 3)
+      const sell      = data.filter(item => item.categorie == 4)
+
+      return [free, '', member, freelance, sell,]
+    }
     const random = (min, max) => {
       return Math.floor((Math.random() * (max - min + 1)) + min);
     }
@@ -368,6 +380,7 @@ export default {
       goTo,
       goTo2,
       random,
+      filterByCategorie,
     }
   },
 }

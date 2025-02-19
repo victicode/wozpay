@@ -43,10 +43,9 @@
                 > 
                   <div style="word-wrap: break-word;"   >
                     <div v-if="!validateChip(lines) ">
-
                       {{ lines }}
                     </div>
-                    <q-chip v-else :color="lines == 'Pendiente' ? 'warning' : lines == 'Aprobado' ? 'positive' : 'negative'"  text-color="white" >
+                    <q-chip class="q-mx-none" v-else :color="lines == 'Pendiente' || 'Pendiente de aprobación' ? 'warning' : lines == 'Aprobado' ? 'positive' : 'negative'"  text-color="white" >
                       {{ lines }}
                     </q-chip>
                   </div>
@@ -288,7 +287,7 @@
         })
       }
       const validateChip = (lines) => {
-        const refere =  ['Aprobado', 'Pendiente', 'Rechazada']
+        const refere =  ['Aprobado', 'Pendiente', 'Rechazada', 'Pendiente de aprobación']
         return refere.includes(lines)
       }
       onMounted(()=>{
