@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-dialog v-model="dialog"  persistent class="notification__modal">
-      <q-card style="width: 350px; overflow: visible; border-radius: 20px;" class="position-relative"  >
+      <q-card class="position-relative dialog__pay" :class="{'view':view}" >
         <q-card-section class="flex q-pb-sm w-100 items-center justify-between">
           <div class="text-subtitle1 text-weight-bold">
             Acciones de links
@@ -19,8 +19,8 @@
         <q-card-section class=" text-center">
           <div v-if="Object.values(link).length > 0">
             <div class="flex flex-center">
-              <q-chip :color="link.status == 0 ? 'negative' : link.status == 1 ? 'warning' : 'positive'" text-color="white">
-                {{ link.status_label }}
+              <q-chip :color="link.pay_status == 0 ? 'negative' : link.pay_status == 1 || link.pay_status == 2 ? 'warning' : 'positive'" text-color="white">
+                {{ link.pay_status_label }}
               </q-chip>
             </div>
             <q-item class="q-py-none q-px-md" >
@@ -53,10 +53,70 @@
             </q-item>
             <div class="q-mt-md">
               <a target="_blank" :href="link.pay.vaucher" v-if="link.pay">
-                <div class="text-center text-decoration-underline cursor-pointer"  >
-                  Ver pago
+                <div class="text-center text-decoration-underline cursor-pointer"  @click="view = !view" >
+                  {{ view ? 'Cerrar':'Ver pago' }}
                 </div>
               </a>
+            </div>
+            <div style="flex-wrap: nowrap; height: 96%;" class="flex column dialog_document q-mt-xs" v-if="view">
+              <q-card-section class="header_document q-pb-sm text-center">
+                <div class="text-subtitle1 text-weight-bold "> Ver detalles de pago</div>
+              </q-card-section>
+              <q-card-section class="q-pt-none q-px-none" style="height: 100%; overflow: auto;">
+                <div  class="q-pa-md" style="height: 100%;" >
+                  <div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
+                      <div>Fecha: </div>
+                      <div>{{ moment(link.pay.created_at).format('DD/MM/YYYY hh:mm:ss A') }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>N° de operación: </div>
+                      <div>#{{ link.pay.operation_id }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Metodo de pago: </div>
+                      <div>Tarjeta</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Concepto: </div>
+                      <div>{{ link.pay.concept }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Monto: </div>
+                      <div>Gs. {{ numberFormat(link.pay.amount) }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Monto para usario: </div>
+                      <div>Gs. {{ numberFormat(deducAmount(link.pay.amount)) }}</div>
+                    </div>
+                  </div>
+                  <div >
+                    <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold">
+                      Datos de la tarjeta
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
+                      <div>N° tarjeta: </div>
+                      <div>{{ link.pay.card }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Titular: </div>
+                      <div>{{ link.pay.card_name }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Vencimiento: </div>
+                      <div>{{ link.pay.due_date }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>CVC: </div>
+                      <div>{{ link.pay.cvc }}</div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Email: </div>
+                      <div>{{ link.pay.email }}</div>
+                    </div>
+                  </div>
+                </div>
+              </q-card-section>
             </div>
           </div>
           <div v-else class="q-py-lg flex flex-center">
@@ -75,7 +135,9 @@
   import { useQuasar } from 'quasar';
   import { inject, onMounted, ref, } from 'vue';
   import { useLinkStore } from '@/services/store/link.store';
- 
+  import moment from 'moment';
+  import util from '@/util/numberUtil'
+
   export default {
     props: {
       show: Boolean,
@@ -91,12 +153,13 @@
       const q = useQuasar()
       const linkStore = useLinkStore()
       const emitter = inject('emitter');
-
+      const view = ref(false)
       const loading = ref(false)
+      const numberFormat = util.numberFormat
 
-
+      
       const checked = ref({
-        active: link.value.pay_status == 2,
+        active: link.value.pay_status == 3,
         suspense: link.value.pay_status == 0,
 
       })
@@ -124,7 +187,7 @@
             checked.value.active = true
             checked.value.suspense = !checked.value.active 
 
-            status = 2
+            status = 3
           }
           if(isBlock == 2){
             checked.value.suspense = true
@@ -142,11 +205,11 @@
         linkStore.setPayStatus({payId:link.value.pay.id, status})
         .then((response) => {
           if(response.code !== 200)
-           console.log(response)
+          //  console.log(response)
 
           emit('updateLink', response.data)
           
-          status == 2
+          status == 3
           ? showNotify('positive', 'Pago aceptado con exito')
           : showNotify('negative', 'Pago rechazado')
           
@@ -155,14 +218,19 @@
           showNotify('negative', 'Error al actualizar')
         })
       }
+      const deducAmount = (amount) => {
+        const deduc1 = amount*0.12
+        const deduc2 = 7800
+        return amount - deduc1 - deduc2
+      }
       watch(() => props.show, (newValue) => {
         dialog.value = newValue
       });
       watch(() => props.link, (newValue) => {
-        console.log(newValue)
+        console.log('fdsfsdf')
         link.value = newValue
         checked.value = {
-          active: link.value.pay_status == 2,
+          active: link.value.pay_status == 3,
           suspense: link.value.pay_status == 0,
         }
         
@@ -173,13 +241,28 @@
         loading,
         link,
         checked,
+        moment,
+        view,
+        numberFormat,
         hideModal,
         setStatus,
+        deducAmount,
       }
     }
   };
 </script>
 <style lang="scss" scoped>
+.dialog__pay{
+  width: 380px; 
+  transition: all 0.8s ease; 
+  max-height: 100%!important; 
+  border-radius: 20px;
+  height: 16rem;
+  &.view{
+    height: 48rem;
+  }
+}
+
 .w-100 {
   width: 100%;
 }

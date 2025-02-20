@@ -4,7 +4,7 @@
       <div class="text-subtitle1 text-bold">Links generados</div>
       <div class="text-subtitle1">Historial de links generados</div>
     </div>
-    <div>
+    <div >
       <div v-if="load">
 
         <div v-if="userLinks.length > 0" class="q-px-md" >

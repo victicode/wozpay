@@ -15,10 +15,13 @@
               </div>
               <div>
                 <div 
-                  class="text-subtitle2  text-right " 
-                  :class="{'text-grey-6 text-weight-medium': link.status == 2, 'text-terciary text-weight-bold':link.status == 1 ,'text-negative text-weight-bold':link.status == 0 }"
+                  class="text-subtitle2  text-right flex items-center w-100 justify-end " 
+                  :class="{'text-grey-6 text-weight-medium': link.pay_status == 3, 'text-terciary text-weight-bold':link.pay_status == 1 || link.pay_status == 2,'text-negative text-weight-bold':link.pay_status == 0 }"
                 >
-                  {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.status == 1 ? 'Pendiente' : 'Rechazado' }}
+                  <div style="" v-if="link.pay_status == 2" class="q-mr-xs bounce_pay" /> 
+                  <div >
+                    {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.pay_status_label }}
+                  </div>
                 </div>
                 <div 
                   style="font-size: 15px;" 
@@ -175,7 +178,6 @@
         selectedLink.value = {}
       }
       const updateLink = (link) =>{
-        console.log('dfdsfsdfsd')
         let index = userLinks.value.findIndex(linkLot => linkLot.id == link.id);
 
         if (index > -1) {
@@ -216,9 +218,28 @@
 .container__link{
   border-bottom: 1px solid lightgray; width: 89%;
 }
+.bounce_pay{
+  height: 0.9rem; 
+  width: 0.9rem;
+  border-radius: 50%; 
+  background: red;
+  animation: bounce-in 1s alternate-reverse infinite;
+}
 @media screen and (max-width: 780px){
   .container__link{
     width: 80%;
   }
+}
+@keyframes bounce-in {
+  0% {
+    opacity: 1;
+    transform: scale(0.8) translateY(-0.1rem);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-0.1rem);
+  }
+  70% { transform: scale(.9) translateY(-0.1rem); }
+  100% { transform: scale(1) translateY(-0.1rem); }
 }
 </style>

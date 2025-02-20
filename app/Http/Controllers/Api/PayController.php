@@ -14,10 +14,9 @@ use App\Models\PayLink;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
-
+use Illuminate\Database\Eloquent\Builder;
 class PayController extends Controller
 {
     //
@@ -85,6 +84,7 @@ class PayController extends Controller
 
         try {
             $link = Link::find($request->link_id);
+           
             $pay = PayLink::create([
                 'link_id'       => $request->link_id,
                 'amount'        => $link->amount,
@@ -111,7 +111,8 @@ class PayController extends Controller
         'Recibiste un pago del link #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
         'Pago pendiente de verificación', 1);
         
-
+        $link->pay_status = 2;
+        $link->save();
         return $this->returnSuccess(200, $pay);
     }
     public function payRequest(Request $request) {
@@ -222,13 +223,15 @@ class PayController extends Controller
         ]);
     }
     public function getPayPendings(Request $request){
-        
+        $user = User::with(['links_pay.pay'])->whereHas('links', function (Builder $query) {
+            $query->where('pay_status', 2);
+        })->get();
+
         return $this->returnSuccess(200,
         [
             'payActication' => $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
             'payPackage'    => $request->count ? Pay::where('type', 6)->where('status', 1)->count() : Pay::where('type', 6)->with('user')->where('status', 1)->get(),
-            'payCreateLink' => $request->count ? Pay::where('type', 7)->where('status', 1)->count() : Pay::where('type', 7)->with('user')->where('status', 1)->get(),
-
+            'payCreateLink' => $request->count ? PayLink::where('type', 7)->where('status', 1)->count() : $user,
         ]);
 
     }
@@ -394,6 +397,7 @@ class PayController extends Controller
         try {
             $this->sendNotification(
                 'Tú cuenta internacional no ha podido ser activada debido a que tu pago único con cumple con nuestras medidas de seguridad, vuelve a intentarlo. <br><br> Si crees que se ha cometido un error comunícate con nuestro equipo de soporte ', $user, 'Cuenta no activada', 3);
+            
             event(new UserUpdateEvent($user));
         } catch (Exception $th) {
             //throw $th;

@@ -23,11 +23,11 @@
         <div v-if="pays.length > 0">
           <div v-for="(item, index) in pays" :key="index" class="q-px-md-md q-px-none q-pb-xs q-mt-md pays__container flex items-center justify-between">
             <div class="text-subtitle2 text-weight-medium">
-              Mirna Eustolgia Gomez Parra
+             {{ selectedLote.index == 'payCreateLink' ? item.name : item.user.name }}
             </div>
             <div class="flex items-center">
-              <div class="q-mr-sm text-subtitle2 text-weight-medium">
-                Gs. {{ numberFormat(item.amount) }}
+              <div class="q-mr-sm text-subtitle2 text-weight-medium" :class="{'text-warning':selectedLote.index == 'payCreateLink'}">
+                {{ selectedLote.index == 'payCreateLink' ? item.links_pay.length : 'Gs.'+ numberFormat(item.amount) }}
               </div>
               <q-btn flat @click="goTo(item.id)" class="q-px-none">
                 <q-icon name="eva-chevron-right-outline"  class="q-pb-xs"/>
@@ -101,6 +101,11 @@ export default {
       })
     };
     const goTo = (id) => {
+      if(selectedLote.value.index == 'payCreateLink'){
+        router.push('/link/byUser/'+id) 
+        return
+      }
+
       router.push('/admin/paysDetailsOther/'+id)
     };
     onMounted(() => {

@@ -4,7 +4,7 @@
       <div style="height: 14rem;">
         <currentUserPersonalInfo />
       </div>
-      <div style="background:#f2f2f5;height:calc(100vh - 14rem)">
+      <div style="background:#f2f2f5;height:calc(100vh - 18rem); overflow: auto;">
         <div style="">
           <currentUserLink />
         </div>

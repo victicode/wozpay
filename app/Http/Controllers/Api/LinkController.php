@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Exception;
 use App\Models\Link;
+use App\Models\Wallet;
 use App\Models\PayLink;
 use Illuminate\Http\Request;
+use App\Events\UserUpdateEvent;
+use App\Http\Controllers\Controller;
 
 class LinkController extends Controller
 {
@@ -36,23 +39,6 @@ class LinkController extends Controller
         return $this->returnSuccess(200, $link);
     }
 
-    public function setPayStatus(Request $request)
-    {
-        //.3
-        $pay = PayLink::find($request->payId);
-        $link = Link::with('user', 'pay')->find($pay->link_id);
-
-        $pay->status = $request->status;
-        $link->pay_status = $request->status;
-        
-        if($link->pay_status == 2){
-            $link->status = 2;
-        }
-        $pay->save();
-        $link->save();
-
-        return $this->returnSuccess(200, $link);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -64,17 +50,18 @@ class LinkController extends Controller
         $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
 
         $link = Link::create([
-            'url'       => config('app.url').'v1/pay/link/'.$code ,
-            'code'      => $code,
-            'title'     => $request->title,
-            'note'      => $request->note,
-            'amount'    => $request->amount,
-            'status'    => 1,
-            'isWatch'   => 0,
-            'categorie' => intval($request->categorie),
-            'type'      => $request->type,
-            'user_id'   => $request->user()->id,
-            'due_time'  => date('Y-m-d H:i:s', time() + 7200)
+            'url'           => config('app.url').'v1/pay/link/'.$code ,
+            'code'          => $code,
+            'title'         => $request->title,
+            'note'          => $request->note,
+            'amount'        => $request->amount,
+            'status'        => 1,
+            'pay_status'    => 1,
+            'isWatch'       => 0,
+            'categorie'     => intval($request->categorie),
+            'type'          => $request->type,
+            'user_id'       => $request->user()->id,
+            'due_time'      => date('Y-m-d H:i:s', time() + 7200)
         ]);
         return $this->returnSuccess(200, $link);
     }
@@ -83,36 +70,66 @@ class LinkController extends Controller
         $link = Link::with('user', 'pay')->where('code', $code)->first();
         return $this->returnSuccess(200, $link);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function setPayStatus(Request $request)
     {
-        //
+        //.3
+        $pay = PayLink::find($request->payId);
+        $link = Link::with('user', 'pay')->find($pay->link_id);
+
+
+        if($request->status == 3){
+            $pay->status = 2;
+            $link->pay_status = $request->status;
+            $link->status = 2;
+            $this->updateWallet($link->user_id, $pay->amount);
+            $this->sendNotification(
+                'El pago del link #'.$link->code.' fue aprobado de forma exitosa', $link->user_id, 
+                'Pago de link aprobado', 1);
+        }
+        
+        if($request->status == 0){
+            $pay->status = $request->status;
+            $link->pay_status = $request->status;
+            $link->status = 1;
+            $this->sendNotification(
+                'El pago realizado por el link #'.$link->code.' fue rechazado por que no cumple con nuestras normativas de seguridad ', $link->user_id, 'Pago de link rechazado', 3);
+            
+        }
+        $pay->save();
+        $link->save();
+        event(new UserUpdateEvent($link->user_id));
+
+        return $this->returnSuccess(200, $link);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    private function updateWallet($user, $amount)
     {
-        //
+        $wallet = Wallet::where('user_id', $user)->where('type', '2')->first();
+
+        $wallet->balance += $this->deductAmount($amount);
+
+        $wallet->save();
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    private function deductAmount($amount)
     {
-        //
+        $deduct1 = $amount *0.12;
+        $deduct2 = 7800;
+        return $amount - $deduct1 - $deduct2;
+
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    private function sendNotification($message, $user, $subject, $type)
     {
-        //
+        $notification = new NotificationController;
+        $requestNotification = new Request([
+            'text'      => $message,
+            'subject'   => $subject,
+            'user'   => $user,
+            'sender' => 'Woz Pay informa',
+            'type' => $type,
+        ]);
+        try {
+            $notification->storeNotification($requestNotification);
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
 }

@@ -10,6 +10,7 @@ class Link extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
+        'id',
         'url', 
         'short', 
         'code', 
@@ -24,7 +25,7 @@ class Link extends Model
         'user_id',
         'due_time',
     ];
-    protected $appends  =   ['status_label'];
+    protected $appends  =   ['status_label', 'pay_status_label'];
 
     public function getstatusLabelAttribute()
     {   
@@ -34,6 +35,16 @@ class Link extends Model
             'Aprobada',
         ];
         return $status[$this->status];
+    }
+    public function getpayStatusLabelAttribute()
+    {   
+        $status = [
+            'Rechazada',
+            'Pendiente',
+            'Pendiente de aprob.',
+            'Aprobada',
+        ];
+        return $status[$this->pay_status];
     }
     public function user(){
         return $this->belongsTo(User::class,'user_id', 'id');
