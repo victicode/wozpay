@@ -5,31 +5,33 @@
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
             <div class="w-100 flex items-center justify-between">
-              <div class="w-80xx flex items-center">
+              <div class="flex items-center w-80xx">
                 <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                   <div v-html="wozIcons.withdrawal" />
                 </div>
-                <div class="flex items-center justify-between" style="width:77%">
+                <div class="flex items-center justify-between " style="width: 75%;" >
                   <div class=" q-mr-md-none  w-autopl">
-                    <div class="text-weight-medium" style="font-size: 0.89rem;" >Préstamo</div>
+                    <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;" >Préstamos</div>
                     <div class="ellipsis" v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
                     <div class=" text-grey-8 ellipsis"  v-else >No tienes ningun préstamo</div>
                   </div>
                 </div>
               </div>
               <div class="q-mr-none cursor-pointer flex items-center">
-                <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">
+                <div class=" q-pl-md-md  text-end">
                   <div v-if="Object.values(loan).length > 0 ">
-                    <div class="text-weight-medium text-right">
-                      <q-chip class="q-ma-none q-px-lg" :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
-                        {{ loanStatus(loan.status).text }}
+                    <div class="q-mr-none cursor-pointer">
+                    <q-chip 
+                      class="q-px-md-lg q-px-md chipLoanStatus"
+                      :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
+                      {{ loanStatus(loan.status).text }}
                       </q-chip>
                     </div>
                     <!-- <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(loan.amount)}}</div> -->
                   </div>
                   <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer" @click="router.push('/apply')" v-else>Solicitar</div>
                 </div>
-                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="goTo()" size="sm"> 
+                <q-btn round flat class="q-ml-md-md" @click="goTo()" size="sm"> 
                   <q-icon
                     name="eva-arrow-ios-forward-outline"
                     size="sm"
@@ -65,10 +67,6 @@
               <div class=" q-mx-sm  w-50">
                 <div class="text-weight-medium"><q-skeleton type="rect" /></div>
                 <div class="text-weight-bold q-mt-xs"><q-skeleton type="rect" /></div>
-              </div>
-              <div class="q-mx-sm w-50 text-end">
-                <div class="text-weight-medium text-right"><q-skeleton type="rect" /></div>
-                <div class="text-weight-medium q-mt-xs text-right"><q-skeleton type="rect" /></div>
               </div>
             </div>
             <div class="w-10">
@@ -184,6 +182,11 @@
   }
 
 </script>
+<style lang="scss">
+.chipLoanStatus{
+  border-radius: 10px;
+}
+</style>
 <style lang="scss" scoped>
 .loan_card{
   border-radius:15px;
@@ -193,16 +196,16 @@
   border-bottom: 1px solid #d3d3d3;
 }
 .w-80 {
-  width: 85%;
+  width: 80%;
 }
 .w-80xx {
-  width: 80%;
+  width: 70%;
 }
 .w-50 {
   width: 46%;
 }
 .w-10 {
-  width: 6%;
+  width: 10%;
 }
 .inforcof__icon2{
   position: absolute;
@@ -213,12 +216,12 @@
 .w-autopl{
   width: auto;
 }  
-@media screen and (max-width: 780px){
+@media screen and (min-width: 400px) and (max-width: 780px){
   .w-80 {
     width: 40%;
   }
   .w-80xx {
-    width: 65%;
+    width: 60%;
   }
   .w-50 {
     width: 40%;
@@ -229,6 +232,24 @@
   //.loan_card > div:nth-child(1){ width: 10%!important; }
   //.loan_card > div:nth-child(2){ width: 81%!important; }
   //.loan_card > div:nth-child(3){ width: 8%!important; }
-
 }
+
+@media screen and (max-width: 399px){
+  .w-80 {
+    width: 40%;
+  }
+  .w-80xx {
+    width: 57%;
+  }
+  .w-50 {
+    width: 40%;
+  }
+  .w-autopl{
+    width: 100%;
+  }
+  //.loan_card > div:nth-child(1){ width: 10%!important; }
+  //.loan_card > div:nth-child(2){ width: 81%!important; }
+  //.loan_card > div:nth-child(3){ width: 8%!important; }
+}
+
 </style>

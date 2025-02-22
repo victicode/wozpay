@@ -1,5 +1,5 @@
 <template>
-  <div class="q-py-sm " style="overflow: scroll; height: 100%;">
+  <div class="q-py-sm " style="overflow: auto; height: 100%;">
     <div class="q-px-md q-py-md q-pb-xl q-mb-md" v-if="ready">
       <template v-if="(route.params.type == 1 || route.params.type == 2) || ( link.status == 1)">
         <div class="q-mb-md">
@@ -147,12 +147,14 @@
         </div>
       </template>
       <template v-else>
-        <div class="">
-          <div>
-
+        <div class="q-mt-xl">
+          <div class="flex justify-center q-mt-xl">
+            <div style="width: 5rem; height: 5rem; border-radius: 50%;" class="flex flex-center" :class="link.status == 0 ? 'bg-negative' : 'bg-positive'">
+              <q-icon :name="link.status == 0 ? 'eva-close-outline' : 'eva-checkmark-outline'" color="white" size="4rem" />
+            </div>
           </div>
-          <div>
-            El tiempo de validez de este link de cobro ha expirado!
+          <div class="text-h5 text-center text-weight-medium q-mt-lg">
+            {{ link.status == 0 ? 'El tiempo de validez de este link de cobro ha expirado!' : 'Este link fue procesado exitosamente' }}          
           </div>
         </div>
       </template>

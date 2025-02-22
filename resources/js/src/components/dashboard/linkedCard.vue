@@ -13,25 +13,32 @@
           <div class="row q-px-none">
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
               <div class="w-100 flex items-center justify-between " style=" flex-wrap: nowrap;" @click="router.push('/card')">
-                <div class="flex items-center w-80aaa ">
-                  <div class="q-mr-sm q-mr-md-lg q-mt-xs">
-                    <q-icon :name="icons.outlinedAddCard" class="" size="sm" />
+                <div class="flex items-center w-80bbbb ">
+                  <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
+                    <q-icon :name="icons.outlinedAddCard" class="" size="md" color="black" />
                   </div>
-                  <div class=" q-ml-xs q-mr-none q-pl-md-md">
-                  <!-- <div class="text-weight-medium"> {{linkCard.type == 1 ? 'Tarjeta de crédito' : 'Tarjeta de débito' }}</div> -->
-                  <div class="text-weight-medium"> Tarjeta de crédito - Débito </div>
-                  
-                    <div class="">N° ********** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
+                  <div class="" style="width:75%">
+                    <div class="text-weight-medium ellipsis text-turnc" style="font-size: 0.89rem; "> Tarjeta de crédito - Débito </div>
+                    <div class=" ellipsis">N° ********** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
                   </div>
                 </div>             
-                <div class="q-mr-none cursor-pointer">
-                  <q-chip 
-                    :color="linkCard.status == 2 ? 'chip' : linkCard.status == 1 ? 'warning' : 'negative'" 
-                    :text-color=" linkCard.status == 2 ? 'positive' : 'white'" 
-                    class="q-px-md-lg q-px-md"
-                  >
-                    {{  linkCard.status == 2 ? 'Vinculada' : linkCard.status == 1 ? 'Pendiente' : 'Rechazada' }}
-                  </q-chip>
+                <div class="q-mr-none cursor-pointer flex items-center">
+                  <div class="q-mr-none cursor-pointer">
+                    <q-chip 
+                      :color="linkCard.status == 2 ? 'chip' : linkCard.status == 1 ? 'warning' : 'negative'" 
+                      :text-color=" linkCard.status == 2 ? 'positive' : 'white'" 
+                      class="q-px-md-lg q-px-md"
+                    >
+                      {{  linkCard.status == 2 ? 'Vinculada' : linkCard.status == 1 ? 'Pendiente' : 'Rechazada' }}
+                    </q-chip>
+                    <q-btn round flat class="q-ml-md-md" @click="goTo()" size="sm"> 
+                      <q-icon
+                        name="eva-arrow-ios-forward-outline"
+                        size="sm"
+                        color="black"
+                      />
+                    </q-btn>
+                  </div>
                 </div>
               </div>
               
@@ -49,20 +56,20 @@
                 <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                   <q-icon :name="icons.outlinedAddCard" class="" size="md" color="black" />
                 </div>
-                <div class="" style="width:77%">
-                  <div class="text-weight-medium text-dark ellipsis text-turnc" style="font-size: 0.89rem; ">
+                <div class="" style="width:75%">
+                  <div class="text-weight-medium ellipsis text-turnc" style="font-size: 0.89rem; ">
                     Vincular tarjeta de crédito o debito
                   </div>
-                  <div class=" text-grey-6 ellipsis" >
+                  <div class="text-grey-8 ellipsis" >
                     Adjuntar tu tarjeta para débito automático y más.
                   </div>
                 </div>
               </div>  
               <div class="q-mr-none cursor-pointer flex items-center">
-                <div class="text-subtitle2 q-pt-xs">
+                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer">
                   Activar
                 </div>
-                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/pay_link_services')" size="sm"> 
+                <q-btn round flat class="q-ml-md-md q-pt-sm" size="sm"> 
                   <q-icon
                     name="eva-arrow-ios-forward-outline"
                     size="sm"
@@ -189,22 +196,36 @@
     display: none;
 }
 .w-80bbbb {
-  width: 80%;
+  width: 75%;
 }
 .w-50 {
   width: 50%;
 }
 
-@media screen and (max-width: 780px){
+@media screen and (min-width: 400px) and (max-width: 780px){
   .text-turnc{
     width: 100%;
   }
 
   .w-80bbbb {
-    width: 65%;
+    width: 60%;
   }
   .w-50 {
     width: auto;
   }
 }
+@media screen and (max-width: 399px){
+  .text-turnc{
+    width: 100%;
+  }
+
+  .w-80bbbb {
+    width: 57%;
+  }
+  .w-50 {
+    width: auto;
+  }
+}
+
+
 </style>

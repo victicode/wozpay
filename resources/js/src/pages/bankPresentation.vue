@@ -136,7 +136,7 @@
   font-size: 1.2rem;
 }
 .hero-section_transfer {
-  height: 45%; 
+  height: 35%; 
   border-top-left-radius: 35px; 
   border-top-right-radius: 35px;
   position: relative;
@@ -147,7 +147,7 @@
   }
 }
 .hero__img_transfer {
-  height: 12rem;
+  height: 10rem;
 }
 .terms-section_transfer {
   height: 55%; 

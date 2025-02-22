@@ -10,7 +10,7 @@
                 <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                   <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': user.wallet_link.status == 2 ?  'positive' : 'negative'" />
                 </div>
-                <div class="flex items-center justify-between" style="width:77%" @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_dashboard')">
+                <div class="flex items-center justify-between" style="width:75%" @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_dashboard')">
                   <div class=" q-mr-md-none w-autox" >
                     <div v-if="!user.wallet_link ">
                       <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
@@ -144,12 +144,12 @@
   width: 50%;
 }
 
-@media screen and (max-width: 780px){
+@media screen and (min-width: 400px) and (max-width: 780px){
   .w-85 {
     width: 90%;
   }
   .w-80xxc {
-    width: 65%;
+    width: 60%;
   }
   .w-50 {
     width: auto;
@@ -161,4 +161,22 @@
     width: 100%;
   }
 }
+@media screen and (max-width: 399px){
+  .w-85 {
+    width: 90%;
+  }
+  .w-80xxc {
+    width: 57%;
+  }
+  .w-50 {
+    width: auto;
+  }
+  .text__mid{
+    width: 100%;
+  }
+  .w-autox{
+    width: 100%;
+  }
+}
+
 </style>
