@@ -33,8 +33,7 @@ export default {
     generate
   },
   setup() {
-    const icons = inject('ionIcons');
-    const route = useRoute()
+
     const { user  } = storeToRefs(useAuthStore())
     const requirements = ref({
       card: user.value.card  ?? false,
@@ -47,7 +46,7 @@ export default {
     const router = useRouter();
 
     const validateToShow = () => {
-      let isOk = Object.values(requirements.value).filter((el) => !el)
+      // let isOk = Object.values(requirements.value).filter((el) => !el)
 
       setTimeout(() => {
         load.value = true;

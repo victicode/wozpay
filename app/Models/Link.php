@@ -43,6 +43,7 @@ class Link extends Model
             'Pendiente',
             'Pendiente de aprob.',
             'Aprobada',
+            'Pago rechazado'
         ];
         return $status[$this->pay_status];
     }
@@ -50,6 +51,6 @@ class Link extends Model
         return $this->belongsTo(User::class,'user_id', 'id');
     }
     public function pay(){
-        return $this->hasOne(PayLink::class,'link_id', 'id');
+        return $this->hasOne(PayLink::class,'link_id', 'id')->where('status', '!=', '0');
     }
 }

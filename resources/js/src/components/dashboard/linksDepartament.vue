@@ -1,37 +1,36 @@
 <template>
-  <div>
-    <div class="q-py-sm q-px-md q-px-md-lg" >
-      <!-- <div class=" q-pb-sm" >
-        <div class="row">
-          <div class="col-12 flex items-center justify-between">
-            <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium">Cobros internacionales</div>
-          </div>
-        </div>
-      </div> -->
-      <div style="">
-        <div class="quote-section">
-          <div class="row q-px-none">
-            <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="flex-wrap: nowrap;" >
-              <div class="q-mr-none" style="margin-right: 0.15rem;">
-                 <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': user.wallet_link.status == 2 ?  'positive' : 'negative'" />
-              </div>
-              <div class="flex items-center justify-between  w-85 "  @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_dashboard')">
-                <div class=" q-mr-md-none q-pl-md-md q-pl- w-autox" >
-                  <div v-if="!user.wallet_link ">
-                    <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
-                    <div class="q-mt-xs text-grey-8 " style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
-                  </div>
-                  <div v-else style="width:100%;" class="q-ml-xs" > 
-                    <div class="text-weight-medium ellipsis text__mid" style="font-size: 0.89rem; ">Cuenta corriente internacional</div>
-                    <div class=""  >N° {{ user.wallet_link.number }}</div>
-                  </div>
+
+  <div class="q-py-sm q-px-md q-px-md-lg" >
+    <div style="">
+      <div class="quote-section">
+        <div class="row q-px-none">
+          <div class="col-12 bg-white q-pa-md q-pa-sm flex items-center justify-between justify-md-start loan_card" >
+            <div class="w-100 flex items-center justify-between">
+              <div class="w-80xxc flex items-center">
+                <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
+                  <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': user.wallet_link.status == 2 ?  'positive' : 'negative'" />
                 </div>
+                <div class="flex items-center justify-between" style="width:77%" @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_dashboard')">
+                  <div class=" q-mr-md-none w-autox" >
+                    <div v-if="!user.wallet_link ">
+                      <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
+                      <div class="q-mt-xs text-grey-8 " style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
+                    </div>
+                    <div v-else style="width:100%;" > 
+                      <div class="text-weight-medium ellipsis text__mid" style="font-size: 0.89rem; ">Cuenta corriente internacional</div>
+                      <div class=""  >N° {{ user.wallet_link.number }}</div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="q-mr-none cursor-pointer flex items-center" >
                 <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link" >
                   <div class="cursor-pointer"  v-if="user.wallet_link.status == 2">
-                    <div class="text-weight-medium text-right q-pt-sm">
+                    <div class="text-weight-medium text-right ">
                       Disponible
                     </div>
-                    <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
+                    <div class="text-weight-medium  q-mr-xs text-right " style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
                   </div>
                   <div class="cursor-pointer" v-else>
                     <q-chip class="q-ma-none" style="padding: 0px 0.7rem;" :color=" user.wallet_link.status == 1 ? 'warning':'negative'" text-color="white" >
@@ -40,9 +39,7 @@
                   </div>
                 </div>
                 <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer " @click="router.push('/pay_link_services')" v-else >Activar</div>
-              </div>
-              <div class="" v-if="!user.wallet_link">
-                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/pay_link_services')" size="xs"> 
+                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="router.push('/pay_link_services')" size="xs" v-if="!user.wallet_link"> 
                   <q-icon
                     name="eva-arrow-ios-forward-outline"
                     size="sm"
@@ -56,6 +53,7 @@
       </div>
     </div>
   </div>
+
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
@@ -113,6 +111,9 @@
 
 </style>
 <style lang="scss" scoped>
+.w-80xxc {
+  width: 80%;
+}
 .w-autox{
   width: auto;
 }
@@ -147,14 +148,17 @@
   .w-85 {
     width: 90%;
   }
+  .w-80xxc {
+    width: 65%;
+  }
   .w-50 {
     width: auto;
   }
   .text__mid{
-    width: 90%;
+    width: 100%;
   }
   .w-autox{
-    width: 63%;
+    width: 100%;
   }
 }
 </style>

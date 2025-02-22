@@ -1,39 +1,42 @@
 <template>
   <div class="q-py-sm q-px-md q-px-md-lg"  >
-    
     <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady " >
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
-            <div class="q-mr-none" style="margin-right: 0.15rem;">
-              <div v-html="wozIcons.withdrawal" />
-            </div>
-            <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-auto">
-                <div class="text-weight-medium" style="font-size: 0.95rem;">Préstamo</div>
-                <div v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
-                <div class="q-mt-xs text-grey-8" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
-              </div>
-              <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">
-                <div v-if="Object.values(loan).length > 0 ">
-                  <div class="text-weight-medium text-right">
-                    <q-chip class="q-ma-none q-px-lg" :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
-                      {{ loanStatus(loan.status).text }}
-                    </q-chip>
-                  </div>
-                  <!-- <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(loan.amount)}}</div> -->
+            <div class="w-100 flex items-center justify-between">
+              <div class="w-80xx flex items-center">
+                <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
+                  <div v-html="wozIcons.withdrawal" />
                 </div>
-                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer" @click="router.push('/apply')" v-else>Solicitar</div>
+                <div class="flex items-center justify-between" style="width:77%">
+                  <div class=" q-mr-md-none  w-autopl">
+                    <div class="text-weight-medium" style="font-size: 0.89rem;" >Préstamo</div>
+                    <div class="ellipsis" v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
+                    <div class=" text-grey-8 ellipsis"  v-else >No tienes ningun préstamo</div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="">
-              <q-btn round flat class="q-ml-md-md q-pt-sm" @click="goTo()"> 
-                <q-icon
-                  name="eva-arrow-ios-forward-outline"
-                  size="sm"
-                  color="black"
-                />
-              </q-btn>
+              <div class="q-mr-none cursor-pointer flex items-center">
+                <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">
+                  <div v-if="Object.values(loan).length > 0 ">
+                    <div class="text-weight-medium text-right">
+                      <q-chip class="q-ma-none q-px-lg" :color="loanStatus(loan.status).color" :text-color="loanStatus(loan.status).texColor" >
+                        {{ loanStatus(loan.status).text }}
+                      </q-chip>
+                    </div>
+                    <!-- <div class="text-weight-medium q-pt-xs q-mr-xs text-right " style="">Gs. {{numberFormat(loan.amount)}}</div> -->
+                  </div>
+                  <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer" @click="router.push('/apply')" v-else>Solicitar</div>
+                </div>
+                <q-btn round flat class="q-ml-md-md q-pt-sm" @click="goTo()" size="sm"> 
+                  <q-icon
+                    name="eva-arrow-ios-forward-outline"
+                    size="sm"
+                    color="black"
+                  />
+                </q-btn>
+              </div>
             </div>
           </div>
         </div>
@@ -192,6 +195,9 @@
 .w-80 {
   width: 85%;
 }
+.w-80xx {
+  width: 80%;
+}
 .w-50 {
   width: 46%;
 }
@@ -204,19 +210,25 @@
   // margin-top: 0.2rem;
   transform: translateY(-0.5rem) scale(0.95)
 }
+.w-autopl{
+  width: auto;
+}  
 @media screen and (max-width: 780px){
   .w-80 {
     width: 40%;
   }
+  .w-80xx {
+    width: 65%;
+  }
   .w-50 {
     width: 40%;
   }
-  .w-auto{
-    width: auto;
+  .w-autopl{
+    width: 100%;
   }
-  .loan_card > div:nth-child(1){ width: 10%!important; }
-  .loan_card > div:nth-child(2){ width: 81%!important; }
-  .loan_card > div:nth-child(3){ width: 8%!important; }
+  //.loan_card > div:nth-child(1){ width: 10%!important; }
+  //.loan_card > div:nth-child(2){ width: 81%!important; }
+  //.loan_card > div:nth-child(3){ width: 8%!important; }
 
 }
 </style>

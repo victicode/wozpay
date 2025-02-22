@@ -43,6 +43,8 @@ Route::middleware('basic.authentication')->prefix('v1/tpago')->name('tpago')->gr
     Route::post('/', [PayController::class, 'tpagoCallback']);
 });
 Route::get('/get-users', [UserController::class, 'index']);
+Route::post('/updateMasive', [UserController::class, 'massive']);
+
 
 // Route::post('/create_wallet', [UserController::class, 'storeWallet']);
 

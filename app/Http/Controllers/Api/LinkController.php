@@ -89,7 +89,7 @@ class LinkController extends Controller
         
         if($request->status == 0){
             $pay->status = $request->status;
-            $link->pay_status = $request->status;
+            $link->pay_status = 4;
             $link->status = 1;
             $this->sendNotification(
                 'El pago realizado por el link #'.$link->code.' fue rechazado por que no cumple con nuestras normativas de seguridad ', $link->user_id, 'Pago de link rechazado', 3);

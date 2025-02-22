@@ -16,7 +16,7 @@
               <div>
                 <div 
                   class="text-subtitle2  text-right flex items-center w-100 justify-end " 
-                  :class="{'text-grey-6 text-weight-medium': link.pay_status == 3, 'text-terciary text-weight-bold':link.pay_status == 1 || link.pay_status == 2,'text-negative text-weight-bold':link.pay_status == 0 }"
+                  :class="{'text-grey-6 text-weight-medium': link.pay_status == 3, 'text-terciary text-weight-bold':link.pay_status == 1 || link.pay_status == 2,'text-negative text-weight-bold':link.pay_status == 0 || link.pay_status == 4 }"
                 >
                   <div style="" v-if="link.pay_status == 2" class="q-mr-xs bounce_pay" /> 
                   <div >
@@ -30,7 +30,7 @@
                 >
                   GS {{ numberFormat(link.amount) }}
                 </div>
-                <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
+                <div v-if="link.pay_status != 3" class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>
             </div>
             <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none" @click="getLinkById(link.id)">

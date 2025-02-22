@@ -376,6 +376,12 @@ class UserController extends Controller
 
         return $this->returnSuccess(200, $user->load('wallet', 'walletLink', 'card', 'currentLoan')->loadCount('loansComplete'));
     }
+    public function massive(){
+        User::where('free_link', 6)->update([
+            'free_link' => 30
+        ]);
+        return $this->returnSuccess(200, 'bien');
+    }
     private function validateFieldsFromInput($inputs){
         $rules =[
             'fullName'      => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],

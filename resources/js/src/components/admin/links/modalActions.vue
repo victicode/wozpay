@@ -19,7 +19,7 @@
         <q-card-section class=" text-center">
           <div v-if="Object.values(link).length > 0">
             <div class="flex flex-center">
-              <q-chip :color="link.pay_status == 0 ? 'negative' : link.pay_status == 1 || link.pay_status == 2 ? 'warning' : 'positive'" text-color="white">
+              <q-chip :color="link.pay_status == 0 || link.pay_status == 4 ? 'negative' : link.pay_status == 1 || link.pay_status == 2 ? 'warning' : 'positive'" text-color="white">
                 {{ link.pay_status_label }}
               </q-chip>
             </div>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                       <div>Concepto: </div>
-                      <div>{{ link.pay.concept }}</div>
+                      <div class="text-justify">{{ link.pay.concept }}</div>
                     </div>
                     <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                       <div>Monto: </div>
@@ -160,7 +160,7 @@
       
       const checked = ref({
         active: link.value.pay_status == 3,
-        suspense: link.value.pay_status == 0,
+        suspense: link.value.pay_status == 0 || link.pay_status == 4 ,
 
       })
 
@@ -195,7 +195,7 @@
             status = 0
           }
           loading.value = false
-
+          console.log(link.value.pay_status == status)
           link.value.pay_status == status 
           ? ''
           : sendData(status)
@@ -204,7 +204,7 @@
 
         linkStore.setPayStatus({payId:link.value.pay.id, status})
         .then((response) => {
-          if(response.code !== 200)
+          if(response.code !== 200) throw response
           //  console.log(response)
 
           emit('updateLink', response.data)

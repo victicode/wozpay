@@ -14,7 +14,7 @@
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
               <div class="w-100 flex items-center justify-between " style=" flex-wrap: nowrap;" @click="router.push('/card')">
                 <div class="flex items-center w-80aaa ">
-                  <div class="q-mr-sm q-mt-xs">
+                  <div class="q-mr-sm q-mr-md-lg q-mt-xs">
                     <q-icon :name="icons.outlinedAddCard" class="" size="sm" />
                   </div>
                   <div class=" q-ml-xs q-mr-none q-pl-md-md">
@@ -46,14 +46,14 @@
           <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
             <div class="w-100 flex items-center justify-between " style=" flex-wrap: nowrap;" @click="router.push('/card')">     
               <div class="flex items-center w-80bbbb ">
-                <div class="q-mr-md-sm q-mr-xs q-mt-xs">
-                  <q-icon :name="icons.outlinedAddCard" class="" size="md" color="grey-7" />
+                <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
+                  <q-icon :name="icons.outlinedAddCard" class="" size="md" color="black" />
                 </div>
-                <div class="" style="width: 80%">
-                  <div class=" text-subtitle1 text-weight-medium  q-mr-sm text-dark ellipsis text-turnc ">
+                <div class="" style="width:77%">
+                  <div class="text-weight-medium text-dark ellipsis text-turnc" style="font-size: 0.89rem; ">
                     Vincular tarjeta de crédito o debito
                   </div>
-                  <div class="linked_description text-grey-6 ellipsis" >
+                  <div class=" text-grey-6 ellipsis" >
                     Adjuntar tu tarjeta para débito automático y más.
                   </div>
                 </div>
@@ -71,13 +71,10 @@
                 </q-btn>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
-
     </div>
-    
   </div>
 </template>
 <script>
@@ -200,11 +197,11 @@
 
 @media screen and (max-width: 780px){
   .text-turnc{
-    width: 85%;
+    width: 100%;
   }
 
   .w-80bbbb {
-    width: 74%;
+    width: 65%;
   }
   .w-50 {
     width: auto;

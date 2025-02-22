@@ -1,149 +1,167 @@
 <template>
   <div class="q-py-sm " style="overflow: scroll; height: 100%;">
     <div class="q-px-md q-py-md q-pb-xl q-mb-md" v-if="ready">
-      <div class="q-mb-md">
-        <div class="text-weight-bold">
-          Comercio / Cliente:
-        </div>
-        <div class="contet__border-primary q-px-md q-py-none q-mt-xs">
-          <div class="flex items-center payToContent q-my-md justify-between" >
-            <div class="text-titlePay" v-if="route.params.type != 2 && route.params.type != 1 ">
-              Comercio
-            </div>
-            <div class="flex items-center">
-              <div class="text-titlePay">
-                {{route.params.type != 2 && route.params.type != 1  ? link.user.name : 'Woz Payments'}}
-              </div>
-              <div class="bg-primary flex flex-center q-ml-xs iconcontent">
-                <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
-              </div>
-            </div>
+      <template v-if="(route.params.type == 1 || route.params.type == 2) || ( link.status == 1)">
+        <div class="q-mb-md">
+          <div class="text-weight-bold">
+            Comercio / Cliente:
           </div>
-          <div class="flex justify-between payToContent q-my-md">
-            <div class="text-titlePay">RUC / CI</div>
-            <div class="text-titlePay">{{route.params.type != 2 && route.params.type != 1  ? numberFormat(link.user.dni) : numberFormat(4920791)}}</div>
-          </div>
-        </div>
-      </div>
-      <div class="q-mb-md">
-        <div class="text-weight-bold">
-          Producto / Servicio:
-        </div>
-        <div class="contet__border-primary q-px-sm q-py-none q-mt-xs">
-          <div class="flex items-center  q-my-sm justify-between" >
-            <div class="">
-              <div class="text-titlePayP   text-grey-9">
-                {{
-                  route.params.type == 1 
-                  ? 'Activación de cuenta internacional Woz Payments' 
-                  : route.params.type == 2 
-                  ? route.query.description
-                  : link.title +' - '+ link.note
-                }}
+          <div class="contet__border-primary q-px-md q-py-none q-mt-xs">
+            <div class="flex items-center payToContent q-my-md justify-between" >
+              <div class="text-titlePay" v-if="route.params.type != 2 && route.params.type != 1 ">
+                Comercio
               </div>
-              <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs">
-                Gs. {{
-                  route.params.type == 1 
-                  ? numberFormat(220000)
-                  : route.params.type == 2 
-                  ? numberFormat(route.query.amount)
-                  : numberFormat(link.amount)
-                }}
-              </div>
-            </div>
-            <div id="timeCountForm" class="text-titlePay text-backLinear" v-if="route.params.type != 2 && route.params.type != 1" />
-          </div>
-        </div>
-      </div>
-      <div class="q-mb-md">
-        <div class="text-weight-bold">
-          {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjetas':'Datos para el pago'}}
-        </div>
-        
-        <div class="contet__border-primary q-px-md q-py-xs q-mt-xs">
-          <template v-if="route.params.type != 2 &&  route.params.type != 1 ">
-            <div v-for="(item ,key) in clientForm" :key="key" class="q-mt-md ">
-              <div class="q-px-xs text-bold q-pb-sm" v-if="item.title">
-                {{ item.title }}
-              </div>
-              <q-input 
-                class="q-pb-md paycardLink-input " 
-                outlined 
-                clearable
-                :clear-icon="'eva-close-outline'"
-                v-model="item.value" 
-                :label="item.label"  
-                autocomplete="off"
-                :rules="rulesForm(key)"
-                :mask="maskFormat(key)"
-                :maxlength="key == 'cvc' ? 3 : key == 'numberClient' ? 22 :''"
-                @keyup="callbackKeyup(key,$event)"
-                @change="callbackChange(key, $event)"
-                
-              >
-                <template v-slot:append v-if=" key == 'numberClient'">
-                  <transition name="horizontal">
-                    <div v-html="wozIcons[cardType ?? 'general' ]" style="transform: scale(0.8)" />
-                  </transition>
-                </template>
-              </q-input>
-              <div class="q-px-xs q-pt-xs" v-if="item.sublabel">
-                {{ item.sublabel }}
-              </div>
-            </div>
-          </template>
-          <template v-else>
-            <div class="q-px-md q-py-sm q-my-md infoPay__content" v-for="(item,key) in dataPay" :key="key">
-              {{ item }}
-            </div>
-            <div class="q-my-md">
-              <div class="text-bold q-px-xs">
-                Comprobante
-              </div>
-              <div class="q-pt-xs">
-                <q-file for="fileId" accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant" v-show="!Object.values(comprobant).length" />
-                <div class="q-px-md q-py-sm  infoPay__content " v-show="Object.values(comprobant).length">
-                  <label for="fileId" class="flex items-center">
-                    <div class="q-pt-xs text-positive" >
-                      Comprobante subido
-                    </div>
-                    <div class="bg-positive flex flex-center q-ml-xs iconcontent">
-                      <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
-                    </div>
-                  </label>
+              <div class="flex items-center">
+                <div class="text-titlePay">
+                  {{route.params.type != 2 && route.params.type != 1  ? link.user.name : 'Woz Payments'}}
+                </div>
+                <div class="bg-primary flex flex-center q-ml-xs iconcontent">
+                  <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
                 </div>
               </div>
-              <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
-                Te confirmaremos el estado de tu pago en el día
-              </div>
             </div>
-          </template>
-          <div class="q-px-xl q-mt-md flex flex-center q-pb-sm">
-            <img :src="payMethod" alt="" style=" height: 2.1rem;">
-          </div>
-          <div v-if="formError" class="text-subtitle1 text-negative text-bold text-center q-mt-md flex flex-center">
-            <q-icon name="eva-alert-circle-outline" color="negative" size="sm"/>
-            {{ errorMessage }}
+            <div class="flex justify-between payToContent q-my-md">
+              <div class="text-titlePay">RUC / CI</div>
+              <div class="text-titlePay">{{route.params.type != 2 && route.params.type != 1  ? numberFormat(link.user.dni) : numberFormat(4920791)}}</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="linkPay_content q-px-md-xl q-pb-md" >
-        <q-btn 
-            color="primary" class="w-100 q-pa-npne q-mb-none linkPay_button" 
-            no-caps
-            :loading="loading"
-            @click="procedToPay()"
-          >
-            <div class="text-white q-py-sm text-subtitle1 text-weight-medium flex justify-center items-stretch"  >
-              <div class="q-mt-xs">
-                Realizar pago
+        <div class="q-mb-md">
+          <div class="text-weight-bold">
+            Producto / Servicio:
+          </div>
+          <div class="contet__border-primary q-px-sm q-py-none q-mt-xs">
+            <div class="flex items-center  q-my-sm justify-between" >
+              <div class="">
+                <div class="text-titlePayP   text-grey-9">
+                  {{
+                    route.params.type == 1 
+                    ? 'Activación de cuenta internacional Woz Payments' 
+                    : route.params.type == 2 
+                    ? route.query.description
+                    : link.title +' - '+ link.note
+                  }}
+                </div>
+                <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs">
+                  Gs. {{
+                    route.params.type == 1 
+                    ? numberFormat(220000)
+                    : route.params.type == 2 
+                    ? numberFormat(route.query.amount)
+                    : numberFormat(link.amount)
+                  }}
+                </div>
               </div>
-            </div> 
-            <template v-slot:loading>
-              <q-spinner-facebook />
+              <div id="timeCountForm" class="text-titlePay text-backLinear" v-if="route.params.type != 2 && route.params.type != 1" />
+            </div>
+          </div>
+        </div>
+        <div class="q-mb-md">
+          <div class="text-weight-bold">
+            {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjetas':'Datos para el pago'}}
+          </div>
+          
+          <div class="contet__border-primary q-px-md q-py-xs q-mt-xs">
+            <template v-if="route.params.type != 2 &&  route.params.type != 1 ">
+              <div v-for="(item ,key) in clientForm" :key="key" class="q-mt-md ">
+                <div class="q-px-xs text-bold q-pb-sm" v-if="item.title">
+                  {{ item.title }}
+                </div>
+                <q-input 
+                  class="q-pb-md paycardLink-input " 
+                  outlined 
+                  clearable
+                  :clear-icon="'eva-close-outline'"
+                  v-model="item.value" 
+                  :label="item.label"  
+                  autocomplete="off"
+                  :rules="rulesForm(key)"
+                  :mask="maskFormat(key)"
+                  :maxlength="key == 'cvc' ? 3 : key == 'numberClient' ? 22 :''"
+                  @keyup="callbackKeyup(key,$event)"
+                  @change="callbackChange(key, $event)"
+                  
+                >
+                  <template v-slot:append v-if=" key == 'numberClient'">
+                    <transition name="horizontal">
+                      <div v-html="wozIcons[cardType ?? 'general' ]" style="transform: scale(0.8)" />
+                    </transition>
+                  </template>
+                </q-input>
+                <div class="q-px-xs q-pt-xs" v-if="item.sublabel">
+                  {{ item.sublabel }}
+                </div>
+              </div>
             </template>
-          </q-btn>
-      </div>
+            <template v-else>
+              <div class="q-px-md q-py-sm q-my-md infoPay__content" v-for="(item,key) in dataPay" :key="key">
+                {{ item }}
+              </div>
+              <div class="q-my-md">
+                <div class="text-bold q-px-xs">
+                  Comprobante
+                </div>
+                <div class="q-pt-xs">
+                  <q-file for="fileId" accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant" v-show="!Object.values(comprobant).length" />
+                  <div class="q-px-md q-py-sm  infoPay__content " v-show="Object.values(comprobant).length">
+                    <label for="fileId" class="flex items-center">
+                      <div class="q-pt-xs text-positive" >
+                        Comprobante subido
+                      </div>
+                      <div class="bg-positive flex flex-center q-ml-xs iconcontent">
+                        <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
+                  Te confirmaremos el estado de tu pago en el día
+                </div>
+              </div>
+            </template>
+            <div class="q-px-xl q-mt-md flex flex-center q-pb-sm">
+              <img :src="payMethod" alt="" style=" height: 2.1rem;">
+            </div>
+            <div v-if="formError" class="text-subtitle1 text-negative text-bold text-center q-mt-md flex flex-center">
+              <q-icon name="eva-alert-circle-outline" color="negative" size="sm"/>
+              {{ errorMessage }}
+            </div>
+          </div>
+        </div>
+        <div class="linkPay_content q-px-md-xl q-pb-md" >
+          <q-btn 
+              color="primary" class="w-100 q-pa-npne q-mb-none linkPay_button" 
+              no-caps
+              :loading="loading"
+              @click="procedToPay()"
+            >
+              <div class="text-white q-py-sm text-subtitle1 text-weight-medium flex justify-center items-stretch"  >
+                <div class="q-mt-xs">
+                  Realizar pago
+                </div>
+              </div> 
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
+            </q-btn>
+        </div>
+      </template>
+      <template v-else>
+        <div class="">
+          <div>
+
+          </div>
+          <div>
+            El tiempo de validez de este link de cobro ha expirado!
+          </div>
+        </div>
+      </template>
+    </div>
+    <div v-else class="flex-center flex" style="height:80%">
+      <q-spinner-dots
+          color="primary"
+          size="8em"
+      />
     </div>
     <div v-if="showDialog">
       <doneModal :dialog="showDialog" text="Tarjeta vinculada con exito" />

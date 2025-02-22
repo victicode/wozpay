@@ -14,12 +14,14 @@
             <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
               <div class="w-100 flex items-center justify-between q-mt-none ">
                 <div class="flex items-center w-80 ">
-                  <div class="q-mr-sm q-mt-xs">
-                    <q-icon :name="icons.outlinedAccountBalance" class="" size="sm" />
+                  <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
+                    <q-icon :name="icons.outlinedAccountBalance" class="" size="md" />
                   </div>
-                  <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
-                    <div class="text-weight-medium">Caja de ahorro</div>
-                    <div class=" ">N° {{ user.wallet.number }} </div>
+                  <div class="flex items-center justify-between">
+                    <div class="q-mr-md-none  w-autopl">
+                      <div class="text-weight-medium" style="font-size: 0.89rem; ">Caja de ahorro</div>
+                      <div class=" ">N° {{ user.wallet.number }} </div>
+                    </div>
                   </div>
                 </div>
                 <div class="q-mr-sm text-end">

@@ -1,7 +1,7 @@
 <template>
-  <div >
+  <div class="h-100" >
     <template v-if="ready">
-      <div style="flex-wrap: nowrap; height: 96%;" class="flex column dialog_document q-mt-xs" v-if="Object.values(pay).length > 0">
+      <div style="flex-wrap: nowrap; height: 97%;" class="flex column dialog_document q-mt-xs" v-if="Object.values(pay).length > 0">
         <q-card-section class="header_document q-pb-sm text-center">
           <div class="text-subtitle1 text-weight-bold "> Ver detalles de pago</div>
         </q-card-section>
