@@ -25,7 +25,7 @@
               </div>
               <div class="flex justify-between items-center q-mt-md account__info--item">
                 <div class="text-weight-medium text-caption2">Número de cédula</div>
-                <div class="text-caption2 text-weight-medium text-primary">{{ account.account_owner_dni }}</div>
+                <div class="text-caption2 text-weight-medium text-primary">{{ numberFormat(account.account_owner_dni) }}</div>
               </div>
             </div>
             <div class="flex items-end justify-end q-mt-md q-pb-md">
@@ -91,13 +91,14 @@
   </div>
 </template>
 <script>
-import { inject, onMounted, ref } from 'vue'
+import {  onMounted, ref } from 'vue'
 import wozIcons from '@/assets/icons/wozIcons'
 import { useBankAccountStore } from '@/services/store/bankAccount.store'
 import { useAuthStore } from '@/services/store/auth.store'
 import { useRouter } from 'vue-router';
 import deleteModal from '@/components/accountsBank/modals/deleteModal.vue'
 import updateModal from '@/components/accountsBank/modals/updateModal.vue'
+import utils from '@/util/numberUtil';
 
 export default {
   components:{
@@ -112,7 +113,7 @@ export default {
     const router = useRouter()
     const selectedAccountBank = ref({})
     const dialog = ref('');
-    
+    const numberFormat = utils.numberFormat
     const getAccountsBankbyUser = () =>{
       ready.value = false
       store.getAllAccountBankByUser(user.id).then((data) =>{
@@ -128,22 +129,24 @@ export default {
     }
     const selectAccountBank = (id) => {
       return new Promise((resolve)=>{
-        selectedAccountBank.value = Object.assign(bankAccounts.value.find((account) => account.id == id ))
+        selectedAccountBank.value = bankAccounts.value.find((account) => account.id == id )
         setTimeout(()=>{
           resolve(selectedAccountBank.value)
         }, 100)
       })
     }
-    const hideModal = (val = true) => {
+    const hideModal = (val) => {
       dialog.value = '';
-      if (val) getAccountsBankbyUser()
+      if (val){
+        getAccountsBankbyUser()
+      } 
       
     }
     onMounted(() => {
       getAccountsBankbyUser()
     })
 
-    return { bankAccounts, ready, router, wozIcons, dialog, selectedAccountBank, selectAccountBank, showModal, hideModal  }
+    return {numberFormat, bankAccounts, ready, router, wozIcons, dialog, selectedAccountBank, selectAccountBank, showModal, hideModal  }
   },
 }
 </script>

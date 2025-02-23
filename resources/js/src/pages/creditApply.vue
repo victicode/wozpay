@@ -822,13 +822,13 @@
         })
       }
       const validateUser = () => {
-        const dontValidate = ['facial_verify','sell_link', 'viewBank', 'freelancer_link', 'membership_link', 'viewTransfer', 'viewRekutu', 'wallet_link', 'facial_photo', 'verify_status', 'document_photo_front', 'document_photo_back', 'current_loan','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
+        const dontValidate = ['facial_verify','links_count','sell_link', 'viewBank', 'freelancer_link', 'membership_link', 'viewTransfer', 'viewRekutu', 'wallet_link', 'facial_photo', 'verify_status', 'document_photo_front', 'document_photo_back', 'current_loan','loans_complete_count','is_public','email_verified_at','is_first_loan','created_at','card', 'updated_at', 'deleted_at',]
 
         Object.entries(user.value).forEach( ([key, value]) => {
           if(dontValidate.includes(key)) return
           if(!value){
             isUserApply.value = false 
-            // console.log(key, value)
+            console.log(key, value)
           } 
             
         });

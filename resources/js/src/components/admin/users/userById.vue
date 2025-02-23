@@ -114,6 +114,42 @@
               <q-item class="q-py- q-px-sm" >
                 <q-item-section>
                   <div class="flex items-center justify-between">
+                    <q-item-label class="q-mt-xs text-weight-bold flex" >
+                      <div>
+                        <span class="text-caption text-weight-bold q-mr-xs">
+                          {{ user.card && user.card.status == 2 ? 'Tarjeta asociada' : 'Validar tarjeta asociada' }}
+                        </span>
+                      </div>
+                      <!-- <div v-if="user.card  && user.card.status == 1 "  class="bounce_pay q-mt-xs " /> -->
+
+                    </q-item-label>
+                    <div class="flex items-center cursor-pointer" @click="goTo(user.id)"  >
+                      <div v-if="user.card  && user.card.status == 1 "  class="bounce_pay q-mt-xs " />
+                      <q-item-label caption lines="1" class="text-caption q-mt-xs q-pl-xs">
+                        {{ 
+                          user.card  && user.card.status == 2  
+                          ? 'Aprobado'
+                          : user.card  && user.card.status == 1 
+                          ? 'Pendiente'
+                          : 'No subidos'
+                        }}
+                      </q-item-label>
+                      <q-btn 
+                        flat 
+                        round 
+                        size="xs"
+                        class="q-pb-none q-ml-xs" 
+                      >
+                        <q-icon name="eva-chevron-right-outline" color="grey-5" size="sm" />
+                      </q-btn>
+                    </div>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item class="q-py- q-px-sm" >
+                <q-item-section>
+                  <div class="flex items-center justify-between">
                     <q-item-label class="q-mt-xs text-weight-bold" >
                       <div>
                         <span class="text-caption text-weight-bold">
@@ -331,7 +367,7 @@
       const userStore = useUserStore();
       const numberFormat = util.numberFormat
       // Data
-      const dialog = ref(false)
+
       const user = ref([]);
       const ready = ref(false)
       const loading = ref(false)
@@ -408,7 +444,6 @@
         return chip[type]
       }
       emitter.on('setUser', (userUpdate) => {
-        console.log('sss')
         user.value = userUpdate
       })
 
@@ -432,9 +467,6 @@
   };
 </script>
 <style lang="scss">
-  #logout-button{
-    padding: 10px;
-  }
   .profile_section{
     height: 100%; 
     overflow-y: scroll;
@@ -452,5 +484,28 @@
 }
 .w-50 {
   width: 50%;
+}
+</style>
+<style lang="scss" scoped>
+
+.bounce_pay{
+  height: 0.9rem; 
+  width: 0.9rem;
+  border-radius: 50%; 
+  background: red;
+  animation: bounce-in 2s alternate-reverse infinite;
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 1;
+    transform: scale(0.8) translateY(-0.1rem);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-0.1rem);
+  }
+  70% { transform: scale(.8) translateY(-0.1rem); }
+  100% { transform: scale(1) translateY(-0.1rem); }
 }
 </style>

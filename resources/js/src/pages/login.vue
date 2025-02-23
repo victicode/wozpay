@@ -8,6 +8,7 @@
         <q-form
           id="LoginForm"
           class="q-gutter-md"
+          @submit="login"
         >
         <div class="row ">
           <div class="col-12 q-mt-md">
@@ -62,7 +63,7 @@
               color="terciary" 
               class="full-width" 
               :loading="loading"
-              @click="login" 
+              type="submit"
             >
               <template v-slot:loading>
                 <q-spinner-facebook />

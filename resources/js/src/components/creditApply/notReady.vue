@@ -45,7 +45,6 @@ export default {
     const router = useRouter()
     const check = ref(props.requirements)
     const formatRequeriments = (requerimentsProps) => {
-      console.log(requerimentsProps)
       return [
         {
           title: 'Registrate en Woz Payments',

@@ -94,8 +94,19 @@
               </div>
             </template>
             <template v-else>
-              <div class="q-px-md q-py-sm q-my-md infoPay__content" v-for="(item,key) in dataPay" :key="key">
-                {{ item }}
+              <div class="q-px-md q-py-sm q-my-md infoPay__content flex justify-between items-center" v-for="(item,key) in dataPay" :key="key">
+                <div>
+                  {{ item }}
+                </div>
+                <div v-if="item=='0983994268'">
+                  <q-btn round flat class="q-ml-md-md" style="width: 2rem;height: 1.4rem;overflow: hidden;min-height: auto;"> 
+                      <q-icon
+                        name="eva-clipboard-outline"
+                        color="black"
+                        size="sm"
+                      />
+                    </q-btn>
+                </div>
               </div>
               <div class="q-my-md">
                 <div class="text-bold q-px-xs">

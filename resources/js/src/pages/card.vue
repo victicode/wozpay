@@ -12,7 +12,7 @@
                 </span>
                 </q-item-label>
                 <q-item-label caption lines="1" class="text-weight-medium text-body2 q-pt-sm">
-                  {{ linkCard.type == 1 ? 'Tajeta de crédito' : 'tarjeta de débito' }}
+                  {{ linkCard.type == 1 ? 'Tajeta de crédito' : 'Tarjeta de débito' }}
                 </q-item-label>
               </div>
               <div>

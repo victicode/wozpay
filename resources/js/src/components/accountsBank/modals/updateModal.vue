@@ -46,7 +46,7 @@
                   label="Número de cuenta"
                   autocomplete="off"
                   :rules="rulesForm('number')"
-                  mask="#### #### #### #### ####"
+                  mask="#### #### #### #### #### #### #### #### ####"
                 />
               </div>
               <div class="col-12 q-my-md">
@@ -114,8 +114,6 @@
 </template>
 <script>
   import { ref } from 'vue';
-  import { useUserStore } from '@/services/store/user.store'
-  import { useAuthStore } from '@/services/store/auth.store'
   import { useBankAccountStore } from '@/services/store/bankAccount.store'
   import { useQuasar } from 'quasar'
   import wozIcons from '@/assets/icons/wozIcons'
@@ -128,15 +126,13 @@
     emits: ['hideModal'],
     setup (props, { emit }) {
       //vue provider
-      const userStore = useUserStore();
       const bankAccountStore = useBankAccountStore();
-      const user = useAuthStore().user;
       const $q = useQuasar();
 
       // Data
       const loading = ref(false);
       const dialog = props.dialog;
-      const account = props.account
+      const account = ref(props.account)
       
 
       // Methods
@@ -158,7 +154,7 @@
       const updateAccount = () => {
         if(!validate) return 
         loadingShow(true)
-        bankAccountStore.updateBankAccount(account)
+        bankAccountStore.updateBankAccount(account.value)
         .then((data) => {
           if(data.code !== 200) throw data
           showNotify('positive', 'Cuenta de banco actualizada con exito.')
@@ -199,7 +195,7 @@
       }
       const validate = () => {
         let isOk = true
-        Object.entries(account).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+        Object.entries(account.value).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
 
         if(!isOk) showNotify('negative', 'Los campos del formulario no pueden estar vacio')
 

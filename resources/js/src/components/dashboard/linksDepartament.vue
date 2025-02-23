@@ -26,7 +26,7 @@
               </div>
               <div class="q-mr-none cursor-pointer flex items-center" >
                 <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end" v-if="user.wallet_link" >
-                  <div class="cursor-pointer"  v-if="user.wallet_link.status == 2">
+                  <div class="cursor-pointer"  v-if="user.wallet_link.status == 2" @click="router.push('/pay_link_dashboard')">
                     <div class="text-weight-medium text-right ">
                       Disponible
                     </div>
