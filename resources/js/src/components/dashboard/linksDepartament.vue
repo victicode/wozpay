@@ -14,7 +14,7 @@
                   <div class=" q-mr-md-none w-autox" >
                     <div v-if="!user.wallet_link ">
                       <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
-                      <div class="q-mt-xs text-grey-8 " style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
+                      <div class="q-mt-xs text-grey-8  ellipsis" style="font-size: 0.79rem;">Actívalo por 30 USD anual</div>
                     </div>
                     <div v-else style="width:100%;" > 
                       <div class="text-weight-medium ellipsis text__mid" style="font-size: 0.89rem; ">Cuenta corriente internacional</div>
@@ -144,7 +144,7 @@
   width: 50%;
 }
 
-@media screen and (min-width: 400px) and (max-width: 780px){
+@media screen and (min-width: 381px) and (max-width: 780px){
   .w-85 {
     width: 90%;
   }
@@ -161,7 +161,7 @@
     width: 100%;
   }
 }
-@media screen and (max-width: 399px){
+@media screen and (max-width: 380px){
   .w-85 {
     width: 90%;
   }

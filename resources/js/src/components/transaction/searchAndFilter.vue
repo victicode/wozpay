@@ -188,6 +188,17 @@ export default {
   }
 }
 
+@media screen and (max-height: 736px){
+  .search_trasaction{
+    height: 28%!important;
+  }
+  .search__trasaction {
+    & .q-field__bottom{
+      transform: translateY(15px);
+    }
+  }
+}
+
 .setMonth.q-field--auto-height.q-field--labeled{
      & .q-field__control-container{
       padding-top: 0px!important;

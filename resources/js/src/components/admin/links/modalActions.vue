@@ -90,8 +90,8 @@
                       <div>Gs. {{ numberFormat(deducAmount(link.pay.amount)) }}</div>
                     </div>
                   </div>
-                  <div >
-                    <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold">
+                  <div style="border-top: 2px solid black;" class="q-pt-md q-mt-lg ">
+                    <div class="text-subtitle1 text-center q-mb-xs text-weight-bold">
                       Datos de la tarjeta
                     </div>
                     <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
@@ -253,7 +253,7 @@
 </script>
 <style lang="scss" scoped>
 .dialog__pay{
-  width: 380px; 
+  width: 560px; 
   transition: all 0.8s ease; 
   max-height: 100%!important; 
   border-radius: 20px;
@@ -271,6 +271,9 @@
 }
 .notification__modal{
   width: 100%;
+  & .q-dialog__inner--minimized{
+    padding: 13px!important;
+  }
 }
 .button-file {
   width: 60px; 
@@ -286,5 +289,10 @@
 }
 #video_frame {
   border-radius: 10px; 
+}
+@media screen and (max-width: 780px){
+  .dialog__pay{
+    width: 380px; 
+  }
 }
 </style>

@@ -32,8 +32,8 @@
           </div>
           <div class="contet__border-primary q-px-sm q-py-none q-mt-xs">
             <div class="flex items-center  q-my-sm justify-between" >
-              <div class="">
-                <div class="text-titlePayP   text-grey-9">
+              <div class="" style="width: 75%;">
+                <div class="text-titlePayP  ellipsis text-grey-9">
                   {{
                     route.params.type == 1 
                     ? 'Activación de cuenta internacional Woz Payments' 
@@ -58,7 +58,7 @@
         </div>
         <div class="q-mb-md">
           <div class="text-weight-bold">
-            {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjetas':'Datos para el pago'}}
+            {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjeta':'Datos para el pago'}}
           </div>
           
           <div class="contet__border-primary q-px-md q-py-xs q-mt-xs">
@@ -68,7 +68,7 @@
                   {{ item.title }}
                 </div>
                 <q-input 
-                  class="q-pb-md paycardLink-input " 
+                  class="q-pb-xs paycardLink-input " 
                   outlined 
                   clearable
                   :clear-icon="'eva-close-outline'"
@@ -611,7 +611,7 @@
     }
   }
   & .q-field__label{
-    transform: translateY(-18%)
+    transform: translateY(-15%)
   }
   &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
     z-index: 100;
@@ -619,9 +619,9 @@
     font-weight: 600;
     max-width: 133%;
     padding: 0px 10px;
-    transform: translateY(-128%) translateX(4%) scale(0.75)!important;
+    transform: translateY(-110%) translateX(4%) scale(0.75)!important;
   }
-  
+
   & .q-field__native{
     padding-top: 15px!important;
     font-weight: 600;

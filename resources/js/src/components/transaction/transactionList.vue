@@ -1,5 +1,5 @@
 <template>
-  <div class="transactionList q-mb-xl" >
+  <div class="transactionList q-mb-xl q-pb-md" >
     <div v-if="!loading && Object.values(transactions).length > 0" style="height: 100%;"  >
       <div style="height: 80%;" class="q-mt-md">
 
@@ -24,7 +24,6 @@
                   :class="{'text-weight-bold text-grey-10': index=='title'}"
                 >
                   <div>
-
                     {{ line }}
                   </div>
                   <div v-if="line=='Woz Payments'">
@@ -44,7 +43,7 @@
                 {{ moment(transaction.created_at).format('DD/MM/YYYY') }}
               </div>
               <div class="text-subtitle2 text-right text-weight-medium " :class="colorTextByTrasaction(transaction)">
-                Gs. {{ transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7? '' : '-' }}{{ numberFormat(transaction.amount) }}
+                Gs. {{ transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7 || transaction.transaction == 10 ? '' : '-' }}{{ numberFormat(transaction.amount) }}
               </div>
             </div>
           </div>
@@ -157,7 +156,7 @@ export default {
       if(transaction.transaction == 7)  return { title:'Links de pago', second:'N°'+transaction.code,text:'Woz Payments'}
       if(transaction.transaction == 8)  return { title:'Pago de activación', second:'Cuenta internacional', }
       if(transaction.transaction == 9)  return { title:'Pago de paquete de links', second:transaction.package.title, }
-
+      if(transaction.transaction == 10)  return { title:'Pago de link de cobro', second:'#'+transaction.links.code, text:transaction.links.title}
 
 
     }
@@ -171,11 +170,12 @@ export default {
       if(transaction.transaction == 7)  return 'eva-link-2-outline'
       if(transaction.transaction == 8 || transaction.transaction == 9)  return 'eva-credit-card-outline'
 
+      if(transaction.transaction == 10)  return wozIcons.linkCheck
 
 
     }
     const colorTextByTrasaction = (transaction) => {
-      if(transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7)  return 'text-positive'
+      if(transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7 || transaction.transaction == 10)  return 'text-positive'
       return 'text-negative'
     }
     const goTo = (type, id) => {

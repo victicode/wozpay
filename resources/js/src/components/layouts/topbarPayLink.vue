@@ -92,7 +92,7 @@
   height: 100%;
 }
 #topbarLayoutlink{
-  height: 9%;
+  height: 11%;
   width: 100%;
   // border-bottom: 1px solid lightgray;
 }

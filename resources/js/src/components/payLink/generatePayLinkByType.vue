@@ -95,7 +95,10 @@
           <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
             <div class="q-py-xs">Comisión Woz Pay 12%</div>
             <div>
-              Gs. {{ !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12)) 
+              Gs. {{ 
+                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.029)) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.029))
+                : !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12)) 
                 ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.12))
                 : 0
               }}
@@ -104,15 +107,17 @@
           <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
             <div class="q-py-xs">Comision por transacción</div>
             <div>
-              Gs. 7.800
+              {{ route.params.type == 0 ? 'Gs. 0' : 'Gs. 7.800' }}
             </div>
           </div>
           <div class="flex justify-between items-center q-px-md q-mt-lg text-weight-bold text-subtitle1 q-mb-lg amount__items q-py-sm">
             <div class="q-py-xs">Total a cobrar</div>
             <div>
               Gs. {{ 
-                !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12) ) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.12) )-7800 )
+                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.029)) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.029)))
+                : !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12) ) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.12) )-7800)
                 : 0
               }}
             </div>
@@ -339,6 +344,7 @@ export default {
       user,
       countLink,
       router,
+      route,
       header,
       loading,
       icons: inject('ionIcons'),

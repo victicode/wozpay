@@ -13,7 +13,7 @@
             <div style="border-bottom: 1px solid lightgray; width: 90%;" class="q-px-md flex items-center justify-between ">
               <div>
                 <div class="text-subtitle1 text-weight-medium">Link de pago</div>
-                <div class="text-subtitle2 text-weight-regular">N° {{ link.code }}</div>
+                <div class="text-subtitle2 text-weight-regular text-grey-6">Link {{ link.type_label }}</div>
               </div>
               <div>
                 <div 

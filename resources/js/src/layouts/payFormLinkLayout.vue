@@ -21,7 +21,6 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import { useRoute } from 'vue-router';
-  import utils from '@/util/httpUtil';
   import topbarPay from '@/components/layouts/topbarPayLink.vue';
   import navbarVue from "@/components/layouts/navbar.vue";
   import navbarAdminVue from '@/components/layouts/navbarAdmin.vue';
@@ -79,7 +78,7 @@
 
 <style lang="scss" scoped>
 .container_paget{
-  height: 91%;
+  height: 89%;
   overflow-y: hidden;
 
 }

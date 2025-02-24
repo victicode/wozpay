@@ -34,7 +34,7 @@ class TransactionController extends Controller
         $packagePay = Pay::with('user', 'package')->where('user_id',$userId)->where('type',6)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
         
         
-        $paysLink = PayLink::whereHas('links', function (Builder $query) use ($userId){
+        $paysLink = PayLink::with('links')->whereHas('links', function (Builder $query) use ($userId){
             $query->where('user_id',  $userId);
         })->where('status', 2)->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
         
