@@ -1,6 +1,21 @@
 <template>
 
-  <div class="q-py-sm q-px-md q-px-md-lg" >
+  <div class="q-pb-sm q-px-md q-px-md-lg" >
+    <div class=" q-pb-sm" v-if="user.wallet_link">
+      <div class="row">
+        <div class="col-12 flex items-center justify-between">
+          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-medium"> Cobros internacionales</div>
+          <div>
+            <van-switch v-model="active" class="swichtDashboard" size="1.5rem" @update:model-value="redirect()"  :loading="loading"  active-color="#21BA45" inactive-color="#d8d8d8">
+              <template #node>
+                <div class="icon-wrapper">
+                </div>
+              </template>
+            </van-switch>
+          </div>
+        </div>
+      </div>
+    </div>
     <div style="">
       <div class="quote-section">
         <div class="row q-px-none">
@@ -67,15 +82,22 @@
   export default {
     setup() {
       //vue provider
-
+      const active = ref(false)
+      const loading = ref(false)
       const icons = inject('ionIcons')
       const ready = ref(false)
       const numberFormat = util.numberFormat
       const router = useRouter()
       const q = useQuasar()
       const { user  } = storeToRefs(useAuthStore())
-      
       // Methods
+      const redirect = () => {
+        active.value = true
+        loading.value = true
+        setTimeout(() => {
+          router.push('/pay_link_dashboard')
+        }, 1000);
+      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -91,12 +113,15 @@
       })
       // Data
       return{
+        active,
         icons,
         user,
         router,
         ready,
         numberFormat,
-        wozIcons
+        wozIcons,
+        loading,
+        redirect
       }
     },
   }
@@ -108,7 +133,13 @@
   width: 100%!important;
 }
 
+.swichtDashboard .van-switch__node {
 
+  background: #6c6c6c;
+}
+.van-switch--loading .van-switch__node{
+  background: #fff;
+}
 </style>
 <style lang="scss" scoped>
 .w-80xxc {
@@ -161,6 +192,7 @@
     width: 100%;
   }
 }
+
 @media screen and (max-width: 380px){
   .w-85 {
     width: 90%;

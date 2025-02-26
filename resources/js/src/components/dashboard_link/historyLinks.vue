@@ -3,7 +3,7 @@
     <div class="">
       <div class="flex justify-between q-px-md q-px-md-lg">
       <div class="text-subtitle1 text-bold">Links generados</div>
-      <div class="text-subtitle1 text-decoration-underline text-blue-6" @click="router.push('/link/allByUser/'+user.id)">
+      <div class="text-subtitle1 text-decoration-underline text-blue-6 cursor-pointer" @click="router.push('/link/allByUser/'+user.id)">
         Ver todos
       </div>
     </div>

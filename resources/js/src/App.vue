@@ -91,7 +91,7 @@
           readyState2.value = true
           return true
         }
-        if(route.name !== 'dashboard' && route.name != 'dashboard_admin' && route.name != 'landing' && Object.values(user).length > 0) {
+        if( route.name !== 'pay_link_dashboard' && route.name !== 'dashboard' && route.name != 'dashboard_admin' && route.name != 'landing' && Object.values(user).length > 0) {
           readyState2.value = true
           return true
         }
@@ -108,7 +108,7 @@
         emitter.emit('modalNotification', data);
       } 
       const isReady = () => {
-        readyState.value =  route.name == 'dashboard' || route.name == 'dashboard_admin' || route.name == 'landing'  ? false : true
+        readyState.value =  route.name == 'pay_link_dashboard' || route.name == 'dashboard' || route.name == 'dashboard_admin' || route.name == 'landing'  ? false : true
         readyState2.value =  route.name == 'Login' || route.name == 'register' || route.name == 'form_pay_link' || route.name =='view_trans' ? true : false
       }
       const initChanel = () => {

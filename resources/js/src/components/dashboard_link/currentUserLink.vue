@@ -1,10 +1,16 @@
 <template>
-  <div class="q-py-md q-px-md q-px-md-lg"  >
-    <div class="" >
+  <div class="q-pb-md q-px-md q-px-md-lg"  >
+    <div class=" q-pb-sm" >
       <div class="row">
-        <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative;">
-          <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-bold" > 
-            Cobros internacionales 
+        <div class="col-12 flex items-center justify-between">
+          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-medium"> Cobros nacionales</div>
+          <div>
+            <van-switch v-model="active" class="swichtDashboard" size="1.5rem" @update:model-value="redirect()" :loading="loading" active-color="#21BA45" inactive-color="#d8d8d8">
+              <template #node>
+                <div class="icon-wrapper">
+                </div>
+              </template>
+            </van-switch>
           </div>
         </div>
       </div>
@@ -14,23 +20,20 @@
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start link__payContent" style="" >
             <div class="q-mr-none" style="margin-right: 0.15rem;">
-              <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': 'positive'" />
+              <q-icon :name="icons.ionGlobeOutline" size="md" color="positive" />
             </div>
             <div class="flex items-center justify-between  w-80 ">
               <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-auto">
-                <div class="text-weight-medium text__min ellipsis" style="font-size: 0.95rem;">Cuenta corriente internacional</div>
-                <div class="text-weight-bold q-pt-xs text-subtitle2"  v-if="!(!user.wallet_link)" >N° {{user.wallet_link.number}}</div>
+                <div class="text-weight-medium text__min ellipsis" style="font-size: 0.95rem;">Caja de ahorro</div>
+                <div class="text-weight-bold q-pt-xs text-subtitle2"  v-if="!(!user.wallet)" >N° {{user.wallet.number}}</div>
                 <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
               </div>
               <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">
-                <div v-if="user.wallet_link.status == 1" style="display: flex; justify-content: right; width: 100%;">
-                  <q-chip  color="warning" variant="flat" class="text-white"> Pendiente</q-chip>
-                </div>
-                <div v-else-if="user.wallet_link.status == 2  ">
+                <div>
                   <div class="text-weight-medium text-right">
                     Disponible
                   </div>
-                  <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
+                  <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1">Gs. {{numberFormat(user.wallet.balance)}}</div>
                 </div>
               </div>
             </div>
@@ -63,6 +66,7 @@
     </div>
   </div>
 </template>
+
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
   import util from '@/util/numberUtil'
@@ -80,9 +84,10 @@
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
       const isReady = ref(false)
-      const loan = ref({}) 
+      // const loan = ref({}) 
       const router = useRouter()
-
+      const active = ref(false)
+      const loading = ref(false)
       const loanStatus = (state) => {
         const status = [
           {text:'Cancelado', color:'negative', texColor:'white' },
@@ -93,6 +98,13 @@
         ]
         return status[state]
       }
+      const redirect = () => {
+        active.value = true
+        loading.value = true
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 1000);
+      }
       onMounted(() => {
         setTimeout(() => {
           isReady.value = true
@@ -100,6 +112,8 @@
       })
       // Data
       return{
+        active,
+        loading,
         icons,
         user,
         numberFormat,
@@ -107,11 +121,23 @@
         wozIcons,
         router,
         loanStatus,
+        redirect
       }
     },
   }
 
 </script>
+<style lang="scss">
+.w-100 {
+  width: 100%!important;
+}
+.swichtDashboard .van-switch__node {
+  background: #6c6c6c;
+}
+.van-switch--loading .van-switch__node{
+  background: #fff;
+}
+</style>
 <style lang="scss" scoped>
 .text__min{
   width: auto;

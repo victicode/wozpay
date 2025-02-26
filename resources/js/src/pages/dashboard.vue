@@ -4,9 +4,12 @@
       <div style="height: 14rem;">
         <currentUserPersonalInfo />
       </div>
-      <div style="background:#f2f2f5">
+      <div style="background:#f2f2f5" class="q-px-md-md">
 
-        <div class="">
+        <div>
+          <linksDepartament />
+        </div>
+        <div class="q-mt-xs">
           <actionsDashboard />
         </div>
         <!-- <div>
@@ -15,11 +18,8 @@
         <div class=" q-pt-sm q-pb-none">
           <socialLinks />
         </div>
-        <div style="">
+        <div style="" class="q-mt-sm">
           <walletUser />
-        </div>
-        <div>
-          <linksDepartament />
         </div>
         <div style="">
           <linkedCard />
