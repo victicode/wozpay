@@ -61,7 +61,7 @@
             {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjeta':'Datos para el pago'}}
           </div>
           
-          <div class="contet__border-primary q-px-md q-py-xs q-mt-xs">
+          <div class="contet__border-primary q-px-md q-py-xs q-mt-xs q-pt-sm">
             <template v-if="route.params.type != 2 &&  route.params.type != 1 ">
               <div v-for="(item ,key) in clientForm" :key="key" class="q-mt-md ">
                 <div class="q-px-xs text-bold q-pb-sm" v-if="item.title">
@@ -94,18 +94,18 @@
               </div>
             </template>
             <template v-else>
-              <div class="q-px-md q-py-sm q-my-md infoPay__content flex justify-between items-center" v-for="(item,key) in dataPay" :key="key">
+              <div class="q-px-md q-py-sm q-my-sm infoPay__content flex justify-between items-center" v-for="(item,key) in dataPay" :key="key">
                 <div>
                   {{ item }}
                 </div>
                 <div v-if="item=='0983994268'">
                   <q-btn round flat class="q-ml-md-md" style="width: 2rem;height: 1.4rem;overflow: hidden;min-height: auto;"> 
-                      <q-icon
-                        name="eva-clipboard-outline"
-                        color="black"
-                        size="sm"
-                      />
-                    </q-btn>
+                    <q-icon
+                      name="eva-clipboard-outline"
+                      color="black"
+                      size="sm"
+                    />
+                  </q-btn>
                 </div>
               </div>
               <div class="q-my-md">
@@ -172,8 +172,8 @@
     </div>
     <div v-else class="flex-center flex" style="height:80%">
       <q-spinner-dots
-          color="primary"
-          size="8em"
+        color="primary"
+        size="8em"
       />
     </div>
     <div v-if="showDialog">

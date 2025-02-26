@@ -6,7 +6,7 @@
 
 
 
-*,p, div, span, section,  .text-subtitle2, .text-caption, .text-body1, .text-body2, .text-subtitle1 .text-h6, .text-linkPay{
+*,p, div, span, section, .text-subtitle2, .text-caption, .text-body1, .text-body2, .text-subtitle1 .text-h6, .text-linkPay{
   font-family: "Roboto", sans-serif!important;
   font-style: normal;
 }
@@ -56,6 +56,10 @@ html{
   font-optical-sizing: auto!important;
   // font-weight: inherit;
   font-style: normal!important;
+}
+.text-font-roboto{
+  font-family: "Roboto", sans-serif!important;
+  font-style: normal;
 }
 .unavailable-button {
   position: absolute; bottom: 0; top: 0; left: 0; right: 0; background: rgba(12, 12, 12, 0.397); 

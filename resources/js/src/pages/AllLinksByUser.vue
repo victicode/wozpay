@@ -1,30 +1,39 @@
 <template>
-  <div class="q-pb-xl">
-    <div class="">
-      <div class="flex justify-between q-px-md q-px-md-lg">
-      <div class="text-subtitle1 text-bold">Links generados</div>
-      <div class="text-subtitle1 text-decoration-underline text-blue-6" @click="router.push('/link/allByUser/'+user.id)">
-        Ver todos
+  <div>
+    <div class="q-px-md-lg q-px-md q-py-md q-mt-md flex justify-between items-center" style="border-bottom: 1px solid lightgray;">
+      <div style="width: 2rem;">
+        <q-btn round flat class="" style="width: 2rem; min-height: auto;" @click="router.go(-1)"> 
+          <q-icon
+            name="eva-chevron-left-outline"
+            color="black"
+            size="lg"
+          />
+        </q-btn>
       </div>
+      <div class="text-h5  text-center text-bold">Links</div>
+      <div style="width: 2rem;" />
     </div>
-    <div class="text-subtitle1  q-pl-md q-pl-md-lg">Últimos 5 de links generados</div>
-    </div>
-    <div >
+    <div class="q-py-xs">
       <div v-if="load">
-        <div v-if="userLinks.length > 0" class="q-px-md" >
-          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center" @click="goTo(link.id)">
+        <div v-if="userLinks.length > 0" class="q-px-xs" >
+          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center q-px-sm" >
             <q-icon name="eva-link-2-outline" size="md" />
-            <div style="" class="q-px-md flex items-center justify-between links_lastContainer">
+            <div class="q-px-sm flex items-center justify-between container__link">
               <div>
                 <div class="text-subtitle1 text-weight-medium">Link de pago</div>
-                <div class="text-subtitle2 text-weight-regular text-grey-6">Link {{ link.type_label }}</div>
+                <div class="text-subtitle2 text-weight-regular">Link de {{ link.type_label }}</div>
+                <div class="text-subtitle2 text-weight-regular">N° {{ link.code }}</div>
+
               </div>
               <div>
                 <div 
-                  class="text-subtitle2  text-right " 
-                  :class="{'text-grey-6 text-weight-medium': link.status == 2, 'text-terciary text-weight-bold':link.status == 1 ,'text-negative text-weight-bold':link.status == 0 }"
+                  class="text-subtitle2  text-right flex items-center w-100 justify-end " 
+                  :class="{'text-grey-6 text-weight-medium': link.pay_status == 3, 'text-terciary text-weight-bold':link.pay_status == 1 || link.pay_status == 2,'text-negative text-weight-bold':link.pay_status == 0 || link.pay_status == 4 }"
                 >
-                  {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.status == 1 ? 'Pendiente' : 'Rechazado' }}
+                  <div style="" v-if="link.pay_status == 2" class="q-mr-xs bounce_pay" /> 
+                  <div >
+                    {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.pay_status_label }}
+                  </div>
                 </div>
                 <div 
                   style="font-size: 15px;" 
@@ -33,10 +42,19 @@
                 >
                   GS {{ numberFormat(link.amount) }}
                 </div>
-                <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item'+link.id" style="transition: all 1s ease ;" />
+                <div v-if="link.pay_status != 3" class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>
+              
             </div>
-  
+            <q-btn icon="eva-more-vertical-outline" size="md" class="q-px-none"  flat>
+              <q-menu>
+                <q-list dense style="min-width: 100px">
+                  <q-item clickable  @click="getLinkById(link.id)">
+                    <q-item-section>Ver</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
           </div>
         </div>
         <div v-else class="text-center text-h6 q-mt-lg">
@@ -72,10 +90,14 @@
               </div>
             </div>
           </div>
-
+          
+          
+          
         </div>
       </div>
     </div>
+    <modalView   :show="show" :link="selectedLink" @hiddeModal="hideModal()" /> 
+
   </div>
 </template>
 <script>
@@ -85,10 +107,14 @@
   import wozIcons from '@/assets/icons/wozIcons';
   import { useLinkStore } from '@/services/store/link.store';
   import { useQuasar } from 'quasar';
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import moment from 'moment';
+  import modalView from '@/components/links/modal.vue';
   export default {
+    components:{
+      modalView
+    },
     setup() {
       //vue provider
       const q = useQuasar()
@@ -97,12 +123,15 @@
       const numberFormat = util.numberFormat
       const isReady = ref(false)
       const router = useRouter()
+      const route = useRoute()
       const linkStore = useLinkStore()
       const userLinks = ref([])
       const load = ref(false)
-    
+      const selectedLink = ref({})
+      const show = ref(false)
+
       const getLinkByUser = () => {
-        linkStore.getLastFive(user.value.id)
+        linkStore.getLinksByUser(route.params.user)
         .then((response) => {
           if(response.code !== 200) throw response
           userLinks.value = response.data
@@ -118,6 +147,13 @@
           showNotify('negative', response)
         })
       }
+      const getLinkById = (id) => {
+        show.value = true
+        linkStore.getLinkById(id)
+        .then((data) => {
+          selectedLink.value = data.data
+        })
+      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -129,9 +165,7 @@
       }
       const clocks = (data) =>{
         const withTime = data.filter((item) => item.status != 2)
-        
         withTime.forEach(element => {
-          
           element.timer = setInterval( () => {
             let today =  new Date().getTime();
             let link_due_date = new Date(moment(element.due_time)).getTime();
@@ -141,7 +175,7 @@
             if(diffTime < 0) {
               clearInterval(element.timer);
               setTimeout(() => {
-                document.getElementById('timer-item'+element.id).innerHTML = '00:00:00'
+                document.getElementById('timer-item_link-user'+element.id).innerHTML = '00:00:00'
               },1000)
               return
             }
@@ -150,14 +184,15 @@
             let hour = (duration.hours()+'').length == 1 ? '0' + duration.hours() : duration.hours()
             let minutes = (duration.minutes()+'').length == 1 ? '0' + duration.minutes() : duration.minutes()
             let seconds = (duration.seconds()+'').length == 1 ? '0' + duration.seconds() : duration.seconds()
-            document.getElementById('timer-item'+element.id).innerHTML =  hour + ":" + minutes + ":" + seconds
+            document.getElementById('timer-item_link-user'+element.id).innerHTML =  hour + ":" + minutes + ":" + seconds
           }, 1000)
           
         });
 
       }
-      const goTo = (id) => {
-        router.push('/link/pay/'+id)
+      const hideModal = () =>{
+        show.value = false
+        selectedLink.value = {}
       }
       onMounted(() => {
         getLinkByUser()
@@ -168,6 +203,7 @@
       })
       // Data
       return{
+        router,
         icons,
         load,
         user,
@@ -176,22 +212,41 @@
         isReady,
         wozIcons,
         userLinks,
-        goTo,
-        router,
+        show,
+        selectedLink,
+        hideModal,
+        getLinkById,
       }
     },
   }
 
 </script>
 <style lang="scss" scoped>
-.links_lastContainer{
-  border-bottom: 1px solid lightgray; 
-  width: 95%;
+.container__link{
+  border-bottom: 1px solid lightgray; width: 91%;
+}
+.bounce_pay{
+  height: 0.9rem; 
+  width: 0.9rem;
+  border-radius: 50%; 
+  background: red;
+  animation: bounce-in 1s alternate-reverse infinite;
 }
 @media screen and (max-width: 780px){
-  .links_lastContainer{
-    width: 90.5%;
+  .container__link{
+   width: 83%;
   }
-
+}
+@keyframes bounce-in {
+  0% {
+    opacity: 1;
+    transform: scale(0.8) translateY(-0.1rem);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-0.1rem);
+  }
+  70% { transform: scale(.9) translateY(-0.1rem); }
+  100% { transform: scale(1) translateY(-0.1rem); }
 }
 </style>

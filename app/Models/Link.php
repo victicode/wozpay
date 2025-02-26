@@ -25,7 +25,7 @@ class Link extends Model
         'user_id',
         'due_time',
     ];
-    protected $appends  =   ['status_label', 'pay_status_label', 'type_label'];
+    protected $appends  =   ['status_label', 'pay_status_label', 'type_label', 'categorie_label'];
 
     public function getstatusLabelAttribute()
     {   
@@ -57,6 +57,17 @@ class Link extends Model
             'Ventas',
         ];
         return $status[$this->type];
+    }
+    public function getCategorieLabelAttribute()
+    {   
+        $status = [
+            'Cortesía',
+            'Ilimitado',
+            'Membresía',
+            'Freelancer',
+            'Ventas',
+        ];
+        return $status[$this->categorie];
     }
     public function user(){
         return $this->belongsTo(User::class,'user_id', 'id');

@@ -210,6 +210,15 @@ const router = createRouter({
       beforeEnter: admin,
     },
     {
+      path: "/link/allByUser/:user",
+      name:"AllLinksByUser",
+      component: () => import('@/pages/AllLinksByUser.vue'),
+      meta: {
+        title : 'Links de pago'
+      },
+      beforeEnter: auth,
+    },
+    {
       path: "/",
       name:"admin",
       component: paysLayout,

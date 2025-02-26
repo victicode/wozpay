@@ -3,10 +3,10 @@
     <div id="linkGenerateContent">
       <div class="hero-content q-px-md q-pt-lg q-px-md-sm" transition-style="in:circle:center" :style="'background:'+header.color" >
         <div class=" q-px-md-lg hero-content_title" transition-style="in:circle:center" :style="'background:'+header.color" >
-          <div class="text-h4 text-white text-weight-bold "  style="font-size: 2.3rem;">
+          <div class="text-h4 text-white text-weight-bold  text-font-roboto"  style="font-size: 2.3rem;">
             {{ header.title }}
           </div>
-          <div class="text-subtitle1 text-white q-mt-sm text-weight-medium ">
+          <div class="text-subtitle1 text-white q-mt-sm text-weight-medium text-font-roboto">
             {{ header.subtitle }}
           </div>
           <div class="q-pb-md flex items-center">
