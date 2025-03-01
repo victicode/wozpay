@@ -19,7 +19,7 @@
         <q-card-section class="header_document q-pb-sm text-center">
           <div class="text-subtitle1 text-weight-bold "> Link #{{ link.code }}</div>
         </q-card-section>
-        <q-card-section class="q-pt-none q-px-none" style="height: 75%; overflow: auto;">
+        <q-card-section class="q-pt-none q-px-none" >
           <div  class="q-pa-md" style="height: max-content;" >
             <div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
@@ -53,8 +53,11 @@
             </div>
           </div>
         </q-card-section>
-        <q-card-section class="q-pt-none q-px-none" style="height: 100%; overflow: auto;" v-if="link.pay">
+        <q-card-section class="q-pt-none q-px-none "  style="border-top: 4px solid black ;" v-if="link.pay">
           <div  class="q-pa-md" style="height: 100%;" >
+            <div class="text-center text-subtitle1 text-weight-bold q-mb-sm">
+              Detalles de pago
+            </div>
             <div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
                 <div>Fecha: </div>
@@ -75,6 +78,10 @@
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Monto cancelado: </div>
                 <div>Gs. {{ numberFormat(link.pay.amount) }}</div>
+              </div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div>Estado </div>
+                <div class="text-justify">{{ link.pay.concept }}</div>
               </div>
             </div>
           </div>

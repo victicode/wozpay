@@ -6,7 +6,7 @@
     <div class="q-py-xs">
       <div v-if="load">
         <div v-if="userLinks.length > 0" class="q-px-xs" >
-          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center justify-between" >
+          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center justify-between" @click="getLinkById(link.id)">
             <q-icon name="eva-link-2-outline" size="md" />
             <div class="q-pl-md flex items-center justify-between container__link">
               <div>
@@ -33,7 +33,7 @@
                 <div v-if="link.pay_status != 3" class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>
             </div>
-            <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none" @click="getLinkById(link.id)">
+            <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none" >
               <q-icon name="eva-more-vertical-outline" size="1.5rem" />
             </q-btn>
           </div>

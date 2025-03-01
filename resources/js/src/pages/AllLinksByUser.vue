@@ -16,14 +16,13 @@
     <div class="q-py-xs">
       <div v-if="load">
         <div v-if="userLinks.length > 0" class="q-px-xs" >
-          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center q-px-sm" >
+          <div v-for="(link, index) in userLinks" :key="index" class="q-mt-md flex items-center q-px-sm" @click="getLinkById(link.id)">
             <q-icon name="eva-link-2-outline" size="md" />
             <div class="q-px-sm flex items-center justify-between container__link">
               <div>
                 <div class="text-subtitle1 text-weight-medium">Link de pago</div>
                 <div class="text-subtitle2 text-weight-regular">Link de {{ link.type_label }}</div>
                 <div class="text-subtitle2 text-weight-regular">N° {{ link.code }}</div>
-
               </div>
               <div>
                 <div 
@@ -47,13 +46,13 @@
               
             </div>
             <q-btn icon="eva-more-vertical-outline" size="md" class="q-px-none"  flat>
-              <q-menu>
+              <!-- <q-menu>
                 <q-list dense style="min-width: 100px">
-                  <q-item clickable  @click="getLinkById(link.id)">
+                  <q-item clickable  >
                     <q-item-section>Ver</q-item-section>
                   </q-item>
                 </q-list>
-              </q-menu>
+              </q-menu> -->
             </q-btn>
           </div>
         </div>
