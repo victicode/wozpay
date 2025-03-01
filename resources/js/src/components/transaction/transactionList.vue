@@ -1,11 +1,11 @@
 <template>
   <div class="transactionList q-mb-xl q-pb-md" >
     <div v-if="!loading && Object.values(transactions).length > 0" style="height: 100%;"  >
-      <div style="height: 80%;" class="q-mt-md">
+      <div style="" class="q-mt-md">
 
         <div v-for="(transaction, key) in transactions" :key="key" class="q-py-sm  cursor-pointer" >
           <div 
-            class="flex items-center justify-between q-px-sm q-mx-sm bottom-border q-pb-sm" 
+            class="flex items-center justify-between q-px-sm q-mx-sm bottom-border q-pb-md" 
             @click="goTo(transaction.transaction, transaction.id)"
           >
             <div class="flex items-center">

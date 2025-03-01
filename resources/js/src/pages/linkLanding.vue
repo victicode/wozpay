@@ -181,7 +181,7 @@
               </div>
               <div class="flex justify-between q-px-xs q-py-sm contentDetail">
                 <div class="text-subtitle2 text-weight-medium" >Total Gs</div>
-                <div class="text-subtitle2 text-weight-medium" >{{`${numberFormat(Math.ceil(rate[count]*30))} Gs`}}  </div>
+                <div class="text-subtitle2 text-weight-medium" >{{`${numberFormat((Math.ceil( rate[count]/100) *100)*30)} Gs`}}  </div>
               </div>
               <div class="flex justify-between q-px-xs q-py-sm contentDetail">
                 <div class="text-subtitle2 text-weight-medium" >Tiempo restante</div>
@@ -335,7 +335,8 @@
         'Trabajos en el exterior',
       ]
       const activateWallet  = () =>{
-        router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f')
+        clearInterval(timer.value)
+      router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f&amount='+ (Math.ceil(rate[count.value]/100) *100 *30)) 
       }
       const clocks = () => {
         if( user.wallet_link && user.wallet_link.status== 1 ) return

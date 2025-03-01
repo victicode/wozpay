@@ -45,7 +45,7 @@
                 <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs">
                   Gs. {{
                     route.params.type == 1 
-                    ? numberFormat(220000)
+                    ? numberFormat(route.query.amount)
                     : route.params.type == 2 
                     ? numberFormat(route.query.amount)
                     : numberFormat(link.amount)
@@ -99,7 +99,7 @@
                   {{ item }}
                 </div>
                 <div v-if="item=='0983994268'">
-                  <q-btn round flat class="q-ml-md-md" style="width: 2rem;height: 1.4rem;overflow: hidden;min-height: auto;"> 
+                  <q-btn round flat class="q-ml-md-md" style="width: 2rem;height: 1.4rem;overflow: hidden;min-height: auto;" @click="copyText(item)"> 
                     <q-icon
                       name="eva-clipboard-outline"
                       color="black"
@@ -530,7 +530,24 @@
 
         return isOk
       }
+      const copyText = (text) => {
+  
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.opacity = 0;
+        document.body.appendChild(textArea);
+        textArea.select();
 
+        try {
+          const success = document.execCommand('copy');
+        } catch (err) {
+          console.error(err.name, err.message);
+        }
+
+        document.body.removeChild(textArea);
+
+        showNotify('positive', 'Número de cuenta copiado')
+      }
       onMounted(() => {
         getLink()
       })
@@ -557,7 +574,8 @@
         rulesForm,
         maskFormat,
         callbackKeyup,
-        callbackChange
+        callbackChange,
+        copyText,
       }
     },
   }
