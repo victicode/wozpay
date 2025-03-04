@@ -56,7 +56,7 @@
                   </div>
                   <div class="text-grey-8 text-caption text-weight-medium">Motivo del envio</div>
                   <div class="text-primary text-weight-bold text-subtitle1" > 
-                    Gs. {{ transfer.amount }}
+                    {{ transfer.text}}
                   </div>
                 </div>
               </div>

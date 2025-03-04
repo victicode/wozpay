@@ -48,9 +48,9 @@
                 />
               </div>
             </div>
-            <div class="q-pt-xs q-mx-md-xl q-px-md-sm">
+            <div class="q-pt-xs q-mx-md-xl q-px-md-sm q-pb-xl q-mb-md">
               <q-btn 
-                label="Pagar con Tpago" 
+                label="Continuar" 
                 unelevated
                 no-caps 
                 type="submit" 
@@ -63,7 +63,7 @@
                   <q-spinner-facebook />
                 </template>
               </q-btn>
-              <q-btn 
+              <!-- <q-btn 
                 label="Pagar con Tigo Money" 
                 unelevated
                 no-caps 
@@ -95,7 +95,7 @@
                 <template v-slot:loading>
                   <q-spinner-facebook />
                 </template>
-              </q-btn>
+              </q-btn> -->
             </div>
           </div>
         </div>
