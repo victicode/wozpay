@@ -83,7 +83,7 @@ const router = createRouter({
         },
         {
           path: "/deposit/pay/",
-          name:"form_pay_lin_user",
+          name:"deposit_pay",
           beforeEnter: auth,
           component: () => import('@/components/deposit/depositForm.vue'),
           meta: {

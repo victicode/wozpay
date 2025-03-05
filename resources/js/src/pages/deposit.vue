@@ -57,7 +57,7 @@
                 color="primary" 
                 class="full-width q-mt-lg rounded_button" 
                 :loading="loading=='tpago'"
-                @click="getUrlPay()" 
+                @click="goTo()" 
               >
                 <template v-slot:loading>
                   <q-spinner-facebook />
@@ -119,6 +119,7 @@
   import { usePayStore } from '@/services/store/pay.store'
   import { useQuasar } from 'quasar';
   import waitModal from '@/components/layouts/modals/waitModal.vue';
+  import { useRouter } from 'vue-router'
 
   export default {
     components: {
@@ -126,7 +127,7 @@
     },
     setup () {
       const ready = ref(true)
-      // const router = useRouter()
+      const router = useRouter()
       const numberFormat = util.numberFormat
       const loading = ref('')
       const payStore = usePayStore()
@@ -146,6 +147,9 @@
       }
       const selectAmount = (index) => {
         amount.value = amountList[index]
+      }
+      const goTo = () => {
+        router.push('/deposit/pay/?amount='+ formatAmount())
       }
       const getUrlPay = () => {
         loadingShow('tpago')
@@ -194,7 +198,7 @@
       }
       onMounted(() => {
       })
-      return { ready, wozIcons, numberFormat, amountList, amount, loading, payForm, dialog, getUrlPay, selectAmount, }
+      return { ready, wozIcons, numberFormat, amountList, amount, loading, payForm, dialog, getUrlPay, selectAmount, goTo,}
     },
   }
 </script>

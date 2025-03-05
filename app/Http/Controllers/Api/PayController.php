@@ -64,7 +64,13 @@ class PayController extends Controller
             'Tu pago  de activación de cuenta internacional fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
             'Pago pendiente de verificación', 1);
             $this->activateLinkWallet($request);
-        }else{
+        }
+        else if($request->type == 1){
+            $this->sendNotification(
+                'Tu carga de saldo fue realizada con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
+                'Carga pendiente de verificación', 1);
+        }
+        else{
             $this->sendNotification(
             'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
             'Pago pendiente de verificación', 1);
@@ -232,6 +238,17 @@ class PayController extends Controller
             'payActication' => $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
             'payPackage'    => $request->count ? Pay::where('type', 6)->where('status', 1)->count() : Pay::where('type', 6)->with('user')->where('status', 1)->get(),
             'payCreateLink' => $request->count ? PayLink::where('type', 7)->where('status', 1)->count() : $user,
+        ]);
+
+    }
+    public function getDepositPendigs(Request $request){
+        $user = User::with(['links_pay.pay'])->whereHas('links', function (Builder $query) {
+            $query->where('pay_status', 2);
+        })->get();
+
+        return $this->returnSuccess(200,
+        [
+            $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
         ]);
 
     }

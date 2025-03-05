@@ -123,6 +123,47 @@ export const usePayStore = defineStore("pay", {
         return 'Error al obtener pagos pendientes';
       });
     },
+    async getDepositByUser(userId) {
+          return await new Promise((resolve) => {
+            if (JwtService.getToken()) {
+              ApiService.setHeader();
+              ApiService.get("/api/deposit/byUser/"+userId)
+                .then(({ data }) => {
+                  if(data.code !== 200){
+                    throw data;
+                  }
+                  resolve(data)
+                }).catch((response) => {
+                  console.log(response)
+                  resolve('Error al obtener historial de links');
+                });
+            }
+          })
+          .catch((response) => {
+            console.log(response)
+            return 'Error al actualizar datos';
+          });
+    },
+    async getPendingDeposits(count){
+      return new Promise((resolve, reject ) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.get("/api/deposit/pendigs"+ (count ?'?count=1':''))
+          .then(({data}) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            reject(response)
+          })
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al obtener pagos pendientes';
+      });
+    },
     getDataTransfer(){
       return [
         'SUDAMERIS BANK',

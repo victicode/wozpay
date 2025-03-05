@@ -5,10 +5,10 @@
         <q-btn flat round color="white" size="xl" icon="eva-chevron-left-outline" @click="redirectToHome()" />
       </div>
       <div class="text-weight-bold text-h6 text-white w-100 text-center" >
-        {{ route.query.title ??  title[link.type]}}
+        {{ route.name == 'deposit_pay' ? 'Carga tu billetera' : route.query.title ??  title[link.type]}}
       </div>
       <div class="text-weight-bold text-subtitle1 text-white w-100 text-center q-mt-xs" >
-        {{ route.query.subtitle ?? link.title}}
+        {{ route.name == 'deposit_pay' ? 'Carga por transferencia' : route.query.subtitle ?? link.title}}
       </div>
       <div class="boxNoVisible" style="position: absolute; right: 0%;">
         <transition name="inFade">
@@ -65,6 +65,7 @@
       })
       onMounted(() => {
         getLink()
+        if(route.name == 'deposit_pay') loading.value = true
       })
       return {
         icons,

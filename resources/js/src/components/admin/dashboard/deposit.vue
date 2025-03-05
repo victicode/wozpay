@@ -4,27 +4,27 @@
       <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
-            <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold">Pagos pendientes</div>
+            <div class="text-subtitle1 q-mt-sm text-dark text-weight-bold">Depositos pendientes</div>
           </div>
         </div>
       </div>
       <div>
-        <div class="pays-section">
+        <div class="deposit-section">
           <div class="row q-px-none">
-            <div class="col-12 bg-white q-px-md q-pb-sm q-pt-xs  flex items-center justify-between justify-md-start pays_dashboard_card" style="" >
-              <div class="w-100 flex items-center justify-between q-py-sm"   :class="{'text-warning' : item.value > 0 }" 
-                style="border-bottom: 1px solid lightgrey; cursor:pointer" v-for="(item, index) in pays" :key="index" @click="goTo(index)">
+            <div class="col-12 bg-white q-px-md q-pb-sm q-pt-xs  flex items-center justify-between justify-md-start deposit_dashboard_card" style="" >
+              <div class="w-100 flex items-center justify-between q-py-sm"   :class="{'text-warning' : deposits > 0 }" 
+                style="border-bottom: 1px solid lightgrey; cursor:pointer">
                 <div class="flex items-center w-80D ">
                   <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.ionCashOutline" class="" size="sm" />
                   </div>
                   <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
-                    <div class="text-subtitle1"> {{ item.title }} </div>
+                    <div class="text-subtitle1"> Depositos pendientes </div>
                   </div>
                 </div>             
                 <div class="q-mr-sm text-end" >
                   <div class="text-weight-medium text-right">Total</div>
-                  <div class="text-weight-medium text-right">{{item.value}}</div>
+                  <div class="text-weight-medium text-right">{{deposits}}</div>
                 </div>
               </div>
             </div>
@@ -34,7 +34,7 @@
     </div>
     <div class="q-py-sm q-px-md q-px-md-lg" v-else>
       <div class="row q-px-none">
-        <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start pays_dashboard_card" style="" >
+        <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start deposit_dashboard_card" style="" >
           <div class="w-100 flex items-center">
             <div style="" class="w-10D">
               <!-- <div v-html="wozIcons.withdrawal" /> -->
@@ -106,26 +106,13 @@
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
       const router = useRouter()
-      const pays = ref([])
-      const getPendingPays = () => {
-        payStore.getPendingPays('count')
+      const deposits = ref([])
+      const getPendingDeposits = () => {
+        payStore.getPendingDeposits('count')
         .then((response) =>{
           if(response.code !== 200) throw response
           
-          pays.value = [
-            {
-              title: 'Pagos de activación',
-              value: response.data.payActication
-            },
-            {
-              title: 'Pagos de paquete',
-              value: response.data.payPackage
-            },
-            {
-              title: 'Pagos Internacionales',
-              value: response.data.payCreateLink
-            }
-          ]
+          deposits.value = response.data
 
           setTimeout(() => {
             loading.value = true
@@ -139,7 +126,7 @@
         router.push('/admin/payPendingList/'+index)
       }
       onMounted(() => {
-        getPendingPays()
+        getPendingDeposits()
       })
       // Data
       return{
@@ -148,7 +135,7 @@
         router,
         loading,
         numberFormat,
-        pays,
+        deposits,
         goTo,
       }
     },
@@ -162,12 +149,12 @@
 }
 </style>
 <style lang="scss" scoped>
-.pays_dashboard_card{
+.deposit_dashboard_card{
   border-radius:23px;
   //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 
-.pays-section::-webkit-scrollbar {
+.deposit-section::-webkit-scrollbar {
     display: none;
 }
 .w-80D {
