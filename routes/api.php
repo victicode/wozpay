@@ -82,6 +82,12 @@ Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')-
     Route::get('/{id}', [NotificationController::class, 'getAllByUser']);
     Route::get('/seeAll/{id}', [NotificationController::class, 'seeAllByUser']);
 });
+Route::middleware('jwt.verify')->prefix('deposit')->name('deposit.')->group(function () {
+    Route::get('/pendigs', [PayController::class, 'getDepositPendigs']);
+    Route::get('/byUser/{id}', [PayController::class, 'storeNotification']);
+
+
+});
 
 Route::middleware('jwt.verify')->prefix('banks')->name('bank.')->group(function () {
     Route::get('/', [BankAccountController::class, 'getBanks']);

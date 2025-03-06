@@ -15,6 +15,9 @@
           <pays/>
         </div>
         <div>
+          <deposit />
+        </div>
+        <div>
           <profit />
         </div>
         <div class="q-pb-xl">
@@ -31,6 +34,7 @@
   import capital from '@/components/admin/dashboard/capital.vue';
   import profit from '@/components/admin/dashboard/profit.vue';
   import pays from '@/components/admin/dashboard/pays.vue'
+  import deposit from '@/components/admin/dashboard/deposit.vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useWalletStore } from '@/services/store/wallet.store'
   import { onMounted, ref } from 'vue'
@@ -42,7 +46,8 @@
       balance,
       capital,
       profit,
-      pays
+      pays,
+      deposit,
     },
     setup() {
       const user = useAuthStore().user;

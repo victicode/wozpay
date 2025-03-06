@@ -242,15 +242,14 @@ class PayController extends Controller
 
     }
     public function getDepositPendigs(Request $request){
-        $user = User::with(['links_pay.pay'])->whereHas('links', function (Builder $query) {
-            $query->where('pay_status', 2);
-        })->get();
+        $user = User::with(['depositPending'])->whereHas('depositPending')->get();
 
-        return $this->returnSuccess(200,
-        [
-            $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
-        ]);
+        return $this->returnSuccess(200,$request->count ? Pay::where('type', 1)->where('status', 1)->count() : Pay::with(['user'])->where('type', 1)->where('status', 1)->get() );
 
+    }
+    public function getDepositByUser($id, Request $request){
+        $pay = Pay::with(['user'])->where('user_id', $id)->where('type', '1')->paginate(10);
+        return $this->returnSuccess(200, $pay);
     }
     public function getById($id){
         $pay = Pay::with(['user','package'])->find($id);

@@ -298,6 +298,20 @@ const router = createRouter({
           }
         },
         {
+          path: '/admin/depositPendingList/',
+          component: () => import('@/pages/admin/depositsPendingList.vue'),
+          meta:{
+            title: 'Depositos pendientes'
+          },
+        },
+        {
+          path: '/admin/deposit/byId/:id',
+          component: () => import('@/pages/admin/depositById.vue'),
+          meta:{
+            title: 'Detalle de deposito'
+          },
+        },
+        {
           path: '/admin/payPendingList/:id',
           component: () => import('@/pages/admin/paysPendingList.vue'),
           meta:{

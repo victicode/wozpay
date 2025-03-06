@@ -12,8 +12,8 @@
         <div class="deposit-section">
           <div class="row q-px-none">
             <div class="col-12 bg-white q-px-md q-pb-sm q-pt-xs  flex items-center justify-between justify-md-start deposit_dashboard_card" style="" >
-              <div class="w-100 flex items-center justify-between q-py-sm"   :class="{'text-warning' : deposits > 0 }" 
-                style="border-bottom: 1px solid lightgrey; cursor:pointer">
+              <div @click="goTo" class="w-100 flex items-center justify-between q-py-sm"   :class="{'text-warning' : deposits > 0 }" 
+                style=" cursor:pointer">
                 <div class="flex items-center w-80D ">
                   <div class="q-mr-sm q-mt-xs">
                     <q-icon :name="icons.ionCashOutline" class="" size="sm" />
@@ -36,38 +36,6 @@
       <div class="row q-px-none">
         <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start deposit_dashboard_card" style="" >
           <div class="w-100 flex items-center">
-            <div style="" class="w-10D">
-              <!-- <div v-html="wozIcons.withdrawal" /> -->
-              <q-skeleton type="rect"  />
-            </div>
-            <div class="flex items-center justify-between  w-80D-load">
-              <div class=" q-mx-sm  w-50D-load">
-                <div class="text-weight-medium"><q-skeleton type="rect" /></div>
-                <div class="text-weight-bold q-mt-xs"><q-skeleton type="rect" /></div>
-              </div>
-            </div>
-            <div class="w-10D">
-              <q-skeleton type="rect"  />
-              <q-skeleton type="rect" class="q-mt-xs" />
-            </div>
-          </div>
-          <div class="w-100 flex items-center q-mt-md">
-            <div style="" class="w-10D">
-              <!-- <div v-html="wozIcons.withdrawal" /> -->
-              <q-skeleton type="rect"  />
-            </div>
-            <div class="flex items-center justify-between  w-80D-load ">
-              <div class=" q-mx-sm  w-50D-load">
-                <div class="text-weight-medium"><q-skeleton type="rect" /></div>
-                <div class="text-weight-bold q-mt-xs"><q-skeleton type="rect" /></div>
-              </div>
-            </div>
-            <div class="w-10D">
-              <q-skeleton type="rect"  />
-              <q-skeleton type="rect" class="q-mt-xs" />
-            </div>
-          </div>
-          <div class="w-100 flex items-center q-mt-md">
             <div style="" class="w-10D">
               <!-- <div v-html="wozIcons.withdrawal" /> -->
               <q-skeleton type="rect"  />
@@ -106,7 +74,7 @@
       const icons = inject('ionIcons')
       const numberFormat = util.numberFormat
       const router = useRouter()
-      const deposits = ref([])
+      const deposits = ref(0)
       const getPendingDeposits = () => {
         payStore.getPendingDeposits('count')
         .then((response) =>{
@@ -123,7 +91,7 @@
         })
       }
       const goTo = (index)  => {
-        router.push('/admin/payPendingList/'+index)
+        router.push('/admin/depositPendingList/')
       }
       onMounted(() => {
         getPendingDeposits()
