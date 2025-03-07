@@ -45,7 +45,7 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        date_default_timezone_set('America/Caracas');
+        date_default_timezone_set('America/Asuncion');
 
         $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
 

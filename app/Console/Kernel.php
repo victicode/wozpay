@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         })->everyFifteenSeconds();
 
         $schedule->call(function () {
-            date_default_timezone_set('America/Caracas');
+            date_default_timezone_set('America/Asuncion');
             $links = DB::table('links')->where('status', '1')->where('due_time', '<' , date('Y-m-d H:i:s'));
           
             $links->update([

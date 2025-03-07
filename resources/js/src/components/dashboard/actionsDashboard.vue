@@ -30,7 +30,7 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">   
-          <a href="http://" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/wozparaguay" target="_blank" rel="noopener noreferrer">
 
             <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" > <!-- to="/deposit" -->
               <div class="q-mt-xs" v-html="icons.dropShip" />

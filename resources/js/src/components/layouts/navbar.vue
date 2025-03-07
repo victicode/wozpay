@@ -180,6 +180,7 @@ export default {
     width: 50%;
     left: 25%;
     height: 9%;
+    z-index: 2000;
   }
   @media screen and (max-width: 820px){
     .bottom-tab{

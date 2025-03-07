@@ -34,6 +34,7 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useWalletStore } from '@/services/store/wallet.store'
   import { onMounted, ref } from 'vue'
+  import { storeToRefs } from 'pinia';
 
   export default {
     components: {
@@ -45,12 +46,12 @@
       pays
     },
     setup() {
-      const user = useAuthStore().user;
+      const { user  } = storeToRefs(useAuthStore())
       const walletStore = useWalletStore()
       const ready = ref(false)
       const capitalBalances = () => {
 
-        walletStore.getBalancesByUser(user.id)
+        walletStore.getBalancesByUser(user.value.id)
         .then((data) => {
           if(!data.code) throw data
           ready.value = true

@@ -1,7 +1,7 @@
 <template>
   <div class="layout-dasboard__content-way" style="">
     
-    <div id="content-page" style="position: relative; background: #19cd15; overflow: visible;">
+    <div id="content-page" style="position: relative; background: #19cd15; overflow: visible;" :class="{'filter-xs': user.wallet_link.status!=2}">
       <backgroundWay />
       <div class="hero-content q-px-md q-pt-lg q-px-md-xl" style="height: max-content; position:relative; z-index: 1;" >
         <div class="q-px-sm q-px-md-lg">
@@ -45,7 +45,7 @@
           </div>
         </div> 
         <div class="w-100 q-mt-md q-pb-xl q-pt-xs offerWall" :class="{'q-mb-xl q-pt-md': user.wallet_link.status!=2}">
-          <div class="q-pa-md"  :class="{'filter-xs': user.wallet_link.status!=2}">
+          <div class="q-pa-md"  >
             <template v-if="loading">
               <!-- woz pay free -->
               <div >
@@ -182,53 +182,54 @@
               </div>
             </template>
           </div>
-          <template v-if="user.wallet_link.status!=2">
-            <div class="" style="position: absolute; bottom: 0; left: 0; right: 0; top: 0; background:#3a33337a; border-radius: 15px;">
-              <q-card class="notification__card"  >
-                <q-card-section class="flex q-pb-sm w-100 items-center justify-between">
-                  <div class="flex items-center">
-                    <div class="text-terciary">
-                      Woz Pay informa
-                    </div>
-                    <q-icon
-                      :name="icons.sharpVerified"
-                      size="xs"
-                      color="terciary"
-                      class="q-mx-xs "
-                    />
-                  </div>
-                  <!-- <div>
-                    <q-icon :name="icon" size="sm" :color="color == 'negative' ? color : 'black'" />
-                  </div> -->
-                </q-card-section>
-                <q-linear-progress :value="1" color="terciary " size="0.125rem"/>
-                <q-card-section class="text-center">
-                  <div  class="text-terciary text-weight-bold text-subtitle1">
-                    Revision de pago
-                  </div>
-                  <div class="text-subtitle2 q-mt-sm q-px-md q-py-sm" > 
-                    <div class="text-weight-medium">
-                      La activación de tu cuenta de cobros internacional esta siendo verifcada, pronto podras crear tus links de cobro
-                    </div>
-                  </div>
-                </q-card-section>
-                <q-card-section 
-                  class="row bg-terciary items-center no-wrap justify-center" 
-                  @click="router.go(-1)"
-                >
-                  <div class="text-white text-subtitle2 cursor-pointer" >
-                   Volver
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-          </template>
+          
         </div>
       </div>
     </div>
     <div id="navbar-buttom" style="background: white;">
       <navbarVue />
     </div>
+    <template v-if="user.wallet_link.status!=2">
+      <div class="layer" style="">
+        <q-card class="notification__card"  >
+          <q-card-section class="flex q-pb-sm w-100 items-center justify-between">
+            <div class="flex items-center">
+              <div class="text-terciary">
+                Woz Pay informa
+              </div>
+              <q-icon
+                :name="icons.sharpVerified"
+                size="xs"
+                color="terciary"
+                class="q-mx-xs "
+              />
+            </div>
+            <!-- <div>
+              <q-icon :name="icon" size="sm" :color="color == 'negative' ? color : 'black'" />
+            </div> -->
+          </q-card-section>
+          <q-linear-progress :value="1" color="terciary " size="0.125rem"/>
+          <q-card-section class="text-center">
+            <div  class="text-terciary text-weight-bold text-subtitle1">
+              Revision de pago
+            </div>
+            <div class="text-subtitle2 q-mt-sm q-px-md q-py-sm" > 
+              <div class="text-weight-medium">
+                La activación de tu cuenta de cobros internacional esta siendo verifcada, pronto podras crear tus links de cobro
+              </div>
+            </div>
+          </q-card-section>
+          <q-card-section 
+            class="row bg-terciary items-center no-wrap justify-center" 
+            @click="router.go(-1)"
+          >
+            <div class="text-white text-subtitle2 cursor-pointer" >
+              Volver
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </template>
   </div>
 </template>
 <script>
@@ -401,6 +402,9 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+.layer{
+  position: fixed; bottom: 0; left: 25%; right: 25%; top: 0; background:#3a33337a; border-radius: 15px;
+}
 .border-bottom-1{
   border-bottom: 1px solid rgb(204, 204, 204);
 }
@@ -464,6 +468,9 @@ export default {
   animation: slideDown 1s alternate infinite;
 }
 @media screen and (max-width: 780px){
+  .layer{
+    left: 0; right: 0;
+  }
   .slider__payLink-img{
     height: 450px;
   }

@@ -20,7 +20,7 @@
                 >
                   <div style="" v-if="link.pay_status == 2" class="q-mr-xs bounce_pay" /> 
                   <div >
-                    {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.pay_status_label }}
+                    {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.status == 0 ? link.status_label : link.pay_status_label }}
                   </div>
                 </div>
                 <div 
@@ -30,7 +30,7 @@
                 >
                   GS {{ numberFormat(link.amount) }}
                 </div>
-                <div v-if="link.pay_status != 3" class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
+                <div v-if="link.pay_status != 3 " class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>
             </div>
             <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none" >

@@ -1,6 +1,38 @@
 <template>
-  <div class="flex items-center social__carousel q-px-md ">
-    <q-carousel
+  <div class=" ">
+
+    <van-swipe autoplay="5000"   :width="widthCarousel" :touchable="true" indicator-color="#e1e9fe">
+      <van-swipe-item 
+        v-for="info in infoData"
+        :key="info.value"
+        :name="info.value" 
+        class=" column no-wrap flex-center q-px-sm q-py-none" 
+        style="background:#f2f2f5; "
+      >
+          <div class="socialLink__item w-100 flex items-center no-wrap q-py-md q-px-md">
+            <div style="" >
+              <div  class="socialLink__img--container">
+                <div class="socialLink__img">
+                  <img :src="info.img" height="100%" width="100%" alt="">
+                </div>
+              </div>
+            </div>
+            <div style="" class="q-pl-sm">
+              <div class="text-subtitle2 text-weight-bold flex items-center">
+                <div class="q-mr-xs">
+                  {{info.title}}
+                </div>
+                <q-icon :name="icons.sharpVerified" color="terciary" size="1.4rem" style="margin-left: 0.05rem; margin-top: -0.1rem;"/>
+
+              </div>
+              <div class=" text-weight-medium text-social__info" style="">{{info.text}}</div>
+            </div>
+
+          </div>
+        
+      </van-swipe-item>
+    </van-swipe>
+    <!-- <q-carousel
       v-model="slide"
       swipeable
       animated
@@ -9,7 +41,7 @@
       padding
       height="120px"
       infinite
-      :autoplay="50000000"
+      :autoplay="500000"
       class=" rounded-borders w-100"
     >
       <q-carousel-slide 
@@ -42,7 +74,7 @@
           </div>
         </a>
       </q-carousel-slide>
-    </q-carousel>
+    </q-carousel> -->
   </div>
 </template>
 <script>
@@ -50,9 +82,11 @@
   import ig from '@/assets/images/ig.png'
   import fb from '@/assets/images/fb.png'
   import { inject } from 'vue';
-  
+  import 'vant/lib/index.css';
 export default {
   setup() {
+    const widthCarousel = screen.width < 780 ? 350 : 680
+   
     const infoData = [
       {
         value:'ln',
@@ -80,10 +114,15 @@ export default {
       icons: inject('ionIcons'),
       slide: ref('ln'),
       infoData,
+      widthCarousel
     }
   },
 }
 </script>
+<style>
+ 
+
+</style>
 <style lang="scss">
   .text-social__info{
     font-size: 0.8rem;
@@ -129,7 +168,7 @@ export default {
   }
   @media screen and (max-width: 780px){
     .text-social__info{
-      font-size: 0.76rem;
+      font-size: 0.68rem;
     }
   }
 

@@ -4,8 +4,8 @@ import { createApp } from 'vue'
 import { createPinia } from "pinia";
 import { Quasar, Notify, AddressbarColor, Dialog } from 'quasar'
 import router from "@/routes/index.js";
-import { Picker } from 'vant';
-import { Switch } from 'vant';
+import { Picker, Swipe, SwipeItem, Switch } from 'vant';
+
 // import { func } from '@/core/services/utils/utils.js'
 
 // Import icon libraries
@@ -52,6 +52,8 @@ app.use(Quasar, {
 })
 app.use(Picker);
 app.use(Switch);
+app.use(Swipe)
+app.use(SwipeItem)
 app.provide('ionIcons', { ...materialIcons, ...materialIcons2, ionCashOutline,  circle: roundCheckCircle, ionRepeat, ionGlobeOutline})
 app.provide('emitter', emitter)
 

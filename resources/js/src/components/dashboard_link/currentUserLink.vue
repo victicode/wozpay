@@ -3,7 +3,7 @@
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-medium"> Cobros nacionales</div>
+          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-medium">Cobros nacionales</div>
           <div>
             <van-switch v-model="active" class="swichtDashboard" size="1.5rem" @update:model-value="redirect()" :loading="loading" active-color="#21BA45" inactive-color="#d8d8d8">
               <template #node>

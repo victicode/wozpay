@@ -30,7 +30,7 @@
                 {{ selectedLote.index == 'payCreateLink' ? item.links_pay.length : 'Gs.'+ numberFormat(item.amount) }}
               </div>
               <q-btn flat @click="goTo(item.id)" class="q-px-none">
-                <q-icon name="eva-chevron-right-outline"  class="q-pb-xs"/>
+                <q-icon name="eva-chevron-right-outline"  class=""/>
               </q-btn>
             </div>
           </div>

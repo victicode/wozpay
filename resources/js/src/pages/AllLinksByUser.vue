@@ -27,11 +27,11 @@
               <div>
                 <div 
                   class="text-subtitle2  text-right flex items-center w-100 justify-end " 
-                  :class="{'text-grey-6 text-weight-medium': link.pay_status == 3, 'text-terciary text-weight-bold':link.pay_status == 1 || link.pay_status == 2,'text-negative text-weight-bold':link.pay_status == 0 || link.pay_status == 4 }"
+                  :class="{'text-grey-6 text-weight-medium': link.pay_status == 3, 'text-terciary text-weight-bold': (link.pay_status == 1 || link.pay_status == 2) && link.status != 0,'text-negative text-weight-bold':link.status == 0 || link.pay_status == 0 || link.pay_status == 4 }"
                 >
                   <div style="" v-if="link.pay_status == 2" class="q-mr-xs bounce_pay" /> 
                   <div >
-                    {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.pay_status_label }}
+                    {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.status == 0 ? link.status_label : link.pay_status_label }}
                   </div>
                 </div>
                 <div 
