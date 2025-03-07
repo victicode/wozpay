@@ -12,7 +12,7 @@
               <div v-html="imgTransaction(transaction)"
                 v-if="transaction.transaction !=7 && transaction.transaction !=8 && transaction.transaction !=9" 
                 class="q-mr-sm q-mr-md-md icons-transfer" 
-                :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5}"
+                :class="{'transfer-icon-t': transaction.transaction == 4 , 'transfer-icon-t fill-red': transaction.transaction == 5, 'uppeIconn': transaction.transaction == 1}"
               />
               <q-icon :name="imgTransaction(transaction)" size="md" class="q-mr-sm" v-if="transaction.transaction == 7 || transaction.transaction ==8 || transaction.transaction ==9" />
               
@@ -234,6 +234,9 @@ export default {
   .icons-transfer {
     transform:scale(0.9);
   }
+  .uppeIconn{
+    transform: scale(1.2);
+  }
   .transfer-icon-t {
 
     transform: scale(0.9) rotate(310deg)!important;
@@ -248,16 +251,19 @@ export default {
     border-image-source: linear-gradient(90deg, rgba(255,255,255,1) 6%, $grey-5 6%);
   }
   @media screen and (max-width: 780px){
+    .uppeIconn{
+      transform: scale(1.1)!important;
+    }
     .transactionList{
       height: 77%;
       
     }
     .icons-transfer {
-      transform:scale(0.7);
+      transform:scale(0.8);
     }
     .transfer-icon-t {
 
-    transform:scale(0.7) rotate(310deg)!important;
+      transform:scale(0.8) rotate(310deg)!important;
 
     }
     .bottom-border {

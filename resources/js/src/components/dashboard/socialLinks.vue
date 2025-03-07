@@ -1,5 +1,5 @@
 <template>
-  <div class=" ">
+  <div class="q-mt-sm ">
 
     <van-swipe autoplay="5000"   :width="widthCarousel" :touchable="true" indicator-color="#e1e9fe">
       <van-swipe-item 

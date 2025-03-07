@@ -58,7 +58,7 @@
         </div>
         <div class="q-mb-md">
           <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center ">
-            <q-icon  name="eva-alert-circle-outline" size="sm" color="primary"/>
+            <div v-html="wozIcons.py" style="transform:scale(0.9)" />
             <div class="text-infoBlue text-weight-medium q-ml-sm">
               Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
             </div> 

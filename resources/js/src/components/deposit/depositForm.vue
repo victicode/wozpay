@@ -43,7 +43,7 @@
       </div>
       <div class="q-mb-md">
         <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center ">
-          <q-icon  name="eva-alert-circle-outline" size="sm" color="primary"/>
+          <div v-html="wozIcons.py" style="transform:scale(0.9)" />
           <div class="text-infoBlue text-weight-medium q-ml-sm">
             Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
           </div> 
@@ -131,12 +131,10 @@
   import { storeToRefs } from 'pinia'
   import { useRouter, useRoute } from 'vue-router'
   import { usePayStore } from '@/services/store/pay.store'
-  import { useLinkStore } from '@/services/store/link.store';
   import { useQuasar } from 'quasar'
   import util from '@/util/numberUtil'
   import payMethod from '@/assets/images/pay_types3.png'
   import doneModal from '@/components/layouts/modals/doneModal.vue';
-  import moment from 'moment';
   import wozIcons from '@/assets/icons/wozIcons'
 
   export default {

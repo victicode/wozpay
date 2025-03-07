@@ -174,6 +174,9 @@ class PayController extends Controller
 
         if($pay->status == 2) {
             switch ($pay->type) {
+                case '1':
+                    $this->approveDeposit($pay);
+                    break;
                 case '3':
                     $this->approvePay($pay);
                     break;
@@ -191,6 +194,11 @@ class PayController extends Controller
         }
         if($pay->status == 0) {
             switch ($pay->type) {
+                case '1':
+                    $this->sendNotification(
+                        'Tu carga de saldo por el monto: Gs. '.number_format($pay->amount, 0, ',', '.').'  no cumple con nuestras normativas de seguridad en los pagos  ', $pay->user_id, 'Carga de saldo rechazada', 3);
+                    break;
+                    break;
                 case '3':
                     $this->sendNotification(
                         'Tu pago no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago rechazado', 3);
@@ -242,15 +250,14 @@ class PayController extends Controller
 
     }
     public function getDepositPendigs(Request $request){
-        $user = User::with(['links_pay.pay'])->whereHas('links', function (Builder $query) {
-            $query->where('pay_status', 2);
-        })->get();
+        $user = User::with(['depositPending'])->whereHas('depositPending')->get();
 
-        return $this->returnSuccess(200,
-        [
-            $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
-        ]);
+        return $this->returnSuccess(200,$request->count ? Pay::where('type', 1)->where('status', 1)->count() : Pay::with(['user'])->where('type', 1)->where('status', 1)->get() );
 
+    }
+    public function getDepositByUser($id, Request $request){
+        $pay = Pay::with(['user'])->where('user_id', $id)->where('type', '1')->paginate(10);
+        return $this->returnSuccess(200, $pay);
     }
     public function getById($id){
         $pay = Pay::with(['user','package'])->find($id);
@@ -319,6 +326,18 @@ class PayController extends Controller
 
         return $validator->all() ;
 
+    }
+    private function approveDeposit($pay){
+        $wallet = Wallet::where('user_id', $pay->user_id)->where('type', 1)->first();
+        $wallet->balance = $wallet->balance + $pay->amount;
+        $wallet->save();
+        
+        try {
+            $this->sendNotification('Tu carga de billetera por el monto de: <br> <b> Gs. '.number_format($pay->amount, 0, ',', '.').' </b> ha sido verificada y procesada con exito', $pay->user_id, 'Carga verificada', 2);
+            event(new UserUpdateEvent($pay->user_id));
+        } catch (Exception $th) {
+            //throw $th;
+        }
     }
     private function approvePay($pay) {
         $quota = Quota::find($pay->quota_id);
