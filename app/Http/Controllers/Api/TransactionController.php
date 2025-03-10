@@ -282,7 +282,21 @@ class TransactionController extends Controller
             ];
             $lines[3] = [
               'title' => 'Metodo de pago',
-              'value' => $transaction->method == 1 ? 'Transferencia' : 'Tarjeta',
+              'value' => 'Transferencia',
+            ];
+          }
+          if($type == 10)  {
+            $lines[1] = [
+              'title' => 'Titulo del producto',
+              'text' => $transaction->package->title,
+            ];
+            $lines[2] = [
+              'title' => 'Referencia',
+              'value' => $transaction->operation_id,
+            ];
+            $lines[3] = [
+              'title' => 'Metodo de pago',
+              'value' => 'Tarjeta',
             ];
           }
 

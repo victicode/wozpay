@@ -57,12 +57,20 @@
           </div>
         </div>
         <div class="q-mb-md">
-          <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center ">
+          <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center " v-if="route.params.type == 1 || route.params.type == 2 ">
             <div v-html="wozIcons.py" style="transform:scale(0.9)" />
             <div class="text-infoBlue text-weight-medium q-ml-sm">
               Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
             </div> 
           </div>
+          <div v-else>
+            <div v-html="wozIcons.bancard" style="transform:scale(0.9)" />
+            <div class="text-infoBlue text-weight-medium q-ml-sm">
+              Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
+            </div> 
+          </div>
+
+          
           <!-- <div class="text-weight-bold">
             {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjeta':'Datos para el pago'}}
           </div> -->
