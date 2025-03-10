@@ -81,7 +81,7 @@ class LinkController extends Controller
             $pay->status = 2;
             $link->pay_status = $request->status;
             $link->status = 2;
-            $this->updateWallet($link->user_id, $pay->amount);
+            $this->updateWallet($link);
             $this->sendNotification(
                 'El pago del link #'.$link->code.' fue aprobado de forma exitosa', $link->user_id, 
                 'Pago de link aprobado', 1);
@@ -101,19 +101,23 @@ class LinkController extends Controller
 
         return $this->returnSuccess(200, $link);
     }
-    private function updateWallet($user, $amount)
+    private function updateWallet($link)
     {
-        $wallet = Wallet::where('user_id', $user)->where('type', '2')->first();
+        $wallet = Wallet::where('user_id', $link->user_id)->where('type', '2')->first();
 
-        $wallet->balance += $this->deductAmount($amount);
+        $wallet->balance += $this->deductAmount($link->amount);
 
         $wallet->save();
     }
-    private function deductAmount($amount)
+    private function deductAmount($link)
     {
-        $deduct1 = $amount *0.12;
-        $deduct2 = 7800;
-        return $amount - $deduct1 - $deduct2;
+        if($link->categorie != 0){
+            $deduct1 = $link->amount *0.12;
+            $deduct2 = 7800;
+            return $link->amount - $deduct1 - $deduct2;
+        }
+        $deduct1 = $link->amount *0.02;
+        return $link->amount - $deduct1;
 
     }
     private function sendNotification($message, $user, $subject, $type)

@@ -93,11 +93,11 @@
         </div>
         <div class="q-px-md">
           <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
-            <div class="q-py-xs">{{route.params.type == 0 ? 'Comisión Woz Pay 02%' : 'Comisión Woz Pay 12%'}}</div>
+            <div class="q-py-xs">{{route.params.type == 0 ? 'Comisión Woz Pay 2%' : 'Comisión Woz Pay 12%'}}</div>
             <div>
               Gs. {{ 
-                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.029)) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.029))
+                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.02)) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.02))
                 : !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12)) 
                 ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.12))
                 : 0
@@ -114,8 +114,8 @@
             <div class="q-py-xs">Total a cobrar</div>
             <div>
               Gs. {{ 
-                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.029)) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.029)))
+                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.02)) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.02)))
                 : !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12) ) 
                 ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.12) )-7800)
                 : 0
