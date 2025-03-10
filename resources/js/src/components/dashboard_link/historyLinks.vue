@@ -29,7 +29,7 @@
                 <div 
                   style="font-size: 15px;" 
                   class="text-weight-medium text-right" 
-                  :class="{'text-positive': link.status == 2, 'text-grey-6':link.status != 2 ,'text-negative':link.status == 0 }"
+                  :class="{'text-negative':link.status == 0, 'text-positive': link.status == 2, 'text-grey-6':link.status != 2 && link.status != 0 ,}"
                 >
                   GS {{ numberFormat(link.amount) }}
                 </div>
