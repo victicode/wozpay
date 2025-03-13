@@ -87,7 +87,7 @@
                     </div>
                     <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                       <div>Monto para usario: </div>
-                      <div>Gs. {{ numberFormat(deducAmount(link.pay.amount)) }}</div>
+                      <div>Gs. {{ numberFormat(link.amount_recive) }}</div>
                     </div>
                   </div>
                   <div style="border-top: 2px solid black;" class="q-pt-md q-mt-lg ">
@@ -195,7 +195,6 @@
             status = 0
           }
           loading.value = false
-          console.log(link.value.pay_status == status)
           link.value.pay_status == status 
           ? ''
           : sendData(status)
@@ -218,16 +217,12 @@
           showNotify('negative', 'Error al actualizar')
         })
       }
-      const deducAmount = (amount) => {
-        const deduc1 = amount*0.12
-        const deduc2 = 7800
-        return amount - deduc1 - deduc2
-      }
+
       watch(() => props.show, (newValue) => {
         dialog.value = newValue
       });
       watch(() => props.link, (newValue) => {
-        console.log('fdsfsdf')
+
         link.value = newValue
         checked.value = {
           active: link.value.pay_status == 3,
@@ -246,7 +241,6 @@
         numberFormat,
         hideModal,
         setStatus,
-        deducAmount,
       }
     }
   };

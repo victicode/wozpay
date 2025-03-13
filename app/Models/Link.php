@@ -25,7 +25,7 @@ class Link extends Model
         'user_id',
         'due_time',
     ];
-    protected $appends  =   ['status_label', 'pay_status_label', 'type_label', 'categorie_label'];
+    protected $appends  =   ['status_label', 'pay_status_label', 'type_label', 'categorie_label', 'amount_recive'];
 
     public function getstatusLabelAttribute()
     {   
@@ -57,6 +57,15 @@ class Link extends Model
             'Ventas',
         ];
         return $status[$this->type];
+    }
+    public function getAmountReciveAttribute(){
+        if($this->categorie != 0){
+            $deduct1 = $this->amount *0.12;
+            $deduct2 = 7800;
+            return $this->amount - $deduct1 - $deduct2;
+        }
+        $deduct1 = $this->amount *0.02;
+        return $this->amount - $deduct1;
     }
     public function getCategorieLabelAttribute()
     {   

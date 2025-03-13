@@ -105,21 +105,21 @@ class LinkController extends Controller
     {
         $wallet = Wallet::where('user_id', $link->user_id)->where('type', '2')->first();
 
-        $wallet->balance += $this->deductAmount($link->amount);
+        $wallet->balance += $link->amount_recive;
 
         $wallet->save();
     }
-    private function deductAmount($link)
-    {
-        if($link->categorie != 0){
-            $deduct1 = $link->amount *0.12;
-            $deduct2 = 7800;
-            return $link->amount - $deduct1 - $deduct2;
-        }
-        $deduct1 = $link->amount *0.02;
-        return $link->amount - $deduct1;
+    // private function deductAmount($link)
+    // {
+    //     if($link->categorie != 0){
+    //         $deduct1 = $link->amount *0.12;
+    //         $deduct2 = 7800;
+    //         return $link->amount - $deduct1 - $deduct2;
+    //     }
+    //     $deduct1 = $link->amount *0.02;
+    //     return $link->amount - $deduct1;
 
-    }
+    // }
     private function sendNotification($message, $user, $subject, $type)
     {
         $notification = new NotificationController;

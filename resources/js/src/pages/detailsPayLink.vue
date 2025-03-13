@@ -63,6 +63,12 @@
                 </div>
               </div>
               <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
+                <div class="text-subtitle1 text-weight-bold q-pl-xs">Monto a recibir</div>
+                <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
+                  Gs. {{ numberFormat(link.amount_recive) }}
+                </div>
+              </div>
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Duración del link</div>
                 <div class="text-primary text-weight-bold text-body1 q-px-xs q-py-xs">
                   2 horas desde su creación
@@ -77,18 +83,21 @@
                 </div>
               </div>
             </div>
-            <div class="q-px-md-xl q-mb-md">
-              <div class="text-h6 text-primary text-center text-weight-medium q-mt-lg q-mt-md-sm">Tiempo restante</div>
-              <div class="text-h4 text-primary text-center text-weight-medium q-mt-sm q-mt-md-none" :id="'timer-link'+link.id" style="letter-spacing: 5px;" />
-              <div class="q-px-xl q-mt-sm q-px-md-xl q-mx-md-xl">
-                <q-btn 
-                  color="primary" class="w-100 q-pa-md back__to" 
-                  no-caps
-                  label="Copiar link"
-                  @click="copyLink()"
-                >
-                </q-btn>
-              </div>
+            <div class="q-px-md-xl q-mb-md" >
+              <template v-if="link.status ==1">
+
+                <div class="text-h6 text-primary text-center text-weight-medium q-mt-lg q-mt-md-sm">Tiempo restante</div>
+                <div class="text-h4 text-primary text-center text-weight-medium q-mt-sm q-mt-md-none" :id="'timer-link'+link.id" style="letter-spacing: 5px;" />
+                <div class="q-px-xl q-mt-sm q-px-md-xl q-mx-md-xl">
+                  <q-btn 
+                    color="primary" class="w-100 q-pa-md back__to" 
+                    no-caps
+                    label="Copiar link"
+                    @click="copyLink()"
+                  >
+                  </q-btn>
+                </div>
+              </template>
             </div>
           </div>
         </div>

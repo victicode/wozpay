@@ -32,7 +32,7 @@
           </div>
           <div class="contet__border-primary q-px-sm q-py-none q-mt-xs">
             <div class="flex items-center  q-my-sm justify-between" >
-              <div class="" style="width: auto;">
+              <div class="" style="width: 80%;">
                 <div class="text-titlePayP  ellipsis text-grey-9">
                   {{
                     route.params.type == 1 
@@ -52,30 +52,33 @@
                   }}
                 </div>
               </div>
-              <div style="width: 15%;" id="timeCountForm" class="text-titlePay text-backLinear" v-if="route.params.type != 2 && route.params.type != 1" />
+              <div style="" id="timeCountForm" class="text-titlePay text-backLinear" v-if="route.params.type != 2 && route.params.type != 1" />
             </div>
           </div>
         </div>
         <div class="q-mb-md">
-          <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center " v-if="route.params.type == 1 || route.params.type == 2 ">
-            <div v-html="wozIcons.py" style="transform:scale(0.9)" />
-            <div class="text-infoBlue text-weight-medium q-ml-sm">
-              Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
+          <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center " >
+            <div v-html="wozIcons.py" style="transform:scale(0.9)" v-if="route.params.type == 1 || route.params.type == 2 " />
+            <div class="text-infoBlue text-weight-medium q-mx-sm">
+               {{ 
+                route.params.type == 1 || route.params.type == 2 
+                ? 'Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías '
+                : 'Paga seguro con Tpago de Bancard'
+               }}
             </div> 
+            <div v-if="route.params.type != 1 && route.params.type != 2 ">
+              <img :src="payMethod2"  style="height: 1.3rem;" >
+            </div>
           </div>
-          <div v-else>
-            <div v-html="wozIcons.bancard" style="transform:scale(0.9)" />
-            <div class="text-infoBlue text-weight-medium q-ml-sm">
-              Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
-            </div> 
-          </div>
-
           
           <!-- <div class="text-weight-bold">
             {{route.params.type != 2 &&  route.params.type != 1 ? 'Datos de tarjeta':'Datos para el pago'}}
           </div> -->
   
           <div class="contet__border-primary q-px-md q-py-xs q-mt-xs q-pt-sm">
+            <div class="q-px-xl q-my-md flex flex-center q-pb-sm" v-if="route.params.type != 2 &&  route.params.type != 1 ">
+              <img :src="bancard" alt="" style="height: 1.7rem;" />
+            </div>
             <template v-if="route.params.type != 2 &&  route.params.type != 1 ">
               <div v-for="(item ,key) in clientForm" :key="key" class="q-mt-md ">
                 <div class="q-px-xs text-bold q-pb-sm" v-if="item.title">
@@ -144,8 +147,9 @@
                 </div>
               </div>
             </template>
-            <div class="q-px-xl q-mt-md flex flex-center q-pb-sm">
-              <img :src="payMethod" alt="" style=" height: 2.1rem;">
+            <div class="q-px-xl q-my-md flex flex-center q-pb-sm">
+              <img :src="route.params.type == 1 || route.params.type == 2 ? payMethod : payMethod2" alt="" 
+              :style=" route.params.type == 1 || route.params.type == 2 ? 'height: 2.1rem;' : 'height: 2.5rem;' " >
             </div>
             <div v-if="formError" class="text-subtitle1 text-negative text-bold text-center q-mt-md flex flex-center">
               <q-icon name="eva-alert-circle-outline" color="negative" size="sm"/>
@@ -205,6 +209,9 @@
   import { useQuasar } from 'quasar'
   import util from '@/util/numberUtil'
   import payMethod from '@/assets/images/pay_types3.png'
+  import payMethod2 from '@/assets/images/Tpago2.png'
+  import bancard from '@/assets/images/bancard.png'
+
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import moment from 'moment';
   import { getCreditCardType } from 'cleave-zen'
@@ -584,6 +591,8 @@
         clientForm,
         comprobant,
         payMethod,
+        payMethod2,
+        bancard,
         procedToPay,
         rulesForm,
         maskFormat,

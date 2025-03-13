@@ -44,7 +44,7 @@
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Monto a recibir: </div>
-                <div>Gs. {{ numberFormat(deducAmount(link.amount)) }}</div>
+                <div>Gs. {{ numberFormat(link.amount_recive) }}</div>
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Estado: </div>
@@ -129,11 +129,7 @@
           ]
         })
       }
-      const deducAmount = (amount) => {
-        const deduc1 = link.categorie == 0 ? amount*0.029: amount*0.12
-        const deduc2 = link.categorie == 0 ? 0 : 7800
-        return amount - deduc1 - deduc2
-      }
+
       watch(() => props.show, (newValue) => {
         dialog.value = newValue
       });
@@ -149,7 +145,6 @@
         view,
         numberFormat,
         hideModal,
-        deducAmount,
       }
     }
   };
