@@ -18,24 +18,30 @@
     <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady" >
         <div class="row q-px-none">
-          <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start link__payContent" style="" >
-            <div class="q-mr-none" style="margin-right: 0.15rem;">
-              <q-icon :name="icons.ionGlobeOutline" size="md" color="positive" />
-            </div>
-            <div class="flex items-center justify-between  w-80 ">
-              <div class=" q-mr-md-none q-pl-md-md q-pl-sm w-auto">
-                <div class="text-weight-medium text__min ellipsis" style="font-size: 0.95rem;">Caja de ahorro</div>
-                <div class="text-weight-bold q-pt-xs text-subtitle2"  v-if="!(!user.wallet)" >N° {{user.wallet.number}}</div>
-                <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
+          <div class="col-12 bg-white q-pa-md flex items-center justify-between  link__payContent" style="" >
+            <div class="w-80xxc flex items-center ">
+              <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
+                <q-icon :name="icons.ionGlobeOutline" size="md" color="positive" />
               </div>
-              <div class="q-ml-md q-ml-md-none q-pl-md-md  text-end">
-                <div>
-                  <div class="text-weight-medium text-right">
-                    Disponible
+              <div class="flex items-center justify-between" style="width:75%" >
+                <div class=" q-mr-md-none w-autox" >
+                  <div>
+                    <div class="text-weight-medium ellipsis text__mid" style="font-size: 0.89rem; ">Caja de ahorro</div>
+                    <div  v-if="!(!user.wallet)" >N° {{user.wallet.number}}</div>
+                    <div class="q-mt-xs text-grey-8 text-weight-medium" style="font-size: 0.79rem;" v-else >No tienes ningun préstamo</div>
                   </div>
-                  <div class="text-weight-medium q-pt-xs q-mr-xs text-right text-subtitle1">Gs. {{numberFormat(user.wallet.balance)}}</div>
                 </div>
               </div>
+            </div>
+            <div class="q-mr-none cursor-pointer flex items-center" >
+                <div class="q-ml-sm q-ml-md-none q-pl-md-md  text-end">
+                  <div class="cursor-pointer" >
+                    <div class="text-weight-medium text-right ">
+                      Disponible
+                    </div>
+                    <div class="text-weight-medium  q-mr-xs text-right " style="">Gs. {{numberFormat(user.wallet.balance)}}</div>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
@@ -138,12 +144,14 @@
   background: #fff;
 }
 </style>
+
+
 <style lang="scss" scoped>
 .text__min{
   width: auto;
 }
 .link__payContent{
-  border-radius:23px;
+  border-radius:15px;
   //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{
@@ -158,28 +166,48 @@
 .w-10 {
   width: 6%;
 }
+.w-80xxc {
+  width: 80%;
+}
 .inforcof__icon2{
   position: absolute;
   right: 0rem;
   // margin-top: 0.2rem;
   transform: translateY(0.35rem) scale(0.95);
 }
-@media screen and (max-width: 780px){
-  .text__min{
+@media screen and (min-width: 381px) and (max-width: 780px){
+  .w-85 {
     width: 90%;
   }
-  .w-80 {
-    width: 40%;
+  .w-80xxc {
+    width: 60%;
   }
   .w-50 {
-    width: 40%;
+    width: 45%;
   }
-  .w-auto{
-    width: 55%;
+  .text__mid{
+    width: 100%;
   }
-  .link__payContent > div:nth-child(1){ width: 10%!important; }
-  .link__payContent > div:nth-child(2){ width: 88%!important; }
-  .link__payContent > div:nth-child(3){ width: 8%!important; }
+  .w-autox{
+    width: 100%;
+  }
+}
 
+@media screen and (max-width: 380px){
+  .w-85 {
+    width: 90%;
+  }
+  .w-80xxc {
+    width: 57%;
+  }
+  .w-50 {
+    width: 45%;
+  }
+  .text__mid{
+    width: 100%;
+  }
+  .w-autox{
+    width: 100%;
+  }
 }
 </style>

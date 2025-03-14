@@ -36,7 +36,6 @@
                       <div class=""  >N° {{ user.wallet_link.number }}</div>
                     </div>
                   </div>
-                  
                 </div>
               </div>
               <div class="q-mr-none cursor-pointer flex items-center" >
