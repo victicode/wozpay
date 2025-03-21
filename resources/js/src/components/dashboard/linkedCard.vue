@@ -27,7 +27,7 @@
                     <q-chip 
                       :color="linkCard.status == 2 ? 'chip' : linkCard.status == 1 ? 'warning' : 'negative'" 
                       :text-color=" linkCard.status == 2 ? 'positive' : 'white'" 
-                      class="q-px-md-lg q-px-md"
+                      class="q-px-md-lg q-px-md chipLoanStatus"
                     >
                       {{  linkCard.status == 2 ? 'Vinculada' : linkCard.status == 1 ? 'Pendiente' : 'Rechazada' }}
                     </q-chip>

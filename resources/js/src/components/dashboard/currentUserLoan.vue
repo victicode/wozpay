@@ -9,7 +9,7 @@
                 <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                   <div v-html="wozIcons.withdrawal" />
                 </div>
-                <div class="flex items-center justify-between " style="width: 75%;" >
+                <div class="flex items-center justify-between " style="width: 73%;" >
                   <div class=" q-mr-md-none  w-autopl">
                     <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;" >Préstamos</div>
                     <div class="ellipsis" v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
@@ -239,7 +239,7 @@
     width: 40%;
   }
   .w-80xx {
-    width: 57%;
+    width: 55%;
   }
   .w-50 {
     width: 40%;

@@ -57,6 +57,21 @@
               autocomplete="off"
             />
           </div>
+          <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
+            <q-select 
+              outlined 
+              v-model="product.recurringDay" 
+              :options="daysAvaibles()"  
+              clearable
+              :clear-icon="'eva-close-outline'"
+              dropdown-icon="eva-chevron-down-outline"
+              behavior="menu"
+              label="Día de cobro"
+              color="positive"
+              class="linkPaySelectType" 
+              @update:model-value="updateType()"
+            />
+          </div>
           <div class="q-mt-sm">
             <q-input
               class="linkPaySelectType2"
@@ -174,6 +189,7 @@ export default {
       name:'',
       amount:'',
       details:'',
+      recurringDay:1
     })
     const title = [
       
@@ -236,6 +252,15 @@ export default {
         name:'Freelancers'
       },
     ]
+    const daysAvaibles = () => {
+      let days = []
+      for (let index = 0; index < 28; index++) {
+        days.push(index+1)
+        
+      }
+      return days;
+    }
+
     const header = ref(title[parseInt(route.params.type)])
     const selectedOption = ref(optionsLink.find(el => el.id == parseInt(route.params.type)))
     const updateType = () => {
@@ -274,6 +299,12 @@ export default {
         showNotify('negative', 'Debes selecionar un metodo de pago')
         return false
       }
+      if( isNaN(product.value.recurringDay)) {
+        isOk = false
+      }
+      console.log(isNaN(product.value.recurringDay))
+      console.log(product.value.recurringDay)
+
       return isOk
     }
     const createLink = () => {
@@ -347,6 +378,7 @@ export default {
       route,
       header,
       loading,
+      daysAvaibles,
       icons: inject('ionIcons'),
       wozIcons,
       optionsLink,
@@ -426,6 +458,7 @@ export default {
     & .q-field__messages {
       transform: translateY(-25%) translateX(-1%)
     }
+    
   }
   .linkPaySelectType2 .q-field__native{
     padding-top: 15px!important;
@@ -449,6 +482,11 @@ export default {
     .totalLink_progress {
       width: 80%!important;
 
+    }
+  }
+  .linkPaySelectType {
+    &.q-field--labeled .q-field__native{
+      padding-bottom: 0px;
     }
   }
   @media screen and (max-width: 780px){
