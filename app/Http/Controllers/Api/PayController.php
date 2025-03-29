@@ -14,9 +14,12 @@ use App\Models\PayLink;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+
 class PayController extends Controller
 {
     //
@@ -263,6 +266,52 @@ class PayController extends Controller
         $pay = Pay::with(['user','package'])->find($id);
         return $this->returnSuccess(200, $pay);
     }
+    public function sendMail(Request $request){
+        
+        try{
+            // Mail::send('emails.newUser',['name'=>'virgilio'], function ($message)  {  
+            //     $message->from('administrations@wozpayments.com', 'wozpayment');
+            //     $message->to('frovic.ve@gmail.com', 'Operaciones wozpayment')->subject('oooooo');
+            // });
+            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request)  {  
+                $message->from('administrations@wozpayments.com', 'Blue Comunicadores');
+                $message->to($request->email)->subject('Boleta PLANILLA '.$this->obtainDate());
+                if($request->frontfile){
+
+                    $message->attach($request->frontfile, [
+                        'as' => 'boleta.pdf',
+                        'mime' => 'application/pdf,image/jpeg,png',
+                    ]);
+                }
+            });
+            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request)  {  
+                $message->from('administrations@wozpayments.com', 'Blue Comunicadores');
+                $message->to($request->email2)->subject('Boleta PLANILLA '.$this->obtainDate());
+                if($request->frontfile){
+
+                    $message->attach($request->frontfile, [
+                        'as' => 'boleta.pdf',
+                        'mime' => 'application/pdf,image/jpeg,png',
+                    ]);
+                }
+            });
+            // Mail::send('emails.boletas.boletaTemplate',['name'=>'virgilio'], function ($message)  {  
+            //     $message->from('administrations@wozpayments.com', 'wozpayment');
+            //     $message->to('frovic.ve@gmail.com', 'Operaciones wozpayment')->subject('oooooo');
+            // });
+
+        }
+        catch(Exception $e){
+            return $this->returnFail(500, $e->getMessage());
+        }
+        return $this->returnSuccess(200,'bien');
+    }
+    private function obtainDate()
+    {
+        $date = Carbon::now();
+        $d = Carbon::parse();
+        return  $date->locale('es')->monthName .' '. $date->year;
+    } 
     private function validateFieldsFromInput($inputs){
         $rules=[
             'amount'        => ['required', 'integer'],

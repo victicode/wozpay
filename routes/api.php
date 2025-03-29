@@ -126,6 +126,9 @@ Route::middleware('jwt.verify')->prefix('link')->group(function(){
 Route::prefix('link-public')->group(function(){
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
 });
+Route::prefix('v1/public')->group(function(){
+    Route::post('/sendmail', [PayController::class, 'sendMail']);
+});
 
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);

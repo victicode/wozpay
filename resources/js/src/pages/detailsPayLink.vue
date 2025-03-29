@@ -68,6 +68,28 @@
                   Gs. {{ numberFormat(link.amount_recive) }}
                 </div>
               </div>
+              <template v-if="link.type == 2">
+                <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
+                  <div class="text-subtitle1 text-weight-bold q-pl-xs">Fecha de inicio de cobro</div>
+                  <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
+                    {{ moment(link.init_dat).format('DD/MM/YYYY') }}
+                  </div>
+                </div>
+                <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
+                  <div class="text-subtitle1 text-weight-bold q-pl-xs">Día de cobro</div>
+                  <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
+                    {{ link.recurring_day }} de cada mes
+                  </div>
+                </div>
+                <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
+                  <div class="text-subtitle1 text-weight-bold q-pl-xs">Cantidad de meses a cobrar</div>
+                  <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
+                    {{ link.for_month }} Meses
+                  </div>
+                </div>
+                
+              </template>
+
               <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Duración del link</div>
                 <div class="text-primary text-weight-bold text-body1 q-px-xs q-py-xs">
@@ -194,7 +216,8 @@
         wozIcons,
         link,
         numberFormat,
-        copyLink
+        copyLink,
+        moment,
 
       }
     }

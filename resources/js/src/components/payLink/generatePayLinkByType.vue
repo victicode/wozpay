@@ -58,9 +58,36 @@
             />
           </div>
           <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
+            <q-input
+              class="linkPaySelectType2"
+              outlined
+              clearable
+              :clear-icon="'eva-close-outline'"
+              color="positive"
+              v-model="product.initDay"
+              label="Fecha de inicio de cobro mensual"
+              mask="##/##/####"
+              autocomplete="off"
+              hint="Formato: DD/MM/YYYY"
+            />
+          </div>
+          <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
+            <q-input
+              class="linkPaySelectType2"
+              outlined
+              clearable
+              :clear-icon="'eva-close-outline'"
+              color="positive"
+              v-model="product.forMonth"
+              label="Cobrar durante X meses"
+              autocomplete="off"
+              type="number"
+            />
+          </div>
+          <!-- <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
             <q-select 
               outlined 
-              v-model="product.recurringDay" 
+              v-model="product.forMonth" 
               :options="daysAvaibles()"  
               clearable
               :clear-icon="'eva-close-outline'"
@@ -71,7 +98,7 @@
               class="linkPaySelectType" 
               @update:model-value="updateType()"
             />
-          </div>
+          </div> -->
           <div class="q-mt-sm">
             <q-input
               class="linkPaySelectType2"
@@ -189,7 +216,8 @@ export default {
       name:'',
       amount:'',
       details:'',
-      recurringDay:1
+      initDay:'',
+      forMonth:1
     })
     const title = [
       
@@ -299,11 +327,11 @@ export default {
         showNotify('negative', 'Debes selecionar un metodo de pago')
         return false
       }
-      if( isNaN(product.value.recurringDay)) {
+      if( isNaN(product.value.forMonth)) {
         isOk = false
       }
-      console.log(isNaN(product.value.recurringDay))
-      console.log(product.value.recurringDay)
+      console.log(isNaN(product.value.forMonth))
+      console.log(product.value.forMonth)
 
       return isOk
     }
@@ -322,7 +350,11 @@ export default {
         amount: parseInt(product.value.amount.replace(/\./g, '')),
         title:  product.value.name,
         type:   selectedOption.value.id,
-        categorie: route.params.type
+        categorie: route.params.type,
+        init_day: product.value.initDay.replace(/\//g, '.'),
+        recurring_day:  product.value.initDay.replace(/\//g, '.').split('.')[0],
+        for_month:  product.value.forMonth,
+
       }
       linkStore.createLink(data)
       .then((response) => {

@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::table('links', function (Blueprint $table) {
             //
-            $table->integer('recurring_day')->nullable()->after('due_time');
-            $table->date('init_day')->nullable()->after('recurring_day');
-            $table->enum('is_recurring',['yes', 'no'])->nullable()->after('init_day');
-
+            $table->integer('for_month')->after('init_day')->nullable();
         });
     }
 
