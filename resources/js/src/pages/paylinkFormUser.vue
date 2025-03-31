@@ -42,6 +42,14 @@
                     : link.title +' - '+ link.note
                   }}
                 </div>
+                <template v-if="(route.params.type != 2 && route.params.type != 1) && link.type ==2">
+                  <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
+                    Fecha de inicio {{ moment(link.init_day).format('DD/MM/YYYY') }}
+                  </div>
+                  <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
+                    Cobrar por {{ link.for_month }} meses
+                  </div>
+                </template>
                 <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
                   Gs. {{
                     route.params.type == 1 
@@ -574,6 +582,7 @@
       })
 
       return{
+        moment,
         showDialog,
         formError,
         errorMessage,

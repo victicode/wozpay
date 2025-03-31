@@ -46,6 +46,19 @@
                 <div>Monto a recibir: </div>
                 <div>Gs. {{ numberFormat(link.amount_recive) }}</div>
               </div>
+              <template v-if="link.type == 2">
+                <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                  <div>Fecha de inicio de cobro: </div>
+                  <div>{{ moment(link.init_dat).format('DD/MM/YYYY') }}</div>
+                </div>
+                <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                  <div>Cantidad de meses a cobrar: </div>
+                  <div>{{ link.for_month }} Meses</div>
+                </div><div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                  <div>Día de cobro: </div>
+                  <div>{{ link.recurring_day }} de cada mes</div>
+                </div>
+              </template>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Estado: </div>
                 <div>{{ link.pay_status_label }} - {{ link.status_label }}</div>
@@ -81,7 +94,7 @@
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Estado </div>
-                <div class="text-justify">{{ link.pay.concept }}</div>
+                <div class="text-justify">{{ link.pay.status_label }}</div>
               </div>
             </div>
           </div>

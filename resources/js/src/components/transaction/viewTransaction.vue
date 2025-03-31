@@ -200,6 +200,7 @@
             title:'Titulo del producto',
             text:transaction.value.title,
           }
+          
           lines[2] = {
             title:'URL',
             value:  transaction.value.url,
@@ -207,6 +208,20 @@
           lines[3] = {
             title:'Referencia',
             value: transaction.value.code,
+          }
+          if (transaction.value.type == 2) {
+            lines[4] = {
+              title:'Cobrar por',
+              text: transaction.value.for_month+' meses',
+            }
+            lines[5] = {
+              title:'Fecha de inicio',
+              value: moment(transaction.value.init_day).format('DD/MM/YYYY') ,
+            }
+          }
+          lines[6] = {
+            title:'Estado',
+            value: transaction.value.status_label,
           }
         }
         if(transactionType == 8)  {

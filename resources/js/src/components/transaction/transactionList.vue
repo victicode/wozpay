@@ -153,7 +153,7 @@ export default {
       if(transaction.transaction == 4)  return { title:'Recibiste una transferencia de', second: transaction.user_from.user.name, text: transaction.concept }
       if(transaction.transaction == 5)  return { title:'Realizaste una transferencia de', second: transaction.user_to.user.name, text: transaction.concept }
       if(transaction.transaction == 6)  return { title:'Débito automático', text:'Woz Payments'}
-      if(transaction.transaction == 7)  return { title:'Links de pago', second:'N°'+transaction.code,text:'Woz Payments'}
+      if(transaction.transaction == 7)  return { title:'Links de pago', second:'N°'+transaction.code,text:'Woz Payments', }
       if(transaction.transaction == 8)  return { title:'Pago de activación', second:'Cuenta internacional', }
       if(transaction.transaction == 9)  return { title:'Pago de paquete de links', second:transaction.package.title, }
       if(transaction.transaction == 10)  return { title:'Pago de link de cobro', second:'#'+transaction.links.type_label, text:transaction.links.title}
