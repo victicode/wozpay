@@ -35,6 +35,12 @@
         <span class="q-mt-xs text-dark text-caption">Notif. push</span>
       </div>
     </q-route-tab>
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/admin/exchange-rate'" exact >
+      <div class="flex flex-center column">
+        <div v-html="wozIcons.exchangeRate" />
+        <span class="q-mt-xs text-dark text-caption">Monedas</span>
+      </div>
+    </q-route-tab>
     <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/admin/interest'" exact >
       <div class="flex flex-center column">
         <div v-html="wozIcons.calculator" />

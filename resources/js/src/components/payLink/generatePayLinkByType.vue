@@ -321,17 +321,24 @@ export default {
     }
     const validateFrom = () => {
       let isOk = true
-      Object.entries(product.value).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+      Object.entries(product.value).forEach( ([key,value ]) => { 
+        
+
+        if( key !='forMonth' && key !='initDay'){
+          
+          if(value == '') isOk = false
+        }
+      }); 
       
       if(selectedOption.value.id == 0) {
         showNotify('negative', 'Debes selecionar un metodo de pago')
         return false
       }
-      if( isNaN(product.value.forMonth)) {
-        isOk = false
-      }
-      console.log(isNaN(product.value.forMonth))
-      console.log(product.value.forMonth)
+      // if( isNaN(product.value.forMonth)) {
+      //   isOk = false
+      // }
+      // console.log(isNaN(product.value.forMonth))
+      // console.log(product.value.forMonth)
 
       return isOk
     }

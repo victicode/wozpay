@@ -2,19 +2,20 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PayController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\CardController;
-use App\Http\Controllers\Api\InterestController;
+use App\Http\Controllers\Api\CoinController;
 use App\Http\Controllers\Api\LinkController;
 use App\Http\Controllers\Api\LoanController;
-use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\Api\PackageController;
-use App\Http\Controllers\Api\PayController;
-use App\Http\Controllers\Api\TransactionController;
-use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WalletController;
+use App\Http\Controllers\Api\PackageController;
+use App\Http\Controllers\Api\InterestController;
+use App\Http\Controllers\Api\TransferController;
+use App\Http\Controllers\Api\BankAccountController;
+use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -157,6 +158,13 @@ Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(fu
     Route::get('/', [InterestController::class, 'getInterestRate']);
     Route::post('/', [InterestController::class, 'storeInterestRate']);
     Route::post('/{type}', [InterestController::class, 'updateInterestRate']);
+
+});
+
+Route::middleware('jwt.verify')->prefix('coins')->name('coins.')->group(function () {
+    Route::get('/', [CoinController::class, 'index']);
+    Route::post('/update/{id}', [CoinController::class, 'updateCoin']);
+    Route::get('/getById/{id}', [CoinController::class, 'getCoinById']);
 
 });
 

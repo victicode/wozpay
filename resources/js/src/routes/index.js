@@ -324,7 +324,16 @@ const router = createRouter({
           meta:{
             title: 'Detalles de pago'
           },
-        }
+        },
+        {
+          path: "/admin/exchange-rate",
+          name: "exchangeRate",
+          component: import('@/pages/admin/exchangeRate.vue'),
+          beforeEnter: admin,
+          meta: {
+            title: 'Monedas'
+          },
+        },
       ]
     },
     {
