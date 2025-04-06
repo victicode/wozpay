@@ -35,39 +35,32 @@
       </div>
       <div v-else>
         <div v-for="n in 5" :key="n" class="q-mt-md flex items-center " >
-          <div class="q-pl-sm">
-            <q-skeleton type="circle" />
-          </div>
-          <div style="border-bottom: 1px solid lightgray; width: 85%;" class="q-px-md flex items-center justify-between ">
+          <div style="border-bottom: 1px solid lightgray; width: 100%;" class="q-px-md flex items-center justify-between ">
             <div style="width: 50%;">
               <div class="text-subtitle1 text-weight-medium">
-                <q-skeleton type="rect" />
+                <q-skeleton type="text"  style="width: 25%;"/>
               </div>
-              <div class="text-subtitle2 text-weight-regular q-mt-sm">
-                <q-skeleton type="rect" style=""/>
+              <div class="text-subtitle2 text-weight-regular q-mt-xs">
+                <q-skeleton type="text" style="width: 10%;"/>
               </div>
             </div>
-            <div style="width: 30%;">
-              <div class="text-subtitle2  text-right q-mt-xs" >
-                <q-skeleton type="text" />
-              </div>
-              <div 
-                style="font-size: 15px;" 
-                class="text-weight-medium text-right q-mt-xs" 
-              >
-                <q-skeleton type="text" />
-              </div>
-              <div class="q-mt-xs">
-                <q-skeleton type="text" />
-              </div>
+            <div style="width: 30%;" class="flex column items-end">
+              
+                <q-skeleton type="text" style="width:40%"  />
+              
+              
+                <q-skeleton type="text" style="width:30%"  />
+              
             </div>
           </div>
 
         </div>
       </div>
     </div>
-    
-    <modalCoin :show="show" :coin="selectedCoin" @hiddeModal="hideModal()" @updateCoin="updateCoin"/>
+    <div v-if="load">
+
+      <modalCoin :show="show" :coin="selectedCoin" @hiddeModal="hideModal()" @updateCoin="updateCoin" @deleteCoin="getCoins"/>
+    </div>
   </div>
 </template>
 <script>
@@ -119,10 +112,13 @@
         })
       }
       const getCoinById = (id) => {
-        show.value = true
+        
         coinStore.getCoinById(id)
         .then((data) => {
           selectedCoin.value = data.data
+
+          show.value = true
+   
         })
       }
       const showNotify = (type, message) => {
@@ -140,9 +136,9 @@
       }
       const hideModal = () =>{
         show.value = false
-        buttonProps.value = 1
         selectedCoin.value = {}
       }
+      
       const updateCoin = (coin) =>{
         let index = coins.value.findIndex(coins => coins.id == coin.id);
 
@@ -150,7 +146,7 @@
           coins.value[index] = coin
         }
 
-        selectedCoin.value = coin
+        selectedCoin.value = {...coins.value[index]}
       }
       onMounted(() => {
         getCoins()
@@ -171,10 +167,10 @@
         coins,
         show,
         selectedCoin,
-        goTo,
         getCoinById,
         hideModal,
         updateCoin,
+        getCoins,
       }
     },
   }

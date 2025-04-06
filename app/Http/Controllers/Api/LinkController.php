@@ -50,22 +50,24 @@ class LinkController extends Controller
         $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
 
         $link = Link::create([
-            'url'           => config('app.url').'v1/pay/link/'.$code ,
-            'code'          => $code,
-            'title'         => $request->title,
-            'note'          => $request->note,
-            'amount'        => $request->amount,
-            'is_recurring'  => $request->type == 2 ? 'yes' : 'no',
-            'recurring_day' => $request->recurring_day ?? null,
-            'init_day'      => $request->type == 2 ? date('Y-m-d',strtotime($request->init_day)) : null,
-            'for_month'      => $request->for_month ?? null,
-            'status'        => 1,
-            'pay_status'    => 1,
-            'isWatch'       => 0,
-            'categorie'     => intval($request->categorie),
-            'type'          => $request->type,
-            'user_id'       => $request->user()->id,
-            'due_time'      => date('Y-m-d H:i:s', time() + 7200)
+            'url'               => config('app.url').'v1/pay/link/'.$code ,
+            'code'              => $code,
+            'title'             => $request->title,
+            'note'              => $request->note,
+            'amount'            => $request->amount,
+            'amount_to_client'  => $request->amount_to_client,
+            'coin_id'           => $request->coin,
+            'is_recurring'      => $request->type == 2 ? 'yes' : 'no',
+            'recurring_day'     => $request->recurring_day ?? null,
+            'init_day'          => $request->type == 2 ? date('Y-m-d',strtotime($request->init_day)) : null,
+            'for_month'         => $request->for_month ?? null,
+            'status'            => 1,
+            'pay_status'        => 1,
+            'isWatch'           => 0,
+            'categorie'         => intval($request->categorie),
+            'type'              => $request->type,
+            'user_id'           => $request->user()->id,
+            'due_time'          => date('Y-m-d H:i:s', time() + 7200)
         ]);
         return $this->returnSuccess(200, $link);
     }

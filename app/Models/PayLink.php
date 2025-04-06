@@ -13,6 +13,7 @@ class PayLink extends Model
     protected $fillable = [
         'link_id', 
         'amount', 
+        'coin_id',
         'method', 
         'type', 
         'status', 

@@ -56,7 +56,6 @@ export const useCoinStore = defineStore("coin", {
       });
     },
     async updateCoin(data) {
-      console.log(data)
       return await new Promise((resolve, reject) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
@@ -76,6 +75,28 @@ export const useCoinStore = defineStore("coin", {
       .catch((response) => {
         console.log(response)
         reject('Error al actualizar datos');
+      });
+    },
+    async deleteCoin(id) {
+      return await new Promise((resolve, reject) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/coins/delete/"+id,)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+       
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al borrar moneda');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        reject('Error al borrar moneda');
       });
     }
   },

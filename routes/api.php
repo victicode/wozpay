@@ -163,8 +163,9 @@ Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(fu
 
 Route::middleware('jwt.verify')->prefix('coins')->name('coins.')->group(function () {
     Route::get('/', [CoinController::class, 'index']);
-    Route::post('/update/{id}', [CoinController::class, 'updateCoin']);
     Route::get('/getById/{id}', [CoinController::class, 'getCoinById']);
+    Route::post('/update/{id}', [CoinController::class, 'updateCoin']);
+    Route::post('/delete/{id}', [CoinController::class, 'deleteCoin']);
 
 });
 

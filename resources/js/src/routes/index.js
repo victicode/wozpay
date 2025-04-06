@@ -328,7 +328,7 @@ const router = createRouter({
         {
           path: "/admin/exchange-rate",
           name: "exchangeRate",
-          component: import('@/pages/admin/exchangeRate.vue'),
+          component: () => import('@/pages/admin/exchangeRate.vue'),
           beforeEnter: admin,
           meta: {
             title: 'Monedas'
