@@ -3,7 +3,10 @@
     <div class="flex justify-between items-center">
       <div>
         <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
-        <h4 class="text-white q-mt-xs  q-pt-sm text-weight-bold ">Gs. {{capitalByUser()}} </h4>
+        <h4 class="text-white q-mt-xs  q-pt-sm text-weight-bold ">
+          
+          {{userCoin.code}} {{capitalByUser()}} 
+        </h4>
       </div>
       <div v-if="user.rol_id == 1">
         <q-btn 
@@ -19,6 +22,15 @@
         </q-btn>
       </div>
       <div class="q-px-md-lg" v-else> 
+        <q-toggle
+            v-model="currentCoin"
+            checked-icon="$"
+            color="green"
+            size="3rem"
+            unchecked-icon="Gs."
+            class="coinSwitch"
+            @update:model-value="updateCoin()"
+          />
           <q-btn flat @click="router.push('/profile')" class="q-px-none"> 
             <div class="flex justify-content-end items-center column">
               <div v-html="wozIcons.profile" class="iconWoz-top " />
@@ -27,6 +39,7 @@
           </q-btn>
       </div>
     </div>
+    
     <div class="q-mt-md-md q-mt-md">
       <div class="w-100 user-info q-mt-md-sm">
         <div class="flex items-center"> 
@@ -74,7 +87,7 @@
   </div>
 </template>
 <script>
-  import { inject, ref } from 'vue'
+  import { inject, onMounted, ref } from 'vue'
   import { useWalletStore } from '@/services/store/wallet.store'
   import { useAuthStore } from '@/services/store/auth.store'
   import { storeToRefs } from 'pinia'
@@ -82,19 +95,22 @@
   import { useRouter } from 'vue-router'
   import utils from '@/util/httpUtil';
   import wozIcons from '@/assets/icons/wozIcons';
-
-  
+  import storage from '@/services/storage'
+  import { useCoinStore } from '@/services/store/coin.store';
   export default {
     setup() {
       //vue provider
-      
+      const currentCoin = ref(!storage.getItem('coin_user') ? false : storage.getItem('coin_user') == 1 ? false : true)
       const numberFormat = util.numberFormat
+      const numberFormatDecimal = util.numberFormatDecimal
       const icons = inject('ionIcons')
       const { balances } = storeToRefs(useWalletStore())
       const { user  } = storeToRefs(useAuthStore())
+      const { coins } = storeToRefs(useCoinStore())
       const store = useAuthStore()
       const router = useRouter()
       const loading = ref(false)
+      const userCoin = ref({})
       // Data
       const showing = ref(false)
       
@@ -106,15 +122,37 @@
         }, 3500);
       }
       const capitalByUser = () => {
-        if(user.value.rol_id != 3){
-          return numberFormat(balances.value.wallet_link)
+        // if(user.value.rol_id != 3){
+        //   return numberFormat(balances.value.wallet_link/userCoin.value.rate)
+        // }
+        // return numberFormat(balances.value.wallet_link/userCoin.value.rate);
+        return currentCoin.value 
+        ? numberFormatDecimal(balances.value.wallet_link/userCoin.value.rate)
+        : numberFormat(balances.value.wallet_link/userCoin.value.rate);
+      }
+      
+      const getCoin = () => {
+        let coinStorage = storage.getItem('coin_user')
+        if(!coinStorage) {
+          coinStorage = 1;
+          storage.setItem('coin_user', 1)
         }
-        return numberFormat(balances.value.wallet_link);
+        // userCoin.value = coin
+
+        userCoin.value = coins.value.find((coin) => coin.id == coinStorage)
+      }
+      const updateCoin = () => {
+        let coin = currentCoin.value ? 2 : 1
+        storage.setItem('coin_user', coin)
+        userCoin.value = coins.value.find((coins) => coins.id == coin)
       }
       const logout = () =>{
         loading.value = true
         utils.errorLogout( () => router.push('/login'))
       }
+      onMounted(() => {
+        getCoin()
+      })
       return{
         user,
         wozIcons,
@@ -124,15 +162,48 @@
         numberFormat,
         showing,
         router,
+        currentCoin,
         showToltip,
         capitalByUser,
+        userCoin,
         logout,
+        updateCoin,
       }
     },
   }
 
 </script>
 <style lang="scss">
+.coinSwitch {
+  transform: rotate(90deg);
+  & i.notranslate{
+    font-weight: bold;
+    color: white;
+  }
+  & .q-toggle__thumb{
+    top: 0.12em;
+    left: 0.1em;
+    width: 0.7em;
+    height: 0.7em;
+    transform: rotate(-90deg);
+    &:after{
+      background: $primary;
+    }
+    & .q-icon{
+      opacity: 1;
+    }
+  }
+  & .q-toggle__inner{
+    color: $primary;
+  }
+  
+  & .q-toggle__inner--truthy .q-toggle__thumb {
+      left: 1.8rem;
+      &:after{
+        background: #4caf50;
+      }
+  }
+}
 .iconWoz-top{
     & path{
       stroke: white;

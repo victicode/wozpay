@@ -47,4 +47,8 @@ class PayLink extends Model
     public function links(){
         return $this->belongsTo(Link::class,'link_id', 'id');
     }
+    public function coin(){
+        return $this->belongsTo(Coin::class,'coin_id', 'id');
+
+    }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="q-py-sm " style="overflow: auto; height: 100%;">
     <div class="q-px-md q-py-md q-pb-xl q-mb-md" v-if="ready">
-      <template v-if="(route.params.type == 1 || route.params.type == 2) || ( link.status == 1)">
+      <template v-if="(route.params.type == 1 || route.params.type == 2) || ( link.status == 1 && link.pay_status == 1)">
         <div class="q-mb-md">
           <div class="text-weight-bold">
             Comercio / Cliente:
@@ -51,12 +51,12 @@
                   </div>
                 </template>
                 <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
-                  Gs. {{
+                  {{ link.coin ? link.coin.code :'GS.'}} {{
                     route.params.type == 1 
                     ? numberFormat(route.query.amount)
                     : route.params.type == 2 
                     ? numberFormat(route.query.amount)
-                    : numberFormat(link.amount)
+                    : numberFormat(link.amount/link.coin.rate)
                   }}
                 </div>
               </div>
@@ -101,6 +101,7 @@
                   :label="item.label"  
                   autocomplete="off"
                   :rules="rulesForm(key)"
+
                   :mask="maskFormat(key)"
                   :maxlength="key == 'cvc' ? 3 : key == 'numberClient' ? 22 :''"
                   @keyup="callbackKeyup(key,$event)"
@@ -186,12 +187,12 @@
       <template v-else>
         <div class="q-mt-xl">
           <div class="flex justify-center q-mt-xl">
-            <div style="width: 5rem; height: 5rem; border-radius: 50%;" class="flex flex-center" :class="link.status == 0 ? 'bg-negative' : 'bg-positive'">
-              <q-icon :name="link.status == 0 ? 'eva-close-outline' : 'eva-checkmark-outline'" color="white" size="4rem" />
+            <div style="width: 5rem; height: 5rem; border-radius: 50%;" class="flex flex-center" :class="link.status == 0 ? 'bg-negative' : link.pay_status == 2 ? 'bg-warning' :'bg-positive'">
+              <q-icon :name="link.status == 0 ? 'eva-close-outline' : link.pay_status == 2 ? 'eva-clock-outline' : 'eva-checkmark-outline'" color="white" size="4rem" />
             </div>
           </div>
           <div class="text-h5 text-center text-weight-medium q-mt-lg">
-            {{ link.status == 0 ? 'El tiempo de validez de este link de cobro ha expirado!' : 'Este link fue procesado exitosamente' }}          
+            {{ link.status == 0 ? 'El tiempo de validez de este link de cobro ha expirado!' : link.pay_status == 2 ? 'Este link tiene un pago pendiente por aprobación' : 'Este link fue procesado exitosamente' }}          
           </div>
         </div>
       </template>
@@ -255,13 +256,14 @@
       const cardType = ref('general');
       const formError = ref(false)
       const clientForm = ref({
-        nameClient:{
-          value:'',
-          label:'Nombre en la tarjeta'
-        },
+        
         numberClient:{
           value:'',
           label:'Número de tarjeta'
+        },
+        nameClient:{
+          value:'',
+          label:'Nombre en la tarjeta'
         },
         due:{
           value:'',
@@ -360,13 +362,13 @@
         data.append('link_id', link.value.id)
         data.append('concept', link.value.title +' - '+ link.value.note)
 
-        data.append('card', clientForm.value.numberClient.value)
+        data.append('card', clientForm.value.numberClient.value.replace(/\ /g, ''),)
         data.append('card_name', clientForm.value.nameClient.value)
         data.append('cvc', clientForm.value.cvc.value)
         data.append('date', clientForm.value.due.value)
         data.append('email', clientForm.value.email.value)
 
-
+        data.append('coin', link.value.coin_id)
 
         payStore.createPayLink(data)
         .then((response) => {
@@ -448,7 +450,7 @@
       const maskFormat = (key) => {
         const iMask = {
           nameClient:'',
-          numberClient:'',
+          numberClient:'#### #### #### #### #### #### #### ####',
           due:'##/##',
           cvc:'###',
           email:'',

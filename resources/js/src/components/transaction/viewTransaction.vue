@@ -121,8 +121,13 @@
         const lines = []
         lines[0] = {
           title:'Monto',
-          text:'Cantidad de dinero en Guaranies',
-          value:numberFormat(transactionType == 6 ?212000 :transaction.value.amount )
+          text: transactionType == 10 && transaction.value.coin.id == 2 ? 'Cantidad de dinero (1 USD ≈ ' +'Gs.'+ numberFormat(transaction.value.coin.rate)+')':'Cantidad de dinero en Guaranies',
+          value: transactionType == 10 && transaction.value.coin.id == 2
+            ? `${numberFormat(transaction.value.amount/transaction.value.coin.rate)} ${transaction.value.coin.code} ≈ Gs.${numberFormat(transaction.value.amount)}`
+            : numberFormat(
+              transactionType == 6 
+              ? 212000 
+              : transaction.value.amount )
         }
         
         if(transactionType == 1) {
@@ -266,14 +271,18 @@
             text:transaction.value.links.title,
           }
           lines[2] = {
+            title:'Tipo de moneda',
+            value:transaction.value.coin.name,
+          }
+          lines[3] = {
             title:'Referencia',
             value: 'N° '+transaction.value.operation_id,
           }
-          lines[3] = {
+          lines[4] = {
             title:'Metodo de pago',
             value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
           }
-          lines[4] = {
+          lines[5] = {
             title:'Estado',
             value: transaction.value.status_label,
           }

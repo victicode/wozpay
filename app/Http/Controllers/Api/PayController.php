@@ -98,6 +98,7 @@ class PayController extends Controller
                 'link_id'       => $request->link_id,
                 'amount'        => $link->amount,
                 'method'        => 1,
+                'coin_id'       => $request->coin,
                 'type'          => 7,
                 'status'        => 1,
                 'concept'       => $request->concept,
@@ -345,7 +346,7 @@ class PayController extends Controller
     private function validateFieldsFromInputLink($inputs){
         $rules=[
             'link_id'       => ['required', 'integer'],
-            'concept'       => ['regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
+            'concept'       => ['regex:/^[a-zA-Z-À-ÿ0-9 \- #\/.]+$/i'],
             'card'          => ['required', 'regex:/^[0-9\/.]+$/i'],
             'card_name'     => ['required', 'regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
             'cvc'           => ['required', 'integer', 'max_digits:3'],

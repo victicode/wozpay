@@ -18,13 +18,13 @@ class LinkController extends Controller
     public function getByUserLast5($id)
     {
         //
-        $links = Link::where('user_id', $id)->orderBy('id', 'desc')->take(5)->get();
+        $links = Link::with('coin')->where('user_id', $id)->orderBy('id', 'desc')->take(5)->get();
         return $this->returnSuccess(200, $links);
     }
     public function getByUser($id)
     {
         //
-        $links = Link::where('user_id', $id)->orderBy('id', 'desc')->get();
+        $links = Link::with('coin')->where('user_id', $id)->orderBy('id', 'desc')->get();
         return $this->returnSuccess(200, $links);
     }
     
@@ -35,7 +35,7 @@ class LinkController extends Controller
     public function getById($id)
     {
         //
-        $link = Link::with('user', 'pay')->find($id);
+        $link = Link::with('user', 'pay', 'coin')->find($id);
         return $this->returnSuccess(200, $link);
     }
 
@@ -73,14 +73,14 @@ class LinkController extends Controller
     }
 
     public function getByCode($code){
-        $link = Link::with('user', 'pay')->where('code', $code)->first();
+        $link = Link::with('user', 'pay', 'coin')->where('code', $code)->first();
         return $this->returnSuccess(200, $link);
     }
     public function setPayStatus(Request $request)
     {
         //.3
         $pay = PayLink::find($request->payId);
-        $link = Link::with('user', 'pay')->find($pay->link_id);
+        $link = Link::with(['user', 'pay', 'coin'])->find($pay->link_id);
 
 
         if($request->status == 3){
@@ -111,7 +111,7 @@ class LinkController extends Controller
     {
         $wallet = Wallet::where('user_id', $link->user_id)->where('type', '2')->first();
 
-        $wallet->balance += $link->amount_recive;
+        $wallet->balance += $link->amount_to_client;
 
         $wallet->save();
     }

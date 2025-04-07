@@ -15,12 +15,14 @@ class Link extends Model
         'short', 
         'code', 
         'title',
+        'coin_id',
         'recurring_day',
         'init_day',
         'is_recurring',
         'for_month',
         'note', 
         'amount', 
+        'amount_to_client',
         'status', 
         'pay_status', 
         'isWatch', 
@@ -87,5 +89,9 @@ class Link extends Model
     }
     public function pay(){
         return $this->hasOne(PayLink::class,'link_id', 'id')->where('status', '!=', '0');
+    }
+    public function coin(){
+        return $this->belongsTo(Coin::class,'coin_id', 'id');
+
     }
 }

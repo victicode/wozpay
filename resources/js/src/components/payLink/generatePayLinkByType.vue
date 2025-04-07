@@ -56,6 +56,23 @@
               autocomplete="off"
             />
           </div>
+          <div class=" linkPaySelectType q-mb-sm q-mt-xs q-pb-xs">
+            <q-select 
+              outlined 
+              option-value="id" 
+              option-label="name" 
+              label="Selecciona la moneda"
+              v-model="selectedCoin" 
+              :options="optionCoin"  
+              :clear-icon="'eva-close-outline'"
+              dropdown-icon="eva-chevron-down-outline"
+              behavior="menu"
+              color="positive"
+              :hint="selectedCoin.id == 1 ?'' : '1 USD ≈ ' +'Gs.'+ numberFormat(selectedCoin.rate) "
+              class="linkPaySelectType" 
+              @update:model-value="updateType()"
+            />
+          </div>
           <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
             <q-input
               class="linkPaySelectType2"
@@ -127,22 +144,7 @@
               autocomplete="off"
             />
           </div>
-          <div class=" q-mt-sm">
-            <q-select 
-              outlined 
-              option-value="id" 
-              option-label="name" 
-              label="Selcciona la moneda"
-              v-model="selectedCoin" 
-              :options="optionCoin"  
-              :clear-icon="'eva-close-outline'"
-              dropdown-icon="eva-chevron-down-outline"
-              behavior="menu"
-              color="positive"
-              class="linkPaySelectType" 
-              @update:model-value="updateType()"
-            />
-          </div>
+          
         </div>
         <div class="q-px-md q-mt-md">
           <div class="text-subtitle1 text-weight-bold text-blue-grey-10"> 
@@ -323,7 +325,7 @@ export default {
         name:[
           val => (val !== null && val !== '') || 'Nombre del producto es requerido.',
           // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-          val => (/[,%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          val => (/[,%\"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
         amount:[
           val => (val !== null && val !== '') || 'Monto es requerido',
@@ -331,7 +333,7 @@ export default {
         description:[
           val => (val !== null && val !== '') || 'Detalles de producto es requerido.',
           // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-          val => (/[,%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          val => (/[%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
       }
       
@@ -372,9 +374,9 @@ export default {
       loading.value = true
       const data = {
         note:   product.value.details,
-        amount: parseInt(product.value.amount.replace(/\./g, '')),
-        amount_to_client:parseInt(product.value.to_client.replace(/\./g, '')),
-        coin:selectedCoin.value.id,
+        amount: parseInt(product.value.amount.replace(/\./g, ''))*selectedCoin.value.rate,
+        amount_to_client:parseInt(product.value.to_client.replace(/\./g, ''))*selectedCoin.value.rate,
+        coin :selectedCoin.value.id,
         title:  product.value.name,
         type:   selectedOption.value.id,
         categorie: route.params.type,

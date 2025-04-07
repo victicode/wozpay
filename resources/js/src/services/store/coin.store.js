@@ -5,7 +5,7 @@ import storage from "../storage";
 
 export const useCoinStore = defineStore("coin", {
   state: () => ({
-    coinCurrent: {},
+    coins: {},
   }),
   actions: {
     setCoin(state){
@@ -32,6 +32,12 @@ export const useCoinStore = defineStore("coin", {
         console.log(response)
         reject('Error al obtener los datos');
       });
+    },
+    async setCoins(){
+      this.getCoins()
+      .then((data) => {
+        this.coins = data.data
+      })
     },
     async getCoinById(id, current = false) {
       return await new Promise((resolve, reject) => {

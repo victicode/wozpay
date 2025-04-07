@@ -1,6 +1,6 @@
 <template>
   <div  class="bg-positive " style="height: 100vh;">
-    <div v-if="Object.values(link).length > 0" style="height: 100%; overflow: auto;" class="q-pb-xl q-pb-md-sm">
+    <div v-if="Object.values(link).length > 0" style="height: 100%; overflow: auto;" class="q-pb-xl q-pb-md-sm linkContentList">
 
       <div id="topbarLayoutLink" class="bg-positive q-pt-md q-pt-md-xs">
         <div class="w-100 flex justify-between items-center h-100 q-pb-sm">
@@ -59,13 +59,19 @@
               <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Monto</div>
                 <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
-                  Gs. {{ numberFormat(link.amount) }}
+                  {{link.coin.code}} {{ numberFormat(link.amount/link.coin.rate) }}
                 </div>
               </div>
               <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
                 <div class="text-subtitle1 text-weight-bold q-pl-xs">Monto a recibir</div>
                 <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
-                  Gs. {{ numberFormat(link.amount_recive) }}
+                  {{link.coin.code}} {{ numberFormat(link.amount_to_client/link.coin.rate) }}
+                </div>
+              </div>
+              <div class="recipe__list q-pt-sm q-mt-xs q-pt-md-xs q-pb-xs">
+                <div class="text-subtitle1 text-weight-bold q-pl-xs">Moneda</div>
+                <div class="text-primary text-weight-medium text-body1 q-px-xs q-py-xs">
+                  {{link.coin.name}}
                 </div>
               </div>
               <template v-if="link.type == 2">
@@ -224,6 +230,23 @@
   };
 </script>
 <style lang="scss" scoped>
+.linkContentList{
+  &::-webkit-scrollbar {
+  width: 4px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: rgb(0, 107, 18);
+    border-radius: 10px;
+  }
+}
 .title__text{
   font-size: 1.3rem;
 }

@@ -124,7 +124,7 @@ class TransactionController extends Controller
             return Pay::with('user', 'package')->find($id);
         }
         if($type == 10){
-            return PayLink::with('links')->find($id);
+            return PayLink::with('links', 'coin')->find($id);
         }
     }
     private function object_sorter($clave,$orden=null) {
