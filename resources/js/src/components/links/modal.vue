@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="dialog"  persistent class="notificationDetails__modal">
+    <q-dialog v-model="dialog"  persistent class="linkUserDetails__modal">
       <q-card class="position-relative dialogDetails__pay" :class="{'view':view}" >
         <q-card-section class="flex q-pb-sm w-100 items-center justify-between">
           <div class="text-subtitle1 text-weight-bold">
@@ -40,14 +40,14 @@
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Monto: </div>
-                <div>Gs. {{ numberFormat(link.amount) }}</div>
+                <div>{{ amountToLink(link.amount) }}</div>
               </div>
-              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-                <div>Monto a recibir: </div>
-                <div>Gs. {{ numberFormat(link.amount_recive) }}</div>
+              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey; flex-wrap: nowrap;" >
+                <div style="width: 25%;" class="ellipsis">Monto a recibir: </div>
+                <div> {{ amountToLink(link.amount_to_client) }}</div>
               </div>
               <template v-if="link.type == 2">
-                <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey; " >
                   <div>Fecha de inicio de cobro: </div>
                   <div>{{ moment(link.init_dat).format('DD/MM/YYYY') }}</div>
                 </div>
@@ -89,8 +89,8 @@
                 <div class="text-justify">{{ link.pay.concept }}</div>
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-                <div>Monto cancelado: </div>
-                <div>Gs. {{ numberFormat(link.pay.amount) }}</div>
+                <div style="width: 25%;" class="ellipsis">Monto cancelado: </div>
+                <div>{{ amountToLink(link.pay.amount) }}</div>
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Estado </div>
@@ -132,7 +132,12 @@
       const hideModal = () => {
         emit('hiddeModal')
       }  
+      const amountToLink = (amount) => {
 
+        return link.value.coin_id == 2
+        ? `${numberFormat(amount/link.value.rate_amount)} ${link.value.coin.code} ≈ Gs. ${numberFormat((amount/link.value.rate_amount)*link.value.coin.rate)}`
+        :'Gs. ' + numberFormat(amount)
+      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
@@ -158,10 +163,19 @@
         view,
         numberFormat,
         hideModal,
+        amountToLink,
       }
     }
   };
 </script>
+<style lang="scss">
+.linkUserDetails__modal{
+  width: 100%;
+  & .q-dialog__inner--minimized{
+    padding: 13px!important;
+  }
+}
+</style>
 <style lang="scss" scoped>
 .dialogDetails__pay{
   width: 560px; 
@@ -180,12 +194,7 @@
 .negative-back {
   background-color: #ff00001a;border-radius: 20px;
 }
-.notificationDetails__modal{
-  width: 100%;
-  & .q-dialog__inner--minimized{
-    padding: 13px!important;
-  }
-}
+
 .button-file {
   width: 60px; 
   height: 60px; 

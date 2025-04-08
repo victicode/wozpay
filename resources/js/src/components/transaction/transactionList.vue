@@ -43,7 +43,7 @@
                 {{ moment(transaction.created_at).format('DD/MM/YYYY') }}
               </div>
               <div class="text-subtitle2 text-right text-weight-medium " :class="colorTextByTrasaction(transaction)">
-                Gs. {{ transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7 || transaction.transaction == 10 ? '' : '-' }}{{ numberFormat(transaction.amount) }}
+                {{ transaction.transaction == 1 || transaction.transaction == 4 || transaction.transaction == 7 || transaction.transaction == 10 ? '' : '-' }}{{amountToTransaction(transaction) }}
               </div>
             </div>
           </div>
@@ -107,6 +107,8 @@ export default {
     const transactions = ref([])
     const transactionStore = useTransactionStore()
     const numberFormat = util.numberFormat
+    const numberFormatDecimal = util.numberFormatDecimal
+
     const router = useRouter()
     const search = ref('')
     const month = ref(new Date().getMonth())
@@ -136,6 +138,15 @@ export default {
         showNotification({msg:response, title:'Error'})
       })
     } 
+    const amountToTransaction = (transaction) => {
+      let amount = transaction.transaction == 7
+      ? transaction.amount_to_client
+      : transaction.amount
+
+      return transaction.transaction == 7 && transaction.coin_id == 2
+      ? transaction.coin.code +' '+numberFormat(amount/transaction.rate_amount)
+      :'Gs. ' + numberFormat(amount)
+    }
     const showNotification = (value) => {
         const data = {
         newColor: 'negative', 
@@ -210,6 +221,7 @@ export default {
       currentPage,
       lastPage,
       setPage,
+      amountToTransaction,
     }
   },
 }

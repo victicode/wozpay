@@ -17,6 +17,7 @@ class Link extends Model
         'title',
         'coin_id',
         'recurring_day',
+        'rate_amount',
         'init_day',
         'is_recurring',
         'for_month',

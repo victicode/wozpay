@@ -124,6 +124,7 @@
       }
       watch(route, () => {
         isReady()
+        setCoins()
         getCurrentUser()
         
       });

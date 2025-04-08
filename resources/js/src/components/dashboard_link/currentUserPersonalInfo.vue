@@ -22,7 +22,7 @@
         </q-btn>
       </div>
       <div class="q-px-md-lg" v-else> 
-        <q-toggle
+          <!-- <q-toggle
             v-model="currentCoin"
             checked-icon="$"
             color="green"
@@ -30,7 +30,13 @@
             unchecked-icon="Gs."
             class="coinSwitch"
             @update:model-value="updateCoin()"
-          />
+          /> -->
+          <q-btn flat @click="dialog=true" class="q-px-md"> 
+            <div class="flex justify-content-end items-center column">
+              <div v-html="wozIcons.coinButton" class="iconWoz-top " />
+              <span class="q-mt-xs text-white text-caption iconWoz-top__text">Moneda</span>
+            </div>
+          </q-btn>
           <q-btn flat @click="router.push('/profile')" class="q-px-none"> 
             <div class="flex justify-content-end items-center column">
               <div v-html="wozIcons.profile" class="iconWoz-top " />
@@ -84,33 +90,40 @@
         </div>
       </div>
     </div>
+    <coinModal :show="dialog" @hiddeModal="hideModal()" @updateCurrentCoin="getCoin()" />
+
   </div>
 </template>
 <script>
   import { inject, onMounted, ref } from 'vue'
   import { useWalletStore } from '@/services/store/wallet.store'
   import { useAuthStore } from '@/services/store/auth.store'
+  import { useCoinStore } from '@/services/store/coin.store';
   import { storeToRefs } from 'pinia'
   import util from '@/util/numberUtil'
   import { useRouter } from 'vue-router'
   import utils from '@/util/httpUtil';
   import wozIcons from '@/assets/icons/wozIcons';
   import storage from '@/services/storage'
-  import { useCoinStore } from '@/services/store/coin.store';
+  import coinModal from '@/components/dashboard_link/modal/coinModal.vue'
+  
+  
   export default {
+    components:{
+      coinModal,
+    },
     setup() {
       //vue provider
-      const currentCoin = ref(!storage.getItem('coin_user') ? false : storage.getItem('coin_user') == 1 ? false : true)
       const numberFormat = util.numberFormat
       const numberFormatDecimal = util.numberFormatDecimal
       const icons = inject('ionIcons')
       const { balances } = storeToRefs(useWalletStore())
       const { user  } = storeToRefs(useAuthStore())
       const { coins } = storeToRefs(useCoinStore())
-      const store = useAuthStore()
       const router = useRouter()
       const loading = ref(false)
       const userCoin = ref({})
+      const dialog = ref(false)
       // Data
       const showing = ref(false)
       
@@ -121,14 +134,14 @@
           showing.value = false
         }, 3500);
       }
+      const hideModal = () => {
+        dialog.value = false
+      }
       const capitalByUser = () => {
-        // if(user.value.rol_id != 3){
-        //   return numberFormat(balances.value.wallet_link/userCoin.value.rate)
-        // }
-        // return numberFormat(balances.value.wallet_link/userCoin.value.rate);
-        return currentCoin.value 
-        ? numberFormatDecimal(balances.value.wallet_link/userCoin.value.rate)
-        : numberFormat(balances.value.wallet_link/userCoin.value.rate);
+        return userCoin.value.id == 2
+        ? numberFormatDecimal((balances.value.wallet_link/userCoin.value.rate ) + balances.value.wallet_dolar)
+        : numberFormat((balances.value.wallet_dolar * coins.value[1].rate) + balances.value.wallet_link )
+
       }
       
       const getCoin = () => {
@@ -141,11 +154,6 @@
 
         userCoin.value = coins.value.find((coin) => coin.id == coinStorage)
       }
-      const updateCoin = () => {
-        let coin = currentCoin.value ? 2 : 1
-        storage.setItem('coin_user', coin)
-        userCoin.value = coins.value.find((coins) => coins.id == coin)
-      }
       const logout = () =>{
         loading.value = true
         utils.errorLogout( () => router.push('/login'))
@@ -155,6 +163,7 @@
       })
       return{
         user,
+        dialog,
         wozIcons,
         icons,
         balances,
@@ -162,12 +171,12 @@
         numberFormat,
         showing,
         router,
-        currentCoin,
-        showToltip,
-        capitalByUser,
         userCoin,
+        showToltip,
+        getCoin,
+        capitalByUser,
         logout,
-        updateCoin,
+        hideModal,
       }
     },
   }

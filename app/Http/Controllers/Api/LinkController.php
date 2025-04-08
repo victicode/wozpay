@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\Coin;
 use App\Models\Link;
 use App\Models\Wallet;
 use App\Models\PayLink;
@@ -48,6 +49,7 @@ class LinkController extends Controller
         date_default_timezone_set('America/Asuncion');
 
         $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
+        $rate = Coin::find($request->coin)->rate;
 
         $link = Link::create([
             'url'               => config('app.url').'v1/pay/link/'.$code ,
@@ -57,6 +59,7 @@ class LinkController extends Controller
             'amount'            => $request->amount,
             'amount_to_client'  => $request->amount_to_client,
             'coin_id'           => $request->coin,
+            'rate_amount'       => $rate,
             'is_recurring'      => $request->type == 2 ? 'yes' : 'no',
             'recurring_day'     => $request->recurring_day ?? null,
             'init_day'          => $request->type == 2 ? date('Y-m-d',strtotime($request->init_day)) : null,
@@ -110,8 +113,11 @@ class LinkController extends Controller
     private function updateWallet($link)
     {
         $wallet = Wallet::where('user_id', $link->user_id)->where('type', '2')->first();
+        
+        $link->coin->id == 1
+        ? $wallet->balance += $link->amount_to_client
+        : $wallet->balance_dolar += $link->amount_to_client/$link->rate_amount;
 
-        $wallet->balance += $link->amount_to_client;
 
         $wallet->save();
     }

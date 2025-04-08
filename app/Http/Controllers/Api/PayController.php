@@ -92,11 +92,12 @@ class PayController extends Controller
 
 
         try {
-            $link = Link::find($request->link_id);
+            $link = Link::with('coin')->find($request->link_id);
            
             $pay = PayLink::create([
                 'link_id'       => $request->link_id,
                 'amount'        => $link->amount,
+                'rate_amount'   => $link->coin->rate,
                 'method'        => 1,
                 'coin_id'       => $request->coin,
                 'type'          => 7,

@@ -10,7 +10,7 @@ class Wallet extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['number', 'balance', 'type', 'status', 'user_id'];
+    protected $fillable = ['number', 'balance', 'type', 'status', 'user_id', 'balance_dolar'];
     protected $appends = ['status_label'];
 
     public function getstatusLabelAttribute()

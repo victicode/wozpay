@@ -82,12 +82,37 @@
                       <div class="text-justify">{{ link.pay.concept }}</div>
                     </div>
                     <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-                      <div>Monto: </div>
-                      <div>Gs. {{ numberFormat(link.pay.amount) }}</div>
+                      <div>Moneda: </div>
+                      <div class="text-justify">{{ link.coin.name }}</div>
                     </div>
                     <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-                      <div>Monto para usario: </div>
-                      <div>Gs. {{ numberFormat(link.amount_recive) }}</div>
+                      <div>Monto: </div>
+                      <div>
+                        {{ 
+                          link.coin_id==1
+                          ?  link.coin.code  + numberFormat(link.pay.amount) 
+                          :  `${link.coin.code} ${numberFormat(link.pay.amount/link.pay.rate_amount)} ≈ Gs. ${numberFormat(link.pay.amount)}`
+                        }}
+                       
+                      </div>
+                    </div>
+                    <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Usuario recibe: </div>
+                      <div>
+                        {{ 
+                          link.coin_id==1
+                          ?  link.coin.code  + numberFormat(link.amount_to_client) 
+                          :  `${link.coin.code} ${numberFormat(link.amount_to_client/link.pay.rate_amount)} ≈ Gs. ${numberFormat(link.amount_to_client)}`
+                        }}
+                      </div>
+                    </div>
+                    <div v-if="link.coin_id==2" class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+                      <div>Factor de cambio: </div>
+                      <div>
+                        {{ 
+                          numberFormat(link.pay.rate_amount)
+                        }}
+                      </div>
                     </div>
                   </div>
                   <div style="border-top: 2px solid black;" class="q-pt-md q-mt-lg ">

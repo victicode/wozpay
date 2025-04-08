@@ -19,6 +19,7 @@ class PayLink extends Model
         'status', 
         'concept', 
         'operation_id', 
+        'rate_amount',
         'bank', 
         'pay_date',
         'vaucher',
