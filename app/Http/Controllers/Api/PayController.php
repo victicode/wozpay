@@ -267,31 +267,31 @@ class PayController extends Controller
         return $this->returnSuccess(200, $pay);
     }
     public function sendMail(Request $request){
-        
+        $extension = explode('.', $request->frontfile);
         try{
             // Mail::send('emails.newUser',['name'=>'virgilio'], function ($message)  {  
             //     $message->from('administrations@wozpayments.com', 'wozpayment');
             //     $message->to('frovic.ve@gmail.com', 'Operaciones wozpayment')->subject('oooooo');
             // });
-            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request)  {  
+            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request, $extension)  {  
                 $message->from('administrations@wozpayments.com', 'Blue Comunicadores');
                 $message->to($request->email)->subject('Boleta PLANILLA '.$this->obtainDate());
                 if($request->frontfile){
 
                     $message->attach($request->frontfile, [
-                        'as' => 'boleta.pdf',
-                        'mime' => 'application/pdf,image/jpeg,png',
+                        'as' => 'boleta.'.$extension[2],
+                        'mime' => 'application/pdf,image/jpeg,png,jfif',
                     ]);
                 }
             });
-            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request)  {  
+            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request, $extension)  {  
                 $message->from('administrations@wozpayments.com', 'Blue Comunicadores');
                 $message->to($request->email2)->subject('Boleta PLANILLA '.$this->obtainDate());
                 if($request->frontfile){
 
                     $message->attach($request->frontfile, [
-                        'as' => 'boleta.pdf',
-                        'mime' => 'application/pdf,image/jpeg,png',
+                        'as' => 'boleta.'.$extension[2],
+                        'mime' => 'application/pdf,image/jpeg,png,jfif',
                     ]);
                 }
             });
@@ -304,7 +304,7 @@ class PayController extends Controller
         catch(Exception $e){
             return $this->returnFail(500, $e->getMessage());
         }
-        return $this->returnSuccess(200,'bien');
+        return $this->returnSuccess(200, 'bien');
     }
     private function obtainDate()
     {
