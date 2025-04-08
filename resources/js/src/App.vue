@@ -35,6 +35,7 @@
   import { useRoute, useRouter } from 'vue-router';
   import utils from '@/util/httpUtil';
   import modalNotification from '@/components/layouts/modals/modalNotification.vue';
+  import { useCoinStore } from './services/store/coin.store';
 
   export default {
     components: {
@@ -118,12 +119,18 @@
           getCurrentUser(true)
         })
       }
+      const setCoins = () => {
+        useCoinStore().setCoins()
+      }
       watch(route, () => {
         isReady()
+        setCoins()
         getCurrentUser()
+        
       });
 
       onMounted(() =>{
+        setCoins()
         isReady()
         setTimeout(() =>{
             // This hides the address bar:

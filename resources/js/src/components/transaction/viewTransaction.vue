@@ -121,8 +121,15 @@
         const lines = []
         lines[0] = {
           title:'Monto',
-          text:'Cantidad de dinero en Guaranies',
-          value:numberFormat(transactionType == 6 ?212000 :transaction.value.amount )
+          text: (transactionType == 10 && transaction.value.coin.id == 2) || (transactionType == 7 && transaction.value.coin.id == 2) 
+          ? 'Cantidad de dinero (1 USD ≈ ' +'Gs.'+ numberFormat(transaction.value.coin.rate)+')'
+          : 'Cantidad de dinero en Guaranies',
+          value: (transactionType == 10 && transaction.value.coin.id == 2) || (transactionType == 7 && transaction.value.coin.id == 2) 
+            ? `${numberFormat(transaction.value.amount/transaction.value.rate_amount)} ${transaction.value.coin.code} ≈ Gs. ${numberFormat((transaction.value.amount/transaction.value.rate_amount)*transaction.value.coin.rate)}`
+            : numberFormat(
+              transactionType == 6 
+              ? 212000 
+              : transaction.value.amount )
         }
         
         if(transactionType == 1) {
@@ -197,29 +204,39 @@
 
         if(transactionType == 7)  {
           lines[1] = {
+            title:'Monto a recibir',
+            value: transaction.value.coin.id == 2
+            ?`${numberFormat(transaction.value.amount_to_client/transaction.value.rate_amount)} ${transaction.value.coin.code} ≈ Gs. ${numberFormat((transaction.value.amount_to_client/transaction.value.rate_amount)*transaction.value.coin.rate)}`
+            :'Gs.'+ numberFormat(transaction.value.amount_to_client),
+          }
+          lines[2] = {
             title:'Titulo del producto',
             text:transaction.value.title,
           }
           
-          lines[2] = {
+          lines[3] = {
             title:'URL',
             value:  transaction.value.url,
           }
-          lines[3] = {
+          lines[4] = {
             title:'Referencia',
             value: transaction.value.code,
           }
+          lines[5] = {
+            title:'Tipo de moneda',
+            value:transaction.value.coin.name,
+          }
           if (transaction.value.type == 2) {
-            lines[4] = {
+            lines[6] = {
               title:'Cobrar por',
               text: transaction.value.for_month+' meses',
             }
-            lines[5] = {
+            lines[7] = {
               title:'Fecha de inicio',
               value: moment(transaction.value.init_day).format('DD/MM/YYYY') ,
             }
           }
-          lines[6] = {
+          lines[transaction.value.type == 2 ? 8 : 6] = {
             title:'Estado',
             value: transaction.value.status_label,
           }
@@ -266,14 +283,18 @@
             text:transaction.value.links.title,
           }
           lines[2] = {
+            title:'Tipo de moneda',
+            value:transaction.value.coin.name,
+          }
+          lines[3] = {
             title:'Referencia',
             value: 'N° '+transaction.value.operation_id,
           }
-          lines[3] = {
+          lines[4] = {
             title:'Metodo de pago',
             value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
           }
-          lines[4] = {
+          lines[5] = {
             title:'Estado',
             value: transaction.value.status_label,
           }

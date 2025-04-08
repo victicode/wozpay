@@ -23,7 +23,6 @@
             option-label="name" 
             v-model="selectedOption" 
             :options="optionsLink"  
-            clearable
             :clear-icon="'eva-close-outline'"
             dropdown-icon="eva-chevron-down-outline"
             behavior="menu"
@@ -55,6 +54,23 @@
               label="Nombre del producto"
               :rules="rulesForm('name')"
               autocomplete="off"
+            />
+          </div>
+          <div class=" linkPaySelectType q-mb-sm q-mt-xs q-pb-xs">
+            <q-select 
+              outlined 
+              option-value="id" 
+              option-label="name" 
+              label="Selecciona la moneda"
+              v-model="selectedCoin" 
+              :options="optionCoin"  
+              :clear-icon="'eva-close-outline'"
+              dropdown-icon="eva-chevron-down-outline"
+              behavior="menu"
+              color="positive"
+              :hint="selectedCoin.id == 1 ?'' : '1 USD ≈ ' +'Gs.'+ numberFormat(selectedCoin.rate) "
+              class="linkPaySelectType" 
+              @update:model-value="updateType()"
             />
           </div>
           <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
@@ -107,11 +123,12 @@
               :clear-icon="'eva-close-outline'"
               color="positive"
               v-model="product.amount"
-              label="Precio en Gs."
+              :label="selectedCoin.id == 1 ?'Precio en Gs.':'Precion en dolares'"
               mask="###.###.###"
               reverse-fill-mask
               :rules="rulesForm('amount')"
               autocomplete="off"
+              @keyup="totalToClient()"
             />
           </div>
           <div class="q-mt-sm">
@@ -127,6 +144,7 @@
               autocomplete="off"
             />
           </div>
+          
         </div>
         <div class="q-px-md q-mt-md">
           <div class="text-subtitle1 text-weight-bold text-blue-grey-10"> 
@@ -137,11 +155,9 @@
           <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
             <div class="q-py-xs">{{route.params.type == 0 ? 'Comisión Woz Pay 2%' : 'Comisión Woz Pay 12%'}}</div>
             <div>
-              Gs. {{ 
-                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.02)) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.02))
-                : !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12)) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*0.12))
+              {{selectedCoin.code}} {{ 
+                !isNaN((parseInt(product.amount.replace(/\./g, ''),)*feedWoz)) 
+                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*feedWoz))
                 : 0
               }}
             </div>
@@ -149,19 +165,14 @@
           <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
             <div class="q-py-xs">Comision por transacción</div>
             <div>
-              {{ route.params.type == 0 ? 'Gs. 0' : 'Gs. 7.800' }}
+              {{selectedCoin.code}} {{ route.params.type == 0 ? '0' : numberFormatDecimal(7800/selectedCoin.rate) }}
             </div>
           </div>
           <div class="flex justify-between items-center q-px-md q-mt-lg text-weight-bold text-subtitle1 q-mb-lg amount__items q-py-sm">
             <div class="q-py-xs">Total a cobrar</div>
             <div>
-              Gs. {{ 
-                route.params.type == 0 && !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.02)) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.02)))
-                : !isNaN((parseInt(product.amount.replace(/\./g, ''),)*0.12) ) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, '') - parseInt(product.amount.replace(/\./g, ''))*0.12) )-7800)
-                : 0
-              }}
+              {{selectedCoin.code}}
+              {{  product.to_client }}
             </div>
           </div>
         </div>
@@ -196,7 +207,7 @@
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import { storeToRefs } from 'pinia';
   import { useAuthStore } from '@/services/store/auth.store';
-
+  import { useCoinStore } from '@/services/store/coin.store';
 
 export default {
   components: {
@@ -208,13 +219,17 @@ export default {
     const router = useRouter()
     const route = useRoute();
     const numberFormat = util.numberFormat
+    const numberFormatDecimal = util.numberFormatDecimal
     const linkStore = useLinkStore()
+    const coinStore = useCoinStore()
+    const feedWoz = ref(route.params.type == 0 ? 0.02 : 0.12);
     const loading = ref(false)
     const done = ref(false)
     const countLink = ref(0)
     const product = ref({
       name:'',
       amount:'',
+      to_client:0,
       details:'',
       initDay:'',
       forMonth:1
@@ -280,6 +295,8 @@ export default {
         name:'Freelancers'
       },
     ]
+    const optionCoin = ref([])
+
     const daysAvaibles = () => {
       let days = []
       for (let index = 0; index < 28; index++) {
@@ -289,9 +306,12 @@ export default {
       return days;
     }
 
+    
     const header = ref(title[parseInt(route.params.type)])
     const selectedOption = ref(optionsLink.find(el => el.id == parseInt(route.params.type)))
+    const selectedCoin = ref({})
     const updateType = () => {
+      
       header.value = title[selectedOption.value.id]
       if(document.querySelector('.hero-content_title').classList.contains('swicht')){
         document.querySelector('.hero-content_title').classList.remove('swicht')
@@ -305,7 +325,7 @@ export default {
         name:[
           val => (val !== null && val !== '') || 'Nombre del producto es requerido.',
           // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-          val => (/[,%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          val => (/[,%\"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
         amount:[
           val => (val !== null && val !== '') || 'Monto es requerido',
@@ -313,7 +333,7 @@ export default {
         description:[
           val => (val !== null && val !== '') || 'Detalles de producto es requerido.',
           // val => (val.length > 20 ) || 'Debe contener 20 digitos',
-          val => (/[,%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+          val => (/[%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
       }
       
@@ -321,17 +341,24 @@ export default {
     }
     const validateFrom = () => {
       let isOk = true
-      Object.entries(product.value).forEach( ([key,value ]) => { if(value == '') isOk = false }); 
+      Object.entries(product.value).forEach( ([key,value ]) => { 
+        
+
+        if( key !='forMonth' && key !='initDay'){
+          
+          if(value == '') isOk = false
+        }
+      }); 
       
       if(selectedOption.value.id == 0) {
         showNotify('negative', 'Debes selecionar un metodo de pago')
         return false
       }
-      if( isNaN(product.value.forMonth)) {
-        isOk = false
-      }
-      console.log(isNaN(product.value.forMonth))
-      console.log(product.value.forMonth)
+      // if( isNaN(product.value.forMonth)) {
+      //   isOk = false
+      // }
+      // console.log(isNaN(product.value.forMonth))
+      // console.log(product.value.forMonth)
 
       return isOk
     }
@@ -347,7 +374,9 @@ export default {
       loading.value = true
       const data = {
         note:   product.value.details,
-        amount: parseInt(product.value.amount.replace(/\./g, '')),
+        amount: parseInt(product.value.amount.replace(/\./g, ''))*selectedCoin.value.rate,
+        amount_to_client:parseInt(product.value.to_client.replace(/\./g, ''))*selectedCoin.value.rate,
+        coin :selectedCoin.value.id,
         title:  product.value.name,
         type:   selectedOption.value.id,
         categorie: route.params.type,
@@ -370,6 +399,18 @@ export default {
         console.log(response)
         showNotify('negative', response)
         loading.value = false
+      })
+    }
+    const getCoinsForOption = () => {
+      coinStore.getCoins()
+      .then((response) =>{
+        if (response.code != 200) throw response
+        
+        optionCoin.value = response.data
+        selectedCoin.value = optionCoin.value[0]
+      })
+      .catch(() => {
+        showNotify('negative', 'Error al obtener monedas')
       })
     }
     const showNotify = (type, message) => {
@@ -398,14 +439,24 @@ export default {
 
       return [free, '', member, freelance, sell,]
     }
+    const totalToClient  = () => {
+      product.value.to_client = route.params.type == 0 && !isNaN((parseInt(product.value.amount.replace(/\./g, ''),)*0.02)) 
+                ? numberFormat((parseInt(product.value.amount.replace(/\./g, '') - parseInt(product.value.amount.replace(/\./g, ''))*0.02)))
+                : !isNaN((parseInt(product.value.amount.replace(/\./g, ''),)*0.12) ) 
+                ? numberFormat((parseInt(product.value.amount.replace(/\./g, '') - parseInt(product.value.amount.replace(/\./g, ''))*0.12) )- (7800/selectedCoin.value.rate) )
+                : 0
+    }
     onMounted(() => {
       q.addressbarColor.set(title[parseInt(route.params.type).color])
+      getCoinsForOption()
       countLinkUsed()
+
     })
     return {
       done,
       user,
       countLink,
+      selectedCoin,
       router,
       route,
       header,
@@ -417,10 +468,14 @@ export default {
       selectedOption,
       product,
       numberFormat,
+      numberFormatDecimal,
       rulesForm,
       updateType,
       createLink,
       limit,
+      optionCoin,
+      totalToClient,
+      feedWoz,
     }
   },
 }

@@ -13,11 +13,13 @@ class PayLink extends Model
     protected $fillable = [
         'link_id', 
         'amount', 
+        'coin_id',
         'method', 
         'type', 
         'status', 
         'concept', 
         'operation_id', 
+        'rate_amount',
         'bank', 
         'pay_date',
         'vaucher',
@@ -45,5 +47,9 @@ class PayLink extends Model
     }
     public function links(){
         return $this->belongsTo(Link::class,'link_id', 'id');
+    }
+    public function coin(){
+        return $this->belongsTo(Coin::class,'coin_id', 'id');
+
     }
 }

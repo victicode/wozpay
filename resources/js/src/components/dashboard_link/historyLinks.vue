@@ -24,14 +24,14 @@
                   class="text-subtitle2  text-right " 
                   :class="{'text-grey-6 text-weight-medium': link.status == 2, 'text-terciary text-weight-bold':link.status == 1 ,'text-negative text-weight-bold':link.status == 0 }"
                 >
-                  {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.status == 1 ? 'Pendiente' : 'Rechazado' }}
+                  {{ link.status == 2 ? moment(link.created_at).format('DD/MM/YYYY') : link.pay_status == 2 ? 'Pendiente de aproba.': link.status == 1 ? 'Pendiente' : 'Rechazado' }}
                 </div>
                 <div 
                   style="font-size: 15px;" 
                   class="text-weight-medium text-right" 
                   :class="{'text-negative':link.status == 0, 'text-positive': link.status == 2, 'text-grey-6':link.status != 2 && link.status != 0 ,}"
                 >
-                  GS {{ numberFormat(link.amount) }}
+                  {{ link.coin.code }} {{ numberFormat(link.amount_to_client/link.rate_amount ) }}
                 </div>
                 <div class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item'+link.id" style="transition: all 1s ease ;" />
               </div>

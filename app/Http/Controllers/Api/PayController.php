@@ -92,12 +92,14 @@ class PayController extends Controller
 
 
         try {
-            $link = Link::find($request->link_id);
+            $link = Link::with('coin')->find($request->link_id);
            
             $pay = PayLink::create([
                 'link_id'       => $request->link_id,
                 'amount'        => $link->amount,
+                'rate_amount'   => $link->coin->rate,
                 'method'        => 1,
+                'coin_id'       => $request->coin,
                 'type'          => 7,
                 'status'        => 1,
                 'concept'       => $request->concept,
@@ -345,7 +347,7 @@ class PayController extends Controller
     private function validateFieldsFromInputLink($inputs){
         $rules=[
             'link_id'       => ['required', 'integer'],
-            'concept'       => ['regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
+            'concept'       => ['regex:/^[a-zA-Z-À-ÿ0-9 \- #\/.]+$/i'],
             'card'          => ['required', 'regex:/^[0-9\/.]+$/i'],
             'card_name'     => ['required', 'regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
             'cvc'           => ['required', 'integer', 'max_digits:3'],

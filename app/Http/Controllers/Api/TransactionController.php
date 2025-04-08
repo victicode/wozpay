@@ -45,7 +45,7 @@ class TransactionController extends Controller
         ->whereYear('created_at', $request->year)
         ->where('user_id', $userId)->get();
 
-        $links = Link::where('status', '!=','0')->whereMonth('created_at',$request->month+1)
+        $links = Link::with(['coin'])->where('status', '!=','0')->whereMonth('created_at',$request->month+1)
         ->whereYear('created_at', $request->year)
         ->where('user_id', $userId)->get();
         
@@ -114,7 +114,7 @@ class TransactionController extends Controller
             return  Loan::with('user')->find($id);
         }
         if($type == 7){
-            return  Link::with('user')->find($id);
+            return  Link::with('user', 'coin')->find($id);
         }
         if($type == 8){
             return Pay::with('user')->find($id);
@@ -124,7 +124,7 @@ class TransactionController extends Controller
             return Pay::with('user', 'package')->find($id);
         }
         if($type == 10){
-            return PayLink::with('links')->find($id);
+            return PayLink::with('links', 'coin')->find($id);
         }
     }
     private function object_sorter($clave,$orden=null) {
@@ -168,8 +168,10 @@ class TransactionController extends Controller
         $lines[0] = [
 
             'title' =>'Monto',
-            'text' =>'Cantidad de dinero en Guaranies',
-            'value' =>'Gs. '.number_format($transaction->amount, 0, ',', '.')
+            'text' => $type == 10 && $transaction->coin_id == 2 ? 'Cantidad de dinero en dólares':'Cantidad de dinero en Guaranies',
+            'value' =>$type == 10 && $transaction->coin_id == 2
+            ? $transaction->coin->code .' '. number_format($transaction->amount/$transaction->rate_amount, 0, ',', '.')
+            : 'Gs. '.number_format($transaction->amount, 0, ',', '.'),
         ];
 
         
@@ -287,14 +289,22 @@ class TransactionController extends Controller
           if($type == 10)  {
             $lines[1] = [
               'title' => 'Titulo del producto',
-              'text' => $transaction->package->title,
+              'text' => $transaction->links->title,
             ];
             $lines[2] = [
-              'title' => 'Referencia',
-              'value' => $transaction->operation_id,
+                'title' => 'Moneda',
+                'value' => $transaction->coin->name,
             ];
             $lines[3] = [
-              'title' => 'Metodo de pago',
+              'title' => 'Referencia',
+              'value' => '#'.$transaction->operation_id,
+            ];
+            $lines[4] = [
+                'title' => 'Descripción',
+                'text' => $transaction->concept,
+            ];
+            $lines[5] = [
+              'title' => 'Metódo de pago',
               'value' => 'Tarjeta',
             ];
           }

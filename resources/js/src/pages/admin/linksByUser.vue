@@ -28,7 +28,7 @@
                   class="text-weight-medium text-right" 
                   :class="{'text-positive': link.status == 2, 'text-grey-6':link.status != 2 ,'text-negative':link.status == 0 }"
                 >
-                  GS {{ numberFormat(link.amount) }}
+                  {{link.coin.code}} {{ numberFormat(link.amount/link.rate_amount) }}
                 </div>
                 <div v-if="link.pay_status != 3 " class="text-subtitle2 text-grey-6 text-right text-weight-medium" :id="'timer-item_link-user'+link.id" style="transition: all 1s ease ;" />
               </div>

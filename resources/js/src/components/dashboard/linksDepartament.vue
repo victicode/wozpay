@@ -44,7 +44,7 @@
                     <div class="text-weight-medium text-right ">
                       Disponible
                     </div>
-                    <div class="text-weight-medium  q-mr-xs text-right " style="">Gs. {{numberFormat(user.wallet_link.balance)}}</div>
+                    <div class="text-weight-medium  q-mr-xs text-right " style=""> {{ userCoin.code }} {{ capitalByUser() }}</div>
                   </div>
                   <div class="cursor-pointer" v-else>
                     <q-chip class="q-ma-none" style="padding: 0px 0.7rem;" :color=" user.wallet_link.status == 1 ? 'warning':'negative'" text-color="white" >
@@ -77,6 +77,9 @@
   import { useQuasar } from 'quasar'
   import { storeToRefs } from 'pinia'
   import wozIcons from '@/assets/icons/wozIcons';
+  import { useCoinStore } from '@/services/store/coin.store';
+  import { useWalletStore } from '@/services/store/wallet.store'
+  import storage from '@/services/storage'
 
   export default {
     setup() {
@@ -86,9 +89,17 @@
       const icons = inject('ionIcons')
       const ready = ref(false)
       const numberFormat = util.numberFormat
+      const numberFormatDecimal = util.numberFormatDecimal
+
       const router = useRouter()
+      
       const q = useQuasar()
+      const { coins } = storeToRefs(useCoinStore())
       const { user  } = storeToRefs(useAuthStore())
+      const { balances } = storeToRefs(useWalletStore())
+
+      const userCoin = ref(coins.value.find((coin) => coin.id == storage.getItem('coin_user') ?? 1))
+
       // Methods
       const redirect = () => {
         active.value = true
@@ -106,7 +117,12 @@
           ]
         })
       }
+      const capitalByUser = () => {
+        return userCoin.value.id == 2
+        ? numberFormatDecimal((balances.value.wallet_link/userCoin.value.rate ) + balances.value.wallet_dolar)
+        : numberFormat((balances.value.wallet_dolar * coins.value[1].rate) + balances.value.wallet_link )
 
+      }
       onMounted(() => {
 
       })
@@ -120,7 +136,9 @@
         numberFormat,
         wozIcons,
         loading,
-        redirect
+        userCoin,
+        redirect,
+        capitalByUser
       }
     },
   }

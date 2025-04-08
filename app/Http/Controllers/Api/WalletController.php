@@ -63,6 +63,7 @@ class WalletController extends Controller
             'toRecieve'     => $loansBalances['amountToRecive'],
             'paysRecieve'   => $paysAndProfit['pays'],
             'wallet_link'   => $wallet_link ? round($wallet_link->balance) : 0,
+            'wallet_dolar'  => $wallet_link ? round($wallet_link->balance_dolar) : 0,
         ]);
     }
     public function incrementsWallet($id, Request $request) {
