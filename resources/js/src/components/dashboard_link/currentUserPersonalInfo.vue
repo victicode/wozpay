@@ -1,5 +1,5 @@
 <template>
-  <div class="userInfoContent q-pt-md q-px-lg" >
+  <div class="userInfoContent q-pt-md q-px-md-lg q-px-md" >
     <div class="flex justify-between items-center">
       <div>
         <div class="text-subtitle1 text-white text-weight-regular">Dinero disponible</div>
@@ -21,7 +21,7 @@
           </template>
         </q-btn>
       </div>
-      <div class="q-px-md-lg" v-else> 
+      <div class="q-px-md-lg buttons_account_container" v-else> 
           <!-- <q-toggle
             v-model="currentCoin"
             checked-icon="$"
@@ -31,7 +31,7 @@
             class="coinSwitch"
             @update:model-value="updateCoin()"
           /> -->
-          <q-btn flat @click="dialog=true" class="q-px-md"> 
+          <q-btn flat @click="dialog=true" class="q-px-md-md q-mx-sm"> 
             <div class="flex justify-content-end items-center column">
               <div v-html="wozIcons.coinButton" class="iconWoz-top " />
               <span class="q-mt-xs text-white text-caption iconWoz-top__text">Moneda</span>
@@ -183,6 +183,11 @@
 
 </script>
 <style lang="scss">
+.buttons_account_container{
+  position: absolute;
+  right: 0.6rem;
+  top: 0.5rem;
+}
 .coinSwitch {
   transform: rotate(90deg);
   & i.notranslate{

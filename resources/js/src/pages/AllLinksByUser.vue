@@ -240,7 +240,7 @@
 }
 @media screen and (max-width: 780px){
   .container__link{
-   width: 83%;
+   width: 80%;
   }
 }
 @keyframes bounce-in {

@@ -25,7 +25,7 @@
                 <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                   <q-icon :name="icons.ionGlobeOutline" size="md" :color="!user.wallet_link ? 'grey-6' : user.wallet_link.status == 1 ? 'warning': user.wallet_link.status == 2 ?  'positive' : 'negative'" />
                 </div>
-                <div class="flex items-center justify-between" style="width:75%" @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_dashboard')">
+                <div class="flex items-center justify-between" style="width:73%" @click=" !user.wallet_link ? router.push(user.wallet_link.status == 0 ? '/pay_link_services' : '/pay_link_dashboard') : router.push('/pay_link_dashboard')">
                   <div class=" q-mr-md-none w-autox" >
                     <div v-if="!user.wallet_link ">
                       <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;">Cuenta corriente internacional</div>
@@ -97,8 +97,9 @@
       const { coins } = storeToRefs(useCoinStore())
       const { user  } = storeToRefs(useAuthStore())
       const { balances } = storeToRefs(useWalletStore())
-
-      const userCoin = ref(coins.value.find((coin) => coin.id == storage.getItem('coin_user') ?? 1))
+      const localCoin = storage.getItem('coin_user') ?? 1
+      console.log(localCoin)
+      const userCoin = ref(coins.value.find((coin) => coin.id == localCoin ))
 
       // Methods
       const redirect = () => {

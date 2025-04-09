@@ -123,8 +123,8 @@
         useCoinStore().setCoins()
       }
       watch(route, () => {
-        isReady()
         setCoins()
+        isReady()
         getCurrentUser()
         
       });

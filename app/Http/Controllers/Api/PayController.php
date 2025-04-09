@@ -84,20 +84,13 @@ class PayController extends Controller
     public function storePayLink(Request $request){
         $validated = $this->validateFieldsFromInputLink($request->all()) ;
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
-        // $vaucher = ''; 
-        // if ($request->vaucher) {
-        //     $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
-        //     $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
-        // }  
-
-
         try {
             $link = Link::with('coin')->find($request->link_id);
            
             $pay = PayLink::create([
                 'link_id'       => $request->link_id,
                 'amount'        => $link->amount,
-                'rate_amount'   => $link->coin->rate,
+                'rate_amount'   => $link->rate_amount,
                 'method'        => 1,
                 'coin_id'       => $request->coin,
                 'type'          => 7,
@@ -114,13 +107,17 @@ class PayController extends Controller
         } catch (Exception $th) {
             return $this->returnFail(400, $th->getMessage());
         }
-
-        event(new UserUpdateEvent(1));
-
-
-        $this->sendNotification(
-        'Recibiste un pago del link #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
-        'Pago pendiente de verificación', 1);
+        try {
+            //code...
+            event(new UserUpdateEvent(1));
+    
+    
+            $this->sendNotification(
+            'Recibiste un pago del link #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
+            'Pago pendiente de verificación', 1);
+        } catch (Exception $th) {
+            //throw $th;
+        }
         
         $link->pay_status = 2;
         $link->save();

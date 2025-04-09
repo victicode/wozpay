@@ -19,7 +19,7 @@
       <div class="quote-section" v-if="isReady" >
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between  link__payContent" style="" >
-            <div class="w-80xxc flex items-center ">
+            <div class="w-80xxccv flex items-center ">
               <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                 <q-icon :name="icons.ionGlobeOutline" size="md" color="positive" />
               </div>
@@ -166,7 +166,7 @@
 .w-10 {
   width: 6%;
 }
-.w-80xxc {
+.w-80xxccv {
   width: 80%;
 }
 .inforcof__icon2{
@@ -179,7 +179,7 @@
   .w-85 {
     width: 90%;
   }
-  .w-80xxc {
+  .w-80xxccv {
     width: 60%;
   }
   .w-50 {
@@ -197,8 +197,8 @@
   .w-85 {
     width: 90%;
   }
-  .w-80xxc {
-    width: 57%;
+  .w-80xxccv {
+    width: 60%;
   }
   .w-50 {
     width: 45%;

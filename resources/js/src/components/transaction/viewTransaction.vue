@@ -125,7 +125,7 @@
           ? 'Cantidad de dinero (1 USD ≈ ' +'Gs.'+ numberFormat(transaction.value.coin.rate)+')'
           : 'Cantidad de dinero en Guaranies',
           value: (transactionType == 10 && transaction.value.coin.id == 2) || (transactionType == 7 && transaction.value.coin.id == 2) 
-            ? `${numberFormat(transaction.value.amount/transaction.value.rate_amount)} ${transaction.value.coin.code} ≈ Gs. ${numberFormat((transaction.value.amount/transaction.value.rate_amount)*transaction.value.coin.rate)}`
+            ? `${numberFormat(transaction.value.amount/transaction.value.rate_amount)} ${transaction.value.coin.code} ≈ Gs. ${numberFormat((transaction.value.amount/transaction.value.rate_amount) *transaction.value.coin.rate)}`
             : numberFormat(
               transactionType == 6 
               ? 212000 
@@ -292,7 +292,7 @@
           }
           lines[4] = {
             title:'Metodo de pago',
-            value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
+            value: 'Tarjeta',
           }
           lines[5] = {
             title:'Estado',
