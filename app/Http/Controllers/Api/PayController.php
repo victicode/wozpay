@@ -84,20 +84,13 @@ class PayController extends Controller
     public function storePayLink(Request $request){
         $validated = $this->validateFieldsFromInputLink($request->all()) ;
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
-        // $vaucher = ''; 
-        // if ($request->vaucher) {
-        //     $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
-        //     $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
-        // }  
-
-
         try {
             $link = Link::with('coin')->find($request->link_id);
            
             $pay = PayLink::create([
                 'link_id'       => $request->link_id,
                 'amount'        => $link->amount,
-                'rate_amount'   => $link->coin->rate,
+                'rate_amount'   => $link->rate_amount,
                 'method'        => 1,
                 'coin_id'       => $request->coin,
                 'type'          => 7,
@@ -114,13 +107,17 @@ class PayController extends Controller
         } catch (Exception $th) {
             return $this->returnFail(400, $th->getMessage());
         }
-
-        event(new UserUpdateEvent(1));
-
-
-        $this->sendNotification(
-        'Recibiste un pago del link #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
-        'Pago pendiente de verificación', 1);
+        try {
+            //code...
+            event(new UserUpdateEvent(1));
+    
+    
+            $this->sendNotification(
+            'Recibiste un pago del link #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
+            'Pago pendiente de verificación', 1);
+        } catch (Exception $th) {
+            //throw $th;
+        }
         
         $link->pay_status = 2;
         $link->save();
@@ -269,31 +266,31 @@ class PayController extends Controller
         return $this->returnSuccess(200, $pay);
     }
     public function sendMail(Request $request){
-        
+        $extension = explode('.', $request->frontfile);
         try{
             // Mail::send('emails.newUser',['name'=>'virgilio'], function ($message)  {  
             //     $message->from('administrations@wozpayments.com', 'wozpayment');
             //     $message->to('frovic.ve@gmail.com', 'Operaciones wozpayment')->subject('oooooo');
             // });
-            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request)  {  
+            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request, $extension)  {  
                 $message->from('administrations@wozpayments.com', 'Blue Comunicadores');
                 $message->to($request->email)->subject('Boleta PLANILLA '.$this->obtainDate());
                 if($request->frontfile){
 
                     $message->attach($request->frontfile, [
-                        'as' => 'boleta.pdf',
-                        'mime' => 'application/pdf,image/jpeg,png',
+                        'as' => 'boleta.'.$extension[2],
+                        'mime' => 'application/pdf,image/jpeg,png,jfif',
                     ]);
                 }
             });
-            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request)  {  
+            Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request, $extension)  {  
                 $message->from('administrations@wozpayments.com', 'Blue Comunicadores');
                 $message->to($request->email2)->subject('Boleta PLANILLA '.$this->obtainDate());
                 if($request->frontfile){
 
                     $message->attach($request->frontfile, [
-                        'as' => 'boleta.pdf',
-                        'mime' => 'application/pdf,image/jpeg,png',
+                        'as' => 'boleta.'.$extension[2],
+                        'mime' => 'application/pdf,image/jpeg,png,jfif',
                     ]);
                 }
             });
@@ -306,7 +303,7 @@ class PayController extends Controller
         catch(Exception $e){
             return $this->returnFail(500, $e->getMessage());
         }
-        return $this->returnSuccess(200,'bien');
+        return $this->returnSuccess(200, 'bien');
     }
     private function obtainDate()
     {

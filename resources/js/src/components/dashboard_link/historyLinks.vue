@@ -190,7 +190,7 @@
 }
 @media screen and (max-width: 780px){
   .links_lastContainer{
-    width: 90.5%;
+    width: 90%;
   }
 
 }

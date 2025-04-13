@@ -6,27 +6,26 @@
     <div class="q-py-xs">
       <div v-if="load">
         <div v-if="coins.length > 0" class="q-px-xs" >
-          <div v-for="(coin, index) in coins" :key="index" class="q-mt-md flex items-center justify-between container__link" @click="getCoinById(coin.id)">
-
-            <div class="q-pl-sm flex items-center justify-between " style="width: 95%;">
+          <div v-for="(coin, index) in coins" :key="index" class="q-mt-md flex items-center justify-between container__link q-px-xs" @click="getCoinById(coin.id)">
               <div class="">
                 <div class="text-subtitle1 text-weight-medium">{{ coin.name }}</div>
                 <div class="text-subtitle2 text-weight-regular ">({{ coin.code }})</div>
               </div>
-              <div>
-                <div class="text-subtitle2 text-weight-regular text-end text-right" style="font-size: 0.8rem;">Tasa de cambio</div>
-                <div 
-                  style="font-size: 15px;" 
-                  class="text-weight-medium text-right"
-                >
-                  {{ numberFormat(coin.rate) }}
+              <div class="flex">
+                <div>
+                  <div class="text-subtitle2 text-weight-regular text-end" style="font-size: 0.8rem;">Tasa de cambio</div>
+                  <div 
+                    style="font-size: 15px;" 
+                    class="text-weight-medium text-right"
+                  >
+                    {{ numberFormat(coin.rate) }}
+                  </div>
                 </div>
-              </div>
-            </div>
-            <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none" >
+                <q-btn  color="black" flat  size="xs" class="q-pl-none q-pr-none q-ml-sm" @click="getCoinById(coin.id)">
               
-              <q-icon name="eva-more-vertical-outline" size="1.5rem" />
-            </q-btn>
+                  <q-icon name="eva-more-vertical-outline" size="1.5rem" />
+                </q-btn>
+              </div>
           </div>
         </div>
         <div v-else class="text-center text-h6 q-mt-lg">
