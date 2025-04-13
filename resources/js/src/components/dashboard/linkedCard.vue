@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-py-sm q-px-md q-px-md-lg" >
+    <div class="q-py-xs q-px-md q-px-md-lg" >
       <!-- <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-between">
@@ -179,7 +179,7 @@
 </style>
 <style lang="scss" scoped>
 .loan_card{
-  border-radius:15px;
+  border-radius:2rem;
   //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{

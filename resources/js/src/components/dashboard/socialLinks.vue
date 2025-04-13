@@ -7,7 +7,7 @@
         :key="info.value"
         :name="info.value" 
         class=" column no-wrap flex-center q-px-sm q-py-none" 
-        style="background:#f2f2f5; "
+        style="background:#ffff; "
       >
           <div class="socialLink__item w-100 flex items-center no-wrap q-py-md q-px-md">
             <div style="" >

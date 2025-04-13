@@ -1,10 +1,10 @@
 <template>
-  <div class="q-py-xs q-px-md  q-pb-none" style="height: 100%; overflow: hidden;">
+  <div class="q-py-xs q-px-md-md q-px-sm  q-pb-none" style="height: 100%; overflow: hidden;">
     <div>
-      <div class="text-subtitle1 text-weight-medium q-mt-none text-dark">¿Qué puedes hacer?</div>
+      <div class="text-subtitle1 text-weight-medium q-mt-none text-dark q-px-sm">¿Qué puedes hacer?</div>
     </div>
-    <div class="q-mt-md-md q-mt-xs-md">
-      <div class="row">
+    <div class="q-mt-md-md q-mt-xs-sm">
+      <div class="row q-px-sm q-py-md" style="background: #efefef; border-radius: 1.5rem; ">
         <div class="col-3 q-px-xs">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'">
             <div class="q-mt-xs" v-html="icons.transferir" />

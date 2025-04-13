@@ -1,5 +1,5 @@
 <template>
-  <div class="q-py-sm q-px-md q-px-md-lg"  >
+  <div class="q-py-xs q-px-md q-px-md-lg"  >
     <div style="" class="q-mb-sm">
       <div class="quote-section" v-if="isReady " >
         <div class="row q-px-none">
@@ -189,7 +189,7 @@
 </style>
 <style lang="scss" scoped>
 .loan_card{
-  border-radius:15px;
+  border-radius:2rem;
   //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{

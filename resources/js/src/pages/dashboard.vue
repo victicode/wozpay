@@ -4,7 +4,7 @@
       <div style="height: 14rem;">
         <currentUserPersonalInfo />
       </div>
-      <div style="background:#f2f2f5" class="q-px-md-md">
+      <div style="background:#fff" class="q-px-md-md">
 
         <div>
           <linksDepartament />
@@ -18,17 +18,19 @@
         <div class=" q-pt-sm q-pb-none">
           <socialLinks />
         </div>
-        <div style="" class="q-mt-sm">
-          <walletUser />
-        </div>
-        <div style="">
-          <linkedCard />
-        </div>
-        <div style="">
-          <rekutu />
-        </div>
-        <div style="">
-          <currentUserLoan />
+        <div class="cardItmes q-pt-xs ">
+          <div style="" class="q-mt-sm">
+            <walletUser />
+          </div>
+          <div style="">
+            <linkedCard />
+          </div>
+          <div style="">
+            <rekutu />
+          </div>
+          <div style="">
+            <currentUserLoan />
+          </div>
         </div>
       </div>
       
@@ -71,6 +73,13 @@
   }
 </script>
 <style lang="scss" scoped>
+.cardItmes{
+  margin-top: 0.9rem;
+  background: #efefef;
+  border-top-right-radius: 3rem;
+  border-top-left-radius: 3rem;
+
+}
 .dashboard_container{
   height: 100%; 
   background:#ffffff; 

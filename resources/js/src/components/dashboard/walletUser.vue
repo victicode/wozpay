@@ -1,17 +1,17 @@
 <template>
   <div>
-    <div class="q-py-sm q-px-md q-px-md-lg" >
-      <div class=" q-pb-sm" >
+    <div class="q-py-xs q-px-md q-px-md-lg" >
+      <!-- <div class=" q-pb-sm" >
         <div class="row">
           <div class="col-12 flex items-center justify-center">
             <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium">Mis productos Woz Payments</div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div style="">
         <div class="quote-section">
           <div class="row q-px-none">
-            <div class="col-12 bg-white q-pa-md  flex items-center justify-between justify-md-start loan_card" style="" >
+            <div class="col-12 bg-white q-px-md q-py-md  flex items-center justify-between justify-md-start loan_card" style="" >
               <div class="w-100 flex items-center justify-between q-mt-none ">
                 <div class="flex items-center w-80 ">
                   <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
@@ -103,7 +103,7 @@
 </style>
 <style lang="scss" scoped>
 .loan_card{
-  border-radius:15px;
+  border-radius:2rem;
   //box-shadow: 0px 5px 5px 0px #aaaaaa
 }
 .loan_container{

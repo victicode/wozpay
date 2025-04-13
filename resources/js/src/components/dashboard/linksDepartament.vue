@@ -1,22 +1,23 @@
 <template>
 
-  <div class="q-pb-sm q-px-md q-px-md-lg" >
-    <div class=" q-pb-sm" v-if="user.wallet_link">
+  <div class="q-pb-xs q-px-md q-px-md-lg" >
+    <div class=" q-pb-xs" v-if="user.wallet_link">
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-medium"> Cobros internacionales</div>
-          <div>
-            <van-switch v-model="active" class="swichtDashboard" size="1.5rem" @update:model-value="redirect()"  :loading="loading"  active-color="#21BA45" inactive-color="#d8d8d8">
-              <template #node>
-                <div class="icon-wrapper">
-                </div>
-              </template>
-            </van-switch>
+          
+          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-bold ellipsis" style="width: 86%; font-size: 1rem;"> 
+            Cambia a tu corriente internacional Woz Pay
           </div>
+          <van-switch v-model="active" class="swichtDashboard" size="1.5rem" @update:model-value="redirect()"  :loading="loading"  active-color="#21BA45" inactive-color="#d8d8d8">
+            <template #node>
+              <div class="icon-wrapper">
+              </div>
+            </template>
+          </van-switch>
         </div>
       </div>
     </div>
-    <div style="">
+    <!-- <div style="">
       <div class="quote-section">
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md q-pa-sm flex items-center justify-between justify-md-start loan_card" >
@@ -65,7 +66,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
 </template>
