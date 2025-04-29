@@ -622,6 +622,24 @@ const router = createRouter({
       },
       beforeEnter: auth,
     },
+    {
+      path: "/",
+      name:"dropLayout",
+      component: () => import('@/layouts/dropshipping.vue'),
+      beforeEnter: auth,
+      children:[
+        
+        {
+          path: "/dropshipping/welcome",
+          name: "dropshipping_landing",
+          component: () => import('@/pages/dropshipping/landing.vue'),
+          meta: {
+            title: 'Woz Dropshipping'
+          },
+        },
+        
+      ]
+    },
     
   ]
 })
