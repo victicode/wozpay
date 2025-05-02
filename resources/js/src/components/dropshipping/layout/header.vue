@@ -1,5 +1,5 @@
 <template>
-  <header class="q-px-md q-px-md-xl q-pt-md " id="dropshipping-header" >
+  <header class="q-px-md q-px-md-xl q-pt-md q-pb-md " id="dropshipping-header" >
     <div class="text-header">
       Woz <br>
       Dropshipping

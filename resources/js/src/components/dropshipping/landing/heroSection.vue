@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="heroSection">
     <section class="q-pt-xl q-px-md hero_content" >
       <div class="overflow" />
       <div class="q-pt-md q-pl-sm q-pr-md" style="z-index: 2; position: relative;">
@@ -13,10 +13,11 @@
         <q-btn color="white" text-color="black" label="Comezar a vender" no-caps id="initDropshipping_button" class="q-mt-lg q-mb-xl" />
       </div>
     </section>
-    <div class="videoSection flex justify-center w-100 q-px-sm" style="z-index: 2; position: relative;">
-      <video  class="">
-        <source src="https://youtu.be/WQCRK5E4n-g?si=JUzX1FAz8a4Z-GMB" type="video/mp4" />
-      </video>
+    <div class="videoSection flex justify-center w-100 q-px-md" style="z-index: 2; position: relative;">
+      <!-- <video  class="" poster preload="">
+        <source src="https://www.youtube.com/watch?v=WQCRK5E4n-g" type="video/mp4" />
+      </video> -->
+      <iframe class="heroVideo"  src="https://www.youtube-nocookie.com/embed/WQCRK5E4n-g?si=bbf058N7ScsHSaft&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
   </div>
 </template>
@@ -36,8 +37,17 @@
   };
 </script>
 <style lang="scss">
+.heroSection{
+  height: 60vh;
+  overflow: hidden;
+}
 .videoSection{
-  transform: translateY(-10rem);
+  transform: translateY(-7rem);
+  .heroVideo{
+    border-radius: 40px;
+    width:100%;
+    height:215px
+  }
   & video {
     border-radius: 40px; height: 250px; width: 70%;
   }
@@ -56,8 +66,9 @@
   }
 }
 .hero_content{
-  height: 46vh;
+  height: 48vh;
   background: url('https://wozpayments.com/public/images/web/dropshipping/dropshippingHero1.jpg');
+  background-size: 100%;
   position: relative;
   & .overflow{
     position: absolute;
@@ -91,12 +102,18 @@
   letter-spacing: 1px;
 }
 @media screen and (max-width: 780px){
+  
   .videoSection{
 
-  & video {
-    height: 210px; width: 100%;
+    .heroVideo{
+      border-radius: 30px;
+      width:97%;
+      height:220px
+    }
+    & video {
+      height: 210px; width: 100%;
+    }
   }
-}
 }
 
 </style>
