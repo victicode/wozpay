@@ -9,9 +9,9 @@
         Podés vender desde donde estés y a quien quieras.
       </div>
       <div class="text_in_services2 q-px-md">
-        <div v-for="(service, key) in logistServices" :key="key">
-          <img :src="service.img" alt="">
-          <div>
+        <div v-for="(service, key) in logistServices" :key="key" class="flex items-center" style="flex-wrap: nowrap;">
+          <img :src="service.img" width="50" alt="">
+          <div class="text-content-question q-my-md" f>
             {{ service.text }}
           </div>
         </div>
@@ -36,10 +36,12 @@
 
       const logistServices = [
         {
+          title:'fedex',
           img:fedex,
           text:'Elije FedEx para entregar tus envíos importantes y urgentes desde y hacia más de 220 paises y territorios en todo el mundo'
         },
         {
+          title:'aex',
           img:aex,
           text:'Entregas a todo el país de correspondencia masiva no personalizada, con o sin acuse de recibo, de una amplia variedad de materiales como revistas, catálogos.'
         },
@@ -70,14 +72,14 @@
 }
 .text_in_services{
   background: white;
-  width: 80%;
+  width: 94%;
   border-top-left-radius: 0.9rem;
 
 
 }
 .text_in_services2{
   background: white;
-  width: 80%;
+  width: 94%;
   border-bottom-left-radius: 0.9rem;
 
 }
