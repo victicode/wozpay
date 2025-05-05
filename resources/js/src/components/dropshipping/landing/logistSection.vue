@@ -9,8 +9,10 @@
         Podés vender desde donde estés y a quien quieras.
       </div>
       <div class="text_in_services2 q-px-md">
-        <div v-for="(service, key) in logistServices" :key="key" class="flex items-center" style="flex-wrap: nowrap;">
-          <img :src="service.img" width="50" alt="">
+        <div v-for="(service, key) in logistServices" :key="key" class="flex items-center" style="flex-wrap: nowrap; width: 20rem;">
+          <div :class="'service__img--container'+key"  class="q-mr-sm q-pa-md q-py-xl">
+            <img :src="service.img" class="service__img"  alt="" style="width: 5.5rem; max-width: none;">
+          </div>
           <div class="text-content-question q-my-md" f>
             {{ service.text }}
           </div>
@@ -81,6 +83,15 @@
   background: white;
   width: 94%;
   border-bottom-left-radius: 0.9rem;
-
+}
+[class*=service__img--container]{
+  border-radius: 1rem;
+}
+.service__img--container0{
+  border: 1px solid #f9a826;
+  
+}
+.service__img--container1{
+  border: 1px solid rgba(4, 73, 250, 1);
 }
 </style>
