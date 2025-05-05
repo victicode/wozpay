@@ -51,6 +51,16 @@
   height: 100%;
   overflow: auto;
   background: $primary;
+  &::-webkit-scrollbar {
+    width: 5px;
+    background: transparent;
+    background: rgba(199, 199, 199, 0.719);
+
+  }
+  &::-webkit-scrollbar-thumb{
+    background: $primary;
+    border-radius: 50px;
+  }
 }
 
 .layout-dasboard__content{
