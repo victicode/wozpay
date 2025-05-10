@@ -3,6 +3,8 @@
     <heroSection class="q-mb-md" />
     <frecuentQuestion />
     <logistSection />
+    <integrationSection /> 
+    <buttonSection /> 
   </main>
 </template>
 <script >
@@ -10,13 +12,15 @@
   import heroSection from '@/components/dropshipping/landing/heroSection.vue';
   import frecuentQuestion from '@/components/dropshipping/landing/frecuentQuestion.vue';
   import logistSection from '@/components/dropshipping/landing/logistSection.vue';
-  logistSection
-
+  import integrationSection from '@/components/dropshipping/landing/integrationSection.vue';
+  import buttonSection from '@/components/dropshipping/landing/buttonSection.vue';
   export default {
     components:{
       heroSection,
       frecuentQuestion,
       logistSection,
+      integrationSection,
+      buttonSection
     },
     setup () {
     }
