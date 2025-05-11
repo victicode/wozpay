@@ -1,11 +1,12 @@
 <template>
   <section class=" q-pb-xl q-px-md flex column items-center justify-center w-100"  >
      <q-btn 
-     v-for="(button, key) in buttons" 
+      v-for="(button, key) in buttons" 
       unelevated  
       :key="key" 
       :color="button.color" 
       :class="' q-my-xs buttons__actionLanding '+button.class"
+      @click="goTo(button.to)"
      >
         {{ button.title }}
      </q-btn>
@@ -27,12 +28,13 @@
       const iconis =  inject('ionIcons')
       const router = useRouter()
 
-      // const 
+      // 
+      
       const buttons = [
         {
           title:'Productos y Categorias',
           class:'',
-          to:'/products',
+          to:'/dropshipping/categories',
           color:'yellowLanding'
         },
         {
@@ -48,12 +50,17 @@
           color:'positive'
         },
       ]
+      const goTo = (id) =>{
+        router.push(id)
+      }
       return{
-        buttons
+        buttons,
+        goTo
       }
     },
   }
 </script>
+
 <style lang="scss">
 .buttons__actionLanding{
   padding: 1.2rem 1.2rem;
