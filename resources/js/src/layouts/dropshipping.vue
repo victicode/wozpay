@@ -4,7 +4,7 @@
     <div class="container_page" >
       <div class="section_page">  
         <router-view v-slot="{ Component }">
-          <transition name="vertical">
+          <transition name="fadx">
             <component :is="Component"  />
           </transition>
         </router-view>

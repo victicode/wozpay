@@ -19,7 +19,29 @@
       </div>
     </div>
   </section>
+  <section class="categorieHeader q-px-md q-pt-md q-pb-md">
+    <div class="titleCategorieHeader q-mt-xs">productos y <br> categorias</div>
+    <div class="text-white content__header q-mt-xs">
+      Encuentra los mejores productos en múltiples
+      categorías 
+    </div>
+  </section>
+  <section>
+    <mostProfitable />
+
+  </section>
+
 </template>
+<script>
+import mostProfitable from '@/components/dropshipping/categories/mostProfitable.vue';
+
+
+export default {
+  components:{
+    mostProfitable
+  }
+}
+</script>
 <style lang="scss">
 .activateArea__container{
   background: #19cd15;
@@ -33,12 +55,13 @@
     font-size: 1.2rem;
   }
   & .second__text{
-    font-size: 1.8rem;
+    font-size: 1.85rem;
     font-weight: bold;
   }
   & .third__text{
     text-align: end;
     font-size: 1rem;
+    transform: translateY(-0.5rem)
   }
 }
 .buttonActivateArea{
@@ -54,5 +77,22 @@
       font-size: 0.9rem;
     }
   }
+}
+.categorieHeader{
+  background: $primary;
+  border-top: 0.5rem solid #f8a80d;
+}
+.titleCategorieHeader{
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  color:white;
+}
+.content__header{
+  font-family: 'Amazon Ember'!important;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 </style>

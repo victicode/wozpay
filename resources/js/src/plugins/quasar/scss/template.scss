@@ -197,15 +197,17 @@ html{
   transform: translatey(1000px);
 }
 
-.inFade-enter-active,
-.inFade-leave-active {
-  transition: opacity 0.5s ease;
+.fadx-enter-active, .fadx-leave-active {
+  transition: opacity .5s
 }
-
-.inFade-enter-from,
-.inFade-leave-to {
-  opacity: 0;
-  position: absolute;
+.fadx-enter-from{
+  opacity: 0
+}
+.fadx-leave-to{
+  opacity: 1
+}
+.fadx-enter, .fadx-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
 }
 
 .user-verify-user{
