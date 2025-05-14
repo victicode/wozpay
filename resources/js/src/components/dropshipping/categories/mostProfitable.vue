@@ -5,7 +5,9 @@
       <div class="listTextHeader" >Categorias y productos se renuevan semanalmente</div>
     </div>
     <div>
-      
+      <div v-for="categorie in mostProfitable" :key="categorie.id" >
+        {{ categorie.title }}
+      </div>
     </div>
   </div>
 </template>
@@ -14,17 +16,18 @@
 import { useCategorieStore } from '@/services/store/categorie.store';
 import { onMounted, ref } from 'vue';
 
+
 export default {
   setup () {
       //vue provider
     const icons = inject('ionIcons')
 
     const categorieStore = useCategorieStore()
-
+    const mostProfitable = ref([])
     const getMostProfitable = () => {
       categorieStore.getMostProlifict()
       .then((response) =>{
-        console.log(response)
+        mostProfitable.value = response.data
       })
     }
 
@@ -34,7 +37,7 @@ export default {
 
     
     return {
-
+      mostProfitable,
     }
   }
 }
@@ -42,11 +45,11 @@ export default {
 <style lang="scss">
 .listTitleHeader{
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   letter-spacing: -0.5px;
 }
 .listTextHeader{
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   opacity: 0.6;
 }
