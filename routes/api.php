@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\InterestController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\BankAccountController;
+use App\Http\Controllers\Api\CategorieController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\NotificationController;
 
@@ -158,7 +159,10 @@ Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(fu
     Route::get('/', [InterestController::class, 'getInterestRate']);
     Route::post('/', [InterestController::class, 'storeInterestRate']);
     Route::post('/{type}', [InterestController::class, 'updateInterestRate']);
-
+});
+Route::middleware('jwt.verify')->prefix('categories')->name('categorie.')->group(function () {
+    Route::get('/', [CategorieController::class, 'getAll']);
+    Route::get('/mostprolifict', [CategorieController::class, 'getMostProlifict']);
 });
 
 Route::middleware('jwt.verify')->prefix('coins')->name('coins.')->group(function () {

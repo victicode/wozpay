@@ -2,9 +2,9 @@
   <div class="layout-dasboard__content"   style="">
     <headerDrop />
     <div class="container_page" >
-      <div class="section_page q-mt-md">  
+      <div class="section_page">  
         <router-view v-slot="{ Component }">
-          <transition name="vertical">
+          <transition name="fadx">
             <component :is="Component"  />
           </transition>
         </router-view>
@@ -49,12 +49,22 @@
 <style lang="scss" scoped>
 .container_page{
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   background: $primary;
+  &::-webkit-scrollbar {
+    width: 5px;
+    background: transparent;
+    background: rgba(199, 199, 199, 0.719);
+
+  }
+  &::-webkit-scrollbar-thumb{
+    background: $primary;
+    border-radius: 50px;
+  }
 }
 
 .layout-dasboard__content{
-  height: 100vh;
+  height: 100%;
   max-height: 100vh;
   overflow: hidden;
   display: flex;

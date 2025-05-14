@@ -2,16 +2,16 @@ import { defineStore } from "pinia";
 import ApiService from "@/services/axios/";
 import JwtService from "@/services/jwt/";
 
-export const useInterestStore = defineStore("interest", {
+export const useCategorieStore = defineStore("categorie", {
   state: () => ({
    
   }),
   actions: {
-    async getInterestRate() {
+    async getAllCategorie() {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/interest")
+          ApiService.get("/api/categories")
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -19,7 +19,7 @@ export const useInterestStore = defineStore("interest", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al obtener.');
+              resolve('Error al obtener las categorias');
             });
         }
       })
@@ -28,7 +28,28 @@ export const useInterestStore = defineStore("interest", {
         return 'Error al actualizar datos';
       });
     },
-    async storeInterestRate(data) {
+    async getMostProlifict(quantity = 5) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/categories/mostprolifict?quantity="+quantity+"&")
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al obtener las categorias');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
+    async storeCategorie(data) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
@@ -41,28 +62,6 @@ export const useInterestStore = defineStore("interest", {
             }).catch((response) => {
               console.log(response)
               resolve('Error al obtener.');
-            });
-        }
-      })
-      .catch((response) => {
-        console.log(response)
-        return 'Error al actualizar datos';
-      });
-    },
-    async updateInterestRate(data) {
-      return await new Promise((resolve) => {
-        if (JwtService.getToken()) {
-          ApiService.setHeader();
-          ApiService.post("/api/interest/"+data.type, data)
-            .then(({ data }) => {
-              if(data.code !== 200){
-                throw data;
-              }
-              // this.setBalances(data.data)
-              resolve(data)
-            }).catch((response) => {
-              console.log(response)
-              resolve('Error al sumar saldo');
             });
         }
       })
