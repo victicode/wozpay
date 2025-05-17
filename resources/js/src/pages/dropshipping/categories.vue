@@ -52,10 +52,10 @@ export default {
 .textActivateArea{
   width: 50%;
   & .first__text{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   & .second__text{
-    font-size: 1.85rem;
+    font-size: 1.6rem;
     font-weight: bold;
   }
   & .third__text{
@@ -84,7 +84,7 @@ export default {
 }
 .titleCategorieHeader{
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
   letter-spacing: 0.5px;
   line-height: 1.2;
