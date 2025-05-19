@@ -28,17 +28,18 @@
   </section>
   <section>
     <mostProfitable />
-
+    <allCategories />
   </section>
 
 </template>
 <script>
 import mostProfitable from '@/components/dropshipping/categories/mostProfitable.vue';
-
+import allCategories from '@/components/dropshipping/categories/allCategories.vue';
 
 export default {
   components:{
-    mostProfitable
+    mostProfitable,
+    allCategories
   }
 }
 </script>

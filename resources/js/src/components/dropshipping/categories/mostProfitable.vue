@@ -1,10 +1,10 @@
 <template>
-  <div class="mostProfitableList q-px-md q-py-md">
-    <div class="">
+  <div class="mostProfitableList  q-pb-md">
+    <div class="q-px-md q-pt-md q-pb-sm" style="background:white">
       <div class="listTitleHeader">CATEGORIAS MÁS RENTABLES - 2025</div>
       <div class="listTextHeader ellipsis" >Categorias y productos se renuevan semanalmente</div>
     </div>
-    <div>
+    <div class="q-px-md">
       <div v-for="categorie in mostProfitable" :key="categorie.id" class="q-px-sm q-py-sm q-my-md category-item_content" >
         <div class="category__title--content q-pl-xs">
           <div class=" category__title ellipsis">
@@ -58,6 +58,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.mostProfitableList{
+  background:#f3f3f3
+}
 .listTitleHeader{
   font-weight: bold;
   font-size: 1.25rem;
@@ -75,6 +78,7 @@ export default {
   border-radius: 1rem;
   justify-content: space-between;
   align-items: center;
+  background:white;
 }
 .category__title--content{
 
