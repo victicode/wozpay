@@ -1,5 +1,5 @@
 <template>
-  <header class="q-px-md q-px-md-xl q-pt-md q-pb-md " id="dropshipping-header" >
+  <header class="q-px-md q-px-md-lg q-pt-md q-pb-md " id="dropshipping-header" >
     <div class="text-header">
       Woz <br>
       Dropshipping
@@ -74,7 +74,7 @@
   }
   .searchInput{
     
-    height: 3.5rem;
+    height: 3.6rem;
     width: 15.8rem;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -91,7 +91,8 @@
     }
   }
   #searchButton{
-    height: 3.5rem;
+    height: 3.57rem;
+    transform: translatey(-0.1rem);
     border-radius: 0px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -125,7 +126,7 @@
     }
     #searchButton{
       width: 25%;
-
+      transform: none;
       height: 102%;
     }
 

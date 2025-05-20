@@ -73,6 +73,9 @@ html{
 .bg-yellowLanding {
   background: #f9a826!important;
 }
+.text-dropper{
+  color: #f8a80d!important;
+}
 .text-blueLanding {
   color: #1c3150!important;
 }
@@ -198,17 +201,23 @@ html{
 }
 
 .fadx-enter-active, .fadx-leave-active {
-  transition: opacity .5s
+  transition: all .5s
 }
 .fadx-enter-from{
   opacity: 0
 }
+.fadx-leave-from{
+  opacity: 0;
+
+}
 .fadx-leave-to{
-  opacity: 1
+  opacity: 0;
+
+
 }
-.fadx-enter, .fadx-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0
-}
+// .fadx-enter, .fadx-leave-to /* .fade-leave-active below version 2.1.8 */ {
+//   opacity: 0
+// }
 
 .user-verify-user{
   opacity: 0.5;

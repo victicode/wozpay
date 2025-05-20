@@ -1,26 +1,37 @@
 <template>
   <div class="mostProfitableList  q-pb-md">
-    <div class="q-px-md q-pt-md q-pb-sm" style="background:white">
+    <div class="q-px-md q-pt-md q-pb-sm q-py-md-lg" style="background:white">
       <div class="listTitleHeader">CATEGORIAS MÁS RENTABLES - 2025</div>
       <div class="listTextHeader ellipsis" >Categorias y productos se renuevan semanalmente</div>
     </div>
     <div class="q-px-md">
-      <div v-for="categorie in mostProfitable" :key="categorie.id" class="q-px-sm q-py-sm q-my-md category-item_content" >
-        <div class="category__title--content q-pl-xs">
-          <div class=" category__title ellipsis">
-            {{ categorie.title }}
+      <template v-if="mostProfitable.length > 0">
+        <div v-for="categorie in mostProfitable" :key="categorie.id" class="q-px-sm q-py-sm q-my-md q-my-md-lg category-item_content" >
+          <div class="category__title--content q-pl-xs">
+            <div class=" category__title ellipsis">
+              {{ categorie.title }}
+            </div>
+            <q-icon name="eva-star-outline" color="terciary" size="1.4rem" v-for="i in categorie.reviews" :key="i" />
           </div>
-          <q-icon name="eva-star-outline" color="terciary" size="1.4rem" v-for="i in categorie.reviews" :key="i" />
-        </div>
-        <div class="flex category__action q-pl-sm q-pr-xs">
-          <div class="products_active__quantity ellipsis">
-            Ver {{ numberFormat(categorie.products.length) }} productos activos
+          <div class="flex category__action q-pl-sm q-pr-xs">
+            <div class="products_active__quantity ellipsis">
+              Ver {{ numberFormat(categorie.products.length) }} productos activos
+            </div>
+            <q-btn flat class="q-px-none" @click="gotTo(categorie.id)">
+              <q-icon name="eva-chevron-right-outline" color="grey" />
+            </q-btn>
           </div>
-          <q-btn flat class="q-px-none">
-            <q-icon name="eva-chevron-right-outline" color="grey" />
-          </q-btn>
         </div>
-      </div>
+      </template>
+      <template v-else> 
+        <div class="q-pt-lg q-pb-md">
+          <q-spinner-tail
+            color="black"
+            size="3rem"
+            style="margin:auto"
+          />
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -29,11 +40,13 @@
 import { useCategorieStore } from '@/services/store/categorie.store';
 import { onMounted, ref } from 'vue';
 import utils from '@/util/numberUtil';
+import { useRouter } from 'vue-router';
 
 
 export default {
   setup () {
       //vue provider
+    const router = useRouter()
     const icons = inject('ionIcons')
     const numberFormat = utils.numberFormat
     const categorieStore = useCategorieStore()
@@ -44,7 +57,9 @@ export default {
         mostProfitable.value = response.data
       })
     }
-
+    const gotTo = (id) => {
+      router.push('/dropshipping/category/'+id+'/products')
+    }
     onMounted(() => {
       getMostProfitable()
     })
@@ -53,6 +68,7 @@ export default {
     return {
       mostProfitable,
       numberFormat,
+      gotTo,
     }
   }
 }
