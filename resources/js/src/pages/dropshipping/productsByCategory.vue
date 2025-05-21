@@ -1,43 +1,57 @@
 <template>
-  <section class="q-py-md q-px-sm">
-    <activateArea />
-  </section>
-  <section class="q-px-md">
-    <div class="text-bold text--valiate">
-      Productos Woz Dropshipping
-      <q-icon
-          :name=" icons.sharpVerified"
-          size="sm"
-          color="terciary"
-          class=""
-          @click="showToltip"
-      />
-    </div>
+  <div>
 
-    <div class="droppersInit q-mt-xs q-px-md q-py-sm">
-      <div class="flex items-center">
-        <div class="text-dropper text__dropper q-mr-xs"> 
-          Droppers
-        </div> 
-        <div v-html="wozIcons.droppers"/>
+    <section class="q-py-md q-px-sm">
+      <activateArea />
+      <div class="q-px-md q-pt-md">
+        <div class="text-bold text--valiate">
+          Productos Woz Dropshipping
+          <q-icon
+            :name=" icons.sharpVerified"
+            size="sm"
+            color="terciary"
+            class=""
+          />
+        </div>
+    
+        <div class="droppersInit q-mt-xs q-px-md q-py-sm">
+          <div class="flex items-center">
+            <div class="text-dropper text__dropper q-mr-xs"> 
+              Droppers
+            </div> 
+            <div v-html="wozIcons.droppers"/>
+          </div>
+          <div class="text__dropper2">367 Droppers están vendiendo estos producto</div>
+        </div>
+      
       </div>
-      <div class="text__dropper2">367 Droppers están vendiendo estos producto</div>
-    </div>
-  </section>
+    </section>
+    <section>
+      <!-- <listSquareProducts /> -->
+    </section>
+  </div>
 </template>
 <script>
 
 import activateArea from '@/components/dropshipping/categories/activateArea.vue';
 import wozIcons from '@/assets/icons/wozIcons.js'
 import { inject } from 'vue';
-
+import listSquareProducts from '@/components/dropshipping/product/listSquareProducts.vue';
+import { useProductStore } from '@/services/store/products.store';
+import { useRoute } from 'vue-router';
 export default {
   components:{
-    activateArea
+    activateArea,
+    listSquareProducts,
   },
   setup() {
     const icons = inject('ionIcons');
+    const productStore =  useProductStore()
+    const products = []
+    const route = useRoute()
 
+    console.log(route)
+    
     return {
       icons,
       wozIcons
