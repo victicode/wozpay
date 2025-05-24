@@ -5,7 +5,7 @@
       unelevated  
       :key="key" 
       :color="button.color" 
-      :class="' q-my-xs buttons__actionLanding '+button.class"
+      :class="' q-my-xs q-my-md-sm buttons__actionLanding '+button.class"
       @click="goTo(button.to)"
      >
         {{ button.title }}
@@ -63,9 +63,9 @@
 
 <style lang="scss">
 .buttons__actionLanding{
-  padding: 1.2rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   border-radius: 1rem;
-  width: 98%;
+  width: 92%;
   & .q-btn__content{
     font-size: 1rem;
   }
@@ -86,16 +86,14 @@
   border-radius: 1rem;
   background: rgba(248, 168, 13, 1) ;
 }
-.text_in_services{
+[class*=text_in_services]{
   background: white;
-  width: 94%;
+  width: 97%;
+}
+.text_in_services{
   border-top-left-radius: 0.9rem;
-
-
 }
 .text_in_services2{
-  background: white;
-  width: 94%;
   border-bottom-left-radius: 0.9rem;
 }
 [class*=service__img--container]{
@@ -115,5 +113,14 @@
     font-family: fantasy!important;
   
 }
+@media screen and (max-width: 780px){
+  [class*=text_in_services]{
+    width: 94%;
+  }
+  .buttons__actionLanding{
+    padding: 1.2rem 1.2rem;
+    width: 98%;
 
+  }
+}
 </style>

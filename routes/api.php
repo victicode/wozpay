@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PayController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CardController;
 use App\Http\Controllers\Api\CoinController;
@@ -13,11 +14,10 @@ use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\InterestController;
 use App\Http\Controllers\Api\TransferController;
-use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\CategorieController;
+use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------

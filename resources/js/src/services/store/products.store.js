@@ -19,7 +19,7 @@ export const useProductStore = defineStore("product", {
               resolve(data)
             }).catch((response) => {
               console.log(response)
-              resolve('Error al obtener las categorias');
+              resolve('Error al obtener productos');
             });
         }
       })

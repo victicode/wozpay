@@ -35,7 +35,7 @@
 
 import activateArea from '@/components/dropshipping/categories/activateArea.vue';
 import wozIcons from '@/assets/icons/wozIcons.js'
-import { inject } from 'vue';
+import { inject, onMounted } from 'vue';
 import listSquareProducts from '@/components/dropshipping/product/listSquareProducts.vue';
 import { useProductStore } from '@/services/store/products.store';
 import { useRoute } from 'vue-router';
@@ -50,8 +50,20 @@ export default {
     const products = []
     const route = useRoute()
 
-    console.log(route)
+    const  getProducts = () => {
+      productStore.getAllProductByCategory(route.params.id)
+      .then((response) =>{
+        console.log(response)
+        products.value = response.data;
+      })
+      .catch((response) =>{
+        console.log(response)
+      })
+    }
     
+    onMounted(() => {
+      getProducts()
+    })
     return {
       icons,
       wozIcons

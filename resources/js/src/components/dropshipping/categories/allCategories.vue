@@ -121,4 +121,5 @@ export default {
   max-width: 35%;
   flex-wrap: nowrap;
 }
+
 </style>

@@ -98,7 +98,7 @@ export default {
 }
 .category__title--content{
 
-  min-width: 45%;
+  min-width: 35%;
 }
 .category__title{
   color: #9b9b9b;
@@ -113,6 +113,18 @@ export default {
 .category__action{
   justify-content: end;
   align-items: center;
-  max-width: 55%;
+  max-width: 65%;
+  min-width: 34%;
+}
+
+@media screen and (max-width: 780px){
+  .category__title--content{
+    max-width: 50%;
+    min-width: 45%;
+  }
+  .category__action{
+    min-width: auto;
+    max-width: 55%;
+  }
 }
 </style>

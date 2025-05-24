@@ -5,8 +5,7 @@
     </div>
     <div class="integrationContainer q-mb-sm">
       <div class="text-content-question text_in_services q-px-md q-py-md " >
-        Operamos de forma internacional. Envíos nacionales se hacen con AEX Group y los internacionales con FedEx. <br>
-        Podés vender desde donde estés y a quien quieras.
+        Si tienes una web propia puedes intergrar nuestros catalogo a tu tienda propia
       </div>
       <div class="text_in_services2 q-px-md q-pb-md">
         <div class="flex items-center" style="flex-wrap: nowrap; width: 20rem;">
