@@ -5,7 +5,7 @@
       <img :src="product.image" alt="" class="productListSquare__img">
     </div>
     <div class="q-ml-xs productListSquare__detail--container">
-      <div class="productListSquare__title " @click="goTo(product.id)">{{product.title}}</div>
+      <div class="productListSquare__title " >{{product.title}}</div>
       <div class="productListSquare__vendorText">
         Proveedor
         <q-icon
@@ -26,7 +26,6 @@
 </template>
 <script>
 import utils from '@/util/numberUtil';
-import { useRouter } from 'vue-router';
 export default {
   props: {
     product: Object,
@@ -36,15 +35,10 @@ export default {
     const icons = inject('ionIcons');
 
     const  numberFormat = utils.numberFormat
-    const router = useRouter()
-    const goTo = (id) => {
-      router.push('/dropshipping/product/'+id)
-    }
     return {
       icons,
       product: props.product,
       numberFormat,
-      goTo,
     }
   }
 }
@@ -61,19 +55,11 @@ export default {
     overflow: hidden;
     white-space:nowrap;
     width: 96%;
-    transition: all 0.5s ease;
-
-    &:hover{
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
   }
   &__vendorText{
     font-weight: 400;
     display: flex;
     align-items: center;
-    // font-weight: bolder;
     font-size: 0.95rem;
   }
   &__price{

@@ -12,7 +12,7 @@ import { Picker, Swipe, SwipeItem, Switch } from 'vant';
 
 import * as materialIcons from '@quasar/extras/material-icons-outlined'
 import * as materialIcons2 from '@quasar/extras/material-icons-sharp'
-import { roundCheckCircle } from '@quasar/extras/material-icons-round'
+import { roundCheckCircle, roundStar, roundGrade, } from '@quasar/extras/material-icons-round'
 import { ionRepeat, ionGlobeOutline, ionCashOutline } from '@quasar/extras/ionicons-v7'
 
 
@@ -54,7 +54,7 @@ app.use(Picker);
 app.use(Switch);
 app.use(Swipe)
 app.use(SwipeItem)
-app.provide('ionIcons', { ...materialIcons, ...materialIcons2, ionCashOutline,  circle: roundCheckCircle, ionRepeat, ionGlobeOutline})
+app.provide('ionIcons', { ...materialIcons, ...materialIcons2, ionCashOutline, raiting:roundStar, notRaiting: roundGrade,  circle: roundCheckCircle, ionRepeat, ionGlobeOutline})
 app.provide('emitter', emitter)
 
 app.mount('#app')

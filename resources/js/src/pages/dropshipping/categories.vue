@@ -1,18 +1,20 @@
 <template>
-  <section class="q-py-md q-px-sm">
-    <activateArea />
-  </section>
-  <section class="categorieHeader q-px-md q-pt-md q-pb-md">
-    <div class="titleCategorieHeader q-mt-xs">productos y <br> categorias</div>
-    <div class="text-white content__header q-mt-xs">
-      Encuentra los mejores productos en múltiples
-      categorías 
-    </div>
-  </section>
-  <section>
-    <mostProfitable />
-    <allCategories />
-  </section>
+  <main>
+    <section class="q-py-md q-px-sm">
+      <activateArea />
+    </section>
+    <section class="categorieHeader q-px-md q-pt-md q-pb-md">
+      <div class="titleCategorieHeader q-mt-xs">productos y <br> categorias</div>
+      <div class="text-white content__header q-mt-xs">
+        Encuentra los mejores productos en múltiples
+        categorías 
+      </div>
+    </section>
+    <section>
+      <mostProfitable />
+      <allCategories />
+    </section>
+  </main>
 
 </template>
 <script>

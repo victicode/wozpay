@@ -652,6 +652,14 @@ const router = createRouter({
           meta: {
             title: 'Woz Dropshipping'
           },
+        },
+        {
+          path:"/dropshipping/product/:id",
+          name:'productById',
+          component: () => import('@/pages/dropshipping/product.vue'),
+          meta: {
+            title: 'Woz Dropshipping'
+          },
         }
         
       ]
