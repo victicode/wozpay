@@ -7,11 +7,11 @@ export const useProductStore = defineStore("product", {
    
   }),
   actions: {
-    async getAllProductByCategory(category) {
+    async getAllProductByCategory(category, page) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/products/Bycategory/"+category)
+          ApiService.get("/api/products/Bycategory/"+category+"?page="+page+'&')
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -70,6 +70,27 @@ export const useProductStore = defineStore("product", {
         return 'Error al actualizar datos';
       });
     },
+    async getProductById(id) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/products/byId/"+id)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al obtener producto.');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    }
   },
   getters: {
   },

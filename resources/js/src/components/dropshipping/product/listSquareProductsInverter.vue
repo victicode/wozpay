@@ -1,28 +1,33 @@
 
 <template>
-  <div class="flex q-mt-md productListSquare q-py-sm">
-    <div class="productListSquare__img--container">
-      <img :src="product.image" alt="" class="productListSquare__img">
-    </div>
-    <div class="q-ml-xs productListSquare__detail--container">
-      <div class="productListSquare__title " >{{product.title}}</div>
-      <div class="productListSquare__vendorText">
-        Proveedor
-        <q-icon
-            :name=" icons.sharpVerified"
-            size="1.1rem"
-            color="terciary"
-            class="q-mx-xs"
-          />
+  <section class="q-px-md">
+    <div class="flex q-mt-md productListSquareIn q-py-sm">
+      <div class="q-ml-xs productListSquareIn__detail--container">
+        <div class="productListSquareIn__title " >{{product.title}}</div>
+        <div class="productListSquareIn__vendorText">
+          Proveedor
+          <q-icon
+              :name=" icons.sharpVerified"
+              size="1.1rem"
+              color="terciary"
+              class="q-mx-xs"
+            />
+        </div>
+        <div class="productListSquareIn__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
+        <div class="productListSquareIn__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 5000)}}</div>
+        <div>
+          <q-icon :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in product.rating" :key="i" />
+          <q-icon :name="icons.outlinedGrade" color="terciary" size="1.5rem" v-for="i in (5-product.rating)" :key="i" />
+        </div>
       </div>
-      <div class="productListSquare__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
-      <div class="productListSquare__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 5000)}}</div>
-      <div>
-        <q-icon :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in product.rating" :key="i" />
-        <q-icon :name="icons.outlinedGrade" color="terciary" size="1.5rem" v-for="i in (5-product.rating)" :key="i" />
+      <div class="productListSquareIn__img--container">
+        <img :src="product.image" alt="" class="productListSquareIn__img">
       </div>
     </div>
-  </div>
+    <div class="text-right text-grey text-stock q-pr-sm">
+      Stock disponible: {{ numberFormat(product.quantity) }}
+    </div>
+  </section>
 </template>
 <script>
 import utils from '@/util/numberUtil';
@@ -44,7 +49,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.productListSquare{
+.productListSquareIn{
   flex-wrap: nowrap;
   background: white;
   border-radius: 1rem;
@@ -75,7 +80,7 @@ export default {
     letter-spacing: -0.3px;
   }
 }
-.productListSquare__img{
+.productListSquareIn__img{
  
   object-fit: contain;
   width: 100%;
@@ -89,10 +94,13 @@ export default {
 
   }
 }
-.productListSquare__detail{
+.productListSquareIn__detail{
   &--container{
     width: 70%;
 
   }
+}
+.text-stock{
+  font-size: 0.9rem;
 }
 </style>

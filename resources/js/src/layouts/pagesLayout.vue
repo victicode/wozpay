@@ -1,7 +1,7 @@
 <template>
   <div class="layout-dasboard__content"  style="">
     <topbar/>
-    <div class="container_page" >
+    <div class="container_page" id="scroll-target-id">
       <router-view v-slot="{ Component }">
         <transition name="horizontal">
           <component :is="Component" />

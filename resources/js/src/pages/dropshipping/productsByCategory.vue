@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <section class="q-py-md q-px-sm">
       <activateArea />
       <div class="q-px-md q-pt-md">
@@ -25,61 +25,28 @@
       
       </div>
     </section>
-    <section class=" products__section">
-      <template v-if="ready" >
-        <div class="q-px-md q-pt-xs q-pb-lg">
-          <listSquareProducts v-for="(product, index) in products" :product="product" :key="index"/>
-        </div>
-      </template>
-      <template v-else>
-        <skeletonListSquareProducts v-for="i in 5" :key="i" class="q-mt-sm" />
-      </template>
-    </section>
+    <productSection />
   </div>
 </template>
 <script>
 
 import activateArea from '@/components/dropshipping/categories/activateArea.vue';
+import productSection from '@/components/dropshipping/product/productSectionCategory.vue';
 import wozIcons from '@/assets/icons/wozIcons.js'
-import { inject, onMounted } from 'vue';
-import listSquareProducts from '@/components/dropshipping/product/listSquareProducts.vue';
-import skeletonListSquareProducts from '@/components/dropshipping/product/skeletonListSquareProducts.vue';
-import { useProductStore } from '@/services/store/products.store';
-import { useRoute } from 'vue-router';
-import { ref } from 'vue';
+import { inject} from 'vue';
+
 export default {
   components:{
     activateArea,
-    listSquareProducts,
-    skeletonListSquareProducts
+    productSection,
   },
   setup() {
     const icons = inject('ionIcons');
-    const productStore =  useProductStore()
-    const products = ref([]);
-    const route = useRoute()
-    const ready = ref(false)
-    const  getProducts = () => {
-      productStore.getAllProductByCategory(route.params.id)
-      .then((response) =>{
-        products.value = response.data;
-        setTimeout(() => {
-          ready.value = true
-        }, 1000);
-      })
-      .catch((response) =>{
-        console.log(response)
-      })
-    }
-    
-    onMounted(() => {
-      getProducts()
-    })
+
     return {
-      ready,
       icons,
       wozIcons,
-      products
+
     }
   }
 }

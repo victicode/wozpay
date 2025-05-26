@@ -1,28 +1,44 @@
 <template>
   <main>
-    hola
+    <div v-if="product">
+      <listSquareProductsInverter :product="product" />
+    </div>
   </main>
 </template>
 <script>
-import utils from '@/util/numberUtil';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useProductStore } from '@/services/store/products.store';
+import { onMounted } from 'vue';
+import listSquareProductsInverter from '@/components/dropshipping/product/listSquareProductsInverter.vue';
+import { ref } from 'vue';
 export default {
-  props: {
-    product: Object,
-  },
-  emits: ['getPay'],
-  setup (props, { emit }) {
-    const icons = inject('ionIcons');
 
-    const  numberFormat = utils.numberFormat
+  components: {
+    listSquareProductsInverter
+  },
+  setup () {
+    const icons = inject('ionIcons');
     const router = useRouter()
+    const route = useRoute()
+    const prodcutStore = useProductStore()
     const goTo = (id) => {
       router.push('/dropshipping/product/'+id)
     }
+    const product = ref(false)
+
+    const getProduct = (id) => {
+      prodcutStore.getProductById(id)
+      .then((response) => {
+        product.value = response.data
+      })
+    }
+    onMounted(() => {
+      getProduct(route.params.id)
+    })
+
     return {
       icons,
-      product: props.product,
-      numberFormat,
+      product,
       goTo,
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="layout-dasboard__content"   style="">
     <headerDrop />
-    <div class="container_page" >
+    <div class="container_page"  id="scroll-target-id">
       <div class="section_page">  
         <router-view v-slot="{ Component }">
           <transition name="fadx">
@@ -48,7 +48,7 @@
 
 <style lang="scss" scoped>
 .container_page{
-  height: 100%;
+  max-height: 100%;
   overflow: auto;
   background: $primary;
   &::-webkit-scrollbar {
