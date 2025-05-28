@@ -30,6 +30,7 @@ import "quasar/src/css/flex-addon.sass";
 import '@/plugins/quasar/scss/template.scss'
 import 'vant/lib/index.css';
 
+import VueApexCharts from "vue3-apexcharts";
 import mitt from 'mitt'
 const emitter = mitt()
 
@@ -54,6 +55,7 @@ app.use(Picker);
 app.use(Switch);
 app.use(Swipe)
 app.use(SwipeItem)
+app.use(VueApexCharts);
 app.provide('ionIcons', { ...materialIcons, ...materialIcons2, ionCashOutline, raiting:roundStar, notRaiting: roundGrade,  circle: roundCheckCircle, ionRepeat, ionGlobeOutline})
 app.provide('emitter', emitter)
 

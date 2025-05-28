@@ -31,8 +31,8 @@ export default {
   props: {
     product: Object,
   },
-  emits: ['getPay'],
-  setup (props, { emit }) {
+  emits: [],
+  setup (props,) {
     const icons = inject('ionIcons');
 
     const  numberFormat = utils.numberFormat

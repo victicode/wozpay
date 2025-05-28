@@ -49,7 +49,9 @@
 <style lang="scss" scoped>
 .container_page{
   max-height: 100%;
-  overflow: auto;
+  overflow-x: hidden;
+
+  overflow-y: auto;
   background: $primary;
   &::-webkit-scrollbar {
     width: 5px;

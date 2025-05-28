@@ -1,6 +1,6 @@
 
 <template>
-  <section class="q-px-md">
+  <section class="q-px-md q-pb-sm " style="border-bottom: 2px solid lightgray;">
     <div class="flex q-mt-md productListSquareIn q-py-sm">
       <div class="q-ml-xs productListSquareIn__detail--container">
         <div class="productListSquareIn__title " >{{product.title}}</div>
@@ -35,8 +35,8 @@ export default {
   props: {
     product: Object,
   },
-  emits: ['getPay'],
-  setup (props, { emit }) {
+  emits: [],
+  setup (props) {
     const icons = inject('ionIcons');
 
     const  numberFormat = utils.numberFormat

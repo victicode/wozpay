@@ -7,18 +7,20 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@quasar/vite-plugin": "^1.7.0",
+        "@quasar/vite-plugin": "^1.9.0",
         "axios": "^1.6.4",
         "laravel-echo": "^1.16.1",
         "laravel-vite-plugin": "^1.0.0",
         "pusher-js": "^8.4.0-rc2",
         "sass": "^1.77.5",
-        "vite": "^5.0.0"
+        "sass-embedded": "^1.89.0",
+        "vite": "^6.3.5"
     },
     "dependencies": {
         "@quasar/extras": "^1.16.11",
         "@tato30/vue-pdf": "^1.11.0",
         "@vitejs/plugin-vue": "^5.0.5",
+        "apexcharts": "^4.7.0",
         "cleave-zen": "^0.0.17",
         "creditcard.js": "^3.0.33",
         "gsap": "^3.12.5",
@@ -32,6 +34,7 @@
         "vue": "^3.4.29",
         "vue-barcode-reader": "^1.0.3",
         "vue-reader": "^1.2.15",
-        "vue-router": "^4.3.3"
+        "vue-router": "^4.3.3",
+        "vue3-apexcharts": "^1.8.0"
     }
 }

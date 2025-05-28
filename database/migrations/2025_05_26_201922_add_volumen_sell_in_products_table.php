@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            //
-            $table->integer('actual_sell_volumen');
-            $table->longText('sell_volumen_last_month');
-            $table->string('logistic');
+            $table->longText('description')->nullable()->after('price');
+            $table->integer('actual_sell_volumen')->nullable()->after('description');
+            $table->longText('sell_volumen_last_month')->nullable()->after('actual_sell_volumen');
+            $table->string('logistic')->nullable()->after('sell_volumen_last_month');
+            $table->string('time_ship')->nullable()->after('logistic');
+            $table->string('pay_method')->nullable()->after('time_ship');
+            $table->string('comision')->nullable()->after('pay_method');
 
         });
     }

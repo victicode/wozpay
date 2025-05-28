@@ -2,6 +2,7 @@
   <main>
     <div v-if="product">
       <listSquareProductsInverter :product="product" />
+      <stadisticProduct class="q-mt-md" :product="product" />
     </div>
   </main>
 </template>
@@ -9,12 +10,14 @@
 import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '@/services/store/products.store';
 import { onMounted } from 'vue';
-import listSquareProductsInverter from '@/components/dropshipping/product/listSquareProductsInverter.vue';
 import { ref } from 'vue';
+import listSquareProductsInverter from '@/components/dropshipping/product/listSquareProductsInverter.vue';
+import stadisticProduct from '@/components/dropshipping/product/stadisticProduct.vue';
 export default {
 
   components: {
-    listSquareProductsInverter
+    listSquareProductsInverter,
+    stadisticProduct
   },
   setup () {
     const icons = inject('ionIcons');
