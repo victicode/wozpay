@@ -80,13 +80,13 @@ export default {
     font-size: 0.99rem;
     color: rgb(85, 85, 85);
     font-weight: 400;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
   }
   &__suggerPrice{
     font-weight: bolder;
     color: #ffc701;
     font-size: 1rem;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
   }
 }
 .productListSquare__img{

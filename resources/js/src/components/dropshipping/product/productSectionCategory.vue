@@ -1,5 +1,5 @@
 <template>
-  <section >
+  <section style="background: #efefef;"> 
     <template v-if="ready" >
       <q-infinite-scroll @load="onLoadMenu" :offset="200"  :scroll-target="'#scroll-target-id'" >
         <listSquareProducts v-for="(product, index) in products" :product="product" :key="index"/>

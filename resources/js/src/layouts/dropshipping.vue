@@ -1,6 +1,8 @@
 <template>
   <div class="layout-dasboard__content"   style="">
-    <headerDrop />
+    <headerDrop :styleHead="headerStyle">
+      <img :src="imgButton" alt="" style="width: 1.59rem; height: 1.59rem;" >
+    </headerDrop>
     <div class="container_page"  id="scroll-target-id">
       <div class="section_page">  
         <router-view v-slot="{ Component }">
@@ -17,7 +19,10 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import headerDrop from '@/components/dropshipping/layout/header.vue';
-
+  import wozIcons from '@/assets/icons/wozIcons';
+  import img1 from '@/assets/images/vector1.png'
+  import img2 from '@/assets/images/vector2.png'
+  import { useRoute } from 'vue-router';
 
   export default {
     components:{
@@ -29,8 +34,13 @@
       const $q = useQuasar()
       const user = ref(useAuthStore().user)
       const readyState = ref(false)
-
-
+      const route = useRoute()
+      const headerStyle = ref(route.name == 'dropshipping_landing' ? 'principal' : 'others')
+      const imgButton = ref(route.name == 'dropshipping_landing' ? img1 : img2)
+      watch(route, () => {
+        headerStyle.value = route.name == 'dropshipping_landing' ? 'principal' : 'others'
+        imgButton.value = route.name == 'dropshipping_landing' ? img1 : img2
+      });
       // Mounted
       onMounted(() =>{
         // getCurrentUser()
@@ -41,6 +51,9 @@
         icons,
         readyState,
         user,
+        wozIcons,
+        imgButton,
+        headerStyle
       }
     }
   };
@@ -52,7 +65,7 @@
   overflow-x: hidden;
 
   overflow-y: auto;
-  background: $primary;
+  background: white;
   &::-webkit-scrollbar {
     width: 5px;
     background: transparent;

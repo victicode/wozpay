@@ -1,6 +1,6 @@
 <template>
   <div >
-    <section class="q-py-md q-px-sm">
+    <section class="q-pt-md q-px-sm">
       <activateArea />
       <div class="q-px-md q-pt-md">
         <div class="text-bold text--valiate">
@@ -25,7 +25,7 @@
       
       </div>
     </section>
-    <productSection />
+    <productSection class="q-py-sm q-mt-sm q-px-sm" />
   </div>
 </template>
 <script>

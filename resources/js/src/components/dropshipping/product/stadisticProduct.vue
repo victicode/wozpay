@@ -1,7 +1,7 @@
 <template>
   <section >
+    <div class="badgeStadistic q-px-sm q-py-xs q-ml-md q-mb-sm">Ultimos 5 meses</div>
     <div class="q-px-md">
-      <div></div>
       <div>
         <div class="sellStatidistic__title">
           Ventas totales
@@ -26,7 +26,6 @@
 <script>
 import moment from 'moment/moment';
 import { onMounted } from 'vue';
-import { patterns } from 'quasar';
 import util from '@/util/numberUtil';
 export default {
   props: {
@@ -133,6 +132,12 @@ export default {
 }
 </script>
 <style lang="scss">
+.badgeStadistic{
+  background: #efefef;
+  border-radius: 0.3rem;
+  width: fit-content;
+  font-weight: 500;
+}
 .sellStatidistic__title{
   font-size: 1rem;
   font-weight: 400;
