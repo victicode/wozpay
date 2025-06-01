@@ -9,11 +9,11 @@
       <div class="productListSquare__vendorText">
         Proveedor
         <q-icon
-            :name=" icons.sharpVerified"
-            size="1.1rem"
-            color="terciary"
-            class="q-mx-xs"
-          />
+          :name=" icons.sharpVerified"
+          size="1.1rem"
+          color="terciary"
+          class="q-mx-xs"
+        />
       </div>
       <div class="productListSquare__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
       <div class="productListSquare__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 5000)}}</div>
@@ -26,7 +26,9 @@
 </template>
 <script>
 import utils from '@/util/numberUtil';
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
+
 export default {
   props: {
     product: Object,
