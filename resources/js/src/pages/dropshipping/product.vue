@@ -4,8 +4,8 @@
       <listSquareProductsInverter :product="product" />
       <stadisticProduct class="q-mt-md" :product="product" />
       <detailsProduct class="q-mt-md" :product="product" />
-      <buttonSection :product="product"/>
-      <section class="infoWozDropshippin q-px-md">
+      <buttonSection :product="product" />
+      <section class="infoWozDropshippin q-px-md q-mb-lg">
         <div class="infoWozDropshippin__header">
           <div class="infoWozDropshippin__header-text1">Vuelvete premium</div>
           <div class="infoWozDropshippin__header-text2">39,9 USD Mensual</div>
@@ -33,6 +33,7 @@
           </div>
         </div>
       </section>
+      <otherProduct :product="product" />
     </div>
   </main>
 </template>
@@ -45,7 +46,7 @@ import listSquareProductsInverter from '@/components/dropshipping/product/listSq
 import stadisticProduct from '@/components/dropshipping/product/stadisticProduct.vue';
 import detailsProduct from '@/components/dropshipping/product/DetailsProduct.vue';
 import buttonSection from '@/components/dropshipping/product/buttonSection.vue';
-
+import otherProduct from '@/components/dropshipping/product/otherProduct.vue';
 export default {
 
   components: {
@@ -53,6 +54,7 @@ export default {
     stadisticProduct,
     detailsProduct,
     buttonSection,
+    otherProduct,
   },
   setup () {
     const icons = inject('ionIcons');
