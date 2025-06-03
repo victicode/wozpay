@@ -8,7 +8,7 @@
     </div>
     <div>
       <div class="details__items--title-description q-mt-md q-my-sm" >Descripción</div>
-      <div class="details__items--value q-px-sm" >
+      <div class="details__items--value q-px-md q-py-sm" >
         {{ product.description }}
       </div>
     </div>
@@ -64,6 +64,8 @@ export default {
   &--value{
     color: darkgray;
     font-size: 0.95rem;
+    background: #f7f7f7;
+    border-radius: 1rem;
   }
   &--title-description{
     font-weight: bold;

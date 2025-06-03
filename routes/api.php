@@ -170,6 +170,8 @@ Route::middleware('jwt.verify')->prefix('categories')->name('categorie.')->group
 Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(function () {
     Route::get('/Bycategory/{category}', [ProductController::class, 'getAllProductsByCategory']);
     Route::get('/byId/{id}', [ProductController::class, 'getProductById']);
+    Route::get('/similar', [ProductController::class, 'getSimilarProduct']);
+
 
 
 });

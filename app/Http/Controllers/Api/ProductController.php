@@ -25,4 +25,13 @@ class ProductController extends Controller
         }
         return $this->returnSuccess(200, $product);
     }
+    public function getSimilarProduct(Request $request){
+        $product = Product::where('categorie_id', $request->category)->get();
+
+        if(!$product){
+            return $this->returnFail(400, 'Category not found');
+        }
+        return $this->returnSuccess(200, $product);
+
+    }
 }

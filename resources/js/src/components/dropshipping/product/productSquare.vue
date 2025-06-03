@@ -1,10 +1,13 @@
 
 <template>
-  <section class="q-px-md q-pb-sm " style="border-bottom: 2px solid lightgray;">
-    <div class="flex q-mt-md productListSquareIn q-py-sm">
-      <div class="q-ml-xs productListSquareIn__detail--container">
-        <div class="productListSquareIn__title " >{{product.title}}</div>
-        <div class="productListSquareIn__vendorText">
+
+    <div class=" q-mt-md productSquareSimilar q-py-sm q-px-sm q-mr-md">
+      <div class="productSquareSimilar__img--container">
+        <img :src="product.image" alt="" class="productSquareSimilar__img">
+      </div>
+      <div class="q-ml-xs productSquareSimilar__detail--container">
+        <div class="productSquareSimilar__title " >{{product.title}}</div>
+        <div class="productSquareSimilar__vendorText">
           Proveedor
           <q-icon
               :name=" icons.sharpVerified"
@@ -13,21 +16,15 @@
               class="q-mx-xs"
             />
         </div>
-        <div class="productListSquareIn__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
-        <div class="productListSquareIn__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 5000)}}</div>
+        <div class="productSquareSimilar__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
+        <div class="productSquareSimilar__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 5000)}}</div>
         <div>
           <q-icon :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in product.rating" :key="i" />
           <q-icon :name="icons.outlinedGrade" color="terciary" size="1.5rem" v-for="i in (5-product.rating)" :key="i" />
         </div>
       </div>
-      <div class="productListSquareIn__img--container">
-        <img :src="product.image" alt="" class="productListSquareIn__img">
-      </div>
+      
     </div>
-    <div class="text-right text-grey text-stock q-pr-sm">
-      Stock disponible: {{ numberFormat(product.quantity) }}
-    </div>
-  </section>
 </template>
 <script>
 import utils from '@/util/numberUtil';
@@ -49,26 +46,28 @@ export default {
 }
 </script>
 <style lang="scss">
-.productListSquareIn{
+.productSquareSimilar{
   flex-wrap: nowrap;
-  background: white;
+  background: #f3f3f3;
   border-radius: 1rem;
+  width: 55%;
+  box-shadow: 0px 5px 10px 0px #e3e3e3;
   &__title{
     font-weight: 900;
     font-size: 1rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space:nowrap;
-    width: 96%;
+    width: 100%;
   }
   &__vendorText{
     font-weight: 400;
     display: flex;
     align-items: center;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
   }
   &__price{
-    font-size: 0.99rem;
+    font-size: 0.85rem;
     color: rgb(85, 85, 85);
     font-weight: 400;
     letter-spacing: -0.3px;
@@ -76,17 +75,17 @@ export default {
   &__suggerPrice{
     font-weight: bolder;
     color: #ffc701;
-    font-size: 1rem;
+    font-size: 0.85rem;
     letter-spacing: -0.3px;
   }
 }
-.productListSquareIn__img{
+.productSquareSimilar__img{
  
   object-fit: contain;
   width: 100%;
   height: 7.5rem;
   &--container{
-    width: 30%;
+    width: 100%;
     overflow: hidden;
     padding: 0.1rem;
     border-radius: 0.8rem;
@@ -94,9 +93,9 @@ export default {
 
   }
 }
-.productListSquareIn__detail{
+.productSquareSimilar__detail{
   &--container{
-    width: 70%;
+    width: 100%;
 
   }
 }
