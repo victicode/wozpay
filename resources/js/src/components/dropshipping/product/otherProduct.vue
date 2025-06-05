@@ -3,8 +3,11 @@
     <div class="anotherSection__text-title">
       Otros Droppers vendieron
     </div>
-    <div v-if="products.length > 0" class="flex">
-      <productSquare v-for="product in products" :product="product" :key="product.id"/>
+    <div v-if="products.category.length > 0" class="flex q-mb-md" style="flex-wrap: nowrap; overflow-x: auto;">
+      <productSquare v-for="product in products.category" :product="product" :key="product.id"/>
+    </div>
+    <div v-if="products.search.length > 0" class="flex q-mb-md" style="flex-wrap: nowrap; overflow-x: auto;">
+      <productSquare v-for="product in products.search" :product="product" :key="product.id"/>
     </div>
   </section>
 </template>
@@ -27,11 +30,16 @@ export default {
     const  numberFormat = utils.numberFormat
     const productStore = useProductStore()
     const product = ref(props.product)
-    const products = ref([])
+    const products = ref({
+      category:[],
+      search:[],
+    })
     const getSimilarProduct = () => {
       productStore.getSimilar(product.value.categorie_id, product.value.title)
       .then((response) => {
-        products.value = response.data.filter((itemm) => itemm.id != product.value.id)
+        products.value.category = response.data.category.filter((itemm) => itemm.id != product.value.id)
+        products.value.search   = response.data.search.filter((itemm) => itemm.id != product.value.id)
+
       })
     }
     onMounted(() => {

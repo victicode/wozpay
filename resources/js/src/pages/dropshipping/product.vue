@@ -34,6 +34,7 @@
         </div>
       </section>
       <otherProduct :product="product" />
+      <importantInformation />
     </div>
   </main>
 </template>
@@ -47,6 +48,8 @@ import stadisticProduct from '@/components/dropshipping/product/stadisticProduct
 import detailsProduct from '@/components/dropshipping/product/DetailsProduct.vue';
 import buttonSection from '@/components/dropshipping/product/buttonSection.vue';
 import otherProduct from '@/components/dropshipping/product/otherProduct.vue';
+import importantInformation from '@/components/dropshipping/product/importantInformation.vue';
+
 export default {
 
   components: {
@@ -55,6 +58,7 @@ export default {
     detailsProduct,
     buttonSection,
     otherProduct,
+    importantInformation,
   },
   setup () {
     const icons = inject('ionIcons');

@@ -1,7 +1,7 @@
 
 <template>
 
-    <div class=" q-mt-md productSquareSimilar q-py-sm q-px-sm q-mr-md">
+    <div class=" q-my-md productSquareSimilar q-py-md q-px-md q-mr-md ">
       <div class="productSquareSimilar__img--container">
         <img :src="product.image" alt="" class="productSquareSimilar__img">
       </div>
@@ -50,7 +50,7 @@ export default {
   flex-wrap: nowrap;
   background: #f3f3f3;
   border-radius: 1rem;
-  width: 55%;
+  width: 62%;
   box-shadow: 0px 5px 10px 0px #e3e3e3;
   &__title{
     font-weight: 900;
@@ -64,7 +64,7 @@ export default {
     font-weight: 400;
     display: flex;
     align-items: center;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
   }
   &__price{
     font-size: 0.85rem;
@@ -75,7 +75,7 @@ export default {
   &__suggerPrice{
     font-weight: bolder;
     color: #ffc701;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     letter-spacing: -0.3px;
   }
 }
@@ -96,7 +96,6 @@ export default {
 .productSquareSimilar__detail{
   &--container{
     width: 100%;
-
   }
 }
 .text-stock{

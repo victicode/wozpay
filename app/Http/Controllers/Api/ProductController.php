@@ -26,12 +26,21 @@ class ProductController extends Controller
         return $this->returnSuccess(200, $product);
     }
     public function getSimilarProduct(Request $request){
-        $product = Product::where('categorie_id', $request->category)->get();
+        $category = Product::where('categorie_id', $request->category)->get();
+        $search = Product::where('title','like', '%'.$request->title.'%')->get();
+        $metadata = $this->getMetaDataByName($request->title);
+        // if(!$product){
+        //     return $this->returnFail(400, 'Category not found');
+        // }
+        return $this->returnSuccess(200, [
+            'category' => $category,
+            'search'   => $search,
+            'metadata' => $metadata,
+        ]);
 
-        if(!$product){
-            return $this->returnFail(400, 'Category not found');
-        }
-        return $this->returnSuccess(200, $product);
-
+    }
+    private function getMetaDataByName($title){
+        $splitName = explode(" ", $title);
+        return $splitName;
     }
 }
