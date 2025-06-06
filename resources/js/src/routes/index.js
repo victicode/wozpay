@@ -664,7 +664,15 @@ const router = createRouter({
         
       ]
     },
-    
+    {
+      path:"/dropshipping/iaResult/:id",
+      name:'iaResult',
+      beforeEnter: auth,
+      component: () => import('@/pages/dropshipping/IAResult.vue'),
+      meta: {
+        title: 'Woz Dropshipping'
+      },
+    }
   ]
 })
 

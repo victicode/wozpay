@@ -2,7 +2,7 @@
   <section >
     <div class="q-mt-lg flex column items-center q-pb-md">
       <q-btn unelevated color="positive" class="q-my-xs" style="width: 85%; padding: 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
-      <q-btn unelevated color="yellowLanding" class="q-my-xs" style="width: 85%; padding: 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Wozpy AI" />
+      <q-btn @click="goTo('/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width: 85%; padding: 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Wozpy AI" />
     </div>
     <div class="q-px-md q-pb-md">
       <div class="droppersInfo__container q-py-sm q-px-md q-mb-sm">
@@ -39,6 +39,8 @@
 
 import { inject, onMounted } from 'vue';
 import wozIcons from '@/assets/icons/wozIcons';
+import { useRouter } from 'vue-router';
+
 
 export default {
   props: {
@@ -48,6 +50,7 @@ export default {
     const icons = inject('ionIcons');
     
     const product = ref(props.product) 
+    const router = useRouter()
     const formattList = () => {
       return [
         {
@@ -74,10 +77,15 @@ export default {
       return Math.floor(Math.random() * (max - min) + min);
     }
     
+    const goTo = (url) => {
+      router.push(url)
+    }
     return {
       detailsFormatted: formattList(),
       wozIcons,
+      product,
       getRandomInt,
+      goTo,
     }
   }
 }
