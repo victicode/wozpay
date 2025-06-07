@@ -24,8 +24,9 @@ class PayController extends Controller
 {
     //
     public function storePay(Request $request) {
-        $validated = $this->validateFieldsFromInput($request->all()) ;
+        $validated = $this->validateFieldsFromInput($request->all());
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
+        
         $vaucher = ''; 
         if ($request->vaucher) {
             $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
