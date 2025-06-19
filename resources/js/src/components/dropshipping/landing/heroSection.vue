@@ -10,7 +10,7 @@
           Genera 6.500.000 Guaraníes mensuales
           vendiendo productos premium
         </div>
-        <q-btn color="white" text-color="black" label="Comezar a vender" no-caps id="initDropshipping_button" class="q-mt-lg q-mb-xl" />
+        <q-btn color="white" @click="goTo()" text-color="black" label="Comezar a vender" no-caps id="initDropshipping_button" class="q-mt-lg q-mb-xl" />
       </div>
     </section>
     <div class="videoSection flex justify-center w-100 q-px-md" style="z-index: 2; position: relative;">
@@ -24,6 +24,7 @@
 <script >
   import { inject, onMounted, ref } from 'vue';
   import { useQuasar } from 'quasar'
+  import { useRouter } from 'vue-router';
 
 
   export default {
@@ -32,6 +33,13 @@
       //vue provider
       const icons = inject('ionIcons')
       const $q = useQuasar()
+      const router = useRouter()
+      const goTo = () =>{
+        router.push('/dropshipping/categories')
+      }
+      return {
+        goTo,
+      }
 
     }
   };

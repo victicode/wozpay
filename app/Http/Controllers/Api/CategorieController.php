@@ -9,9 +9,16 @@ use Illuminate\Http\Request;
 class CategorieController extends Controller
 {
     //
+    
     public function getAll(){
-        $categories = Categorie::where('status', 1)->get();
-        return $this->returnSuccess(200, $categories);
+        $categories = Categorie::with('products')->get()->where('status', 1)->groupBy(function($item,$key) {
+            return $item->rating;     //treats the name string as an array
+        })
+        ->sortByDesc(function($item, $key){    
+            return $key;
+        });
+
+        return $this->returnSuccess(200,$categories);
     }
     public function getMostProlifict(Request $request){
         $categories = Categorie::with('products')

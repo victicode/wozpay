@@ -11,13 +11,13 @@
             <div class=" category__title ellipsis">
               {{ categorie.title }}
             </div>
-            <q-icon name="eva-star-outline" color="terciary" size="1.4rem" v-for="i in categorie.reviews" :key="i" />
+            <q-icon style="margin-left: -0.31rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in categorie.rating" :key="i" />
           </div>
           <div class="flex category__action q-pl-sm q-pr-xs">
             <div class="products_active__quantity ellipsis">
               Ver {{ numberFormat(categorie.products.length) }} productos activos
             </div>
-            <q-btn flat class="q-px-none" @click="gotTo(categorie.id)">
+            <q-btn flat class="q-px-none" @click="gotTo(categorie.id)" >
               <q-icon name="eva-chevron-right-outline" color="grey" />
             </q-btn>
           </div>
@@ -68,6 +68,7 @@ export default {
     return {
       mostProfitable,
       numberFormat,
+      icons,
       gotTo,
     }
   }
@@ -75,7 +76,7 @@ export default {
 </script>
 <style lang="scss">
 .mostProfitableList{
-  background:#f3f3f3
+  background:#fff
 }
 .listTitleHeader{
   font-weight: bold;

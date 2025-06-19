@@ -65,7 +65,7 @@ export default {
           enabled: false
         }
       },
-      colors: ['#d6edd5'],
+      colors: ['#dfe5f7'],
       fill: {
         type: "gradient",
         gradient: {
@@ -81,7 +81,7 @@ export default {
       stroke: {
         curve: 'straight',
         width: 3,
-        colors:['#48d545']
+        colors:['#0449fa']
       },
 
       xaxis: {
