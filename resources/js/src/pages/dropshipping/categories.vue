@@ -1,7 +1,7 @@
 <template>
   <main>
     <section class="q-py-md q-px-sm">
-      <activateArea />
+      <activateArea v-if="!user.active_dropshipping"/>
     </section>
     <section class="q-px-sm q-mx-xs">
       <div class="categorieHeader q-px-md q-pt-md q-pb-md">
@@ -15,7 +15,9 @@
     <section>
       <mostProfitable />
       <allCategories />
+      
     </section>
+    <sellFloat />
   </main>
 
 </template>
@@ -23,15 +25,16 @@
 import mostProfitable from '@/components/dropshipping/categories/mostProfitable.vue';
 import allCategories from '@/components/dropshipping/categories/allCategories.vue';
 import activateArea from '@/components/dropshipping/categories/activateArea.vue';
+import sellFloat from '@/components/dropshipping/sellFloat.vue';
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/services/store/auth.store'
-
 
 export default {
   components:{
     mostProfitable,
     allCategories,
-    activateArea
+    activateArea,
+    sellFloat,
   },
   setup () {
     const { user  } = storeToRefs(useAuthStore())
@@ -43,6 +46,7 @@ export default {
 }
 </script>
 <style lang="scss">
+
 .categorieHeader{
   background: $primary;
   // border-top: 0.5rem solid #f8a80d;
@@ -62,5 +66,17 @@ export default {
   line-height: 1.2;
 
   font-size: 0.95rem;
+}
+@keyframes bounce-in {
+  0% {
+    opacity: 1;
+    transform: scale(0.9) translateY(-0.1rem);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-0.1rem);
+  }
+  70% { transform: scale(1) translateY(-0.1rem); }
+  100% { transform: scale(1) translateY(-0.1rem); }
 }
 </style>

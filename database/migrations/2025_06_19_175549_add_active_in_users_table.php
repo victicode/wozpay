@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('active_dropshipping')->nullable()->after('is_first_loan');
+            $table->integer('active_dropshipping')->default(0)->after('is_first_loan');
         });
     }
 

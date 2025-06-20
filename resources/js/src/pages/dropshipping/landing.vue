@@ -5,6 +5,7 @@
     <logistSection />
     <integrationSection /> 
     <buttonSection /> 
+    <sellFloat />
   </main>
 </template>
 <script >
@@ -14,13 +15,15 @@
   import logistSection from '@/components/dropshipping/landing/logistSection.vue';
   import integrationSection from '@/components/dropshipping/landing/integrationSection.vue';
   import buttonSection from '@/components/dropshipping/landing/buttonSection.vue';
+  import sellFloat from '@/components/dropshipping/sellFloat.vue';
   export default {
     components:{
       heroSection,
       frecuentQuestion,
       logistSection,
       integrationSection,
-      buttonSection
+      buttonSection,
+      sellFloat
     },
     setup () {
     }
