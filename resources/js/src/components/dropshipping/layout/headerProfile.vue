@@ -1,17 +1,16 @@
 <template>
-  <header class="q-px-md q-px-md-lg q-pt-md q-pb-md " :class="styleHead" id="dropshipping-header" >
-    <div class="flex justify-between items-end header__fisrtpart q-pt-xs" >
+  <header class="q-px-md q-px-md-lg q-pt-lg q-pb-lg others"  id="dropshipping-headerProfile" >
+    <div class="flex justify-between items-end header__fisrtpartProfile q-pt-xs w-100 q-mb-md-sm" >
       <div class="text-header">
-        Woz <br>
-        Dropshipping
+        Woz Dropshipping
       </div>
-      <div>
-        <div class="header__button q-pa-sm" :class="styleHead" @click="router.push('/dropshipping/profile')" >
-          <slot></slot>
+      <div class="md-block">
+        <div class="header__button q-pa-sm others"  >
+          <img :src="img2" alt="" style="width: 1.59rem; height: 1.59rem;" >
         </div>
       </div>
     </div>
-    <div class="d-flex items-center q-mt-md q-mt-md-none search-content">
+    <div class="d-flex  items-center q-mt-lg  search-content q-mt-md-sm">
       <input type="text" class="searchInput" placeholder="¿Qué producto estas buscando?" v-model="search">
       <!-- <q-input standout="bg-primary text-white" v-model="text" label="Custom standout" :dense="dense" /> -->
       <q-btn  text-color="primary" id="searchButton"  label="Buscar" no-caps />
@@ -23,27 +22,17 @@
   import { inject, onMounted, ref, watch } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router';
-  
+  import img2 from '@/assets/images/vector2.png'
 
   export default {
-    props:{
-      styleHead: String,
-    },
-    setup (props) {
+
+    setup () {
       //vue provider
       const icons = inject('ionIcons')
       const $q = useQuasar()
       const user = ref(useAuthStore().user)
       const readyState = ref(false)
       const search = ref('');
-      const router = useRouter()
-      const styleHead =  ref(props.styleHead)
-
-      // Mounted
-      watch(() => props.styleHead, (newValue) => {
-        styleHead.value = newValue
-      });
 
       onMounted(() =>{
         // getCurrentUser()
@@ -56,8 +45,7 @@
         readyState,
         user,
         search,
-        styleHead,
-        router
+        img2
       }
     }
   };
@@ -78,22 +66,23 @@
       src: url('../../../assets/fonts/Ember/AmazonEmber_Bd.ttf');
       /* El nombre del archivo importa debe coincidir con el nombre del archivo importado */
   }
-  #dropshipping-header{
+  #dropshipping-headerProfile{
 
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
   .text-header{
     font-family: 'Amazon Ember Bolder'!important;
     font-weight: bolder;
-    font-size: 2.3rem;
+    font-size: 2rem;
     line-height: 1.2;
     letter-spacing: -01px;
   }
   .principal{
 
-    &#dropshipping-header{
+    &#dropshipping-headerProfile{
       background: $primary;
     }
     & .text-header{
@@ -114,9 +103,9 @@
 
   .others{
 
-    &#dropshipping-header{
+    &#dropshipping-headerProfile{
       background: white;
-      border-bottom: 2px solid lightgray;
+      border-bottom: 2px solid rgba(211, 211, 211, 0);
     }
     & .text-header{
 
@@ -135,24 +124,24 @@
     }
   }
 
-  .header__fisrtpart{
-    width: 50%;
+  .header__fisrtpartProfile{
+    width: 100%;
   }
   .searchInput{
     
     height: 3.6rem;
-    width: 15.8rem;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    width: 85%;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
     padding: 1rem 1rem;
     
     letter-spacing: 0.8px;
-    color: #81a4fc;
+    color: #797979;
     font-weight: 600;
 
     &::placeholder{
       font-family: 'Amazon Ember'!important;
-      color: #81a4fc;
+      color: #797979;
       font-weight: 600;
     }
   }
@@ -160,12 +149,12 @@
     height: 3.63rem;
     transform: translatey(-0.03rem);
     border-radius: 0px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
     box-shadow: none;
     & .block{
       font-family: 'Amazon Ember'!important;
-      color: #81a4fc;
+      color: #797979;
       font-weight: 600;
       letter-spacing: 0.8px;
       
@@ -190,19 +179,20 @@
     }
     // margin: auto;
   }
-  @media screen and (max-width: 780px){
-    .header__fisrtpart{
-      width: 100%;
-    }
-    #dropshipping-header{
-      flex-direction: column;
-      align-items: start;
-    }
-    .search-content{
+  .search-content{
       width: 100%; 
       height: 3.5rem;
       overflow: hidden;
     }
+  @media screen and (max-width: 780px){
+    .header__fisrtpartProfile{
+      width: 100%;
+    }
+    #dropshipping-headerProfile{
+      flex-direction: column;
+      align-items: start;
+    }
+    
     .searchInput{
       box-sizing: border-box;
       height: 100%;

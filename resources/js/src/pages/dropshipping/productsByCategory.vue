@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="q-pb-lg">
     <section class="q-pt-md q-px-sm">
       <activateArea />
       <div class="q-px-md q-pt-md">

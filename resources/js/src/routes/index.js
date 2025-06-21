@@ -665,6 +665,32 @@ const router = createRouter({
       ]
     },
     {
+      path: "/",
+      name:"dropshipping_profile",
+      component: () => import('@/layouts/dropshippingProfile.vue'),
+      beforeEnter: auth,
+      children:[
+      
+        {
+          path:"/dropshipping/profile",
+          name:'profile',
+          component: () => import('@/pages/dropshipping/profileDropshipping.vue'),
+          meta: {
+            title: 'Woz Dropshipping'
+          },
+        },
+        {
+          path:"/dropshipping/product/:id",
+          name:'productById',
+          component: () => import('@/pages/dropshipping/product.vue'),
+          meta: {
+            title: 'Woz Dropshipping'
+          },
+        }
+        
+      ]
+    },
+    {
       path:"/dropshipping/iaResult/:id",
       name:'iaResult',
       beforeEnter: auth,

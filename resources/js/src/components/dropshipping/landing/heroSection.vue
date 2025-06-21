@@ -46,11 +46,11 @@
 </script>
 <style lang="scss">
 .heroSection{
-  height: 75vh;
+  height: 65vh;
   overflow: hidden;
 }
 .videoSection{
-  transform: translateY(-7rem);
+  transform: translateY(-8rem);
   .heroVideo{
     border-radius: 40px;
     width:100%;
@@ -74,7 +74,7 @@
   }
 }
 .hero_content{
-  height: 60vh;
+  height: 50vh;
   background: url('https://wozpayments.com/public/images/web/dropshipping/dropshippingHero1.jpg');
   background-size: 100%;
   position: relative;
@@ -111,7 +111,15 @@
 }
 @media screen and (max-width: 780px){
   
+  .heroSection{
+    height: 75vh;
+    overflow: hidden;
+  }
+  .hero_content{
+    height: 60vh;
+  }
   .videoSection{
+  transform: translateY(-8rem);
 
     .heroVideo{
       border-radius: 30px;

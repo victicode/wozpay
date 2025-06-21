@@ -1,5 +1,5 @@
 <template>
-  <main class="">
+  <main >
     <div v-if="product">
       <listSquareProductsInverter :product="product" />
       <stadisticProduct class="q-mt-md" :product="product" />

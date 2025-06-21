@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pt-xl q-px-md q-mt-lg q-pb-xs" style="background:#f7f7f7;">
+  <div class="q-pt-lg q-px-md q-mt-lg q-pb-xs" style="background:#f7f7f7;">
     <div v-for="(question, index) in questions" :key="index" class="questionContainer q-mb-xl">
         <div class="text-center text-title-question text-white bg-yellowLanding ">
           {{ question.title }}
