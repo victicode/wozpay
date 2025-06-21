@@ -64,7 +64,7 @@ export default {
   &--value{
     color: darkgray;
     font-size: 0.95rem;
-    background: #f7f7f7;
+    background: transparent;
     border-radius: 1rem;
   }
   &--title-description{

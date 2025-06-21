@@ -2,7 +2,7 @@
   <div class="heroSection">
     <section class="q-pt-xl q-px-md hero_content" >
       <div class="overflow" />
-      <div class="q-pt-md q-pl-sm q-pr-md" style="z-index: 2; position: relative;">
+      <div class="q-pt-sm q-pl-sm q-pr-md" style="z-index: 2; position: relative;">
         <div class="text-header1">
           WOZ DROPSHIPPING PARAGUAY
         </div>
@@ -46,7 +46,7 @@
 </script>
 <style lang="scss">
 .heroSection{
-  height: 60vh;
+  height: 75vh;
   overflow: hidden;
 }
 .videoSection{
@@ -74,7 +74,7 @@
   }
 }
 .hero_content{
-  height: 48vh;
+  height: 60vh;
   background: url('https://wozpayments.com/public/images/web/dropshipping/dropshippingHero1.jpg');
   background-size: 100%;
   position: relative;

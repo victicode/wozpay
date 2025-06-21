@@ -63,9 +63,9 @@
 
 <style lang="scss">
 .buttons__actionLanding{
-  padding: 0.8rem 1.2rem;
-  border-radius: 1rem;
-  width: 92%;
+  padding: 0.8rem 1.2rem!important;
+  border-radius: 1rem!important;
+  width: 92%!important;
   & .q-btn__content{
     font-size: 1rem;
   }
@@ -118,8 +118,8 @@
     width: 94%;
   }
   .buttons__actionLanding{
-    padding: 1.2rem 1.2rem;
-    width: 98%;
+    padding: 1.2rem 1.2rem!important;
+    width: 98%!important;
 
   }
 }

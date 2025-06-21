@@ -67,16 +67,5 @@ export default {
 
   font-size: 0.95rem;
 }
-@keyframes bounce-in {
-  0% {
-    opacity: 1;
-    transform: scale(0.9) translateY(-0.1rem);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05) translateY(-0.1rem);
-  }
-  70% { transform: scale(1) translateY(-0.1rem); }
-  100% { transform: scale(1) translateY(-0.1rem); }
-}
+
 </style>

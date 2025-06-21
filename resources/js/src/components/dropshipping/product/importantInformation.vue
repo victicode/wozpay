@@ -3,7 +3,7 @@
     <div class="anotherSection__text-title text-yellowLanding q-px-md">
       Informacion importante
     </div>
-    <div style="background: #f7f7f7;" class="q-px-md q-pt-md">
+    <div style="background: #f7f7f7;" class="q-px-md q-pt-md q-pb-lg">
       <div class="q-px-md q-pt-sm" style="background: #f7efe0; border-radius: 1rem;">
         <div v-for="(information, key) in informations" :key="key" class="q-py-sm">
           <div class="title__information">{{ information.title }}</div>

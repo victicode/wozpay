@@ -4,14 +4,16 @@
       <img :src="imgButton" alt="" style="width: 1.59rem; height: 1.59rem;" >
     </headerDrop>
     <div class="container_page"  id="scroll-target-id">
-      <div class="section_page">  
+      <div class="section_page q-pb-xl">  
         <router-view v-slot="{ Component }">
           <transition name="fadx">
             <component :is="Component"  />
           </transition>
         </router-view>
       </div>
+      <tabMenuDropshipping  style="height: 10%;"/>
     </div>
+
   </div>
 </template>
 <script >
@@ -23,10 +25,11 @@
   import img1 from '@/assets/images/vector1.png'
   import img2 from '@/assets/images/vector2.png'
   import { useRoute } from 'vue-router';
-
+  import tabMenuDropshipping from '@/components/dropshipping/tabMenuDropshipping.vue';
   export default {
     components:{
       headerDrop,
+      tabMenuDropshipping 
     },
     setup () {
       //vue provider
@@ -91,7 +94,7 @@
 <style lang="scss" scoped>
 .section_page {
   background: white;
-  height: 100%;
+  height: 90%;
   width: 100%;
 
 }
