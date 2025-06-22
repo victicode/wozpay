@@ -1,23 +1,27 @@
 <template>
   <section >
-    <div class="badgeStadistic q-px-sm q-py-xs q-ml-md q-mb-sm">Ultimos 5 meses</div>
+    <div class="flex">
+
+      <div class="badgeStadistic q-px-md q-py-xs q-ml-md q-mb-sm">Mes de {{months[actualMonth - 1]}}</div>
+      <div class="badgeStadistic q-px-md q-py-xs q-ml-md q-mb-sm">Ultimos 12 meses</div>
+    </div>
+
     <div class="q-px-md">
       <div>
-        <div class="sellStatidistic__title">
-          Ventas totales
-        </div>
+       
         <div class="sellStatidistic__sellVolumen flex items-end q-mt-sm" >
           <div>
-            GS {{ moneyFormatSell(product.actual_sell_volumen, 2) }}
+            Gs. {{ numberFormat(150000) }}
           </div>
-          <div class="sellStatidistic__sellVolumen--profit q-ml-sm" :class="getProfit(product) >= 0 ? 'text-positive':'text-negative'">
-            {{(getProfit(product) >= 0 ? '+':'')+ getProfit(product) }}%
-          </div>
+          
+        </div>
+         <div class="sellStatidistic__title">
+          Ventas totales en Dropshipping
         </div>
       </div>
     </div>
-    <div class="q-px-md-lg q-px-sm q-pb-md-md">
-      <div style="max-width: 100%; background: #f7f7f7; border-radius: 1.5rem;" class="q-px-md-md q-pt-md q-pb-xs " >
+    <div class="q-px-md-lg q-px-sm q-pb-md-md q-mt-md">
+      <div style="max-width: 100%; background: #f3f6fe; border-radius: 1.5rem;" class="q-px-md-md q-pt-md q-pb-xs " >
         <apexchart type="area" height="160" :options="chartOptions" :series="series" class="q-mb-xs"/>
       </div>
     </div>
@@ -29,14 +33,14 @@ import { onMounted } from 'vue';
 import util from '@/util/numberUtil';
 export default {
   props: {
-    product: Object,
+    user: Object,
   },
   setup (props) {
     
-    const product = ref(props.product) 
+    const user = ref(props.user) 
+    const actualMonth =  moment().get('month')
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const getLastMonth = () => {
-      const actualMonth =  moment().get('month')
-      const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       let result = []
 
       for (let index = 5; index >= 0; index--) {
@@ -48,13 +52,13 @@ export default {
       }
       return result
     }
-    const moneyFormatSell = util.moneyFormatSell
+    const numberFormat = util.numberFormat
 
 
     const series = [
       {
         name: "Ventas",
-        data: product.value.sell_volumen_last_month.split(',')
+        data: '80000,50000,30000,60000,100000,150000'.split(',')
       }, 
     ];
     const chartOptions = {
@@ -95,7 +99,7 @@ export default {
       yaxis: {
         labels: {
           formatter: (value) => { 
-            return 'GS '+ moneyFormatSell(value,0)   
+            return 'GS '+ numberFormat(value,0)   
           },
           style: {
               colors: ['darkgray'],
@@ -107,9 +111,11 @@ export default {
       },
     };
     
-    const getProfit = (product) => {
-      const lastMonth = parseInt(product.sell_volumen_last_month.split(',').at(-2).replace(/\]/g, ''))
-      const residuo =  product.actual_sell_volumen - lastMonth
+    const getProfit = (user) => {
+      // const lastMonth = parseInt(user.sell_volumen_last_month.split(',').at(-2).replace(/\]/g, ''))
+      const lastMonth = 100000
+
+      const residuo =  150000 - lastMonth
 
       const porcentage =   (residuo / lastMonth)*100
 
@@ -122,11 +128,12 @@ export default {
     })
     
     return {
-      moneyFormatSell,
+      numberFormat,
       series,
       chartOptions,
+      months,
+      actualMonth,
       getProfit,
-      product,
     }
   }
 }

@@ -76,7 +76,7 @@
 .hero_content{
   height: 50vh;
   background: url('https://wozpayments.com/public/images/web/dropshipping/dropshippingHero1.jpg');
-  background-size: 100%;
+  background-size: cover;
   position: relative;
   & .overflow{
     position: absolute;
