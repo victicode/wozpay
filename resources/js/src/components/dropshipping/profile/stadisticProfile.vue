@@ -1,29 +1,34 @@
 <template>
   <section >
     <div class="flex">
-
       <div class="badgeStadistic q-px-md q-py-xs q-ml-md q-mb-sm">Mes de {{months[actualMonth - 1]}}</div>
       <div class="badgeStadistic q-px-md q-py-xs q-ml-md q-mb-sm">Ultimos 12 meses</div>
     </div>
-
-    <div class="q-px-md">
-      <div>
-       
-        <div class="sellStatidistic__sellVolumen flex items-end q-mt-sm" >
-          <div>
-            Gs. {{ numberFormat(150000) }}
+    <div v-if="Object.values(statistics).length > 0">
+      <div class="q-px-md">
+        <div>
+          <div class="sellStatidistic__sellVolumen flex items-end q-mt-sm" >
+            <div>
+              Gs. {{ numberFormat(statistics.totalSell) }}
+            </div>
+            
           </div>
-          
+           <div class="sellStatidistic__title q-mt-xs">
+            Ventas totales en Dropshipping
+          </div>
         </div>
-         <div class="sellStatidistic__title">
-          Ventas totales en Dropshipping
+      </div>
+      <div class="q-px-md-lg q-px-sm q-pb-md-md q-mt-md">
+        <div style="max-width: 100%; background: #f3f6fe; border-radius: 1.5rem;" class="q-px-md-md q-pt-xs q-pb-xs " >
+          <apexchart type="area" height="160" :options="chartOptions" :series="series" class="q-mb-xs" style="transform: translateY(0.rem);"/>
         </div>
       </div>
     </div>
-    <div class="q-px-md-lg q-px-sm q-pb-md-md q-mt-md">
-      <div style="max-width: 100%; background: #f3f6fe; border-radius: 1.5rem;" class="q-px-md-md q-pt-md q-pb-xs " >
-        <apexchart type="area" height="160" :options="chartOptions" :series="series" class="q-mb-xs"/>
-      </div>
+    <div v-else class="flex justify-center items-center q-pa-xl"> 
+      <q-spinner-tail
+        color="primary"
+        size="2rem"
+      />
     </div>
   </section>
 </template>
@@ -31,6 +36,8 @@
 import moment from 'moment/moment';
 import { onMounted } from 'vue';
 import util from '@/util/numberUtil';
+import { useDropshippingStore } from '@/services/store/dropshipping.store';
+import { ref } from 'vue';
 export default {
   props: {
     user: Object,
@@ -38,7 +45,9 @@ export default {
   setup (props) {
     
     const user = ref(props.user) 
+    const dropStore = useDropshippingStore()
     const actualMonth =  moment().get('month')
+    const statistics = ref({})
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const getLastMonth = () => {
       let result = []
@@ -112,19 +121,22 @@ export default {
     };
     
     const getProfit = (user) => {
-      // const lastMonth = parseInt(user.sell_volumen_last_month.split(',').at(-2).replace(/\]/g, ''))
       const lastMonth = 100000
-
       const residuo =  150000 - lastMonth
-
       const porcentage =   (residuo / lastMonth)*100
-
       return Number.isInteger(porcentage) ? porcentage : porcentage.toFixed(2)
     }
 
-
+    const getStatdistics = () => {
+      dropStore.getStadistics(user.value.id)
+      .then((response) => {
+        
+        statistics.value = response.data;
+      })
+    }
     onMounted(() => {
       getLastMonth()
+      getStatdistics()
     })
     
     return {
@@ -133,6 +145,7 @@ export default {
       chartOptions,
       months,
       actualMonth,
+      statistics,
       getProfit,
     }
   }

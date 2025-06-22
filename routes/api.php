@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\InterestController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\CategorieController;
 use App\Http\Controllers\Api\BankAccountController;
+use App\Http\Controllers\Api\DropshippingController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\NotificationController;
 
@@ -140,10 +141,9 @@ Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function (
     Route::post('/changeStatus/{id}', [CardController::class, 'changeStatus']);
 });
 
-Route::middleware('jwt.verify')->prefix('transfer')->name('transfer.')->group(function () {
-    Route::get('/{id}', [TransferController::class, 'getTransferById']);
-    Route::post('/', [TransferController::class, 'createTransfer']);
 
+Route::middleware('jwt.verify')->prefix('dropshipping')->name('dropshipping.')->group(function () {
+    Route::get('/stadistics/{id}', [DropshippingController::class, 'getStadisticAndProfitByUser']);
 });
 Route::middleware('jwt.verify')->prefix('transaction')->name('transacction.')->group(function () {
     Route::get('/all/{id}', [TransactionController::class, 'getTrasactionByUser']);

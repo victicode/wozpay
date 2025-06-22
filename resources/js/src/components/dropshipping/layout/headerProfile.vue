@@ -10,10 +10,10 @@
         </div>
       </div>
     </div>
-    <div class="d-flex  items-center q-mt-lg  search-content q-mt-md-sm">
-      <input type="text" class="searchInput" placeholder="¿Qué producto estas buscando?" v-model="search">
+    <div class="d-flex  items-center q-mt-lg  search-contentProfile q-mt-md-sm">
+      <input type="text" class="searchInputProfile" placeholder="¿Qué producto estas buscando?" v-model="search">
       <!-- <q-input standout="bg-primary text-white" v-model="text" label="Custom standout" :dense="dense" /> -->
-      <q-btn  text-color="primary" id="searchButton"  label="Buscar" no-caps />
+      <q-btn  text-color="primary" id="searchButtonProfile"  label="Buscar" no-caps />
     </div>
   </header>
 
@@ -89,11 +89,11 @@
 
       color:white;
     }
-    & .searchInput{
+    & .searchInputProfile{
       background: white;
       border-right: 2px solid $primary;
     }
-    & #searchButton{
+    & #searchButtonProfile{
       background: white;
     }
     & .header__button{
@@ -112,11 +112,11 @@
       color:#0c3846;
 
     }
-    & .searchInput{
+    & .searchInputProfile{
       background: #f3f3f3;
     }
 
-    & #searchButton{
+    & #searchButtonProfile{
       background: #f3f3f3;
     }
     & .header__button{
@@ -127,7 +127,7 @@
   .header__fisrtpartProfile{
     width: 100%;
   }
-  .searchInput{
+  .searchInputProfile{
     
     height: 3.6rem;
     width: 85%;
@@ -145,7 +145,7 @@
       font-weight: 600;
     }
   }
-  #searchButton{
+  #searchButtonProfile{
     height: 3.63rem;
     transform: translatey(-0.03rem);
     border-radius: 0px;
@@ -179,7 +179,7 @@
     }
     // margin: auto;
   }
-  .search-content{
+  .search-contentProfile{
       width: 100%; 
       height: 3.5rem;
       overflow: hidden;
@@ -193,13 +193,13 @@
       align-items: start;
     }
     
-    .searchInput{
+    .searchInputProfile{
       box-sizing: border-box;
       height: 100%;
       width: 75%;
 
     }
-    #searchButton{
+    #searchButtonProfile{
       width: 25%;
       transform: translatey(-0.1rem);
       height: 102%;

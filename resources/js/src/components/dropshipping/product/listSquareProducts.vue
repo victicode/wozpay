@@ -15,8 +15,8 @@
           class="q-mx-xs"
         />
       </div>
-      <div class="productListSquare__price">Precio proveedor: Gs. {{numberFormat(product.price + 5000)}}</div>
-      <div class="productListSquare__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 7000)}}</div>
+      <div class="productListSquare__price">Precio proveedor: Gs. {{numberFormat(product.price) }}</div>
+      <div class="productListSquare__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price+50000)}}</div>
       <div>
         <q-icon :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in product.rating" :key="i" />
         <q-icon :name="icons.outlinedGrade" color="terciary" size="1.5rem" v-for="i in (5-product.rating)" :key="i" />
