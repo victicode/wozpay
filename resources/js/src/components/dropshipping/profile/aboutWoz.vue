@@ -51,7 +51,7 @@ export default {
       },
       {
         title: 'Vendidos',
-        value: 'Activado'
+        value: numberFormat(stadistics.value.totalEarnings)
       },
       {
         title: 'Estado de pagos',
