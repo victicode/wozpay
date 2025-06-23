@@ -1,15 +1,15 @@
 <template>
-  <div class="layout-dasboard__content"   style="">
+  <div class="layout-dasboard__contentProfile"   style="">
     <headerDropProfile />
-    <div class="container_page"  id="scroll-target-id">
-      <div class="section_page q-pb-xl">  
+    <div class="container_pageProfile"  id="scroll-target-id">
+      <div class="section_pageProfile">  
         <router-view v-slot="{ Component }">
           <transition name="fadx">
             <component :is="Component"  />
           </transition>
         </router-view>
       </div>
-      <tabMenuDropshipping  style="height: 10%;"/>
+      <!-- <tabMenuDropshipping v-if="route.name "  style="height: 10%;"/> -->
     </div>
 
   </div>
@@ -48,16 +48,17 @@
         readyState,
         user,
         wozIcons,
+        route
       }
     }
   };
 </script>
 
 <style lang="scss" scoped>
-.container_page{
-  max-height: 100%;
+.container_pageProfile{
+  max-height: 75%;
   overflow-x: hidden;
-
+  height: 75%;
   overflow-y: auto;
   background: white;
   &::-webkit-scrollbar {
@@ -72,8 +73,8 @@
   }
 }
 
-.layout-dasboard__content{
-  height: 100%;
+.layout-dasboard__contentProfile{
+  height: 100vh;
   max-height: 100vh;
   overflow: hidden;
   display: flex;
@@ -81,12 +82,10 @@
   justify-content: space-between;
 }
 
-</style>
-<style lang="scss" scoped>
-.section_page {
+.section_pageProfile {
   background: white;
-  height: 90%;
+  height: 100%;
   width: 100%;
-
+  overflow: auto;
 }
 </style>

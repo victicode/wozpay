@@ -72,6 +72,7 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    height: 25%;
   }
   .text-header{
     font-family: 'Amazon Ember Bolder'!important;
