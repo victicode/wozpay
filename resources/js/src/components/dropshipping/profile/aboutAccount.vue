@@ -53,7 +53,7 @@ export default {
       },
       {
         title: 'Transacciones - retiros de ganancias',
-        value: 'Gs. ' + numberFormat(stadistics.value.totalEarnings)
+        value: 'Gs. ' + numberFormat(stadistics.value.withdrawal)
       },
       {
         title: 'Cuentas bancarias',

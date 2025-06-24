@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\DropshippingLink;
 use App\Models\PayAdd;
+use App\Models\Product;
+use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 class DropshippingController extends Controller
 {
     //
@@ -33,8 +36,10 @@ class DropshippingController extends Controller
             'totalPay' => $totalPay,
             'totalSell' => $totalSell,
             'totalEarnings' => $amountClient,
+            'totalProductsSell'=> $this->getTotalProductsSell($user),
             'volumenForMonth' => $this->getVolumenForMonth($user),
-            'payAddsAmount' => $this->getPayAddsAmount($user) 
+            'payAddsAmount' => $this->getPayAddsAmount($user),
+            'withdrawal' => $this->getAllWithdrawal($user),
          ];
     }
     private function getVolumenForMonth($user){
@@ -75,29 +80,19 @@ class DropshippingController extends Controller
         return $total;
     }
     private function getTotalProductsSell($user){
-        $result = ''; 
-        $amount = 0;
-        
-        $categories = DropshippingLink::get()->where("user_id", $user)->where('pay_status', 3)->groupBy(function($item,$key) {
-            return Carbon::parse($item->created_at)->format('Y-m');
-        })
-        ->sortBy(function($item, $key){    
-            return "01".$key;
-        });
+        return Product::whereHas('links', function (Builder $query) use ($user) {
+            $query->where('user_id', $user);
+        })->count();
+    }
+    private function getAllWithdrawal($user){
+        $withdrawal = Withdrawal::where('user_id', $user)->where('status',2)->get();
+        $totalWithdrawal = 0;
 
-
-        $count = 1;
-        foreach ($categories as $key) {
-            foreach ($key as $value){
-                $amount +=$value->amount;
-                
-            }
-
-            $result .=$amount.(count($categories) == $count ?"":",");
-            $amount = 0;
-            $count++;
+        foreach ($withdrawal as $key) {
+            $totalWithdrawal += $key->amount;
         }
 
-        return $result;
+        return $totalWithdrawal;
+
     }
 }

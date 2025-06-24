@@ -50,7 +50,7 @@ export default {
       },
       {
         title: 'Vendidos',
-        value: numberFormat(stadistics.value.totalEarnings) + ' Productos vendidos'
+        value: numberFormat(stadistics.value.totalProductsSell) + ' Productos vendidos'
       },
       {
         title: 'Estado de pagos',

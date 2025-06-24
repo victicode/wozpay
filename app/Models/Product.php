@@ -13,4 +13,7 @@ class Product extends Model
     public function categorie(){
         return $this->belongsTo(Categorie::class, 'categorie_id', 'id');
     }
+    public function links(){
+        return $this->hasMany(DropshippingLink::class, 'product_id')->where('status', 2);
+    }
 }
