@@ -80,6 +80,9 @@ class User extends Authenticatable implements JWTSubject
     public function pays(){
         return $this->hasMany(Pay::class)->orderBy('created_at', 'desc');
     }
+    public function payAdds(){
+        return $this->hasMany(PayAdd::class)->orderBy('created_at', 'desc');
+    }
     public function successPays(){
         return $this->hasMany(Pay::class)->where('status', '2')->where('type', '!=' , 5)->where('type', '!=' , 6)->where('type', '!=' , 7)->orderBy('created_at', 'desc');
     }
@@ -104,11 +107,17 @@ class User extends Authenticatable implements JWTSubject
     public function accountbank(){
         return $this->hasOne(AccountBank::class);
     }
+    public function accountbanks(){
+        return $this->hasMany(AccountBank::class);
+    }
     public function links(){
         return $this->hasMany(Link::class)->orderBy('created_at', 'desc');
     }
     public function links_pay(){
         return $this->hasMany(Link::class)->where('pay_status',2)->orderBy('created_at', 'desc');
+    }
+    public function dropshippingAccount(){
+        return $this->hasOne(DropshippingAccount::class, 'user_id');
     }
 
 }   

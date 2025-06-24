@@ -4,6 +4,7 @@
 
       <stadisticProfile :stadistics="stadistics" />
       <aboutWoz :stadistics="stadistics"/>
+      <aboutAccount :stadistics="stadistics"/>
     </template>
     <div v-else class="flex justify-center items-center q-pa-xl"> 
       <q-spinner-tail
@@ -16,18 +17,19 @@
 <script >
   import { inject, onMounted, ref } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
+  import { useDropshippingStore } from '@/services/store/dropshipping.store';
+  import { storeToRefs } from 'pinia';
   import { useQuasar } from 'quasar'
   import wozIcons from '@/assets/icons/wozIcons';
   import stadisticProfile from '@/components/dropshipping/profile/stadisticProfile.vue';
-  import { storeToRefs } from 'pinia';
-  import { useDropshippingStore } from '@/services/store/dropshipping.store';
   import aboutWoz from '@/components/dropshipping/profile/aboutWoz.vue';
-  
+  import aboutAccount from '@/components/dropshipping/profile/aboutAccount.vue';
 
   export default {
     components:{
       stadisticProfile,
-      aboutWoz
+      aboutWoz,
+      aboutAccount
     },
     setup () {
       //vue provider

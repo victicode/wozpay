@@ -1,16 +1,16 @@
 <template>
-  <section class="q-mt-sm q-pt-md" style="border-top: 1px solid darkgray;">
+  <section class="q-mt-sm q-pt-md">
     <div >
       <div class="q-px-md">
         <div>
           <div class="aboutTitleSection flex items-end q-mt-sm" >
             <div>
-              Sobre Woz Dropshipping
+              Sobre tu cuenta Dropshipping
             </div>
             
           </div>
            <div class="aboutSubtitle q-mt-xs">
-            Información sobre tu tienda Dropshipping
+            Información sobre tu cuenta Dropshipping
           </div>
         </div>
       </div>
@@ -33,32 +33,39 @@
 import util from '@/util/numberUtil';
 import { useDropshippingStore } from '@/services/store/dropshipping.store';
 import { ref } from 'vue';
+import { useAuthStore } from '@/services/store/auth.store'
+import { storeToRefs } from 'pinia';
+import moment from 'moment';
 export default {
   props: {
     stadistics: Object,
   },
   setup (props) {
-    
+    const { user  } = storeToRefs(useAuthStore())
     const stadistics = ref(props.stadistics) 
     const dropStore = useDropshippingStore()
     const numberFormat = util.numberFormat
 
     const formatDetails = [
       {
-        title: 'Dropshipping internacional',
-        value: 'Activado'
+        title: 'Pagos en Woz Ads',
+        value: 'Gs. ' + numberFormat(stadistics.value.payAddsAmount)
       },
       {
-        title: 'Vendidos',
-        value: numberFormat(stadistics.value.totalEarnings) + ' Productos vendidos'
+        title: 'Transacciones - retiros de ganancias',
+        value: 'Gs. ' + numberFormat(stadistics.value.totalEarnings)
       },
       {
-        title: 'Estado de pagos',
-        value: stadistics.value.totalPay + ' pagos realizados'
+        title: 'Cuentas bancarias',
+        value: user.value.accountbanks_count + ( user.value.accountbanks_count > 1 ? ' cuentas vinculadas' : ' cuenta vinculada')
       },
       {
-        title: 'Ganancias',
-        value: 'Gs. '+numberFormat(stadistics.value.totalEarnings)
+        title: 'Ciclo de facturación',
+        value: user.value.dropshipping_account.type_label
+      },
+      {
+        title: 'Vencimiento',
+        value: moment(user.value.dropshipping_account.due_date).format('DD-MM-YYYY')
       }
     ]
     return {

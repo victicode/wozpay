@@ -109,7 +109,7 @@ export default {
 .products_active__quantity{
   color: #9b9b9b;
   font-size: 0.9rem;
-  width: 84%;
+  width: 68%;
 }
 .category__action{
   justify-content: end;
@@ -119,6 +119,10 @@ export default {
 }
 
 @media screen and (max-width: 780px){
+  .products_active__quantity{
+
+    width: 84%;
+  }
   .category__title--content{
     max-width: 50%;
     min-width: 45%;

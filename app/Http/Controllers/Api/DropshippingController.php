@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DropshippingLink;
+use App\Models\PayAdd;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 class DropshippingController extends Controller
@@ -32,7 +33,8 @@ class DropshippingController extends Controller
             'totalPay' => $totalPay,
             'totalSell' => $totalSell,
             'totalEarnings' => $amountClient,
-            'volumenForMonth' => $this->getVolumenForMonth($user)
+            'volumenForMonth' => $this->getVolumenForMonth($user),
+            'payAddsAmount' => $this->getPayAddsAmount($user) 
          ];
     }
     private function getVolumenForMonth($user){
@@ -60,6 +62,17 @@ class DropshippingController extends Controller
         }
 
         return $result;
+    }
+    private function getPayAddsAmount($user){
+        $payAdds = PayAdd::where("user_id", $user)->where('status', 3)->get();
+        $total = 0;
+
+        if(!$payAdds) return 0;
+
+        foreach ($payAdds as $key) {
+            $total += $key->amount;
+        }
+        return $total;
     }
     private function getTotalProductsSell($user){
         $result = ''; 
