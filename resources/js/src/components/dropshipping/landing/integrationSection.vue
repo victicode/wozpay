@@ -1,5 +1,5 @@
 <template>
-  <section class=" q-pb-xl q-px-md" style="background:#f7f7f7;"> 
+  <section class=" q-pb-md q-px-md" style="background:#f7f7f7;"> 
     <div class=" text-title-section text-white bg-yellowLanding">
       Integraciones con Webs
     </div>
@@ -8,11 +8,11 @@
         Si tienes una web propia puedes intergrar nuestros catalogo a tu tienda propia
       </div>
       <div class="text_in_services2 q-px-md q-pb-md">
-        <div class="flex items-center" style="flex-wrap: nowrap; width: 20rem;">
-          <div   class="service__img--container2 q-mr-sm q-pa-md q-py-xl">
+        <div class="flex items-center" style="flex-wrap: nowrap; width: 100%;">
+          <div   class="service__img--container2 q-mr-md q-px-sm">
            {{ '< / >' }}
           </div>
-          <div class="text-content-question text-compact q-my-md " >
+          <div class="text-content-logistic text-compact q-my-md " >
             Contrata un desarrollador que haga la integración a tu tienda. 
             Brindaremos las credenciales para la misma, contacta a wozparaguay@gmail.com
           </div>
@@ -72,16 +72,16 @@
 }
 .service__img--container2{
   border: 1px solid #f9a826;
-  width: 29.5rem;
-    font-size: 3rem;
-    line-height: 0;
-    font-weight: bolder;
-    color: #c1c1c1;
-    height: 7.7rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: fantasy!important;
+  width: 31rem;
+  font-size: 2.2rem;
+  line-height: 0;
+  font-weight: bolder;
+  color: #c1c1c1;
+  height: 7.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: fantasy!important;
   
 }
 

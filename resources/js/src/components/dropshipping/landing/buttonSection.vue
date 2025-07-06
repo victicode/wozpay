@@ -1,9 +1,10 @@
 <template>
-  <section class=" q-pb-xl q-px-md flex column items-center justify-center w-100"  >
+  <section class=" q-pb-xl q-px-md flex column items-center justify-center w-100 q-pt-md"   >
      <q-btn 
       v-for="(button, key) in buttons" 
       unelevated  
       :key="key" 
+      no-caps=""
       :color="button.color" 
       :class="' q-my-xs q-my-md-sm buttons__actionLanding '+button.class"
       @click="goTo(button.to)"
@@ -68,6 +69,7 @@
   width: 92%!important;
   & .q-btn__content{
     font-size: 1rem;
+    font-weight: 400;
   }
 }
 .text-title-section{
@@ -99,26 +101,13 @@
 [class*=service__img--container]{
   border-radius: 1rem;
 }
-.service__img--container2{
-  border: 1px solid #f9a826;
-  width: 29.5rem;
-    font-size: 3rem;
-    line-height: 0;
-    font-weight: bolder;
-    color: #c1c1c1;
-    height: 7.7rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: fantasy!important;
-  
-}
+
 @media screen and (max-width: 780px){
   [class*=text_in_services]{
     width: 94%;
   }
   .buttons__actionLanding{
-    padding: 1.2rem 1.2rem!important;
+    padding: 0.9rem 1.2rem!important;
     width: 98%!important;
 
   }

@@ -115,7 +115,7 @@ export default {
 }
 .category__titleAll{
   color: #161616;
-  font-size: 1.02rem;
+  font-size: 0.9rem;
   width: 100%;
   font-weight: 500;
 }
@@ -129,7 +129,7 @@ export default {
 .category__actionAll{
   justify-content: end;
   align-items: center;
-  max-width: 35%;
+  max-width: 36%;
   flex-wrap: nowrap;
 }
 

@@ -58,7 +58,7 @@
   font-weight: bolder;
   font-size: 1rem;
   letter-spacing: -0px;
-  padding:  0.6rem 1.2rem ;
+  padding:  0.3rem 1.8rem ;
   border-radius: 0.5rem;
   width: max-content;
   margin: auto;

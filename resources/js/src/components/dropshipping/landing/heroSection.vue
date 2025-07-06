@@ -6,7 +6,7 @@
         <div class="text-header1">
           WOZ DROPSHIPPING PARAGUAY
         </div>
-        <div class="text-header2 q-mt-xs q-pr-lg">
+        <div class="text-header2 q-mt-xs q-pr-sm">
           Genera 6.500.000 Guaraníes mensuales
           vendiendo productos premium
         </div>
@@ -97,7 +97,7 @@
 .text-header1{
   font-family: 'Amazon Ember Bolder'!important;
   font-weight: bolder;
-  font-size: 2rem;
+  font-size: 1.85rem;
   line-height: 1.2;
   letter-spacing: 1px;
 
@@ -105,26 +105,26 @@
 .text-header2{
   font-family: 'Amazon Ember Regular'!important;
   // font-weight: bolder;
-  font-size: 1rem;
+  font-size: .9rem;
   line-height: 1.5;
   letter-spacing: 1px;
 }
 @media screen and (max-width: 780px){
   
   .heroSection{
-    height: 75vh;
+    height: 67vh;
     overflow: hidden;
   }
   .hero_content{
-    height: 60vh;
+    height: 53vh;
   }
   .videoSection{
   transform: translateY(-8rem);
 
     .heroVideo{
       border-radius: 30px;
-      width:97%;
-      height:220px
+      width:100%;
+      height:200px
     }
     & video {
       height: 210px; width: 100%;

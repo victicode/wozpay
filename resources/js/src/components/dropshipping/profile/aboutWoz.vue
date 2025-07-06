@@ -102,13 +102,13 @@ export default {
   color: darkgray;
 }
 .aboutTitleSection{
-  font-size: 1.7rem;
+  font-size: 1.3rem;
   font-weight: bold;
   color: #000;
   line-height: 1;
   &--profit{
     line-height: 1.1;
-    font-size: 1.2rem;
+    font-size: rem;
     font-weight: bold;
     // color: #11c020;
   }

@@ -58,18 +58,18 @@ export default {
 <style lang="scss">
 .details__items{
   &--title{
-    font-size: 1.2rem;
+    font-size: 1.01rem;
     font-weight: 500;
   }
   &--value{
     color: darkgray;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     background: transparent;
     border-radius: 1rem;
   }
   &--title-description{
     font-weight: bold;
-    font-size: 1.35rem;
+    font-size: 1.1rem;
   }
 }
 </style>

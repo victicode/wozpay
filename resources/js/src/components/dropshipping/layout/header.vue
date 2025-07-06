@@ -87,7 +87,7 @@
   .text-header{
     font-family: 'Amazon Ember Bolder'!important;
     font-weight: bolder;
-    font-size: 2.3rem;
+    font-size: 1.6rem;
     line-height: 1.2;
     letter-spacing: -01px;
   }

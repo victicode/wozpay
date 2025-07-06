@@ -1,8 +1,8 @@
 <template>
   <section >
     <div class="q-mt-lg flex column items-center q-pb-md">
-      <q-btn unelevated color="positive" class="q-my-xs" style="width: 85%; padding: 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
-      <q-btn @click="goTo('/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width: 85%; padding: 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Wozpy AI" />
+      <q-btn unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
+      <q-btn @click="goTo('/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Wozpy AI" />
     </div>
     <div class="q-px-md q-pb-md">
       <div class="droppersInfo__container q-py-sm q-px-md q-mb-sm">
@@ -12,7 +12,7 @@
           </div>
           <div v-html="wozIcons.droppers" class="q-ml-xs"/>
         </div>
-        <div class="text-grey text-subtitle2">
+        <div class="text-grey text-subtitle2 q-mt-xs">
           {{ getRandomInt(50,100)}} Droppers están vendiendo este producto
         </div>
       </div>
@@ -28,7 +28,7 @@
             <div v-html="wozIcons.ig" class=" publiInfo__container--social-container"/>
           </div>
         </div>
-        <div class="text-grey text-subtitle2">
+        <div class="text-grey text-subtitle2 q-mt-xs">
           Impulsamos este producto para que vendas más
         </div>
       </div>
@@ -95,7 +95,7 @@ export default {
   border: 1px solid #f9a826;
   border-radius: 0.8rem;
   &--title{
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: bold;
   }
 }
@@ -103,7 +103,7 @@ export default {
   border: 1px solid #21ba45;
   border-radius: 0.8rem;
   &--title{
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: bold;
   }
   &--social-container{

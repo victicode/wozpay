@@ -73,11 +73,11 @@ export default {
 </script>
 <style lang="scss">
 .title__information{
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 .value__information{
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 </style>

@@ -23,7 +23,7 @@
           <apexchart type="area" height="160" :options="chartOptions" :series="series" class="q-mb-xs" style="transform: translateY(0.rem);"/>
         </div>
       </div>
-      <div class="flex justify-between q-px-md">
+      <div class="flex justify-between q-px-sm">
         <div class="badgeStadisticProfile stadisticBadge q-px-lg q-py-sm  q-mb-sm q-mt-lg ">
           <div class="text-subtitle1 text-bold">
             {{stadistics.totalPay}} {{ stadistics.totalPay > 1 ? 'Pagos' : 'Pago' }}
@@ -32,7 +32,7 @@
             Pagos generales
           </div>
         </div>
-        <div class="badgeStadisticProfile stadisticBadge q-px-lg q-py-sm q-ml-sm q-mb-sm q-mt-lg">
+        <div class="badgeStadisticProfile stadisticBadge q-px-lg q-py-sm q-ml-xs q-mb-sm q-mt-lg">
           <div class="text-subtitle1 text-bold">
             {{stadistics.totalPay}} {{ stadistics.totalPay > 1 ? 'Productos' : 'Producto' }}
           </div>

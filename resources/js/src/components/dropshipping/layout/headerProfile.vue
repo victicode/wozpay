@@ -2,10 +2,10 @@
   <header class="q-px-md q-px-md-lg q-pt-lg q-pb-lg others"  id="dropshipping-headerProfile" >
     <div class="flex justify-between items-end header__fisrtpartProfile q-pt-xs w-100 q-mb-md-sm" >
       <div class="text-header">
-        Woz Dropshipping
+        Woz <br>Dropshipping
       </div>
       <div class="md-block">
-        <div class="header__button q-pa-sm others"  >
+        <div class="header__button q-pa-sm others" @click="router.push('/dropshipping/profile')" >
           <img :src="img2" alt="" style="width: 1.59rem; height: 1.59rem;" >
         </div>
       </div>
@@ -19,10 +19,11 @@
 
 </template>
 <script >
-  import { inject, onMounted, ref, watch } from 'vue';
+  import { inject, onMounted, ref } from 'vue';
   import { useAuthStore } from '@/services/store/auth.store'
   import { useQuasar } from 'quasar'
   import img2 from '@/assets/images/vector2.png'
+  import { useRouter } from 'vue-router';
 
   export default {
 
@@ -33,6 +34,7 @@
       const user = ref(useAuthStore().user)
       const readyState = ref(false)
       const search = ref('');
+      const router = useRouter()
 
       onMounted(() =>{
         // getCurrentUser()
@@ -45,7 +47,8 @@
         readyState,
         user,
         search,
-        img2
+        img2,
+        router
       }
     }
   };
@@ -72,7 +75,7 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    height: 25%;
+    height: 26%;
   }
   .text-header{
     font-family: 'Amazon Ember Bolder'!important;

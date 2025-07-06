@@ -11,8 +11,9 @@ use App\Models\RedTape;
 use App\Models\Interest;
 use Illuminate\Http\Request;
 use App\Events\NotificationsEvent;
-use App\Http\Controllers\Controller;
 use Resend\Laravel\Facades\Resend;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class LoanController extends Controller
 {
@@ -246,21 +247,20 @@ class LoanController extends Controller
         }
         return $daysOfPayQouta; 
     }
-    public function sendeEmail($userId){
-
-        $user = User::find($userId);
-        if(!$user) return;
-
-        try {
-            Resend::emails()->send([
-                'from' => 'Woz Pay <notifications@wozpayments.com>',
-                'to' => [$user->email],
-                'subject' => 'hello world',
-                'html' => '<h1>hola saludos</h1>',
-            ]);
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        
+    public function sendMail($id, $templateType){
+        // $order = Loan::find($id);
+        // $template = '';
+        // try{
+        //     Mail::send($template, ["order"=>$order], function ($message) use ($order, $subject, $client)  {  
+        //         $message->from("notificacion@ganaconlahijalinda.com", "Gana Con La Hija Linda");
+        //         $message->to($client)->subject($subject);
+ 
+        //     });
+        // }
+        // catch(Exception $e){
+        //     return  $e->getMessage();
+        // }
+        // return "bien";
     }
+
 }

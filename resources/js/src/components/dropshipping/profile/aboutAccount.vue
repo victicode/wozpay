@@ -103,21 +103,5 @@ export default {
     box-shadow: 0px 2px px 0px rgba(114, 114, 114, 0.308) ;
   }
 }
-.aboutSubtitle{
-  font-size: 0.95rem;
-  font-weight: 400;
-  color: darkgray;
-}
-.aboutTitleSection{
-  font-size: 1.7rem;
-  font-weight: bold;
-  color: #000;
-  line-height: 1;
-  &--profit{
-    line-height: 1.1;
-    font-size: 1.2rem;
-    font-weight: bold;
-    // color: #11c020;
-  }
-}
+
 </style>

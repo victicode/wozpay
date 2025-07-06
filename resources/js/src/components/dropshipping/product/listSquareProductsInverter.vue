@@ -53,6 +53,7 @@ export default {
   flex-wrap: nowrap;
   background: white;
   border-radius: 1rem;
+  width: 100%;
   &__title{
     font-weight: 900;
     font-size: 1rem;

@@ -11,7 +11,7 @@
             <div class=" category__title ellipsis">
               {{ categorie.title }}
             </div>
-            <q-icon style="margin-left: -0.31rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in categorie.rating" :key="i" />
+            <q-icon style="margin-left: -0.31rem; margin-top: -0.2rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in categorie.rating" :key="i" />
           </div>
           <div class="flex category__action q-pl-sm q-pr-xs">
             <div class="products_active__quantity ellipsis">
