@@ -1,7 +1,7 @@
 <template>
   <section >
     <div class="q-mt-lg flex column items-center q-pb-md">
-      <q-btn unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
+      <q-btn @click="goTo('/dropshipping/generatePayLink?product='+JSON.stringify(product))" unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
       <q-btn @click="goTo('/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Wozpy AI" />
     </div>
     <div class="q-px-md q-pb-md">

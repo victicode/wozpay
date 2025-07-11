@@ -2,7 +2,7 @@
   <div class="flex activateArea__container q-pa-md ">
     <div class="textActivateArea">
       <div class="first__text">Activalo por</div>
-      <div class="second__text">Gs. 2500.000</div>
+      <div class="second__text">Gs. 250.000</div>
       <div class="third__text">Anual</div>
     </div>
     <div class="buttonActivateArea">
@@ -12,12 +12,25 @@
         text-color="black"
         class=""
         no-caps
+        @click="router.push('/dropshipping/activateForm?amount=250000')"
       >
           Comenzar a vender
       </q-btn>
     </div>
   </div>
 </template>
+<script>
+  import { useRoute, useRouter } from 'vue-router';
+
+export default {
+
+  setup() {
+    return{
+      router: useRouter(),
+    }
+  }
+}
+</script>
 <style lang="scss">
 .activateArea__container{
   background: #19cd15;

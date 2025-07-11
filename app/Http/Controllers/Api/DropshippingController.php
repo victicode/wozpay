@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use App\Models\DropshippingLink;
 use App\Models\PayAdd;
+use App\Models\Pay;
 use App\Models\Product;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
@@ -17,6 +19,45 @@ class DropshippingController extends Controller
 
 
         return $this->returnSuccess(200, [...$this->getStadistics($user)]);
+    }
+    public function payActivate(Request $request){
+        //  $validated = $this->validateFieldsFromInput($request->all());
+        // if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
+        
+        $vaucher = ''; 
+        if ($request->vaucher) {
+            $vaucher = '/public/images/vaucher/dropshipping_activate_'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
+            $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);
+        }  
+        $amount = null;
+        try {
+            $pay = Pay::create([
+                'user_id'       =>  $request->user()->id,
+                'loan_id'       =>  $request->loan_id ?? null,
+                'package_id'    =>  $request->package ?? null,
+                'amount'        =>  $amount ?? $request->amount,
+                'operation_id'  =>  $request->operation_id ?? rand(1000000, 9999999),
+                'quota_id'      =>  $request->quota_id ?? null,
+                'bank'          =>  $request->bank ?? null,
+                'method'        =>  $request->method,
+                'pay_date'      =>  $request->pay_date ?? null,
+                'vaucher'       =>  $vaucher ?? null,
+                'type'          =>  $request->type,
+                'status'        =>  $request->status,
+                'concept'       =>  'Pago de activación',
+            ]);
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+
+        // event(new UserUpdateEvent(1));
+        
+        $this->sendNotification(
+        'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
+        'Pago pendiente de verificación', 1);
+    
+
+        return $this->returnSuccess(200, $pay);
     }
     private function getStadistics($user){
          $links = DropshippingLink::where("user_id", $user)->where('pay_status', 3)->with('pay')->get();

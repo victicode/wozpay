@@ -89,8 +89,6 @@ Route::middleware('jwt.verify')->prefix('notifications')->name('notification.')-
 Route::middleware('jwt.verify')->prefix('deposit')->name('deposit.')->group(function () {
     Route::get('/pendigs', [PayController::class, 'getDepositPendigs']);
     Route::get('/byUser/{id}', [PayController::class, 'storeNotification']);
-
-
 });
 
 Route::middleware('jwt.verify')->prefix('banks')->name('bank.')->group(function () {
@@ -144,6 +142,7 @@ Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function (
 
 Route::middleware('jwt.verify')->prefix('dropshipping')->name('dropshipping.')->group(function () {
     Route::get('/stadistics/{id}', [DropshippingController::class, 'getStadisticAndProfitByUser']);
+    Route::post('/pay-activate', [DropshippingController::class, 'payActivate']);
 });
 Route::middleware('jwt.verify')->prefix('transaction')->name('transacction.')->group(function () {
     Route::get('/all/{id}', [TransactionController::class, 'getTrasactionByUser']);

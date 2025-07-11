@@ -1,13 +1,13 @@
 
 <template>
   <div class="" style="height: 100%;">
-    <div style="height: 58%;" class="flex justify-end column items-center">
+    <div style="height: 55%;" class="flex justify-end column items-center">
       <q-spinner-puff color="deep-orange" size="08rem" :thickness="20" />
       <div class="q-pt-xl q-mt-xl">
         <img :src="img" alt="" style="height: 9rem;">
       </div>
     </div>
-    <div style="height: 42%;" class="info__section q-mt-md q-px-md">
+    <div style="height: 45%;" class="info__section q-mt-md q-px-md">
       <div class="text-white text-center text--title__ia q-pt-md">
         Estamos analizando la rentabilidad de este producto con Wozpy AI
       </div>
@@ -94,10 +94,10 @@ import { onMounted } from 'vue';
   border-top: 0.8rem solid goldenrod;
 }
 .text--title__ia{
-font-size: 1.5rem;
+font-size: 1.2rem;
 }
 .text--title__iaWait{
-  font-size: 1.35rem ;
+  font-size: 1.1rem ;
   color: white;
   font-weight: bold;
 }

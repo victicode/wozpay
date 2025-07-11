@@ -664,6 +664,7 @@ const router = createRouter({
         
       ]
     },
+    
     {
       path: "/",
       name:"dropshipping_profile",
@@ -687,8 +688,25 @@ const router = createRouter({
             title: 'Woz Dropshipping'
           },
         }
-        
       ]
+    },
+    {
+      path: '/dropshipping/generatePayLink',
+      name: 'generatePayLink',
+      beforeEnter: auth,
+      component: () => import('@/pages/dropshipping/generateLink.vue'),
+      meta: {
+        title: 'Solicitar Pago'
+      },
+    },
+    {
+      path: '/dropshipping/activateForm',
+      name: 'generatePayLink',
+      beforeEnter: auth,
+      component: () => import('@/pages/dropshipping/payActivation.vue'),
+      meta: {
+        title: 'Activa tu cuenta'
+      },
     },
     {
       path:"/dropshipping/iaResult/:id",
