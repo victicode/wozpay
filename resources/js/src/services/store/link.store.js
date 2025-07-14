@@ -67,6 +67,27 @@ export const useLinkStore = defineStore("link", {
         return 'Error al crear link de pago';
       });
     },
+    async createLinkDropshipping(data) {
+      return await new Promise((resolve, reject) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/link/dropshipping",data)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al crear link de pago');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al crear link de pago';
+      });
+    },
     async getLinkById(id) {
       return await new Promise((resolve, reject) =>{
         if (JwtService.getToken()) {
@@ -88,10 +109,51 @@ export const useLinkStore = defineStore("link", {
         return 'Error al actualizar datos';
       });
     },
+    async getDropshippingLinkById(id){
+      return await new Promise((resolve, reject) =>{
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/link/dropshipping/byId/"+id)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al obtener historial de links');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async getLinkByCode(code) {
       return await new Promise((resolve, reject) =>{
 
         ApiService.get("/api/link-public/byCode/"+code)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener el link');
+          });
+        
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
+    async getDroshippingLinkByCode(code) {
+      return await new Promise((resolve, reject) =>{
+
+        ApiService.get("/api/link-public/dropshipping/byCode/"+code)
           .then(({ data }) => {
             if(data.code !== 200){
               throw data;

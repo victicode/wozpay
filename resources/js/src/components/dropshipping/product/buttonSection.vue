@@ -1,7 +1,7 @@
 <template>
   <section >
     <div class="q-mt-lg flex column items-center q-pb-md">
-      <q-btn @click="goTo('/dropshipping/generatePayLink?product='+JSON.stringify(product))" unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
+      <q-btn @click="goTo(!user.dropshipping_account ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/generatePayLink/'+product.id)" unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
       <q-btn @click="goTo('/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Wozpy AI" />
     </div>
     <div class="q-px-md q-pb-md">
@@ -40,18 +40,19 @@
 import { inject, onMounted } from 'vue';
 import wozIcons from '@/assets/icons/wozIcons';
 import { useRouter } from 'vue-router';
-
+import { storeToRefs } from 'pinia'
+  import { useAuthStore } from '@/services/store/auth.store'
 
 export default {
   props: {
     product: Object,
   },
   setup (props) {
-    const icons = inject('ionIcons');
+    const { user  } = storeToRefs(useAuthStore())
     
     const product = ref(props.product) 
     const router = useRouter()
-    const formattList = () => {
+    const formatListItem = () => {
       return [
         {
           title:'Logística',
@@ -81,9 +82,10 @@ export default {
       router.push(url)
     }
     return {
-      detailsFormatted: formattList(),
+      detailsFormatted: formatListItem(),
       wozIcons,
       product,
+      user,
       getRandomInt,
       goTo,
     }

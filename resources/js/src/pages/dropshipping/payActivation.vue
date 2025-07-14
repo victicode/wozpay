@@ -1,6 +1,10 @@
 <template>
   <div class="q-py-sm " style="overflow: auto; height: 100%;">
     <div class="q-px-md q-pt-lg q-pb-xs q-mb-none" v-if="ready">
+      <div v-if="!paystatus">
+        <div>
+          <div style="font-size: 1.2rem;" class="text-center text-bold q-mb-md">Activa tu cuenta de Woz Dropshipping</div>
+        </div>
         <div class="q-mb-md">
           <div class="text-weight-bold">
             Comercio / Cliente:
@@ -112,7 +116,7 @@
               color="primary" class="w-100 q-pa-npne q-mb-none linkPay_button" 
               no-caps
               :loading="loading"
-              @click="procedToPay()"
+              @click="createPay()"
             >
               <div class="text-white q-py-sm text-subtitle1 text-weight-medium flex justify-center items-stretch"  >
                 <div class="q-mt-xs">
@@ -124,6 +128,21 @@
               </template>
             </q-btn>
         </div>
+      </div>
+      <div v-else class="flex column justify-center q-px-md items-center">
+        <q-icon name="eva-clock-outline"  color="terciary" size="4rem"/>
+        
+        <div style="font-size:1.3rem; font-weight:500; text-align:center">Tu pago esta siendo validado por nuestro equipo </div>
+        <div style="font-size:1rem; font-weight:500; text-align:center" class="q-mt-sm">
+          Se paciente, pronto serás notificado con el estado de tu pago.
+        </div>
+        <q-btn color="grey-8" @click="router.go(-1)" text-color="white" style="width:100%" label="" no-caps id="" class="q-mt-lg" >
+          <div class="q-py-sm">
+           Volver
+          </div>  
+        </q-btn>
+
+      </div>
     </div>
     <div v-else class="flex-center flex" style="height:100vh">
       <q-spinner-dots
@@ -142,23 +161,14 @@
   import { storeToRefs } from 'pinia'
   import { useRouter, useRoute } from 'vue-router'
   import { usePayStore } from '@/services/store/pay.store'
-  import { useLinkStore } from '@/services/store/link.store';
   import { useQuasar } from 'quasar'
   import util from '@/util/numberUtil'
   import payMethod from '@/assets/images/pay_types3.png'
   import payMethod2 from '@/assets/images/Tpago2.png'
   import bancard from '@/assets/images/bancard.png'
-
   import doneModal from '@/components/layouts/modals/doneModal.vue';
   import moment from 'moment';
-  import { getCreditCardType } from 'cleave-zen'
   import wozIcons from '@/assets/icons/wozIcons'
-  import { 
-    isValid, 
-    isExpirationDateValid,
-    getCreditCardNameByNumber,
-  } from 'creditcard.js';
-
   export default {
     components: {
       doneModal,
@@ -174,12 +184,11 @@
       const router = useRouter()
       const route = useRoute();
       const payStore = usePayStore()
-      const linkStore = useLinkStore()
       const link = ref({})
       const ready = ref(false)
       const errorMessage = ref('')
       const comprobant = ref([]);
-
+      const paystatus = ref(0)
       const dataPay = payStore.getDataTransfer()
       const cardType = ref('general');
       const formError = ref(false)
@@ -193,18 +202,7 @@
           ]
         })
       }
-      
-      const createConceptPay = () => {
-        return route.params.type == 1 
-            ? 'Pago de activación'
-            : route.params.type == 2 
-            ? 'Pago de paquetes de link'
-            : link.title
-      }
-      const procedToPay = () => {
-        createPay()
-
-      }
+    
       const createPay = () => {
         
         if(!Object.values(comprobant.value).length ){
@@ -215,7 +213,7 @@
         const data = new FormData
         data.append('amount', 250000)
         data.append('vaucher', comprobant.value)
-        data.append('type',8)
+        data.append('type', 11)
         data.append('method', 1 )
         data.append('status', 1)
         payStore.createPayActivate(data)
@@ -225,7 +223,7 @@
           showDialog.value = true
           loading.value = false
           setTimeout(() => {
-            router.push('/trasacction/view/'+(route.params.type == 1 ? 8 : 9)+'/'+response.data.id)
+            router.push('/trasacction/view/8/'+response.data.id)
             
           }, 2000);
 
@@ -252,10 +250,23 @@
 
         showNotify('positive', 'Número de cuenta copiado')
       }
-      onMounted(() => {
-        setTimeout(() => {
+      const getPendingPays = () => {
+        payStore.getPendingPays()
+        .then((response) =>{
+          if(response.code !== 200) throw response
+          
+          if(response.data.payActicationDropshipping.length > 0){
+
+            paystatus.value = response.data.payActicationDropshipping[0].status
+          }
           ready.value = true
-        }, 2000);
+        })
+        .catch((response) => {
+          console.log(response)
+        })
+      }
+      onMounted(() => {
+        getPendingPays()
       })
 
       return{
@@ -278,7 +289,8 @@
         payMethod,
         payMethod2,
         bancard,
-        procedToPay,
+        paystatus,
+        createPay,
         copyText,
       }
     },

@@ -299,7 +299,28 @@
             value: transaction.value.status_label,
           }
         }
-
+        if(transactionType == 11)  {
+          lines[1] = {
+            title:'Titulo del producto',
+            text:'Activación de cuenta dropshipping',
+          }
+          lines[2] = {
+            title:'Referencia',
+            value: 'N° '+transaction.value.operation_id,
+          }
+          lines[3] = {
+            title:'Metodo de pago',
+            value: transaction.value.method == 1 ? 'Transferencia' : 'Tarjeta',
+          }
+          lines[4] = {
+            title:'Estado',
+            value: transaction.value.status_label,
+          }
+           lines[5] = {
+            title:'Concepto',
+            text: transaction.value.concept,
+          }
+        }
         lines.push({
           date: moment(transaction.value.created_at).format('DD/MM/YYYY'),
           hour: moment(transaction.value.created_at).format('hh:mm') + ' hs',

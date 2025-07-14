@@ -130,7 +130,7 @@ export default {
   justify-content: end;
   align-items: center;
   max-width: 36%;
-  flex-wrap: nowrap;
+  flex-wrap: nowrap!important
 }
 
 </style>

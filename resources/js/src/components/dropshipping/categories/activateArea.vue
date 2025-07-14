@@ -1,5 +1,5 @@
 <template>
-  <div class="flex activateArea__container q-pa-md ">
+  <div class="flex activateArea__container q-pa-md " v-if="!user.dropshipping_account">
     <div class="textActivateArea">
       <div class="first__text">Activalo por</div>
       <div class="second__text">Gs. 250.000</div>
@@ -20,13 +20,17 @@
   </div>
 </template>
 <script>
-  import { useRoute, useRouter } from 'vue-router';
-
+  import { useRouter } from 'vue-router';
+  import { storeToRefs } from 'pinia'
+  import { useAuthStore } from '@/services/store/auth.store'
 export default {
 
   setup() {
+    const { user  } = storeToRefs(useAuthStore())
+
     return{
       router: useRouter(),
+      user,
     }
   }
 }

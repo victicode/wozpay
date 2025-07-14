@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
+use App\Models\DropshippingAccount;
 use Carbon\Carbon;
 
 class PayController extends Controller
@@ -189,8 +190,10 @@ class PayController extends Controller
                 case '6':
                     $this->approvePackage($pay->package_id, $pay->user_id);
                     break;
+                case '11':
+                    $this->approveActivateDropshipping($pay->user_id);
+                    break;
                 default:
-                    # code...
                     break;
             }
             
@@ -213,6 +216,10 @@ class PayController extends Controller
                     $this->sendNotification(
                         'Tu pago por nuestro paquete de link no ha podido ser validado por que no cumple con nuestras normativas de seguridad ', $pay->user_id, 'Pago de paquete rechazado', 3);
                     break;
+                case '11':
+                    $this->rejectDropShipping($pay->user_id);
+                    break;
+                    
             }
             
 
@@ -247,6 +254,7 @@ class PayController extends Controller
         return $this->returnSuccess(200,
         [
             'payActication' => $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
+            'payActicationDropshipping' => $request->count ? Pay::where('type', 11)->where('status', 1)->count() : Pay::where('type', 11)->with('user')->where('status', 1)->get(),
             'payPackage'    => $request->count ? Pay::where('type', 6)->where('status', 1)->count() : Pay::where('type', 6)->with('user')->where('status', 1)->get(),
             'payCreateLink' => $request->count ? PayLink::where('type', 7)->where('status', 1)->count() : $user,
         ]);
@@ -435,6 +443,21 @@ class PayController extends Controller
         }
 
     }
+    private function approveActivateDropshipping($user){
+        DropshippingAccount::create([
+            'facturation_cicle' => 1,
+            'status' => 1,
+            'due_date' => date('Y-m-d', (time() + 31536000 )),
+            'user_id'=> $user,
+        ]);
+        try {
+            $this->sendNotification('Tu cuenta de Woz Dropshipping ha sido activada con exito', $user, 'Pago verificado', 2);
+            event(new UserUpdateEvent($user));
+        } catch (Exception $th) {
+            //throw $th;
+        }
+
+    }
     private function sendNotification($message, $user, $subject, $type){
         $notification = new NotificationController;
         $requestNotification = new Request([
@@ -482,6 +505,19 @@ class PayController extends Controller
         try {
             $this->sendNotification(
                 'Tú cuenta internacional no ha podido ser activada debido a que tu pago único con cumple con nuestras medidas de seguridad, vuelve a intentarlo. <br><br> Si crees que se ha cometido un error comunícate con nuestro equipo de soporte ', $user, 'Cuenta no activada', 3);
+            
+            event(new UserUpdateEvent($user));
+        } catch (Exception $th) {
+            //throw $th;
+        }
+    }
+    private function rejectDropShipping($user){
+        // Wallet::where('user_id', $user)->where('type', 2)->update([
+        //     'status' => 0
+        // ]);
+        try {
+            $this->sendNotification(
+                'Tú cuenta de Woz Dropshipping no ha podido ser activada debido a que tu pago único con cumple con nuestras medidas de seguridad, vuelve a intentarlo. <br><br> Si crees que se ha cometido un error comunícate con nuestro equipo de soporte ', $user, 'Cuenta no activada', 3);
             
             event(new UserUpdateEvent($user));
         } catch (Exception $th) {

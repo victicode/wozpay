@@ -123,7 +123,7 @@
               :clear-icon="'eva-close-outline'"
               color="positive"
               v-model="product.amount"
-              :label="selectedCoin.id == 1 ?'Precio en Gs.':'Precion en dolares'"
+              :label="selectedCoin.id == 1 ?'Precio en Gs.':'Precio en dolares'"
               mask="###.###.###"
               reverse-fill-mask
               :rules="rulesForm('amount')"
@@ -324,7 +324,6 @@ export default {
       const iRules = {
         name:[
           val => (val !== null && val !== '') || 'Nombre del producto es requerido.',
-          // val => (val.length > 20 ) || 'Debe contener 20 digitos',
           val => (/[,%\"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
         amount:[
@@ -332,7 +331,6 @@ export default {
         ],
         description:[
           val => (val !== null && val !== '') || 'Detalles de producto es requerido.',
-          // val => (val.length > 20 ) || 'Debe contener 20 digitos',
           val => (/[%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
       }
@@ -354,11 +352,6 @@ export default {
         showNotify('negative', 'Debes selecionar un metodo de pago')
         return false
       }
-      // if( isNaN(product.value.forMonth)) {
-      //   isOk = false
-      // }
-      // console.log(isNaN(product.value.forMonth))
-      // console.log(product.value.forMonth)
 
       return isOk
     }

@@ -97,7 +97,7 @@ const router = createRouter({
           meta: {
             title : 'Pagos'
           },
-        }
+        },
       ]
     },
     {
@@ -663,8 +663,7 @@ const router = createRouter({
         }
         
       ]
-    },
-    
+    }, 
     {
       path: "/",
       name:"dropshipping_profile",
@@ -691,12 +690,21 @@ const router = createRouter({
       ]
     },
     {
-      path: '/dropshipping/generatePayLink',
-      name: 'generatePayLink',
+      path: '/dropshipping/generatePayLink/:id',
+      name: 'generatePayLinkDrop',
       beforeEnter: auth,
       component: () => import('@/pages/dropshipping/generateLink.vue'),
       meta: {
         title: 'Solicitar Pago'
+      },
+    },
+    {
+      path: '/dropshipping/details_link/:id',
+      name: 'detailsLinkDrop',
+      beforeEnter: auth,
+      component: () => import('@/pages/dropshipping/detailsLink.vue'),
+      meta: {
+        title: 'Detalles del Link'
       },
     },
     {
@@ -715,6 +723,14 @@ const router = createRouter({
       component: () => import('@/pages/dropshipping/IAResult.vue'),
       meta: {
         title: 'Woz Dropshipping'
+      },
+    },
+    {
+      path: "/v1/pay/dropshipping/link/:code",
+      name:"form_pay_dropshipping_link",
+      component: () => import('@/pages/dropshipping/paylinkFormDropshpping.vue'),
+      meta: {
+        title : 'Pagos'
       },
     }
   ]

@@ -1,21 +1,28 @@
 <template>
   <div class="layout-dasboard__content" style="">
     <div id="linkGenerateContent">
-      <div class="hero-content q-px-md q-pt-lg q-px-md-sm bg-primary" transition-style="in:circle:center"  >
-        <div class=" q-px-md-lg hero-content_title bg-primary" transition-style="in:circle:center" >
-          <div class="text-h4 text-white text-weight-bold  text-font-roboto"  style="font-size: 2.3rem;">
-           Link de producto
+      <div class="hero-content q-px-md q-pb-sm q-pt-lg q-px-md-sm " transition-style="in:circle:center"  style="border-bottom:1px solid lightgrey" >
+        <div class=" q-px-md-lg hero-content_title flex justify-between" transition-style="in:circle:center" >
+          <div class="text-h4  text-weight-bold  text-font-roboto"  style="font-size: 1.4rem;color:#0c3846">
+           Woz Dropshippping
           </div>
-          <div class="text-subtitle1 text-white q-mt-sm text-weight-medium text-font-roboto">
-            Productos
-          </div>
-   
+          <dotsWoz />
         </div>
       </div> 
+      <div class="q-px-md q-mt-md">
+        <div class="text-subtitle1 text-weight-bold text-blue-grey-10"> 
+          Crea un link para ventas
+        </div>
+        <div class=" text-blue-grey-9  q-mt-sm text-weight-light flex items-end q-mr-none" style="font-size: 0.88rem;"> 
+          <div>
+            Disponible para cobros de servicios internacionales 
+          </div>
+          <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.3rem" class=" q-ml-xs" style="margin-top: -5px;"/>
+        </div>
+      </div>
       <div>
-        <div class="q-px-md q-mt-lg">
+        <div class="q-px-md q-mt-md">
           <q-select 
-            outlined 
             option-value="id" 
             option-label="name" 
             v-model="selectedOption" 
@@ -25,37 +32,27 @@
             behavior="menu"
             color="positive"
             class="linkPaySelectType" 
-            @update:model-value="updateType()"
+            disabled
+            disable
           />
         </div>
-        <div class="q-px-md q-mt-md">
-          <div class="text-subtitle1 text-weight-bold text-blue-grey-10"> 
-            Crea un link para ventas
-          </div>
-          <div class=" text-blue-grey-9  q-mt-sm text-weight-light flex items-end q-mr-none" style="font-size: 0.88rem;"> 
-            <div>
-              Disponible para cobros de servicios internacionales 
-            </div>
-            <q-icon name="eva-checkmark-circle-2-outline" color="positive" size="1.3rem" class=" q-ml-xs" style="margin-top: -5px;"/>
-          </div>
-        </div>
-        <div class="q-px-md q-mt-md">
+
+        <div class="q-px-md q-mt-lg">
           <div>
             <q-input
               class="linkPaySelectType2"
-              outlined
               clearable
               :clear-icon="'eva-close-outline'"
               color="positive"
-              v-model="product.name"
+              v-model="product.title"
               label="Nombre del producto"
               :rules="rulesForm('name')"
               autocomplete="off"
+              disable
             />
           </div>
-          <div class=" linkPaySelectType q-mb-sm q-mt-xs q-pb-xs">
+          <div class=" linkPaySelectType q-mt-sm">
             <q-select 
-              outlined 
               option-value="id" 
               option-label="name" 
               label="Selecciona la moneda"
@@ -70,106 +67,115 @@
               @update:model-value="updateType()"
             />
           </div>
-          <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
+          <div class="q-mt-md">
             <q-input
               class="linkPaySelectType2"
-              outlined
               clearable
               :clear-icon="'eva-close-outline'"
               color="positive"
-              v-model="product.initDay"
-              label="Fecha de inicio de cobro mensual"
-              mask="##/##/####"
+              v-model="product.price"
+              :label="selectedCoin.id == 1 ?'Precio base en Gs.':'Precio base en dolares'"
+              :rules="rulesForm('amount')"
               autocomplete="off"
-              hint="Formato: DD/MM/YYYY"
+              disable
             />
           </div>
-          <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
-            <q-input
-              class="linkPaySelectType2"
-              outlined
-              clearable
-              :clear-icon="'eva-close-outline'"
-              color="positive"
-              v-model="product.forMonth"
-              label="Cobrar durante X meses"
-              autocomplete="off"
-              type="number"
-            />
-          </div>
-          <!-- <div v-if="selectedOption.id == 2" class="q-mt-sm q-pb-md">
-            <q-select 
-              outlined 
-              v-model="product.forMonth" 
-              :options="daysAvaibles()"  
-              clearable
-              :clear-icon="'eva-close-outline'"
-              dropdown-icon="eva-chevron-down-outline"
-              behavior="menu"
-              label="Día de cobro"
-              color="positive"
-              class="linkPaySelectType" 
-              @update:model-value="updateType()"
-            />
-          </div> -->
           <div class="q-mt-sm">
             <q-input
               class="linkPaySelectType2"
-              outlined
               clearable
               :clear-icon="'eva-close-outline'"
               color="positive"
-              v-model="product.amount"
-              :label="selectedCoin.id == 1 ?'Precio en Gs.':'Precion en dolares'"
+              v-model="product.dropper_price"
+              :label="selectedCoin.id == 1 ?'Precio de venta en Gs.':'Precio de venta en dolares'"
               mask="###.###.###"
               reverse-fill-mask
               :rules="rulesForm('amount')"
               autocomplete="off"
-              @keyup="totalToClient()"
             />
           </div>
           <div class="q-mt-sm">
             <q-input
               class="linkPaySelectType2"
-              outlined
+              :clear-icon="'eva-close-outline'"
+              color="positive"
+              v-model="product.quantityOrder"
+              label="Cantidad"
+              :rules="[ val => !!val  || 'El campo es obligatorio', val => val >= 1]"
+              autocomplete="off"
+              @update:model-value="formatQuantity"
+            />
+          </div>
+          <div class="q-mt-sm">
+            <q-input
+              class="linkPaySelectType2"
               clearable
               :clear-icon="'eva-close-outline'"
               color="positive"
               v-model="product.details"
               label="Agregar detalles"
-              :rules="rulesForm('description')"
+
               autocomplete="off"
             />
           </div>
-          
-        </div>
-        <div class="q-px-md q-mt-md">
-          <div class="text-subtitle1 text-weight-bold text-blue-grey-10"> 
-            Woz Pay te informa que éstas son las comisiones a ser descontadas
-          </div>
         </div>
         <div class="q-px-md">
-          <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
-            <div class="q-py-xs">{{route.params.type == 0 ? 'Comisión Woz Pay 2%' : 'Comisión Woz Pay 12%'}}</div>
-            <div>
-              {{selectedCoin.code}} {{ 
-                !isNaN((parseInt(product.amount.replace(/\./g, ''),)*feedWoz)) 
-                ? numberFormat((parseInt(product.amount.replace(/\./g, ''))*feedWoz))
-                : 0
-              }}
-            </div>
-          </div>
-          <div class="flex justify-between items-center q-px-md q-mt-lg  text-subtitle1 q-mb-lg amount__items q-py-sm">
-            <div class="q-py-xs">Comision por transacción</div>
-            <div>
-              {{selectedCoin.code}} {{ route.params.type == 0 ? '0' : numberFormatDecimal(7800/selectedCoin.rate) }}
-            </div>
-          </div>
           <div class="flex justify-between items-center q-px-md q-mt-lg text-weight-bold text-subtitle1 q-mb-lg amount__items q-py-sm">
             <div class="q-py-xs">Total a cobrar</div>
             <div>
-              {{selectedCoin.code}}
-              {{  product.to_client }}
+              <div class="text-right">
+
+                {{selectedCoin.code}}
+                {{  isNaN(parseInt(product.dropper_price.replace(/\./g, ''))) 
+                  ? 0
+                  : numberFormat((parseInt(product.dropper_price.replace(/\./g, '')))*product.quantityOrder )
+                }}
+              </div>
+              <div v-if="selectedCoin.code=='USD'" style="font-size:0.75rem; font-weight:400; color:grey; text-align:end;line-height:0.5" >
+                ≈ Gs.
+                {{  isNaN(parseInt(product.dropper_price.replace(/\./g, ''))*selectedCoin.rate) 
+                  ? 0
+                  : numberFormat((parseInt(product.dropper_price.replace(/\./g, ''))*selectedCoin.rate)*product.quantityOrder )
+                }}
+              </div>
+            </div>
+          </div>
+           <div class="flex justify-between items-center q-px-md q-mt-lg text-weight-bold text-subtitle1 q-mb-lg amount__items q-py-sm">
+            <div class="q-py-xs">Comisión por producto</div>
+            <div>
+              <div class="text-right">
+                {{selectedCoin.code}}
+                {{  isNaN( parseInt(product.dropper_price.replace(/\./g, ''))) 
+                  ? 0
+                  : numberFormat(((parseInt(product.dropper_price.replace(/\./g, '')) - parseInt(product.price.replace(/\./g, '')))))
+                }}
+              </div>
+              <div v-if="selectedCoin.code=='USD'" style="font-size:0.75rem; font-weight:400; color:grey; text-align:end;line-height:0.5" >
+                ≈ Gs.
+                {{  isNaN( parseInt(product.dropper_price.replace(/\./g, '')) *selectedCoin.rate) 
+                  ? 0
+                  : numberFormat(((parseInt(product.dropper_price.replace(/\./g, '')) - parseInt(product.price.replace(/\./g, '')))*selectedCoin.rate) )
+                }}
+              </div>
+            </div>
+          </div>
+           <div class="flex justify-between items-center q-px-md q-mt-lg text-weight-bold text-subtitle1 q-mb-lg amount__items q-py-sm">
+            <div class="q-py-xs">Comisión total por venta</div>
+            <div>
+              <div class="text-right">
+                {{selectedCoin.code}}
+                {{  isNaN(parseInt(product.dropper_price.replace(/\./g, ''))) 
+                  ? 0
+                  : numberFormat(((parseInt(product.dropper_price.replace(/\./g, '')) - parseInt(product.price.replace(/\./g, ''))) )*product.quantityOrder )
+                }}
+              </div>
+              <div v-if="selectedCoin.code=='USD'" style="font-size:0.75rem; font-weight:400; color:grey; text-align:end;line-height:0.5" >
+                ≈ Gs.
+                {{  isNaN(parseInt(product.dropper_price.replace(/\./g, ''))) 
+                  ? 0
+                  : numberFormat(( (parseInt(product.dropper_price.replace(/\./g, '')) - parseInt(product.price.replace(/\./g, ''))) )*selectedCoin.rate )
+                }}
+              </div>
             </div>
           </div>
         </div>
@@ -182,7 +188,6 @@
           color="terciary" 
           class="full-width q-pa-sm" 
           @click="createLink"
-          :disable="countLink >= limit()"
         >
           <template v-slot:loading>
             <q-spinner-facebook />
@@ -202,15 +207,20 @@
   import util from '@/util/numberUtil'
   import { useLinkStore } from '@/services/store/link.store';
   import doneModal from '@/components/layouts/modals/doneModal.vue';
+  import dotsWoz from '@/components/dropshipping/layout/dots.vue';
   import { storeToRefs } from 'pinia';
   import { useAuthStore } from '@/services/store/auth.store';
   import { useCoinStore } from '@/services/store/coin.store';
 
 export default {
   components: {
-    doneModal
+    doneModal,
+    dotsWoz
   },
-  setup() {
+  props:{
+    product: Object
+  },  
+  setup(props) {
     const { user } = storeToRefs(useAuthStore())
     const q = useQuasar();
     const router = useRouter()
@@ -219,109 +229,42 @@ export default {
     const numberFormatDecimal = util.numberFormatDecimal
     const linkStore = useLinkStore()
     const coinStore = useCoinStore()
-    const feedWoz = ref(route.params.type == 0 ? 0.02 : 0.12);
     const loading = ref(false)
     const done = ref(false)
-    const countLink = ref(0)
-    const product = ref({
-      name:'',
-      amount:'',
-      to_client:0,
-      details:'',
-      initDay:'',
-      forMonth:1
-    })
-    const title = [
+    const formatProduct = (product) => {
+      let productFormated = []
+      Object.entries(product).forEach(([key, value]) => {
+        
+        productFormated[key] = value;
+        if(key=='price') productFormated[key] = numberFormat(value);
       
-      {
-        title:'Links de cortesía',
-        subtitle:'Sólo puedes generar una cantidad de 6 links en la versión gratuita',
-        color:'#ffc701',
-        track: 'primary'
-      },
-      {
-        title:'Links ilimitados',
-        subtitle:'Puedes generar todos los lins de manera ilimitada',
-        color:'#19cd15',
-        track: 'white'
-      },
-      {
-        title:'Links de membresías',
-        subtitle:'Cobra tus membresías o suscripciones de manera mensual con debito automatico',
-        color:'#0449fb',
-        track: 'terciary'
-      },
-      {
-        title:'Links de freelancers',
-        subtitle:'Genera links para tus honorarios como freelancer',
-        color:'#929396',
-        track: 'terciary'
-      },
-      {
-        title:'Links de ventas',
-        subtitle:'Genera links para enviárselo a tus compradores',
-        color:'#ffc701',
-        track: 'primary'
-      },
-      
-    ]
-    const limit = () => {
-      
-      if(route.params.type == 0) return user.value.free_link
-      if(route.params.type == 1) return user.value.free_link
-      if(route.params.type == 2) return user.value.membership_link
-      if(route.params.type == 3) return user.value.freelancer_link
-      if(route.params.type == 4) return user.value.sell_link
+      }); 
+      productFormated['dropper_price'] = ""
+      productFormated['details'] = ""
 
+      productFormated['quantityOrder'] = 1
+  
+      return productFormated
     }
+    const product = ref(formatProduct(props.product))
     const optionsLink = [
       {
         id:0,
-        name:'Selecciona el tipo de link'
+        name:'Venta Woz Dropshopping'
       },
-      {
-        id:4,
-        name:'Ventas'
-      },
-      {
-        id:2,
-        name:'Membresías'
-      },
-      {
-        id:3,
-        name:'Freelancers'
-      },
+
     ]
     const optionCoin = ref([])
-
-    const daysAvaibles = () => {
-      let days = []
-      for (let index = 0; index < 28; index++) {
-        days.push(index+1)
-        
-      }
-      return days;
-    }
-
-    
-    const header = ref(title[parseInt(route.params.type)])
     const selectedOption = ref(optionsLink.find(el => el.id == 0))
     const selectedCoin = ref({})
-    const updateType = () => {
-      
-      header.value = title[selectedOption.value.id]
-      if(document.querySelector('.hero-content_title').classList.contains('swicht')){
-        document.querySelector('.hero-content_title').classList.remove('swicht')
-      }
-      setTimeout(() => {
-        document.querySelector('.hero-content_title').classList.add('swicht')
-      }, 10);
-    }
     const rulesForm = (id) => {
       const iRules = {
         name:[
           val => (val !== null && val !== '') || 'Nombre del producto es requerido.',
-          // val => (val.length > 20 ) || 'Debe contener 20 digitos',
+          val => (/[,%\"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
+        ],
+        quantity:[
+          val => (val !== null && val !== '') || 'Nombre del producto es requerido.',
           val => (/[,%\"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
         amount:[
@@ -329,33 +272,20 @@ export default {
         ],
         description:[
           val => (val !== null && val !== '') || 'Detalles de producto es requerido.',
-          // val => (val.length > 20 ) || 'Debe contener 20 digitos',
           val => (/[%\-"'();&|<>]/.test(val) == false ) || 'No debe contener espacios, ni "[](),%|&;\'" ',
         ],
       }
       
       return iRules[id]
     }
+    
     const validateFrom = () => {
       let isOk = true
       Object.entries(product.value).forEach( ([key,value ]) => { 
-        
-
-        if( key !='forMonth' && key !='initDay'){
-          
+        if( key =='quantityOrder' || key =='dropper_price'){
           if(value == '') isOk = false
         }
       }); 
-      
-      if(selectedOption.value.id == 0) {
-        showNotify('negative', 'Debes selecionar un metodo de pago')
-        return false
-      }
-      // if( isNaN(product.value.forMonth)) {
-      //   isOk = false
-      // }
-      // console.log(isNaN(product.value.forMonth))
-      // console.log(product.value.forMonth)
 
       return isOk
     }
@@ -364,25 +294,22 @@ export default {
         showNotify('negative', 'Debes completar el formulario')
         return
       }
-      if(countLink.value >= limit()){
-        showNotify('negative', 'Alcanzaste el maximo de tus links, adquiere un paquete')
+      if(parseInt(product.value.dropper_price.replace(/\./g, '')) < parseInt(product.value.price.replace(/\./g, ''))){
+        showNotify('negative', 'Precio de venta debe ser mayor al precio base')
         return
       }
       loading.value = true
+      let formattedProduct = Object.assign({}, product.value)
+      formattedProduct.price = parseInt(formattedProduct.price.replace(/\./g, '') )
       const data = {
         note:   product.value.details,
-        amount: parseInt(product.value.amount.replace(/\./g, ''))*selectedCoin.value.rate,
-        amount_to_client:parseInt(product.value.to_client.replace(/\./g, ''))*selectedCoin.value.rate,
-        coin :selectedCoin.value.id,
-        title:  product.value.name,
-        type:   selectedOption.value.id,
-        categorie: route.params.type,
-        init_day: product.value.initDay.replace(/\//g, '.'),
-        recurring_day:  product.value.initDay.replace(/\//g, '.').split('.')[0],
-        for_month:  product.value.forMonth,
+        amount: (parseInt(product.value.dropper_price.replace(/\./g, ''))  * product.value.quantityOrder),
+        amount_to_client: ((parseInt(product.value.dropper_price.replace(/\./g, '')) - parseInt(product.value.price.replace(/\./g, '')))  * product.value.quantityOrder ),
+        coin : selectedCoin.value.id,
+        products: JSON.stringify(formattedProduct)
 
       }
-      linkStore.createLink(data)
+      linkStore.createLinkDropshipping(data)
       .then((response) => {
         if(response.code !== 200) throw response
 
@@ -397,6 +324,14 @@ export default {
         showNotify('negative', response)
         loading.value = false
       })
+    }
+    const goTo = (id) => {
+      router.push('/dropshipping/details_link/'+id)
+    }
+    const updateType = () => {
+      product.value.price = selectedCoin.value.code == 'USD'
+      ? numberFormat((parseInt(product.value.price.replace(/\./g, ''))/ selectedCoin.value.rate))
+      : numberFormat(parseInt(props.product.price))
     }
     const getCoinsForOption = () => {
       coinStore.getCoins()
@@ -419,27 +354,21 @@ export default {
         ]
       })
     }
-    const goTo = (id) => {
-      router.push('/link/pay/'+id)
-    }
 
-    const filterByCategorie = (data) => {
-      const free      = data.filter(item => item.categorie == route.params.type)
-      const sell      = data.filter(item => item.categorie == route.params.type)
-      const member    = data.filter(item => item.categorie == route.params.type)
-      const freelance = data.filter(item => item.categorie == route.params.type)
+    const formatQuantity = (value) =>{
+      // Filtra solo números (elimina todo lo que no sea dígito)
+      
+      product.value.quantityOrder = value.replace(/[^0-9]/g, '');
+      product.value.quantityOrder = parseInt(product.value.quantityOrder)
+      
+      if(isNaN(product.value.quantityOrder)){
+        product.value.quantityOrder = 0
+        return
+      }
+      product.value.quantityOrder = parseInt(product.value.quantityOrder)
 
-      return [free, '', member, freelance, sell,]
-    }
-    const totalToClient  = () => {
-      product.value.to_client = route.params.type == 0 && !isNaN((parseInt(product.value.amount.replace(/\./g, ''),)*0.02)) 
-                ? numberFormat((parseInt(product.value.amount.replace(/\./g, '') - parseInt(product.value.amount.replace(/\./g, ''))*0.02)))
-                : !isNaN((parseInt(product.value.amount.replace(/\./g, ''),)*0.12) ) 
-                ? numberFormat((parseInt(product.value.amount.replace(/\./g, '') - parseInt(product.value.amount.replace(/\./g, ''))*0.12) )- (7800/selectedCoin.value.rate) )
-                : 0
     }
     onMounted(() => {
-      q.addressbarColor.set(title[parseInt(route.params.type).color])
       getCoinsForOption()
       // countLinkUsed()
 
@@ -447,27 +376,22 @@ export default {
     return {
       done,
       user,
-      countLink,
       selectedCoin,
       router,
       route,
-      header,
       loading,
-      daysAvaibles,
       icons: inject('ionIcons'),
       wozIcons,
       optionsLink,
+      optionCoin,
       selectedOption,
       product,
       numberFormat,
       numberFormatDecimal,
       rulesForm,
-      updateType,
       createLink,
-      limit,
-      optionCoin,
-      totalToClient,
-      feedWoz,
+      formatQuantity,
+      updateType,
     }
   },
 }
@@ -512,9 +436,10 @@ export default {
   .linkPaySelectType, .linkPaySelectType2  {
 
     & .q-field__control{
-      border-radius: 10px!important;
+      border-radius: 0px!important;
       height: 50px!important;
       min-height: 50px!important;
+      padding: 0px 0.2rem;
     }
     & .q-field__label{
     transform: translateY(0%)
@@ -524,7 +449,7 @@ export default {
       background: white;
       font-weight: 600;
       max-width: 133%;
-      transform: translateY(-125%) translateX(4%) scale(0.75)!important;
+      transform: translateY(-125%) translateX(0%) scale(0.75)!important;
     }
     
     & .q-field__native{
@@ -541,6 +466,12 @@ export default {
   }
   .linkPaySelectType2 .q-field__native{
     padding-top: 15px!important;
+  }
+  .linkPaySelectType2.q-field--disabled .q-field__inner, .linkPaySelectType.q-field--disabled .q-field__inner{
+    border-radius: 0px;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+
   }
   .totalLink_progress {
     border: 1px solid transparent;

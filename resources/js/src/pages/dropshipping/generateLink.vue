@@ -1,7 +1,6 @@
 <template>
   <div v-if="load">
-    <noReady v-if="showNotReady" :requirements="requirements" />
-    <productLinkForm v-else/>
+    <productLinkForm :product="product" />
   </div>
   <div  v-else style="height: 100vh;">
     <transition name="inFade">
@@ -23,9 +22,10 @@
   import productLinkForm from "@/components/dropshipping/link/linkForm.vue";
   import { storeToRefs } from 'pinia'
   import { useAuthStore } from '@/services/store/auth.store'
-  import { inject, onMounted } from 'vue';
+  import { onMounted } from 'vue';
   import { useQuasar } from 'quasar';
   import wozIcons from '@/assets/icons/wozIcons';
+  import { useProductStore } from '@/services/store/products.store';
 
 export default {
   components:{
@@ -40,23 +40,24 @@ export default {
       current: user.value.current_loan ?? false,
       loan:user.value.loans_complete_count ?? false,
     })
+    const prodcutStore = useProductStore()
+
     const showNotReady = ref(true)
     const load = ref(false)
     const colorBanner = ref('#0449fb')
     const router = useRouter();
-
-    const validateToShow = () => {
-      // let isOk = Object.values(requirements.value).filter((el) => !el)
-
-      setTimeout(() => {
+    const route = useRoute();
+    const product = ref({})
+    const getProduct = (id) => {
+      prodcutStore.getProductById(id)
+      .then((response) => {
+        product.value = response.data
         load.value = true;
-        showNotReady.value = false
-      }, 1000);
+      })
     }
     onMounted(() => {
       useQuasar().addressbarColor.set(colorBanner.value)
-      validateToShow()
-      
+      getProduct(route.params.id)
     })
     return {
       router,
@@ -64,6 +65,7 @@ export default {
       showNotReady,
       load,
       requirements,
+      product,
     }
   },
 }

@@ -145,6 +145,11 @@
         'Transferencia',
         'Transferencia',
         'Transferencia',
+        'Transferencia',
+        'Transferencia',
+        'Transferencia',
+        'Transferencia',
+        'Transferencia',
       ]
       const messageModal = [
         'El pago ha sido rechazado',

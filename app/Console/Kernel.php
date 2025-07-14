@@ -38,6 +38,15 @@ class Kernel extends ConsoleKernel
                 'status'=> 0,
             ]);
         })->everyFifteenSeconds();
+        
+        $schedule->call(function () {
+            date_default_timezone_set('America/Asuncion');
+            $links = DB::table('dropshipping_links')->where('status', '1')->where('due_time', '<' , date('Y-m-d H:i:s'));
+          
+            $links->update([
+                'status'=> 0,
+            ]);
+        })->everyFifteenSeconds();
     }
     private function updateAmounWithDelay($loan){
         return ((($loan->amount_quota * $loan->interest_for_delay)/100) + $loan->amount_to_pay);

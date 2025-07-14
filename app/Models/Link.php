@@ -93,6 +93,5 @@ class Link extends Model
     }
     public function coin(){
         return $this->belongsTo(Coin::class,'coin_id', 'id');
-
     }
 }

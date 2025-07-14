@@ -10,6 +10,7 @@ use App\Models\PayLink;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
+use App\Models\DropshippingLink;
 
 class LinkController extends Controller
 {
@@ -39,7 +40,11 @@ class LinkController extends Controller
         $link = Link::with('user', 'pay', 'coin')->find($id);
         return $this->returnSuccess(200, $link);
     }
+    public function getDropshippingLinkById($id){
+        $link = DropshippingLink::with('user', 'pay', 'coin')->find($id);
+        return $this->returnSuccess(200, $link);
 
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -74,9 +79,34 @@ class LinkController extends Controller
         ]);
         return $this->returnSuccess(200, $link);
     }
+    public function createLinkDropshipping(Request $request){
+        date_default_timezone_set('America/Asuncion');
+
+        $code = 'dr_'.substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
+        $rate = Coin::find($request->coin)->rate;
+
+        $link = DropshippingLink::create([
+            'url'               => config('app.url').'v1/pay/dropshipping/link/'.$code ,
+            'code'              => $code,
+            'amount'            => $request->amount,
+            'amount_to_client'  => $request->amount_to_client,
+            'coin_id'           => $request->coin,
+            'rate_amount'       => $rate,
+            'status'            => 1,
+            'pay_status'        => 0,
+            'user_id'           => $request->user()->id,
+            'products'          => $request->products,
+            'due_date'          => date('Y-m-d H:i:s', time() + 7200)
+        ]);
+        return $this->returnSuccess(200, $link);
+    }
 
     public function getByCode($code){
         $link = Link::with('user', 'pay', 'coin')->where('code', $code)->first();
+        return $this->returnSuccess(200, $link);
+    }
+    public function getDropshippingLinkByCode($code){
+        $link = DropshippingLink::with('user', 'pay', 'coin')->where('code', $code)->first();
         return $this->returnSuccess(200, $link);
     }
     public function setPayStatus(Request $request)

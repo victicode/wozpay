@@ -3,7 +3,7 @@
     <div >
       <div class="q-px-md">
         <div>
-          <div class="aboutTitleSection flex items-end q-mt-sm" >
+          <div class="aboutWozTitleSection flex items-end q-mt-sm" >
             <div>
               Sobre tu cuenta Dropshipping
             </div>
@@ -77,11 +77,11 @@ export default {
 </script>
 <style lang="scss">
 .text__aboutTitle{
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400
 }
 .text__aboutValue{
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: #919398;
 }

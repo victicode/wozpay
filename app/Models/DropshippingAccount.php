@@ -10,12 +10,12 @@ class DropshippingAccount extends Model
     use HasFactory;
     protected $appends  =   ['status_label','type_label'];
     protected $table = "dropshipping_accounts"; 
-        protected $fillable = [
-            "facturation_cicle", 
-            "status", 
-            "due_date",
-            "user_id"
-        ];
+    protected $fillable = [
+        "facturation_cicle", 
+        "status", 
+        "due_date",
+        "user_id"
+    ];
 
     public function getStatusLabelAttribute()
     {   

@@ -3,7 +3,7 @@
     <div >
       <div class="q-px-md">
         <div>
-          <div class="aboutTitleSection flex items-end q-mt-sm" >
+          <div class="aboutWozTitleSection flex items-end q-mt-sm" >
             <div>
               Sobre Woz Dropshipping
             </div>
@@ -16,10 +16,10 @@
       </div>
       <div class="items__containerAbout q-px-md q-pt-sm  q-pb-lg q-mt-sm q-mx-md q-mb-md">
         <div v-for="(item, index) in formatDetails" :key="index" class="flex justify-between items-center q-pb-sm q-pt-md  items_about">
-          <div class="text__aboutTitle">
+          <div class="text__aboutWozTitle">
             {{ item.title }}
           </div>
-          <div class="text__aboutValue">
+          <div class="text__aboutVWozalue">
             {{ item.value }}
           </div>
         </div>
@@ -69,11 +69,11 @@ export default {
 }
 </script>
 <style lang="scss">
-.text__aboutTitle{
+.text__aboutWozTitle{
   font-size: 1rem;
   font-weight: 400
 }
-.text__aboutValue{
+.text__aboutWozValue{
   font-size: 0.92rem;
   font-weight: 400;
   color: #919398;
@@ -101,7 +101,7 @@ export default {
   font-weight: 400;
   color: darkgray;
 }
-.aboutTitleSection{
+.aboutWozTitleSection{
   font-size: 1.3rem;
   font-weight: bold;
   color: #000;

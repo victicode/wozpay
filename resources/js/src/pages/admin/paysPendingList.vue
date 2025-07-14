@@ -74,6 +74,10 @@ export default {
         index:'payActication'
       },
       {
+        title:'Pagos de activación Dropshipping',
+        index:'payActicationDropshipping'
+      },
+      {
 
         title:'Pagos de paquetes',
         index:'payPackage'

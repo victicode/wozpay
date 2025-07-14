@@ -31,6 +31,8 @@ class TransactionController extends Controller
             $query->with('user_from.user')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
         }] )->find($user->wallet->id);
         $activationPay = Pay::with('user')->where('user_id',$userId)->where('type',5)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
+        $activationPay = Pay::with('user')->where('user_id',$userId)->where('type',11)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
+
         $packagePay = Pay::with('user', 'package')->where('user_id',$userId)->where('type',6)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
         
         
@@ -126,6 +128,9 @@ class TransactionController extends Controller
         if($type == 10){
             return PayLink::with('links', 'coin')->find($id);
         }
+        if($type == 11){
+            return Pay::with('user')->where('type', 11)->find($id);
+        }
     }
     private function object_sorter($clave,$orden=null) {
         return function ($a, $b) use ($clave,$orden) {
@@ -157,7 +162,7 @@ class TransactionController extends Controller
             'Activación cuenta internacional',
             'Comprobante de pago de paquetes',
             'Comprobante de pago',
-
+            'Pago de activación de cuenta Woz Dropshipping'
         ];
 
         return $types[$type];
@@ -260,54 +265,72 @@ class TransactionController extends Controller
         }
         if($type == 8)  {
             $lines[1] = [
-              'title' =>'Titulo del producto',
-              'text' => 'Activación de cuenta internacional',
+                'title' =>'Titulo del producto',
+                'text' => 'Activación de cuenta internacional',
             ];
             $lines[2] = [
-              'title' => 'Referencia',
-              'value' => $transaction->operation_id,
+                'title' => 'Referencia',
+                'value' => $transaction->operation_id,
             ];
             $lines[3] = [
-              'title' => 'Metodo de pago',
-              'value' => $transaction->method == 1 ? 'Transferencia' : 'Tarjeta',
+                'title' => 'Metodo de pago',
+                'value' => $transaction->method == 1 ? 'Transferencia' : 'Tarjeta',
             ];
-          }
-          if($type == 9)  {
+        }
+        if($type == 9)  {
             $lines[1] = [
-              'title' => 'Titulo del producto',
-              'text' => $transaction->package->title,
+                'title' => 'Titulo del producto',
+                'text' => $transaction->package->title,
             ];
             $lines[2] = [
-              'title' => 'Referencia',
-              'value' => $transaction->operation_id,
+                'title' => 'Referencia',
+                'value' => $transaction->operation_id,
             ];
             $lines[3] = [
-              'title' => 'Metodo de pago',
-              'value' => 'Transferencia',
+                'title' => 'Metodo de pago',
+                'value' => 'Transferencia',
             ];
-          }
-          if($type == 10)  {
+        }
+        if($type == 10)  {
             $lines[1] = [
-              'title' => 'Titulo del producto',
-              'text' => $transaction->links->title,
+                'title' => 'Titulo del producto',
+                'text' => $transaction->links->title,
             ];
             $lines[2] = [
                 'title' => 'Moneda',
                 'value' => $transaction->coin->name,
             ];
             $lines[3] = [
-              'title' => 'Referencia',
-              'value' => '#'.$transaction->operation_id,
+                'title' => 'Referencia',
+                'value' => '#'.$transaction->operation_id,
             ];
             $lines[4] = [
                 'title' => 'Descripción',
                 'text' => $transaction->concept,
             ];
             $lines[5] = [
-              'title' => 'Metódo de pago',
-              'value' => 'Tarjeta',
+                'title' => 'Metódo de pago',
+                'value' => 'Tarjeta',
             ];
-          }
+        }
+        if($type == 11)  {
+            $lines[1] = [
+                'title' =>'Titulo del producto',
+                'text' => 'Activación de cuenta dropshipping',
+            ];
+            $lines[2] = [
+                'title' => 'Referencia',
+                'value' => $transaction->operation_id,
+            ];
+            $lines[3] = [
+                'title' => 'Metodo de pago',
+                'value' => $transaction->method == 1 ? 'Transferencia' : 'Tarjeta',
+            ];
+            $lines[3] = [
+                'title' => 'Concepto',
+                'value' => $transaction->concept,
+            ];
+        }
 
         array_push($lines,[
             'date'  => date("d/m/Y", strtotime($transaction->created_at)),

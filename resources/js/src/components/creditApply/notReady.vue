@@ -24,6 +24,10 @@
               </div>
             </div>
           </div>
+          <div class="q-px-md q-mt-md">
+            <div class="text-primary" style="font-size:1rem; font-weight:500">No esperes más y verifica tu perfil al instante</div>
+            <div class="q-mt-xs" style="font-size:0.8rem; font-weight:400">Carga tu billetera Woz Paymets con 30.000 Gs y verifica automáticamente tu perfil</div>
+          </div>
         </div>
       </div>
     </div>

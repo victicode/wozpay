@@ -21,7 +21,7 @@ class DropshippingLink extends Model
         "status", 
         "pay_status", 
         "user_id" ,
-        "product_id", 
+        "products", 
         "due_date"
     ];
     protected $appends  =   ['status_label', 'pay_status_label',];
@@ -52,7 +52,7 @@ class DropshippingLink extends Model
     public function pay(){
         return $this->hasOne(DropshippingPay::class,'dropshipping_link_id', 'id')->where('status', '!=', '0');
     }
-    public function product(){
-        return $this->belongsTo(Product::class,'product_id', 'id')->where('status', '!=', '0');
+    public function coin(){
+        return $this->belongsTo(Coin::class,'coin_id', 'id');
     }
 }

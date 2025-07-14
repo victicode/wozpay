@@ -14,7 +14,7 @@
         />
       </div>
     </div>
-    <div class="flex column justify-center q-px-md">
+    <div class="flex column justify-center q-px-md" v-else>
       <div class="text-center q-mb-md">
         <q-img
           :src="sadface"
@@ -41,7 +41,6 @@
   import { useAuthStore } from '@/services/store/auth.store'
   import { useDropshippingStore } from '@/services/store/dropshipping.store';
   import { storeToRefs } from 'pinia';
-  import { useQuasar } from 'quasar'
   import wozIcons from '@/assets/icons/wozIcons';
   import stadisticProfile from '@/components/dropshipping/profile/stadisticProfile.vue';
   import aboutWoz from '@/components/dropshipping/profile/aboutWoz.vue';

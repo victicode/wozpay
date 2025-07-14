@@ -119,6 +119,8 @@ Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(functi
 
 Route::middleware('jwt.verify')->prefix('link')->group(function(){
     Route::post('/', [LinkController::class, 'store']);
+    Route::post('/dropshipping', [LinkController::class, 'createLinkDropshipping']);
+    Route::get('/dropshipping/byId/{id}', [LinkController::class, 'getDropshippingLinkById']);
     Route::get('/lastFive/{id}', [LinkController::class, 'getByUserLast5']);
     Route::get('/byUser/{id}', [LinkController::class, 'getByUser']);
     Route::get('/byId/{id}', [LinkController::class, 'getById']);
@@ -127,6 +129,8 @@ Route::middleware('jwt.verify')->prefix('link')->group(function(){
 });
 Route::prefix('link-public')->group(function(){
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
+    Route::get('/dropshipping/byCode/{id}', [LinkController::class, 'getDropshippingLinkByCode']);
+
 });
 Route::prefix('v1/public')->group(function(){
     Route::post('/sendmail', [PayController::class, 'sendMail']);

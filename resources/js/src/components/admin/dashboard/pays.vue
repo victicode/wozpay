@@ -83,6 +83,22 @@
               <q-skeleton type="rect" class="q-mt-xs" />
             </div>
           </div>
+          <div class="w-100 flex items-center q-mt-md">
+            <div style="" class="w-10D">
+              <!-- <div v-html="wozIcons.withdrawal" /> -->
+              <q-skeleton type="rect"  />
+            </div>
+            <div class="flex items-center justify-between  w-80D-load">
+              <div class=" q-mx-sm  w-50D-load">
+                <div class="text-weight-medium"><q-skeleton type="rect" /></div>
+                <div class="text-weight-bold q-mt-xs"><q-skeleton type="rect" /></div>
+              </div>
+            </div>
+            <div class="w-10D">
+              <q-skeleton type="rect"  />
+              <q-skeleton type="rect" class="q-mt-xs" />
+            </div>
+          </div>
         </div>
         
       </div>
@@ -116,6 +132,10 @@
             {
               title: 'Pagos de activación',
               value: response.data.payActication
+            },
+            {
+              title: 'Pagos de activación de Dropshipping',
+              value: response.data.payActicationDropshipping
             },
             {
               title: 'Pagos de paquete',

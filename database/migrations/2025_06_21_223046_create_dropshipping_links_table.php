@@ -24,8 +24,7 @@ return new class extends Migration
             $table->integer('pay_status');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->longText('products');
             $table->dateTime('due_date');
             $table->timestamps();
             $table->softDeletes();
