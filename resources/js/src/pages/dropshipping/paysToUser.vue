@@ -1,10 +1,10 @@
 <template>
   <div style="height:95%">
     <div class="flex">
-      <div class="q-px-md q-mx-md q-py-xs bg-grey-4 swicthSection__button" style="">
+      <div @click="getNewList(2)" class="q-px-md q-mx-md q-py-xs bg-grey-4 swicthSection__button" :class="{'success':statusOfPay == 2}" style="">
         Pagos realizados
       </div>
-      <div class="q-px-md q-mx-md q-py-xs bg-grey-4 swicthSection__button" style="">
+      <div @click="getNewList(0)" class="q-px-md q-mx-md q-py-xs bg-grey-4 swicthSection__button" :class="{'reject':statusOfPay == 0}" style="">
         Pagos rechazados
       </div>
     </div>
@@ -24,7 +24,7 @@
                       height:100%;">
                       <img :src="product.image" alt="" style="width: 7rem; padding: 0rem 20%;">
                     </div>
-                    <div class=" q-pl-xs q-py-xs flex items-center justify-between" style="flex-wrap:nowrap; width: -webkit-fill-available;">
+                    <div class=" q-pl-xs q-py-xs flex items-center justify-between" style="cursor:pointer; flex-wrap:nowrap; width: -webkit-fill-available;">
                       <div class=" q-pt-xs">
                         <div class="q-mb-xs q-mt-xs " style="font-weight:500; font-size:1rem; line-break: no-wrap;">
                           {{ product.title }}
@@ -44,8 +44,8 @@
             </div>
           </div>
         </div>
-        <div v-else>
-          No tienes pago en tu cuenta de dropshipping
+        <div v-else class="text-center q-mt-lg" style="font-size:1rem">
+          No tienes pagos {{ statusOfPay == 2 ? 'aprobados' : 'rechazados'}} en tu cuenta de dropshipping
         </div>
       </div>
       <div v-else class="flex-center flex" style="height: -webkit-fill-available;">
@@ -61,9 +61,7 @@
 <script>
   import util from '@/util/numberUtil'
   import { inject, ref, onMounted } from 'vue'
-  import wozIcons from '@/assets/icons/wozIcons';
-  import { useLinkStore } from '@/services/store/link.store';
-  import { useQuasar } from 'quasar';
+
   import { useRoute, useRouter } from 'vue-router'
   import moment from 'moment';
   import modalView from '@/components/links/modal.vue';
@@ -80,7 +78,14 @@
       const pays = ref([])
       const ready = ref(false)
       const statusOfPay = ref(2)
+
+      const getNewList = (status) =>{
+        statusOfPay.value = status
+        getDropPayByUser()
+      }
       const getDropPayByUser = () => {
+        ready.value = false
+
         const request = {
           status: statusOfPay.value
         }
@@ -96,6 +101,8 @@
         })
         .catch((response) =>{
           console.log(response)
+          ready.value = true
+
         })
       }
       onMounted(() =>{
@@ -104,8 +111,10 @@
       return {
         ready,
         pays,
+        statusOfPay,
         moment,
         numberFormat,
+        getNewList,
       }
     }
   }
@@ -130,5 +139,16 @@
 }
 .swicthSection__button{
   border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  &.success{
+    background: #c7f3c7!important;
+    color: #19cd15!important;
+  }
+  &.reject{
+    background: #fdc5c5!important;
+    color: #f80d0d;
+
+  }
 }
 </style>
