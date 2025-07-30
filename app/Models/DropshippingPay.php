@@ -16,6 +16,9 @@ class DropshippingPay extends Model
         "rate_amount", 
         "status", 
         "dropshipping_link_id", 
+        "shipping_data",
+        "pay_data",
+        "client_name", 
         "method" ,
         "operation_id", 
         "bank", 
@@ -25,9 +28,16 @@ class DropshippingPay extends Model
         "card_name",
         "card_cvc",
         "card_due_date",
-        "email"
+        "email",
     ];
-    protected $appends  =   ['status_label'];
+    protected $appends  =   ['status_label', 'method_label', 'type'];
+
+
+    public function getTypeAttribute(){
+        
+        return 15;
+        
+    }
 
     public function getstatusLabelAttribute()
     {   
@@ -38,8 +48,17 @@ class DropshippingPay extends Model
         ];
         return $status[$this->status];
     }
-    public function links(){
-        return $this->belongsTo(DropshippingLink::class,'link_id', 'id');
+    public function getMethodLabelAttribute()
+    {   
+        $status = [
+            '',
+            'Transferencia',
+            'Tarjeta de credito',
+        ];
+        return $status[$this->method];
+    }
+    public function link(){
+        return $this->belongsTo(DropshippingLink::class,'dropshipping_link_id', 'id');
     }
     public function coin(){
         return $this->belongsTo(Coin::class,'coin_id', 'id');

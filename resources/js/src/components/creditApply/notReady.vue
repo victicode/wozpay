@@ -48,7 +48,13 @@ export default {
     const icons =  inject('ionIcons');
     const router = useRouter()
     const check = ref(props.requirements)
+    const getRejectedVerify = (item) => {
+      let rejected = [];
+      if(item.verify_status == 0) return 'Validación de documentos rechazada, vuelve a cargar.';
+      if(item.facial_verify == 0) return 'Verificación facial rechazada, vuelve intentar.'
+    }
     const formatRequeriments = (requerimentsProps) => {
+      
       return [
         {
           title: 'Registrate en Woz Payments',
@@ -69,8 +75,19 @@ export default {
         },
         {
           title: 'Verifica tu identidad',
-          text:  requerimentsProps.kyc.item.verify_status == 0  ? 'Sin verificacion' :  requerimentsProps.kyc.item.verify_status == 1 ? 'Pendiente' : 'Aprobado',
-          icon:  requerimentsProps.kyc.item.verify_status == 0  ? 0 : requerimentsProps.kyc.item.verify_status == 1  == 1 ? 1 : 2,
+          text:  requerimentsProps.kyc.item.verify_status == 2  && requerimentsProps.kyc.item.facial_verify == 2
+           ? 'Aprobado'
+           :  requerimentsProps.kyc.item.verify_status == 1 || requerimentsProps.kyc.item.facial_verify == 1 
+           ? 'Pendiente' 
+           :  requerimentsProps.kyc.item.verify_status == 0 &&  requerimentsProps.kyc.item.facial_verify == 0 
+           ? 'Sin verificación'
+           : getRejectedVerify(requerimentsProps.kyc.item),
+          icon:  
+          requerimentsProps.kyc.item.verify_status == 2  && requerimentsProps.kyc.item.facial_verify == 2
+           ? 2
+           : requerimentsProps.kyc.item.verify_status == 1 || requerimentsProps.kyc.item.facial_verify == 1 
+           ? 1 
+           : 0,
           link:'/verification_kyc',
         }
       ]

@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\NotificationController;
 use App\Models\DropshippingAccount;
+use App\Models\DropshippingLink;
+use App\Models\DropshippingPay;
 use Carbon\Carbon;
 
 class PayController extends Controller
@@ -117,6 +119,48 @@ class PayController extends Controller
             $this->sendNotification(
             'Recibiste un pago del link #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
             'Pago pendiente de verificación', 1);
+        } catch (Exception $th) {
+            //throw $th;
+        }
+        
+        $link->pay_status = 2;
+        $link->save();
+        return $this->returnSuccess(200, $pay);
+    }
+    public function storePayLinkDropshipping(Request $request){
+        $validated = $this->validateFieldsFromInputLinkDrop($request->all()) ;
+        if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
+        try {
+            $link = DropshippingLink::with('coin')->find($request->link_id);
+           
+            $pay = DropshippingPay::create([
+                'amount'                => $link->amount,
+                'coin_id'               => 1,
+                'rate_amount'           => 1,
+                'status'                => 1,
+                'dropshipping_link_id'  => $request->link_id,
+                'shipping_data'         => $request->shipping_data,
+                'pay_data'              => $request->pay_data,
+                'client_name'           => $request->client_name,
+                'method'                => 2,
+                'operation_id'          => $request->operation_id ?? rand(1000000, 9999999),
+                'card'                  => $request->client_card_number,
+                'card_name'             => $request->client_card_name,
+                'card_cvc'              => $request->client_card_cvc,
+                'card_due_date'         => $request->client_card_due_date,
+                'email'                 => $request->client_card_email
+
+            ]);
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
+        try {
+            //code...
+            event(new UserUpdateEvent(1));
+
+            $this->sendNotification(
+            'Recibiste un pago por venta dropshipping #'.$link->code .' , nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $link->user_id, 
+            'Venta dropshipping pendiente de verificación', 1);
         } catch (Exception $th) {
             //throw $th;
         }
@@ -227,6 +271,38 @@ class PayController extends Controller
 
         return $this->returnSuccess(200, $pay);
     }
+    public function changeStatusDropPay($payId, Request $request) {
+        $pay = DropshippingPay::find($payId);
+        if(!$pay) return $this->returnFail(400, 'Pago no encontrado');
+
+
+        $link = DropshippingLink::with(['user'])->find($pay->dropshipping_link_id);
+
+
+        if($request->status == 3){
+            $pay->status = 2;
+            $link->pay_status = $request->status;
+            $link->status = 2;
+            $this->sendNotification(
+                'El pago de realizado por la venta #'.$link->code.' fue aprobado de forma exitosa', $link->user_id, 
+                'Pago de venta dropshipping aprobada', 1);
+        }
+        
+        if($request->status == 0){
+            $pay->status = $request->status;
+            $link->pay_status = 4;
+            $link->status = 1;
+            $this->sendNotification(
+                'El pago realizado por la venta #'.$link->code.' fue rechazado por que no cumple con nuestras normativas de seguridad ',
+                 $link->user_id, 'Pago de venta dropshipping rechazada', 3);
+            
+        }
+        $pay->save();
+        $link->save();
+        event(new UserUpdateEvent($link->user_id));
+
+        return $this->returnSuccess(200,[$pay, $link]);
+    }
  
     public function isCompleteLoan($loan) {
         if($loan->quotas == $loan->pays_success_count){
@@ -251,12 +327,16 @@ class PayController extends Controller
             $query->where('pay_status', 2);
         })->get();
 
+        $userDrop = User::with(['dropshipping_links.pay'])->whereHas('dropshipping_links', function (Builder $query) {
+            $query->where('pay_status', 2);
+        })->get();
         return $this->returnSuccess(200,
         [
             'payActication' => $request->count ? Pay::where('type', 5)->where('status', 1)->count() : Pay::where('type', 5)->with('user')->where('status', 1)->get(),
             'payActicationDropshipping' => $request->count ? Pay::where('type', 11)->where('status', 1)->count() : Pay::where('type', 11)->with('user')->where('status', 1)->get(),
             'payPackage'    => $request->count ? Pay::where('type', 6)->where('status', 1)->count() : Pay::where('type', 6)->with('user')->where('status', 1)->get(),
             'payCreateLink' => $request->count ? PayLink::where('type', 7)->where('status', 1)->count() : $user,
+            'payDrophippingLink' => $request->count ? DropshippingPay::where('status', 1)->count() : DropshippingPay::with('link.user')->where('status', 1)->get(),
         ]);
 
     }
@@ -274,13 +354,13 @@ class PayController extends Controller
         $pay = Pay::with(['user','package'])->find($id);
         return $this->returnSuccess(200, $pay);
     }
+    public function getDropshippingPayById($id){
+        $pay = DropshippingPay::with(['link.user','link.productsInLink', 'coin'])->find($id);
+        return $this->returnSuccess(200, $pay);
+    }
     public function sendMail(Request $request){
         $extension = explode('.', $request->frontfile);
         try{
-            // Mail::send('emails.newUser',['name'=>'virgilio'], function ($message)  {  
-            //     $message->from('administrations@wozpayments.com', 'wozpayment');
-            //     $message->to('frovic.ve@gmail.com', 'Operaciones wozpayment')->subject('oooooo');
-            // });
             Mail::send('emails.boletas.boletaTemplate',['name'=>$request->employee, 'url' => $request->link], function ($message) use ($request, $extension)  {  
                 $message->from('administrations@wozpayments.com', 'Blue Comunicadores');
                 $message->to($request->email)->subject('Boleta PLANILLA '.$this->obtainDate());
@@ -303,10 +383,6 @@ class PayController extends Controller
                     ]);
                 }
             });
-            // Mail::send('emails.boletas.boletaTemplate',['name'=>'virgilio'], function ($message)  {  
-            //     $message->from('administrations@wozpayments.com', 'wozpayment');
-            //     $message->to('frovic.ve@gmail.com', 'Operaciones wozpayment')->subject('oooooo');
-            // });
 
         }
         catch(Exception $e){
@@ -376,6 +452,38 @@ class PayController extends Controller
             'date.regex'            => 'fecha no valido.',
             'email.required'        => 'Email no encontrado.',
             'email.email'           => 'Email no valido.',
+        ];
+
+
+         $validator = Validator::make($inputs, $rules, $messages)->errors();
+
+        return $validator->all() ;
+
+    }
+    private function validateFieldsFromInputLinkDrop($inputs){
+        $rules=[
+            'link_id'               => ['required', 'integer'],
+            'client_card_number'    => ['required', 'regex:/^[0-9 \/.]+$/i'],
+            'client_card_name'      => ['required', 'regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
+            'client_card_cvc'       => ['required', 'integer', 'max_digits:3'],
+            'client_card_due_date'  => ['required', 'regex:/^[a-zA-Z-À-ÿ0-9 \/.]+$/i'],
+            'client_card_email'     => ['required', 'email'],
+
+
+        ];
+        $messages = [
+            'link_id.required'              => 'Link no encontrado.',
+            'link_id.integer'               => 'link no valido.',
+            'client_card_number.required'   => 'Número de tarjeta es necesario.',
+            'client_card_number.regex'      => 'Número de tarjeta no valido.',
+            'client_card_name.required'     => 'Nombre de tarjeta no encontrado.',
+            'client_card_name.regex'        => 'Nombre de tarjetano valido.',
+            'client_card_cvc.required'      => 'cvc no encontrado.',
+            'client_card_cvc.integer'       => 'cvc no valido.',
+            'client_card_due_date.required' => 'fecha no encontrado.',
+            'client_card_due_date.regex'    => 'fecha no valido.',
+            'client_card_email.required'    => 'Email no encontrado.',
+            'client_card_email.email'       => 'Email no valido.',
         ];
 
 

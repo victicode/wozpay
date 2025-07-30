@@ -1,6 +1,6 @@
 <template>
   <header class="q-px-md q-px-md-lg q-pt-lg q-pb-lg others"  id="dropshipping-headerProfile" >
-    <div class="flex justify-between items-end header__fisrtpartProfile q-pt-xs w-100 q-mb-md-sm" >
+    <div class="flex justify-between items-end header__fisrtpartProfile q-pt-none w-100 q-mb-md-sm" >
       <div class="text-header">
         Woz <br>Dropshipping
       </div>

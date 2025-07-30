@@ -321,6 +321,40 @@
             text: transaction.value.concept,
           }
         }
+        if(transactionType == 15)  {
+          let products = JSON.parse(transaction.value.link.products)
+          let productText=""
+          products.forEach(product => {
+            productText+= `- ${product.title } x ${product.quantityOrder} unidad(es) `
+          });
+          
+          
+          lines[1] = {
+            title:'Producto / Cantidad',
+            value:productText,
+          }
+          lines[2] = {
+            title:'Transacción',
+            text:'Pago de producto',
+          },
+          lines[3] = {
+            title:'Tipo de moneda',
+            value:transaction.value.coin.name,
+          }
+          lines[4] = {
+            title:'Referencia',
+            value: 'N° '+transaction.value.operation_id,
+          }
+          lines[5] = {
+            title:'Metodo de pago',
+            value: transaction.value.method_label,
+          }
+          lines[6] = {
+            title:'Estado',
+            value: transaction.value.status_label,
+          }
+          
+        }
         lines.push({
           date: moment(transaction.value.created_at).format('DD/MM/YYYY'),
           hour: moment(transaction.value.created_at).format('hh:mm') + ' hs',
@@ -334,7 +368,7 @@
         if(transactionType == 6)  return wozIcons.cardOutline
       }
       const getTransaction = () => {
-        storeTransaction.getTrasactionByData(transactionType, id, route.fullPath.includes('10') )
+        storeTransaction.getTrasactionByData(transactionType, id, (route.fullPath.includes('10') || route.fullPath.includes('15')) )
         .then((data) => {
           transaction.value = data.data
           transactionFormat.value = lines()

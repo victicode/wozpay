@@ -3,7 +3,8 @@
 
     <div class=" q-my-md productSquareSimilar q-py-md q-px-md q-mr-md ">
       <div class="productSquareSimilar__img--container">
-        <img :src="product.image" alt="" class="productSquareSimilar__img">
+        <img :src="!product.image ? 'https://staging.wozpayments.com/public/images/products/default.png': product.image" alt="Imagen" @error="replaceWithDefault" class="productSquareSimilar__img">
+        
       </div>
       <div class="q-ml-xs productSquareSimilar__detail--container">
         <div class="productSquareSimilar__title " >{{product.title}}</div>
@@ -17,7 +18,7 @@
             />
         </div>
         <div class="productSquareSimilar__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
-        <div class="productSquareSimilar__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 5000)}}</div>
+        <div class="productSquareSimilar__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price+50000)}}</div>
         <div>
           <q-icon :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in product.rating" :key="i" />
           <q-icon :name="icons.outlinedGrade" color="terciary" size="1.5rem" v-for="i in (5-product.rating)" :key="i" />
@@ -35,12 +36,15 @@ export default {
   emits: [],
   setup (props) {
     const icons = inject('ionIcons');
-
+    const replaceWithDefault = (event) =>  {
+      event.target.src = 'https://staging.wozpayments.com/public/images/products/default.png'
+    }
     const  numberFormat = utils.numberFormat
     return {
       icons,
       product: props.product,
       numberFormat,
+      replaceWithDefault,
     }
   }
 }
@@ -82,13 +86,16 @@ export default {
 .productSquareSimilar__img{
  
   object-fit: contain;
+  background: white;
   width: 100%;
+  padding: 0% 25%;
   height: 7.5rem;
   &--container{
     width: 100%;
     overflow: hidden;
     padding: 0.1rem;
     border-radius: 0.8rem;
+    margin-bottom: 0.5rem;
     // background: rgba(211, 211, 211, 0.418);
 
   }

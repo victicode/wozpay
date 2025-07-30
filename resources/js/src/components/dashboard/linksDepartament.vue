@@ -99,7 +99,6 @@
       const { user  } = storeToRefs(useAuthStore())
       const { balances } = storeToRefs(useWalletStore())
       const localCoin = storage.getItem('coin_user') ?? 1
-      console.log(localCoin)
       const userCoin = ref(coins.value.find((coin) => coin.id == localCoin ))
 
       // Methods

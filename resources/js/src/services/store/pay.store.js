@@ -83,11 +83,49 @@ export const usePayStore = defineStore("pay", {
         return 'Error al actualizar datos';
       });
     },
+    async createPayLinkDropshipping(body) {
+      return await new Promise((resolve) => {
+        ApiService.post("/api/pay-public/dropshipping/link", body)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            resolve(response.response);
+          });
+        
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async changeStatus(body) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
           ApiService.post("/api/pay/change-status/"+body.id, body)
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              resolve(response.response);
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
+    async changeStatusDropPay(body) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/pay/dropshpping/change-status/"+body.id, body)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;
@@ -143,6 +181,26 @@ export const usePayStore = defineStore("pay", {
         return 'Error al obtener pagos pendientes';
       });
     },
+    async getDropshippingPayById(id){
+      return new Promise((resolve, reject ) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.get("/api/dropshipping/pay/byId/"+id)
+          .then(({data}) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            reject(response)
+          })
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al obtener pagos pendientes';
+      });
+    },
     async getDepositByUser(userId) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
@@ -169,6 +227,26 @@ export const usePayStore = defineStore("pay", {
         if(JwtService.getToken()){
           ApiService.setHeader()
           ApiService.get("/api/deposit/pendigs"+ (count ?'?count=1':''))
+          .then(({data}) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            reject(response)
+          })
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al obtener pagos pendientes';
+      });
+    },
+    async getDropPayByUser(id, request){
+      return new Promise((resolve, reject ) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.get("/api/dropshipping/pay/byUser/"+id+"?status="+request.status+"&")
           .then(({data}) => {
             if(data.code !== 200){
               throw data;

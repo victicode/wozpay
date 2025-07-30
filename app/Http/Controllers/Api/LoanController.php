@@ -56,7 +56,16 @@ class LoanController extends Controller
             //throw $th;
         }
         
-        $this->sendeEmail($loan->user_id);
+        $this->sendMail(
+            $loan->load('user'),
+            'emails.newLoadRequest', 
+            'Solicitud de prestamo #619'.$loan->loan_number);
+        $this->sendMail(
+            $loan->load('user'),
+            'emails.newLoadRequestAdmin', 
+            'Solicitud de prestamo pendiente #619'.$loan->loan_number);
+
+        
         return $this->returnSuccess(200, ['redTapes' => $redTape, 'loan' => $loan]);
     }
     public function getLoanById($id) {
@@ -247,20 +256,24 @@ class LoanController extends Controller
         }
         return $daysOfPayQouta; 
     }
-    public function sendMail($id, $templateType){
-        // $order = Loan::find($id);
-        // $template = '';
-        // try{
-        //     Mail::send($template, ["order"=>$order], function ($message) use ($order, $subject, $client)  {  
-        //         $message->from("notificacion@ganaconlahijalinda.com", "Gana Con La Hija Linda");
-        //         $message->to($client)->subject($subject);
+    public function sendMail($loan, $template, $subject){
+        $reciver = $template == 'emails.newLoadRequestAdmin' ? 'frovic.ve@gmail.com' : $loan->user->email;
+        try{
+            Mail::send($template, ["loan"=>$loan], function ($message) use ($reciver, $subject)  {  
+                $message->from("noreply@wozpayment.com", "Woz Payments");
+                $message->to($reciver)->subject($subject);
  
-        //     });
-        // }
-        // catch(Exception $e){
-        //     return  $e->getMessage();
-        // }
-        // return "bien";
+            });
+        }
+        catch(Exception $e){
+            return  $e->getMessage();
+        }
+        return "bien";
+    }
+    public function sendMailx(){
+        $loan = Loan::with('user')->find(2);
+        
+        return view('emails.newLoadRequestAdmin', ['loan' => $loan]);
     }
 
 }

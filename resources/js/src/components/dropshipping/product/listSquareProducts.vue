@@ -1,10 +1,10 @@
 
 <template>
-  <div class="flex q-mt-md productListSquare q-py-sm">
+  <div class="flex q-mt-md productListSquare ">
     <div class="productListSquare__img--container">
-      <img :src="!product.image ? 'https://staging.wozpayments.com/public/images/products/defa2ult.png': product.image" alt="Imagen" class="productListSquare__img" @error="replaceWithDefault" />
+      <img :src="!product.image ? 'https://staging.wozpayments.com/public/images/products/default.png': product.image" alt="Imagen" class="productListSquare__img" @error="replaceWithDefault" />
     </div>
-    <div class="q-ml-xs productListSquare__detail--container">
+    <div class="q-ml-xs productListSquare__detail--container q-py-sm">
       <div class="productListSquare__title " @click="goTo(product.id)">{{product.title}}</div>
       <div class="productListSquare__vendorText">
         Proveedor
@@ -97,15 +97,18 @@ export default {
   }
 }
 .productListSquare__img{
- 
   object-fit: contain;
-  width: 100%;
-  height: 7.5rem;
+  background: rgb(227, 227, 227);
+  padding: 0px 30%;
+  margin: auto;
+  height: 100%;
   &--container{
     width: 30%;
     overflow: hidden;
     //padding: 0.1rem;
-    border-radius: 0.8rem;
+    border-top-left-radius: 0.9rem;
+    border-bottom-left-radius: 0.9rem;
+
     // background: rgba(211, 211, 211, 0.418);
 
   }

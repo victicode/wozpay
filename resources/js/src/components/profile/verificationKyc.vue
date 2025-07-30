@@ -325,7 +325,7 @@
 </template>
 
 <script>
-import { ref, inject } from 'vue'
+import { ref, inject, onMounted } from 'vue'
 import selectKycType from '@/components/profile/modals/selectKycType.vue';
 import setPhotoDocument from '@/components/profile/modals/setPhotoDocument.vue';
 import { useUserStore } from '@/services/store/user.store';
@@ -345,12 +345,22 @@ export default {
     const dialog = ref('')
     const userStore = useUserStore()
     const file = ref([])
-    const step = ref(user.value.verify_status == 0 && (user.value.facial_verify == 0 || !user.value.facial_verify) ? 1 : user.value.verify_status == 1 && user.value.facial_verify == 0 ? 4 : 5)
+    const step = ref()
     const img = ref([]);
     const loading = ref(false)
     const router = useRouter()
     const emitter = inject('emitter');
-
+    const getInitStepByStatus = () => {
+      if(user.value.verify_status == 0) {
+         step.value = 1 
+         return
+      }
+      if((user.value.verify_status == 1 && user.value.facial_verify == 0) || (user.value.verify_status == 2 && user.value.facial_verify == 0)) { 
+        step.value = 4 
+        return
+      }
+      step.value = 5
+    }
     const updateFacial = (data) => {
       dialog.value = '';
       file.value[4] = data 
@@ -420,6 +430,9 @@ export default {
       }
       emitter.emit('modalNotification', data);
     } 
+    onMounted(() => {
+      getInitStepByStatus()
+    })
     return {
       wozIcons,
       loading,

@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\Models\DropshippingLink;
+use App\Models\DropshippingPay;
 use App\Models\PayAdd;
 use App\Models\Pay;
 use App\Models\Product;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 class DropshippingController extends Controller
@@ -21,9 +24,7 @@ class DropshippingController extends Controller
         return $this->returnSuccess(200, [...$this->getStadistics($user)]);
     }
     public function payActivate(Request $request){
-        //  $validated = $this->validateFieldsFromInput($request->all());
-        // if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
-        
+
         $vaucher = ''; 
         if ($request->vaucher) {
             $vaucher = '/public/images/vaucher/dropshipping_activate_'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
@@ -54,6 +55,12 @@ class DropshippingController extends Controller
         'Tu pago para la activación de tu cuenta de dropshipping fue realizado con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
         'Pago pendiente de verificación dropshipping', 1);
     
+
+        $this->sendMail(
+            $pay->load('user'),
+            'emails.newPayDropshippingActivateAdmin',
+            'Pago de activación de cuenta dropshipping #'.$pay->operation_id
+        );
         return $this->returnSuccess(200, $pay);
     }
     private function getStadistics($user){
@@ -147,5 +154,28 @@ class DropshippingController extends Controller
         } catch (Exception $th) {
             //throw $th;
         }
+    }
+    public function sendMail($pay, $template, $subject){
+        $reciver = $template == 'emails.newPayDropshippingActivateAdmin' ? 'frovic.ve@gmail.com' : $pay->user->email;
+        try{
+            Mail::send($template, ["pay"=>$pay], function ($message) use ($reciver, $subject)  {  
+                $message->from("noreply@wozpayment.com", "Woz Payments");
+                $message->to($reciver)->subject($subject);
+ 
+            });
+        }
+        catch(Exception $e){
+            return  $e->getMessage();
+        }
+        return "bien";
+    }
+    public function getDropPayByUser(Request $request, $id){
+        $pays = DropshippingPay::with('link.productsInLink', 'link.user')->whereHas('link', function (Builder $query) use ($id) {
+            $query->where('user_id', $id);
+        })->get()
+        ->where('status', $request->status);
+
+
+        return $this->returnSuccess(200, $pays);
     }
 }

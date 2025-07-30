@@ -9,7 +9,7 @@
                 <div class=" q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                   <div v-html="wozIcons.withdrawal" />
                 </div>
-                <div class="flex items-center justify-between " style="width: 73%;" >
+                <div class="flex items-center justify-between " style="width: 74%;" >
                   <div class=" q-mr-md-none  w-autopl">
                     <div class="text-weight-medium ellipsis" style="font-size: 0.89rem;" >Préstamos</div>
                     <div class="ellipsis" v-if="Object.values(loan).length > 0 " >N° 619{{loan.loan_number}}</div>
@@ -43,19 +43,6 @@
           </div>
         </div>
       </div>
-      <!-- <div v-else-if="isReady && Object.values(loan).length == 0" >
-        <div class="w-100 column items-center q-pt-md">
-            <q-img
-              :src="sadface"
-              height="80px"
-              width="80px"
-            />
-      
-          <div class="w-100 text-center text-h6 text-weight-medium">
-            No tienes ningún préstamo <br>aprobado 
-          </div>
-        </div>
-      </div> -->
       <div class="quote-section" v-else>
         <div class="row q-px-none">
           <div class="col-12 bg-white q-pa-md flex items-center justify-between justify-md-start loan_card" style="" >
@@ -79,9 +66,6 @@
     <div class="q-pb-md" >
       <div class="row">
         <div class="col-12 flex items-center justify-between q-pb-sm" style="position: relative; height: 3rem;">
-          <!-- <div class="text-subtitle1 q-mt-sm text-black-9 text-weight-medium" > 
-            {{ loan.status == 1 ? 'Mis solicitudes de préstamo' : 'Mis préstamos' }}
-          </div> -->
           <div v-html="wozIcons.informconf" class="q-mt-md inforcof__icon2"/>
         </div>
       </div>
@@ -221,7 +205,7 @@
     width: 40%;
   }
   .w-80xx {
-    width: 60%;
+    width:75%;
   }
   .w-50 {
     width: 40%;
@@ -239,7 +223,7 @@
     width: 40%;
   }
   .w-80xx {
-    width: 55%;
+    width: 65%;
   }
   .w-50 {
     width: 40%;

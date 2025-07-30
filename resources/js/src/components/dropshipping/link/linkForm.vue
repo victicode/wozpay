@@ -301,12 +301,14 @@ export default {
       loading.value = true
       let formattedProduct = Object.assign({}, product.value)
       formattedProduct.price = parseInt(formattedProduct.price.replace(/\./g, '') )
+      formattedProduct.dropper_price = parseInt(formattedProduct.dropper_price.replace(/\./g, '') )
+
       const data = {
         note:   product.value.details,
         amount: (parseInt(product.value.dropper_price.replace(/\./g, ''))  * product.value.quantityOrder),
         amount_to_client: ((parseInt(product.value.dropper_price.replace(/\./g, '')) - parseInt(product.value.price.replace(/\./g, '')))  * product.value.quantityOrder ),
         coin : selectedCoin.value.id,
-        products: JSON.stringify(formattedProduct)
+        products: JSON.stringify([formattedProduct])
 
       }
       linkStore.createLinkDropshipping(data)

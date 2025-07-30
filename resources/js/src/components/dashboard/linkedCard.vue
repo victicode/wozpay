@@ -17,7 +17,7 @@
                   <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                     <q-icon :name="icons.outlinedAddCard" class="" size="md" color="black" />
                   </div>
-                  <div class="" style="width:75%">
+                  <div class="" style="width:74%">
                     <div class="text-weight-medium ellipsis text-turnc" style="font-size: 0.89rem; "> Tarjeta de crédito - Débito </div>
                     <div class=" ellipsis">N° ********** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
                   </div>
@@ -56,7 +56,7 @@
                 <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                   <q-icon :name="icons.outlinedAddCard" class="" size="md" color="black" />
                 </div>
-                <div class="" style="width:75%">
+                <div class="" style="width:74%">
                   <div class="text-weight-medium ellipsis text-turnc" style="font-size: 0.89rem; ">
                     Vincular tarjeta de crédito o debito
                   </div>
@@ -66,7 +66,7 @@
                 </div>
               </div>  
               <div class="q-mr-none cursor-pointer flex items-center">
-                <div class="text-weight-bold text-subtitle2 q-pt-sm cursor-pointer">
+                <div class="text-weight-bold text-subtitle2 q-pt-xs cursor-pointer">
                   Activar
                 </div>
                 <q-btn round flat class="q-ml-md-md q-pt-sm" size="sm"> 
@@ -208,7 +208,7 @@
   }
 
   .w-80bbbb {
-    width: 60%;
+    width: 74%;
   }
   .w-50 {
     width: auto;
@@ -220,7 +220,7 @@
   }
 
   .w-80bbbb {
-    width: 57%;
+    width: 69%;
   }
   .w-50 {
     width: auto;

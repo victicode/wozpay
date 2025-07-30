@@ -792,7 +792,7 @@
               ? false  
               : true
 
-            if(!isCurrentLoan.value) {
+            if(data.data.status == 3) {
               // console.log(data.data)
               haveRekutu.value = data.data.red_tapes.use_count < 3 
             }
@@ -848,16 +848,10 @@
 
       }
       const validateKyc = () => {
-
-        if(user.value.facial_verify == 0 && user.value.verify_status == 0 ){
-         return {valueData: false, item:user.value}
-        }
-        if(user.value.facial_verify == 1 || user.value.verify_status == 1){
-          return {valueData: false, item:user.value}
-        }
         if(user.value.facial_verify == 2 && user.value.verify_status == 2 ){
           return {valueData: true, item:user.value}
         }
+         return {valueData: false, item:user.value}
  
       }
       const requirements = ref({

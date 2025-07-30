@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="flex justify-between q-px-sm">
-        <div class="badgeStadisticProfile stadisticBadge q-px-lg q-py-sm  q-mb-sm q-mt-lg ">
+        <div class="badgeStadisticProfile stadisticBadge q-px-lg q-py-sm  q-mb-sm q-mt-lg " @click="goTo('/dropshipping/pays/all/'+user.id)">
           <div class="text-subtitle1 text-bold">
             {{stadistics.totalPay}} {{ stadistics.totalPay > 1 ? 'Pagos' : 'Pago' }}
           </div>
@@ -56,14 +56,16 @@ import moment from 'moment/moment';
 import { onMounted } from 'vue';
 import util from '@/util/numberUtil';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/services/store/auth.store';
 export default {
   props: {
     stadistics: Object,
   },
   setup (props) {
-    
- 
-    
+    const { user } = storeToRefs(useAuthStore())
+    const router = useRouter()
     const actualMonth =  moment().get('month')
     const stadistics = ref(props.stadistics)
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -136,12 +138,9 @@ export default {
         },
     };
 
-    // const getProfit = (user) => {
-    //   const lastMonth = 100000
-    //   const residuo =  150000 - lastMonth
-    //   const porcentage =   (residuo / lastMonth)*100
-    //   return Number.isInteger(porcentage) ? porcentage : porcentage.toFixed(2)
-    // }
+    const goTo = (url) => {
+      router.push(url)
+    }
 
     
     onMounted(() => {
@@ -156,6 +155,8 @@ export default {
       months,
       actualMonth,
       stadistics,
+      user,
+      goTo,
     }
   }
 }
@@ -164,6 +165,7 @@ export default {
 .badgeStadisticProfile{
   background: #efefef;
   border-radius: 0.5rem;
+  cursor: pointer;
   width: fit-content;
   font-weight: 500;
   &.stadisticBadge{

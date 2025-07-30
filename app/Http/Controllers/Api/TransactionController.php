@@ -12,6 +12,7 @@ use App\Models\Transfer;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Models\DropshippingPay;
 use App\Models\PayLink;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
@@ -130,6 +131,9 @@ class TransactionController extends Controller
         }
         if($type == 11){
             return Pay::with('user')->where('type', 11)->find($id);
+        }
+        if($type == 15){
+            return DropshippingPay::with('link.user', 'coin')->find($id);
         }
     }
     private function object_sorter($clave,$orden=null) {

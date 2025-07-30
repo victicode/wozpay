@@ -55,4 +55,8 @@ class DropshippingLink extends Model
     public function coin(){
         return $this->belongsTo(Coin::class,'coin_id', 'id');
     }
+    public function productsInLink(){
+        return $this->belongsToMany(Product::class, 'products_x_drop_links', 'dropshipping_link_id')->withPivot('quantity', 'dropper_price');
+
+    }
 }

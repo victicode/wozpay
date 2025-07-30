@@ -103,7 +103,7 @@
                   :rules="rulesForm(key)"
 
                   :mask="maskFormat(key)"
-                  :maxlength="key == 'cvc' ? 3 : key == 'numberClient' ? 22 :''"
+                  :maxlength="key == 'cvc' ? 3 : key == 'numberClient' ? 25 :''"
                   @keyup="callbackKeyup(key,$event)"
                   @change="callbackChange(key, $event)"
                   

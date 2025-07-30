@@ -85,31 +85,31 @@
                   </div>
                 </div>
               </div>
-              <div class=" q-mt-sm">
+              <div class=" q-mt-sm q-px-md-md q-mt-md-md">
 
                 <div class="text-subtitle1 text-weight-bold q-pl-xs q-mb-xs">Productos</div>
                 <div class="  q-pt-md-xs q-py-md q-px-sm" style="border: 1px solid lightgrey; border-radius:1rem">
-                  <div class=" q-px-none q-py-xs flex items-center" style="flex-wrap:nowrap">
-                    <div class="q-mr-xs">
-                      <img :src="productsInLink.image" alt="" style="width: 4rem;">
+                  <div class=" q-px-none q-pb-none q-pt-md-sm flex items-center" style="flex-wrap:nowrap" v-for="product in productsInLink" :key="product.id">
+                    <div class="q-mr-xs " >
+                      <img :src="product.image" alt="" style="width: 4rem; padding: 0rem 12%">
                     </div>
-                    <div class=" q-px-none q-py-xs flex items-center" style="flex-wrap:nowrap; border-bottom:1px solid lightgrey">
+                    <div class=" q-px-none q-py-xs flex items-center justify-between" style="flex-wrap:nowrap; width: -webkit-fill-available; border-bottom:1px solid lightgrey">
                       
                       <div class=" flex column">
                         <div style="font-weight:500; font-size:1rem; line-break: auto;">
-                          {{ productsInLink.title }}
+                          {{ product.title }}
                         </div>
                         <div class="text-grey-7 q-mt-xs" style="font-weight:400; font-size:0.95rem;">
-                         {{ link.coin.code }} {{ numberFormat(productsInLink.price/link.coin.rate) }}  
+                         {{ link.coin.code }} {{ numberFormat(product.pivot.dropper_price/link.coin.rate) }}  
                          
                         </div>
                       </div>
-                      <div class="text-grey-7 q-mt-xs" style="font-weight:600; font-size:1.1rem;width:8.5%">
-                        x{{ numberFormat(productsInLink.quantityOrder) }}
+                      <div class="text-grey-7 q-mt-xs" style="font-weight:600; font-size:1.1rem;width:9%; text-align:end">
+                        x{{ numberFormat(product.pivot.quantity) }}
                       </div>
                     </div>
                   </div>
-              </div>
+                </div>
               </div>
             </div>
             
@@ -161,8 +161,8 @@ import productLinkForm from '@/components/dropshipping/link/linkForm.vue';
         storeLink.getDropshippingLinkById(linkId)
         .then((data) => {
           link.value = data.data
-          productsInLink.value = JSON.parse(link.value.products)
-          console.log(productsInLink.value)
+          productsInLink.value = link.value.products_in_link
+
           clocks()
         })
       }

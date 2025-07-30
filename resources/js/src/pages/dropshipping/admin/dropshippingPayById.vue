@@ -5,71 +5,111 @@
         <q-card-section class="header_document q-pb-sm text-center">
           <div class="text-subtitle1 text-weight-bold "> Ver detalles de pago</div>
         </q-card-section>
-        <q-card-section class="q-pt-none q-px-none" style="height: 100%; overflow: auto;">
+        <q-card-section class="q-pt-none q-px-none" style="height: 78%; overflow: auto;">
           <div  class="q-pa-md" style="height: 100%;" >
-            <div>
-              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
+            <div class="row">
+              <div class="flex text-subtitle2 q-py-sm text-weight-medium col-12 col-md-6 q-px-md-sm q-px-none" >
                 <div>Fecha: </div>
-                <div>{{ moment(pay.created_at).format('DD/MM/YYYY hh:mm:ss A') }}</div>
+                <div class="q-ml-xs">{{ moment(pay.created_at).format('DD/MM/YYYY hh:mm:ss A') }}</div>
               </div>
-              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+              <div class="flex justify-md-end ttext-subtitle2 q-py-sm text-weight-medium col-12 col-md-6 q-px-md-sm q-px-none"  >
                 <div>Número de operación: </div>
-                <div>#{{ pay.operation_id }}</div>
+                <div class="q-ml-xs">#{{ pay.operation_id }}</div>
               </div>
-              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+              <div class="flex text-subtitle2 q-py-sm text-weight-medium col-12 col-md-6 q-px-md-sm q-px-none"  >
                 <div>Monto: </div>
-                <div>Gs. {{ numberFormat(pay.amount) }}</div>
+                <div class="q-ml-xs">Gs. {{ numberFormat(pay.amount) }}</div>
               </div>
-              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
+              <div class="flex text-subtitle2 justify-md-end q-py-sm text-weight-medium col-12 col-md-6 q-px-md-sm q-px-none"  >
+                <div>Comisión dropper: </div>
+                <div class="q-ml-xs">Gs. {{ numberFormat(pay.link.amount_to_client) }}</div>
+              </div>
+              <div class="flex  text-subtitle2 q-py-sm text-weight-medium col-12 col-md-6 q-px-md-sm q-px-none"  >
                 <div>Metodo de pago: </div>
-                <div>{{ typePay[pay.type] }}</div>
-              </div>
-              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
-                <div>Concepto: </div>
-                <div>{{ pay.concept }}</div>
-              </div>
-              <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" v-if="pay.package" >
-                <div>Paquete: </div>
-                <div>{{ pay.package.title }}</div>
+                <div class="q-ml-xs">{{ pay.method_label }}</div>
               </div>
             </div>
-            <div v-if="pay.type == 1">
+            <div>
               <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold">
-                Datos de la tarjeta
+                Datos del envio
+              </div>
+              <div class="row">
+                <div class=" text-subtitle2 q-py-xs col-12 col-md-6 q-mt-xs" >
+                  <div class="text-bold text-primary">Nombre del receptor: </div>
+                  <div class="">{{ shippingData.name }}</div>
+                </div>
+                <div class=" text-subtitle2 q-py-xs col-12 col-md-6 q-mt-xs text__end"  >
+                  <div class="text-bold text-primary">Dirección: </div>
+                  <div class="">{{ shippingData.address }}</div>
+                </div>
+                <div class=" text-subtitle2 q-py-xs col-12 col-md-6 q-mt-xs"  >
+                  <div class="text-bold text-primary">Casa/Departamento: </div>
+                  <div class="">{{ shippingData.home }}</div>
+                </div>
+                <div class=" text-subtitle2 q-py-xs col-12 col-md-6 q-mt-xs text__end"  >
+                  <div class="text-bold text-primary">N° de casa: </div>
+                  <div class="">{{ shippingData.homeNumber}}</div>
+                </div>
+                <div class=" text-subtitle2 q-py-xs col-12 col-md-6 q-mt-xs"  >
+                  <div class="text-bold text-primary">País: </div>
+                  <div class="">{{ shippingData.country }}</div>
+                </div>
+                <div class=" text-subtitle2 q-py-xs col-12 col-md-6 q-mt-xs text__end"  >
+                  <div class="text-bold text-primary">Ciudad: </div>
+                  <div class="">{{ shippingData.city}}</div>
+                </div>
+                <div class=" text-subtitle2 q-py-xs col-12 col-md-6 q-mt-xs"  >
+                  <div class="text-bold text-primary">Whatsapp de contacto: </div>
+                  <div class="">{{ shippingData.contact }}</div>
+                </div>
+
+              </div>
+            </div>
+            <div class="q-mt-md">
+              <div class="text-subtitle1 text-center q-mt-none q-mb-xs text-weight-bold">
+                Resumen del pedido
+              </div>
+              <table style="width:100%; border-collapse: collapse; border:1px solid black" >
+                <thead>
+                  <th style="border-bottom: 1px solid black;" class="q-py-sm q-pl-xs text-left">Producto</th>
+                  <th style="border-bottom: 1px solid black;" class="q-py-sm">Cantidad</th>
+                  <th style="border-bottom: 1px solid black;" class="q-py-sm">Monto</th>
+                  <th style="border-bottom: 1px solid black;" class="q-py-sm">Total</th>
+                </thead>
+                <tbody>
+                  <tr v-for="product in pay.link.products_in_link" :key="product.id">
+                    <td class="text-left q-py-md q-pl-xs" style="">{{product.title}}</td>
+                    <td class="text-center q-py-md" style=" ">{{product.pivot.quantity}}</td>
+                    <td class="text-center q-py-md" style=" ">Gs. {{numberFormat(product.pivot.dropper_price)}}</td>
+                    <td class="text-center q-py-md" style=" ">Gs. {{numberFormat(product.pivot.dropper_price*product.pivot.quantity)}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div>
+              <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold">
+                Datos de la tarjeta de pago
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;">
                 <div>N° de tarjeta: </div>
-                <div>{{ pay.user.card.number }}</div>
+                <div>{{ pay.card }}</div>
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Titular: </div>
-                <div>{{ pay.user.name }}</div>
+                <div>{{ pay.card_name }}</div>
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>Vencimiento: </div>
-                <div>{{ pay.user.card.due_date }}</div>
+                <div>{{ pay.card_due_date }}</div>
               </div>
               <div class="flex justify-between text-subtitle1 q-py-sm text-weight-medium" style="border-bottom: 1px solid lightgrey;" >
                 <div>CVC: </div>
-                <div>{{ pay.user.card.cvc }}</div>
+                <div>{{ pay.card_cvc}}</div>
               </div>
             </div>
-            <div v-if="pay.type == 2">
-              DATOS DE TRANSACCION
-            </div>
-            <div v-if="pay.type > 3">
-              <div class="text-subtitle1 text-center q-mt-lg q-mb-xs text-weight-bold ">
-                Comprobante de transferencia
-              </div>
-              <a :href="pay.vaucher" target="_blank'">
-                <div v-if ="pay.vaucher.slice(-3) !== 'pdf'">
-                  <img :src="pay.vaucher" alt="" class="mx-auto">
-                </div>
-                <div v-else>
-                  <PDF :src="pay.vaucher"/>
-                </div>
-              </a>
-            </div>
+
+
           </div>
         </q-card-section>
         <q-card-actions align="center" class="text-primary q-mt-sm q-mb-xs">
@@ -81,7 +121,7 @@
               <q-spinner-facebook />
             </template>
           </q-btn>
-          <q-btn color="positive" style="width: 45%;" :loading="loading" @click="setNewStatus(2)" > 
+          <q-btn color="positive" style="width: 45%;" :loading="loading" @click="setNewStatus(3)" > 
             <div style="padding: 0.5rem 0px;">
               Validar
             </div>
@@ -135,24 +175,13 @@
       const numberFormat = util.numberFormat;
       const route = useRoute()
       const router = useRouter()
+      const shippingData = ref({})
 
       // Methods
-      const typePay = [
-        '',
-        'Pago con tarjeta',
-        'Tpago',
-        'Transferencia',
-        'Transferencia',
-        'Transferencia',
-        'Transferencia',
-        'Transferencia',
-        'Transferencia',
-        'Transferencia',
-        'Transferencia',
-        'Transferencia',
-      ]
+
       const messageModal = [
         'El pago ha sido rechazado',
+        '',
         '',
         'Pago aceptado con exito'
       ];
@@ -164,7 +193,7 @@
           status: newStatus,
         }
 
-        payStore.changeStatus(data)
+        payStore.changeStatusDropPay(data)
         .then((response) => {
           if(response.code !== 200) throw response
           showNotification('Estado de pago cambiado', messageModal[newStatus], 'positive')
@@ -179,13 +208,13 @@
         })
       }
       const getPay = () => {
-        payStore.getPayById(route.params.id)
+        payStore.getDropshippingPayById(route.params.id)
         .then((response) => {
           pay.value = response.data
+          shippingData.value = JSON.parse(response.data.shipping_data)
           setTimeout(() => {
-            
             ready.value = true
-          }, 2000)
+          }, 500)
         })
       }
       const showNotification = (title, text, type) => {
@@ -208,7 +237,7 @@
         pay,
         moment,
         numberFormat,
-        typePay,
+        shippingData,
         setNewStatus,
       }
     }
@@ -231,12 +260,18 @@
 .header_document{
   border-bottom: 1px solid $grey-4;
 }
+.text__end{
+  text-align: end;
+}
 @media screen and (max-width: 780px){
   .dialog_document {
     min-width: 350px!important;
   }
   .document_img{
     height: fit-content;
+  }
+  .text__end{
+    text-align: start;
   }
 }
 </style>

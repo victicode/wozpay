@@ -119,5 +119,8 @@ class User extends Authenticatable implements JWTSubject
     public function dropshippingAccount(){
         return $this->hasOne(DropshippingAccount::class, 'user_id');
     }
+    public function dropshipping_links(){
+        return $this->hasMany(DropshippingLink::class, 'user_id');
+    }
 
 }   

@@ -59,7 +59,7 @@ const router = createRouter({
     },
     {
       path: '/generatePayLink/:type',
-      name: 'generatePayLink',
+      name: 'generatePayLinkccc',
       beforeEnter: auth,
       component: () => import('@/pages/generatePayLink.vue'),
       meta: {
@@ -321,6 +321,13 @@ const router = createRouter({
         {
           path: '/admin/paysDetailsOther/:id',
           component: () => import('@/pages/admin/paysDetailsOther.vue'),
+          meta:{
+            title: 'Detalles de pago'
+          },
+        },
+        {
+          path: '/admin/dropshipping/pay/:id',
+          component: () => import('@/pages/dropshipping/admin/dropshippingPayById.vue'),
           meta:{
             title: 'Detalles de pago'
           },
@@ -686,7 +693,15 @@ const router = createRouter({
           meta: {
             title: 'Woz Dropshipping'
           },
-        }
+        },
+        {
+          path:"/dropshipping/pays/all/:id",
+          name:'allPaysDrop',
+          component: () => import('@/pages/dropshipping/paysToUser.vue'),
+          meta: {
+            title: 'Woz Dropshipping'
+          },
+        },
       ]
     },
     {

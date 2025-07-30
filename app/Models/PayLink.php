@@ -29,7 +29,7 @@ class PayLink extends Model
         'due_date',
         'email'
     ];
-    protected $appends  =   ['status_label','transaction'];
+    protected $appends  =   ['status_label', 'transaction'];
 
     public function getstatusLabelAttribute()
     {   

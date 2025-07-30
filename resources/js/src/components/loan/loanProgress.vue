@@ -1,9 +1,12 @@
 <template>
   <div class="q-pt-md q-px-md q-pb-sm">
-    <div class="flex justify-between items-center">
-      <div>
+    <div class="flex items-center justify-between">
+      <div class="q-px-sm">
         <div class="text-subtitle1 text-weight-medium">Préstamo</div>
         <div class="text-subtitle1 text-weight-bold">N° 619{{ loan.loan_number }}</div>
+      </div>
+      <div v-if="loan.status == '0'" class="q-ml-md">
+        <q-chip label="Rechazada" color="negative" text-color="white" /> 
       </div>
       <!-- <div class="">
         <div class="text-subtitle1 text-weight-medium">Total a pagar</div>
@@ -22,18 +25,21 @@
         </div>
       </div>
     </div>
-    <div class="q-mt-sm q-pt-xs" v-if="loading">
-      <q-linear-progress 
-        class="q-mt-sm w-100"
-        :class="isPendingPay().pending ? 'loan_progress_pending' : 'loan_progress'" 
-        rounded size="15px"  
-        :value="progressByStatus().linear" 
-        :color="isPendingPay().pending ? 'terciary' : 'positive'" 
-        track-color="white" 
-      />
-      <div class="q-mt-sm text-body2">
-        Pagado: {{progressByStatus().count}}/{{ loan.quotas }} {{ isPendingPay().pending ? `(${isPendingPay().count} pago pendiente)` : ''}} 
-      </div>
+    <div class="q-mt-sm q-pt-xs" v-if="loading" >
+      <template v-if="loan.status != '1' && loan.status != '0'">
+
+        <q-linear-progress 
+          class="q-mt-sm w-100"
+          :class="isPendingPay().pending ? 'loan_progress_pending' : 'loan_progress'" 
+          rounded size="15px"  
+          :value="progressByStatus().linear" 
+          :color="isPendingPay().pending ? 'terciary' : 'positive'" 
+          track-color="white" 
+        />
+        <div class="q-mt-sm text-body2">
+          Pagado: {{progressByStatus().count}}/{{ loan.quotas }} {{ isPendingPay().pending ? `(${isPendingPay().count} pago pendiente)` : ''}} 
+        </div>
+      </template>
     </div>
   </div>
 </template>

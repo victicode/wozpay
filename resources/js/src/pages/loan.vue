@@ -3,10 +3,10 @@
     <div>
       <loanProgress :loan="myLoan" />
     </div>
-    <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
+    <div v-if=" myLoan.status == '2' || myLoan.status == '3' || myLoan.status == '4' ">
       <loanDetails />
     </div>
-    <div v-if=" myLoan.status != '1' && myLoan.status != '0'">
+    <div v-if=" myLoan.status == '2' || myLoan.status == '3' || myLoan.status == '4' ">
       <loanHistory :loan="myLoan" />
     </div>
     <div class="q-mt-sm q-pt-xs q-mx-md q-mx-md-xl q-px-md-xl"  v-if=" myLoan.status == '2' || myLoan.status == '4' ">

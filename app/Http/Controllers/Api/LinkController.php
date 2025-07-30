@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
 use App\Models\DropshippingLink;
+use App\Models\ProductsDropshippingLink;
 
 class LinkController extends Controller
 {
@@ -41,7 +42,7 @@ class LinkController extends Controller
         return $this->returnSuccess(200, $link);
     }
     public function getDropshippingLinkById($id){
-        $link = DropshippingLink::with('user', 'pay', 'coin')->find($id);
+        $link = DropshippingLink::with('user', 'pay', 'productsInLink', 'coin')->find($id);
         return $this->returnSuccess(200, $link);
 
     }
@@ -93,11 +94,13 @@ class LinkController extends Controller
             'coin_id'           => $request->coin,
             'rate_amount'       => $rate,
             'status'            => 1,
-            'pay_status'        => 0,
+            'pay_status'        => 1,
             'user_id'           => $request->user()->id,
             'products'          => $request->products,
             'due_date'          => date('Y-m-d H:i:s', time() + 7200)
         ]);
+
+        $this->setProductInLink(json_decode($request->products, true), $link->id);
         return $this->returnSuccess(200, $link);
     }
 
@@ -106,7 +109,7 @@ class LinkController extends Controller
         return $this->returnSuccess(200, $link);
     }
     public function getDropshippingLinkByCode($code){
-        $link = DropshippingLink::with('user', 'pay', 'coin')->where('code', $code)->first();
+        $link = DropshippingLink::with('user', 'pay', 'productsInLink', 'coin')->where('code', $code)->first();
         return $this->returnSuccess(200, $link);
     }
     public function setPayStatus(Request $request)
@@ -151,17 +154,6 @@ class LinkController extends Controller
 
         $wallet->save();
     }
-    // private function deductAmount($link)
-    // {
-    //     if($link->categorie != 0){
-    //         $deduct1 = $link->amount *0.12;
-    //         $deduct2 = 7800;
-    //         return $link->amount - $deduct1 - $deduct2;
-    //     }
-    //     $deduct1 = $link->amount *0.02;
-    //     return $link->amount - $deduct1;
-
-    // }
     private function sendNotification($message, $user, $subject, $type)
     {
         $notification = new NotificationController;
@@ -176,6 +168,17 @@ class LinkController extends Controller
             $notification->storeNotification($requestNotification);
         } catch (Exception $th) {
             //throw $th;
+        }
+    }
+    private function setProductInLink($products, $link){
+        foreach ($products as $product ) {
+            ProductsDropshippingLink::create([
+                'dropshipping_link_id' => $link,
+                'product_id' => $product['id'],
+                'dropper_price' => $product['dropper_price'],
+                'quantity' => $product['quantityOrder'],
+
+            ]);
         }
     }
 }

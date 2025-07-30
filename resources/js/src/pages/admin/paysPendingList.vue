@@ -23,11 +23,19 @@
         <div v-if="pays.length > 0">
           <div v-for="(item, index) in pays" :key="index" class="q-px-md-md q-px-none q-pb-xs q-mt-md pays__container flex items-center justify-between">
             <div class="text-subtitle2 text-weight-medium">
-             {{ selectedLote.index == 'payCreateLink' ? item.name : item.user.name }}
+             {{ 
+              selectedLote.index == 'payCreateLink'  
+              ? item.name 
+              : selectedLote.index == 'payDrophippingLink'
+              ? item.link.user.name 
+              : item.user.name }}
             </div>
             <div class="flex items-center">
               <div class="q-mr-sm text-subtitle2 text-weight-medium" :class="{'text-warning':selectedLote.index == 'payCreateLink'}">
-                {{ selectedLote.index == 'payCreateLink' ? item.links_pay.length : 'Gs.'+ numberFormat(item.amount) }}
+                {{ 
+                  selectedLote.index == 'payCreateLink' 
+                  ? item.links_pay.length 
+                  :'Gs.'+ numberFormat(item.amount) }}
               </div>
               <q-btn flat @click="goTo(item.id)" class="q-px-none">
                 <q-icon name="eva-chevron-right-outline"  class=""/>
@@ -86,6 +94,11 @@ export default {
 
         title:'Pagos de link',
         index:'payCreateLink'
+      },
+      {
+
+        title:'Pagos de venta dropshipping',
+        index:'payDrophippingLink'
       }
     ];
 
@@ -107,6 +120,11 @@ export default {
     const goTo = (id) => {
       if(selectedLote.value.index == 'payCreateLink'){
         router.push('/link/byUser/'+id) 
+        return
+      }
+
+      if(selectedLote.value.index == 'payDrophippingLink'){
+        router.push('/admin/dropshipping/pay/'+id) 
         return
       }
 

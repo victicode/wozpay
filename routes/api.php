@@ -135,7 +135,9 @@ Route::prefix('link-public')->group(function(){
 Route::prefix('v1/public')->group(function(){
     Route::post('/sendmail', [PayController::class, 'sendMail']);
 });
-
+Route::prefix('v1/email')->group(function(){
+    Route::get('/', [LoanController::class, 'sendMailx']);
+});
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
     Route::post('/', [CardController::class, 'linkCard']);
     Route::get('/{id}', [CardController::class, 'getLinkCard']);
@@ -147,6 +149,8 @@ Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function (
 Route::middleware('jwt.verify')->prefix('dropshipping')->name('dropshipping.')->group(function () {
     Route::get('/stadistics/{id}', [DropshippingController::class, 'getStadisticAndProfitByUser']);
     Route::post('/pay-activate', [DropshippingController::class, 'payActivate']);
+    Route::get('/pay/byId/{id}', [PayController::class, 'getDropshippingPayById']);
+    Route::get('/pay/byUser/{id}', [DropshippingController::class, 'getDropPayByUser']);
 });
 Route::middleware('jwt.verify')->prefix('transaction')->name('transacction.')->group(function () {
     Route::get('/all/{id}', [TransactionController::class, 'getTrasactionByUser']);
@@ -193,11 +197,14 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
     Route::get('/byId/{id}', [PayController::class, 'getById']);
     Route::post('/get_url', [PayController::class, 'payRequest']);
     Route::post('/change-status/{id}', [PayController::class, 'changeStatus']);
-    Route::post('/change-status-type/{id}', [PayController::class, 'changeStatusType']);
     Route::get('/pays_pending', [PayController::class, 'getPayPendings']);
+    Route::post('/dropshpping/change-status/{id}', [PayController::class, 'changeStatusDropPay']);
+    
+
 });
 Route::prefix('pay-public')->name('pay.link.')->group( function () {
     Route::post('/link', [PayController::class, 'storePayLink']);
+    Route::post('/dropshipping/link', [PayController::class, 'storePayLinkDropshipping']);
 });
 
 

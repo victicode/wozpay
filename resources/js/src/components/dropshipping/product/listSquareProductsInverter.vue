@@ -14,14 +14,15 @@
             />
         </div>
         <div class="productListSquareIn__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
-        <div class="productListSquareIn__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price + 5000)}}</div>
+        <div class="productListSquareIn__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price+50000)}}</div>
         <div>
           <q-icon :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in product.rating" :key="i" />
           <q-icon :name="icons.outlinedGrade" color="terciary" size="1.5rem" v-for="i in (5-product.rating)" :key="i" />
         </div>
       </div>
       <div class="productListSquareIn__img--container">
-        <img :src="product.image" alt="" class="productListSquareIn__img">
+        <img :src="!product.image ? 'https://staging.wozpayments.com/public/images/products/default.png': product.image" alt="Imagen" @error="replaceWithDefault" class="productListSquareIn__img">
+        
       </div>
     </div>
     <div class="text-right text-grey text-stock q-pr-sm">
@@ -40,17 +41,21 @@ export default {
     const icons = inject('ionIcons');
 
     const  numberFormat = utils.numberFormat
+    const replaceWithDefault = (event) =>  {
+      event.target.src = 'https://staging.wozpayments.com/public/images/products/default.png'
+    }
     return {
       icons,
       product: props.product,
       numberFormat,
+      replaceWithDefault,
     }
   }
 }
 </script>
 <style lang="scss">
 .productListSquareIn{
-  flex-wrap: nowrap;
+  flex-wrap: nowrap!important;
   background: white;
   border-radius: 1rem;
   width: 100%;
@@ -85,6 +90,8 @@ export default {
  
   object-fit: contain;
   width: 100%;
+  padding:0% 30%;
+  background: rgba(225, 225, 225, 0.381);
   height: 7.5rem;
   &--container{
     width: 30%;
@@ -103,5 +110,11 @@ export default {
 }
 .text-stock{
   font-size: 0.9rem;
+}
+
+@media screen and (max-width: 820px){
+  .productListSquareIn__img{
+    padding:0% 20%;
+  }
 }
 </style>
