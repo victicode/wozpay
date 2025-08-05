@@ -126,9 +126,6 @@
         },1000)
 
       });
-      watch(() => props.coin, (newValue) => {
-        coinSelected.value = newValue
-      });
       return {
         coinCurrent,
         dialog,
@@ -209,34 +206,5 @@
     width: 400px; 
   }
 }
-.shakeInput{
-  // animation: shakeit 0.4s  ;
-  border: 1px solid rgb(204, 204, 204);
-  border-radius: 10px;
-  padding: 0px 0.5rem;
 
-}
-@keyframes shakeit {
-  0%, 
-  100%{
-    transform: translateX(0px);
-  }
-  10%, 
-  90%{
-    transform: translateX(-5px);
-  }
-  20%,
-  80%{
-    transform: translateX(5px);
-  }
-  30%,
-  70%{
-    transform: translateX(-5px);
-  }
-  40%,
-  60%{
-    transform: translateX(5px);
-  }
-
-}
 </style>

@@ -171,6 +171,7 @@ Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(fu
 
 Route::middleware('jwt.verify')->prefix('categories')->name('categorie.')->group(function () {
     Route::get('/', [CategorieController::class, 'getAll']);
+    Route::get('/all/input', [CategorieController::class, 'getAllToSelect']);
     Route::get('/mostprolifict', [CategorieController::class, 'getMostProlifict']);
 });
 
@@ -178,9 +179,7 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::get('/Bycategory/{category}', [ProductController::class, 'getAllProductsByCategory']);
     Route::get('/byId/{id}', [ProductController::class, 'getProductById']);
     Route::get('/similar', [ProductController::class, 'getSimilarProduct']);
-
-
-
+    Route::get('/all', [ProductController::class, 'getAllProducts']);
 });
 
 Route::middleware('jwt.verify')->prefix('coins')->name('coins.')->group(function () {

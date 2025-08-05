@@ -20,6 +20,11 @@ class CategorieController extends Controller
 
         return $this->returnSuccess(200,$categories);
     }
+    public function getAllToSelect(){
+        $categories = Categorie::with('products')->get()->where('status', 1);
+
+        return $this->returnSuccess(200,$categories);
+    }
     public function getMostProlifict(Request $request){
         $categories = Categorie::with('products')
             ->whereHas('products')->where('status', 1)->take($request->quantity)->get();

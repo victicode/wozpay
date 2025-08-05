@@ -49,6 +49,27 @@ export const useProductStore = defineStore("product", {
         return 'Error al actualizar datos';
       });
     },
+    async getAllProductPagination(query){
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/products/all?page="+query.page+"&search="+query.search+"&")
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al obtener los productos');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async storeProduct(data) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {

@@ -1,11 +1,13 @@
 <template>
-  <div class="q-py-sm " style="overflow: auto; height: 100%;">
-    <div class="q-px-md q-pt-lg q-pb-xs q-mb-none" v-if="ready">
+  <div class="q-pb-sm " style="overflow: auto; height: 100%;">
+    <div class="q-px-md q-pb-xs q-mb-none" v-if="ready">
       <div v-if="!paystatus">
-        <div>
-          <div style="font-size: 1.2rem;" class="text-center text-bold q-mb-md">Activa tu cuenta de Woz Dropshipping</div>
+        <div class="bg-primary q-py-md ">
+          <div style="font-size: 1.4rem;" class="text-white text-center text-bold q-my-md">
+            Activa tu cuenta de Woz Dropshipping
+          </div>
         </div>
-        <div class="q-mb-md">
+        <div class="q-mb-md q-pt-md">
           <div class="text-weight-bold">
             Comercio / Cliente:
           </div>

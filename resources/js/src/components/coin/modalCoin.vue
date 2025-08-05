@@ -19,8 +19,7 @@
         <q-card-section class=" text-center">
           <div v-if="Object.values(coinSelected).length > 0">
             <div style="flex-wrap: nowrap; height: 96%;" class="flex column dialog_document q-mt-xs flex-start" >
-              
-
+            
                 <q-card-section class="header_document q-pb-sm text-center">
                   <div class="text-subtitle1 text-weight-bold "> 
                     <template v-if="optionModal ==1">

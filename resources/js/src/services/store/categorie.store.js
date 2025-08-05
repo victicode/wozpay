@@ -11,7 +11,28 @@ export const useCategorieStore = defineStore("categorie", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.get("/api/categories")
+          ApiService.get("/api/categories/")
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al obtener las categorias');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
+    async getAllCategorieToSelect() {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/categories/all/input")
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

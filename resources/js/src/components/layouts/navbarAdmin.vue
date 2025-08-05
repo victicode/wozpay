@@ -47,6 +47,13 @@
         <span class="q-mt-xs text-dark text-caption">Calculadora</span>
       </div>
     </q-route-tab>
+    <q-route-tab class="q-px-xs-sm q-px-md-lg" :to="'/admin/dropshipping'" exact >
+      <div class="flex flex-center column">
+        <div v-html="wozIcons.dropShip" />
+        <span class="q-mt-xs text-dark text-caption">Dropshpping</span>
+      </div>
+    </q-route-tab>
+    
   </q-tabs>
 </template>
 

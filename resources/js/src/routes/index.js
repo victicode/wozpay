@@ -341,6 +341,55 @@ const router = createRouter({
             title: 'Monedas'
           },
         },
+        {
+          path: "/admin/dropshipping",
+          name: "dropshippingOptions",
+          component: () => import('@/pages/admin/dropshippingPage.vue'),
+          meta: {
+            title: "Dropshipping "
+          }
+        },
+        {
+          path: "/admin/dropshipping/categories",
+          name: "dropshipping-categorie",
+          component: () => import('@/pages/admin/categoriesProduct.vue'),
+          meta: {
+            title: "Categorias dropshipping"
+          }
+        },
+        {
+          path: "/admin/dropshipping/product",
+          name: "dropshipping-product",
+          component: () => import('@/pages/admin/products.vue'),
+          meta: {
+            title: "Productos dropshipping"
+          }
+        },
+        {
+          path: "/admin/dropshipping/product/all",
+          name: "dropshipping-productView",
+          component: () => import('@/pages/admin/viewAllProducts.vue'),
+          meta: {
+            title: "Todos productos"
+          }
+        },
+        {
+          path: "/admin/dropshipping/product/create",
+          name: "dropshipping-productCreate",
+          component: () => import('@/pages/admin/createProducts.vue'),
+          meta: {
+            title: "Crear productos"
+          }
+        },
+        {
+          path: "/admin/dropshipping/product/view/:id",
+          name: "dropshipping-productviewById",
+          component: () => import('@/pages/admin/productDetails.vue'),
+          meta: {
+            title: "Crear productos"
+          }
+        },
+        
       ]
     },
     {
@@ -388,7 +437,7 @@ const router = createRouter({
           meta: {
             title: "Pagos pendientes"
           }
-        }
+        },
       ]
     },
     {

@@ -195,8 +195,8 @@ export default {
     }
     const setPage = (page) => {
       currentPage.value = page
-    getTransactions()
-  }
+      getTransactions()
+    }
     onMounted(() => {
       getTransactions()
       emitter.on('refreshByFilter', (data) => {

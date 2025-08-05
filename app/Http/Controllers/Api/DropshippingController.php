@@ -91,7 +91,8 @@ class DropshippingController extends Controller
         $result = ''; 
         $amount = 0;
         
-        $categories = DropshippingLink::get()->where("user_id", $user)->where('pay_status', 3)->groupBy(function($item,$key) {
+        $categories = DropshippingLink::get()->where("user_id", $user)->where('pay_status', 3)
+        ->groupBy(function($item,$key) {
             return Carbon::parse($item->created_at)->format('Y-m');
         })
         ->sortBy(function($item, $key){    
