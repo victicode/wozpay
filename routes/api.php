@@ -180,6 +180,8 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::get('/byId/{id}', [ProductController::class, 'getProductById']);
     Route::get('/similar', [ProductController::class, 'getSimilarProduct']);
     Route::get('/all', [ProductController::class, 'getAllProducts']);
+    Route::post('/', [ProductController::class, 'storeProduct']);
+
 });
 
 Route::middleware('jwt.verify')->prefix('coins')->name('coins.')->group(function () {

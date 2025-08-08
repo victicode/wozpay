@@ -74,7 +74,7 @@ export const useProductStore = defineStore("product", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/interest", data)
+          ApiService.post("/api/products", data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

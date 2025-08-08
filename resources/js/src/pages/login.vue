@@ -165,7 +165,6 @@
       const validateForm = () => {
         dniRef.value.validate()
         passwordRef.value.validate()
-        console.log(passwordRef.value)
         if (
           dniRef.value.hasError 
           || passwordRef.value.hasError

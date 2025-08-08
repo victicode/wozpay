@@ -229,6 +229,8 @@
                               label="Retiro de ganacias - comisiones"
                               autocomplete="off"
                               placholder="Ej. 12"
+                              type="number"
+                              inputmode="numeric"
                             />
                           </div>
 
@@ -252,6 +254,9 @@
                               v-model="productForm.view"
                               label="Número de vistas"
                               autocomplete="off"
+                              type="number"
+                              inputmode="numeric"
+                              numeri
                               placholder="Ej. 4"
                             />
                           </div>
@@ -259,6 +264,9 @@
                             <q-input
                               class="createProduct-input"
                               outlined
+                              type="number"
+                              inputmode="numeric"
+                              numeri
                               clearable
                               :clear-icon="'eva-close-outline'"
                               color="positive"
@@ -279,6 +287,8 @@
                               label="Cantidad de estrellas"
                               autocomplete="off"
                               placholder="Valor de 1 a 5"
+                              type="number"
+                              numeri
                             />
                           </div>
                         </div>
@@ -315,6 +325,7 @@
   
   import util from '@/util/numberUtil'
   import { useCategorieStore } from '@/services/store/categorie.store';
+import { useProductStore } from '@/services/store/products.store';
 
 
   export default {
@@ -324,6 +335,7 @@
     emits: ['hiddeModal', 'createProduct'],
     setup (props, { emit }) {
       const categorieStore = useCategorieStore();
+      const productStore = useProductStore()
       const productImg = ref(null)
       const step = ref(1)
       const productForm = ref({
@@ -344,6 +356,7 @@
         logistics:'',
         timeShip:'',
         payMethod:'',
+        comision:0,
         
         view:0,
         reviews:0,
@@ -354,7 +367,7 @@
       const q = useQuasar()
       const ready = ref(false)
       const numberFormat = util.numberFormat
-
+      const loading = ref(false)
       const categorieOption = ref([
         {
           id:0,
@@ -362,7 +375,35 @@
         }
       ])
       const createProduct = () => {
-        alert('eeeee')
+        loading.value = true
+
+        const data = new FormData()
+        data.append('title', productForm.value.title)
+        data.append('quantity', parseInt(productForm.value.quantity.replace(/\./g, '')))
+        data.append('unit', productForm.value.unit)
+        data.append('price', parseInt(productForm.value.price.replace(/\./g, '')) )
+        data.append('description', productForm.value.description)
+        data.append('sellActual', productForm.value.sellActual)
+        data.append('sellLastMonths', productForm.value.sellLastMonths.replace(/\-/g, ','))
+        data.append('logistic', productForm.value.logistics)
+        data.append('timeShip', productForm.value.timeShip)
+        data.append('payMethod', productForm.value.payMethod)
+        data.append('comision', productForm.value.comision)
+        data.append('view', productForm.value.view)
+        data.append('rating', productForm.value.rating)
+        data.append('reviews', productForm.value.reviews)
+        data.append('categorie', productForm.value.categorie.id)
+
+        data.append('photo', productForm.value.productImg)
+
+        productStore.storeProduct(data)
+        .then((response) =>{
+          if(response.code !== 200) throw response
+        })
+        .catch((response) =>{
+          console.log(response)
+        })
+        
       }
       const getAllCategories = () => {
         categorieStore.getAllCategorieToSelect()
