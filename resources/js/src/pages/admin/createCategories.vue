@@ -6,7 +6,7 @@
           <q-icon  color="white" size="2rem" name="eva-plus-outline" />
         </div>
         <div class="q-mt-xs text-subtitle1 text__button-drop">
-          Crear producto
+          Crear categoria
         </div>
       </div>
       <div class="col-md-4 col-6 q-my-md flex column flex-center" @click="dialog = 'charge'">
@@ -19,21 +19,21 @@
       </div>
 
     </div>
-    <createProducModal :show="(dialog == 'create')" @hiddeModal="hiddeModal"/>
-    <masiveProductModal :show="(dialog == 'charge')" @hiddeModal="hiddeModal"/>
+    <createCategorieModal :show="(dialog == 'create')" @hiddeModal="hiddeModal"/>
+    <masiveCategorieModal :show="(dialog == 'charge')" @hiddeModal="hiddeModal"/>
   </div>
 </template>
 <script>
   import { useAuthStore } from '@/services/store/auth.store'
   import { inject, ref,} from 'vue'
   import { useRouter } from 'vue-router'
-  import createProducModal from '@/components/admin/dropshipping/createProducModal.vue'
-  import masiveProductModal from '@/components/admin/dropshipping/masiveProductModal.vue'
+  import createCategorieModal from '@/components/admin/dropshipping/createCategorieModal.vue'
+  import masiveCategorieModal from '@/components/admin/dropshipping/masiveCategorieModal.vue'
   
   export default {
     components:{
-      createProducModal,
-      masiveProductModal,
+      createCategorieModal,
+      masiveCategorieModal,
     },
     setup() {
       //vue provider

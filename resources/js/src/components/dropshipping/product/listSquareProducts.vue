@@ -98,7 +98,7 @@ export default {
 }
 .productListSquare__img{
   object-fit: contain;
-  background: rgb(227, 227, 227);
+  background: white;
   padding: 0px 30%;
   margin: auto;
   height: 100%;

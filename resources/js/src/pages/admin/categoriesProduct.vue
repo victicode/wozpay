@@ -46,7 +46,7 @@
                   round 
                   color="grey-6"  
                   icon="eva-chevron-right-outline" 
-                  @click="router.push('/loan_pay/transfer')"  
+                  @click="router.push('/admin/dropshipping/categories/create')"  
                 />
               </div>
             </div>

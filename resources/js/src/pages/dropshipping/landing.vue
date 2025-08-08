@@ -5,7 +5,7 @@
     <logistSection />
     <integrationSection /> 
     <buttonSection /> 
-    <sellFloat />
+    <!-- <sellFloat /> -->
   </main>
 </template>
 <script >
