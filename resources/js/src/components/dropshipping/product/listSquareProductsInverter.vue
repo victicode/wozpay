@@ -91,7 +91,7 @@ export default {
   object-fit: contain;
   width: 100%;
   padding:0% 30%;
-  background: rgba(225, 225, 225, 0.381);
+  background: white;
   height: 7.5rem;
   &--container{
     width: 30%;

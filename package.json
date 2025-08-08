@@ -35,6 +35,7 @@
         "vue-barcode-reader": "^1.0.3",
         "vue-reader": "^1.2.15",
         "vue-router": "^4.3.3",
-        "vue3-apexcharts": "^1.8.0"
+        "vue3-apexcharts": "^1.8.0",
+        "xlsx": "^0.18.5"
     }
 }

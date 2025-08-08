@@ -386,10 +386,17 @@ const router = createRouter({
           name: "dropshipping-productviewById",
           component: () => import('@/pages/admin/productDetails.vue'),
           meta: {
-            title: "Crear productos"
+            title: "Ver productos"
           }
         },
-        
+        {
+          path: "/admin/dropshipping/categories/create",
+          name: "dropshipping-categoriesCreate",
+          component: () => import('@/pages/admin/createCategories.vue'),
+          meta: {
+            title: "Crear categorias"
+          }
+        },
       ]
     },
     {

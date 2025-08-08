@@ -565,7 +565,7 @@
   border-radius: 20px;
   height: 100vh;
   max-height:100vh;
-  
+  overflow: hidden;
 }
 
 .w-100 {

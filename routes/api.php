@@ -171,6 +171,9 @@ Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(fu
 
 Route::middleware('jwt.verify')->prefix('categories')->name('categorie.')->group(function () {
     Route::get('/', [CategorieController::class, 'getAll']);
+    Route::post('/', [CategorieController::class, 'storeCategorie']);
+    Route::post('/massive', [CategorieController::class, 'storeMassiveCategorie']);
+
     Route::get('/all/input', [CategorieController::class, 'getAllToSelect']);
     Route::get('/mostprolifict', [CategorieController::class, 'getMostProlifict']);
 });

@@ -11,7 +11,7 @@
           </transition>
         </router-view>
       </div>
-      <tabMenuDropshipping  style="height: 10%;"/>
+      <!-- <tabMenuDropshipping  style="height: 10%;"/> -->
     </div>
 
   </div>

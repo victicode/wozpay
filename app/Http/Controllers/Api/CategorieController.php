@@ -30,4 +30,31 @@ class CategorieController extends Controller
             ->whereHas('products')->where('status', 1)->take($request->quantity)->get();
         return $this->returnSuccess(200, $categories);
     }
+    public function storeCategorie(Request $request){
+        $categorie = Categorie::create([
+            'title' => $request->title,
+            'rating' => $request->rating,
+            'reviews' => $request->reviews,
+        ]);
+
+        return $this->returnSuccess(200, $categorie);
+    }
+    public function storeMassiveCategorie(Request $request){
+
+        $all = [];
+        $dataForm = json_decode($request->data, true);
+
+        foreach ($dataForm as $key) {
+       
+            $categorie = Categorie::create([
+                'title'     => $key,
+                'rating'    => 0,
+                'reviews'   => 0,
+             ]);
+            array_push($all, $categorie);
+        }
+        
+        return $this->returnSuccess(200,$all);
+    }
+    
 }
