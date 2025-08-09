@@ -21,7 +21,7 @@
                   round 
                   color="grey-6"  
                   icon="eva-chevron-right-outline" 
-                  @click="router.push('/loan_pay/tpago')"  
+                  @click="router.push('/admin/dropshipping/categories/all')"  
                 />
               </div>
             </div>

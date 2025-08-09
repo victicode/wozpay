@@ -10,7 +10,7 @@
         </div>
       </div> 
       <div class="q-px-sm q-pt-lg q-pb-lg q-mb-none" v-if="ready">
-        <div v-if="paystatus == 0" >
+        <div v-if="paystatus == 0 || paystatus == 1" >
           <q-form
             @submit="createDropshippingPay()"
             @validation-error="showError"
@@ -342,7 +342,7 @@
           </div>
           <q-btn color="grey-8" @click="router.go(-1)" text-color="white" style="width:100%" label="" no-caps id="" class="q-mt-lg" >
             <div class="q-py-sm">
-            Volver
+              Volver
             </div>  
           </q-btn>
 

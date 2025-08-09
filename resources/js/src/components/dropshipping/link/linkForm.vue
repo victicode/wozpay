@@ -31,8 +31,8 @@
             dropdown-icon="eva-chevron-down-outline"
             behavior="menu"
             color="positive"
+            outlined
             class="linkPaySelectType" 
-            disabled
             disable
           />
         </div>
@@ -40,6 +40,7 @@
         <div class="q-px-md q-mt-lg">
           <div>
             <q-input
+              outlined  
               class="linkPaySelectType2"
               clearable
               :clear-icon="'eva-close-outline'"
@@ -63,13 +64,15 @@
               behavior="menu"
               color="positive"
               :hint="selectedCoin.id == 1 ?'' : '1 USD ≈ ' +'Gs.'+ numberFormat(selectedCoin.rate) "
+              outlined
               class="linkPaySelectType" 
               @update:model-value="updateType()"
             />
           </div>
           <div class="q-mt-md">
             <q-input
-              class="linkPaySelectType2"
+            outlined  
+            class="linkPaySelectType2"
               clearable
               :clear-icon="'eva-close-outline'"
               color="positive"
@@ -82,7 +85,8 @@
           </div>
           <div class="q-mt-sm">
             <q-input
-              class="linkPaySelectType2"
+            outlined  
+            class="linkPaySelectType2"
               clearable
               :clear-icon="'eva-close-outline'"
               color="positive"
@@ -96,7 +100,8 @@
           </div>
           <div class="q-mt-sm">
             <q-input
-              class="linkPaySelectType2"
+            outlined  
+            class="linkPaySelectType2"
               :clear-icon="'eva-close-outline'"
               color="positive"
               v-model="product.quantityOrder"
@@ -108,7 +113,8 @@
           </div>
           <div class="q-mt-sm">
             <q-input
-              class="linkPaySelectType2"
+            outlined  
+            class="linkPaySelectType2"
               clearable
               :clear-icon="'eva-close-outline'"
               color="positive"
@@ -412,6 +418,44 @@ export default {
 }
 </style>
 <style lang="scss">
+  .linkPaySelectType.q-field--auto-height.q-field--labeled{
+     & .q-field__control-container{
+      padding-top: 0px!important;
+     }
+  }
+  .linkPaySelectType, .linkPaySelectType2  {
+
+    & .q-field__control{
+      border-radius: 10px!important;
+      height: 50px!important;
+      min-height: 50px!important;
+    }
+    & .q-field__label{
+    transform: translateY(0%)
+    }
+    &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
+      z-index: 100;
+      background: white;
+      font-weight: 600;
+      max-width: 133%;
+      transform: translateY(-125%) translateX(4%) scale(0.75)!important;
+    }
+    
+    & .q-field__native{
+      padding-top: 5px!important;
+      font-weight: 500;
+    }
+    & .q-field__append{
+      transform: translateY(-2%)
+    }
+    & .q-field__messages {
+      transform: translateY(-25%) translateX(-1%)
+    }
+    
+  }
+  .linkPaySelectType2 .q-field__native{
+    padding-top: 15px!important;
+  }
   @keyframes circle-in-center {
     from {
       clip-path: circle(0%);
@@ -430,51 +474,7 @@ export default {
     border: 1px solid rgb(82, 82, 82);
     border-radius: 8px;
   }
-  .linkPaySelectType.q-field--auto-height.q-field--labeled{
-     & .q-field__control-container{
-      padding-top: 0px!important;
-     }
-  }
-  .linkPaySelectType, .linkPaySelectType2  {
 
-    & .q-field__control{
-      border-radius: 0px!important;
-      height: 50px!important;
-      min-height: 50px!important;
-      padding: 0px 0.2rem;
-    }
-    & .q-field__label{
-    transform: translateY(0%)
-    }
-    &.q-field--focused .q-field__label, &.q-field--float .q-field__label{
-      z-index: 100;
-      background: white;
-      font-weight: 600;
-      max-width: 133%;
-      transform: translateY(-125%) translateX(0%) scale(0.75)!important;
-    }
-    
-    & .q-field__native{
-      padding-top: 5px!important;
-      font-weight: 500;
-    }
-    & .q-field__append{
-      transform: translateY(-2%)
-    }
-    & .q-field__messages {
-      transform: translateY(-25%) translateX(-1%)
-    }
-    
-  }
-  .linkPaySelectType2 .q-field__native{
-    padding-top: 15px!important;
-  }
-  .linkPaySelectType2.q-field--disabled .q-field__inner, .linkPaySelectType.q-field--disabled .q-field__inner{
-    border-radius: 0px;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-
-  }
   .totalLink_progress {
     border: 1px solid transparent;
     width: 90%!important;

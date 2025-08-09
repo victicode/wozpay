@@ -340,6 +340,16 @@ class PayController extends Controller
         ]);
 
     }
+    public function getPayDropshipping(Request $request){
+
+        $pays = $request->status == 4
+        ?  DropshippingPay::get()
+        : DropshippingPay::where('status', $request->status)->get();
+
+        
+        return $this->returnSuccess(200, $pays);
+
+    }
     public function getDepositPendigs(Request $request){
         $user = User::with(['depositPending'])->whereHas('depositPending')->get();
 

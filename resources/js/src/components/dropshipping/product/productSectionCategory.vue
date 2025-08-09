@@ -47,7 +47,7 @@ export default {
       .then((response) =>{
         lastPage.value = response.data.last_page
         products.value.push(...response.data.data);
-
+        console.log( typeof products.value)
         setTimeout(() => {
           ready.value = true
         }, 1000);

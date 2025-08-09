@@ -94,7 +94,7 @@ class LinkController extends Controller
             'coin_id'           => $request->coin,
             'rate_amount'       => $rate,
             'status'            => 1,
-            'pay_status'        => 1,
+            'pay_status'        => 0,
             'user_id'           => $request->user()->id,
             'products'          => $request->products,
             'due_date'          => date('Y-m-d H:i:s', time() + 7200)

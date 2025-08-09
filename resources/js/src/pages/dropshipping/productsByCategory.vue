@@ -20,7 +20,7 @@
             </div> 
             <div v-html="wozIcons.droppers"/>
           </div>
-          <div class="text__dropper2">367 Droppers están vendiendo estos producto</div>
+          <div class="text__dropper2">{{ numberFormat(ramdonNumber(370, 50000)) }} Droppers están vendiendo estos producto</div>
         </div>
       
       </div>
@@ -34,6 +34,7 @@ import activateArea from '@/components/dropshipping/categories/activateArea.vue'
 import productSection from '@/components/dropshipping/product/productSectionCategory.vue';
 import wozIcons from '@/assets/icons/wozIcons.js'
 import { inject} from 'vue';
+import util from '@/util/numberUtil';
 
 export default {
   components:{
@@ -42,11 +43,15 @@ export default {
   },
   setup() {
     const icons = inject('ionIcons');
-
+    const numberFormat = util.numberFormat
+    const ramdonNumber = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
     return {
       icons,
       wozIcons,
-
+      numberFormat,
+      ramdonNumber,
     }
   }
 }

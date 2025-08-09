@@ -17,7 +17,7 @@
           Productos
         </div>
       </div>
-      <div class="col-md-4 col-6 q-my-md flex column flex-center" @click="goTo('/admin/dropshipping/product')">
+      <div class="col-md-4 col-6 q-my-md flex column flex-center" @click="goTo('/admin/dropshipping/sell/all')">
         <div class="button__dropi flex flex-center">
           <q-icon  color="white" size="2rem" name="eva-shopping-bag-outline" />
         </div>

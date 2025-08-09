@@ -390,11 +390,27 @@ const router = createRouter({
           }
         },
         {
+          path: "/admin/dropshipping/categories/all",
+          name: "dropshipping-categorieView",
+          component: () => import('@/pages/admin/viewAllCategories.vue'),
+          meta: {
+            title: "Todos las categorias"
+          }
+        },
+        {
           path: "/admin/dropshipping/categories/create",
           name: "dropshipping-categoriesCreate",
           component: () => import('@/pages/admin/createCategories.vue'),
           meta: {
             title: "Crear categorias"
+          }
+        },
+        {
+          path: "/admin/dropshipping/sell/all",
+          name: "dropshipping-sell",
+          component: () => import('@/pages/admin/sellDropshipping.vue'),
+          meta: {
+            title: "Ver ventas"
           }
         },
       ]

@@ -50,9 +50,8 @@
 <script>
   import { useQuasar } from 'quasar';
   import { inject, onMounted, ref, } from 'vue';
-  import util from '@/util/numberUtil'
   import fileDropZone from '@/components/admin/dropshipping/fileDropZone.vue';
-import { useCategorieStore } from '@/services/store/categorie.store';
+  import { useCategorieStore } from '@/services/store/categorie.store';
   
   export default {
     components:{
@@ -68,7 +67,6 @@ import { useCategorieStore } from '@/services/store/categorie.store';
       const icons = inject('ionIcons')
       const q = useQuasar()
       const ready = ref(false)
-      const numberFormat = util.numberFormat
       const loading = ref(false)
       const dataForm = ref('') 
       const categorieStore = useCategorieStore()

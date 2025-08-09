@@ -171,9 +171,9 @@ Route::middleware('jwt.verify')->prefix('interest')->name('interest.')->group(fu
 
 Route::middleware('jwt.verify')->prefix('categories')->name('categorie.')->group(function () {
     Route::get('/', [CategorieController::class, 'getAll']);
+    Route::get('/simple', [CategorieController::class, 'getAllSimple']);
     Route::post('/', [CategorieController::class, 'storeCategorie']);
     Route::post('/massive', [CategorieController::class, 'storeMassiveCategorie']);
-
     Route::get('/all/input', [CategorieController::class, 'getAllToSelect']);
     Route::get('/mostprolifict', [CategorieController::class, 'getMostProlifict']);
 });
@@ -184,6 +184,8 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::get('/similar', [ProductController::class, 'getSimilarProduct']);
     Route::get('/all', [ProductController::class, 'getAllProducts']);
     Route::post('/', [ProductController::class, 'storeProduct']);
+    Route::post('/massive', [ProductController::class, 'storeMassiveProducts']);
+
 
 });
 
@@ -202,6 +204,7 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
     Route::post('/get_url', [PayController::class, 'payRequest']);
     Route::post('/change-status/{id}', [PayController::class, 'changeStatus']);
     Route::get('/pays_pending', [PayController::class, 'getPayPendings']);
+    Route::get('/pays_dropshipping', [PayController::class, 'getPayDropshipping']);
     Route::post('/dropshpping/change-status/{id}', [PayController::class, 'changeStatusDropPay']);
     
 

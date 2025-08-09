@@ -45,90 +45,109 @@
                               </div>
                             </label>
                           </div>
-                          <div class="text-subtitle1 q-py-sm text-weight-medium" >             
-                            <q-select 
-                              outlined 
-                              option-value="id" 
-                              option-label="title" 
-                              v-model="productForm.categorie" 
-                              :options="categorieOption"  
-                              :clear-icon="'eva-close-outline'"
-                              dropdown-icon="eva-chevron-down-outline"
-                              behavior="menu"
-                              color="positive"
-                              class="createProductSelect" 
-    
-                            />
-                          </div>
-                          <div class="text-subtitle1 q-py-sm text-weight-medium" >
-                            <q-input
-                              class="createProduct-input"
-                              outlined
-                              clearable
-                              :clear-icon="'eva-close-outline'"
-                              color="positive"
-                              v-model="productForm.title"
-                              label="Nombre de producto"
-                              placholder="Ej. Auriculares inalámbricos Galaxy Buds3 Pro 2025"
-                              autocomplete="off"
+                          <div class="row">
+
+                            <div class="col-12 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >             
+                              <q-select 
+                                outlined 
+                                option-value="id" 
+                                option-label="title" 
+                                v-model="productForm.categorie" 
+                                :options="categorieOption"  
+                                :clear-icon="'eva-close-outline'"
+                                dropdown-icon="eva-chevron-down-outline"
+                                behavior="menu"
+                                color="positive"
+                                class="createProductSelect" 
       
-                            />
-                          </div>
-                          <div class="text-subtitle1 q-py-sm text-weight-medium" >
-                            <q-input
-                              class="createProduct-input"
-                              outlined
-                              clearable
-                              :clear-icon="'eva-close-outline'"
-                              color="positive"
-                              v-model="productForm.quantity"
-                              label="Cantidad"
-                              mask="###.###.###"
-                              reverse-fill-mask
-                              autocomplete="off"
-                              placholder="Ej. 15"
-                            />
-                          </div>
-                          <div class="text-subtitle1 q-py-sm text-weight-medium" >            
-                            <q-input
-                              class="createProduct-input"
-                              outlined
-                              clearable
-                              :clear-icon="'eva-close-outline'"
-                              color="positive"
-                              v-model="productForm.price"
-                              label="Precio base"
-                              mask="###.###.###"
-                              reverse-fill-mask
-                              autocomplete="off"
-                              placholder="Ej. 10.000, 50.000"
-                            />
-                          </div>
-                          <div class="text-subtitle1 q-py-sm text-weight-medium" >            
-                            <q-input
-                              class="createProduct-input"
-                              outlined
-                              clearable
-                              :clear-icon="'eva-close-outline'"
-                              color="positive"
-                              v-model="productForm.unit"
-                              label="Tipo de unidad"
-                              placholder="Ej. Set, Uni, o Pcs"
-                            />
-                          </div>
-                          <div class="text-subtitle1 q-pt-sm q-pb-md text-weight-medium" >            
-                            <q-input
-                              class="textArea"
-                              outlined
-                              clearable
-                              :clear-icon="'eva-close-outline'"
-                              color="positive"
-                              v-model="productForm.description"
-                              label="Descripción"
-                              autogrow
-                              autocomplete="off"
-                              placholder="Ej. Audifono super potente con luces RGB"
-                            />
+                              />
+                            </div>
+                            <div class="col-12 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >
+                              <q-input
+                                class="createProduct-input"
+                                outlined
+                                clearable
+                                :clear-icon="'eva-close-outline'"
+                                color="positive"
+                                v-model="productForm.title"
+                                label="Nombre de producto"
+                                placholder="Ej. Auriculares inalámbricos Galaxy Buds3 Pro 2025"
+                                autocomplete="off"
+        
+                              />
+                            </div>
+                            <div class="col-6 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >
+                              <q-input
+                                class="createProduct-input"
+                                outlined
+                                clearable
+                                :clear-icon="'eva-close-outline'"
+                                color="positive"
+                                v-model="productForm.quantity"
+                                label="Cantidad"
+                                mask="###.###.###"
+                                reverse-fill-mask
+                                autocomplete="off"
+                                placholder="Ej. 15"
+                              />
+                            </div>
+                            <div class="col-6 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >            
+                              <q-input
+                                class="createProduct-input"
+                                outlined
+                                clearable
+                                :clear-icon="'eva-close-outline'"
+                                color="positive"
+                                v-model="productForm.unit"
+                                label="Tipo de unidad"
+                                placholder="Ej. Set, Uni, o Pcs"
+                              />
+                            </div>
+                            <div class="col-6 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >            
+                              <q-input
+                                class="createProduct-input"
+                                outlined
+                                clearable
+                                :clear-icon="'eva-close-outline'"
+                                color="positive"
+                                v-model="productForm.price"
+                                label="Precio base"
+                                mask="###.###.###"
+                                reverse-fill-mask
+                                autocomplete="off"
+                                placholder="Ej. 10.000, 50.000"
+                              />
+                            </div>
+                            <div class="col-6 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >            
+                              <q-input
+                                class="createProduct-input"
+                                outlined
+                                clearable
+                                :clear-icon="'eva-close-outline'"
+                                color="positive"
+                                v-model="productForm.suggestPrice"
+                                label="Precio sugerido"
+                                mask="###.###.###"
+                                reverse-fill-mask
+                                autocomplete="off"
+                                placholder="Ej. 10.000, 50.000"
+                              />
+                            </div>
+                            
+                            <div class="col-12 text-subtitle1 q-pt-sm q-pb-md q-px-xs text-weight-medium" >            
+                              <q-input
+                                class="textArea"
+                                outlined
+                                clearable
+                                :clear-icon="'eva-close-outline'"
+                                color="positive"
+                                v-model="productForm.description"
+                                label="Descripción"
+                                autogrow
+                                autocomplete="off"
+                                placholder="Ej. Audifono super potente con luces RGB"
+                              />
+                            </div>
                           </div>
     
                         </div>
@@ -343,6 +362,7 @@ import { useProductStore } from '@/services/store/products.store';
         quantity:'',
         unit:'',
         price:'',
+        suggestPrice:'',
         categorie: {
           id:0,
           title:'Selecciona una categoria'
@@ -368,6 +388,34 @@ import { useProductStore } from '@/services/store/products.store';
       const ready = ref(false)
       const numberFormat = util.numberFormat
       const loading = ref(false)
+      const cleanform = () => {
+        productForm.value ={
+          title:'',
+          quantity:'',
+          unit:'',
+          price:'',
+          suggestPrice:'',
+          categorie: {
+            id:0,
+            title:'Selecciona una categoria'
+          },
+          description:'',
+          productImg:null,
+
+          sellActual:'',
+          sellLastMonths:'',
+
+          logistics:'',
+          timeShip:'',
+          payMethod:'',
+          comision:0,
+          
+          view:0,
+          reviews:0,
+          rating:0,
+        }
+        productImg.value = null
+      }
       const categorieOption = ref([
         {
           id:0,
@@ -382,6 +430,8 @@ import { useProductStore } from '@/services/store/products.store';
         data.append('quantity', parseInt(productForm.value.quantity.replace(/\./g, '')))
         data.append('unit', productForm.value.unit)
         data.append('price', parseInt(productForm.value.price.replace(/\./g, '')) )
+        data.append('suggest_price', parseInt(productForm.value.suggestPrice.replace(/\./g, '')) )
+
         data.append('description', productForm.value.description)
         data.append('sellActual', productForm.value.sellActual)
         data.append('sellLastMonths', productForm.value.sellLastMonths.replace(/\-/g, ','))
@@ -399,6 +449,12 @@ import { useProductStore } from '@/services/store/products.store';
         productStore.storeProduct(data)
         .then((response) =>{
           if(response.code !== 200) throw response
+
+          setTimeout(() => {
+            showNotify('positive', 'Producto creado con exito')
+            hideModal()
+            loading.value = false
+          }, 1000);
         })
         .catch((response) =>{
           console.log(response)
@@ -427,6 +483,8 @@ import { useProductStore } from '@/services/store/products.store';
       }
 
       const hideModal = () => {
+        cleanform()
+        step.value = 1
         emit('hiddeModal')
       }  
 
@@ -464,6 +522,7 @@ import { useProductStore } from '@/services/store/products.store';
         categorieOption,
         productImg,
         step,
+        loading,
         hideModal,
         nextStep,
         onFileChange,

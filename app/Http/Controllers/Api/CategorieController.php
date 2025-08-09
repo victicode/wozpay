@@ -20,6 +20,10 @@ class CategorieController extends Controller
 
         return $this->returnSuccess(200,$categories);
     }
+    public function getAllSimple(){
+        $categories = Categorie::with('products')->get()->where('status', 1);
+        return $this->returnSuccess(200, $categories);
+    }
     public function getAllToSelect(){
         $categories = Categorie::with('products')->get()->where('status', 1);
 
@@ -47,9 +51,9 @@ class CategorieController extends Controller
         foreach ($dataForm as $key) {
        
             $categorie = Categorie::create([
-                'title'     => $key,
-                'rating'    => 0,
-                'reviews'   => 0,
+                'title'     => $key['title'],
+                'rating'    => $key['rating'],
+                'reviews'   => $key['reviews'],
              ]);
             array_push($all, $categorie);
         }

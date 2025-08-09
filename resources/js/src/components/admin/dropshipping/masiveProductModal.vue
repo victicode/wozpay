@@ -20,23 +20,19 @@
           <div v-if="ready" style="    height: 100%; overflow: hidden;">
             <div  class="flex justify-between items-center" style="height: 100%; overflow: hidden;" >
               <q-card-section class="q-pt-none q-pb-none q-px-none w-100" style="height: 100%; overflow: none;">
-                <q-form
-                  @submit="nextStep()"
+                <div
                   class="q-pb-md"
                   style="height: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;" 
                 >
-                <div class="q-px-md-xl q-px-md">
-
-                  <fileDropZone @file-loaded="handleFileLoaded" />
-                </div>
+                  <div class="q-px-md-xl q-px-md">
+                    <fileDropZone @file-loaded="handleFileLoaded" />
+                  </div>
 
                   <div class="flex justify-end q-pt-sm  q-px-md">
-                  
-                    
                     <q-btn label="Cerrar" color="negative"  class="q-mx-sm" @click=" hideModal()" />
-                    <q-btn label="Siguiente"  color="black" type="submit" :loading="loading"/>
+                    <q-btn label="Siguiente"  color="black" :loading="loading" @click="createMassiveProduct()"/>
                   </div>
-                </q-form>
+                </div>
               </q-card-section>
             </div>
           </div>
@@ -56,7 +52,7 @@
   import { inject, onMounted, ref, } from 'vue';
   import util from '@/util/numberUtil'
   import fileDropZone from '@/components/admin/dropshipping/fileDropZone.vue';
-  
+  import { useProductStore } from '@/services/store/products.store';
   export default {
     components:{
       fileDropZone
@@ -64,23 +60,32 @@
     props: {
       show: Boolean,
     },
-    emits: ['hiddeModal', 'createProduct'],
+    emits: ['hiddeModal'],
     setup (props, { emit }) {
 
       const dialog = ref(props.show);
       const icons = inject('ionIcons')
       const q = useQuasar()
       const ready = ref(false)
-      const numberFormat = util.numberFormat
       const loading = ref(false)
-      const categorieOption = ref([
-        {
-          id:0,
-          title:'Selecciona una categoria'
-        }
-      ])
-      const createProduct = () => {
-        alert('eeeee')
+      const productStore = useProductStore()
+      const dataForm = ref('') 
+
+      const createMassiveProduct = () => {
+        loading.value= true
+        productStore.massiveCreate({data: dataForm.value})
+        .then((response) => {
+          if(response.code !== 200 ) throw response
+
+          setTimeout(() => {
+            showNotify('positive', 'Productos creadas con exito')
+            hideModal()
+            loading.value = false
+          }, 1000);
+        })
+        .catch((response) => {
+          loading.value= false
+        })
       }
 
 
@@ -98,11 +103,8 @@
         })
       }
       const handleFileLoaded = (payload) => {
-        console.log('Archivo cargado:', payload.file.name);
-        console.log('Datos:', payload.data);
-        console.log('Encabezados:', payload.headers);
-        
-        // Aquí puedes hacer lo que necesites con los datos
+
+        dataForm.value = JSON.stringify(payload.data);
       }
       watch(() => props.show, (newValue) => {
         dialog.value = newValue
@@ -118,11 +120,10 @@
         dialog,
         icons,
         ready,
-        numberFormat,
-        categorieOption,
         loading,
         hideModal,
         handleFileLoaded,
+        createMassiveProduct,
       }
     }
   };

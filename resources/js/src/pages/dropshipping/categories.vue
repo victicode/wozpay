@@ -17,7 +17,7 @@
       <allCategories />
       
     </section>
-    <sellFloat />
+    <!-- <sellFloat /> -->
   </main>
 
 </template>

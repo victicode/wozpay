@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Categorie;
 
 class ProductController extends Controller
 {
@@ -37,9 +38,7 @@ class ProductController extends Controller
         $category = Product::where('categorie_id', $request->category)->get();
         $search = Product::where('title','like', '%'.$request->title.'%')->get();
         $metadata = $this->getMetaDataByName($request->title);
-        // if(!$product){
-        //     return $this->returnFail(400, 'Category not found');
-        // }
+
         return $this->returnSuccess(200, [
             'category' => $category,
             'search'   => $search,
@@ -53,7 +52,8 @@ class ProductController extends Controller
             'status' => 1,
             'quantity' => $request->quantity,
             'unit' => $request->unit,
-            'prie' => $request->price,
+            'price' => $request->price,
+            'suggest_price' => $request->price,
             'description' => $request->description,
             'actual_sell_volumen' => $request->sellActual,
             'sell_volumen_last_month' => $request->sellLastMonths,
@@ -65,6 +65,7 @@ class ProductController extends Controller
             'rating' => $request->rating,
             'reviews' => $request->reviews,
             'profit' => 0,
+            'vendor_id' => 1,
             'categorie_id' => $request->categorie
         ]);
 
@@ -78,6 +79,40 @@ class ProductController extends Controller
 
 
         return $this->returnSuccess(200, $product);
+    }
+    public function storeMassiveProducts(Request $request){
+        $all = [];
+        $dataForm = json_decode($request->data, true);
+
+        foreach ($dataForm as $key) {
+            
+            $categoria = Categorie::where('title', $key['categoria'])->first();
+
+            $product = Product::create([
+            'title' => $key['nombre_producto'],
+            'status' => 1,
+            'quantity' => $key['stock'],
+            'unit' => $key['unidad'],
+            'price' => $key['precio_proveedor'],
+            'suggest_price' => $key['precio_sugerido'],
+            'description' => $key['descripcion_corta'],
+            'actual_sell_volumen' => $key['ventas'],
+            'sell_volumen_last_month' => $key['historico_volumen_de_ventas'],
+            'logistic' => $key['logistica'],
+            'time_ship' => $key['tiempo_entrega'],
+            'pay_method' => $key['metodo_pago'],
+            'comision' => $key['comision'] ?? 15,
+            'views' => $key['vistas'],
+            'reviews' => $key['reviews'],
+            'rating' => $key['estrellas'],
+            'profit' => 0,
+            'vendor_id' => 1,
+            'categorie_id' => $categoria ? $categoria['id'] : 1
+        ]);
+            array_push($all, $product);
+        }
+        
+        return $this->returnSuccess(200,$all);
     }
     private function getMetaDataByName($title){
         $splitName = explode(" ", $title);
