@@ -24,7 +24,37 @@
       <template v-if="loading">
         <div v-if="pays.length > 0">
           <div v-for="(item, index) in pays" :key="index" class="q-px-md-md q-px-none q-pb-xs q-mt-md pays__container flex items-center justify-between">
-
+            <div class="text-subtitle2 text-weight-medium">
+             {{ item.pay_data.name }}
+            </div>
+            <div class="flex items-center">
+              
+              <div class="q-mr-none text-subtitle2 text-weight-medium" :class="{'text-warning':selectedLote.index == 'payCreateLink'}">
+                {{ 'Gs.'+ numberFormat(item.amount) }}
+              </div>
+              <div>
+                <q-icon :name="
+                  item.status == 1 
+                  ? 'eva-clock-outline'
+                  : item.status == 2 
+                  ? 'eva-checkmark-circle-2-outline'
+                  : 'eva-close-circle-outline'
+                  "
+                  :color="
+                  item.status == 1 
+                  ? 'terciary'
+                  : item.status == 2 
+                  ? 'positive'
+                  : 'negative'
+                  "
+                  size="1.3rem"
+                  class="q-mr-xs q-ml-sm q-pb-xs"
+                />
+              </div>
+              <q-btn flat @click="goTo(item.id)" class="q-px-none">
+                <q-icon name="eva-chevron-right-outline"  class="q-pb-xs"/>
+              </q-btn>
+            </div>
           </div>
         </div>
         <div class="q-px-md text-center text-h6" v-else>
@@ -100,25 +130,27 @@ export default {
       .then((response) => {
         if(response.code !== 200) throw response
         loading.value = true
-        pays.value = response.data
+        pays.value = formatPays(response.data)
+        console.log(pays.value)
+    
+
       })
       .catch((response) => {
         console.log(response)
         loading.value = true
       })
     };
+    const formatPays = (pays) => {
+      pays.forEach(pay => {
+        pay.pay_data = JSON.parse(pay.pay_data)
+        pay.shipping_data = JSON.parse(pay.shipping_data)
+      });
+      
+      return pays
+    }
     const goTo = (id) => {
-      if(selectedLote.value.index == 'payCreateLink'){
-        router.push('/link/byUser/'+id) 
-        return
-      }
-
-      if(selectedLote.value.index == 'payDrophippingLink'){
-        router.push('/admin/dropshipping/pay/'+id) 
-        return
-      }
-
-      router.push('/admin/paysDetailsOther/'+id)
+      router.push('/admin/dropshipping/pay/'+id) 
+  
     };
     onMounted(() => {
       getPaylist()
