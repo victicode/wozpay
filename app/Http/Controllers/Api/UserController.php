@@ -10,6 +10,7 @@ use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -466,6 +467,20 @@ class UserController extends Controller
         } catch (Exception $th) {
             //throw $th;
         }
+    }
+    public function sendMail($user, $template, $subject){
+        $reciver = $template == 'emails.newLoadRequestAdmin' ? 'wozparaguay@gmail.com' : $user->email;
+        try{
+            Mail::send($template, ["user"=>$user], function ($message) use ($reciver, $subject)  {  
+                $message->from("noreply@wozpayment.com", "Woz Payments");
+                $message->to($reciver)->subject($subject);
+ 
+            });
+        }
+        catch(Exception $e){
+            return  $e->getMessage();
+        }
+        return "bien";
     }
 
 }

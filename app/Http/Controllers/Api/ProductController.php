@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Categorie;
+use App\Models\Vendor;
 
 class ProductController extends Controller
 {
@@ -47,6 +48,12 @@ class ProductController extends Controller
 
     }
     public function storeProduct(Request $request){
+        $vendor = Vendor::where('name', $request->vendor)->firstOr(function () use($request) {            
+            return Vendor::create([
+                'name' => $request->vendor,
+                'status' => 1
+            ]);
+        });
         $product = Product::create([
             'title' => $request->title,
             'status' => 1,
@@ -87,7 +94,13 @@ class ProductController extends Controller
         foreach ($dataForm as $key) {
             
             $categoria = Categorie::where('title', $key['categoria'])->first();
-
+            $vendor = Vendor::where('name', $key['proveedor'])->firstOr(function () use($key) {            
+                return Vendor::create([
+                    'name' => $key['proveedor'],
+                    'status' => 1
+                ]);
+            });
+            
             $product = Product::create([
             'title' => $key['nombre_producto'],
             'status' => 1,
@@ -106,7 +119,7 @@ class ProductController extends Controller
             'reviews' => $key['reviews'],
             'rating' => $key['estrellas'],
             'profit' => 0,
-            'vendor_id' => 1,
+            'vendor_id' => $vendor ? $vendor['id'] : 1,
             'categorie_id' => $categoria ? $categoria['id'] : 1
         ]);
             array_push($all, $product);

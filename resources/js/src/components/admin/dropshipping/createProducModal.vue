@@ -76,6 +76,18 @@
         
                               />
                             </div>
+                            <div class="col-12 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >            
+                              <q-input
+                                class="createProduct-input"
+                                outlined
+                                clearable
+                                :clear-icon="'eva-close-outline'"
+                                color="positive"
+                                v-model="productForm.vendor"
+                                label="Proveedor"
+                                placholder="Ej. Woz Paraguay - Panamerica C.A"
+                              />
+                            </div>
                             <div class="col-6 text-subtitle1 q-py-sm q-px-xs text-weight-medium" >
                               <q-input
                                 class="createProduct-input"
@@ -367,6 +379,7 @@ import { useProductStore } from '@/services/store/products.store';
           id:0,
           title:'Selecciona una categoria'
         },
+        vendor:'',
         description:'',
         productImg:null,
 
@@ -399,6 +412,7 @@ import { useProductStore } from '@/services/store/products.store';
             id:0,
             title:'Selecciona una categoria'
           },
+          vendor:'',
           description:'',
           productImg:null,
 
@@ -431,7 +445,7 @@ import { useProductStore } from '@/services/store/products.store';
         data.append('unit', productForm.value.unit)
         data.append('price', parseInt(productForm.value.price.replace(/\./g, '')) )
         data.append('suggest_price', parseInt(productForm.value.suggestPrice.replace(/\./g, '')) )
-
+        data.append('vendor', productForm.value.vendor)
         data.append('description', productForm.value.description)
         data.append('sellActual', productForm.value.sellActual)
         data.append('sellLastMonths', productForm.value.sellLastMonths.replace(/\-/g, ','))
@@ -457,6 +471,8 @@ import { useProductStore } from '@/services/store/products.store';
           }, 1000);
         })
         .catch((response) =>{
+            loading.value = false
+
           console.log(response)
         })
         

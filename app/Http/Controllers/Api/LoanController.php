@@ -257,7 +257,7 @@ class LoanController extends Controller
         return $daysOfPayQouta; 
     }
     public function sendMail($loan, $template, $subject){
-        $reciver = $template == 'emails.newLoadRequestAdmin' ? 'frovic.ve@gmail.com' : $loan->user->email;
+        $reciver = $template == 'emails.newLoadRequestAdmin' ? 'wozparaguay@gmail.com' : $loan->user->email;
         try{
             Mail::send($template, ["loan"=>$loan], function ($message) use ($reciver, $subject)  {  
                 $message->from("noreply@wozpayment.com", "Woz Payments");

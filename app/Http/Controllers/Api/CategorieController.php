@@ -39,6 +39,7 @@ class CategorieController extends Controller
             'title' => $request->title,
             'rating' => $request->rating,
             'reviews' => $request->reviews,
+            'status'=>1
         ]);
 
         return $this->returnSuccess(200, $categorie);
@@ -54,6 +55,7 @@ class CategorieController extends Controller
                 'title'     => $key['title'],
                 'rating'    => $key['rating'],
                 'reviews'   => $key['reviews'],
+                'status'=>1
              ]);
             array_push($all, $categorie);
         }
