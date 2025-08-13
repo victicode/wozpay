@@ -93,7 +93,15 @@ class ProductController extends Controller
 
         foreach ($dataForm as $key) {
             
-            $categoria = Categorie::where('title', $key['categoria'])->first();
+            $categoria = Categorie::where('title', $key['categoria'])->firstOr(function () use($key) {            
+                return Categorie::create([
+                    'title' => $key['categoria'],
+                    'status' => 1,
+                    'rating' => rand(1, 5),
+                    'reviews' => rand(50, 100)
+                ]);
+            });
+
             $vendor = Vendor::where('name', $key['proveedor'])->firstOr(function () use($key) {            
                 return Vendor::create([
                     'name' => $key['proveedor'],
@@ -108,7 +116,7 @@ class ProductController extends Controller
             'unit' => $key['unidad'],
             'price' => $key['precio_proveedor'],
             'suggest_price' => $key['precio_sugerido'],
-            'description' => $key['descripcion_corta'],
+            'description' => $key['descripcion_larga'],
             'actual_sell_volumen' => $key['ventas'],
             'sell_volumen_last_month' => $key['historico_volumen_de_ventas'],
             'logistic' => $key['logistica'],
