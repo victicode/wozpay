@@ -11,10 +11,9 @@
         </div>
       </div>
     </div>
-    <div class="d-flex items-center q-mt-md q-mt-md-none search-content">
-      <input type="text" class="searchInput" placeholder="¿Qué producto estas buscando?" v-model="search">
-      <!-- <q-input standout="bg-primary text-white" v-model="text" label="Custom standout" :dense="dense" /> -->
-      <q-btn  text-color="primary" id="searchButton"  label="Buscar" no-caps />
+    <div class="d-flex  items-center q-mt-lg  search-contentProfile q-mt-md-sm">
+      <input type="text" class="searchInputProfile" placeholder="¿Qué producto estas buscando?" v-model="search">
+      <q-btn  text-color="primary" id="searchButtonProfile"  label="Buscar" no-caps />
     </div>
   </header>
 
@@ -100,11 +99,11 @@
 
       color:white;
     }
-    & .searchInput{
+        & .searchInputProfile{
       background: white;
-      border-right: 2px solid $primary;
+      border-right: 0px solid $primary;
     }
-    & #searchButton{
+    & #searchButtonProfile{
       background: white;
     }
     & .header__button{
@@ -123,11 +122,11 @@
       color:#0c3846;
 
     }
-    & .searchInput{
+    & .searchInputProfile{
       background: #f3f3f3;
     }
 
-    & #searchButton{
+    & #searchButtonProfile{
       background: #f3f3f3;
     }
     & .header__button{
@@ -138,34 +137,34 @@
   .header__fisrtpart{
     width: 50%;
   }
-  .searchInput{
+  .searchInputProfile{
     
     height: 3.6rem;
-    width: 15.8rem;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    width: 85%;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
     padding: 1rem 1rem;
     
     letter-spacing: 0.8px;
-    color: #81a4fc;
+    color: #797979;
     font-weight: 600;
 
     &::placeholder{
       font-family: 'Amazon Ember'!important;
-      color: #81a4fc;
+      color: #797979;
       font-weight: 600;
     }
   }
-  #searchButton{
+  #searchButtonProfile{
     height: 3.63rem;
     transform: translatey(-0.03rem);
     border-radius: 0px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
     box-shadow: none;
     & .block{
       font-family: 'Amazon Ember'!important;
-      color: #81a4fc;
+      color: #797979;
       font-weight: 600;
       letter-spacing: 0.8px;
       
@@ -190,6 +189,11 @@
     }
     // margin: auto;
   }
+  .search-contentProfile{
+      width: 100%; 
+      height: 3.5rem;
+      overflow: hidden;
+  }
   @media screen and (max-width: 780px){
     .header__fisrtpart{
       width: 100%;
@@ -203,13 +207,13 @@
       height: 3.5rem;
       overflow: hidden;
     }
-    .searchInput{
+    .searchInputProfile{
       box-sizing: border-box;
       height: 100%;
       width: 75%;
 
     }
-    #searchButton{
+    #searchButtonProfile{
       width: 25%;
       transform: translatey(-0.1rem);
       height: 102%;

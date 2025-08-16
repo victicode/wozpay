@@ -12,7 +12,6 @@
     </div>
     <div class="d-flex  items-center q-mt-lg  search-contentProfile q-mt-md-sm">
       <input type="text" class="searchInputProfile" placeholder="¿Qué producto estas buscando?" v-model="search">
-      <!-- <q-input standout="bg-primary text-white" v-model="text" label="Custom standout" :dense="dense" /> -->
       <q-btn  text-color="primary" id="searchButtonProfile"  label="Buscar" no-caps />
     </div>
   </header>
@@ -70,7 +69,6 @@
       /* El nombre del archivo importa debe coincidir con el nombre del archivo importado */
   }
   #dropshipping-headerProfile{
-
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -187,7 +185,7 @@
       width: 100%; 
       height: 3.5rem;
       overflow: hidden;
-    }
+  }
   @media screen and (max-width: 780px){
     .header__fisrtpartProfile{
       width: 100%;
