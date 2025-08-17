@@ -3,6 +3,8 @@
     <headerLanding />
     <heroSection />
     <plansSection />
+    <shippingSection />
+    <stadisticSection />
     <backToTop />
     <directLink />
     <landingFooter />
@@ -12,7 +14,8 @@
   import backToTop from '@/components/landing/backToTop.vue';
   import directLink from '@/components/landing/directLink.vue';
   import landingFooter from '@/components/landing/footer.vue';
-  
+  import shippingSection from '@/components/landing/shippingSection.vue';
+  import stadisticSection from '@/components/landing/stadisticSection.vue';
   import { useQuasar } from 'quasar'
   import gsap from '@/plugins/gsap/gsap';
   import { onMounted } from 'vue';
@@ -24,6 +27,8 @@
     components: {
       headerLanding,
       plansSection,
+      shippingSection,
+      stadisticSection,
       backToTop,
       directLink,
       landingFooter,

@@ -12,47 +12,64 @@
     </div>
   </div>
   <div class="q-px-md q-pt-md">
-    <div v-for="(plan, i) in plans" :key="i" class="plansBox q-my-md">
-      <div class="q-pt-lg q-pb-md q-px-md">
-        <div>
-          <div style="font-weight: 500;font-size: 0.95rem;" class="text-white">Plan</div>
-          <div class="planTitle ">{{ plan.title }}</div>
-          <div class="planSubtitle q-mt-xs" v-html="plan.subtitle" />
-        </div>
-        <div class="text-white q-mt-md">
-          <div class="text-bold">Beneficios:</div>
-          <ul class="q-my-md">
-            <li v-for="(benefit, key) in plan.benefits" :key="key" class="benefitItem q-mb-xs">
-              <b class="q-mr-xs">•</b> {{benefit}}
-            </li>
-          </ul>
-        </div>
-        <div v-if="!plan.free">
-            <div class="text-white" style="font-weight: 300;font-size: 0.9rem;">Costo de membresía</div>
-            <div class="text-white costText">
-              GS {{ numberFormat(plan.cost) }} <span style="font-size: 1rem; transform: translateY(-12px);">{{ i == 1 ? 'anual' : 'mensual' }}</span>
+    <div v-for="(plan, i) in plans" :key="i" class="plansBox q-my-md" :style="{backgroundImage:'url('+plan.img+ ')', backgroundPosition:plan.position+'% center'}" style="    
+    background-repeat: no-repeat;
+    background-size: cover;">
+      <div style="position: absolute; background: #00000085; top: 0; bottom: 0; left: 0; right: 0; z-index: 1;" />
+      <div style="position: relative;z-index: 2">
+        <div class="q-pt-lg q-pb-md q-px-md">
+          <div v-if="plan.mostSell" class="text-white q-mb-md flex items-center mostSellBadge" >
+            <div class=" q-mr-xs" style="font-weight: 400; font-size: 0.85rem;">
+              Más adquirido 
             </div>
-            <div class="benefitOffer text-white">
-              {{ plan.sutitleCost }}
-            </div>
+            <q-icon :name="icons.raiting" color="white" size="1.2rem" />
+          </div>
+          <div>
+            <div style="font-weight: 500;font-size: 0.95rem;" class="text-white">Plan</div>
+            <div class="planTitle ">{{ plan.title }}</div>
+            <div class="planSubtitle q-mt-xs" v-html="plan.subtitle" />
+          </div>
+          <div class="text-white q-mt-md">
+            <div class="text-bold">Beneficios:</div>
+            <ul class="q-my-md">
+              <li v-for="(benefit, key) in plan.benefits" :key="key" class="benefitItem q-mb-xs">
+                <b class="q-mr-xs">•</b> {{benefit}}
+              </li>
+            </ul>
+          </div>
+          <div v-if="!plan.free">
+              <div class="text-white" style="font-weight: 300;font-size: 0.9rem;">Costo de membresía</div>
+              <div class="text-white costText">
+                GS {{ numberFormat(plan.cost) }} <span style="font-size: 1rem; transform: translateY(-12px);">{{ i == 1 ? 'anual' : 'mensual' }}</span>
+              </div>
+              <div class="benefitOffer text-white">
+                {{ plan.sutitleCost }}
+              </div>
+          </div>
         </div>
-      </div>
-      <div class="planBottom q-px-md q-py-lg text-white" :style="'background-color:'+plan.color">
-        {{ plan.bottomTitle }}
+        <div class="planBottom q-px-md q-py-lg text-white" :style="'background-color:'+plan.color">
+          {{ plan.bottomTitle }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import util from '@/util/numberUtil';
+import proveedor from '@/assets/images/proveedor.jpeg'
+import profesional from '@/assets/images/profesional.jpeg'
+import gratuito from '@/assets/images/gratuito.jpeg'
+import { inject } from 'vue';
 
 export default {
   
   setup() {
-
+    const icons = inject('ionIcons');
     const numberFormat = util.numberFormat
     const plans = [
       {
+        img: gratuito,
+        position:2,
         title: 'DROPPER GRATUITO',
         subtitle: 'Con este plan podes vender hasta <br> 5 productos por mes',
         benefits: [
@@ -67,6 +84,8 @@ export default {
         free: true,
       },
       {
+        img: profesional,
+        position: 70,
         title: 'DROPPER PROFESIONAL',
         subtitle: 'Dirigido a profesionales, tendrás acceso a más <br> herramientas',
         benefits: [
@@ -84,6 +103,8 @@ export default {
         sutitleCost: 'Tarifa mensual luego del primer año Gs. 250.000'
       },
       {
+        img: proveedor,
+        position:15,
         title: 'PROVEEDOR AUTORIZADO',
         subtitle: 'Exclusivo para tiendas fisicas.<br> Contrato minimo de 12 meses como proveedor Dropshipping',
         benefits: [
@@ -105,13 +126,20 @@ export default {
     ]
     return {
       plans,
-      numberFormat
+      numberFormat,
+      icons,
     }
   },
 }
 </script>
 
 <style lang="scss">
+.mostSellBadge{
+  padding: 0.4rem 1.2rem;
+  background: #19cd15;
+  border-radius: 0.45rem;
+  width: max-content
+}
 .costText{
   font-size: 1.6rem;
   font-weight: 700;
@@ -138,6 +166,9 @@ export default {
   color: white;
 }
 .plansBox{
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
   border-radius: 1rem;
   overflow: hidden;
   background: #2f2d41;
