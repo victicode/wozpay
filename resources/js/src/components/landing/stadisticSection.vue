@@ -157,9 +157,10 @@ export default {
     height: 100%;
     border-radius: 50%;
     background: conic-gradient(
-        #edaf33 0% 35%,
-        #17c920 35% 60%,
-        #016aff 60% 100%
+        #edaf33 0% 25%,
+        #17c920 25% 45%,
+        #016aff 45% 92%,
+        #edaf33 92% 100%,
     );
     position: relative;
 }
