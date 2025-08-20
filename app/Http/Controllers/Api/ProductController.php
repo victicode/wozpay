@@ -20,12 +20,12 @@ class ProductController extends Controller
         return $this->returnSuccess(200, $product);
     }
     public function getAllProducts(Request $request) {
-        $products = Product::with('categorie')->paginate(10);
+        $products = Product::with('categorie')->where('title', 'like', '%'.$request->search.'%');
 
         if(!$products){
             return $this->returnFail(400, 'Products not found');
         }
-        return $this->returnSuccess(200, $products);
+        return $this->returnSuccess(200, $products->paginate(100));
     }
     public function getProductById($id) {
         $product = Product::find($id);
@@ -134,6 +134,10 @@ class ProductController extends Controller
         }
         
         return $this->returnSuccess(200,$all);
+    }
+    public function deleteAll(){
+        Product::where('status', 1)->delete();
+        return $this->returnSuccess(200, 'ok');
     }
     private function getMetaDataByName($title){
         $splitName = explode(" ", $title);

@@ -1,21 +1,32 @@
 <template>
   <div class="q-px-md" style="overflow: auto; height: 100%;">
     <div class="text-center q-mt-lg text-h6">Todas las categorias</div>
-    <template v-if="categories.length > 0">
-      <div v-for="categorie in categories" :key="categorie.id" class="q-px-sm q-py-sm q-my-md q-my-md-lg category-item_content" >
-        <div class="category__title--content q-pl-xs">
-          <div class=" category__title ellipsis">
-            {{ categorie.title }}
-          </div>
-          <q-icon style="margin-left: -0.31rem; margin-top: -0.2rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in categorie.rating" :key="i" />
+    
+    <template v-if="ready">
+      <div v-if="categories.length > 0">
+        <div class="flex justify-end q-px-sm">
+          <q-btn icon="eva-trash-2-outline" color="negative" unelevated @click="dialog = 'delete'" class="q-mt-sm" />
         </div>
-        <div class="flex category__action q-pl-sm q-pr-xs">
-          <div class="products_active__quantity ellipsis">
-            Ver {{ numberFormat(categorie.products.length) }} productos activos
+        <div v-for="categorie in categories" :key="categorie.id" class="q-px-sm q-py-sm q-my-md q-my-md-lg category-item_content" >
+          <div class="category__title--content q-pl-xs">
+            <div class=" category__title ellipsis">
+              {{ categorie.title }}
+            </div>
+            <q-icon style="margin-left: -0.31rem; margin-top: -0.2rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in categorie.rating" :key="i" />
           </div>
-          <q-btn flat class="q-px-none" @click="gotTo(categorie.id)" >
-            <q-icon name="eva-chevron-right-outline" color="grey" />
-          </q-btn>
+          <div class="flex category__action q-pl-sm q-pr-xs">
+            <div class="products_active__quantity ellipsis">
+              Ver {{ numberFormat(categorie.products.length) }} productos activos
+            </div>
+            <q-btn flat class="q-px-none" @click="gotTo(categorie.id)" >
+              <q-icon name="eva-chevron-right-outline" color="grey" />
+            </q-btn>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="text-center text-h6 q-mt-lg">
+          No hay categorias registradas.
         </div>
       </div>
     </template>
@@ -28,6 +39,8 @@
         />
       </div>
     </template>
+
+    <deleteAllCatergorie :show="(dialog == 'delete')"  @hiddeModal="hiddeModal()" @updateList="getCategories()"/> 
   </div>
 </template>
 <script>
@@ -35,9 +48,13 @@ import { useCategorieStore } from '@/services/store/categorie.store';
 import { onMounted, ref } from 'vue';
 import utils from '@/util/numberUtil';
 import { useRouter } from 'vue-router';
+import deleteAllCatergorie from '@/components/admin/dropshipping/deleteAllCatergorie.vue';
 
 
 export default {
+  components:{
+    deleteAllCatergorie
+  },
   setup () {
       //vue provider
     const router = useRouter()
@@ -45,14 +62,20 @@ export default {
     const numberFormat = utils.numberFormat
     const categorieStore = useCategorieStore()
     const categories = ref([])
+    const dialog = ref('')
+    const ready = ref(false)
     const getCategories = () => {
       categorieStore.getAllCategorieSimple()
       .then((response) =>{
+        ready.value = true
         categories.value = response.data
       })
     }
     const gotTo = (id) => {
       router.push('/dropshipping/category/'+id+'/products')
+    }
+    const hiddeModal = () => {
+      dialog.value = ''
     }
     onMounted(() => {
       getCategories()
@@ -63,7 +86,11 @@ export default {
       categories,
       numberFormat,
       icons,
+      dialog,
+      ready,
+      hiddeModal,
       gotTo,
+      getCategories
     }
   }
 }

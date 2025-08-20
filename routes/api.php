@@ -176,6 +176,7 @@ Route::middleware('jwt.verify')->prefix('categories')->name('categorie.')->group
     Route::post('/massive', [CategorieController::class, 'storeMassiveCategorie']);
     Route::get('/all/input', [CategorieController::class, 'getAllToSelect']);
     Route::get('/mostprolifict', [CategorieController::class, 'getMostProlifict']);
+    Route::get('/delete-all', [CategorieController::class, 'deleteAll']);
 });
 
 Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(function () {
@@ -186,6 +187,7 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::post('/', [ProductController::class, 'storeProduct']);
     Route::post('/massive', [ProductController::class, 'storeMassiveProducts']);
 
+    Route::get('/delete-all', [ProductController::class, 'deleteAll']);
 
 });
 

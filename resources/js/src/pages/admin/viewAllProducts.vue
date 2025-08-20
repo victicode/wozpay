@@ -3,28 +3,52 @@
     <div class="text-center text-h6 q-mt-md">
       Listado de productos
     </div>
-    <div class="q-py-sm" style="overflow:auto; height:75vh">
-      <viewProductListItem v-for="product in products" :product="product" :key="product.id"  />
-      <div class="pagination flex flex-center  q-py-md" >
-        <div class="q-pb-none">
-          <q-pagination
-            v-model="currentPage"
-            :max="lastPage"
-            direction-links
-            outline
-            ellipses
-            color="primary"
-            active-design="push"
-            active-color="primary"
-            active-text-color="white"
-            size="0.9rem"
-            gutter="sm"
-            @update:model-value="setPage"
-            class="q-pb-none"
-          />
-        </div>
+    <div v-if="ready">
+      <div class="flex justify-end q-px-sm q-mt-md">
+        <q-btn icon="eva-search-outline" color="grey-7"  @click="dialog = 'search'" class="q-mt-sm q-mr-sm" />
+
+        <q-btn icon="eva-trash-2-outline" color="negative" v-if="products.length > 0"  @click="dialog = 'delete'" class="q-mt-sm" />
       </div>
+      <template v-if="products.length > 0">
+        <div class="q-py-sm q-pb-xl" style="overflow:auto; height:75vh">
+          <viewProductListItem v-for="product in products" :product="product" :key="product.id"  />
+          <div class="pagination flex flex-center  q-py-md" >
+            <div class="q-pb-none">
+              <q-pagination
+                v-model="currentPage"
+                :max="lastPage"
+                direction-links
+                outline
+                ellipses
+                color="primary"
+                active-design="push"
+                active-color="primary"
+                active-text-color="white"
+                size="0.9rem"
+                gutter="sm"
+                @update:model-value="setPage"
+                class="q-pb-none"
+              />
+            </div>
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="text-center text-h6 q-mt-lg">
+          No hay productos registrados.
+        </div>
+      </template>
     </div>
+    <div class="q-pt-lg q-mt-lg q-pb-md" v-else>
+      <q-spinner-tail
+        color="black"
+        size="3rem"
+        style="margin:auto"
+      />
+    </div>
+    <deleteAllProducts :show="(dialog == 'delete')"  @hiddeModal="hiddeModal()" @updateList="getAllProducts()"/> 
+    <searchProduct :show="(dialog == 'search')"  @hiddeModal="hiddeModal()" @updateList="searchProduct"/> 
+    
   </div>
 </template>
 <script>
@@ -34,11 +58,14 @@
   import util from '@/util/numberUtil';
   import { useProductStore } from '@/services/store/products.store';
   import viewProductListItem from '@/components/admin/dropshipping/viewProductListItem.vue';
-
+  import deleteAllProducts from '@/components/admin/dropshipping/deleteAllProducts.vue';
+  import searchProduct from '@/components/admin/dropshipping/searchProduct.vue';
 
   export default {
     components:{
-      viewProductListItem
+      viewProductListItem,
+      deleteAllProducts,
+      searchProduct,
     },
     setup() {
       //vue provider
@@ -50,11 +77,17 @@
       const currentPage = ref(1)
       const lastPage = ref(10)
       const search = ref('')
-      const loading = ref(false)
       const products = ref([])
 
+      const ready = ref(false)  
+      const dialog = ref('')
+
+      const searchProduct = (product) => {
+        search.value = product
+        getAllProducts()
+      }
       const getAllProducts = () => {
-        loading.value = true 
+        ready.value = false 
         const data = {
           page: currentPage.value,
           search:search.value,
@@ -65,9 +98,14 @@
           if(response.code !== 200) throw response
             products.value = response.data.data
             lastPage.value = response.data.last_page
+            search.value = ''
+            setTimeout(() => {
+              ready.value = true
+            }, 1000);
+
         })
         .catch((response) => {
-          loading.value = false
+          ready.value = true
           showNotification({msg:response, title:'Error'})
         })
       } 
@@ -77,6 +115,9 @@
       const setPage = (page) => {
         currentPage.value = page
         getAllProducts()
+      }
+      const hiddeModal = () => {
+        dialog.value = ''
       }
       onMounted(() => {
         getAllProducts()
@@ -89,8 +130,13 @@
         products,
         numberFormat,
         lastPage,
+        ready,
+        dialog,
         setPage,
+        searchProduct,
         replaceWithDefault,
+        hiddeModal,
+        getAllProducts,
       }
     },
   }

@@ -133,6 +133,28 @@ export const useCategorieStore = defineStore("categorie", {
         return 'Error al actualizar datos';
       });
     },
+    async deleteAll(){
+      return await new Promise((resolve, reject) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/categories/delete-all")
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al eliminar.');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+
+    }
   },
   getters: {
   },

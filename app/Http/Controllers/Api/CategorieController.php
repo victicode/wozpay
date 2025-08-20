@@ -62,5 +62,9 @@ class CategorieController extends Controller
         
         return $this->returnSuccess(200,$all);
     }
+    public function deleteAll(){
+        $categorie = Categorie::where('status', 1)->delete();
+        return $this->returnSuccess(200, 'ok');
+    }
     
 }

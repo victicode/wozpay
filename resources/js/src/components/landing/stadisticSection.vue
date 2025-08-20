@@ -65,7 +65,7 @@
                   </div>
                   
                   <div class="legend-item meta-label">
-                      <span>Meta Business</span>
+                      <span>Meta <br>Business</span>
                       <span class="percentage">37%</span>
                   </div>
                   
@@ -148,8 +148,8 @@ export default {
 }
  .pie-chart-container {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 8.5rem;
+    height: 8.5rem;
 }
 
 .pie-chart {
@@ -189,15 +189,18 @@ export default {
 }
 
 .google-label {
-    transform: rotate(17.5deg) translateY(-80px);
+    transform:translateY(-70%) translateX(55%);
+    font-size: 0.7rem;
 }
 
 .meta-label {
-    transform: rotate(53.5deg) translateY(-80px);
+    transform:translateY(20%) translateX(-70%);
+    font-size: 0.7rem;
 }
 
 .tiktok-label {
-    transform: rotate(86deg) translateY(-80px);
+  transform:translateY(65%) translateX(100%);
+  font-size: 0.7rem;
 }
 
 .percentage {

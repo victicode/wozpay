@@ -154,6 +154,28 @@ export const useProductStore = defineStore("product", {
         return 'Error al actualizar datos';
       });
     },
+    async deleteAll(){
+      return await new Promise((resolve, reject) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/products/delete-all")
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al eliminar.');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+
+    }
   },
   getters: {
   },

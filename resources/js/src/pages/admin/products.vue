@@ -37,7 +37,7 @@
                   Cargar productos
                 </span>
                 </q-item-label>
-                <q-item-label caption lines="1" class=" text-caption">Crea un producto o sube un archivo de carga masiva </q-item-label>
+                <q-item-label caption lines="1" class=" text-caption">Crea o sube un archivo de carga masiva</q-item-label>
               </div>
               <div>
                 <q-btn 
