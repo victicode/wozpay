@@ -1,5 +1,5 @@
 <template>
-  <section class="q-px-md q-mt-lg bg-grey-3 q-py-md">
+  <section class="q-px-md q-mt-lg bg-grey-3 q-pt-md q-pb-xl">
     <div class="bg-white  q-py-md q-px-" style="border-radius: 1rem;">
       <div class="q-px-md">
         <div class="barTitle">Woz Dropshipping</div>
@@ -79,7 +79,51 @@
       </div>
     </div>
 
-    <div></div>
+    <div class="bg-white  q-py-md q-mt-md" style="border-radius: 1rem;">
+      <div class="flex justify-between items-center q-px-md">
+        <div class="">
+          <div class="pieChartTitle">Conversión o cierre <br>de ventas</div>
+          <div class="pieChartSubtitle">
+            Porcentaje de cierra de ventas<br> según canales de ventas
+          </div>
+        </div>
+        <div class="textRateSell">
+          <b style="font-size: 2rem;">47%</b><br>
+          <b style="color: #016aff;">Woz Dropshipping</b>
+
+        </div>
+      </div>
+      <div style="border-top: 1px solid lightgray;" class="q-mt-sm q-py-sm flex justify-between items-center q-px-md">
+        <div class="" style="width:100%;">
+          <div class="subtitleLast">
+            Canales de ventas populares
+          </div>
+          <div>
+            <div class="q-my-sm q-pt-xs">
+              <div class="textChartLine flex justify-between ">
+                <div>Vía WhatsApp Business</div>
+                <div>30%</div>
+              </div>
+              <div class="lineChart q-my-xs" style="background: #f9b229;" />
+            </div>
+            <div class="q-my-sm q-pt-xs">
+              <div class="textChartLine flex justify-between ">
+                <div>Vía Facebook Page</div>
+                <div>15%</div>
+              </div>
+              <div class="lineChart q-my-xs" style="background: #0269ff;" />
+            </div>
+            <div class="q-my-sm q-pt-xs">
+              <div class="textChartLine flex justify-between ">
+                <div>Vía Instagram Profesional</div>
+                <div>8%</div>
+              </div>
+              <div class="lineChart q-my-xs" style="background: #19cd15;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 <script>
@@ -94,6 +138,21 @@ export default {
 }
 </script>
 <style lang="scss">
+.textChartLine{
+  color: black;
+  font-size: 0.94rem;
+  font-weight: 500;
+}
+.lineChart{
+  width: 100%;
+  height: 0.35rem;
+  border-radius: 0.5rem;
+}
+.subtitleLast{
+  color: #0269ff;
+  font-size: 1.02rem;
+  font-weight: 700;
+}
 .barTitle{
   font-size: 1.02rem;
   font-weight: 700;
@@ -138,6 +197,13 @@ export default {
   font-size: 1.3rem;
   font-weight: 900;
 }
+.textRateSell{
+  color: black;
+  text-align: end;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  font-weight: 900;
+}
 .textPieLegend{
   width: 50%;
   background-color: #f3f9ff;
@@ -146,7 +212,7 @@ export default {
 
   border-radius: 0.8rem;
 }
- .pie-chart-container {
+.pie-chart-container {
     position: relative;
     width: 8.5rem;
     height: 8.5rem;
