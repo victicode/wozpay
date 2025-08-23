@@ -5,7 +5,7 @@
     </div>
     <div class="text-subtitle2 subtitleDesSection q-px-lg q-mt-md">
       <div class="text-grey-6 q-pl-sm ">
-        Te ofrecemos tres planes de vendedor
+        Te ofrecemos dos planes de vendedor
         que puedes adquirir para comenzar a
         vender en Woz Dropshipping
       </div>
@@ -67,22 +67,22 @@ export default {
     const icons = inject('ionIcons');
     const numberFormat = util.numberFormat
     const plans = [
-      {
-        img: gratuito,
-        position:2,
-        title: 'DROPPER GRATUITO',
-        subtitle: 'Con este plan podes vender hasta <br> 5 productos por mes',
-        benefits: [
-          'Hasta 5 productos',
-          '15% de comision',
-          'Ventas nacionales',
-          'Retiros semanales'
-        ],
-        color:'#1c264b',
-        bottomTitle:'Registrate gratuitamente',
-        mostSell: false,
-        free: true,
-      },
+      // {
+      //   img: gratuito,
+      //   position:2,
+      //   title: 'DROPPER GRATUITO',
+      //   subtitle: 'Con este plan podes vender hasta <br> 5 productos por mes',
+      //   benefits: [
+      //     'Hasta 5 productos',
+      //     '15% de comision',
+      //     'Ventas nacionales',
+      //     'Retiros semanales'
+      //   ],
+      //   color:'#1c264b',
+      //   bottomTitle:'Registrate gratuitamente',
+      //   mostSell: false,
+      //   free: true,
+      // },
       {
         img: profesional,
         position: 70,

@@ -1,0 +1,89 @@
+<template>
+  <div class="q-pb-lg">
+    <section class="q-pt-md q-px-sm">
+      <div class="q-py-sm text-h6 text-center">
+        Resultado de busqueda de "{{search}}"
+      </div>
+      <activateArea />
+      <div class="q-px-md q-pt-md">
+        <div class="text-bold text--valiate">
+          Productos Woz Dropshipping
+          <q-icon
+            :name=" icons.sharpVerified"
+            size="sm"
+            color="terciary"
+            class=""
+          />
+        </div>
+    
+        <div class="droppersInit q-mt-xs q-px-md q-py-sm">
+          <div class="flex items-center">
+            <div class="text-dropper text__dropper q-mr-xs"> 
+              Droppers
+            </div> 
+            <div v-html="wozIcons.droppers"/>
+          </div>
+          <div class="text__dropper2">{{ numberFormat(ramdonNumber(370, 50000)) }} Droppers están vendiendo estos producto</div>
+        </div>
+      
+      </div>
+    </section>
+    <!-- <productSection class="q-py-sm q-mt-sm q-px-sm" /> -->
+  </div>
+</template>
+<script>
+
+import activateArea from '@/components/dropshipping/categories/activateArea.vue';
+import productSection from '@/components/dropshipping/product/productSectionCategory.vue';
+import wozIcons from '@/assets/icons/wozIcons.js'
+import { inject} from 'vue';
+import util from '@/util/numberUtil';
+import { useRoute } from 'vue-router';
+
+export default {
+  components:{
+    activateArea,
+    productSection,
+  },
+  setup() {
+    const icons = inject('ionIcons');
+    const route = useRoute()
+    const numberFormat = util.numberFormat
+    const search = route.query.product
+    console.log(route)
+    const ramdonNumber = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    return {
+      search,
+      route,
+      icons,
+      wozIcons,
+      numberFormat,
+      ramdonNumber,
+    }
+  }
+}
+</script>
+<style lang="scss">
+.droppersInit{
+  border: 1px solid goldenrod;
+  border-radius: 1rem;
+}
+.text__dropper{
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+.text__dropper2{
+  color:rgb(133, 133, 133);
+  font-weight: 400;
+  font-weight: 0.8rem;
+}
+.text--valiate{
+  font-size: 1rem;
+}
+.products__section{
+ min-height: 48.6vh;
+ background:#efefef
+}
+</style>

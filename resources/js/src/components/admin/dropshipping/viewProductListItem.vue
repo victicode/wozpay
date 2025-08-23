@@ -1,7 +1,7 @@
 <template>
   <div class="q-my-md q-py-xs">
     <div class="row items-end q-px-sm itemlisPro" style="height:4.5rem" @click="goTo(product.id)">
-      <div class="col-md-2 col-3   bg-grey-5 flex flex-center img__conter" style=" border-radius: 0.5rem; height:100%;">
+      <div class="col-md-2 col-3    flex flex-center img__conter" style=" border-radius: 0.5rem; height:100%;">
         <img :src="!product.image ? 'https://staging.wozpayments.com/public/images/products/default.png': product.image" alt="Imagen" class="productListSquare__img" @error="replaceWithDefault" />
       </div>
       <div class="col-md-10 col-9 q-pl-sm cursor-pointer" >

@@ -51,7 +51,7 @@
             <div v-html="wozIcons.podium"/>
             <div class="q-mx-md">
               <div class="text-subPanel1">Encuentra el equilibrio con un  </div>
-              <div class="text-subPanel text-sectionActive">Futuros competidores</div>
+              <div class="text-subPanel text-sectionActive">Análisis FODA</div>
             </div>
           </div>
         </template>
@@ -132,7 +132,7 @@
           <div class="flex items-center q-pt-sm" style="width: 100%;">
             <div v-html="wozIcons.badge"/>
             <div class="q-mx-md">
-              <div class="text-subPanel1">Aquiere una imagen o una</div>
+              <div class="text-subPanel1">Adquiere una imagen o una</div>
               <div class="text-subPanel text-sectionActive">Identidad de marca</div>
             </div>
           </div>

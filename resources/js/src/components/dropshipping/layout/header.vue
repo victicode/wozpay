@@ -11,10 +11,11 @@
         </div>
       </div>
     </div>
-    <div class="d-flex  items-center q-mt-lg  search-contentProfile q-mt-md-sm">
+    <q-form @submit="goSearch()" class="d-flex  items-center q-mt-lg  search-contentProfile q-mt-md-sm">
       <input type="text" class="searchInputProfile" placeholder="¿Qué producto estas buscando?" v-model="search">
-      <q-btn  text-color="primary" id="searchButtonProfile"  label="Buscar" no-caps />
-    </div>
+      <q-btn  text-color="primary" id="searchButtonProfile" type="submit"  label="Buscar" no-caps />
+    </q-form>
+
   </header>
 
 </template>
@@ -39,6 +40,13 @@
       const router = useRouter()
       const styleHead =  ref(props.styleHead)
 
+      const goSearch = () => {
+        if(search.value == '' || !search.value) {
+          alert('Escribe una palabra para buscar')
+          return
+        }
+        router.push('/dropshipping/products/search?product='+search.value)
+      }
       // Mounted
       watch(() => props.styleHead, (newValue) => {
         styleHead.value = newValue
@@ -56,7 +64,8 @@
         user,
         search,
         styleHead,
-        router
+        router,
+        goSearch,
       }
     }
   };

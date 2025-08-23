@@ -41,7 +41,7 @@ export default {
         },
         {
           title:'Retiro de ganacias - comisiones',
-          value: product.value.comision
+          value: 'Te pagaremos los días lunes en tu cuenta Woz Payments'
         }
       ]
     }

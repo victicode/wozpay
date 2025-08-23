@@ -38,7 +38,7 @@ export default {
   },
   setup () {
     const { user  } = storeToRefs(useAuthStore())
-    console.log(user.value)
+    // console.log(user.value)
     return {
       user
     }

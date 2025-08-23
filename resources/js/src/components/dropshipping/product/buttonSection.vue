@@ -1,8 +1,8 @@
 <template>
   <section >
     <div class="q-mt-lg flex column items-center q-pb-md">
-      <q-btn @click="goTo(!user.dropshipping_account ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/generatePayLink/'+product.id)" unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
-      <q-btn @click="goTo('/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Wozpy AI" />
+      <q-btn @click="goTo(user.dropshipping_account.status == 0 ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/generatePayLink/'+product.id)" unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
+      <q-btn @click="goTo(user.dropshipping_account.status == 0 ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Chatgpt" />
     </div>
     <div class="q-px-md q-pb-md">
       <div class="droppersInfo__container q-py-sm q-px-md q-mb-sm">
@@ -13,7 +13,7 @@
           <div v-html="wozIcons.droppers" class="q-ml-xs"/>
         </div>
         <div class="text-grey text-subtitle2 q-mt-xs">
-          {{ getRandomInt(50,100)}} Droppers están vendiendo este producto
+          {{ numberFormat(getRandomInt(500,50000))}} Droppers están vendiendo este producto
         </div>
       </div>
       <div class="publiInfo__container q-py-sm q-px-md q-mb-sm">
@@ -36,12 +36,11 @@
   </section>
 </template>
 <script>
-
-import { inject, onMounted } from 'vue';
 import wozIcons from '@/assets/icons/wozIcons';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'
-  import { useAuthStore } from '@/services/store/auth.store'
+import { useAuthStore } from '@/services/store/auth.store'
+import utils from '@/util/numberUtil';
 
 export default {
   props: {
@@ -49,7 +48,7 @@ export default {
   },
   setup (props) {
     const { user  } = storeToRefs(useAuthStore())
-    
+    const numberFormat = utils.numberFormat
     const product = ref(props.product) 
     const router = useRouter()
     const formatListItem = () => {
@@ -86,6 +85,7 @@ export default {
       wozIcons,
       product,
       user,
+      numberFormat,
       getRandomInt,
       goTo,
     }

@@ -1,6 +1,6 @@
 <template>
   <section >
-    <div class="badgeStadistic q-px-sm q-py-xs q-ml-md q-mb-sm">Ultimos 5 meses</div>
+    <div class="badgeStadistic q-px-sm q-py-xs q-ml-md q-mb-sm">Ultimos 12 meses</div>
     <div class="q-px-md">
       <div>
         <div class="sellStatidistic__title">
@@ -11,7 +11,10 @@
             GS {{ moneyFormatSell(product.actual_sell_volumen, 2) }}
           </div>
           <div class="sellStatidistic__sellVolumen--profit q-ml-sm" :class="getProfit(product) >= 0 ? 'text-positive':'text-negative'">
-            {{(getProfit(product) >= 0 ? '+':'')+ getProfit(product) }}%
+            <!-- {{(getProfit(product) >= 0 ? '+':'')+ getProfit(product) }}% -->
+            <!-- {{(getProfit(product) >= 0 ? '+':'')+ getProfit(product) }}% -->
+
+             + {{ numberFormat(getRandomInt(0,200))}}%
           </div>
         </div>
       </div>
@@ -39,7 +42,7 @@ export default {
       const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       let result = []
 
-      for (let index = 5; index >= 0; index--) {
+      for (let index = 12; index >= 0; index--) {
         let selecction = actualMonth - index < 0 
         ? months.length + (actualMonth - index)
         : actualMonth - index
@@ -50,6 +53,7 @@ export default {
     }
     const moneyFormatSell = util.moneyFormatSell
 
+    const numberFormat = util.numberFormat
 
     const series = [
       {
@@ -115,7 +119,11 @@ export default {
 
       return Number.isInteger(porcentage) ? porcentage : porcentage.toFixed(2)
     }
-
+    const getRandomInt = (min, max) => {
+      min = min;
+      max = max;
+      return Math.random() * (max - min) + min;
+    }
 
     onMounted(() => {
       getLastMonth()
@@ -125,8 +133,10 @@ export default {
       moneyFormatSell,
       series,
       chartOptions,
-      getProfit,
       product,
+      numberFormat,
+      getRandomInt,
+      getProfit,
     }
   }
 }
