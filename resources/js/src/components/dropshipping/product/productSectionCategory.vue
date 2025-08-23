@@ -28,6 +28,8 @@ import skeletonListSquareProducts from '@/components/dropshipping/product/skelet
 import { useProductStore } from '@/services/store/products.store';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/services/store/auth.store';
 export default {
   components:{
     listSquareProducts,
@@ -37,6 +39,7 @@ export default {
     const itemsMenu = ref([ {}, {},   ])
     const scrollTargetRef = ref(null)
     const productStore =  useProductStore()
+    const { user } = storeToRefs(useAuthStore())
     const products = ref([]);
     const route = useRoute()
     const ready = ref(false)
@@ -47,7 +50,6 @@ export default {
       .then((response) =>{
         lastPage.value = response.data.last_page
         products.value.push(...response.data.data);
-        console.log( typeof products.value)
         setTimeout(() => {
           ready.value = true
         }, 1000);
@@ -58,7 +60,9 @@ export default {
     }
     
     const onLoadMenu = (index, done) => {
-      if (index > 1) {
+
+      const validacion =  !user.value.dropshipping_account ? (index > 1 && index <=2) : (index > 1)
+      if (validacion) {
           setTimeout(() => {
             getProducts(index)
             if(index < lastPage.value){

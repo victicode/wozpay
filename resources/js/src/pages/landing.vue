@@ -9,7 +9,8 @@
     <learnToSellSection />
     <stepProductSection />
     <generateSell />
-    <!-- <firstPartSection /> -->
+    <firstPartSection />
+    <secondPartSection />
     <backToTop />
     <directLink />
     <landingFooter />
@@ -27,12 +28,12 @@
   import shippingSection from '@/components/landing/shippingSection.vue';
   import stadisticSection from '@/components/landing/stadisticSection.vue';
   import benefitToActiveSection from '@/components/landing/benefitToActiveSection.vue';
-  
   import learnToSellSection from '@/components/landing/learnToSellSection.vue';
   import stepProductSection from '@/components/landing/stepProductSection.vue';
   import generateSell from '@/components/landing/generateSell.vue';
   
   import firstPartSection from '@/components/landing/firstPartSection.vue';
+  import secondPartSection from '@/components/landing/secondPartSection.vue';
   import gsap from '@/plugins/gsap/gsap';
 
   
@@ -48,6 +49,7 @@
       stepProductSection,
       generateSell,
       firstPartSection,
+      secondPartSection,
       backToTop,
       directLink,
       landingFooter,
