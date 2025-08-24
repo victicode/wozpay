@@ -22,7 +22,7 @@ const util = {
   moneyFormatSell: (number, decimals = 1) => {
     let money = 0;
 
-    if(number > 999999 && number < 1000000000){
+    if(number > 999999 && number < 10000000000000){
         money = `${(number/1000000).toFixed(decimals)} M` 
     }
     else if(number > 999 && number < 999999){

@@ -24,12 +24,12 @@
   </div>
 </template>
 <script>
-  import LandingHeader from '@/components/landing/header.vue';
-  import heroSection from '@/components/landing/heroSection.vue'
-  import businessSection from '@/components/landing/businessSection.vue';
-  import transferSection from '@/components/landing/transferSection.vue';
-  import aquipagoSection from '@/components/landing/aquipagoSection.vue';
-  import linkCardSection from '@/components/landing/linkCardSection.vue';
+  import LandingHeader from '@/components/landing.old/header.vue';
+  import heroSection from '@/components/landing.old/heroSection.vue'
+  import businessSection from '@/components/landing.old/businessSection.vue';
+  import transferSection from '@/components/landing.old/transferSection.vue';
+  import aquipagoSection from '@/components/landing.old/aquipagoSection.vue';
+  import linkCardSection from '@/components/landing.old/linkCardSection.vue';
   import backToTop from '@/components/landing/backToTop.vue';
   import directLink from '@/components/landing/directLink.vue';
   import landingFooter from '@/components/landing/footer.vue';

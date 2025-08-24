@@ -13,7 +13,9 @@
         </div>
       </div>
       <div class="q-mt-lg">
-         <q-btn unelevated rounded color="white" text-color="primary"  style="border-radius: 8rem;" no-caps >
+         <q-btn unelevated rounded color="white" text-color="primary"  style="border-radius: 8rem;" no-caps 
+         @click="router.push('/register')"
+         >
           <div class="q-pa-xs">
             Crear cuenta
           </div>
@@ -30,7 +32,6 @@
 <script>
   import hero1 from '@/assets/images/hero1.webp'
   import { useRouter } from 'vue-router'
-
   export default {
     setup(){
       return{

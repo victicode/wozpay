@@ -1,134 +1,136 @@
 <template>
   <div class="q-pb-sm " style="overflow: auto; height: 100%;">
-    <div class="q-px-md q-pb-xs q-mb-none" v-if="ready">
+    <div class=" q-pb-xs q-mb-none" v-if="ready">
       <div v-if="!paystatus">
         <div class="bg-primary q-py-md ">
           <div style="font-size: 1.4rem;" class="text-white text-center text-bold q-my-md">
             Activa tu cuenta de Woz Dropshipping
           </div>
         </div>
-        <div class="q-mb-md q-pt-md">
-          <div class="text-weight-bold">
-            Comercio / Cliente:
-          </div>
-          <div class="contet__border-primary q-px-md q-py-none q-mt-xs">
-            <div class="flex items-center payToContent q-my-md justify-between" >
-              <div class="text-titlePay" >
-                Comercio
+        <div class="q-px-md">
+          <div class="q-mb-md q-pt-md">
+            <div class="text-weight-bold">
+              Comercio / Cliente:
+            </div>
+            <div class="contet__border-primary q-px-md q-py-none q-mt-xs">
+              <div class="flex items-center payToContent q-my-md justify-between" >
+                <div class="text-titlePay" >
+                  Comercio
+                </div>
+                <div class="flex items-center">
+                  <div class="text-titlePay">
+                    Woz Payments
+                  </div>
+                  <div class="bg-primary flex flex-center q-ml-xs iconcontent">
+                    <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center">
-                <div class="text-titlePay">
-                  Woz Payments
-                </div>
-                <div class="bg-primary flex flex-center q-ml-xs iconcontent">
-                  <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
-                </div>
+              <div class="flex justify-between payToContent q-my-md">
+                <div class="text-titlePay">RUC / CI</div>
+                <div class="text-titlePay">{{numberFormat(4920791)}}</div>
               </div>
             </div>
-            <div class="flex justify-between payToContent q-my-md">
-              <div class="text-titlePay">RUC / CI</div>
-              <div class="text-titlePay">{{numberFormat(4920791)}}</div>
+          </div>
+          <div class="q-mb-md">
+            <div class="text-weight-bold">
+              Producto / Servicio:
             </div>
-          </div>
-        </div>
-        <div class="q-mb-md">
-          <div class="text-weight-bold">
-            Producto / Servicio:
-          </div>
-          <div class="contet__border-primary q-px-sm q-py-none q-mt-xs">
-            <div class="flex items-center  q-my-sm justify-between" >
-              <div class="" style="width: 80%;">
-                <div class="text-titlePayP  ellipsis text-grey-9">
-                  Activación de cuenta dropshipping
-                </div>
-                <template >
+            <div class="contet__border-primary q-px-sm q-py-none q-mt-xs">
+              <div class="flex items-center  q-my-sm justify-between" >
+                <div class="" style="width: 80%;">
+                  <div class="text-titlePayP  ellipsis text-grey-9">
+                    Activación de cuenta dropshipping
+                  </div>
+                  <template >
+                    <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
+                      Fecha de inicio {{ moment().format('DD/MM/YYYY') }}
+                    </div>
+                    <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
+                     Periodo de duración 1 año
+                    </div>
+                  </template>
                   <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
-                    Fecha de inicio {{ moment().format('DD/MM/YYYY') }}
-                  </div>
-                  <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
-                   Periodo de duración 1 año
-                  </div>
-                </template>
-                <div class="text-titlePayP text-weight-bold text-grey-9 q-mt-xs" >
-                GS. {{ numberFormat(route.query.amount) }}
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div class="q-mb-md">
-          <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center " >
-            <div v-html="wozIcons.py" style="transform:scale(0.9)" />
-            <div class="text-infoBlue text-weight-medium q-mx-sm">
-              Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
-            </div> 
-          </div>
-          <div class="contet__border-primary q-px-md q-py-xs q-mt-xs q-pt-sm">
-
-
-              <div class="q-px-md q-py-sm q-my-sm infoPay__content flex justify-between items-center" v-for="(item,key) in dataPay" :key="key">
-                <div>
-                  {{ item }}
-                </div>
-                <div v-if="item=='0983994268'">
-                  <q-btn round flat class="q-ml-md-md" style="width: 2rem;height: 1.4rem;overflow: hidden;min-height: auto;" @click="copyText(item)"> 
-                    <q-icon
-                      name="eva-clipboard-outline"
-                      color="black"
-                      size="sm"
-                    />
-                  </q-btn>
-                </div>
-              </div>
-              <div class="q-my-md">
-                <div class="text-bold q-px-xs">
-                  Comprobante
-                </div>
-                <div class="q-pt-xs">
-                  <q-file for="fileId" accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant" v-show="!Object.values(comprobant).length" />
-                  <div class="q-px-md q-py-sm  infoPay__content " v-show="Object.values(comprobant).length">
-                    <label for="fileId" class="flex items-center">
-                      <div class="q-pt-xs text-positive" >
-                        Comprobante subido
-                      </div>
-                      <div class="bg-positive flex flex-center q-ml-xs iconcontent">
-                        <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
-                      </div>
-                    </label>
+                  GS. {{ numberFormat(route.query.amount) }}
                   </div>
                 </div>
-                <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
-                  Te confirmaremos el estado de tu pago en el día
-                </div>
+  
               </div>
-
-            <div class="q-px-xl q-my-md flex flex-center q-pb-sm">
-              <img :src="payMethod" alt="" 
-              style="height: 2.1rem;" >
-            </div>
-            <div v-if="formError" class="text-subtitle1 text-negative text-bold text-center q-mt-md flex flex-center">
-              <q-icon name="eva-alert-circle-outline" color="negative" size="sm"/>
-              {{ errorMessage }}
             </div>
           </div>
-        </div>
-        <div class="linkPay_content q-px-md-xl q-pb-md" >
-          <q-btn 
-              color="primary" class="w-100 q-pa-npne q-mb-none linkPay_button" 
-              no-caps
-              :loading="loading"
-              @click="createPay()"
-            >
-              <div class="text-white q-py-sm text-subtitle1 text-weight-medium flex justify-center items-stretch"  >
-                <div class="q-mt-xs">
-                  Realizar pago
-                </div>
+          <div class="q-mb-md">
+            <div class="q-mt-sm q-mb-md flex info_pay__Pay q-py-sm q-px-md  items-center " >
+              <div v-html="wozIcons.py" style="transform:scale(0.9)" />
+              <div class="text-infoBlue text-weight-medium q-mx-sm">
+                Datos para el pago mediante transferencia bancaria SIPAP, copia y usa el alías 
               </div> 
-              <template v-slot:loading>
-                <q-spinner-facebook />
-              </template>
-            </q-btn>
+            </div>
+            <div class="contet__border-primary q-px-md q-py-xs q-mt-xs q-pt-sm">
+  
+  
+                <div class="q-px-md q-py-sm q-my-sm infoPay__content flex justify-between items-center" v-for="(item,key) in dataPay" :key="key">
+                  <div>
+                    {{ item }}
+                  </div>
+                  <div v-if="item=='0983994268'">
+                    <q-btn round flat class="q-ml-md-md" style="width: 2rem;height: 1.4rem;overflow: hidden;min-height: auto;" @click="copyText(item)"> 
+                      <q-icon
+                        name="eva-clipboard-outline"
+                        color="black"
+                        size="sm"
+                      />
+                    </q-btn>
+                  </div>
+                </div>
+                <div class="q-my-md">
+                  <div class="text-bold q-px-xs">
+                    Comprobante
+                  </div>
+                  <div class="q-pt-xs">
+                    <q-file for="fileId" accept=".jpg, .pdf, image/*" outlined dense class="file_paylink" label="Adjunta tu comprobante 📂"  v-model="comprobant" v-show="!Object.values(comprobant).length" />
+                    <div class="q-px-md q-py-sm  infoPay__content " v-show="Object.values(comprobant).length">
+                      <label for="fileId" class="flex items-center">
+                        <div class="q-pt-xs text-positive" >
+                          Comprobante subido
+                        </div>
+                        <div class="bg-positive flex flex-center q-ml-xs iconcontent">
+                          <q-icon name="eva-checkmark-outline" color="white" size="0.9rem" />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="text-weight-medium q-px-xs q-mt-sm" style="font-size: 0.75rem;" >
+                    Te confirmaremos el estado de tu pago en el día
+                  </div>
+                </div>
+  
+              <div class="q-px-xl q-my-md flex flex-center q-pb-sm">
+                <img :src="payMethod" alt="" 
+                style="height: 2.1rem;" >
+              </div>
+              <div v-if="formError" class="text-subtitle1 text-negative text-bold text-center q-mt-md flex flex-center">
+                <q-icon name="eva-alert-circle-outline" color="negative" size="sm"/>
+                {{ errorMessage }}
+              </div>
+            </div>
+          </div>
+          <div class="linkPay_content q-px-md-xl q-pb-md" >
+            <q-btn 
+                color="primary" class="w-100 q-pa-npne q-mb-none linkPay_button" 
+                no-caps
+                :loading="loading"
+                @click="createPay()"
+              >
+                <div class="text-white q-py-sm text-subtitle1 text-weight-medium flex justify-center items-stretch"  >
+                  <div class="q-mt-xs">
+                    Realizar pago
+                  </div>
+                </div> 
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+          </div>
         </div>
       </div>
       <div v-else class="flex column justify-center q-px-md items-center">

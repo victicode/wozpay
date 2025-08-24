@@ -15,7 +15,10 @@
           </div>
           <div class="flex category__action q-pl-sm q-pr-xs">
             <div class="products_active__quantity ellipsis">
-              Ver {{ numberFormat(categorie.products.length) }} productos activos
+
+              Ver {{ numberFormat(getRandomInt(100, 300)) }} productos activos
+
+              <!-- Ver {{ numberFormat(categorie.products.length) }} productos activos -->
             </div>
             <q-btn flat class="q-px-none" @click="gotTo(categorie.id)" >
               <q-icon name="eva-chevron-right-outline" color="grey" />
@@ -57,6 +60,11 @@ export default {
         mostProfitable.value = response.data
       })
     }
+    const getRandomInt = (min, max) => {
+      min = Math.ceil(min); 
+      max = Math.floor(max); 
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
     const gotTo = (id) => {
       router.push('/dropshipping/category/'+id+'/products')
     }
@@ -70,6 +78,7 @@ export default {
       numberFormat,
       icons,
       gotTo,
+      getRandomInt,
     }
   }
 }

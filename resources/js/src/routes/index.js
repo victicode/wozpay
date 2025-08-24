@@ -42,7 +42,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'landing',
-      component: () => import('@/pages/landing.vue'),
+      // component: () => import('@/pages/landing.vue'),
+      component: () => import('@/pages/optionalLading.vue'),
       meta: {
         title: 'Crea tu cuenta'
       },
@@ -728,6 +729,14 @@ const router = createRouter({
           path:"/dropshipping/category/:id/products",
           name:'productByCategroy',
           component: () => import('@/pages/dropshipping/productsByCategory.vue'),
+          meta: {
+            title: 'Woz Dropshipping'
+          },
+        },
+        {
+          path:"/dropshipping/products/search",
+          name:'productSearch',
+          component: () => import('@/pages/dropshipping/productSearch.vue'),
           meta: {
             title: 'Woz Dropshipping'
           },

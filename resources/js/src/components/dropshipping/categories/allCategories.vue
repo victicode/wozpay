@@ -5,9 +5,9 @@
     </div>
     <div >
       <template v-if="Object.values(categories).length > 0">
-        <div v-for="(categorieClass, key) in Object.values(categories)" :key="key">
-          <div class="listAll-TextHeader ellipsis q-px-sm q-py-sm "  style="background: lightgray;">Categoria {{ categoriesList[key] }}</div>
-          <div v-for="categorie in categorieClass" :key="categorie.id" class="q-px-md q-py-sm q-my-md all_category-item_content" >
+        <div v-for="(letter) in keys.length" :key="letter">
+          <div class="listAll-TextHeader ellipsis q-px-sm q-py-sm "  style="background: lightgray;">Categoria {{ keys[letter-1] }}</div>
+          <div v-for="categorie in categories[keys[letter-1]]" :key="categorie.id" class="q-px-md q-py-sm q-my-md all_category-item_content" >
             <div class="category__titleAll--content q-pl-xs">
               <div class=" category__titleAll ellipsis">
                 {{ categorie.title }}
@@ -16,7 +16,8 @@
             </div>
             <div class="flex category__actionAll q-pl-sm q-pr-xs">
               <div class="products_list_quantity ellipsis">
-                {{ numberFormat(categorie.products.length) }} productos 
+                <!-- {{ numberFormat(categorie.products.length) }} productos  -->
+                {{ numberFormat(getRandomInt(100, 300)) }} productos 
               </div>
               <q-btn flat class="q-px-none" @click="gotTo(categorie.id)">
                 <q-icon name="eva-chevron-right-outline" color="black" />
@@ -56,16 +57,23 @@ export default {
       'E',
       'F',
     ]
+    const getRandomInt = (min, max) => {
+      min = Math.ceil(min); 
+      max = Math.floor(max); 
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
     const router = useRouter()
     const icons = inject('ionIcons')
     const numberFormat = utils.numberFormat
     const categorieStore = useCategorieStore()
     const categories = ref({})
+    const keys = ref([])
     const getAllCategories = () => {
       categorieStore.getAllCategorie()
       .then((response) =>{
-          categories.value = Object.values(response.data).toReversed()
-          // console.log(Object.values(categories.value))
+          categories.value = response.data
+          keys.value = Object.keys(categories.value).toReversed();
+
       })
     }
     const gotTo = (id) => {
@@ -79,8 +87,10 @@ export default {
     return {
       categories,
       numberFormat,
+      keys,
       categoriesList,
-      gotTo
+      gotTo,
+      getRandomInt
     }
   }
 }

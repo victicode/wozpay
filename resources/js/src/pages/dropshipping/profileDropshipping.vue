@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div v-if="user.dropshipping_account">
+    <div>
       <template v-if="Object.values(stadistics).length > 0">
   
         <stadisticProfile :stadistics="stadistics" />
@@ -14,7 +14,7 @@
         />
       </div>
     </div>
-    <div class="flex column justify-center q-px-md" v-else>
+    <!-- <div class="flex column justify-center q-px-md" v-else>
       <div class="text-center q-mb-md">
         <q-img
           :src="sadface"
@@ -33,7 +33,7 @@
         </div>  
       </q-btn>
 
-    </div>
+    </div> -->
   </main>
 </template>
 <script >

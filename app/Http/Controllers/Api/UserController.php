@@ -9,9 +9,10 @@ use App\Models\Wallet;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
+use App\Models\DropshippingAccount;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -161,7 +162,7 @@ class UserController extends Controller
             'type'      => 1,
         ]);
         $this->storeWallet($requestWallet);
-
+        $this->storeDropshippingAcount($newUser->id);
         return $this->returnSuccess(200, $newUser);
     }
     public function updateUser(Request $request, $id){
@@ -424,6 +425,15 @@ class UserController extends Controller
         ]);
 
         return $wallet;
+    }
+    private function storeDropshippingAcount($id){
+        DropshippingAccount::create([
+            'facturation_cicle' => 1,
+            'status' => 0,
+            'due_date' => date('Y-m-d', (time() + 31536000 )),
+            'user_id'=> $id,
+        ]);
+        
     }
     private function facialAction($user){
         if($user->facial_verify  == 0){
