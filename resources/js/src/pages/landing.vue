@@ -11,6 +11,9 @@
     <generateSell />
     <firstPartSection />
     <secondPartSection />
+    <thirdPartSection />
+    <opinionClientSection />
+    <faqSection />
     <backToTop />
     <directLink />
     <landingFooter />
@@ -31,9 +34,11 @@
   import learnToSellSection from '@/components/landing/learnToSellSection.vue';
   import stepProductSection from '@/components/landing/stepProductSection.vue';
   import generateSell from '@/components/landing/generateSell.vue';
-  
   import firstPartSection from '@/components/landing/firstPartSection.vue';
   import secondPartSection from '@/components/landing/secondPartSection.vue';
+  import thirdPartSection from '@/components/landing/thirdPartSection.vue';
+  import opinionClientSection from '@/components/landing/opinionClientSection.vue';
+  import faqSection from '@/components/landing/faqSection.vue';
   import gsap from '@/plugins/gsap/gsap';
 
   
@@ -50,6 +55,9 @@
       generateSell,
       firstPartSection,
       secondPartSection,
+      thirdPartSection,
+      opinionClientSection,
+      faqSection,
       backToTop,
       directLink,
       landingFooter,

@@ -1,5 +1,5 @@
 <template>
-  <section class="q-mt-xs q-px-xs q-py-md q-pb-lg direct__links q-pa-md-xl ">
+  <section class="q-mt-xs q-px-xs q-pt-md  q-pb-sm direct__links q-pa-md-xl ">
     <div class="direct__links--container q-pb-md q-mt-md-lg">
       <div class="q-mt-lg list__link">
         <div class="q-pl-sm title__links q-mb-sm ">Woz Paraguay</div>
@@ -136,11 +136,11 @@ export default {
 
 @media screen and (max-width: 780px){
   .direct__links{
-   background:  #e6e6e6;
+   background:  #ffffff;
    &--container{
     display: block;
-    border-top: 1px solid #1c274c;
-    border-bottom: 1px solid #1c274c;
+    border-top: 1px solid #b8b8b8;
+    border-bottom: 1px solid #010203;
   
    }
   }
