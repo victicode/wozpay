@@ -7,7 +7,7 @@
           <div class="row justify-center q-mt-md q-pb-md">
             <q-spinner-dots color="primary" size="3rem"   v-if="showLoading"/>
             <div v-else style="font-weight: bold; color: darkgray;">
-              No hay mas productos
+             {{ !user.dropshipping_account.status == 0 ? 'help' : 'No hay mas productos' }} 
             </div>
           </div>
         </template>
@@ -61,7 +61,7 @@ export default {
     
     const onLoadMenu = (index, done) => {
 
-      const validacion =  !user.value.dropshipping_account ? (index > 1 && index <=2) : (index > 1)
+      const validacion =  !user.value.dropshipping_account.status == 0 ? (index > 1 && index <=2) : (index > 1)
       if (validacion) {
           setTimeout(() => {
             getProducts(index)
@@ -71,8 +71,6 @@ export default {
               showLoading.value = false 
 
             }
-              
-            
           }, 1000)
         }
         else {
@@ -85,6 +83,7 @@ export default {
       getProducts()
     })
     return {
+      user,
       ready,
       products,
       scrollTargetRef,
