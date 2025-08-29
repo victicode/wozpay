@@ -1,7 +1,7 @@
 <template>
   <section style="background: #efefef;"> 
     <template v-if="ready" >
-      <q-infinite-scroll @load="onLoadMenu" :offset="200"  :scroll-target="'#scroll-target-id'" >
+      <q-infinite-scroll @load="onLoadMenu" :offset="200"  :scroll-target="'#scroll-target-id'"  v-if="products.length > 0">
         <listSquareProducts v-for="(product, index) in products" :product="product" :key="index"/>
         <template v-slot:loading >
           <div class="row justify-center q-mt-md q-pb-md">
@@ -17,9 +17,12 @@
           </div>
         </template>
       </q-infinite-scroll>
+      <div v-else>
+        No tenemos resultados para la busqueda
+      </div>
     </template>
     <template v-else>
-      <skeletonListSquareProducts v-for="i in 5" :key="i" class="q-mt-sm" />
+      <skeletonListSquareProducts v-for="i in 2" :key="i" class="q-mt-sm" />
     </template>
   </section>
 </template>
@@ -32,7 +35,7 @@ import listSquareProducts from '@/components/dropshipping/product/listSquareProd
 import skeletonListSquareProducts from '@/components/dropshipping/product/skeletonListSquareProducts.vue';
 import { useProductStore } from '@/services/store/products.store';
 import { useRoute } from 'vue-router';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/services/store/auth.store';
 export default {
@@ -50,8 +53,11 @@ export default {
     const ready = ref(false)
     const lastPage = ref(1)
     const showLoading = ref(true)
+    const search = ref(route.query.product)
     const  getProducts = (index = 1) => {
-      productStore.getAllProductByCategory(route.params.id, index)
+      ready.value = false
+
+      productStore.getAllProductsBySearch(search.value, index)
       .then((response) =>{
         lastPage.value = response.data.last_page
         products.value.push(...response.data.data);
@@ -87,6 +93,12 @@ export default {
     onMounted(() => {
       getProducts()
     })
+
+    watch(route, (newVal) => {
+        products.value = [];
+        search.value = newVal.query.product
+        getProducts()
+    });
     return {
       user,
       ready,

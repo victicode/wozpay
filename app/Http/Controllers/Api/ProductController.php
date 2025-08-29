@@ -19,6 +19,14 @@ class ProductController extends Controller
         }
         return $this->returnSuccess(200, $product);
     }
+    public function getAllProductsBySearch(Request $request) {
+        $product = Product::where('title', 'like', '%'.$request->search.'%')->paginate(2);
+
+        if(!$product){
+            return $this->returnFail(400, 'Product not found');
+        }
+        return $this->returnSuccess(200, $product);
+    }
     public function getAllProducts(Request $request) {
         $products = Product::with('categorie')->where('title', 'like', '%'.$request->search.'%');
 

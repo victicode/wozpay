@@ -12,14 +12,24 @@
           Tan fácil como mirar un video en Youtube
         </div>
       </div>
-      <div class="q-mt-lg">
+      <div class="q-mt-lg ">
          <q-btn unelevated rounded color="white" text-color="primary"  style="border-radius: 8rem;" no-caps 
-         @click="router.push('/register')"
-         >
-          <div class="q-pa-xs">
-            Crear cuenta
+          @click="router.push('/register')"
+          >
+            <div class="q-pa-xs">
+              Crear cuenta
+            </div>
+          </q-btn>
+          <div class="text-white q-pl-xl q-mt-sm text-h5 text-bold ">
+            ó
           </div>
-        </q-btn>
+          <q-btn unelevated  rounded color="primary" text-color="white"  style="border-radius: 8rem;" no-caps 
+          @click="router.push('/login')"
+          >
+            <div class="q-pa-xs">
+              Inicia sesión
+            </div>
+          </q-btn>
       </div>
     </div>
     <div class="q-mt-xl w-100 flex justify-end q-pr-lg">
