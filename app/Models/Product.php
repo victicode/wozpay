@@ -37,4 +37,8 @@ class Product extends Model
     public function links(){
         return $this->belongsToMany(DropshippingLink::class, 'products_x_drop_links', 'product_id')->withPivot('quantity','dropper_price')->where('status', 2);
     }
+    public function vendor(){
+        return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
+
+    }
 }

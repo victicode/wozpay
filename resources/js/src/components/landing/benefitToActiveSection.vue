@@ -88,7 +88,7 @@ export default {
   color: #f9b229;
 }
 .bg-sectionActive{
-  background: #f9b229;
+  background: #f9b229!important;
 
 }
 .titleActiveBenefit{

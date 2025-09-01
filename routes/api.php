@@ -48,7 +48,7 @@ Route::middleware('basic.authentication')->prefix('v1/tpago')->name('tpago')->gr
 });
 Route::get('/get-users', [UserController::class, 'index']);
 Route::post('/updateMasive', [UserController::class, 'massive']);
-
+// Route::post('/v1/dropaccount', [DropshippingController::class, 'addDropshippingAccount']);
 
 // Route::post('/create_wallet', [UserController::class, 'storeWallet']);
 

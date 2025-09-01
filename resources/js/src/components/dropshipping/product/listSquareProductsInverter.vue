@@ -5,7 +5,7 @@
       <div class="q-ml-xs productListSquareIn__detail--container">
         <div class="productListSquareIn__title " >{{product.title}}</div>
         <div class="productListSquareIn__vendorText">
-          Proveedor
+          {{product.vendor.name}}
           <q-icon
               :name=" icons.sharpVerified"
               size="1.1rem"
