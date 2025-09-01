@@ -21,7 +21,13 @@ class TransferController extends Controller
     public function createTransfer(Request $request) {
         $validated = $this->validateFieldsFromInput($request->all());
 
+
+
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
+
+        if(!$this->validateBalance($request->from, $request->amount)){
+            return $this->returnFail(500, 'Saldo insuficiente para realizar esta transacción');
+        }
         
         try {
             $transfer = Transfer::create([
@@ -41,7 +47,7 @@ class TransferController extends Controller
             return $this->returnSuccess(400, $th->getMessage());
         }
         
-        return $this->returnSuccess(200, $transfer);
+        return $this->returnSuccess(200, 'ok');
     }
     private function validateFieldsFromInput($inputs){
         $rules=[
@@ -174,5 +180,14 @@ class TransferController extends Controller
                 'Acabas de recibir una transferencia <i class="q-icon eva eva-checkmark-circle-2-outline chekicon" aria-hidden="true" role="img"> </i>',
             ];
         }
+    }
+    private function validateBalance($fromWallet, $amount){
+        $walletPlus = Wallet::where('type', 1)->where('id',$fromWallet)->first();
+
+        if(!$walletPlus) return false;
+
+
+         return $walletPlus->balance >= $amount;
+        
     }
 }
