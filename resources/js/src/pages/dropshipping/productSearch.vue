@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pb-lg position-relative relative">
+  <div class=" position-relative relative" :class="{'q-pb-xl':user.dropshipping_account.status !== 2}">
     <section class="q-pt-md q-px-sm">
       <div class="q-py-sm text-h6 text-center">
         Resultado de busqueda de "{{search}}"
@@ -28,10 +28,10 @@
       
       </div>
     </section>
-    <productSection class="q-pt-sm q-pb-xl  q-mt-sm q-px-sm" />
+    <productSection class="q-pt-sm  q-mt-sm q-px-sm"  :class="{'q-pb-xl':user.dropshipping_account.status !== 2}"/>
     <div class="activate__section q-py-lg flex flex-center" v-if="user.dropshipping_account.status !== 2">
       <q-btn color="positive" no-caps unelevated style="border-radius: 1rem;" @click="router.push('/dropshipping/activateForm?amount=250000')"> 
-        <div class="q-py-md q-px-lg " style="font-size: 1.1rem; font-weight: 400;">
+        <div class="q-py-sm q-px-lg " style="font-size: 1.1rem; font-weight: 400;">
           Activar membresia anual
         </div>
       </q-btn>

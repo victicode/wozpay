@@ -20,9 +20,6 @@
               Crear cuenta
             </div>
           </q-btn>
-          <div class="text-white q-pl-xl q-mt-sm text-h5 text-bold ">
-            ó
-          </div>
           <q-btn unelevated  rounded color="primary" text-color="white"  style="border-radius: 8rem;" no-caps 
           @click="router.push('/login')"
           >
