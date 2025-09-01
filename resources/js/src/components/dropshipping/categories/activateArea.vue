@@ -1,5 +1,5 @@
 <template>
-  <div class="flex activateArea__container q-pa-md " v-if="user.dropshipping_account.status == 0">
+  <div class="flex activateArea__container q-pa-md " v-if="user.dropshipping_account.status !== 2">
     <div class="textActivateArea">
       <div class="first__text">Activalo por</div>
       <div class="second__text">Gs. 250.000</div>
@@ -27,7 +27,6 @@ export default {
 
   setup() {
     const { user  } = storeToRefs(useAuthStore())
-
     return{
       router: useRouter(),
       user,

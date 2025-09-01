@@ -5,13 +5,13 @@
         Woz <br>
         Dropshipping
       </div>
-      <div>
+      <div class="">
         <div class="header__button q-pa-sm" :class="styleHead" @click="router.push('/dropshipping/profile')" >
           <slot></slot>
         </div>
       </div>
     </div>
-    <q-form @submit="goSearch()" class="d-flex  items-center q-mt-lg  search-contentProfile q-mt-md-sm">
+    <q-form @submit="goSearch()" class="d-flex  items-center q-mt-lg  search-contentProfile q-mt-md-smlg">
       <input type="text" class="searchInputProfile" placeholder="¿Qué producto estas buscando?" v-model="search">
       <q-btn  text-color="primary" id="searchButtonProfile" type="submit"  label="Buscar" no-caps />
     </q-form>
@@ -87,10 +87,11 @@
       /* El nombre del archivo importa debe coincidir con el nombre del archivo importado */
   }
   #dropshipping-header{
-
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    height: 26%;
   }
   .text-header{
     font-family: 'Amazon Ember Bolder'!important;
@@ -144,7 +145,7 @@
   }
 
   .header__fisrtpart{
-    width: 50%;
+    width: 100%;
   }
   .searchInputProfile{
     

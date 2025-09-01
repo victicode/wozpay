@@ -3,7 +3,7 @@
     <div class=" q-pb-xs q-mb-none" v-if="ready">
       <div v-if="!paystatus">
         <div class="bg-primary q-py-md ">
-          <div style="font-size: 1.4rem;" class="text-white text-center text-bold q-my-md">
+          <div style="font-size: 1.2rem;" class="text-white text-center text-bold q-my-md q-px-sm">
             Activa tu cuenta de Woz Dropshipping
           </div>
         </div>

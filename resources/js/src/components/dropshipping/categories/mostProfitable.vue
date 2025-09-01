@@ -5,25 +5,30 @@
       <div class="listTextHeader ellipsis" >Categorias y productos se renuevan semanalmente</div>
     </div>
     <div class="q-px-md">
-      <template v-if="mostProfitable.length > 0">
-        <div v-for="categorie in mostProfitable" :key="categorie.id" class="q-px-sm q-py-sm q-my-md q-my-md-lg category-item_content" >
-          <div class="category__title--content q-pl-xs">
-            <div class=" category__title ellipsis">
-              {{ categorie.title }}
+      <template v-if="ready">
+        <div v-if="mostProfitable.length > 0">
+          <div v-for="categorie in mostProfitable" :key="categorie.id" class="q-px-sm q-py-sm q-my-md q-my-md-lg category-item_content" >
+            <div class="category__title--content q-pl-xs">
+              <div class=" category__title ellipsis">
+                {{ categorie.title }}
+              </div>
+              <q-icon style="margin-left: -0.31rem; margin-top: -0.2rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in categorie.rating" :key="i" />
             </div>
-            <q-icon style="margin-left: -0.31rem; margin-top: -0.2rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in categorie.rating" :key="i" />
-          </div>
-          <div class="flex category__action q-pl-sm q-pr-xs">
-            <div class="products_active__quantity ellipsis">
-
-              Ver {{ numberFormat(getRandomInt(100, 300)) }} productos activos
-
-              <!-- Ver {{ numberFormat(categorie.products.length) }} productos activos -->
+            <div class="flex category__action q-pl-sm q-pr-xs">
+              <div class="products_active__quantity ellipsis">
+  
+                Ver {{ numberFormat(getRandomInt(100, 300)) }} productos activos
+  
+                <!-- Ver {{ numberFormat(categorie.products.length) }} productos activos -->
+              </div>
+              <q-btn flat class="q-px-none" @click="gotTo(categorie.id)" >
+                <q-icon name="eva-chevron-right-outline" color="grey" />
+              </q-btn>
             </div>
-            <q-btn flat class="q-px-none" @click="gotTo(categorie.id)" >
-              <q-icon name="eva-chevron-right-outline" color="grey" />
-            </q-btn>
           </div>
+        </div>
+        <div v-else class="text-center text-bold text-h6">
+          No hay categorias rentables 😞
         </div>
       </template>
       <template v-else> 
@@ -54,10 +59,15 @@ export default {
     const numberFormat = utils.numberFormat
     const categorieStore = useCategorieStore()
     const mostProfitable = ref([])
+    const ready = ref(false)
     const getMostProfitable = () => {
       categorieStore.getMostProlifict()
       .then((response) =>{
         mostProfitable.value = response.data
+        ready.value = true
+      })
+      .catch(() =>{
+        ready.value = true
       })
     }
     const getRandomInt = (min, max) => {
@@ -77,6 +87,7 @@ export default {
       mostProfitable,
       numberFormat,
       icons,
+      ready,
       gotTo,
       getRandomInt,
     }
