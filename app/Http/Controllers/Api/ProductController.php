@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     //
     public function getAllProductsByCategory($category) {
-        $product = Product::where('categorie_id', $category)->paginate(2);
+        $product = Product::with(['vendor'])->where('categorie_id', $category)->paginate(2);
 
         if(!$product){
             return $this->returnFail(400, 'Product not found');
@@ -20,7 +20,7 @@ class ProductController extends Controller
         return $this->returnSuccess(200, $product);
     }
     public function getAllProductsBySearch(Request $request) {
-        $product = Product::where('title', 'like', '%'.$request->search.'%')->paginate(2);
+        $product = Product::with(['vendor'])->where('title', 'like', '%'.$request->search.'%')->paginate(2);
 
         if(!$product){
             return $this->returnFail(400, 'Product not found');
@@ -36,7 +36,7 @@ class ProductController extends Controller
         return $this->returnSuccess(200, $products->paginate(100));
     }
     public function getProductById($id) {
-        $product = Product::find($id);
+        $product = Product::with(['vendor'])->find($id);
 
         if(!$product){
             return $this->returnFail(400, 'Product not found');

@@ -4,7 +4,7 @@
       <img :src="imgButton" alt="" style="width: 1.59rem; height: 1.59rem;" >
     </headerDrop>
     <div class="container_page"  id="scroll-target-id">
-      <div class="section_page q-pb-xl">  
+      <div class="section_page ">  
         <router-view v-slot="{ Component }">
           <transition name="fadx">
             <component :is="Component"  />

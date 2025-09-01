@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Http\Controllers\Controller;
+use App\Models\DropshippingAccount;
 use App\Models\DropshippingLink;
 use App\Models\DropshippingPay;
 use App\Models\PayAdd;
 use App\Models\Pay;
 use App\Models\Product;
+use App\Models\User;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -178,5 +180,23 @@ class DropshippingController extends Controller
 
 
         return $this->returnSuccess(200, $pays);
+    }
+    public function addDropshippingAccount (){
+        $users = User::all();
+
+        try {
+           foreach ($users as $user) {
+            DropshippingAccount::create([
+                'facturation_cicle' => 1,
+                'status' => 0,
+                'due_date' => date('Y-m-d', (time() + 31536000 )),
+                'user_id'=> $user->id,
+            ]);
+        }
+        } catch (\Throwable $th) {
+            return $this->returnFail(500, $th->getMessage());
+        }
+        
+        return $this->returnSuccess(200, $users);
     }
 }

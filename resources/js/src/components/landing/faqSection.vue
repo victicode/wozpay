@@ -22,15 +22,7 @@
             </template>
             <q-card class="q-pl-xl">
               <q-card-section class="text-grey-6">
-                Un análisis competitivo es una
-                investigación sobre el panorama de tu
-                segmento de mercado para descubrir lo
-                que tus competidores están haciendo. El
-                objetivo es entender cómo se comportan
-                dentro del mercado para planificar
-                actividades comerciales que
-                contrarresten sus puntos fuertes y
-                exploten los débiles
+               {{ question.anserw }}
               </q-card-section>
             </q-card>
           </q-expansion-item>

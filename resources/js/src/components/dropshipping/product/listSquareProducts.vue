@@ -7,7 +7,7 @@
     <div class="q-ml-xs productListSquare__detail--container q-py-sm">
       <div class="productListSquare__title " @click="goTo(product.id)">{{product.title}}</div>
       <div class="productListSquare__vendorText">
-        Proveedor
+        {{product.vendor.name}}
         <q-icon
           :name=" icons.sharpVerified"
           size="1.1rem"

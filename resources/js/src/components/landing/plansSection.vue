@@ -40,7 +40,7 @@
           <div v-if="!plan.free">
               <div class="text-white" style="font-weight: 300;font-size: 0.9rem;">Costo de membresía</div>
               <div class="text-white costText">
-                GS {{ numberFormat(plan.cost) }} <span style="font-size: 1rem; transform: translateY(-12px);">{{ i == 1 ? 'anual' : 'mensual' }}</span>
+                GS {{ numberFormat(plan.cost) }} <span style="font-size: 1rem; transform: translateY(-12px);">{{ i == 0 ? 'anual' : 'mensual' }}</span>
               </div>
               <div class="benefitOffer text-white">
                 {{ plan.sutitleCost }}

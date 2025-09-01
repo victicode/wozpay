@@ -55,7 +55,7 @@ export default {
     const showLoading = ref(true)
     const search = ref(route.query.product)
     const  getProducts = (index = 1) => {
-      ready.value = false
+    showLoading.value = true 
 
       productStore.getAllProductsBySearch(search.value, index)
       .then((response) =>{
@@ -72,8 +72,7 @@ export default {
     
     const onLoadMenu = (index, done) => {
 
-      const validacion =  !user.value.dropshipping_account.status == 0 ? (index == 0) : (index >= 1)
-      if (validacion) {
+      if (index > 1) {
           setTimeout(() => {
             getProducts(index)
             if(index < lastPage.value){
@@ -86,7 +85,8 @@ export default {
       }
       else {
         setTimeout(() => {
-         !user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
+         user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
+        // showLoading.value = false
         }, 200)
       }
     }
@@ -95,8 +95,11 @@ export default {
     })
 
     watch(route, (newVal) => {
+      console.log('gdfgdfgd')
         products.value = [];
         search.value = newVal.query.product
+        ready.value = false
+
         getProducts()
     });
     return {
