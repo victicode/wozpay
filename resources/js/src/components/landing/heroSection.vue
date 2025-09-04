@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="q-mt-lg ">
-         <q-btn unelevated rounded color="white" text-color="primary"  style="border-radius: 8rem;" no-caps 
+         <q-btn unelevated rounded color="white" text-color="primary" class="q-mr-sm" style="border-radius: 8rem;" no-caps 
           @click="router.push('/register')"
           >
             <div class="q-pa-xs">

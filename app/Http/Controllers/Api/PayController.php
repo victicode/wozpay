@@ -563,7 +563,7 @@ class PayController extends Controller
     }
     private function approveActivateDropshipping($user){
         DropshippingAccount::where('user_id', $user)->update([
-            'status' => 1
+            'status' => 2
         ]);
         try {
             $this->sendNotification('Tu cuenta de Woz Dropshipping ha sido activada con exito', $user, 'Pago verificado', 2);

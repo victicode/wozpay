@@ -7,8 +7,8 @@
           <div class="row justify-center q-mt-md q-pb-md">
             <q-spinner-dots color="primary" size="3rem"   v-if="showLoading"/>
             <div v-else style="font-weight: bold; color: darkgray;">
-              <div v-if="user.dropshipping_account.status !== 2" class=" text-primary text-bold text-center w-100" style="font-size: 1rem;">
-                Desbloquea todos los productos con una <br> cuenta Woz Dropshipping
+              <div v-if="user.dropshipping_account.status != 2" class=" q-pb-lg text-primary text-bold text-center w-100" style="font-size: 1rem;">
+                Desbloquea para ver mas
               </div>
               <div v-else>
                 No hay mas productos

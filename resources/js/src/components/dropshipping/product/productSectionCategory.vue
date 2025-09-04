@@ -7,8 +7,8 @@
           <div class="row justify-center q-mt-md q-pb-md">
             <q-spinner-dots color="primary" size="3rem"   v-if="showLoading"/>
             <div v-else style="font-weight: bold; color: darkgray;">
-              <div v-if="user.dropshipping_account.status !== 2" class=" text-primary text-bold text-center w-100" style="font-size: 1rem;">
-                Desbloquea todos los productos con una <br> cuenta Woz Dropshipping
+              <div v-if="user.dropshipping_account.status != 2" class=" q-pb-lg text-primary text-bold text-center w-100" style="font-size: 1rem;">
+                Desbloquea para ver mas
               </div>
               <div v-else>
                 No hay mas productos
@@ -66,7 +66,8 @@ export default {
     
     const onLoadMenu = (index, done) => {
 
-      if (index > 1) {
+      const validacion =  !user.value.dropshipping_account.status == 0 ? (index == 0) : (index >= 1)
+      if (validacion) {
           setTimeout(() => {
             getProducts(index)
             if(index < lastPage.value){
@@ -79,8 +80,7 @@ export default {
       }
       else {
         setTimeout(() => {
-         user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
-        // showLoading.value = false
+         !user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
         }, 200)
       }
     }

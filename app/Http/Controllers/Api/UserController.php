@@ -429,7 +429,7 @@ class UserController extends Controller
     private function storeDropshippingAcount($id){
         DropshippingAccount::create([
             'facturation_cicle' => 1,
-            'status' => 0,
+            'status' => 1,
             'due_date' => date('Y-m-d', (time() + 31536000 )),
             'user_id'=> $id,
         ]);

@@ -26,12 +26,15 @@
       </div>
     </section>
     <productSection class="q-pt-sm q-pb-xl q-mt-sm q-px-sm" />
-    <div class="activate__section q-py-lg flex flex-center" v-if="user.dropshipping_account.status !== 2">
-      <q-btn color="positive" no-caps unelevated style="border-radius: 1rem;" @click="router.push('/dropshipping/activateForm?amount=250000')"> 
-        <div class="q-py-md q-px-lg " style="font-size: 1.1rem; font-weight: 400;">
-          Activar membresia anual
+    <div class="activate__section q-py-md flex flex-center" v-if="user.dropshipping_account.status != 2">   
+      <q-btn color="primary" no-caps unelevated style="border-radius: 0.5rem;" @click="router.push('/dropshipping/activateForm?amount=250000')"> 
+        <div class="q-py-sm q-px-sm " style="font-size: 1.1rem; font-weight: 400;">
+          Desbloquea todos los productos
         </div>
       </q-btn>
+      <div class=" text-white text-center w-100 q-mt-sm cursor-pointer" style="font-size: 1rem;" @click="router.push('/dropshipping/activateForm?amount=250000')">
+        Activar membresia anual
+      </div>
     </div>
   </div>
 </template>
@@ -73,11 +76,12 @@ export default {
 </script>
 <style lang="scss">
 .activate__section{
-  background: white;
+  background: #19cd15;
   position: fixed;
   bottom: 0;
   width: 50%;
   z-index: 100;
+
 }
 .droppersInit{
   border: 1px solid goldenrod;

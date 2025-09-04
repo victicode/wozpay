@@ -47,7 +47,7 @@
               </div>
           </div>
         </div>
-        <div class="planBottom q-px-md q-py-lg text-white" :style="'background-color:'+plan.color">
+        <div class="planBottom q-px-md q-py-lg text-white" :style="'background-color:'+plan.color" @click="router.push('/register')">
           {{ plan.bottomTitle }}
         </div>
       </div>
@@ -60,12 +60,14 @@ import proveedor from '@/assets/images/proveedor.jpeg'
 import profesional from '@/assets/images/profesional.jpeg'
 import gratuito from '@/assets/images/gratuito.jpeg'
 import { inject } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
   
   setup() {
     const icons = inject('ionIcons');
     const numberFormat = util.numberFormat
+    const router = useRouter()
     const plans = [
       // {
       //   img: gratuito,
@@ -128,6 +130,7 @@ export default {
       plans,
       numberFormat,
       icons,
+      router,
     }
   },
 }

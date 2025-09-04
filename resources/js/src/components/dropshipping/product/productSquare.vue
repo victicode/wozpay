@@ -9,7 +9,7 @@
       <div class="q-ml-xs productSquareSimilar__detail--container">
         <div class="productSquareSimilar__title " >{{product.title}}</div>
         <div class="productSquareSimilar__vendorText">
-          Proveedor
+          {{ product.vendor.name }}
           <q-icon
               :name=" icons.sharpVerified"
               size="1.1rem"

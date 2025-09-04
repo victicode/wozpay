@@ -31,7 +31,9 @@
               <b> Secretaria de Estado y Tributación (SET)</b>
             </div>
           </div>
-          <div></div>
+          <div class="q-mt-lg q-mb-sm">
+            <img :src="rucImg" alt="">
+          </div>
         </div>
       </div>
     </div>
@@ -101,6 +103,17 @@
     </div>
   </div>
 </template>
+<script>
+  import rucImg from '@/assets/images/documentoRuc.webp';
+  export default {
+
+    setup() {
+      return {
+        rucImg
+      }      
+    },
+  }
+</script>
 <style lang="scss">
 .headerTablePart{
   font-weight: 900;

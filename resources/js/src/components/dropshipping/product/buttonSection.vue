@@ -1,8 +1,8 @@
 <template>
   <section >
     <div class="q-mt-lg flex column items-center q-pb-md">
-      <q-btn @click="goTo(user.dropshipping_account.status == 0 ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/generatePayLink/'+product.id)" unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
-      <q-btn @click="goTo(user.dropshipping_account.status == 0 ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Chatgpt" />
+      <q-btn @click="goTo(user.dropshipping_account.status != 2 ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/generatePayLink/'+product.id)" unelevated color="positive" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Vender producto" />
+      <q-btn @click="goTo(user.dropshipping_account.status != 2 ? '/dropshipping/activateForm?amount=250000' :'/dropshipping/iaResult/'+product.id)" unelevated color="yellowLanding" class="q-my-xs" style="width:90%; padding: 0.8rem 1rem; border-radius:0.8rem; font-size:0.95rem" no-caps label="Analizar producto con Chatgpt" />
     </div>
     <div class="q-px-md q-pb-md">
       <div class="droppersInfo__container q-py-sm q-px-md q-mb-sm">

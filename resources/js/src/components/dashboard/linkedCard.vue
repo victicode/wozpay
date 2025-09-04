@@ -202,7 +202,7 @@
   width: 50%;
 }
 
-@media screen and (min-width: 400px) and (max-width: 780px){
+@media screen and (min-width: 415px) and (max-width: 780px){
   .text-turnc{
     width: 100%;
   }
@@ -214,7 +214,7 @@
     width: auto;
   }
 }
-@media screen and (max-width: 399px){
+@media screen and (max-width: 414px){
   .text-turnc{
     width: 100%;
   }

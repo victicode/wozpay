@@ -15,18 +15,19 @@
             <div class="q-py-sm q-px-sm bg-grey-5" style="font-weight:500">
               {{ moment(pay.created_at).format('DD') }} de {{ moment(pay.created_at).format('MMMM yyyy') }}
             </div>
-            <div class="q-pt-md" v-for="product in pay.link.products_in_link" :key="product.id">
+            <div class="q-py-md" v-for="product in pay.link.products_in_link" :key="product.id">
                 <div class=" q-px-sm q-pb-none q-pt-md-sm flex items-center" style="flex-wrap:nowrap; height:6rem">
                     <div class="q-mr-xs flex flex-center" style="
                       background: red; 
+                      width: 28%;
                       border-radius:.8rem; 
                       background:#d8d8d8; 
                       height:100%;">
                       <img :src="product.image" alt="" style="width: 7rem; padding: 0rem 20%;">
                     </div>
-                    <div class=" q-pl-xs q-py-xs flex items-center justify-between" style="cursor:pointer; flex-wrap:nowrap; width: -webkit-fill-available;">
-                      <div class=" q-pt-xs">
-                        <div class="q-mb-xs q-mt-xs " style="font-weight:500; font-size:1rem; line-break: no-wrap;">
+                    <div class=" q-pl-xs q-py-xs flex items-center justify-between" style="cursor:pointer; flex-wrap:nowrap; width: 71%">
+                      <div class=" q-pt-xs" style="width:63%">
+                        <div class="q-mb-xs q-mt-xs ellipsis" style="font-weight:500; font-size:1rem; line-break: no-wrap; width:100%">
                           {{ product.title }}
                         </div>
                         <div class="q-mb-xs" style="font-weight:400; font-size:.9rem; line-break: auto;">
@@ -36,7 +37,7 @@
                           {{ moment(pay.created_at).format('DD-MM-YYYY HH:mm')  }}h
                         </div>
                       </div>
-                      <div class="q-py-xs q-mt-xs q-px-lg badge__dropVentas" :class="{'sell':pay.status==2, 'reject':pay.status==0}" style="">
+                      <div class="q-py-xs q-mt-xs q-px-md-lg q-px-sm badge__dropVentas" :class="{'sell':pay.status==2, 'reject':pay.status==0}" style="">
                         {{ pay.status_label }}
                       </div>
                     </div>

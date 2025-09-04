@@ -1,5 +1,5 @@
 <template>
-  <div class=" position-relative relative" :class="{'q-pb-xl':user.dropshipping_account.status !== 2}">
+  <div class=" position-relative relative" :class="{'q-pb-xl':user.dropshipping_account.status != 2}">
     <section class="q-pt-md q-px-sm">
       <div class="q-py-sm text-h6 text-center">
         Resultado de busqueda de "{{search}}"
@@ -28,13 +28,17 @@
       
       </div>
     </section>
-    <productSection class="q-pt-sm  q-mt-sm q-px-sm"  :class="{'q-pb-xl':user.dropshipping_account.status !== 2}"/>
-    <div class="activate__section q-py-lg flex flex-center" v-if="user.dropshipping_account.status !== 2">
-      <q-btn color="positive" no-caps unelevated style="border-radius: 1rem;" @click="router.push('/dropshipping/activateForm?amount=250000')"> 
-        <div class="q-py-sm q-px-lg " style="font-size: 1.1rem; font-weight: 400;">
-          Activar membresia anual
+    <productSection class="q-pt-sm  q-mt-sm q-px-sm"  :class="{'q-pb-xl':user.dropshipping_account.status != 2}"/>
+    <div class="activate__section q-py-md flex flex-center" v-if="user.dropshipping_account.status != 2">   
+      <q-btn color="primary" no-caps unelevated style="border-radius: 0.5rem;" @click="router.push('/dropshipping/activateForm?amount=250000')"> 
+        <div class="q-py-sm q-px-sm " style="font-size: 1.1rem; font-weight: 400;">
+          
+          Desbloquea todos los productos
         </div>
       </q-btn>
+      <div class=" text-white text-center w-100 q-mt-sm cursor-pointer" style="font-size: 1rem;" @click="router.push('/dropshipping/activateForm?amount=250000')">
+        Activar membresia anual
+      </div>
     </div>
   </div>
 </template>
@@ -83,7 +87,7 @@ export default {
 </script>
 <style lang="scss">
 .activate__section{
-  background: white;
+  background: #19cd15;
   position: fixed;
   bottom: 0;
   width: 50%;
