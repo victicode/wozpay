@@ -21,7 +21,7 @@ class TransactionController extends Controller
     //
     public function getTrasactionByUser($userId, Request $request) {
         $user =  User::with(['successPays' => function (Builder $query) use ($request) { 
-            $query->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
+            $query->where('type','!=',11)->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
         }, 'wallet'])->find($userId);
 
         $send =  Wallet::with(['transferSend' => function (Builder $query) use ($request) { 
@@ -32,7 +32,7 @@ class TransactionController extends Controller
             $query->with('user_from.user')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year);
         }] )->find($user->wallet->id);
         $activationPay = Pay::with('user')->where('user_id',$userId)->where('type',5)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
-        $activationPay = Pay::with('user')->where('user_id',$userId)->where('type',11)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
+        $activationPayDrop = Pay::with('user')->where('user_id',$userId)->where('type',11)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
 
         $packagePay = Pay::with('user', 'package')->where('user_id',$userId)->where('type',6)->where('status', '2')->whereMonth('created_at',$request->month+1)->whereYear('created_at', $request->year)->get();
         
@@ -58,8 +58,9 @@ class TransactionController extends Controller
             ...$this->tagTransfer($send->transferSend ?? [],5) ,
             ...$this->tagTransfer($loans ?? [],6) ,
             ...$this->tagTransfer($links ?? [],7) ,
-            ...$activationPay,
+            // ...$activationPay,
             ...$packagePay,
+            ...$activationPayDrop,
 
         ];
         

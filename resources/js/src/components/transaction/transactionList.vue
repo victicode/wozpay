@@ -169,6 +169,8 @@ export default {
       if(transaction.transaction == 9)  return { title:'Pago de paquete de links', second:transaction.package.title, }
       if(transaction.transaction == 10)  return { title:'Pago de link de cobro', second:'#'+transaction.links.type_label, text:transaction.links.title}
 
+      if(transaction.transaction == 11)  return { title:'Activación cuenta Dropshipping', text:transaction.concept}
+
 
     }
     const imgTransaction = (transaction) => {
@@ -182,6 +184,8 @@ export default {
       if(transaction.transaction == 8 || transaction.transaction == 9)  return 'eva-credit-card-outline'
 
       if(transaction.transaction == 10)  return wozIcons.linkCheck
+      if(transaction.transaction == 11)  return wozIcons.cashOutline
+
 
 
     }
@@ -213,13 +217,13 @@ export default {
       loading,
       transactions,
       icons,
-      lines,
-      imgTransaction,
       numberFormat,
-      colorTextByTrasaction,
-      goTo,
       currentPage,
       lastPage,
+      lines,
+      imgTransaction,
+      colorTextByTrasaction,
+      goTo,
       setPage,
       amountToTransaction,
     }
@@ -267,7 +271,7 @@ export default {
       transform: scale(1.1)!important;
     }
     .transactionList{
-      height: 77%;
+      height: 73%;
       
     }
     .icons-transfer {

@@ -179,7 +179,7 @@ export default {
 }
 @media screen and (max-width: 780px){
   .search_trasaction{
-    height: 25%;
+    height: 27%;
   }
   .search__trasaction {
     & .q-field__bottom{

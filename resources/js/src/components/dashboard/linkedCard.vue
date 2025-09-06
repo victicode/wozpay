@@ -17,7 +17,7 @@
                   <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
                     <q-icon :name="icons.outlinedAddCard" class="" size="md" color="black" />
                   </div>
-                  <div class="" style="width:74%">
+                  <div class="" style="width:75%">
                     <div class="text-weight-medium ellipsis text-turnc" style="font-size: 0.89rem; "> Tarjeta de crédito - Débito </div>
                     <div class=" ellipsis">N° ********** {{ linkCard.number.substring(linkCard.number.length - 4) }} </div>
                   </div>
@@ -27,7 +27,7 @@
                     <q-chip 
                       :color="linkCard.status == 2 ? 'chip' : linkCard.status == 1 ? 'warning' : 'negative'" 
                       :text-color=" linkCard.status == 2 ? 'positive' : 'white'" 
-                      class="q-px-md-lg q-px-md chipLoanStatus"
+                      class="q-px-md-lg q-px-sm chipLoanStatus"
                     >
                       {{  linkCard.status == 2 ? 'Vinculada' : linkCard.status == 1 ? 'Pendiente' : 'Rechazada' }}
                     </q-chip>
@@ -202,7 +202,7 @@
   width: 50%;
 }
 
-@media screen and (min-width: 415px) and (max-width: 780px){
+@media screen and (min-width: 416px) and (max-width: 780px){
   .text-turnc{
     width: 100%;
   }
@@ -214,13 +214,13 @@
     width: auto;
   }
 }
-@media screen and (max-width: 414px){
+@media screen and (max-width: 415px){
   .text-turnc{
     width: 100%;
   }
 
   .w-80bbbb {
-    width: 69%;
+    width: 66%;
   }
   .w-50 {
     width: auto;
