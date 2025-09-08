@@ -1,7 +1,7 @@
 <template>
   <header class="q-px-md q-px-md-lg q-pt-md q-pb-md " :class="styleHead" id="dropshipping-header" >
     <div class="flex justify-between items-end header__fisrtpart q-pt-xs" >
-      <div class="text-header">
+      <div class="text-header" @click="router.push('/dropshipping/welcome')" >
         Woz <br>
         Dropshipping
       </div>

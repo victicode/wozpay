@@ -17,7 +17,7 @@
           </div>
         </template>
       </q-infinite-scroll>
-      <div v-else>
+      <div v-else class="text-center text-h6 q-pt-lg">
         No tenemos resultados para la busqueda
       </div>
     </template>
@@ -71,8 +71,9 @@ export default {
     }
     
     const onLoadMenu = (index, done) => {
+      const validacion =  !user.value.dropshipping_account.status == 0 ? (index == 0) : (index >= 1)
 
-      if (index > 1) {
+      if (validacion) {
           setTimeout(() => {
             getProducts(index)
             if(index < lastPage.value){
@@ -85,8 +86,7 @@ export default {
       }
       else {
         setTimeout(() => {
-         user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
-        // showLoading.value = false
+         !user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
         }, 200)
       }
     }

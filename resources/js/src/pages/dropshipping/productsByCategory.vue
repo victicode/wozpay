@@ -26,7 +26,7 @@
       </div>
     </section>
     <productSection class="q-pt-sm q-pb-xl q-mt-sm q-px-sm" />
-    <div class="activate__section q-py-md flex flex-center" v-if="user.dropshipping_account.status != 2">   
+    <div class="activate__section q-py-md flex flex-center column" v-if="user.dropshipping_account.status != 2">   
       <q-btn color="primary" no-caps unelevated style="border-radius: 0.5rem;" @click="router.push('/dropshipping/activateForm?amount=250000')"> 
         <div class="q-py-sm q-px-sm " style="font-size: 1.1rem; font-weight: 400;">
           Desbloquea todos los productos
