@@ -187,7 +187,7 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::get('/similar', [ProductController::class, 'getSimilarProduct']);
     Route::get('/all', [ProductController::class, 'getAllProducts']);
     Route::post('/', [ProductController::class, 'storeProduct']);
-    Route::post('/massive', [ProductController::class, 'storeMassiveProducts']);
+    Route::post('/massive/{categoryId}', [ProductController::class, 'storeMassiveProducts']);
 
     Route::get('/delete-all', [ProductController::class, 'deleteAll']);
 
