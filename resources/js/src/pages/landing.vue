@@ -39,7 +39,6 @@
   import thirdPartSection from '@/components/landing/thirdPartSection.vue';
   import opinionClientSection from '@/components/landing/opinionClientSection.vue';
   import faqSection from '@/components/landing/faqSection.vue';
-  import gsap from '@/plugins/gsap/gsap';
 
   
   export default {
