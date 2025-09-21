@@ -143,6 +143,7 @@
           if(response.code !== 200 ) throw response
           ready.value = false
           setTimeout(() => {
+            clearPage()
             showNotify('positive', 'Productos creados con exito')
             loading.value = false
             ready.value = true
@@ -152,7 +153,13 @@
           loading.value= false
         })
       }
-
+      const clearPage = () => {
+        readyCharge.value = false
+        categorieSelected.value = {
+          id:0,
+          title:'Selecciona una categoria'
+        }
+      }
       const showNotify = (type, message) => {
         q.notify({
           message: message,
