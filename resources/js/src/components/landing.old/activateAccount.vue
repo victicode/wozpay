@@ -62,7 +62,6 @@
       <img :src="phone"  style="width: 80%; transform: translateY(-1.6rem);"/>
     </div>
   </div>
-
 </section>
 </template>
 <script>

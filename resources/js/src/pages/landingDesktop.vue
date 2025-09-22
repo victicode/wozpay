@@ -5,6 +5,8 @@
     <planDropper />
     <activateAccount />
     <learnToSellDesktop />
+    <stepProductsDesktop />
+    <generateSellDesktop />
     <backToTop />
     <directLink />
     <landingFooter />
@@ -15,8 +17,9 @@
   import heroSection from '@/components/landing.old/heroSection.vue'
   import planDropper from '@/components/landing.old/planDropper.vue';
   import activateAccount from '@/components/landing.old/activateAccount.vue';
-  
-  import learnToSellDesktop from '../components/landing.old/learnToSellDesktop.vue';
+  import stepProductsDesktop from '@/components/landing.old/stepProductsDesktop.vue';
+  import learnToSellDesktop from '@/components/landing.old/learnToSellDesktop.vue';
+  import generateSellDesktop from '@/components/landing.old/generateSellDesktop.vue';
   import backToTop from '@/components/landing/backToTop.vue';
   import directLink from '@/components/landing/directLink.vue';
   import landingFooter from '@/components/landing/footer.vue';
@@ -29,7 +32,9 @@
       planDropper,
       activateAccount,
       learnToSellDesktop,
+      stepProductsDesktop,
       backToTop,
+      generateSellDesktop,
       directLink,
       landingFooter,
     },

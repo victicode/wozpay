@@ -115,22 +115,18 @@
   }
 </script>
 <style lang="scss">
-.headerTablePart{
-  font-weight: 900;
-  font-size: 1rem;
-  border-bottom: 1px solid rgb(114, 114, 114);
 
-}
-.item__partTable{
-  border-bottom: 1px solid darkgray;
-  font-weight: 500;
-  font-size: 0.95rem;
-}
 .partSubtitle1{
   font-size: 1.2rem;
   color: #2f2d41;
   font-weight: 900!important;
   border-bottom: 2px solid #2f2d41;
+}
+.partSubtitle3{
+  font-size: 0.95rem;
+  color: #aaaaaa;
+  font-weight: 500!important;
+  
 }
 .partSubtitle5{
   font-size: 1.3rem;
@@ -148,12 +144,7 @@
   color: $primary;
   font-weight: 900!important;
 }
-.partSubtitle3{
-  font-size: 0.95rem;
-  color: #aaaaaa;
-  font-weight: 500!important;
-  
-}
+
 .partText{
   line-height: 1.7;
   font-size: 1rem;
@@ -173,5 +164,16 @@
 .container__part{
   border-radius: 1.2rem;
   background: white;
+}
+.headerTablePart{
+  font-weight: 900;
+  font-size: 1rem;
+  border-bottom: 1px solid rgb(114, 114, 114);
+
+}
+.item__partTable{
+  border-bottom: 1px solid darkgray;
+  font-weight: 500;
+  font-size: 0.95rem;
 }
 </style>

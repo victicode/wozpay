@@ -16,22 +16,12 @@
   </div>
 </template>
 <script>
-  import imagen1 from '@/assets/images/IMAGEN_1.svg'
-  import imagen2 from '@/assets/images/IMAGEN_2.svg'
-  import imagen3 from '@/assets/images/IMAGEN_3.svg'
-  import hero_img from '@/assets/images/hero_img.webp'
-  import click_img from '@/assets/images/click.webp'
   import { useRouter } from 'vue-router'
 
   export default {
     setup(){
       return{
         router: useRouter(),
-        imagen1,
-        imagen2,
-        imagen3,
-        hero_img,
-        click_img
       }
     }
   }
