@@ -7,9 +7,12 @@
     <learnToSellDesktop />
     <stepProductsDesktop />
     <generateSellDesktop />
+    <faqSectionDesktop />
+    <downloadApp />
     <backToTop />
     <directLink />
     <landingFooter />
+
   </div>
 </template>
 <script>
@@ -20,8 +23,10 @@
   import stepProductsDesktop from '@/components/landing.old/stepProductsDesktop.vue';
   import learnToSellDesktop from '@/components/landing.old/learnToSellDesktop.vue';
   import generateSellDesktop from '@/components/landing.old/generateSellDesktop.vue';
+  import faqSectionDesktop from '@/components/landing.old/faqSectionDesktop.vue';
+  import downloadApp from '@/components/landing.old/downloadApp.vue';
+  import directLink from '@/components/landing.old/directLinkDesktop.vue';
   import backToTop from '@/components/landing/backToTop.vue';
-  import directLink from '@/components/landing/directLink.vue';
   import landingFooter from '@/components/landing/footer.vue';
   import { useQuasar } from 'quasar'
   import { onMounted } from 'vue';
@@ -33,8 +38,10 @@
       activateAccount,
       learnToSellDesktop,
       stepProductsDesktop,
-      backToTop,
       generateSellDesktop,
+      faqSectionDesktop,
+      downloadApp,
+      backToTop,
       directLink,
       landingFooter,
     },

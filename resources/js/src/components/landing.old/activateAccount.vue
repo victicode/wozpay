@@ -1,5 +1,5 @@
 <template>
-<section class="q-px-xl">
+<section class="q-px-xl q-mt-lg">
   <div class="sectionActiveLading q-py-xl relative q-my-md row">
     <div class="col-9">
       <div class="q-px-xl">
