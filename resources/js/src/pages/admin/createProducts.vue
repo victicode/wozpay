@@ -1,12 +1,18 @@
 <template>
   <div>
     <div class="position-relative"  v-if="ready" style="    height: 100%; overflow: hidden;">
-      <div class="flex q-pb-sm w-100 flex-center">
-        <div class="text-h6 q-pt-md text-weight-bold">
-          Crear productos masivos
-        </div>
+      <div class="flex q-pb-sm w-100 flex-center q-mt-md">
+          <div class="text-h6  text-weight-bold q-mr-sm">
+            Crear productos masivos
+          </div>
+          <div class="bg-primary q-px-sm q-py-xs" style="border-radius: 0.5rem;">
+            <q-icon name="eva-download-outline" size="1rem" color="white"  style="transform: rotate(180deg);"/>
+          </div>
       </div>
-      <div class="row">
+      <div class="q-pl-xl q-mt-md" style="font-size: 1.05rem; font-weight: 500;">
+        Selecciona una categoria
+      </div>
+      <div class="row q-pb-sm">
 
         <div class="col-12 text-subtitle1 q-py-sm q-px-md-xl text-weight-medium" >             
           <q-select 
@@ -19,19 +25,45 @@
             dropdown-icon="eva-chevron-down-outline"
             behavior="menu"
             color="positive"
-            class="createProductSelect" 
+            class="categorieOptionProductSelect" 
 
-          />
+          >
+            <template v-slot:selected-item="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section>
+                  <q-item-label style="font-size: 1rem; font-weight: 500;" class="text-grey-6">{{ scope.opt.title }}</q-item-label>
+                  <q-item-label caption v-if="scope.opt.id != 0">
+                      <q-icon style="margin-left: -0.31rem; margin-top: -0.2rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in scope.opt.rating" :key="i" />
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+            <template v-slot:option="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.title }}</q-item-label>
+                  <q-item-label caption v-if="scope.opt.id != 0">
+                      <q-icon style="margin-left: -0.31rem; margin-top: -0.2rem;" :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in scope.opt.rating" :key="i" />
+                    
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
         </div>
       </div>
-      <div class=" text-center q-pt-md q-pb-none q-px-none card__product " style="    ">
-        <div >
+      <div class="  q-pt-md q-pb-none q-px-none card__product " style="    ">
+        <div > 
+          <div class="q-pl-xl" style="font-size: 1.05rem; font-weight: 500;">
+            Carga tus archivos
+          </div>
           <div  class="flex justify-between items-center" style="height: 100%; overflow: hidden; width: 100%;" >
             <div class="q-pt-none q-pb-none q-px-none w-100" style="height: 100%; overflow: none; width: 100%">
               <div
                 class="q-pb-md"
                 style="height: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;" 
               >
+                
                 <div class="q-px-md-xl q-px-md">
                   <fileDropZone @file-loaded="handleFileLoaded" />
                 </div>
@@ -190,6 +222,19 @@
   }
 </script>
 <style lang="scss">
+.categorieOptionProductSelect{
+  & .q-field__native{
+    padding: 0px;
+  }
+  & .q-field__control{
+    border-radius: 20px !important;
+    height: 70px !important;
+    min-height: 50px !important;
+    padding-left: 0px;
+    padding-right: 1rem;
+    padding-top: 0.1rem;
+  }
+}
 .button__dropi{
   border-radius: 1rem;
   background: $primary;
