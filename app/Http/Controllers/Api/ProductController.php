@@ -44,8 +44,8 @@ class ProductController extends Controller
         return $this->returnSuccess(200, $product);
     }
     public function getSimilarProduct(Request $request){
-        $category = Product::where('categorie_id', $request->category)->get();
-        $search = Product::where('title','like', '%'.$request->title.'%')->get();
+        $category = Product::with(['vendor'])->where('categorie_id', $request->category)->take(5)->get();
+        $search = Product::with(['vendor'])->where('title','like', '%'.$request->title.'%')->take(5)->get();
         $metadata = $this->getMetaDataByName($request->title);
 
         return $this->returnSuccess(200, [

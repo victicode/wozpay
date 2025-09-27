@@ -50,7 +50,8 @@ export default {
     const ready = ref(false)
     const lastPage = ref(1)
     const showLoading = ref(true)
-    const  getProducts = (index = 1) => {
+    const  getProducts = (index) => {
+      index++ 
       productStore.getAllProductByCategory(route.params.id, index)
       .then((response) =>{
         lastPage.value = response.data.last_page
@@ -66,7 +67,7 @@ export default {
     
     const onLoadMenu = (index, done) => {
 
-      const validacion =  !user.value.dropshipping_account.status == 0 ? (index == 0) : (index >= 1)
+      const validacion =  user.value.dropshipping_account.status == 0 ? (index == 0) : (index >= 1)
       if (validacion) {
           setTimeout(() => {
             getProducts(index)
@@ -74,13 +75,12 @@ export default {
               done()
             }else{
               showLoading.value = false 
-
             }
           }, 1000)
       }
       else {
         setTimeout(() => {
-         !user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
+         user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
         }, 200)
       }
     }
