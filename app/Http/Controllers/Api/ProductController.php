@@ -27,6 +27,14 @@ class ProductController extends Controller
         }
         return $this->returnSuccess(200, $product);
     }
+    public function getAllProductsInInventory(Request $request) {
+        $product = Product::with(['vendor'])->where('title', 'like', '%'.$request->search.'%')->paginate(15);
+
+        if(!$product){
+            return $this->returnFail(400, 'Product not found');
+        }
+        return $this->returnSuccess(200, $product);
+    }
     public function getAllProducts(Request $request) {
         $products = Product::with('categorie')->where('title', 'like', '%'.$request->search.'%');
 

@@ -28,6 +28,27 @@ export const useProductStore = defineStore("product", {
         return 'Error al actualizar datos';
       });
     },
+    async getAllProductInInventory(search, page) {
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/products/all/inventory/?page="+page+'&'+"search="+search+'&')
+            .then(({ data }) => {
+              if(data.code !== 200){
+                throw data;
+              }
+              resolve(data)
+            }).catch((response) => {
+              console.log(response)
+              resolve('Error al obtener productos');
+            });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async getAllProductsBySearch(search, page) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {

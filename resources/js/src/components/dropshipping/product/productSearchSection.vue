@@ -44,15 +44,14 @@ export default {
     skeletonListSquareProducts
   },
   setup() {
-    const itemsMenu = ref([ {}, {},   ])
     const scrollTargetRef = ref(null)
     const productStore =  useProductStore()
     const { user } = storeToRefs(useAuthStore())
     const products = ref([]);
     const route = useRoute()
     const ready = ref(false)
-    const lastPage = ref(1)
     const showLoading = ref(true)
+    const lastPage = ref(1)
     const search = ref(route.query.product)
     const  getProducts = (index) => {
       index++ 
@@ -95,11 +94,9 @@ export default {
     })
 
     watch(route, (newVal) => {
-      console.log('gdfgdfgd')
         products.value = [];
         search.value = newVal.query.product
         ready.value = false
-
         getProducts()
     });
     return {
@@ -107,7 +104,6 @@ export default {
       ready,
       products,
       scrollTargetRef,
-      itemsMenu,
       showLoading,
       onLoadMenu,
     }
