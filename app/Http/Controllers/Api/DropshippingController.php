@@ -87,15 +87,16 @@ class DropshippingController extends Controller
             'volumenForMonth' => $this->getVolumenForMonth($user),
             'payAddsAmount' => $this->getPayAddsAmount($user),
             'withdrawal' => $this->getAllWithdrawal($user),
+            ''
          ];
     }
     private function getVolumenForMonth($user){
         $result = ''; 
         $amount = 0;
         
-        $categories = DropshippingLink::get()->where("user_id", $user)->where('pay_status', 3)
+        $categories = DropshippingLink::with('pay')->where("user_id", $user)->where('pay_status', 3)->get()
         ->groupBy(function($item,$key) {
-            return Carbon::parse($item->created_at)->format('Y-m');
+            return Carbon::parse($item->pay->created_at)->format('Y-m');
         })
         ->sortBy(function($item, $key){    
             return "01".$key;
@@ -105,7 +106,7 @@ class DropshippingController extends Controller
         $count = 1;
         foreach ($categories as $key) {
             foreach ($key as $value){
-                $amount +=$value->amount;
+                $amount +=$value->pay->amount;
                 
             }
 

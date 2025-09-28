@@ -19,7 +19,7 @@
                     <q-icon :name="icons.ionCashOutline" class="" size="sm" />
                   </div>
                   <div class=" q-ml-xs q-mr-md q-mr-md-none q-pl-md-md">
-                    <div class="text-subtitle1"> {{ item.title }} </div>
+                    <div class="" style="font-size:0.90rem"> {{ item.title }} </div>
                   </div>
                 </div>             
                 <div class="q-mr-sm text-end" >
@@ -150,7 +150,7 @@
               value: response.data.payActication
             },
             {
-              title: 'Pagos de activación de Dropshipping',
+              title: 'Pagos activación de Dropshipping',
               value: response.data.payActicationDropshipping
             },
             {
