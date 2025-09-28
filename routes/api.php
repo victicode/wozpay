@@ -183,11 +183,15 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::get('/Bycategory/{category}', [ProductController::class, 'getAllProductsByCategory']);
     Route::get('/search', [ProductController::class, 'getAllProductsBySearch']);
     Route::get('/all/inventory/', [ProductController::class, 'getAllProductsInInventory']);
+    Route::get('/all/my-products/', [ProductController::class, 'getAllMyProducts']);
+
     Route::get('/byId/{id}', [ProductController::class, 'getProductById']);
     Route::get('/similar', [ProductController::class, 'getSimilarProduct']);
     Route::get('/all', [ProductController::class, 'getAllProducts']);
     Route::post('/', [ProductController::class, 'storeProduct']);
     Route::post('/massive/{categoryId}', [ProductController::class, 'storeMassiveProducts']);
+
+    Route::get('/profile/stats', [ProductController::class, 'statsProfile']);
 
     Route::get('/delete-all', [ProductController::class, 'deleteAll']);
 

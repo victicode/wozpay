@@ -35,6 +35,30 @@ class ProductController extends Controller
         }
         return $this->returnSuccess(200, $product);
     }
+    public function getAllMyProducts(Request $request) {
+        
+        // $product = Product::with(['vendor'])->where('title', 'like', '%'.$request->search.'%')->paginate(15);
+
+        $product = Product::whereHas('links', function($query) use ($request){
+            $query->where('user_id', $request->user()->id);
+        })->paginate(10);
+
+        if(!$product){
+            return $this->returnFail(400, 'Product not found');
+        }
+        return $this->returnSuccess(200, $product);
+    }
+    public function statsProfile (Request $request){
+        $stats1 = Product::all();
+        $stats2 = Product::whereHas('links', function($query) use ($request){
+            $query->where('user_id', $request->user()->id);
+        })->count();
+
+        return $this->returnSuccess(200, [
+            'stats1' => count($stats1),
+            'stats2' => $stats2
+        ]);
+    }
     public function getAllProducts(Request $request) {
         $products = Product::with('categorie')->where('title', 'like', '%'.$request->search.'%');
 

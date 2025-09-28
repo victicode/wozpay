@@ -3,12 +3,12 @@
     <productLinkForm :product="product" />
   </div>
   <div  v-else style="height: 100vh;">
-    <transition name="inFade">
+    <transition >
       <q-inner-loading
         :showing="true"
         label="Cargando"
-        class="bg-primary"
-        color="white"
+        class="bg-white"
+        color="primary"
         label-class="text-white"
         label-style="font-size: 1.1em"
       />
