@@ -17,7 +17,7 @@
           </div>
         </template>
       </q-infinite-scroll>
-      <div v-else>
+      <div v-else class="text-center text-h6 q-pt-lg">
         No tenemos resultados para la busqueda
       </div>
     </template>
@@ -44,19 +44,18 @@ export default {
     skeletonListSquareProducts
   },
   setup() {
-    const itemsMenu = ref([ {}, {},   ])
     const scrollTargetRef = ref(null)
     const productStore =  useProductStore()
     const { user } = storeToRefs(useAuthStore())
     const products = ref([]);
     const route = useRoute()
     const ready = ref(false)
-    const lastPage = ref(1)
     const showLoading = ref(true)
+    const lastPage = ref(1)
     const search = ref(route.query.product)
-    const  getProducts = (index = 1) => {
-    showLoading.value = true 
-
+    const  getProducts = (index) => {
+      index++ 
+      showLoading.value = true 
       productStore.getAllProductsBySearch(search.value, index)
       .then((response) =>{
         lastPage.value = response.data.last_page
@@ -71,8 +70,9 @@ export default {
     }
     
     const onLoadMenu = (index, done) => {
+      const validacion =  user.value.dropshipping_account.status == 0 ? (index == 0) : (index >= 1)
 
-      if (index > 1) {
+      if (validacion) {
           setTimeout(() => {
             getProducts(index)
             if(index < lastPage.value){
@@ -86,7 +86,6 @@ export default {
       else {
         setTimeout(() => {
          user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
-        // showLoading.value = false
         }, 200)
       }
     }
@@ -95,11 +94,9 @@ export default {
     })
 
     watch(route, (newVal) => {
-      console.log('gdfgdfgd')
         products.value = [];
         search.value = newVal.query.product
         ready.value = false
-
         getProducts()
     });
     return {
@@ -107,7 +104,6 @@ export default {
       ready,
       products,
       scrollTargetRef,
-      itemsMenu,
       showLoading,
       onLoadMenu,
     }

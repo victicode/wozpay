@@ -31,7 +31,7 @@ class CategorieController extends Controller
     }
     public function getMostProlifict(Request $request){
         $categories = Categorie::with('products')
-            ->whereHas('products')->where('status', 1)->where('rating', 5)->take($request->quantity)->get();
+            ->whereHas('products')->where('status', 1)->take($request->quantity)->get();
         return $this->returnSuccess(200, $categories);
     }
     public function storeCategorie(Request $request){

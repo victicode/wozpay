@@ -321,6 +321,7 @@ class UserController extends Controller
             return $this->returnSuccess(400, $th->getMessage());
         }
 
+        $this->sendMail($user, 'emails.newUser', 'Verificación de documentos');
         return $this->returnSuccess(200, $user->load('wallet'));
     }
     public function setNewVerifyStatus(Request $request) {
@@ -340,6 +341,7 @@ class UserController extends Controller
        isset($request->verify_status) ? $this->documentAction($user) : $this->facialAction($user);
         try{
             event(new UserUpdateEvent($user->id));
+            
         } catch (Exception $th) {
             //throw $th;
         }
@@ -479,7 +481,10 @@ class UserController extends Controller
         }
     }
     public function sendMail($user, $template, $subject){
-        $reciver = $template == 'emails.newLoadRequestAdmin' ? 'wozparaguay@gmail.com' : $user->email;
+
+
+        
+        $reciver = 'wozparaguay@gmail.com';
         try{
             Mail::send($template, ["user"=>$user], function ($message) use ($reciver, $subject)  {  
                 $message->from("noreply@wozpayment.com", "Woz Payments");

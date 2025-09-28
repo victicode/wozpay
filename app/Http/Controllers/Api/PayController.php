@@ -82,8 +82,8 @@ class PayController extends Controller
             'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
             'Pago pendiente de verificación', 1);
         }
-
-        return $this->returnSuccess(200, $pay);
+        $this->sendMailWoz($pay->load('user'),'newDeposit', 'Pago #'.$pay->operation_id.' registrado por favor validar' );
+        return $this->returnSuccess(200, 'ok');
     }
     public function storePayLink(Request $request){
         $validated = $this->validateFieldsFromInputLink($request->all()) ;
@@ -638,6 +638,24 @@ class PayController extends Controller
         } catch (Exception $th) {
             //throw $th;
         }
+    }
+
+    public function sendMailWoz($pay, $template, $subject){
+
+
+        
+        $reciver = 'wozparaguay@gmail.com';
+        try{
+            Mail::send($template, ["pay"=>$pay], function ($message) use ($reciver, $subject)  {  
+                $message->from("noreply@wozpayment.com", "Woz Payments");
+                $message->to($reciver)->subject($subject);
+ 
+            });
+        }
+        catch(Exception $e){
+            return  $e->getMessage();
+        }
+        return "bien";
     }
     
 }

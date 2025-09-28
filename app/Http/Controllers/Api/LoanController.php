@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\Pay;
 use App\Models\Loan;
 use App\Models\User;
 use App\Models\Quota;
@@ -271,9 +272,9 @@ class LoanController extends Controller
         return "bien";
     }
     public function sendMailx(){
-        $loan = Loan::with('user')->find(2);
+        $pay = Pay::with('user')->find(22);
         
-        return view('emails.newLoadRequestAdmin', ['loan' => $loan]);
+        return view('emails.newDeposit', ['pay' => $pay]);
     }
 
 }

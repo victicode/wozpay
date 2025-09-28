@@ -27,6 +27,38 @@ class ProductController extends Controller
         }
         return $this->returnSuccess(200, $product);
     }
+    public function getAllProductsInInventory(Request $request) {
+        $product = Product::with(['vendor'])->where('title', 'like', '%'.$request->search.'%')->paginate(15);
+
+        if(!$product){
+            return $this->returnFail(400, 'Product not found');
+        }
+        return $this->returnSuccess(200, $product);
+    }
+    public function getAllMyProducts(Request $request) {
+        
+        // $product = Product::with(['vendor'])->where('title', 'like', '%'.$request->search.'%')->paginate(15);
+
+        $product = Product::whereHas('links', function($query) use ($request){
+            $query->where('user_id', $request->user()->id);
+        })->paginate(10);
+
+        if(!$product){
+            return $this->returnFail(400, 'Product not found');
+        }
+        return $this->returnSuccess(200, $product);
+    }
+    public function statsProfile (Request $request){
+        $stats1 = Product::all();
+        $stats2 = Product::whereHas('links', function($query) use ($request){
+            $query->where('user_id', $request->user()->id);
+        })->count();
+
+        return $this->returnSuccess(200, [
+            'stats1' => count($stats1),
+            'stats2' => $stats2
+        ]);
+    }
     public function getAllProducts(Request $request) {
         $products = Product::with('categorie')->where('title', 'like', '%'.$request->search.'%');
 
@@ -44,8 +76,8 @@ class ProductController extends Controller
         return $this->returnSuccess(200, $product);
     }
     public function getSimilarProduct(Request $request){
-        $category = Product::where('categorie_id', $request->category)->get();
-        $search = Product::where('title','like', '%'.$request->title.'%')->get();
+        $category = Product::with(['vendor'])->where('categorie_id', $request->category)->take(5)->get();
+        $search = Product::with(['vendor'])->where('title','like', '%'.$request->title.'%')->take(5)->get();
         $metadata = $this->getMetaDataByName($request->title);
 
         return $this->returnSuccess(200, [
@@ -95,20 +127,20 @@ class ProductController extends Controller
 
         return $this->returnSuccess(200, $product);
     }
-    public function storeMassiveProducts(Request $request){
+    public function storeMassiveProducts(Request $request, $categoryId){
         $all = [];
         $dataForm = json_decode($request->data, true);
 
         foreach ($dataForm as $key) {
             
-            $categoria = Categorie::where('title', $key['categoria'])->firstOr(function () use($key) {            
-                return Categorie::create([
-                    'title' => $key['categoria'],
-                    'status' => 1,
-                    'rating' => rand(1, 5),
-                    'reviews' => rand(50, 100)
-                ]);
-            });
+            // $categoria = Categorie::where('title', $key['categoria'])->firstOr(function () use($key) {            
+            //     return Categorie::create([
+            //         'title' => $key['categoria'],
+            //         'status' => 1,
+            //         'rating' => rand(1, 5),
+            //         'reviews' => rand(50, 100)
+            //     ]);
+            // });
 
             $vendor = Vendor::where('name', $key['proveedor'])->firstOr(function () use($key) {            
                 return Vendor::create([
@@ -136,7 +168,7 @@ class ProductController extends Controller
             'rating' => $key['estrellas'],
             'profit' => 0,
             'vendor_id' => $vendor ? $vendor['id'] : 1,
-            'categorie_id' => $categoria ? $categoria['id'] : 1
+            'categorie_id' => $categoryId,
         ]);
             array_push($all, $product);
         }

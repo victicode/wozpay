@@ -28,6 +28,47 @@ export const useProductStore = defineStore("product", {
         return 'Error al actualizar datos';
       });
     },
+    async profileStats() {
+      return await new Promise((resolve) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.get('/api/products/profile/stats')
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener productos');
+          });
+        }
+      })
+    },
+    async getAllProductInInventory(search, page, typeSearch) {
+      const type = typeSearch == 1 ? 'inventory/' : 'my-products/'
+
+
+      return await new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.get("/api/products/all/"+type+"?page="+page+'&'+"search="+search+'&')
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener productos');
+          });
+        }
+      })
+      .catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async getAllProductsBySearch(search, page) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
@@ -158,7 +199,7 @@ export const useProductStore = defineStore("product", {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();
-          ApiService.post("/api/products/massive", data)
+          ApiService.post("/api/products/massive/"+data.categorie, data.data)
             .then(({ data }) => {
               if(data.code !== 200){
                 throw data;

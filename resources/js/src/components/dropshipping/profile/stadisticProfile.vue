@@ -32,7 +32,7 @@
             Pagos generales
           </div>
         </div>
-        <div class="badgeStadisticProfile stadisticBadge q-px-lg q-py-sm q-ml-xs q-mb-sm q-mt-lg">
+        <div class="badgeStadisticProfile stadisticBadge q-px-lg q-py-sm q-ml-xs q-mb-sm q-mt-lg" @click="goTo('/dropshipping/products/all/'+user.id)">
           <div class="text-subtitle1 text-bold">
             {{stadistics.totalPay}} {{ stadistics.totalPay > 1 ? 'Productos' : 'Producto' }}
           </div>

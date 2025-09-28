@@ -500,7 +500,10 @@ export default {
     const validateFrom = () => {
       let isOk = {result:true}
 
-        Object.entries(formPayLink.value).forEach( ([key,value ]) => { if(value == '') isOk = {result:false, msg:"Debes completar el fomulario"} }); 
+        Object.entries(formPayLink.value).forEach( ([key,value ]) => { 
+          // console.log(value) 
+          if(value == '') isOk = {result:false, msg:"Debes completar el fomulario"} 
+        }); 
 
         if(validateCard(formPayLink.value.client_card_number)) {
           isOk = {result:false, msg:"Número de tarjeta no valido"}
@@ -578,9 +581,6 @@ export default {
         alert('Fecha no valida.')
       }
       if(!isExpirationDateValid(value[0], value[1])){
-
-
-        
 
         alert('Fecha vencida.')
         if(parseInt(value[1]) < parseInt((year).slice(-2))){

@@ -1,17 +1,17 @@
 <template>
     <div>
       <landing v-if="currentScreen=='mobile'"/> 
-      <landingOld v-else />
+      <landingDesktop v-else />
     </div>
 </template>
 <script>
   import landing from '@/pages/landing.vue';
-  import landingOld from '@/pages/landing.old.vue';
+  import landingDesktop from '@/pages/landingDesktop.vue';
   import { onMounted, ref } from 'vue';
   export default {
     components: {
       landing,
-      landingOld
+      landingDesktop
     },
     setup() {
       const currentScreen = ref('')

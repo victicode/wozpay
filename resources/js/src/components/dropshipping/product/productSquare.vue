@@ -17,7 +17,7 @@
               class="q-mx-xs"
             />
         </div>
-        <div class="productSquareSimilar__price">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
+        <div class="productSquareSimilar__price q-my-xs">Precio proveedor: Gs. {{numberFormat(product.price)}}</div>
         <div class="productSquareSimilar__suggerPrice q-mb-xs">Precio sugerido: Gs. {{numberFormat(product.price+50000)}}</div>
         <div>
           <q-icon :name="icons.raiting" color="terciary" size="1.5rem" v-for="i in product.rating" :key="i" />
@@ -54,7 +54,7 @@ export default {
   flex-wrap: nowrap;
   background: #f3f3f3;
   border-radius: 1rem;
-  width: 62%;
+  width: 17rem;
   box-shadow: 0px 5px 10px 0px #e3e3e3;
   &__title{
     font-weight: 900;
@@ -86,7 +86,7 @@ export default {
 .productSquareSimilar__img{
  
   object-fit: contain;
-  background: white;
+  background: rgba(255, 255, 255, 0);
   width: 100%;
   padding: 0% 25%;
   height: 7.5rem;

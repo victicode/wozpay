@@ -3,11 +3,13 @@
     <div class="anotherSection__text-title">
       Otros Droppers vendieron
     </div>
-    <div v-if="products.category.length > 0" class="flex q-mb-md" style="flex-wrap: nowrap; overflow-x: auto;">
-      <productSquare v-for="product in products.category" :product="product" :key="product.id"/>
-    </div>
-    <div v-if="products.search.length > 0" class="flex q-mb-md" style="flex-wrap: nowrap; overflow-x: auto;">
-      <productSquare v-for="product in products.search" :product="product" :key="product.id"/>
+    <div style="width: 100%; overflow-x: auto;">
+      <div v-if="products.category.length > 0" class="flex q-mb-md sectionIn" style="">
+        <productSquare v-for="product in products.category" :product="product" :key="product.id"/>
+      </div>
+      <div v-if="products.search.length > 0" class="flex q-mb-md sectionIn" style="">
+        <productSquare v-for="product in products.search" :product="product" :key="product.id"/>
+      </div>
     </div>
   </section>
 </template>
@@ -37,8 +39,8 @@ export default {
     const getSimilarProduct = () => {
       productStore.getSimilar(product.value.categorie_id, product.value.title)
       .then((response) => {
-        products.value.category = response.data.category.filter((itemm) => itemm.id != product.value.id)
-        products.value.search   = response.data.search.filter((itemm) => itemm.id != product.value.id)
+        products.value.category = response.data.category.filter((itemm) => itemm.id != product.value.name)
+        products.value.search   = response.data.search.filter((itemm) => itemm.id != product.value.name)
 
       })
     }
@@ -56,6 +58,11 @@ export default {
 </script>
 
 <style lang="scss">
+.sectionIn{
+  flex-wrap: nowrap; 
+  max-width: 200%;
+  width: max-content;
+}
 .anotherSection__text-title{
   font-size: 1.4rem;
   font-weight: bold;
