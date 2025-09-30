@@ -6,9 +6,9 @@
       {{moment().format('YYYY')}} © todos los derechos reservados @Wozparaguay | 
       Términos y Condiciones | política de privacidad
     </div>
-    <div class="q-py-md desktop-only">
+    <!-- <div class="q-py-md desktop-only">
       sdasdasd
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
