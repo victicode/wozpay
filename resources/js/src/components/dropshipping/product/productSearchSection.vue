@@ -70,7 +70,7 @@ export default {
     }
     
     const onLoadMenu = (index, done) => {
-      const validacion =  user.value.dropshipping_account.status == 0 ? (index == 0) : (index >= 1)
+      const validacion =  user.value.dropshipping_account.status != 2 ? (index == 0) : (index >= 1)
 
       if (validacion) {
           setTimeout(() => {
@@ -85,7 +85,7 @@ export default {
       }
       else {
         setTimeout(() => {
-         user.value.dropshipping_account.status == 0 ? showLoading.value = false : done()
+         user.value.dropshipping_account.status != 2 ? showLoading.value = false : done()
         }, 200)
       }
     }

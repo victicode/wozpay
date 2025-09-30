@@ -255,7 +255,7 @@
         showNotify('positive', 'Número de cuenta copiado')
       }
       const getPendingPays = () => {
-        payStore.getPendingPays()
+        payStore.getPendingPaysByUser()
         .then((response) =>{
           if(response.code !== 200) throw response
           

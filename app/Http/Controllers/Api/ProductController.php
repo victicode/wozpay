@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Categorie;
 use App\Models\Vendor;
+use Exception;
 
 class ProductController extends Controller
 {
@@ -130,48 +131,61 @@ class ProductController extends Controller
     public function storeMassiveProducts(Request $request, $categoryId){
         $all = [];
         $dataForm = json_decode($request->data, true);
+        try {
+            foreach ($dataForm as $key) {
+                
+                // $categoria = Categorie::where('title', $key['categoria'])->firstOr(function () use($key) {            
+                //     return Categorie::create([
+                //         'title' => $key['categoria'],
+                //         'status' => 1,
+                //         'rating' => rand(1, 5),
+                //         'reviews' => rand(50, 100)
+                //     ]);
+                // });
 
-        foreach ($dataForm as $key) {
-            
-            // $categoria = Categorie::where('title', $key['categoria'])->firstOr(function () use($key) {            
-            //     return Categorie::create([
-            //         'title' => $key['categoria'],
-            //         'status' => 1,
-            //         'rating' => rand(1, 5),
-            //         'reviews' => rand(50, 100)
-            //     ]);
-            // });
+                $keyToVendor = array_key_exists('proveedor', $key) ? 'proveedor' : 'Proveedor' ;
+                $vendor = Vendor::where('name', $key[$keyToVendor])->firstOr(function () use($key, $keyToVendor) {            
+                    return Vendor::create([
+                        'name' => $key[$keyToVendor],
+                        'status' => 1
+                    ]);
+                });
 
-            $vendor = Vendor::where('name', $key['proveedor'])->firstOr(function () use($key) {            
-                return Vendor::create([
-                    'name' => $key['proveedor'],
-                    'status' => 1
+                $volumenOldFormat = implode(",", $key['historico_volumen_de_ventas']) ;
+                $volumenNewFormat = str_replace('[', '"', $volumenOldFormat); // Elimina '['
+                $volumenNewFormat = str_replace(']', '"', $volumenNewFormat); 
+                
+                $product = Product::create([
+                    'title' => $key['nombre_producto'],
+                    'status' => 1,
+                    'quantity' => $key['stock'],
+                    'unit' => $key['unidad'],
+                    'price' => $key['precio_proveedor'],
+                    'suggest_price' => $key['precio_sugerido'],
+                    'description' => $key['descripcion_larga'],
+                    'actual_sell_volumen' => $key['ventas'],
+                    'sell_volumen_last_month' => $volumenNewFormat,
+                    'logistic' => $key['logistica'],
+                    'time_ship' => $key['tiempo_entrega'],
+                    'pay_method' => $key['metodo_pago'],
+                    'comision' => $key['comision'] ?? 15,
+                    'views' => $key['vistas'],
+                    'reviews' => $key['reviews'],
+                    'rating' => $key['estrellas'],
+                    'profit' => 0,
+                    'vendor_id' => $vendor ? $vendor['id'] : 1,
+                    'categorie_id' => $categoryId,
                 ]);
-            });
-            
-            $product = Product::create([
-            'title' => $key['nombre_producto'],
-            'status' => 1,
-            'quantity' => $key['stock'],
-            'unit' => $key['unidad'],
-            'price' => $key['precio_proveedor'],
-            'suggest_price' => $key['precio_sugerido'],
-            'description' => $key['descripcion_larga'],
-            'actual_sell_volumen' => $key['ventas'],
-            'sell_volumen_last_month' => $key['historico_volumen_de_ventas'],
-            'logistic' => $key['logistica'],
-            'time_ship' => $key['tiempo_entrega'],
-            'pay_method' => $key['metodo_pago'],
-            'comision' => $key['comision'] ?? 15,
-            'views' => $key['vistas'],
-            'reviews' => $key['reviews'],
-            'rating' => $key['estrellas'],
-            'profit' => 0,
-            'vendor_id' => $vendor ? $vendor['id'] : 1,
-            'categorie_id' => $categoryId,
-        ]);
-            array_push($all, $product);
+                array_push($all, $product);
+            }
+        } catch (Exception $th) {
+            //throw $th;
+
+                return $this->returnFail(500,$volumenNewFormat);
+
+
         }
+        
         
         return $this->returnSuccess(200,$all);
     }

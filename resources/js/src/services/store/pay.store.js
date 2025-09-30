@@ -162,6 +162,26 @@ export const usePayStore = defineStore("pay", {
         return 'Error al obtener pagos pendientes';
       });
     },
+    async getPendingPaysByUser(){
+      return new Promise((resolve, reject ) => {
+        if(JwtService.getToken()){
+          ApiService.setHeader()
+          ApiService.get("/api/pay/pays_pending/by-user")
+          .then(({data}) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            reject(response)
+          })
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al obtener pagos pendientes';
+      });
+    },
     async getPendingPaysDrop(data){
       return new Promise((resolve, reject ) => {
         if(JwtService.getToken()){

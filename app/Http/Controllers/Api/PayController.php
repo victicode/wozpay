@@ -83,7 +83,7 @@ class PayController extends Controller
             'Pago pendiente de verificación', 1);
         }
         $this->sendMailWoz($pay->load('user'),'newDeposit', 'Pago #'.$pay->operation_id.' registrado por favor validar' );
-        return $this->returnSuccess(200, 'ok');
+        return $this->returnSuccess(200, $pay);
     }
     public function storePayLink(Request $request){
         $validated = $this->validateFieldsFromInputLink($request->all()) ;
@@ -322,7 +322,26 @@ class PayController extends Controller
             'data' => $request->all(),
         ]);
     }
-    public function getPayPendings(Request $request){
+    public function getPayPendingsByUser(Request $request){
+        $user = User::with(['links_pay.pay'])->whereHas('links', function (Builder $query) {
+            $query->where('pay_status', 2);
+        })->where('id', $request->user()->id)->first();
+
+
+        $userDrop = User::with(['dropshipping_links.pay'])->whereHas('dropshipping_links', function (Builder $query) {
+            $query->where('pay_status', 2);
+        })->get();
+        return $this->returnSuccess(200,
+        [
+            'payActication' => Pay::where('type', 5)->with('user')->where('user_id', $request->user()->id)->where('status', 1)->first(),
+            'payActicationDropshipping' => Pay::where('type', 11)->with('user')->where('status', 1)->where('user_id', $request->user()->id)->get(),
+            'payPackage'    => Pay::where('type', 6)->with('user')->where('status', 1)->get(),
+            'payCreateLink' => $user,
+            'payDrophippingLink' => DropshippingPay::with('link.user')->where('status', 1)->get(),
+        ]);
+
+    }
+    public function getPayP(Request $request){
         $user = User::with(['links_pay.pay'])->whereHas('links', function (Builder $query) {
             $query->where('pay_status', 2);
         })->get();
@@ -408,7 +427,7 @@ class PayController extends Controller
     } 
     private function validateFieldsFromInput($inputs){
         $rules=[
-            'amount'        => ['required', 'integer'],
+            'amount'        => ['required', 'numeric'],
             'operation_id'  => ['regex:/^[0-9]+$/i'],
             'bank'          => ['regex:/^[a-zA-Z-À-ÿ0-9 .]+$/i'],
             'pay_date'      => ['date'],

@@ -190,7 +190,6 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::get('/all', [ProductController::class, 'getAllProducts']);
     Route::post('/', [ProductController::class, 'storeProduct']);
     Route::post('/massive/{categoryId}', [ProductController::class, 'storeMassiveProducts']);
-
     Route::get('/profile/stats', [ProductController::class, 'statsProfile']);
 
     Route::get('/delete-all', [ProductController::class, 'deleteAll']);
@@ -212,6 +211,8 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
     Route::post('/get_url', [PayController::class, 'payRequest']);
     Route::post('/change-status/{id}', [PayController::class, 'changeStatus']);
     Route::get('/pays_pending', [PayController::class, 'getPayPendings']);
+    Route::get('/pays_pending/by-user', [PayController::class, 'getPayPendingsByUser']);
+
     Route::get('/pays_dropshipping', [PayController::class, 'getPayDropshipping']);
     Route::post('/dropshpping/change-status/{id}', [PayController::class, 'changeStatusDropPay']);
     
