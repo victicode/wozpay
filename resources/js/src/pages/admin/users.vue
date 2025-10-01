@@ -9,6 +9,9 @@
           external-label outline 
           @click="setFilter(1)" label-position="bottom" size="0.78rem" icon="eva-checkmark-circle-2-outline"   
         />
+        <q-tooltip class="bg-primary text-white text-body2" :offset="[10, 10]">
+          Usuarios aprobados
+        </q-tooltip>
       </div>
       <div class="relative">
         <q-btn
@@ -17,6 +20,9 @@
           external-label outline
           @click="setFilter(5)" label-position="bottom" size="0.78rem" icon="eva-credit-card-outline"   
         />
+        <q-tooltip class="bg-primary text-white text-body2" :offset="[10, 10]">
+          Tarjeta de crédito de usuarios registrados
+        </q-tooltip>
         <div class="notifications__hub" v-if="alerts.waitCard > 0" />
       </div>
       <div class="relative">
@@ -26,6 +32,9 @@
           external-label outline
           @click="setFilter(6)" label-position="bottom" size="0.78rem" icon="eva-globe-outline"   
         />
+        <q-tooltip class="bg-primary text-white text-body2" :offset="[10, 10]">
+          Cuenta woz internacional
+        </q-tooltip>
         <div class="notifications__hub" v-if="alerts.waitLinkPay > 0" />
       </div>
       <div class="relative">
@@ -35,6 +44,9 @@
           external-label outline 
           @click="setFilter(2)" icon="eva-clock-outline" label-position="bottom" size="0.78rem"   
         />
+        <q-tooltip class="bg-primary text-white text-body2" :offset="[10, 10]">
+          Usuarios pendientes
+        </q-tooltip>
         <div class="notifications__hub" v-if="alerts.waitDocument > 0" />
       </div>
       <div class="relative">
@@ -44,14 +56,20 @@
           external-label outline 
           @click="setFilter(4)" label-position="bottom" size="0.78rem" icon="eva-close-circle-outline"   
         />
+        <q-tooltip class="bg-primary text-white text-body2" :offset="[10, 10]">
+          Usuarios rechazados
+        </q-tooltip>
       </div>
       <div>
         <q-btn
           class="filtersButton q-mr-xs" 
           :color="typeOfUser==3 ?'terciary':'grey-6'"
           external-label outline
-          @click="setFilter(3)" label-position="bottom" size="0.78rem" icon="eva-trash-2-outline"   
+          @click="setFilter(3)" label-position="bottom" size="0.78rem" icon="eva-trash-2-outline"  
         />
+        <q-tooltip class="bg-primary text-white text-body2" :offset="[10, 10]">
+          Usuarios eliminados
+        </q-tooltip>
       </div>
     </div>
     <div class=" q-px-sm flex justify-between items-center" v-if="ready" style="border-bottom: 1px solid lightgray;">

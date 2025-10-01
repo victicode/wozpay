@@ -341,7 +341,7 @@ class PayController extends Controller
         ]);
 
     }
-    public function getPayP(Request $request){
+    public function getPayPendings(Request $request){
         $user = User::with(['links_pay.pay'])->whereHas('links', function (Builder $query) {
             $query->where('pay_status', 2);
         })->get();
