@@ -6,16 +6,19 @@
     </div>
     <div v-if="Object.values(stadistics).length > 0">
       <div class="q-px-md">
-        <div>
+        <div class="cursor-pointer" style="width:fit-content" @click="goTo('/dropshipping/sells/all/'+user.id)">
           <div class="sellStatidistic__sellVolumen flex items-end q-mt-sm" >
             <div>
               Gs. {{ numberFormat(stadistics.totalSell) }}
+              <q-tooltip class="bg-primary text-body2" :offset="[10, 30]">
+                Ver detalles
+              </q-tooltip>
             </div>
-            
           </div>
-           <div class="sellStatidistic__title q-mt-xs">
+          <div class="sellStatidistic__title q-mt-xs">
             Ventas totales en Dropshipping
           </div>
+          
         </div>
       </div>
       <div class="q-px-md-lg q-px-sm q-pb-md-md q-mt-md">

@@ -777,7 +777,7 @@ const router = createRouter({
         },
         {
           path:"/dropshipping/pays/all/:id",
-          name:'allPaysDrop',
+          name:'allPaysDropx',
           component: () => import('@/pages/dropshipping/paysToUser.vue'),
           meta: {
             title: 'Woz Dropshipping'
@@ -787,6 +787,14 @@ const router = createRouter({
           path:"/dropshipping/products/all/:id",
           name:'allProductosDropsshiping',
           component: () => import('@/pages/dropshipping/productsSellByUser.vue'),
+          meta: {
+            title: 'Woz Dropshipping'
+          },
+        },
+        {
+          path:"/dropshipping/sells/all/:id",
+          name:'allSellDrop',
+          component: () => import('@/pages/dropshipping/totalIncome.vue'),
           meta: {
             title: 'Woz Dropshipping'
           },

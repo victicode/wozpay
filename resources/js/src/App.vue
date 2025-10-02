@@ -112,9 +112,6 @@
         readyState.value =  route.name == 'pay_link_dashboard' || route.name == 'dashboard' || route.name == 'dashboard_admin' || route.name == 'landing'  ? false : true
         readyState2.value =  route.name == 'Login' || route.name == 'register' || route.name == 'form_pay_link' || route.name =='view_trans' ? true : false
 
-
-        console.log('1: '+readyState.value)
-        console.log('2: '+readyState2.value)
       }
       const initChanel = () => {
         window.Echo

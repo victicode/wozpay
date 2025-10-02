@@ -84,10 +84,11 @@ class DropshippingController extends Controller
             'totalSell' => $totalSell,
             'totalEarnings' => $amountClient,
             'totalProductsSell'=> $this->getTotalProductsSell($user),
+            'totalComisionWoz' => $totalSell - $amountClient,
             'volumenForMonth' => $this->getVolumenForMonth($user),
+            'volumenEarnsForMonth' => $this->getEarnVolumenForMonth($user),
             'payAddsAmount' => $this->getPayAddsAmount($user),
             'withdrawal' => $this->getAllWithdrawal($user),
-            ''
          ];
     }
     private function getVolumenForMonth($user){
@@ -108,6 +109,32 @@ class DropshippingController extends Controller
             foreach ($key as $value){
                 $amount +=$value->pay->amount;
                 
+            }
+
+            $result .=$amount.(count($categories) == $count ?"":",");
+            $amount = 0;
+            $count++;
+        }
+
+        return $result;
+    }
+    private function getEarnVolumenForMonth($user){
+        $result = ''; 
+        $amount = 0;
+        
+        $categories = DropshippingLink::with('pay')->where("user_id", $user)->where('pay_status', 3)->get()
+        ->groupBy(function($item,$key) {
+            return Carbon::parse($item->pay->created_at)->format('Y-m');
+        })
+        ->sortBy(function($item, $key){    
+            return "01".$key;
+        });
+
+
+        $count = 1;
+        foreach ($categories as $key) {
+            foreach ($key as $value){
+                $amount +=$value->amount_to_client;
             }
 
             $result .=$amount.(count($categories) == $count ?"":",");
