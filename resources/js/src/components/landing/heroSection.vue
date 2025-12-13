@@ -12,7 +12,7 @@
           Tan fácil como mirar un video en Youtube
         </div>
       </div>
-      <div class="q-mt-lg ">
+      <div class="q-mt-lg flex">
          <q-btn unelevated rounded color="white" text-color="primary" class="q-mr-sm" style="border-radius: 8rem;" no-caps 
           @click="router.push('/register')"
           >
@@ -25,6 +25,12 @@
           >
             <div class="q-pa-xs">
               Inicia sesión
+            </div>
+          </q-btn>
+          <q-btn unelevated  rounded color="positive" text-color="white" class="q-mt-sm" style="border-radius: 8rem;" no-caps 
+           target="_blank" href="https://wozdropshippingpy.netlify.app/">
+            <div class="q-pa-xs">
+              Ver catálogo
             </div>
           </q-btn>
       </div>

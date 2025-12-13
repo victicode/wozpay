@@ -5,19 +5,19 @@
         <currentUserPersonalInfo />
       </div>
       <div style="background:#fff" class="q-px-md-md">
-
         <div>
           <linksDepartament />
         </div>
+        <bolsaStock />
         <div class="q-mt-xs">
           <actionsDashboard />
         </div>
         <!-- <div>
           <q-btn @click="enviar" color="black"> enviar</q-btn>
         </div> -->
-        <div class=" q-pt-sm q-pb-none">
+        <!-- <div class=" q-pt-sm q-pb-none">
           <socialLinks />
-        </div>
+        </div> -->
         <div class="cardItmes q-pt-xs ">
           <div style="" class="q-mt-sm">
             <walletUser />
@@ -47,9 +47,11 @@
   import socialLinks from '@/components/dashboard/socialLinks.vue';
   import walletUser from '@/components/dashboard/walletUser.vue';
   import { useUserStore } from '@/services/store/user.store';
+  import bolsaStock from '@/components/dashboard/bolsaStock.vue';
   export default {
     components: {
       currentUserPersonalInfo,
+      bolsaStock,
       actionsDashboard,
       linkedCard,
       currentUserLoan,

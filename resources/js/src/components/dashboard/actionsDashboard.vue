@@ -1,17 +1,14 @@
 <template>
   <div class="q-py-xs q-px-md-md q-px-sm  q-pb-none" style="height: 100%; overflow: hidden;">
     <div>
-      <div class="text-subtitle1 text-weight-medium q-mt-none text-dark q-px-sm">¿Qué puedes hacer?</div>
+      <div class="text-subtitle1 text-weight-medium q-mt-none text-black q-px-sm">¿Qué puedes hacer?</div>
     </div>
     <div class="q-mt-md-md q-mt-xs-sm">
       <div class="row q-px-sm q-py-md" style="background: #efefef; border-radius: 1.5rem; ">
         <div class="col-3 q-px-xs">   
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dropshipping/welcome"> <!-- to="/deposit" -->
             <div class="q-mt-xs" v-html="icons.dropShip" />
-            <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Dropshipping</div>
-            <!-- <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
-              <q-icon name="eva-lock-outline" size="md" color="grey-3"></q-icon>
-            </div> -->
+            <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Comprar</div>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
@@ -31,6 +28,31 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
+           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/deposit" > <!-- to="/deposit" -->
+            <div class="q-mt-xs" v-html="icons.cargar" />
+            <span class="q-mt-none text-dark text-body2">Acciones</span>
+          </q-btn>
+        </div>
+        <div class="col-3 q-px-xs q-mt-md">   
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dropshipping/welcome"> <!-- to="/deposit" -->
+            <div class="q-mt-xs" v-html="icons.dropShip" />
+            <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz Dropshipping</div>
+          </q-btn>
+        </div>
+        <div class="col-3 q-px-xs q-mt-md">   
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'"> <!-- to="/deposit" -->
+            <div class="q-mt-xs" v-html="icons.transferir" />
+            <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz Marketplace</div>
+          </q-btn>
+        </div>
+        
+        <div class="col-3 q-px-xs q-mt-md"> 
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'"> <!-- to="/deposit" -->
+            <div class="q-mt-xs" v-html="icons.transferir" />
+            <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz api {{ '</>' }} </div>
+          </q-btn>
+        </div>
+        <div class="col-3 q-px-xs q-mt-md">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect': user.viewRekutu}" to="/apply" >
             <div v-if="loan.status == 3 && loan.red_tapes.use_count < 3">
               <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>

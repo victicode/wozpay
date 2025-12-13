@@ -3,9 +3,10 @@
     <div class=" q-pb-sm" >
       <div class="row">
         <div class="col-12 flex items-center justify-between">
-          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-medium">Cobros nacionales</div>
+          <div class="text-subtitle1 q-mt-none text-black-9 text-weight-medium">Volver a cobros nacionales</div>
           <div>
-            <van-switch v-model="active" class="swichtDashboard" size="1.5rem" @update:model-value="redirect()" :loading="loading" active-color="#21BA45" inactive-color="#d8d8d8">
+            <van-switch v-model="active" class="swichtDashboard" size="1.5rem"
+              @update:model-value="redirect()" :loading="loading" active-color="#21BA45" inactive-color="#d8d8d8">
               <template #node>
                 <div class="icon-wrapper">
                 </div>
@@ -92,7 +93,7 @@
       const isReady = ref(false)
       // const loan = ref({}) 
       const router = useRouter()
-      const active = ref(false)
+      const active = ref(true)
       const loading = ref(false)
       const loanStatus = (state) => {
         const status = [
@@ -105,7 +106,7 @@
         return status[state]
       }
       const redirect = () => {
-        active.value = true
+        active.value = false
         loading.value = true
         setTimeout(() => {
           router.push('/dashboard')
@@ -138,10 +139,10 @@
   width: 100%!important;
 }
 .swichtDashboard .van-switch__node {
-  background: #6c6c6c;
+  background: #fff;
 }
 .van-switch--loading .van-switch__node{
-  background: #fff;
+  background: #6c6c6c;
 }
 </style>
 

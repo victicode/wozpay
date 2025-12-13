@@ -26,11 +26,14 @@ use Carbon\Carbon;
 class PayController extends Controller
 {
     //
-    public function storePay(Request $request) {
+    public function storePay(Request $request)
+    {
         $validated = $this->validateFieldsFromInput($request->all());
-        if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
-        
-        $vaucher = ''; 
+        if (count($validated) > 0) {
+            return $this->returnFail(400, $validated[0]);
+        }
+
+        $vaucher = '';
         if ($request->vaucher) {
             $vaucher = '/public/images/vaucher/'.rand(1000000, 9999999).'_'. trim(str_replace(' ', '_', $request->loan_id )) .'.'. $request->File('vaucher')->extension();
             $request->file('vaucher')->move(public_path() . '/images/vaucher/', $vaucher);

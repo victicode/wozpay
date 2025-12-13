@@ -3,24 +3,21 @@
     <div class="text-h6 q-ml-md q-pl-sm q-mb-lg" style="font-weight: bold;">
       Ganancias
     </div>
-    <div class="flex">
-      <div class="badgeStadisticProfile q-px-md q-py-xs q-ml-md q-mb-md flex items-center">
-        En tiempo real
-        <div style="border-radius: 3rem; height: 0.85rem; width: 0.85rem; background: #19cd15;" class="q-ml-sm">
-
+    <div v-if="ready">
+      <div class="flex">
+        <div class="badgeStadisticProfile q-px-md q-py-xs q-ml-md q-mb-md flex items-center">
+          En tiempo real
+          <div style="border-radius: 3rem; height: 0.85rem; width: 0.85rem; background: #19cd15;" class="q-ml-sm">
+  
+          </div>
         </div>
       </div>
-    </div>
-    <div v-if="ready">
       <div class="q-px-md">
-        <div class="cursor-pointer q-pl-xs" style="width:fit-content" @click="goTo('/dropshipping/sells/all/'+user.id)">
+        <div class="q-pl-xs" style="width:fit-content" @click="goTo('/dropshipping/sells/all/'+user.id)">
           <div class="sellStatidistic__sellVolumen flex items-end q-mt-sm" >
             <div>
               GS. {{ numberFormat(stadistics.totalEarnings) }}
-              <q-tooltip class="bg-primary text-body2" :offset="[10, 30]">
-                Ver detalles
-              </q-tooltip>
-            </div>
+            </div> 
           </div>
           <div class="sellStatidistic__title q-mt-xs">
             Ganancias totales en Dropshipping
@@ -78,6 +75,12 @@
         </div>
       </div>
     </div>
+    <div v-else class="q-py-lg flex flex-center">
+      <q-spinner-dots
+        color="primary"
+        size="5rem"
+      />
+    </div>
   </section>
 </template>
 <script>
@@ -90,6 +93,7 @@ import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/services/store/auth.store';
 import { useDropshippingStore } from '@/services/store/dropshipping.store';
 export default {
+
 
   setup () {
     const { user } = storeToRefs(useAuthStore())
@@ -163,7 +167,7 @@ export default {
 
         setTimeout(() =>{
           ready.value = true
-        } ,2000)
+        } ,200)
       })
     }
     

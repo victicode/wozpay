@@ -24,7 +24,8 @@ class Pay extends Model
         ];
         return $status[$this->status];
     }
-    public function getTransactionAttribute(){
+    public function getTransactionAttribute()
+    {
         if($this->type == 5) return 8;
         else if($this->type==6)return 9;
         else{
@@ -32,13 +33,16 @@ class Pay extends Model
             return intval($this->type);
         }
     }
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class,'user_id', 'id');
     }
-    public function loan(){
+    public function loan()
+    {
         return $this->belongsTo(Loan::class,'loan_id', 'id');
     }
-    public function package(){
+    public function package()
+    {
         return $this->belongsTo(Package::class,'package_id', 'id');
     }
     
