@@ -34,15 +34,27 @@
             </div>
           </div>
         </div>
-        <div class="q-pt-md q-px-lg flex flex-center" style="border-top: 1px solid #dfdfdf;">
-          <q-btn 
-            label="Agrega cuenta bancaria" 
-            unelevated
-            no-caps 
-            color="primary q-py-sm" 
-            class="redirect_button" 
-            @click="router.push('/bank')" 
-          />
+        <div style="border-top: 1px solid #dfdfdf;">
+          <div class="q-pt-md q-px-lg flex flex-center" >
+            <q-btn 
+              label="Agrega cuenta bancaria" 
+              unelevated
+              no-caps 
+              color="primary" 
+              class="redirect_button" 
+              @click="router.push('/bank')" 
+            />
+          </div>
+          <div class="q-pt-sm q-px-lg flex flex-center" >
+            <q-btn 
+              label="Hacer retiro" 
+              unelevated
+              no-caps 
+              color="deeping" 
+              class="redirect_button" 
+              @click="router.push('/withdrawal')" 
+            />
+          </div>
         </div>
       </div>
       <div v-else-if="bankAccounts.length == 0 && ready" class="h-100">
@@ -150,6 +162,7 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .account__info--item{
   border-bottom: 1.5px $grey-5 dashed ;

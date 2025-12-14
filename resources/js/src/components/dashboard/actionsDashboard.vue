@@ -5,12 +5,12 @@
     </div>
     <div class="q-mt-md-md q-mt-xs-sm">
       <div class="row q-px-sm q-py-md" style="background: #efefef; border-radius: 1.5rem; ">
-        <div class="col-3 q-px-xs">   
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dropshipping/welcome"> <!-- to="/deposit" -->
-            <div class="q-mt-xs" v-html="icons.dropShip" />
+        <!-- <div class="col-3 q-px-xs">   
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dropshipping/welcome"> 
+            <img :src="binance" alt="" class="q-pt-sm" >
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Comprar</div>
           </q-btn>
-        </div>
+        </div> -->
         <div class="col-3 q-px-xs">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'">
             <div class="q-mt-xs" v-html="icons.transferir" />
@@ -19,45 +19,42 @@
         </div>
         
         <div class="col-3 q-px-xs">
-           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/deposit" > <!-- to="/deposit" -->
+           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/deposit" >
             <div class="q-mt-xs" v-html="icons.cargar" />
             <span class="q-mt-none text-dark text-body2">Cargar</span>
-            <!-- <div class="flex flex-center unavailable-button" style="cursor: not-allowed; border-radius: 14px;">
-              <q-icon name="eva-lock-outline" size="md" color="grey-3"></q-icon>
-            </div> -->
           </q-btn>
         </div>
-        <div class="col-3 q-px-xs">
-           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/deposit" > <!-- to="/deposit" -->
-            <div class="q-mt-xs" v-html="icons.cargar" />
+        <!-- <div class="col-3 q-px-xs">
+           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/deposit" > 
+            <img :src="acciones" alt="">
             <span class="q-mt-none text-dark text-body2">Acciones</span>
           </q-btn>
-        </div>
-        <div class="col-3 q-px-xs q-mt-md">   
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dropshipping/welcome"> <!-- to="/deposit" -->
+        </div> -->
+        <div class="col-3 q-px-xs">   
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dropshipping/welcome">
             <div class="q-mt-xs" v-html="icons.dropShip" />
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz Dropshipping</div>
           </q-btn>
         </div>
-        <div class="col-3 q-px-xs q-mt-md">   
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'"> <!-- to="/deposit" -->
-            <div class="q-mt-xs" v-html="icons.transferir" />
+        <!-- <div class="col-3 q-px-xs q-mt-md">   
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'"> 
+            <img :src="droppi" alt="" style="height: 60%;">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz Marketplace</div>
           </q-btn>
         </div>
         
         <div class="col-3 q-px-xs q-mt-md"> 
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'"> <!-- to="/deposit" -->
-            <div class="q-mt-xs" v-html="icons.transferir" />
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :to="user.viewTransfer == 1 ? '/transfer': '/transfer_send'"> 
+            <img :src="api" alt="" style="height: 60%;">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz api {{ '</>' }} </div>
           </q-btn>
-        </div>
-        <div class="col-3 q-px-xs q-mt-md">
+        </div> -->
+        <div class="col-3 q-px-xs">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" :class="{'rekutu-efect': user.viewRekutu}" to="/apply" >
             <div v-if="loan.status == 3 && loan.red_tapes.use_count < 3">
-              <q-icon :name="iconis.ionRepeat" size="2.3rem" class="q-mt-xs"/>
+              <q-icon :name="iconis.ionRepeat" size="2.5rem" class="q-mt-xs"/>
             </div>
-            <div class="q-mt-xs" v-html="icons.solicitar" v-else />
+            <div class="q-mt-sm" v-html="icons.solicitar" v-else  />
             <span class="q-mt-none text-dark text-body2">{{ loan.status == 3 && loan.red_tapes.use_count < 3 ? 'Rekutu' : 'Prestamo'}}</span>
           </q-btn>
         </div>
@@ -72,6 +69,10 @@
   import { useLoanStore } from '@/services/store/loan.store';
   import { storeToRefs } from 'pinia';
   import { ref, onMounted, inject } from 'vue'
+  import binance from '@/assets/images/bina.png'
+  import acciones from '@/assets/images/acciones.png'
+  import api from '@/assets/images/api.png'
+  import droppi from '@/assets/images/droppi.png'
 
   export default {
     setup() {
@@ -103,6 +104,10 @@
         iconis,
         user,
         loan,
+        binance,
+        acciones,
+        api,
+        droppi
       }
     },
   }
@@ -113,8 +118,10 @@
     box-shadow: 0px 0px 0px 0px #aaaaaab4;
     border: 0px solid #c7c7c7!important;
     border-radius: 15px!important;
-    height: 70px!important;
+    height: 75px!important;
+    padding: 0.3rem;
     width: 100%!important;
+    overflow: hidden;
     background: white!important; 
     & .q-btn__content{
       display: flex!important;

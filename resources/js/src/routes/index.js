@@ -474,6 +474,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/withdrawal',
+      name: "withdrawal",
+      beforeEnter:auth,
+      component: () => import('@/pages/withdrawalPage.vue'),
+      meta: {
+        title: 'Retiro'
+      }
+    },
+    {
       path: '/trasacction-public/view/:type/:id',
       name: "view_trans",
       component: viewTransaction,
@@ -557,10 +566,6 @@ const router = createRouter({
           path: "/account_bank",
           component: bankAccountPage,
           meta: {
-            // middleware: [
-            //   auth,
-              
-            // ],
             title : 'Banco'
           },
         },
