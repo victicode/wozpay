@@ -6,15 +6,32 @@ import { storeToRefs } from 'pinia';
 import wozIcons from '@/assets/icons/wozIcons'
 import utils from '@/util/numberUtil';
 import { useRouter } from 'vue-router';
+import { useWalletStore } from '@/services/store/wallet.store'
+import customSlider from '@/components/layouts/inputs/customSlider.vue';
 
 const withdrawalForm = ref({
   account:'',
-
+  sliderCheck:''
 })
+const tableInfo = [
+  {
+    title: 'Ingresos de hoy',
+    subtitle: 'Estos son los ingresos del día'
+  },
+  {
+    title: 'Retiro',
+    subtitle: 'Retira tus ganancias'
+  },
+  {
+    title: 'Comision a pagar',
+    subtitle: 'Espera más dias para bajar la comision'
+  }
+]
 const step = ref(1)
 const router = useRouter()
 const stepTitle = ref('Cuenta bancaria')
 const { user } = storeToRefs(useAuthStore())
+const { balances } = storeToRefs(useWalletStore())
 const ready = ref(false)
 const store = useBankAccountStore()
 const accountsOptions = ref([])
@@ -49,12 +66,56 @@ const setSelectedAccount = (id) => {
   disableButton.value = false
   selectedAccount.value = accountsOptions.value.find(item => item.id == id)
 }
+const setValueByIndex = ref([
+      `Gs. ${utils.numberFormat(balances.value.wallet)}`,
+      'Instantaneo',
+      '8%'
+    ])
+const manejarCambioCompleto = (sliderData) => {
+  if(!sliderData){
+    setValueByIndex.value = [
+      `Gs. ${utils.numberFormat(balances.value.wallet)}`,
+      'Instantaneo',
+      0 +'%'
+    ]
+    return
+  }
+  if(sliderData.value == 15){
+    setValueByIndex.value = [
+      `Gs. ${utils.numberFormat(balances.value.wallet)}`,
+      'Instantaneo',
+      sliderData.value +'%'
+    ]
+  }
+  if(sliderData.value == 10){
+    setValueByIndex.value = [
+      `Gs. ${utils.numberFormat(balances.value.wallet)}`,
+      'Instantaneo',
+      sliderData.value +'%'
+    ]
+  }
+  if(sliderData.value == 8){
+    setValueByIndex.value = [
+      `Gs. ${utils.numberFormat(balances.value.wallet)}`,
+      'Instantaneo',
+      sliderData.value +'%'
+    ]
+  }
+  if(sliderData.value == 3.9){
+    setValueByIndex.value = [
+      `Gs. ${utils.numberFormat(balances.value.wallet)}`,
+      'Instantaneo',
+      sliderData.value +'%'
+    ]
+  }
+
+}
 onMounted(() => {
   getAccountsBankbyUser()
 })
 </script>
 <template>
- <div class="h-full">
+ <div class="h-full" style="overflow: hidden;">
   <div class="h-100">
     <div class="q-pl-md-lg q-pl-md q-py-md q-mt-sm" style="border-bottom: 1px solid lightgray; height: 8%;">
       <div class="text-h6 text-bold">{{ stepTitle }}</div>
@@ -63,7 +124,7 @@ onMounted(() => {
       @submit="nextStep"
       style="height: 94%;"
     >
-      <div style="height: 80%;">
+      <div style="height: 80%; overflow: auto;">
         <template v-if="step == 1">
           <div v-for="account in accountsOptions" :key="account.id" class="q-px-md flex w-100 q-pt-md justify-between items-center">
             <div style="width: 15%;">
@@ -112,8 +173,29 @@ onMounted(() => {
                 <div class="text-caption2 text-weight-medium text-primary">{{ utils.numberFormat(selectedAccount.account_owner_dni) }}</div>
               </div>
             </div>
-            <div class="q-pt-md " style="font-size: 1.2rem; font-weight: 500;" >
-              Retiras tus ganancias
+            <div class="q-pt-xs ">
+              <div style="font-size: 1.2rem; font-weight: 500;" >
+                Retiras tus ganancias
+              </div>
+              <div class="flex justify-between items-center q-mt-md containerSaldo">
+                <div class="text-balanceSaldo">Saldo total</div>
+                <div class="text-balanceSaldo">Gs. {{ utils.numberFormat(user.wallet.balance) }}</div>
+              </div>
+            </div>
+            <div>
+              <customSlider
+                v-model="withdrawalForm.sliderCheck"
+                @change="manejarCambioCompleto"
+              />
+            </div>
+            <div class="q-mt-md">
+              <div v-for="(info, index) in tableInfo" :key="index" class="flex items-center justify-between q-mb-sm infoTableContainer">
+                <div>
+                  <div class="infoTitle">{{ info.title }}</div>
+                  <div class="infoSubtitle">{{ info.subtitle }}</div>
+                </div>
+                <div class="infoValue"> {{setValueByIndex[index]}}</div>
+              </div>
             </div>
           </div>
         </template>
@@ -139,6 +221,33 @@ onMounted(() => {
  </div>
 </template>
 <style lang="scss" scoped>
+  .infoTableContainer{
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 0.22rem;
+  }
+  .infoTitle{
+    font-size: 1.04rem;
+    font-weight: 600;
+    color: #333333;
+  }
+  .infoSubtitle{
+    font-size: 0.788rem;
+    color: #a8a8a8;
+  }
+  .infoValue{
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333333;
+  }
+  .containerSaldo{
+    border: 1px solid rgb(148, 148, 148);
+    border-radius: 0.4rem;
+    padding: 0.7rem 0.8rem;
+  }
+  .text-balanceSaldo{
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
   .account__info--item{
     padding-bottom: 10px;
   }
