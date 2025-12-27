@@ -6,16 +6,16 @@
         v-for="(point, index) in checkpoints"
         :key="index"
         class="marker-bubble"
-        :class="{ 'marker-active': modelIndex === index, 'marker-active3': (modelIndex == 0.5 && point.value == 15) }"
+        :class="{ 'marker-active': modelIndex.valueInTrack === index, 'marker-active3': (modelIndex.valueInTrack == 0.5 && point.value == 15) }"
         :style="{ left: getMarkerPosition(index) }"
-        @click="modelIndex = point.valueInTrack; emitSelectedValue(index)" 
+        @click="modelIndex = point; emitSelectedValue(index)" 
       >
         <div class="marker-text">{{ point.label }}</div>
       </div>
     </div>
 
     <q-slider
-      v-model="modelIndex"
+      v-model="modelIndex.valueInTrack"
       :min="0"
       :max="checkpoints.length - 1"
       :step="1"
@@ -48,12 +48,12 @@ const checkpoints = [
 ];
 
 // Ajuste 2: Inicializamos en 1 para que arranque en la segunda posición (10%)
-const modelIndex = ref(checkpoints[0].valueInTrack);
+const modelIndex = ref(checkpoints[0]);
 
 const emit = defineEmits(['update:modelValue', 'change']);
 
 const emitSelectedValue = (newIndex) => {
-  console.log(checkpoints)
+
   const selectedData = checkpoints[newIndex];
   emit('update:modelValue', selectedData);
   emit('change', selectedData);
@@ -67,7 +67,7 @@ const getMarkerPosition = (index) => {
 };
 
 onMounted(() => {
-    emitSelectedValue(modelIndex.value);
+  emitSelectedValue(0);
 })
 </script>
 

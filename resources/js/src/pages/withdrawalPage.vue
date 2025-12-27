@@ -8,10 +8,17 @@ import utils from '@/util/numberUtil';
 import { useRouter } from 'vue-router';
 import { useWalletStore } from '@/services/store/wallet.store'
 import customSlider from '@/components/layouts/inputs/customSlider.vue';
+import confirmWithdrawalModal from '@/components/withdrawal/confirmWithdrawalModal.vue';
 
+const { user } = storeToRefs(useAuthStore())
+const { balances } = storeToRefs(useWalletStore())
 const withdrawalForm = ref({
   account:'',
-  sliderCheck:''
+  sliderCheck: 0,
+  amount: balances.value.wallet, 
+  balanceTotal: balances.value.wallet,
+  deductAmount: 0,
+  totalWithdrawalAmount:0
 })
 const tableInfo = [
   {
@@ -28,10 +35,9 @@ const tableInfo = [
   }
 ]
 const step = ref(1)
+const dialog = ref(false)
 const router = useRouter()
 const stepTitle = ref('Cuenta bancaria')
-const { user } = storeToRefs(useAuthStore())
-const { balances } = storeToRefs(useWalletStore())
 const ready = ref(false)
 const store = useBankAccountStore()
 const accountsOptions = ref([])
@@ -59,7 +65,7 @@ const nextStep = () => {
   createWithdrawal()
 }
 const createWithdrawal = () => {
-  console.log(withdrawalForm)
+  showDialog()
 }
 const disableButton = ref(true)
 const setSelectedAccount = (id) => {
@@ -70,13 +76,15 @@ const setValueByIndex = ref([
       `Gs. ${utils.numberFormat(balances.value.wallet)}`,
       'Instantaneo',
       '8%'
-    ])
-const manejarCambioCompleto = (sliderData) => {
+])
+const handlerSlider = (sliderData) => {
+
+  console.log(sliderData)
   if(!sliderData){
     setValueByIndex.value = [
       `Gs. ${utils.numberFormat(balances.value.wallet)}`,
       'Instantaneo',
-      0 +'%'
+      15 +'%'
     ]
     return
   }
@@ -109,6 +117,17 @@ const manejarCambioCompleto = (sliderData) => {
     ]
   }
 
+}
+const showDialog = () => {
+  dialog.value = true
+  deducAmount()
+}
+const hideModal = () => {
+  dialog.value = false
+}
+const deducAmount = () => {
+  withdrawalForm.value.deductAmount = (withdrawalForm.value.amount * withdrawalForm.value.sliderCheck.value)/100;
+  withdrawalForm.value.totalWithdrawalAmount = withdrawalForm.value.amount - withdrawalForm.value.deductAmount;
 }
 onMounted(() => {
   getAccountsBankbyUser()
@@ -185,7 +204,7 @@ onMounted(() => {
             <div>
               <customSlider
                 v-model="withdrawalForm.sliderCheck"
-                @change="manejarCambioCompleto"
+                @change="handlerSlider"
               />
             </div>
             <div class="q-mt-md">
@@ -218,6 +237,9 @@ onMounted(() => {
       </div>
     </q-form>
   </div>
+
+  <confirmWithdrawalModal :dialog="dialog" :withdrawalData="withdrawalForm" @hideModal="hideModal"/>
+
  </div>
 </template>
 <style lang="scss" scoped>
