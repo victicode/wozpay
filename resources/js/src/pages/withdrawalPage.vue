@@ -78,8 +78,6 @@ const setValueByIndex = ref([
       '8%'
 ])
 const handlerSlider = (sliderData) => {
-
-  console.log(sliderData)
   if(!sliderData){
     setValueByIndex.value = [
       `Gs. ${utils.numberFormat(balances.value.wallet)}`,
@@ -128,6 +126,11 @@ const hideModal = () => {
 const deducAmount = () => {
   withdrawalForm.value.deductAmount = (withdrawalForm.value.amount * withdrawalForm.value.sliderCheck.value)/100;
   withdrawalForm.value.totalWithdrawalAmount = withdrawalForm.value.amount - withdrawalForm.value.deductAmount;
+}
+const redirectToComplete = () => {
+  setTimeout(() => {
+    router.push('/withdrawal-complete')
+  },500)
 }
 onMounted(() => {
   getAccountsBankbyUser()
@@ -238,7 +241,7 @@ onMounted(() => {
     </q-form>
   </div>
 
-  <confirmWithdrawalModal :dialog="dialog" :withdrawalData="withdrawalForm" @hideModal="hideModal"/>
+  <confirmWithdrawalModal :dialog="dialog" :withdrawalData="withdrawalForm" @hideModal="hideModal" @operationComplete="redirectToComplete" />
 
  </div>
 </template>

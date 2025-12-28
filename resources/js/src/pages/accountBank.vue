@@ -2,7 +2,26 @@
   <div style="height: 91vh;" class="q-pt-md">
     <Transition name="inFade">
       <div v-if="bankAccounts.length > 0 && ready" class="h-100 w-100">
-        <div class="q-pt-md q-px-lg account__container" >
+        <div class="q-pt-sm q-px-lg flex items-center justify-end" >
+          <q-btn 
+            icon="eva-upload-outline"
+            unelevated
+            no-caps 
+            round
+            color="deeping" 
+            class=" q-mx-sm" 
+            @click="router.push('/withdrawal')" 
+          />
+          <q-btn 
+            unelevated
+            no-caps 
+            round
+            icon="eva-inbox-outline"
+            color="grey-8" 
+            @click="router.push('/withdrawal-history')" 
+          />
+        </div>
+        <div class="q-pt-lg q-px-lg account__container" >
           <div class="q-pt-md q-pb-none q-px-md q-px-md-md q-mb-md account__info" v-for="(account, key) in bankAccounts" :key="key">
             <div >
               <div class="flex justify-between items-top account__info--bank account__info--item" >
@@ -45,16 +64,7 @@
               @click="router.push('/bank')" 
             />
           </div>
-          <div class="q-pt-sm q-px-lg flex flex-center" >
-            <q-btn 
-              label="Hacer retiro" 
-              unelevated
-              no-caps 
-              color="deeping" 
-              class="redirect_button" 
-              @click="router.push('/withdrawal')" 
-            />
-          </div>
+          
         </div>
       </div>
       <div v-else-if="bankAccounts.length == 0 && ready" class="h-100">
@@ -182,6 +192,9 @@ export default {
   height: 8px;
   border-radius: 15px;
   background-color: #aaa; /* or add it to the track */
+}
+.redirect_buttonWithdrawals{
+  width: 33%;
 }
 @media screen and (max-width: 780px){
   .redirect_button{

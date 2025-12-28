@@ -12,9 +12,9 @@ class Transfer extends Model
 
     protected $fillable = ['from_id', 'to_id', 'amount', 'reference', 'type','pay_method', 'status', 'concept'];
     protected $appends = ['status_label'];
-    
+
     public function getstatusLabelAttribute()
-    {   
+    {
         $status = [
             'Rechazada',
             'Pendiente',
@@ -22,11 +22,13 @@ class Transfer extends Model
         ];
         return $status[$this->status];
     }
-    public function user_from(){
-        return $this->belongsTo(Wallet::class,'from_id', 'id');
+    public function user_from()
+    {
+        return $this->belongsTo(Wallet::class, 'from_id', 'id');
     }
 
-    public function user_to(){
-        return $this->belongsTo(Wallet::class,'to_id', 'id');
+    public function user_to()
+    {
+        return $this->belongsTo(Wallet::class, 'to_id', 'id');
     }
 }

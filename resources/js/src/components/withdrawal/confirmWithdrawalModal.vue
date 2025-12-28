@@ -36,7 +36,7 @@
                   reverse-fill-mask
                   :rules="amountRules"
                   autocomplete="off"
-                  @keyup="deducAmount()"
+                  @keyup="deducAmount(); validateAmount()"
                 />
               </div>
               <div class="" style="border: 1px solid lightgray; border-radius:0.87rem; padding: 0.5rem 1rem;">
@@ -68,6 +68,9 @@
                   color="positive" 
                   class="redirect_button" 
                   style="width: 100%;"
+                  @click="createWithdrawalOrder()"
+                  :loading="loading"
+                  :disable="disable"
                 >
                   <div class="q-py-sm">
                     Solicitar
@@ -87,34 +90,94 @@
 <script>
   import { inject, onMounted, ref, watch } from 'vue';
   import utils from '@/util/numberUtil';
- 
+  import { useQuasar } from 'quasar';
+  import { useWithdrawalStore } from '@/services/store/withdrawal.store'
+
   export default {
     props: {
       dialog: Boolean,
       withdrawalData: Object
     },
-    emits: ['hideModal'],
+    emits: ['hideModal', 'operationComplete'],
     
     setup (props, { emit }) {
+      const q = useQuasar()
+      const withdrawalStore = useWithdrawalStore()
       const dialog = ref(props.dialog);
       const withdrawal = ref(props.withdrawalData)
       const numberFormat = utils.numberFormat
+      const loading = ref(false)
+      const disable = ref(false)
       const amountRules = [
         val => (val !== null && val !== '') || 'Monto es requerido.',
-        val => (val.length >= 6 ) || 'Formato no valido',
         val => (/[,%"'();&|<>]/.test(val) == false ) || 'No debe contener "[](),%|&;\'" ',
       ]
-      const hideModal = (data) => {
-        emit('hideModal', data )
+      const hideModal = () => {
+        emit('hideModal')
+      }
+      const operationSuccesfully = () => {
+        emit('operationComplete')
+        emit('hideModal')
+
+      }
+      const createWithdrawalOrder = () => {
+        if(validateAmount()){
+          return
+        }
+        loading.value = true
+        let amount = typeof withdrawal.value.amount == 'number' ? withdrawal.value.amount : parseInt(withdrawal.value.amount.replace(/\./g, ''))
+        let dataToWithdrawal = new FormData()
+        dataToWithdrawal.append('account', withdrawal.value.account)
+        dataToWithdrawal.append('amount', amount)
+        dataToWithdrawal.append('comision_by_type', withdrawal.value.deductAmount.toFixed(2))
+        dataToWithdrawal.append('comision_fixed', 7500)
+        dataToWithdrawal.append('type', withdrawal.value.sliderCheck.type)
+        dataToWithdrawal.append('amount_to_transfer', withdrawal.value.totalWithdrawalAmount.toFixed(2))
+
+        withdrawalStore.createWithdrawal(dataToWithdrawal)
+        .then((response) => {
+          showNotify('positive', 'Tu orden de retiro fue creada con exito')
+          setTimeout(() => {
+            operationSuccesfully()
+          }, 500)
+        })
+        .catch((response) =>{
+        })
+        .finally(() => {
+          loading.value = false
+        })
+
       }
       const deducAmount = () => {
 
         let amount = typeof withdrawal.value.amount == 'number' ? withdrawal.value.amount : parseInt(withdrawal.value.amount.replace(/\./g, ''))
-        console.log(typeof withdrawal.value.amount )
-        console.log(amount )
+        withdrawal.value.deductAmount = ( (isNaN(amount) ? 0 : amount) * withdrawal.value.sliderCheck.value)/100;
+        withdrawal.value.totalWithdrawalAmount = (isNaN(amount) ? 0 : amount ) - withdrawal.value.deductAmount - 7500;
+      }
+      const validateAmount = () => {
+        let amount = typeof withdrawal.value.amount == 'number' ? withdrawal.value.amount : parseInt(withdrawal.value.amount.replace(/\./g, ''))
+        if(amount > withdrawal.value.balanceTotal){
+          showNotify('negative', 'Monto ingresado supera tu saldo actual')
+          withdrawal.value.amount = withdrawal.value.balanceTotal
+          deducAmount()
+          return false
+        }
+        if (withdrawal.value.totalWithdrawalAmount  <= 0 ) {
+          showNotify('negative', 'Monto final a transferir deber ser mayor a cero')
+          disable.value = true
+          return false
+        }
+        disable.value = false
 
-        withdrawal.value.deductAmount = ( amount * withdrawal.value.sliderCheck.value)/100;
-        withdrawal.value.totalWithdrawalAmount = amount - withdrawal.value.deductAmount - 7500;
+      }
+      const showNotify = (type, message) => {
+        q.notify({
+          message: message,
+          color: type,
+          actions: [
+            { icon: 'eva-close-outline', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
       }
       watch(() => props.dialog, (newValue) => {
         dialog.value = newValue
@@ -126,9 +189,13 @@
         dialog,
         withdrawal,
         hideModal,
+        disable,
+        loading,
         numberFormat,
         amountRules,
         deducAmount,
+        validateAmount,
+        createWithdrawalOrder,
       }
     }
   };

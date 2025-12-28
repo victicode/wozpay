@@ -483,6 +483,33 @@ const router = createRouter({
       }
     },
     {
+      path: '/withdrawal-complete',
+      name: "withdrawal-complete",
+      beforeEnter:auth,
+      component: () => import('@/pages/withdrawalCompletePage.vue'),
+      meta: {
+        title: 'Retiro'
+      }
+    },
+    {
+      path: '/withdrawal-history',
+      name: "withdrawal-history",
+      beforeEnter:auth,
+      component: () => import('@/pages/withdrawalHistory.vue'),
+      meta: {
+        title: 'Retiro'
+      }
+    },
+    {
+      path: '/withdrawal-details/:id',
+      name: "withdrawal-details",
+      beforeEnter:auth,
+      component: () => import('@/pages/withdrawalDetails.vue'),
+      meta: {
+        title: 'Detalles del Retiro'
+      }
+    },
+    {
       path: '/trasacction-public/view/:type/:id',
       name: "view_trans",
       component: viewTransaction,

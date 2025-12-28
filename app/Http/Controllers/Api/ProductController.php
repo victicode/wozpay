@@ -133,7 +133,6 @@ class ProductController extends Controller
         $dataForm = json_decode($request->data, true);
         try {
             foreach ($dataForm as $key) {
-                
                 // $categoria = Categorie::where('title', $key['categoria'])->firstOr(function () use($key) {            
                 //     return Categorie::create([
                 //         'title' => $key['categoria'],

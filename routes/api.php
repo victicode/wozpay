@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\DropshippingController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\WithdrawalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,10 +41,9 @@ Route::prefix('auth')->name('user.')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
     Route::middleware('jwt.verify')->get('/logout', [AuthController::class, 'logout']);
     Route::middleware('jwt.verify')->get('/current_user', [AuthController::class, 'getUser']);
-
 });
 
-Route::middleware('basic.authentication')->prefix('v1/tpago')->name('tpago')->group( function () {
+Route::middleware('basic.authentication')->prefix('v1/tpago')->name('tpago')->group(function () {
     Route::post('/', [PayController::class, 'tpagoCallback']);
 });
 Route::get('/get-users', [UserController::class, 'index']);
@@ -64,7 +64,7 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::get('/cleanUser', [UserController::class, 'cleanUser']);
     Route::get('/slowPayer', [UserController::class, 'slowPayerUser']);
     Route::get('/payPendigs', [UserController::class, 'paysPendingByUser']);
-    
+
     Route::post('/u/{id}', [UserController::class, 'updateUser']);
     Route::post('/sendPhoneCode', [UserController::class, 'sendMobileVerifyCode']);
     Route::post('/verifyPhoneCode', [UserController::class, 'verifyPhoneNumber']);
@@ -77,7 +77,6 @@ Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function (
     Route::post('/email_prueba/{id}', [LoanController::class, 'sendeEmail']);
     Route::get('/get_notifications', [UserController::class,'getNotificationsUser']);
     Route::post('/setStatusNotShow', [UserController::class, 'setStatusNotShow']);
-
 });
 
 
@@ -117,7 +116,7 @@ Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(functi
     Route::post('/setStatus', [WalletController::class, 'setStatus']);
 });
 
-Route::middleware('jwt.verify')->prefix('link')->group(function(){
+Route::middleware('jwt.verify')->prefix('link')->group(function () {
     Route::post('/', [LinkController::class, 'store']);
     Route::post('/dropshipping', [LinkController::class, 'createLinkDropshipping']);
     Route::get('/dropshipping/byId/{id}', [LinkController::class, 'getDropshippingLinkById']);
@@ -127,15 +126,14 @@ Route::middleware('jwt.verify')->prefix('link')->group(function(){
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
     Route::post('/pay/setStatus', [LinkController::class, 'setPayStatus']);
 });
-Route::prefix('link-public')->group(function(){
+Route::prefix('link-public')->group(function () {
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
     Route::get('/dropshipping/byCode/{id}', [LinkController::class, 'getDropshippingLinkByCode']);
-
 });
-Route::prefix('v1/public')->group(function(){
+Route::prefix('v1/public')->group(function () {
     Route::post('/sendmail', [PayController::class, 'sendMail']);
 });
-Route::prefix('v1/email')->group(function(){
+Route::prefix('v1/email')->group(function () {
     Route::get('/', [LoanController::class, 'sendMailx']);
 });
 Route::middleware('jwt.verify')->prefix('card')->name('card.')->group(function () {
@@ -157,7 +155,6 @@ Route::middleware('jwt.verify')->prefix('transaction')->name('transacction.')->g
     Route::get('/byType/{type}/{id}', [TransactionController::class, 'getTrasactionByType']);
     Route::get('/print/{type}/{id}', [TransactionController::class, 'printTransaction']);
     Route::post('/', [TransactionController::class, 'createTransfer']);
-
 });
 Route::prefix('transaction-public')->name('transacction.public.')->group(function () {
     Route::get('/byType/{type}/{id}', [TransactionController::class, 'getTrasactionByType']);
@@ -193,7 +190,6 @@ Route::middleware('jwt.verify')->prefix('products')->name('product.')->group(fun
     Route::get('/profile/stats', [ProductController::class, 'statsProfile']);
 
     Route::get('/delete-all', [ProductController::class, 'deleteAll']);
-
 });
 
 Route::middleware('jwt.verify')->prefix('coins')->name('coins.')->group(function () {
@@ -201,10 +197,9 @@ Route::middleware('jwt.verify')->prefix('coins')->name('coins.')->group(function
     Route::get('/getById/{id}', [CoinController::class, 'getCoinById']);
     Route::post('/update/{id}', [CoinController::class, 'updateCoin']);
     Route::post('/delete/{id}', [CoinController::class, 'deleteCoin']);
-
 });
 
-Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function () {
+Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group(function () {
     Route::post('/', [PayController::class, 'storePay']);
     Route::post('/link', [PayController::class, 'storePayLink']);
     Route::get('/byId/{id}', [PayController::class, 'getById']);
@@ -215,22 +210,27 @@ Route::middleware('jwt.verify')->prefix('pay')->name('pay.')->group( function ()
 
     Route::get('/pays_dropshipping', [PayController::class, 'getPayDropshipping']);
     Route::post('/dropshpping/change-status/{id}', [PayController::class, 'changeStatusDropPay']);
-    
-
 });
-Route::prefix('pay-public')->name('pay.link.')->group( function () {
+
+Route::prefix('pay-public')->name('pay.link.')->group(function () {
     Route::post('/link', [PayController::class, 'storePayLink']);
     Route::post('/dropshipping/link', [PayController::class, 'storePayLinkDropshipping']);
 });
 
 
-Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group( function () {
+Route::middleware('jwt.verify')->prefix('balance')->name('balance.')->group(function () {
     Route::get('/{id}', [WalletController::class, 'allBalances']);
     Route::post('/increments/{id}', [WalletController::class, 'incrementsWallet']);
     Route::post('/admin', [WalletController::class, 'setNewAdminCapital']);
 });
 
-Route::middleware('jwt.verify')->prefix('package')->name('package.')->group( function () {
+Route::middleware('jwt.verify')->prefix('package')->name('package.')->group(function () {
     Route::get('/', [PackageController::class, 'getPackage']);
     Route::get('/byId/{id}', [PackageController::class, 'getPackageById']);
+});
+
+Route::middleware('jwt.verify')->prefix('withdrawal')->group(function () {
+    Route::post('/', [WithdrawalController::class, 'store']);
+    Route::get('/all', [WithdrawalController::class, 'getAllByUser']);
+    Route::get('/{id}', [WithdrawalController::class, 'getById']);
 });
