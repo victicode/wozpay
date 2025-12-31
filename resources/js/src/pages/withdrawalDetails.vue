@@ -9,7 +9,7 @@
             round
             icon="eva-arrow-back-outline"
             color="grey-8" 
-            @click="router.push('/withdrawal-history')" 
+            @click="router.go(-1)" 
           />
           <div class="q-ml-sm">
             <div class="text-h5 text-weight-bold">Detalles del Retiro</div>

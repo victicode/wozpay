@@ -195,6 +195,7 @@ export default {
 }
 
 .withdrawal__item {
+  cursor: pointer;
   padding: 1.5rem 0;
   border-bottom: 2px solid #e0e0e0;
   transition: opacity 0.2s ease;

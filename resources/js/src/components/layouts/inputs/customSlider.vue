@@ -41,10 +41,10 @@ const valueInTrack = (index) => {
   return percent
 }
 const checkpoints = [
-  {type: 1, label: '15%', value: 15, valueInTrack: valueInTrack(2.5) },    // Index 0
-  {type: 2, label: '10%', value: 10, valueInTrack: valueInTrack(2) },    // Index 1 (Este es tu Step 1 visual)
-  {type: 3, label: '8%', value: 8, valueInTrack: valueInTrack(1) },      // Index 2
-  {type: 4, label: '3,9%', value: 3.9, valueInTrack: valueInTrack(0) },  // Index 3
+  {type: 1, days:7, label: '15%', value: 15, valueInTrack: valueInTrack(2.5) },    // Index 0
+  {type: 2, days:15, label: '10%', value: 10, valueInTrack: valueInTrack(2) },    // Index 1 (Este es tu Step 1 visual)
+  {type: 3, days:30, label: '8%', value: 8, valueInTrack: valueInTrack(1) },      // Index 2
+  {type: 4, days:45, label: '3,9%', value: 3.9, valueInTrack: valueInTrack(0) },  // Index 3
 ];
 
 // Ajuste 2: Inicializamos en 1 para que arranque en la segunda posición (10%)
