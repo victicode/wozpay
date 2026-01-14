@@ -24,7 +24,7 @@ class Withdrawal extends Model
         'user_id',
         'account_bank_id'
     ];
-    protected $appends = ['status_label', 'method_label'];
+    protected $appends = ['status_label', 'method_label', 'comision_type_label'];
 
     public function getStatusLabelAttribute()
     {
@@ -45,6 +45,17 @@ class Withdrawal extends Model
             'Efectivo'
         ];
         return $payMethods[$this->method];
+    }
+    public function getComisionTypeLabelAttribute()
+    {
+        $typeComision = [
+            '',
+            15,
+            10,
+            8,
+            3.9
+        ];
+        return $typeComision[$this->type];
     }
 
     public function accountBank()

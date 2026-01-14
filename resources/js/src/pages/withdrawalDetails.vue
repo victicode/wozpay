@@ -4,13 +4,7 @@
       <div v-if="withdrawal && ready" class="h-100  w-100">
         <!-- Header -->
         <div class="q-pl-xs q-pb-md flex items-center justify-start">
-          <q-btn 
-            flat
-            round
-            icon="eva-arrow-back-outline"
-            color="grey-8" 
-            @click="router.go(-1)" 
-          />
+          <q-btn flat round icon="eva-arrow-back-outline" color="grey-8" @click="router.go(-1)" />
           <div class="q-ml-sm">
             <div class="text-h5 text-weight-bold">Detalles del Retiro</div>
             <div class="text-caption text-grey-6">Información de la orden</div>
@@ -37,7 +31,7 @@
           <!-- Info Grid -->
           <div class="info-grid">
             <div class="detail-card">
-              <div class="card-label">Comisión por tipo</div>
+              <div class="card-label">Comisión por tipo ({{ numberFormat(withdrawal.comision_type_label) }}%)</div>
               <div class="card-value">
                 Gs. {{ numberFormat(withdrawal.comision_by_type) }}
               </div>
@@ -61,7 +55,7 @@
             <div class="col-12 col-md-6 q-pr-md-sm q-pr-none">
               <div class="detail-card">
                 <div class="card-label">Método de pago</div>
-                <div class="bank-name"">
+                <div class="bank-name">
                   {{ withdrawal.method_label }}
                 </div>
                 <div class="account-value q-mt-xs">
@@ -86,7 +80,7 @@
           </div>
 
           <!-- Bank Account -->
-          
+
 
           <!-- Dates -->
           <div class="detail-card q-mt-sm">
@@ -94,7 +88,8 @@
               <div class="card-label">Fecha de solicitud</div>
               <div class="card-value">{{ formatDate(withdrawal.created_at) }}</div>
             </div>
-            <div v-if="withdrawal.updated_at && withdrawal.updated_at !== withdrawal.created_at" class="date-row q-mt-sm">
+            <div v-if="withdrawal.updated_at && withdrawal.updated_at !== withdrawal.created_at"
+              class="date-row q-mt-sm">
               <div class="card-label">Última actualización</div>
               <div class="card-value">{{ formatDate(withdrawal.updated_at) }}</div>
             </div>
@@ -125,13 +120,7 @@
           <div class="text-body2 text-grey-6 text-center q-mb-lg" style="max-width: 280px;">
             No se pudo encontrar la información del retiro solicitado
           </div>
-          <q-btn 
-            unelevated
-            no-caps 
-            color="primary" 
-            class="q-px-xl"
-            @click="router.push('/withdrawal-history')" 
-          >
+          <q-btn unelevated no-caps color="primary" class="q-px-xl" @click="router.push('/withdrawal-history')">
             Volver al historial
           </q-btn>
         </div>
@@ -147,7 +136,7 @@ import { useRouter, useRoute } from 'vue-router';
 import utils from '@/util/numberUtil';
 import moment from 'moment';
 import 'moment/locale/es';
-moment.updateLocale('es', 
+moment.updateLocale('es',
   {
     months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
     monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dic.'.split('_'),
@@ -158,7 +147,7 @@ moment.updateLocale('es',
 );
 
 export default {
-  setup () {
+  setup() {
     const store = useWithdrawalStore()
     const withdrawal = ref(null)
     const ready = ref(false)
@@ -169,14 +158,14 @@ export default {
     const getWithdrawalById = () => {
       ready.value = false
       const withdrawalId = route.params.id
-      
+
       if (!withdrawalId) {
         ready.value = true
         return
       }
 
       store.getWithdrawal(withdrawalId).then((data) => {
-        if(data.code !== 200) {
+        if (data.code !== 200) {
           ready.value = true
           return
         }
@@ -215,9 +204,9 @@ export default {
     })
 
     return {
-      withdrawal, 
-      ready, 
-      router, 
+      withdrawal,
+      ready,
+      router,
       numberFormat,
       getStatusClass,
       getStatusIcon,
@@ -229,7 +218,7 @@ export default {
 
 <style lang="scss" scoped>
 .withdrawal__details {
-  overflow-y: auto; 
+  overflow-y: auto;
   height: 90%;
   padding-bottom: 2rem;
 }
@@ -250,17 +239,17 @@ export default {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  
+
   &.status-pending {
     background: #fff8e1;
     color: #f57c00;
   }
-  
+
   &.status-approved {
     background: #e8f5e9;
     color: #388e3c;
   }
-  
+
   &.status-rejected {
     background: #ffebee;
     color: #c62828;
