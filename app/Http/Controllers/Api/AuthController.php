@@ -26,6 +26,10 @@ class AuthController extends Controller
 		if($validator->fails()){
 			return $this->returnFail(505,['message'=> 'Error en los datos.']);
 		}
+		$user = User::where('dni', $request->dni)->first();
+		if(!$user){
+			return $this->returnFail(505,['message'=> 'Usuario no registrado, por favor registrate.']);
+		}
 
 		try{
 			$token = JWTAuth::attempt([

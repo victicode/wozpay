@@ -726,6 +726,15 @@ const router = createRouter({
       beforeEnter: auth,
     },
     {
+      path: "/pay_link_landing_services",
+      name:"new_link_landing",
+      component: () => import('@/pages/newLandingLink.vue'),
+      meta: {
+        title : 'Comienza ahora'
+      },
+      beforeEnter: auth,
+    },
+    {
       path: "/pay_link_dashboard",
       name:"pay_link_dashboard",
       component: () => import('@/pages/dashboardLink.vue'),
