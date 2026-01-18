@@ -99,90 +99,7 @@
           </div>
         </div>
       </div>
-      <!-- <div>
-        <div>
-          <div>
-            <img :src="teamship" alt="" width="160" class="mx-auto">
-          </div>
-          <div class="text-center" style="transform: translateY(-1rem);">
-            <div class="userTeam__title">+12.000</div>
-            <div class="userTeam__text">
-              Cuentas activadas
-            </div>
-          </div>
-        </div>
-      </div>-->
-      <div class="q-px-lg q-mb-lg q-mt-md">
-        <div class="text-center activate__text">Comienza ahora</div>
-        <q-btn
-          :label="user.wallet_link && user.wallet_link.status == 1 ? 'Pago pendiente de aprobación' : 'Activar cuenta'"
-          unelevated no-caps color="terciary" class="full-width q-pa-md q-mt-sm" @click="clocks()" />
-      </div>
-      <q-dialog v-model="showModal" full-width full-height persistent class="modalPreActive ">
-        <div style="height: 100%; background: red; width: 100%;" class="bg-white q-pt-md">
-          <div class="q-py-md q-px-md container__preActive">
-            <div class="q-py-sm q-px-sm">
-              <div class="text-center text__priceActive" style="">
-                30 USD
-              </div>
-              <div class="text-center  text-grey-7 text__anual q-mb-xs" style="">Precio anual</div>
-              <div style="" class="separator_rombo" />
-            </div>
-            <div>
-              <div class="text-center q-py-sm">
-                <p class="text-subtitle1">
-                  Cuenta corriente internacional
-                </p>
-                <q-icon :name="icons.ionGlobeOutline" size="md" color="iconPreactive" />
-
-              </div>
-              <div>
-                <div v-for="(item, index) in section1" :key="index" class="text-subtitle1 flex items-center q-py-sm">
-                  <div style="height: 1.5rem; width: 1.5rem; border-radius: 50%;"
-                    class="bg-iconPreactive flex flex-center q-mr-sm">
-                    <q-icon name="eva-checkmark-outline" color="white" size="1rem" />
-                  </div>
-                  {{ item }}
-                </div>
-              </div>
-              <div class="text-center q-my-sm text-bold text-subtitle1">
-                Cobros a clientes
-              </div>
-              <div>
-                <div v-for="(item, index) in section2" :key="index" class="text-subtitle1 flex items-center q-py-sm">
-                  <div style="height: 1.5rem; width: 1.5rem; border-radius: 50%;"
-                    class="bg-iconPreactive flex flex-center q-mr-sm">
-                    <q-icon name="eva-checkmark-outline" color="white" size="1rem" />
-                  </div>
-                  {{ item }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="q-mt-md q-px-md-xl q-mx-md-xl">
-            <div class="q-px-md q-px-md-xl q-mx-md-xl">
-              <div class="flex justify-between q-px-xs q-py-sm contentDetail">
-                <div class="text-subtitle2 text-weight-medium">Cotización USD - Woz Pay</div>
-                <div class="text-subtitle2 text-weight-medium">USD 1 = {{ numberFormat(rate[count]) }} Gs</div>
-              </div>
-              <div class="flex justify-between q-px-xs q-py-sm contentDetail">
-                <div class="text-subtitle2 text-weight-medium">Total Gs</div>
-                <div class="text-subtitle2 text-weight-medium">{{ count == 0 ? ` ${numberFormat(220000)} Gs` : `
-                  ${numberFormat((Math.ceil(rate[count] / 100) * 100) * 30)} Gs` }} </div>
-              </div>
-              <div class="flex justify-between q-px-xs q-py-sm contentDetail">
-                <div class="text-subtitle2 text-weight-medium">Tiempo restante</div>
-                <div class="text-subtitle2 text-weight-medium text-terciary" id="timer-seconds" />
-              </div>
-            </div>
-            <div class="w-100 flex flex-center q-my-lg">
-              <q-btn color="iconPreactive" @click="activateWallet()">
-                <div class="q-py-sm q-px-xl">Completar el pago</div>
-              </q-btn>
-            </div>
-          </div>
-        </div>
-      </q-dialog>
+      <priceTable />
     </div>
   </section>
 </template>
@@ -201,7 +118,11 @@ import mp from '@/assets/images/mp.svg'
 import transfer from '@/assets/images/tr.svg'
 import teamship from '@/assets/images/team.svg'
 import util from '@/util/numberUtil'
+import priceTable from '@/components/landing_links/priceTable.vue';
 export default {
+  components: {
+    priceTable,
+  },
   setup() {
     //vue provider
     const numberFormat = util.numberFormat
@@ -213,14 +134,6 @@ export default {
     const time = ref(121)
     const count = ref(0)
     const timer = ref()
-    const rate = [
-      7333,
-      7600,
-      7900,
-      8100,
-      7500,
-      7700,
-    ]
     const whatDo = [
       {
         title: 'Operaciones en globales',
@@ -309,34 +222,12 @@ export default {
     ]
     const activateWallet = () => {
       clearInterval(timer.value)
-      router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f&amount=' + (count.value == 0 ? 220000 : (Math.ceil(rate[count.value] / 100) * 100 * 30)))
+      router.push('/form_pay_link/user/1?title=Cuenta internacional&subtitle=Activación&color=1c304f&amount=' + (count.value == 0 ? 220000 : (100 * 100 * 30)))
     }
-    const clocks = () => {
-      if (user.wallet_link && user.wallet_link.status == 1) return
-      showModal.value = true
-      timer.value = setInterval(() => {
-        if (time.value <= 0) {
-          if (count.value == 5) {
-            clearInterval(timer.value);
 
-            setTimeout(() => {
-              document.getElementById('timer-seconds').innerHTML = '0 seg'
-            }, 1000)
-            return
-          }
-          time.value = 121
-          count.value++
-        }
-        time.value--
-        document.getElementById('timer-seconds').innerHTML = time.value + ' seg'
-
-      }, 1000)
-
-    }
     return {
       user,
       router,
-      rate,
       count,
       wozIcons,
       person,
@@ -352,7 +243,6 @@ export default {
       numberFormat,
       icons,
       activateWallet,
-      clocks,
     }
   },
 }

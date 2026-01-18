@@ -49,7 +49,6 @@ class WalletController extends Controller
         return $this->returnSuccess(200, $id == 1 
         ? [
             'wallet'        => round($wallet->balance),
-            
             'loans'         => round($loansBalances['amount']),
             'toRecieve'     => round($loansBalances['amountToRecive']),
             'toPay'         => round($this->allQuotasToRecive()),
