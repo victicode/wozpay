@@ -16,7 +16,7 @@ import { onMounted } from 'vue';
 import { ref } from 'vue';
 import listSquareProductsInverter from '@/components/admin/dropshipping/listSquareProductsInverter.vue';
 import stadisticProduct from '@/components/admin/dropshipping/stadisticProduct.vue';
-import detailsProduct from '@/components/admin/dropshipping/DetailsProduct.vue';
+import detailsProduct from '@/components/admin/dropshipping/detailsProduct.vue';
 import buttonSection from '@/components/admin/dropshipping/buttonSection.vue';
 
 

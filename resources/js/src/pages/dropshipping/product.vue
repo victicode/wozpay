@@ -48,7 +48,7 @@ import { onMounted } from 'vue';
 import { ref } from 'vue';
 import listSquareProductsInverter from '@/components/dropshipping/product/listSquareProductsInverter.vue';
 import stadisticProduct from '@/components/dropshipping/product/stadisticProduct.vue';
-import detailsProduct from '@/components/dropshipping/product/DetailsProduct.vue';
+import detailsProduct from '@/components/dropshipping/product/detailsProduct.vue';
 import buttonSection from '@/components/dropshipping/product/buttonSection.vue';
 import otherProduct from '@/components/dropshipping/product/otherProduct.vue';
 import importantInformation from '@/components/dropshipping/product/importantInformation.vue';
