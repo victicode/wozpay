@@ -8,6 +8,39 @@ export const useDropshippingStore = defineStore("dropshipping", {
       plans: [
         {
           id: 1,
+          name: "Plan Gratuito / Free",
+          type: "Gratis",
+          annual: {
+              price: 'Gratis',
+              annualSavings: '',
+              description: "Ideal para iniciar",
+              features: [
+                  "Cuenta básica en Gs",
+                  "Hasta 5 links o QR por mes",
+                  "Hasta 300.000 Gs por link o QR",
+                  "Hasta 1.500.000 Gs/mes en trans.",
+                  "Comisión por trans. del 10% + IVA",
+                  "Solo retiros manuales",
+                  "1 Retiro por mes"
+              ],
+          },
+          monthly: {
+              price: 'Gratis',
+              annualSavings: '',
+              description: "Ideal para iniciar",
+              features: [
+                  "Cuenta básica en Gs",
+                  "Hasta 5 links o QR por mes",
+                  "Hasta 300.000 Gs por link o QR",
+                  "Hasta 1.500.000 Gs/mes en trans.",
+                  "Comisión por trans. del 10% + IVA",
+                  "Solo retiros manuales",
+                  "1 Retiro por mes"
+              ],
+          },
+        },
+        {
+          id: 2,
           name: "Principiante",
           type: "Basico",
           annual: {
@@ -37,7 +70,7 @@ export const useDropshippingStore = defineStore("dropshipping", {
           },
         },
         {
-          id: 2,
+          id: 3,
           name: "Emprendedor regular",
           type: "Regular",
           annual: {
@@ -75,7 +108,7 @@ export const useDropshippingStore = defineStore("dropshipping", {
           },
         },
         {
-          id: 3,
+          id: 4,
           name: "Emprendedor Business",
           type: "Profesional",
           annual: {

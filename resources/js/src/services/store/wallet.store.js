@@ -32,6 +32,26 @@ export const useWalletStore = defineStore("wallet", {
         return 'Error al actualizar datos';
       });
     },
+    async setPlanAndActivePlan() {
+      return new Promise((resolve) => {
+        if (JwtService.getToken()) {
+          ApiService.setHeader();
+          ApiService.post("/api/wallet/s/plan", data)
+          .then(({ data }) => {
+            if(data.code !== 200){
+              throw data;
+            }
+            resolve(data)
+          }).catch((response) => {
+            console.log(response)
+            resolve('Error al obtener.');
+          });
+        }
+      }).catch((response) => {
+        console.log(response)
+        return 'Error al actualizar datos';
+      });
+    },
     async incrementsWalletAdmin(data) {
       return await new Promise((resolve) => {
         if (JwtService.getToken()) {

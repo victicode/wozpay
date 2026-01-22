@@ -8,22 +8,27 @@
 			<div id="table-price">
 				<!-- Selectores de tipo de pago -->
 				<div class="row q-mb-lg q-mt-md">
-					<div class="col-6 q-px-xs q-px-md-lg flex justify-end">
-						<button :class="['payment-btn', { active: paymentType === 'annual' }]" @click="paymentType = 'annual'">
-							Pago anual (recomendado)
-						</button>
-					</div>
-					<div class="col-6 q-px-xs q-px-md-lg">
-						<button :class="['payment-btn', { active: paymentType === 'monthly' }]" @click="paymentType = 'monthly'">
-							Pago mensual
-						</button>
-					</div>
+					<template v-if="selectedPlanType !== 'Gratis'">
+						<div class="col-6 q-px-xs q-px-md-lg flex justify-end">
+							<button :class="['payment-btn', { active: paymentType === 'annual' }]"
+								@click="paymentType = 'annual'">
+								Pago anual (recomendado)
+							</button>
+						</div>
+						<div class="col-6 q-px-xs q-px-md-lg">
+							<button :class="['payment-btn', { active: paymentType === 'monthly' }]"
+								@click="paymentType = 'monthly'">
+								Pago mensual
+							</button>
+						</div>
+					</template>
 				</div>
 
 				<!-- Selectores de tipo de plan -->
 				<div class=" q-mb-lg row q-px-md justify-center">
 					<div class="col-4 col-md-2 q-px-sm flex justify-center" v-for="plan in planTypes" :key="plan">
-						<button :class="['plan-btn', { active: selectedPlanType === plan }]" @click="selectedPlanType = plan">
+						<button :class="['plan-btn', { active: selectedPlanType === plan }]"
+							@click="selectedPlanType = plan">
 							{{ plan }}
 						</button>
 					</div>
@@ -31,34 +36,42 @@
 
 				<!-- Tarjetas de planes con carousel -->
 				<div class="plans-carousel-wrapper">
-					<q-carousel v-model="slide" animated control-type="regular" control-color="orange" control-text-color="white"
-						:autoplay="false" class="plans-carousel">
+					<q-carousel v-model="slide" animated control-type="regular" control-color="orange"
+						control-text-color="white" :autoplay="false" class="plans-carousel">
 						<q-carousel-slide v-for="plan in filteredPlans" :key="plan.id" :name="plan.id" class="q-pa-sm">
 							<div class="plan-card">
 								<div class="plan-card__header">
 									<div class="plan-card__title">{{ plan.name }}</div>
 									<div class="plan-card__price--container">
-										<div class="plan-card__price">
+										<div class="plan-card__price" v-if="selectedPlanType !== 'Gratis'">
 											Gs. {{ formatNumber(plan.price) }}
 										</div>
-										<div class="plan-card__price-period">
-											/{{ paymentType === 'annual' ? 'Pago único' : 'Mes' }}
+										<div class="plan-card__price" v-else>
+											{{ plan.price }}
 										</div>
+										<div class="plan-card__price-period">
+											/{{ paymentType === 'annual' || selectedPlanType == 'Gratis' ? 'Pago único'
+												: 'Mes' }}
+										</div>
+
 									</div>
-									<div v-if="paymentType === 'annual' && plan.annualSavings" class="plan-card__savings">
+									<div v-if="paymentType === 'annual' && plan.annualSavings && selectedPlanType !== 'Gratis'"
+										class="plan-card__savings">
 										Te ahorras Gs. {{ formatNumber(plan.annualSavings) }} anuales
 									</div>
 									<div class="plan-card__description">{{ plan.description }}</div>
 								</div>
 								<div class="plan-card__features">
-									<div v-for="(feature, index) in plan.features" :key="index" class="plan-card__feature">
+									<div v-for="(feature, index) in plan.features" :key="index"
+										class="plan-card__feature">
 										<q-icon name="eva-checkmark-circle-2-outline" class="feature-icon" />
 										<span>{{ feature }}</span>
 									</div>
 								</div>
-								<button class="plan-card__button" @click="selectPlan(plan)">
+								<q-btn unelevated :loading="loading" no-caps class="plan-card__button"
+									@click="selectPlan(plan)">
 									Elegir este plan
-								</button>
+								</q-btn>
 							</div>
 						</q-carousel-slide>
 					</q-carousel>
@@ -71,18 +84,18 @@
 import { storeToRefs } from 'pinia';
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { useDropshippingStore } from '../../services/store/dropshipping.store';
-
+import { useDropshippingStore } from '@/services/store/dropshipping.store';
+import { useWalletStore } from '@/services/store/wallet.store';
 export default {
 	setup() {
 		const router = useRouter()
 		const paymentType = ref('annual')
 		const selectedPlanType = ref('Basico')
-		const planTypes = ['Basico', 'Regular', 'Profesional']
+		const planTypes = ['Gratis', 'Basico', 'Regular', 'Profesional']
 		const slide = ref(1)
-
+		const loading = ref(false)
 		const { plans } = storeToRefs(useDropshippingStore())
-
+		const walletStore = useWalletStore();
 		const filteredPlans = computed(() => {
 			return plans.value
 				.filter(plan => plan.type === selectedPlanType.value)
@@ -106,9 +119,26 @@ export default {
 			return new Intl.NumberFormat('es-PY').format(num)
 		}
 
-		const selectPlan = (plan) => {
+		const selectPlan = () => {
+			loading.value = true
+			const data = {
+				plan_id: filteredPlans.value[0].id,
+				plan_payment: paymentType.value,
+				plant_type: selectedPlanType.value,
+				amount: filteredPlans.value[0][paymentType.value].price
 
-			router.push('/checkout?plan=' + plan.id)
+			}
+			console.log(data)
+			setTimeout(() => {
+				loading.value = false
+			}, 2000);
+			// walletStore.setPlanAndActivePlan()
+			// 	.then((response) => {
+			// 		console.log(response)
+			// 	}).catch((response) => {
+			// 		console.log(response)
+			// 	}).finally(() => loading.value = flase)
+
 		}
 
 		return {
@@ -118,7 +148,8 @@ export default {
 			filteredPlans,
 			formatNumber,
 			selectPlan,
-			slide
+			slide,
+			loading
 		}
 	},
 }
