@@ -113,6 +113,7 @@ Route::middleware('jwt.verify')->prefix('loan')->name('loan.')->group(function (
 Route::middleware('jwt.verify')->prefix('wallet')->name('wallet.')->group(function () {
     Route::get('/{id}', [WalletController::class, 'getWalletByNumber']);
     Route::post('/link', [WalletController::class, 'activateLinkWallet']);
+    Route::post('/s/plan', [WalletController::class, 'setPlan']);
     Route::post('/setStatus', [WalletController::class, 'setStatus']);
 });
 
