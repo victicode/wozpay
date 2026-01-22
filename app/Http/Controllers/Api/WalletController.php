@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Pay;
 use App\Models\Loan;
+use App\Models\User;
+use App\Models\Quota;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
-use App\Models\Quota;
-use Exception;
 
 class WalletController extends Controller
 {
@@ -21,7 +22,7 @@ class WalletController extends Controller
 
         return $this->returnSuccess(200, $wallet);
     }
-    public function activateLinkWallet(Request $request){
+    private function activateLinkWallet(Request $request){
         $wallet = Wallet::create([
             'number'    => '918' . $request->user()->dni,
             'balance'   => 0,
@@ -35,7 +36,16 @@ class WalletController extends Controller
         } catch (Exception $th) {
             //throw $th;
         }
-        return $this->returnSuccess(200, $wallet);
+        return  $wallet;
+    }
+
+    public function setPlan(Request $request){
+        $wallet = $this->activateLinkWallet($request);
+        $user = User::find($request->user()->id)->update([
+            'plan_id' => $request->plan_id
+        ]);
+
+        return $this->returnSuccess(200, 'OK');
     }
     public function allBalances($id) {
         $wallet = Wallet::where('user_id', $id)->where('type', 1)->first();

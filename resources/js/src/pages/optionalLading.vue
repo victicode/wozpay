@@ -16,7 +16,6 @@
     setup() {
       const currentScreen = ref('')
       const getCurrentScreen = () =>{
-        console.log(window.screen.width)
         if(window.screen.width < 780 ){
           currentScreen.value = 'mobile'
         }
