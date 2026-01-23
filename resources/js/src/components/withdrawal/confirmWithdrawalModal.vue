@@ -104,7 +104,7 @@ export default {
 
     }
     const createWithdrawalOrder = () => {
-      if (validateAmount()) {
+      if (!validateAmount()) {
         return
       }
       loading.value = true

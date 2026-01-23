@@ -40,10 +40,15 @@ class WalletController extends Controller
     }
 
     public function setPlan(Request $request){
-        $wallet = $this->activateLinkWallet($request);
-        $user = User::find($request->user()->id)->update([
-            'plan_id' => $request->plan_id
-        ]);
+        try {
+            $wallet = $this->activateLinkWallet($request);
+            $user = User::find($request->user()->id)->update([
+                'plan_id' => $request->plan_id,
+                'plan_expiration_date' => $this->expirationDatePlan($request),
+            ]);
+        } catch (Exception $th) {
+            return $this->returnFail(400, $th->getMessage());
+        }
 
         return $this->returnSuccess(200, 'OK');
     }
@@ -162,5 +167,17 @@ class WalletController extends Controller
     }
     private function paysPeding() {
         return  Pay::where('status', '1' )->where('type', '3' )->count();
+    }
+    private function expirationDatePlan($planData)
+    {
+        if($planData->plan_id == 1){
+            return date('Y-m-d',strtotime('+100 year', time()));
+        }
+        if ($planData->plan_payment == 1) {
+            return date('Y-m-d',strtotime('+1 year', time()));
+        }
+        if ($planData->plan_payment == 2) {
+            return date('Y-m-d',strtotime('+30 days', time()));
+        }
     }
 }

@@ -121,9 +121,18 @@ export default {
 
 		const selectPlan = () => {
 			loading.value = true
+			if (filteredPlans.value[0].id == 1) {
+				freePlanActive();
+				return
+			}
+			setTimeout(() => {
+				router.push('/checkout_plan')
+			}, 1000);
+		}
+		const freePlanActive = () => {
 			const data = {
 				plan_id: filteredPlans.value[0].id,
-				plan_payment: paymentType.value,
+				plan_payment: paymentType.value == 'annual' ? 1 : 2,
 				plant_type: selectedPlanType.value,
 				amount: filteredPlans.value[0][paymentType.value].price
 
@@ -132,12 +141,13 @@ export default {
 			setTimeout(() => {
 				loading.value = false
 			}, 2000);
-			// walletStore.setPlanAndActivePlan()
-			// 	.then((response) => {
-			// 		console.log(response)
-			// 	}).catch((response) => {
-			// 		console.log(response)
-			// 	}).finally(() => loading.value = flase)
+			walletStore.setPlanAndActivePlan(data)
+				.then((response) => {
+					console.log(response)
+					router.push('/pay_link_landing_services')
+				}).catch((response) => {
+					console.log(response)
+				}).finally(() => loading.value = false)
 
 		}
 

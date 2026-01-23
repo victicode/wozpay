@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted } from 'vue'
 import phone from '@/assets/images/phone_link.png'
 
 export default defineComponent({
@@ -119,10 +119,14 @@ export default defineComponent({
     const handleStart = () => {
       // Aquí puedes agregar la lógica para navegar o abrir un modal
       console.log('Comenzar a cobrar')
+      alert('BIENN, FALTA TERMINAR ESTE PROCESO')
     }
     const goTo = () => {
 
     }
+    onMounted(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    })
     return {
       phone,
       handleStart,
@@ -299,6 +303,8 @@ export default defineComponent({
   max-width: 900px;
   margin: 0 auto;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   gap: 0.8rem;
 }

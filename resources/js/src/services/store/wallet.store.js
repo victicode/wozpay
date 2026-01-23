@@ -32,7 +32,7 @@ export const useWalletStore = defineStore("wallet", {
         return 'Error al actualizar datos';
       });
     },
-    async setPlanAndActivePlan() {
+    async setPlanAndActivePlan(data) {
       return new Promise((resolve) => {
         if (JwtService.getToken()) {
           ApiService.setHeader();

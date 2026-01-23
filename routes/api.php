@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\DropshippingController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\WithdrawalController;
 
 /*
@@ -127,12 +128,17 @@ Route::middleware('jwt.verify')->prefix('link')->group(function () {
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
     Route::post('/pay/setStatus', [LinkController::class, 'setPayStatus']);
 });
+
 Route::prefix('link-public')->group(function () {
     Route::get('/byCode/{id}', [LinkController::class, 'getByCode']);
     Route::get('/dropshipping/byCode/{id}', [LinkController::class, 'getDropshippingLinkByCode']);
 });
 Route::prefix('v1/public')->group(function () {
     Route::post('/sendmail', [PayController::class, 'sendMail']);
+});
+Route::middleware('jwt.verify')->prefix('v1/stripe')->group(function () {
+    Route::get('/payments/setup-intent', [StripeController::class, 'createSetupIntent']);
+    Route::post('/payments/subscribe', [StripeController::class, 'subscribe']);
 });
 Route::prefix('v1/email')->group(function () {
     Route::get('/', [LoanController::class, 'sendMailx']);

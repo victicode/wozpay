@@ -19,6 +19,7 @@
     "dependencies": {
         "@capacitor/splash-screen": "^8.0.0",
         "@quasar/extras": "^1.16.11",
+        "@stripe/stripe-js": "^8.6.3",
         "@tato30/vue-pdf": "^1.11.0",
         "@vitejs/plugin-vue": "^5.0.5",
         "apexcharts": "^4.7.0",
