@@ -6,7 +6,7 @@
     <div class="q-mt-md-md q-mt-xs-sm">
       <div class="row q-px-sm q-py-md" style="background: #efefef; border-radius: 1.5rem; ">
         <div class="col-3 q-px-xs">
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/">
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dashboard">
             <img :src="binance" alt="" class="q-pt-sm">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Comprar</div>
           </q-btn>
@@ -26,7 +26,7 @@
           </q-btn>
         </div>
         <div class="col-3 q-px-xs">
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/">
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dashboard">
             <img :src="acciones" alt="">
             <span class="q-mt-none text-dark text-body2">Acciones</span>
           </q-btn>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="col-3 q-px-xs q-mt-md">
-          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/">
+          <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dashboard">
             <img :src="api" alt="" style="height: 60%;">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz api {{ '</>' }}
             </div>

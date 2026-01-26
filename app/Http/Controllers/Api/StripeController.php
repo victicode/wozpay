@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class StripeController extends Controller
@@ -13,8 +14,34 @@ class StripeController extends Controller
      */
     public function createSetupIntent(Request $request)
     {
+       
+
+
+
+        try {
+            $user = $request->user();
+            $user->createOrGetStripeCustomer();
+            $intent = $user->createSetupIntent([
+                'payment_method_types' => ['card'],
+            ]);
+            
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+  
+            if ($e->getStripeCode() === 'resource_missing') {
+                $user->stripe_id = null;
+                $user->save();
+                $user = $request->user();
+                $user->createOrGetStripeCustomer();
+                $intent = $user->createSetupIntent([
+                    'payment_method_types' => ['card'],
+                ]);
+                return $this->returnSuccess(200,
+                    ['client_secret' => $intent->client_secret]
+                );
+            }
+        }
         return $this->returnSuccess(200,
-            ['client_secret' => $request->user()->createSetupIntent()->client_secret]
+            ['client_secret' => $intent->client_secret]
         );
     }
 
@@ -24,18 +51,15 @@ class StripeController extends Controller
     public function subscribe(Request $request)
     {
         $user = $request->user();
-        $paymentMethod = $request->payment_method; // Viene del frontend
-        $planId = $request->plan_id; // Ej: 'price_1PQ...'
+        $paymentMethod = $request->payment_method;
+        $plan = $this->getPriceIdOfPlan($request->plan_code, $request->payment_type);
+        
 
         try {
-            // Si el usuario no tiene ID de Stripe, Cashier lo crea automáticamente
             $user->createOrGetStripeCustomer();
             
-            // Actualizamos el método de pago por defecto
             $user->updateDefaultPaymentMethod($paymentMethod);
-
-            // Creamos la suscripción
-            $user->newSubscription('default', $planId)
+            $user->newSubscription($plan->name, $plan->price_id)
                 ->create($paymentMethod);
 
             return $this->returnSuccess(200, 'Suscrito correctamente');
@@ -52,10 +76,22 @@ class StripeController extends Controller
     {
         $amount = 1000; // $10.00 (en centavos)
         try {
-            $request->user()->charge($amount, $request->payment_method);
+            $request->user()->charge($amount, $request->payment_method, [
+                'currency' => 'pyg',
+            ]);
             return $this->returnSuccess(200, '200');
         } catch (\Exception $e) {
             return $this->returnFail(500, $e->getMessage());
         }
+    }
+
+    private function getPriceIdOfPlan($planID, $planType)
+    {
+        $plan = Plan::where('code',$planID)->first(); 
+        $plan->price_id = $planType == 1
+         ? $plan->load('priceAnnualy')->priceAnnualy->price_id
+         : $plan->load('priceMonthly')->priceMonthly->price_id;
+
+        return $plan;
     }
 }

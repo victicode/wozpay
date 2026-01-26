@@ -3,10 +3,163 @@ import ApiService from "@/services/axios/";
 import JwtService from "@/services/jwt/";
 
 export const useStripeStore = defineStore("stripe", {
-  state: () => ({
-    loading: false,
-    error: null
-  }),
+  state: () => {
+    return {
+      loading: false,
+      error: null,
+      plans: [
+        {
+          id: 1,
+          name: "Plan Gratuito / Free",
+          type: "Gratis",
+          code:'',
+          annual: {
+              price: 'Gratis',
+              annualSavings: '',
+              description: "Ideal para iniciar",
+              features: [
+                  "Cuenta básica en Gs",
+                  "Hasta 5 links o QR por mes",
+                  "Hasta 300.000 Gs por link o QR",
+                  "Hasta 1.500.000 Gs/mes en trans.",
+                  "Comisión por trans. del 10% + IVA",
+                  "Solo retiros manuales",
+                  "1 Retiro por mes"
+              ],
+          },
+          monthly: {
+              price: 'Gratis',
+              annualSavings: '',
+              description: "Ideal para iniciar",
+              features: [
+                  "Cuenta básica en Gs",
+                  "Hasta 5 links o QR por mes",
+                  "Hasta 300.000 Gs por link o QR",
+                  "Hasta 1.500.000 Gs/mes en trans.",
+                  "Comisión por trans. del 10% + IVA",
+                  "Solo retiros manuales",
+                  "1 Retiro por mes"
+              ],
+          },
+        },
+        {
+          id: 2,
+          name: "Principiante",
+          type: "Basico",
+          code: '4f4d956b-fa33-11f0-a322-64006a4efafd',
+          annual: {
+              price: 2500000,
+              annualSavings: 938000,
+              description: "Ideal para principiantes",
+              features: [
+                  "Cuenta básica en Gs",
+                  "Hasta 10 links o QR por mes",
+                  "Hasta 700.000 Gs por link o QR",
+                  "Hasta 7.000.000 Gs/mes en trans.",
+                  "Comisión por trans. del 15% + IVA",
+                  "Desembolso día lunes",
+              ],
+          },
+          monthly: {
+              price: 99000,
+              description: "Ideal para principiantes",
+              features: [
+                  "Cuenta básica en Gs",
+                  "Hasta 10 links o QR por mes",
+                  "Hasta 700.000 Gs por link o QR",
+                  "Hasta 7.000.000 Gs/mes en trans.",
+                  "Comisión por trans. del 15% + IVA",
+                  "Desembolso día lunes",
+              ],
+          },
+        },
+        {
+          id: 3,
+          name: "Emprendedor regular",
+          type: "Regular",
+          code: '4f4d96e3-fa33-11f0-a322-64006a4efafd',
+          annual: {
+              price: 600000,
+              annualSavings: 1800000,
+              description: "Ideal para emprendedores regulares",
+              features: [
+                  "Cuenta corriente en USD",
+                  "Hasta 30 links por mes",
+                  "Hasta 30 QR por mes",
+                  "Gs - USD - EUR",
+                  "Hasta 1.000 USD por link o QR",
+                  "Hasta 30.000 USD/mes en trans.",
+                  "Comisión por trans. del 6,5% + IVA",
+                  "Préstamo hasta Gs. 200.000.000",
+                  "Proceso de acreditación 48hs",
+                  "Desembolso al instante",
+              ],
+          },
+          monthly: {
+              price: 200000,
+              description: "Para negocios en crecimiento",
+              features: [
+                  "Cuenta corriente en USD",
+                  "Hasta 30 links por mes",
+                  "Hasta 30 QR por mes",
+                  "Gs - USD - EUR",
+                  "Hasta 1.000 USD por link o QR",
+                  "Hasta 30.000 USD/mes en trans.",
+                  "Comisión por trans. del 6,5% + IVA",
+                  "Préstamo hasta Gs. 200.000.000",
+                  "Proceso de acreditación 48hs",
+                  "Desembolso al instante",
+              ],
+          },
+        },
+        {
+          id: 4,
+          name: "Emprendedor Business",
+          type: "Profesional",
+          code: '4f4d9798-fa33-11f0-a322-64006a4efafd',
+          annual: {
+              price: 850000,
+              annualSavings: 2700000,
+              description: "Para empresas establecidas",
+              features: [
+                  "Cuenta corriente en USD",
+                  "Tarjeta de crédito - 2.000 USD",
+                  "Links & QR ilimitados",
+                  "+200 monedas",
+                  "Hasta 10.000 USD por link o QR",
+                  "Hasta 500.000 USD/mes en trans.",
+                  "Comisión por trans. del 3,9% + IVA",
+                  "Préstamo a sola firma Gs. 600.000.000",
+                  "Proceso de acreditación 24hs",
+                  "Desembolso al instante",
+                  "Multi-dispositivos",
+                  "Ejecutivo de cuentas asignado",
+                  "Boton de pago API Woz Pay",
+              ],
+          },
+          monthly: {
+              price: 350000,
+              description: "Ideal para emprendedores establecidos",
+              features: [
+                  "Cuenta corriente en USD",
+                  "Tarjeta de crédito - 2.000 USD",
+                  "Links & QR ilimitados",
+                  "+200 monedas",
+                  "Hasta 10.000 USD por link o QR",
+                  "Hasta 500.000 USD/mes en trans.",
+                  "Comisión por trans. del 3,9% + IVA",
+                  "Préstamo a sola firma Gs. 600.000.000",
+                  "Proceso de acreditación 24hs",
+                  "Desembolso al instante",
+                  "Multi-dispositivos",
+                  "Ejecutivo de cuentas asignado",
+                  "Boton de pago API Woz Pay",
+              ],
+          },
+        },
+      ],
+    }
+  },
   actions: {
     setLoading(loading) {
       this.loading = loading;
@@ -81,36 +234,37 @@ export const useStripeStore = defineStore("stripe", {
         return { success: false, error: errorMessage };
       }
     },
-    async finalizeSubscription(paymentMethodId, planId = null) {
+    async finalizeSubscription(paymentMethodId, plan = null) {
+      this.setLoading(true);
       try {
         if (JwtService.getToken()) {
           ApiService.setHeader();
         }
         
         const body = {
-          payment_method: paymentMethodId
+          payment_method: paymentMethodId,
+          plan_code: plan.code,
+          payment_type: plan.typePay
         };
-        
-        if (planId) {
-          body.plan_id = planId;
-        }
 
-        // El backend espera POST /api/v1/stripe/payments/subscribe
         const { data } = await ApiService.post('/api/v1/stripe/payments/subscribe', body);
-        
-        // El backend devuelve { code: 200, data: '...' } o { code: 500, error: '...' }
         if (data.code !== 200) {
           throw new Error(data.error || 'Error al crear la suscripción');
         }
-
-        this.setLoading(false);
+       
         return { success: true, data };
       } catch (e) {
-        // El backend devuelve { code: 500, error: '...' } en caso de error
-        const errorMessage = e.response?.data?.error || e.response?.data?.message || e.message || "Error al finalizar el registro.";
+        const errorMessage = e.response?.data?.error || e.response?.data?.message || e.message || e.response.error || "Error al finalizar el registro.";
         this.setError(errorMessage);
-        this.setLoading(false);
-        return { success: false, error: errorMessage };
+
+        return { success: false, error:{
+          message: errorMessage,
+          code: 401,
+          consoleError:'Keys no valid'
+        }, };
+      }
+      finally {
+         this.setLoading(false);
       }
     }
   },

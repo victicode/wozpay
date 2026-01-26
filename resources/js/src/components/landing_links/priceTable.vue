@@ -9,13 +9,13 @@
 				<!-- Selectores de tipo de pago -->
 				<div class="row q-mb-lg q-mt-md">
 					<template v-if="selectedPlanType !== 'Gratis'">
-						<div class="col-6 q-px-xs q-px-md-lg flex justify-end">
+						<div class="col-6 q-px-xs q-pr-md-sm flex justify-end">
 							<button :class="['payment-btn', { active: paymentType === 'annual' }]"
 								@click="paymentType = 'annual'">
 								Pago anual (recomendado)
 							</button>
 						</div>
-						<div class="col-6 q-px-xs q-px-md-lg">
+						<div class="col-6 q-px-xs q-pl-md-sm">
 							<button :class="['payment-btn', { active: paymentType === 'monthly' }]"
 								@click="paymentType = 'monthly'">
 								Pago mensual
@@ -25,8 +25,8 @@
 				</div>
 
 				<!-- Selectores de tipo de plan -->
-				<div class=" q-mb-lg row q-px-md justify-center">
-					<div class="col-4 col-md-2 q-px-sm flex justify-center" v-for="plan in planTypes" :key="plan">
+				<div class=" q-mb-lg row justify-center">
+					<div class="col-3 col-md-2 q-px-xs flex justify-center" v-for="plan in planTypes" :key="plan">
 						<button :class="['plan-btn', { active: selectedPlanType === plan }]"
 							@click="selectedPlanType = plan">
 							{{ plan }}
@@ -84,8 +84,8 @@
 import { storeToRefs } from 'pinia';
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { useDropshippingStore } from '@/services/store/dropshipping.store';
 import { useWalletStore } from '@/services/store/wallet.store';
+import { useStripeStore } from '@/services/store/stripe.store';
 export default {
 	setup() {
 		const router = useRouter()
@@ -94,7 +94,7 @@ export default {
 		const planTypes = ['Gratis', 'Basico', 'Regular', 'Profesional']
 		const slide = ref(1)
 		const loading = ref(false)
-		const { plans } = storeToRefs(useDropshippingStore())
+		const { plans } = storeToRefs(useStripeStore())
 		const walletStore = useWalletStore();
 		const filteredPlans = computed(() => {
 			return plans.value
@@ -121,23 +121,29 @@ export default {
 
 		const selectPlan = () => {
 			loading.value = true
-			if (filteredPlans.value[0].id == 1) {
-				freePlanActive();
-				return
-			}
-			setTimeout(() => {
-				router.push('/checkout_plan')
-			}, 1000);
-		}
-		const freePlanActive = () => {
+
 			const data = {
 				plan_id: filteredPlans.value[0].id,
 				plan_payment: paymentType.value == 'annual' ? 1 : 2,
 				plant_type: selectedPlanType.value,
-				amount: filteredPlans.value[0][paymentType.value].price
+				amount: filteredPlans.value[0][paymentType.value].price,
+				uuid: filteredPlans.value[0][paymentType.value].uuid
 
 			}
-			console.log(data)
+			if (filteredPlans.value[0].id == 1) {
+				freePlanActive(data);
+				return
+			}
+			setTimeout(() => {
+				router.push('/checkout_plan?plan=' + setUUid())
+			}, 1000);
+		}
+		const setUUid = () => {
+			const sufix = paymentType.value == 'annual' ? '-1' : '-2';
+			return filteredPlans.value[0].code + sufix;
+		}
+		const freePlanActive = (data) => {
+
 			setTimeout(() => {
 				loading.value = false
 			}, 2000);
@@ -199,12 +205,13 @@ export default {
 }
 
 .payment-btn {
-	padding: 0.75rem 1.5rem;
+	padding: 0.75rem 1.25rem;
 	border: none;
-	border-radius: 1rem;
+	border-radius: 0.7rem;
 	font-size: 1rem;
 	font-weight: 500;
 	cursor: pointer;
+	width: 70%;
 	transition: all 0.3s ease;
 	background: #e0e0e0;
 	color: #666;
@@ -230,9 +237,10 @@ export default {
 .plan-btn {
 	padding: 0.5rem 1.5rem;
 	border: 2px solid #e0e0e0;
-	border-radius: 1rem;
+	border-radius: 0.7rem;
 	font-size: 1rem;
 	font-weight: 500;
+	width: 100%;
 	cursor: pointer;
 	transition: all 0.3s ease;
 	background: white;
@@ -403,11 +411,13 @@ export default {
 
 	.plan-btn {
 		padding: .5rem;
-		font-size: 0.8rem;
+		font-size: 0.7rem;
 	}
 
 	.payment-btn {
-		font-size: 0.75rem;
+		font-size: 0.72rem;
+		padding: 0.75rem 0.7rem;
+		width: 100%;
 	}
 
 	.plans-carousel-wrapper {
