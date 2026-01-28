@@ -11,6 +11,7 @@ use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Events\UserUpdateEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 
 class WalletController extends Controller
 {
@@ -33,6 +34,7 @@ class WalletController extends Controller
         
         try {
             event(new UserUpdateEvent($wallet->user_id));
+            
         } catch (Exception $th) {
             //throw $th;
         }
@@ -41,16 +43,22 @@ class WalletController extends Controller
 
     public function setPlan(Request $request){
         try {
+            $plan = $this->getPlansID($request->plan_code);
             $wallet = $this->activateLinkWallet($request);
             $user = User::find($request->user()->id)->update([
-                'plan_id' => $request->plan_id,
-                'plan_expiration_date' => $this->expirationDatePlan($request),
+                'plan_id' => $plan->id,
+                'plan_expiration_date' => $this->expirationDatePlan($plan->id, $request->payment_type),
             ]);
+
+            $this->sendNotification(
+            'Felicidades, haz pagado el plan "'.$plan->name.'" para hacer cobros por links o qr',
+             $request->user()->id, 
+            'Subcripción exitosa', 1);
         } catch (Exception $th) {
             return $this->returnFail(400, $th->getMessage());
         }
 
-        return $this->returnSuccess(200, 'OK');
+        return self::returnSuccess(200, 'OK');
     }
     public function allBalances($id) {
         $wallet = Wallet::where('user_id', $id)->where('type', 1)->first();
@@ -168,16 +176,35 @@ class WalletController extends Controller
     private function paysPeding() {
         return  Pay::where('status', '1' )->where('type', '3' )->count();
     }
-    private function expirationDatePlan($planData)
+    private function expirationDatePlan($id, $paymentType)
     {
-        if($planData->plan_id == 1){
+        if($id == 1){
             return date('Y-m-d',strtotime('+100 year', time()));
         }
-        if ($planData->plan_payment == 1) {
+        if ($paymentType== 1) {
             return date('Y-m-d',strtotime('+1 year', time()));
         }
-        if ($planData->plan_payment == 2) {
+        if ($paymentType == 2) {
             return date('Y-m-d',strtotime('+30 days', time()));
+        }
+    }
+    private function getPlansID($code)
+    {
+        return Plan::where('code', $code)->first();
+    }
+     private function sendNotification($message, $user, $subject, $type){
+        $notification = new NotificationController;
+        $requestNotification = new Request([
+            'text'      => $message,
+            'subject'   => $subject,
+            'user'   => $user,
+            'sender' => 'Woz Pay informa',
+            'type' => $type,
+        ]);
+        try {
+            $notification->storeNotification($requestNotification);
+        } catch (Exception $th) {
+            //throw $th;
         }
     }
 }

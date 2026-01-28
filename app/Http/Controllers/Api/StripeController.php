@@ -59,10 +59,15 @@ class StripeController extends Controller
             $user->createOrGetStripeCustomer();
             
             $user->updateDefaultPaymentMethod($paymentMethod);
-            $user->newSubscription($plan->name, $plan->price_id)
+            $result = $user->newSubscription($plan->name, $plan->price->price_id)
                 ->create($paymentMethod);
-
-            return $this->returnSuccess(200, 'Suscrito correctamente');
+            
+            $this->actionsToDo([
+                'request' => $request,
+                'plan' => $plan,
+                'result' => $result
+            ]);
+            return $this->returnSuccess(200, ['msg'=>'Suscrito correctamente', 'trx' => $result->stripe_id]);
             
         } catch (\Exception $e) {
             return $this->returnFail(500, $e->getMessage());
@@ -88,10 +93,25 @@ class StripeController extends Controller
     private function getPriceIdOfPlan($planID, $planType)
     {
         $plan = Plan::where('code',$planID)->first(); 
-        $plan->price_id = $planType == 1
-         ? $plan->load('priceAnnualy')->priceAnnualy->price_id
-         : $plan->load('priceMonthly')->priceMonthly->price_id;
+        $plan->price = $planType == 1
+         ? $plan->load('priceAnnualy')->priceAnnualy
+         : $plan->load('priceMonthly')->priceMonthly;
 
         return $plan;
+    }
+    private function actionsToDo($data)
+    {
+        $this->activeWallet($data['request']);
+        $this->storeRegisterStripe($data);
+    }
+    private function activeWallet($request)
+    {
+        $wallet = new WalletController();
+        $wallet->setPlan($request);
+    }
+    private function storeRegisterStripe($data)
+    {
+        $pay = new PayController();
+        $pay->storeStripePay($data);
     }
 }

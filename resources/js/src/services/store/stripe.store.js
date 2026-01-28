@@ -254,7 +254,7 @@ export const useStripeStore = defineStore("stripe", {
        
         return { success: true, data };
       } catch (e) {
-        const errorMessage = e.response?.data?.error || e.response?.data?.message || e.message || e.response.error || "Error al finalizar el registro.";
+        const errorMessage ="Error al finalizar el registro.";
         this.setError(errorMessage);
 
         return { success: false, error:{

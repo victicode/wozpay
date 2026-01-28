@@ -88,6 +88,36 @@ class PayController extends Controller
         $this->sendMailWoz($pay->load('user'),'newDeposit', 'Pago #'.$pay->operation_id.' registrado por favor validar' );
         return $this->returnSuccess(200, $pay);
     }
+    public function storeStripePay($data)
+    {
+
+
+        try {
+            $pay = Pay::create([
+                'user_id'       =>  $data['request']->user()->id,
+                'plan_id'       =>  $data['plan']->id,
+                'amount'        =>  $data['plan']->price->amount,
+                'operation_id'  =>  $data['result']->stripe_id, 
+                'method'        =>  'stripe',
+                'pay_date'      =>  date('Y-m-d'),
+                'type'          =>  $data['request']->payment_type == 1 ? 20 : 21,
+                'status'        =>  2,
+                'concept'       =>  'Pago por stripe de plan'. $data['plan']->name,
+            ]);
+        } catch (Exception $th) {
+            return $th->getMessage();
+        }
+
+        event(new UserUpdateEvent(1));
+
+            // $this->sendNotification(
+            // 'Tu pago fue subido con exito, nuestro equipo se encuentra validando que cumpla con las medidas de seguridad', $pay->user_id, 
+            // 'Pago pendiente de verificación', 1);
+        
+        // $this->sendMailWoz($pay->load('user'),'newDeposit', 'Pago #'.$pay->operation_id.' registrado por favor validar' );
+        return  'ok';
+        
+    }
     public function storePayLink(Request $request){
         $validated = $this->validateFieldsFromInputLink($request->all()) ;
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
@@ -386,6 +416,14 @@ class PayController extends Controller
         $pay = Pay::with(['user','package'])->find($id);
         return $this->returnSuccess(200, $pay);
     }
+    public function getByTrx($trx){
+        $pay = Pay::with(['user'])->where('operation_id', $trx)->first();
+        $pay = $pay->type == 20 
+         ? $pay->load('plan.priceAnnualy')
+         : $pay->load('plan.priceMonthly');
+        return $this->returnSuccess(200, $pay);
+    }
+    
     public function getDropshippingPayById($id){
         $pay = DropshippingPay::with(['link.user','link.productsInLink', 'coin'])->find($id);
         return $this->returnSuccess(200, $pay);

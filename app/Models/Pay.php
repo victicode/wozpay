@@ -45,5 +45,9 @@ class Pay extends Model
     {
         return $this->belongsTo(Package::class,'package_id', 'id');
     }
+     public function plan()
+    {
+        return $this->belongsTo(Plan::class,'plan_id', 'id');
+    }
     
 }

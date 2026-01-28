@@ -67,7 +67,7 @@ import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 import { loadStripe } from '@stripe/stripe-js';
 import { useQuasar } from 'quasar';
 import { useStripeStore } from '@/services/store/stripe.store';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 
@@ -78,7 +78,7 @@ const stripe = ref(null);
 const elements = ref(null);
 const paymentElement = ref(null);
 const paymentElementRef = ref(null);
-
+const router = useRouter()
 const stripeError = ref(null);
 const isPaymentElementReady = ref(false);
 const loading = ref(false)
@@ -243,9 +243,10 @@ const handleProcessPayment = async () => {
                     message: '¡Suscripción activa con éxito!',
                     position: 'top'
                 });
+                console.log(finalizeResult)
 
                 // AQUÍ: Redirigir al usuario porque ya terminó el proceso
-                // router.push('/dashboard'); 
+                router.push('/checkout/success?trx=' + finalizeResult.data.data.trx);
                 return;
             } else {
                 console.log(finalizeResult)
@@ -253,7 +254,7 @@ const handleProcessPayment = async () => {
             }
         } else {
             console.log(result)
-            throw new Erroyr(result.error.message || 'Error al procesar el pago.');
+            throw new Error('Error al procesar el pago.');
         }
 
     } catch (error) {
@@ -261,7 +262,7 @@ const handleProcessPayment = async () => {
         console.log(error)
         $q.notify({
             type: 'negative',
-            message: error.message || 'Ocurrió un error inesperado.',
+            message: 'Ocurrió un error inesperado.',
             position: 'top'
         });
         resetStripeFlow();
