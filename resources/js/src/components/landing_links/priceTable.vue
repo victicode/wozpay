@@ -261,6 +261,10 @@ export default {
 .plans-carousel-wrapper {
 	max-width: 100%;
 	margin: 0 auto;
+
+	& .q-carousel {
+		height: max-content !important;
+	}
 }
 
 .plans-carousel {
@@ -368,17 +372,18 @@ export default {
 }
 
 .plan-card__button {
-	width: 100%;
-	padding: 1rem;
-	background: #ff7f00;
-	color: white;
-	border: none;
-	border-radius: 0.75rem;
-	font-size: 1.1rem;
-	font-weight: 600;
-	cursor: pointer;
+	width: 100% !important;
+	padding: 1rem !important;
+	background: #ff7f00 !important;
+	color: white !important;
+	border: none !important;
+	border-radius: 0.75rem !important;
+	font-size: 1.1rem !important;
+	font-weight: 600 !important;
+	cursor: pointer !important;
 	transition: all 0.3s ease;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins', sans-serif !important;
+	min-height: auto !important;
 
 	&:hover {
 		background: #e66f00;
@@ -425,7 +430,7 @@ export default {
 	}
 
 	.plans-carousel {
-		min-height: 450px;
+		min-height: 515px;
 
 		& .q-carousel__control {
 			width: 35px;

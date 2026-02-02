@@ -7,7 +7,7 @@
       <div class="row q-px-sm q-py-md" style="background: #efefef; border-radius: 1.5rem; ">
         <div class="col-3 q-px-xs">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dashboard">
-            <img :src="binance" alt="" class="q-pt-sm">
+            <img :src="binance" alt="" class="q-pt-sm" style="height:32px;">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Comprar</div>
           </q-btn>
         </div>
@@ -27,13 +27,13 @@
         </div>
         <div class="col-3 q-px-xs">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dashboard">
-            <img :src="acciones" alt="">
+            <img :src="acciones" alt="" style="width:32px; height: 32px;">
             <span class="q-mt-none text-dark text-body2">Acciones</span>
           </q-btn>
         </div>
         <div class="col-3 q-px-xs q-mt-md">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dropshipping/welcome">
-            <div class="q-mt-xs" v-html="icons.dropShip" />
+            <img :src="droppi" alt="" style="height:32px;" class="q-mt-xs">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz Dropshipping
             </div>
           </q-btn>
@@ -41,7 +41,7 @@
         <div class="col-3 q-px-xs q-mt-md">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100"
             href="https://wozmarketplacepy.netlify.app/" target="_blank">
-            <img :src="droppi" alt="" style="height: 60%;">
+            <img :src="market" alt="" style="height:32px;" class="q-mt-xs">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz Marketplace
             </div>
           </q-btn>
@@ -49,7 +49,7 @@
 
         <div class="col-3 q-px-xs q-mt-md">
           <q-btn color="white" flat no-caps class="q-px-xs q-py-none actions-button w-100" to="/dashboard">
-            <img :src="api" alt="" style="height: 60%;">
+            <img :src="api" alt="" style="height:32px;" class="q-mt-xs">
             <div class="q-mt-none text-dark text-body2 text-ellipsis ellipsis" style="width: 100%;">Woz api {{ '</>' }}
             </div>
           </q-btn>
@@ -76,10 +76,11 @@ import { useAuthStore } from '@/services/store/auth.store'
 import { useLoanStore } from '@/services/store/loan.store';
 import { storeToRefs } from 'pinia';
 import { ref, onMounted, inject } from 'vue'
-import binance from '@/assets/images/bina.png'
-import acciones from '@/assets/images/acciones.png'
-import api from '@/assets/images/api.png'
-import droppi from '@/assets/images/droppi.png'
+import binance from '@/assets/images/BINANCE.png'
+import acciones from '@/assets/images/acciones_woz.svg'
+import api from '@/assets/images/Woz_Api.svg'
+import droppi from '@/assets/images/Woz_Dropshipping.svg'
+import market from '@/assets/images/Woz_Marketplace.svg'
 
 export default {
   setup() {
@@ -114,7 +115,8 @@ export default {
       binance,
       acciones,
       api,
-      droppi
+      droppi,
+      market
     }
   },
 }

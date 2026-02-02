@@ -2,12 +2,13 @@
   <div style="height: 91vh;" class="q-pt-md">
     <Transition name="inFade">
       <div v-if="bankAccounts.length > 0 && ready" class="h-100 w-100">
-        <div class="q-pt-sm q-px-lg flex items-center justify-end">
+        <div class="q-pt-sm q-mb-md q-px-lg flex items-center justify-end">
           <q-btn label="Retirar" unelevated no-caps color="deeping" class=" q-mx-sm"
             @click="router.push('/withdrawal')" />
           <q-btn unelevated no-caps label="Historial" color="grey-8" @click="router.push('/withdrawal-history')" />
         </div>
-        <div class="q-pt-lg q-px-lg account__container">
+
+        <div class="q-pt-sm q-px-lg account__container">
           <div class="q-pt-md q-pb-none q-px-md q-px-md-md q-mb-md account__info" v-for="(account, key) in bankAccounts"
             :key="key">
             <div>
@@ -42,11 +43,11 @@
                 @click="showModal(account.id, 'delete')" icon="eva-trash-2-outline" />
             </div>
           </div>
-        </div>
-        <div style="border-top: 1px solid #dfdfdf;">
-          <div class="q-pt-md q-px-lg flex flex-center">
-            <q-btn label="Agrega cuenta bancaria" unelevated no-caps color="primary" class="redirect_button"
-              @click="router.push('/bank')" />
+          <div style="border-top: 1px solid #dfdfdf;" class="q-pb-xl">
+            <div class="q-pt-md q-px-lg flex flex-center">
+              <q-btn label="Agrega cuenta bancaria" unelevated no-caps color="primary" class="redirect_button"
+                @click="router.push('/bank')" />
+            </div>
           </div>
 
         </div>
@@ -196,7 +197,7 @@ export default {
 }
 
 .account__info {
-  background: #ccdafe;
+  background: #f0f4fe;
   border-radius: 10px;
 
   &--bank {

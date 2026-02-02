@@ -112,7 +112,7 @@
 <script>
 import { defineComponent, onMounted } from 'vue'
 import phone from '@/assets/images/phone_link.png'
-
+import linkPhone from '@/assets/images/links_de_pagos.jpg'
 export default defineComponent({
   name: 'NewLandingLink',
   setup() {
@@ -129,6 +129,7 @@ export default defineComponent({
     })
     return {
       phone,
+      linkPhone,
       handleStart,
     }
   }

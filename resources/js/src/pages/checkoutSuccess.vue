@@ -1,9 +1,18 @@
 <template>
     <div class="content_all">
-        <div>
-            hola
+        <div v-if="!loading" class="flex flex-center detailPay column">
+            <div class="text-white text-pay">
+                Pago exitoso
+            </div>
+            <div class="q-mt-sm text-white text-h6">
+                [aqui van los detalles de pago]
+            </div>
+            <div>
+                <q-btn @click="router.push('/dashboard')" label="Volver al inicio" class="q-mt-lg" color="primary"
+                    unelevated="" />
+            </div>
         </div>
-        <div class="overlay">
+        <div class="overlay" v-else>
             <div class="container_overlay flex-center">
                 <div>
                     <q-icon name="eva-checkmark-circle-2" size="15rem" color="white" class="doneIcon" />
@@ -30,22 +39,39 @@ export default {
         const payStore = usePayStore();
         const route = useRoute();
         const getPayByTrx = () => {
+
             payStore.getPayByTrx(route.query.trx)
                 .then((response) => {
                     console.log(response.data)
+
+                    setTimeout(() => {
+                        loading.value = false;
+                    }, 3000);
                 })
         }
 
         onMounted(() => {
             getPayByTrx()
-            console.log(user.value.plan_id)
         })
+        return {
+            loading,
+            router,
+        }
     },
 }
 
 </script>
 
 <style lang="scss">
+.detailPay {
+    height: 100vh;
+}
+
+.text-pay {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
 .overlay {
     position: absolute;
     bottom: 0;
@@ -55,7 +81,7 @@ export default {
 }
 
 .content_all {
-    background: red;
+    background: rgb(133, 133, 133);
     height: 100vh;
 }
 

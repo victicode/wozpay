@@ -105,6 +105,7 @@ export default {
     }
     const createWithdrawalOrder = () => {
       if (!validateAmount()) {
+        console.log('asadasdasdasd')
         return
       }
       loading.value = true
@@ -151,7 +152,7 @@ export default {
         return false
       }
       disable.value = false
-
+      return true
     }
     const showNotify = (type, message) => {
       q.notify({

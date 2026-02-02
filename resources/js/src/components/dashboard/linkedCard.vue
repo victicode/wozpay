@@ -52,7 +52,7 @@
               @click="router.push('/card')">
               <div class="flex items-center w-80bbbb ">
                 <div class="q-mr-md-lg q-mr-sm q-mt-xs flex flex-center" style="width:36px; height:36px">
-                  <q-icon :name="icons.outlinedAddCard" class="" size="md" color="black" />
+                  <img :src="tarjeta" alt="" style="width: 32px;">
                 </div>
                 <div class="" style="width:74%">
                   <div class="text-weight-medium ellipsis text-turnc" style="font-size: 0.89rem; ">
@@ -85,7 +85,7 @@ import { inject, onMounted, ref } from 'vue'
 import util from '@/util/numberUtil'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-
+import tarjeta from '@/assets/images/Vincular_tarjeta.svg'
 export default {
   setup() {
     //vue provider
@@ -142,6 +142,7 @@ export default {
       router,
       ready,
       numberFormat,
+      tarjeta,
       linkCard,
       showToltip,
     }

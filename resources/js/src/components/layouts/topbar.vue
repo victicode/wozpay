@@ -1,31 +1,35 @@
 <template>
   <div id="topbarLayout">
     <div class="w-100 flex justify-center items-end h-100 q-pb-sm">
-      <div class="text-weight-bold text-h6">{{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title}}</div>
+      <div class="text-weight-bold text-h6"
+        :style="route.meta.title == 'Adjuntar tarjeta de crédito o débito' ? fontSize = '1rem' : ''">
+        {{ route.meta.title == 'Banco' ? 'Cuenta bancaria' : route.meta.title }}
+      </div>
     </div>
   </div>
 </template>
-<script >
-  import { inject } from 'vue';
+<script>
+import { inject } from 'vue';
 
-  import { useRoute, useRouter } from 'vue-router';
-  export default {
-    setup () {
-      //vue provider
-      const icons = inject('ionIcons')
-      const route = useRoute();
-      return {
-        icons,
-        route
-      }
+import { useRoute, useRouter } from 'vue-router';
+export default {
+  setup() {
+    //vue provider
+    const icons = inject('ionIcons')
+    const route = useRoute();
+    return {
+      icons,
+      route
     }
-  };
+  }
+};
 </script>
 <style lang="scss" scoped>
-.h-100{
+.h-100 {
   height: 100%;
 }
-#topbarLayout{
+
+#topbarLayout {
   height: 9%;
   width: 100%;
   border-bottom: 1px solid lightgray;

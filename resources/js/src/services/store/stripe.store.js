@@ -48,7 +48,7 @@ export const useStripeStore = defineStore("stripe", {
           type: "Basico",
           code: '4f4d956b-fa33-11f0-a322-64006a4efafd',
           annual: {
-              price: 2500000,
+              price: 250000,
               annualSavings: 938000,
               description: "Ideal para principiantes",
               features: [
@@ -80,7 +80,7 @@ export const useStripeStore = defineStore("stripe", {
           code: '4f4d96e3-fa33-11f0-a322-64006a4efafd',
           annual: {
               price: 600000,
-              annualSavings: 1800000,
+              annualSavings: 200000,
               description: "Ideal para emprendedores regulares",
               features: [
                   "Cuenta corriente en USD",
@@ -118,7 +118,7 @@ export const useStripeStore = defineStore("stripe", {
           type: "Profesional",
           code: '4f4d9798-fa33-11f0-a322-64006a4efafd',
           annual: {
-              price: 850000,
+              price: 1500000,
               annualSavings: 2700000,
               description: "Para empresas establecidas",
               features: [
